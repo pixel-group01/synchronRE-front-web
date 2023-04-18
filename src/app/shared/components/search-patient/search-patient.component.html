@@ -1,0 +1,132 @@
+<ng-container>
+    <div class="row search-part">
+
+        <div class="col-md-3 col-sm-12 mb-0">
+
+            <div class="row">
+                <div class="col-md-10 col-sm-12 mb-0">
+                    <input class="form-control custom-input" placeholder="Rechercher par le matricule ou le nom du patient" autocomplete="off"
+                    [(ngModel)]="itemToSearch.searchText" (keyup)="getItems()" name="searchText" type="text">
+                </div>
+                <div class="col-md-2 mb-0">
+                    <button type="button" class="btn btn-default btn-xs btn-add pull-right" title="Ajouter un nouveau patient" (click)="openModal({},templateCrud)" *ngIf="!itemSelected || !itemSelected?.id">
+                        <i class="fa fa-plus"></i> 
+                    </button>     
+                    
+                    <button type="button" class="btn btn-default btn-xs btn-add pull-right" title="Modifier un patient" (click)="openModal(itemSelected,templateCrud)" *ngIf="itemSelected && itemSelected?.id">
+                        <i class="fa fa-edit"></i> 
+                    </button>  
+
+                </div>
+                  
+            </div>
+            
+           
+            <div class="row search-adherent-part" *ngIf="canDisplay">
+                <table class="table table-condensed table-bordered table-striped table-hover">
+                    <thead>
+                        <tr class="custom-table-head">
+                            <th>#</th>
+                            <th>Matricule</th>
+                            <th style="width: 400px;">Nom & prénoms
+                                
+                                <button type="button"  class="btn btn-xs btn-close-search pull-right" title="Fermer" (click)="canDisplay = false;selectedItem()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+
+                                <!-- <a class="pull-right" title="Fermer" (click)="canDisplay = false">
+                                    <i class="fa fa-times"></i>
+                                </a> -->
+                            </th>
+                           
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        
+                            <tr *ngFor="let patient of listPatients; let indice = index" (click)="selectedPatient(patient)" style="cursor: pointer;">
+                                <td>
+                                    {{indice + 1}}
+                                </td>
+                                <td>
+                                    {{patient?.matriculeBeneficiaire}}
+                                </td>
+                                <td>
+                                    {{patient?.nom +' '+patient?.prenom}}
+                                </td>
+                            </tr>
+
+                            <tr *ngIf="!listPatients || listPatients.length == 0">
+                                <td colspan="3" style="text-align: center;">
+                                    <span> Aucune donnée disponible</span>
+                                </td>
+                            </tr>
+                    </tbody>
+                   
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-8 col-xs-12 col-sm-12" *ngIf="itemSelected && itemSelected?.id" style="margin: 0;">
+
+            <div class="row">
+                <div class="col-md-2 col-sm-12">
+                    <label>Matricule :
+                    </label>
+                    <input class="form-control custom-input" placeholder="Matricule" autocomplete="off"
+                        [(ngModel)]="itemSelected.matriculeBeneficiaire" name="matriculeBeneficiaire" [disabled]='true' type="text">
+                </div>
+
+                <div class="col-md-5 col-sm-12">
+                    <label>Nom & prénoms :
+                    </label>
+                    <input class="form-control custom-input" placeholder="Nom et prénoms" autocomplete="off"
+                        [(ngModel)]="itemSelected.identite" name="identite" [disabled]='true' type="text">
+                </div>
+
+                <div class="col-md-1 col-sm-12">
+                    <label>Genre:
+                    </label>
+                    <input class="form-control custom-input" placeholder="Genre" autocomplete="off"
+                        [(ngModel)]="itemSelected.sexe" name="sexe" [disabled]='true' type="text">
+                </div>
+
+                <div class="col-md-2 col-sm-12">
+                    <label>Age :
+                    </label>
+                    <input class="form-control custom-input" placeholder="Age" autocomplete="off"
+                        [(ngModel)]="itemSelected.age" name="dateNais" [disabled]='true' type="text">
+                </div>
+
+                <div class="col-md-2 col-sm-12">
+                    <label>Catégorie client :
+                    </label>
+                    <input class="form-control custom-input" placeholder="Age" autocomplete="off"
+                        [(ngModel)]="itemSelected.adminCategorieClientLibelle" name="adminCategorieClientLibelle" [disabled]='true' type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1 col-sm-12"  *ngIf="itemSelected && itemSelected?.id" style="display: flex;margin-bottom: 0;">
+           <img src="https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg" alt="Photo assuré" class="pull-right img-assure" />
+        </div>
+
+    </div>
+</ng-container>
+
+<ng-template #templateCrud>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">
+            {{itemToSave?.id ? "Modification d'un patient" : "Enregistrement d'un patient"}}
+        </h4>
+
+        <a (click)="modalRef.hide()" title="Fermer"> 
+            <i class="fa fa-times"></i>
+        </a> 
+    </div>
+    <div class="modal-body" [ngBusy]="{busy: busySave, message: 'Veuillez patienter ...', backdrop: false}">
+        <app-form-client (patientSavedSucces)="patientSaved($event)" [itemPatient]="itemSelected"></app-form-client>
+    </div>
+
+    
+</ng-template>

@@ -1,0 +1,215 @@
+.duration {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    span {
+        position: absolute;
+        font-size: 14px;
+        color: #fff;
+        font-weight: bold;
+        background-color: rgba(34, 36, 40, 0.8);
+        padding: 1px 16px;
+        border-radius: 10px;
+        margin-top: 61px;
+    }
+  
+}
+
+.Timeline {
+    display: flex;
+    align-items: center;
+    // height: 500px;
+}
+
+.event1,
+.event2, .event3 {
+    position: relative;
+}
+
+.event1Bubble {
+    display: flex;
+    position: absolute;
+    width: 160px;
+    height: 35px;
+    top: -45px;
+    left: -15px;
+}
+
+.event2Bubble {
+    // display: flex;
+    // position: absolute;
+    // width: 160px;
+    // height: 35px;
+    // left: -120px;
+    // top: 33px;
+
+    display: flex;
+    position: absolute;
+    width: 160px;
+    height: 35px;
+    left: -34px;
+    top: 22px;
+}
+
+.event1Bubble:after,
+.event1Bubble:before,
+.event2Bubble:after,
+.event2Bubble:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: transparent;
+    border-bottom: 0;
+}
+
+.event1Bubble:before {
+    bottom: -10px;
+    left: 13px;
+    border-top-color: rgba(222, 222, 222, 0.66);
+    border-width: 12px;
+}
+
+.event1Bubble:after {
+    bottom: -8px;
+    left: 13px;
+    border-top-color: #F6F6F6;
+    border-width: 12px;
+}
+
+.event2Bubble:before {
+    bottom: 33px;
+    left: 15px;
+    border-top-color: rgba(222, 222, 222, 0.66);
+    border-width: 12px;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.event2Bubble:after {
+    bottom: 32px;
+    left: 120px;
+    border-top-color: #F6F6F6;
+    border-width: 12px;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.eventTime {
+    display: flex;
+}
+
+.DayDigit {
+    font-size: 27px;
+    font-family: "Arial Black", Gadget, sans-serif;
+    margin-left: 10px;
+    color: #4C4A4A;
+}
+
+.Day {
+    font-size: 11px;
+    margin-left: 5px;
+    font-weight: bold;
+    margin-top: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #4C4A4A;
+}
+
+.MonthYear {
+    font-weight: 600;
+    line-height: 10px;
+    color: #9E9E9E;
+    font-size: 9px;
+}
+
+.eventTitle {
+    font-family: "Arial Black", Gadget, sans-serif;
+    color: #4997f7; // #222428;
+    font-size: 10.3px;
+    // text-transform: uppercase;
+    display: flex;
+    // flex: 1;
+    align-items: center;
+    padding: 5px;
+    // background-color: rgba(#222428,0.6);
+    background-color: rgba(158, 158, 158, 0.1);
+    margin: 0px;
+    border-radius: 3px;
+    width: auto;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.time {
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 50px;
+    font-size: 8px;
+    margin-top: -3px;
+    margin-left: -5px;
+    color: #9E9E9E;
+}
+
+.eventAuthor {
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #9E9E9E;
+    font-size: 8px;
+    width: 100px;
+    top: -7px;
+    left: 63px;
+}
+
+.event2Author {
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #9E9E9E;
+    font-size: 8px;
+    width: 100px;
+    top: 20px;
+    left: -100px;
+}
+
+.time2{
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 50px;
+    font-size: 8px;
+    margin-top: -31px;
+    margin-left: -5px;
+    color: #9E9E9E;
+}
+
+.now{
+    background-color: #004165;
+    color: white;
+    border-radius: 7px;
+    margin: 5px;
+    padding: 4px;
+    font-size: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 2px solid white;
+    font-weight: bold;
+    box-shadow: 0 0 0 2px #004165
+}
+
+.futureGray{
+    filter: grayscale(1);
+    -webkit-filter: grayscale(1);
+
+}
+
+.futureOpacity{
+    -webkit-filter: opacity(.3);
+    filter: opacity(.3);
+
+}

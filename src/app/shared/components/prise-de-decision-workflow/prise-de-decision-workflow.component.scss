@@ -1,0 +1,46 @@
+
+.table-details {
+    thead {
+      tr {
+        th {
+          padding: 2px;
+          font-size: 12px;
+          height: 25px;
+        }
+      }
+  
+      tr {
+        td {
+          font-size: 12px;
+          height: 30px;
+        }
+      }
+    }
+  }
+
+.overflowy {
+    height: 350px;
+    overflow-y: auto;
+  }
+
+  .btn-manager {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 20px;
+  }
+
+
+.img-assure{
+  width: 100px;
+  height: 104px;
+  border: 1px solid #eceeee;
+  padding: 5px;
+  margin-top: 20px;
+}
+
+
+::ng-deep .cdk-overlay-container {
+  position: fixed;
+  z-index: 10000;
+}

@@ -1,0 +1,153 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+// @import "~bootstrap/scss/bootstrap";
+
+/* Importing Datepicker SCSS file. */
+@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import 'ngx-multiple-dates/prebuilt-themes/indigo-pink.css';
+// @import "~ngx-ui-switch/ui-switch.component.scss";
+.bs-timepicker-field {
+  width: 39px !important;
+}
+
+.swal2-popup.swal2-modal.swal2-show {
+  font-size: 14px;
+  width: 30rem;
+  padding-bottom: 2.2rem;
+}
+
+#swal2-content {
+  margin-bottom: 10px;
+}
+
+.card .body,
+.table {
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    // -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.3);
+    // border-radius: 5px;
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #3b3c3c;
+    border-radius: 5px;
+}
+
+.animationAlert {
+      animation: blit-fontweight-color alternate-reverse ease-in-out
+        1000ms infinite;
+        // color: #fff;
+        font-size: 12px;
+        padding: 1px 5px;
+        border-radius: 30px;
+        font-weight: bold;
+}
+
+textarea {
+  resize: none !important;
+}
+
+// input,select {
+//   &:focus {
+//     border: 1px solid #737474 !important;
+//     box-shadow : none;
+//     border-color: #737474;
+//   }
+// }
+
+.sidebar .menu .list .ml-menu .activeSub .ml-menu-3 {
+  display: block;
+}
+
+.sidebar .menu .list .ml-menu-3 {
+  list-style: none;
+  display: none;
+  padding-left: 0;
+}
+
+@keyframes blit-fontweight-color {
+  from {
+    background-color: var(--ion-color-danger);
+    opacity: 0.3;
+}
+to {
+    background-color: var(--ion-color-danger);
+    opacity: 1;
+}
+}
+
+
+::ng-deep .mat-expansion-panel {
+  background-color: #ededed !important;
+}
+
+::ng-deep .mat-expansion-panel-body {
+  background-color: #fff;
+  padding: 10px !important;
+}
+::ng-deep .cdk-overlay-container {
+  position: fixed;
+  z-index: 10000;
+}
+
+
+// Customisation du sweet alert 2 dans le projet
+.swal2-popup {
+  z-index: 100000 !important;
+  max-width: 375px;
+  padding-bottom: 10px;
+
+  .swal2-icon {
+    width: 40px;
+    height: 40px;
+    border: 0.155rem solid;
+    margin-top: 20px;
+
+    .swal2-icon-content {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+  }
+
+  .swal2-title {
+    font-size: 1.4rem;
+  }
+
+  .swal2-html-container {
+    font-size: 1rem;
+    // font-weight: 500;
+  }
+
+  .swal2-actions {
+    gap: 30px;
+    button {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+  }
+
+  &.swal2-icon-warning {
+    button.swal2-cancel {
+      background-color: var(--medium-color) !important;
+      // color: #fff;
+    }
+    button.swal2-confirm {
+      background-color: var(--primary-color) !important;
+      color: #fff;
+    }
+  }
+}
+
+.swal2-container {
+  z-index: 1999 !important;
+}

@@ -1,0 +1,82 @@
+
+.logo-app{
+    width: 52%;
+    height: auto;
+    margin-top: -12px;
+}
+
+.navbar-header {
+    background: none !important;
+}
+
+.notification-dropdown{
+    .user_dw_menu{
+        li>a{
+            font-size: 12px !important;
+        }
+    }
+}
+
+.navbar{
+    .container-fluid{
+        // background-color: #489aff !important;
+        background-color: #ffffff !important;
+    }
+    
+}
+
+.theme-white .navbar .navbar-nav.navbar-right .user_profile span {
+    color: #fff !important;
+}
+
+sup {
+    background: rgb(244, 84, 84);
+    color: #fff;
+    padding: 4px 6px;
+    border-radius: 50%;
+    font-size: 10px !important;
+    margin-left: -6px;
+}
+
+.li-notification {
+    margin: 0px 10px 0 0;
+}
+
+.notification-dropdown .nfc-header {
+    background-color: #4997f7 !important;
+}
+
+.badge-success {
+    background-color: #49b768 !important;
+    color: #fff;
+    font-size: 10px;
+    height: 25px;
+}
+
+.dropdown-menu ul.menu .nfc-close {
+    justify-content: end;
+    align-items: center;
+}
+
+.badge-danger {
+    background-color: #f67070 !important;
+    color: #fff;
+    font-size: 10px;
+    height: 25px;
+}
+
+.isActive {
+    background-color: #faeed7;
+    color: #000;
+}
+  
+.badge-warning {
+    background-color: #f4a537 !important;
+    color: #fff;
+    font-size: 10px;
+    height: 25px;
+}
+
+.menu-title {
+    font-size: 13px !important;
+}

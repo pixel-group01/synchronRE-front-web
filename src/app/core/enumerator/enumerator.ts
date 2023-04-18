@@ -1,0 +1,102 @@
+export enum Enumerator {
+
+}
+
+
+export enum enumCodeTypeActe {
+    SOINS = 'SOI',
+    LABORATOIRE = 'LAB',
+    RADIOLOGIE = 'RAD',
+    VISITE = 'VIS',
+    EXPLORATION_FONCTIONNELLE = 'EXPF',
+    CONSULTATION = 'CONS',
+    CONSULTATION_TYPEACTE = 'CON',
+}
+
+export enum enumCodeCircuitValidation {
+    PHARMACIE_INVENTAIRE = 'PHAR_INV',
+    PHARMACIE_BON_COMMANDE = 'PHAR_BC',
+    PHARMACIE_SORTIE_DIVERSE = 'PHAR_SD',
+    REMBOURSEMENT_ACTE_EXTERNES = 'RMB',
+    PHARMACIE_LIVRAIONS_MEDICAMENT = 'PHAR_LIV',
+    PHARMACIE_TRANSFERT_MEDICAMENT = 'PHAR_TRANS',
+    HONNORAIRE = 'HON',
+    RECLAMATION = 'RECL',
+    CERTIFICAT_MEDICAL = 'CERTIF',
+    GC_DEMANDE_REMISE = 'DMD_REMISE',
+    JOURNAL = 'TRESO',
+    LABO = 'LABO',
+    RADIO = 'RADIO',
+    RES_RADIO = 'RES_RADIO'
+
+}
+
+export enum enumEtapeCircuit {
+    LABORATOIRE = 'LABORATOIRE',
+    LABORATOIRE_PRELEVEMENT='LAB',
+    BRANCHEMENT = 'BRANCHEMENT',
+    DEBRANCHEMENT = 'DEBRANCHEMENT',
+    EN_CLOTURE ='EN CLOTURE',
+    CLOTURE = 'CLOTURE',
+    PRISE_DE_CONSTANTE = 'PRISE DE CONSTANTE'
+}
+
+export enum enumTypeRetour {
+    VENTE_DIRECTE = 'VENTE DIRECTE',
+    VENTE_HOSPI ='VENTE HOSPI MEDICAMENT',
+    VENTE_HOSPI_BANQUE_SANG ='VENTE HOSPI BANQUE DE SANG',
+    VENTE_ACTE_EXTERNES = 'VENTE ACTE EXTERNE',
+    ACCUEIL = 'ACCUEIL',
+    VENTE_PRODUIT ='VENTE PRODUIT',
+    VENTE_BANQUE_SANG = 'BANQUE DE SANG',
+}
+
+export enum enumTypeReglement {
+    ACTE_EXTERNE = 'ACCUEIL',
+    PHARMACIE_DECOMPTES ='DECOMPTE',
+    PHARMACIE_VENTE_ACTES_EXTERNES ='PHAR_VAE',
+    PHARMACIE_VENTE_DIRECTES= 'PHAR_VD'
+}
+
+export enum enumOrigineOrdonnance {
+    SORTIE_HOSPI = 'SORTIE HOSPI',
+    CONSULTATION ='CONSULTATION'
+}
+
+export enum enumModePaiement {
+    ESPECE = 'ESPECE'
+}
+
+export enum enumTypeRupture {
+    RUPTURE_STOCK = 'Rupture de stock',
+    ALERTE_STOCK = "Alerte stock"
+}
+
+export enum enumStatut {
+    BROUILLON = 'BROUILLON',
+    TERMINE = 'TERMINE',
+    ANNULE = 'ANNULE',
+    VALIDE = 'VALIDE',
+    REJETE = 'REJETER',
+    REJETER = 'REJETER',
+    REJETE_CIRCUIT_VALIDATION = 'REJETE',
+    EN_COURS_VALIDATION = 'EN COURS DE VALIDATION',
+    EN_ATTENTE_VALIDATION = 'EN ATTENTE DE VALIDATION',
+    EN_COURS_TRAITEMENT = "EN COURS DE TRAITEMENT",
+    MISE_A_JOUR_STOCK_EN_ATTENTE = "MISE A JOUR STOCK EN ATTENTE",
+    EN_ATTENTE_DE_LIVRAISON = "EN ATTENTE DE LIVRAISON",
+    EN_ATTENTE_DE_RECEPTION = "EN ATTENTE DE RECEPTION",
+    OPHTALMO_PRISE_CONSTANTE = "ophtalmo",
+    PRISE_DE_CONSTANTE_GENERALISTE = "generaliste"
+}
+
+export enum enumTailleFichier {
+    Libelle = '2Mo', 
+    valeur = 2
+}
+
+export enum enumOrigineOuvertureModalForNotification {
+    header = 'header', 
+    validation_screen = 'validation_screen'
+}
+

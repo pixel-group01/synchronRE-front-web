@@ -1,0 +1,16 @@
+.element-per-page {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: flex-end;
+   
+
+    label {
+        color: gray !important;
+    }
+
+    select {
+        border: 1px solid gray;
+        padding: 3px;
+    }
+}

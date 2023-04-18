@@ -1,0 +1,34 @@
+select {
+  height: 35px;
+}
+td {
+  width: 1px;
+}
+
+::ng-deep .activeRow {
+  background-color: #d3e1f1;
+  // color: white !important;
+}
+
+.btn-part {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.minus-td {
+  vertical-align: baseline;
+}
+
+.fa-ico-fct {
+  font-size: 20px;
+  color: rgb(101, 101, 101);
+}
+
+.div-fct {
+  margin-bottom: 0px !important;
+}
+
+.div-fct>table {
+  margin-bottom: 0px !important;
+}

@@ -1,0 +1,64 @@
+.sidebar {
+  // background-color: #489aff;
+  background-color: var(--primary-color); // #236bb6; // rgb(0 0 0 / 75%) !important
+}
+
+span,
+i {
+  color: #efe9e9 !important;
+}
+
+.menu-toggle:before {
+  color: #efe9e9;
+}
+
+.sub-menu-toggle {
+  // background: #ffffff;
+}
+
+.sidebar .menu .list a span {
+  color: #726f6f;
+}
+
+.sidebar .menu .list .active .menu-toggle {
+  // background: #c1d4eb
+  // background-color: #dfeaf7;
+  background-color: #236bb6;
+}
+
+.theme-white .sidebar .menu .list .ml-menu:hover {
+  background-color: #236bb6 !important; // #dfeaf7 !important;
+}
+
+.sidebar .menu .list a:hover,
+.sidebar .menu .list a:active {
+  background-color:#3a3a3a; // #bd7074 !important;
+}
+
+.material-icons-two-tone {
+  color: #fff;
+}
+
+.ml-menu > li > a {
+  // padding-left: 20px !important;
+}
+
+.link-exist-children {
+  transform: rotate(45deg);
+  margin-top: 7px;
+  color: #707272;
+}
+
+.ml-menu-2 {
+  // background-color: #f6faff;
+  background-color: #236bb6;
+}
+
+.theme-white .sidebar .menu .list .ml-menu {
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: #e6e1e1 !important;
+}
+
+.sidebar .menu .list li.active .menu-top {
+  background-color: var(--secondary-color) !important;
+}

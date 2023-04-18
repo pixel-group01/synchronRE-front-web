@@ -1,0 +1,66 @@
+<ng-container>
+    <div class="row search-part" [ngBusy]="{busy: busyGet, message: 'Veuillez patienter ...', backdrop: false}" >
+
+        <div class="col-md-12 col-sm-12 mb-0" >
+
+            <div class="row">
+                <div class="col-md-11 col-sm-12 mb-0">
+                    <input class="form-control custom-input" placeholder="Rechercher par le nom du médicament" autocomplete="off"
+                    [(ngModel)]="itemToSearch.searchText" (keyup)="getItems()" name="searchText" type="text" [disabled]="isDisabled">
+                </div>
+                <div class="col-md-1 p-0" *ngIf="(itemSelected && itemSelected?.id) || itemToSearch.searchText">
+                    <button type="button" class="btn btn-default btn-xs btn-close-item pull-right" title="Vider" (click)="reinitValue()"  [disabled]="isDisabled">
+                        <i class="fa fa-times"></i> 
+                    </button>  
+                </div>
+            </div>
+           
+            <div class="row search-adherent-part" *ngIf="canDisplay">
+                <table class="table table-condensed table-striped table-hover">
+                    <thead>
+                        <tr class="custom-table-head">
+                            <th>#</th>
+                            <th>Médicament</th>
+                            <th>Qté dispo</th>
+                            <th>PU. Pondéré (Fcfa)</th>
+                            <th>PU. Vente (Fcfa)
+                                <button type="button"  class="btn btn-xs btn-close-search pull-right" title="Fermer" (click)="canDisplay = false;selectedItem()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        
+                            <tr *ngFor="let item of listItem; let indice = index" (click)="selectedItem(item)" style="cursor: pointer;">
+                                <td>
+                                    {{indice + 1}}
+                                </td>
+                                <td>
+                                    {{item?.pharmacieMedicamentLibelle}}
+                                </td>
+                                <td>
+                                    {{ (item?.quantiteStock | moneyFormat) || 0}}
+                                </td>
+                                <td>
+                                    {{ (item?.prixUnitairePondere  | moneyFormat ) || 0 }}
+                                </td>
+                                <td>
+                                    {{ (item?.prixUnitaireVente  | moneyFormat ) || 0 }}
+                                </td>
+                            </tr>
+
+                            <tr *ngIf="!listItem || listItem.length == 0">
+                                <td colspan="5" style="text-align: center;">
+                                    <span> Aucune donnée disponible</span>
+                                </td>
+                            </tr>
+                    </tbody>
+                   
+                </table>
+            </div>
+        </div>
+
+    </div>
+</ng-container>

@@ -1,0 +1,92 @@
+<div class="row" *ngIf="listeAutresDocuments">
+  <div class="col-md-2 no-padding" id="cadre-presentation-images"
+    style="height: 500px;overflow-y: auto;background-color: #e8ecf1;border-radius: 5px;border: 1px solid #c2cdda;">
+    <table class="table table-hover table-bordered">
+      <tr *ngFor="let doc of listeAutresDocuments; let index=index">
+        <!-- <td (click)="selecteItemDocument(index)" style="vertical-align: middle;"> -->
+        <!-- {{currentImageSelected?.id}} -->
+        <td (click)="selecteItemDocument(index)" [class.activeImage]="doc?.id ? (doc?.id == currentImageSelected.id) : (doc?.documentId == currentImageSelected?.documentId)"
+          style="vertical-align: middle;">
+
+          <div style="text-align: center;" *ngIf="!doc?.isPdf">
+            <img src="{{doc?.url || doc?.urlFile}}" alt="Image scannée" class="img-left-part" /> <br>
+            <!-- <a title="Cliquez pour afficher"  (click)="selecteItemDocument(index)" class="a-navigation"> {{ doc?.libelle }} </a> -->
+          </div>
+
+          <!-- <div style="text-align: center;" *ngIf="doc?.isPdf">
+          <img src="{{'assets/img/decoupes/default-paiement-quittante.png'}}" alt="Image scannée" class="img-left-part"  *ngIf="doc?.isQuittancePaiementDePenalite"/> <br>
+          <i class="fa fa-file" style="color: #f19696;font-size: 50px;" *ngIf="!doc?.isQuittancePaiementDePenalite"></i>&nbsp;&nbsp;<br>
+          <a title="Cliquez pour afficher"  (click)="selecteItemDocument(index)" class="a-navigation"> {{ doc?.libelleAutreDocument ? doc?.libelleAutreDocument :
+            doc?.categoriePieceJointesLibelle}} </a>
+        </div> -->
+
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-md-10">
+    <div class="col-md-12" style="height: 500px;border: 1px solid #c2cdda;border-radius: 5px;">
+
+      <div class="row">
+
+        <div class="col-7">
+          <b class="pull-right"
+            style="display: block;margin-top: 16px;color: #ed3117;text-transform: uppercase;font-size: 15px;"> {{
+            currentImageSelected?.libelle }} </b>
+        </div>
+
+        <div class="col-5">
+          <button type="button" class="btn btn-xs btn-navication pull-right" (click)="openFileInUrl()"
+            title="Ouvrire dans un nouvel onglet"> <i class="fa fa-globe arrow-button-css"></i> </button>
+
+          <button type="button" class="btn btn-xs btn-navication pull-right" (click)="gotoRotateFile()"
+            title="Faire pivoter l'image" *ngIf="!currentImageSelected?.isPdf"> <i
+              class="fa fa-undo arrow-button-css"></i> </button>
+
+          <button type="button" class="btn btn-xs btn-navication pull-right" (click)="setZoomValue(true)"
+            title="Agrandir l'image" *ngIf="!currentImageSelected?.isPdf"> <i
+              class="fa fa-search-plus arrow-button-css"></i> </button>
+
+          <button type="button" class="btn btn-xs btn-navication pull-right" (click)="setZoomValue(false)"
+            title="Reduire l'image" *ngIf="!currentImageSelected?.isPdf"> <i
+              class="fa fa-search-minus arrow-button-css"></i> </button>
+
+              <button type="button" class="btn btn-xs btn-navication pull-right" (click)="isBigger = !isBigger"
+              title="Agrandir l'image"> <i
+                class="fa fa-compass arrow-button-css"></i> </button>
+
+        </div>
+      </div>
+
+      <div class="form-group col-md-12 no-padding" style="height: 400px;overflow-y: auto;border: 1px solid #eff3f3;">
+        <!-- <div class="col-md-12 zoom-value-div no-padding"   *ngIf="!currentImageSelected?.isPdf">
+        <span class="pull-right zoom-value"> <i class="fa fa-search"></i>&nbsp; {{zoomWidthValue}} </span>
+      </div> -->
+
+        <div class="col-md-12 no-padding">
+          <img src="{{currentImageSelected?.url || currentImageSelected?.urlFile}}" [class]="currentClasse"
+            style="width: 100%; height: auto;" id="imageAffiche" *ngIf="!currentImageSelected?.isPdf" />
+
+          <div class="col-md-12" *ngIf="currentImageSelected?.isPdf">
+            <app-preview-pdf [fileUrlFinale]="currentImageSelected?.url || currentImageSelected?.urlFile"
+              [width]="'100%'" [height]="'388px'"></app-preview-pdf>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12" style="text-align: center;">
+        <a *ngIf="currentIndice"
+          (click)="selecteItemDocument( (currentIndice ? currentIndice - 1 : currentIndice) , true )" title="Précedent">
+          <i class="fa fa-arrow-left  arrow-direction-css"></i>
+        </a>&nbsp;&nbsp;&nbsp;
+
+        <a *ngIf="currentIndice < listeAutresDocuments.length - 1"
+          (click)="selecteItemDocument( ((currentIndice < listeAutresDocuments.length - 1) ? currentIndice + 1 : currentIndice ),true)"
+          title="Suivant">
+          <i class="fa fa-arrow-right  arrow-direction-css"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

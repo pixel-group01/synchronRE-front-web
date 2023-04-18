@@ -1,0 +1,102 @@
+<ng-container>
+
+  <div class="duration">
+     <span> {{itemDate.duration}} {{itemDate?.uniteDuration}} </span>  
+  </div>
+    <div class="Timeline">
+
+        <svg height="5" width="10">
+            <line x1="0" y1="0" x2="200" y2="0" style="stroke:#d4d5d5;stroke-width:5" />
+            Sorry, your browser does not support inline SVG.
+        </svg>
+        <ng-container *ngFor="let time of ListeTimesLines; let indice = index">
+           
+          
+            <div [class.event2]="indice % 2 == 1" [class.event1]="indice % 2 == 0">
+              <div  [class.event2Bubble]="indice % 2 == 1" [class.event1Bubble]="indice % 2 == 0">
+                <div class="eventTitle">
+                    <span>{{time?.libelle}}</span>
+                </div>
+              </div>
+              <svg height="20" width="20">
+                 <circle cx="10" cy="11" r="5" fill="#f7b249" />
+               </svg>
+              <div class="time">{{time?.heureMinCreation}}</div>
+            </div>
+
+            <svg height="5" width="70">
+                <line x1="0" y1="0" x2="300" y2="0" style="stroke:#d4d5d5;stroke-width:5" />
+                Sorry, your browser does not support inline SVG.
+            </svg>
+
+        </ng-container>
+       
+        
+        <!-- <svg height="5" width="50">
+            <line x1="0" y1="0" x2="300" y2="0" style="stroke:#d4d5d5;stroke-width:5" />
+            Sorry, your browser does not support inline SVG.
+        </svg>
+      
+        <div class="event2">
+          <div class="event2Bubble">
+            <div class="eventTitle">Caisse</div>
+          </div>
+            <svg height="20" width="20">
+          <circle cx="10" cy="11" r="5" fill="#f7b249" />
+          </svg>
+          <div class="time2">9 : 42 AM</div>
+        </div>
+        
+        <svg height="5" width="60">
+            <line x1="0" y1="0" x2="200" y2="0" style="stroke:#d4d5d5;stroke-width:5" />
+            Sorry, your browser does not support inline SVG.
+        </svg>
+      
+        <div class="event1">
+          <div class="event1Bubble">
+            <div class="eventTitle">Constante</div>
+          </div>
+          <svg height="20" width="20">
+             <circle cx="10" cy="11" r="5" fill="#f7b249" />
+           </svg>
+          <div class="time">9 : 50 AM</div>
+        </div>  
+        
+        <svg height="5" width="120">
+            <line x1="0" y1="0" x2="100" y2="0" style="stroke:#d4d5d5;stroke-width:5" />
+            Sorry, your browser does not support inline SVG.
+        </svg>
+
+        <div class="event2">
+            <div class="event2Bubble">
+              <div class="eventTitle">Consultation</div>
+            </div>
+              <svg height="20" width="20">
+            <circle cx="10" cy="11" r="5" fill="#f7b249" />
+            </svg>
+            <div class="time2">10 : 32 AM</div>
+          </div>
+          
+          <svg height="5" width="70">
+              <line x1="0" y1="0" x2="200" y2="0" style="stroke:#d4d5d5;stroke-width:5" />
+              Sorry, your browser does not support inline SVG.
+          </svg>
+        
+          <div class="event1">
+            <div class="event1Bubble">
+              <div class="eventTitle">Fin consultation</div>
+            </div>
+            <svg height="20" width="20">
+               <circle cx="10" cy="11" r="5" fill="#f7b249" />
+             </svg>
+            <div class="time">10 : 57 AM</div>
+          </div>  
+          
+          <svg height="5" width="5">
+              <line x1="0" y1="0" x2="100" y2="0" style="stroke:#d4d5d5;stroke-width:5" />
+              Sorry, your browser does not support inline SVG.
+          </svg> -->
+        
+      </div>
+
+</ng-container>

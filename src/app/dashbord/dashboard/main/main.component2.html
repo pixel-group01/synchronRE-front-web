@@ -1,0 +1,64 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <!-- <app-breadcrumb
+        [title]="'Dashboard'"
+        [items]="[]"
+        [active_item]="'Dashboard'"
+      ></app-breadcrumb> -->
+    </div>
+    <!-- Widgets -->
+
+    <!-- #END# Widgets -->
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Chiffre d'affaire</h2>
+            <select
+              name="year"
+              id=""
+              [(ngModel)]="year"
+              (change)="getVistesByMonth()"
+              style="width: 65px; height: 30px"
+            >
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+            </select>
+            <button
+              mat-button
+              [matMenuTriggerFor]="menu"
+              class="header-dropdown"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Action</button>
+              <button mat-menu-item>Another action</button>
+              <button mat-menu-item>Something else here</button>
+            </mat-menu>
+          </div>
+          <div class="body">
+            <!-- <apx-chart
+              [series]="areaChartOptions.series"
+              [chart]="areaChartOptions.chart"
+              [xaxis]="areaChartOptions.xaxis"
+              [yaxis]="areaChartOptions.yaxis"
+              [colors]="areaChartOptions.colors"
+              [stroke]="areaChartOptions.stroke"
+              [legend]="areaChartOptions.legend"
+              [tooltip]="areaChartOptions.tooltip"
+              [dataLabels]="areaChartOptions.dataLabels"
+            ></apx-chart> -->
+            <div [chart]="highchart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,1666 @@
+<ng-container>
+  <div
+    class="row"
+    [ngBusy]="{
+      busy: busySave,
+      message: 'Veuillez patienter ...',
+      backdrop: false
+    }"
+  >
+    <div class="col-md-9 col-sm-12">
+      <!-- DETAILS INVENTAIRE -->
+      <div class="row" *ngIf="origine == codeCircuit.PHARMACIE_INVENTAIRE">
+        <fieldset class="custom-fieldset">
+          <legend>Détails inventaire</legend>
+          <div class="col-12 mb-3">
+            <div class="row">
+              <div class="col-md-2 col-sm-12 mb-2">
+                <label> Numéro inventaire </label>
+                <input
+                  disabled
+                  type="text"
+                  class="form-control custom-input"
+                  [(ngModel)]="itemPriseDecisionByOrigine.code"
+                  name=""
+                  id=""
+                />
+              </div>
+
+              <div class="col-md-4 col-sm-12 mb-2">
+                <label>Magasin </label>
+                <input
+                  type="text"
+                  disabled
+                  class="form-control custom-input"
+                  name="pharmacieMagasinLibelle"
+                  [(ngModel)]="
+                    itemPriseDecisionByOrigine.pharmacieMagasinLibelle
+                  "
+                  id=""
+                />
+              </div>
+              <div class="col-md-2 col-sm-12 mb-2">
+                <label>Valeur théorique </label>
+                <input
+                  type="text"
+                  disabled
+                  class="form-control custom-input"
+                  name="totalTheorique"
+                  mask="separator"
+                  [(ngModel)]="itemPriseDecisionByOrigine.valeurTheorique"
+                  id=""
+                />
+              </div>
+
+              <div class="col-md-2 col-sm-12 mb-2">
+                <label> Valeur physique </label>
+                <input
+                  type="text"
+                  disabled
+                  class="form-control custom-input"
+                  name="totalPhysique"
+                  mask="separator"
+                  [(ngModel)]="itemPriseDecisionByOrigine.valeurPhysique"
+                  id=""
+                />
+              </div>
+
+              <div class="col-md-2 col-sm-12 mb-2">
+                <label> Valeur écart </label>
+                <input
+                  type="text"
+                  disabled
+                  class="form-control custom-input"
+                  name="totalEcart"
+                  [(ngModel)]="itemPriseDecisionByOrigine.valeurEcart"
+                  id=""
+                />
+              </div>
+
+              <div class="col-md-2 col-sm-12 mb-2">
+                <label>
+                  Date inventaire <span class="required_champs">*</span></label
+                >
+                <input
+                  class="form-control custom-input"
+                  placeholder="Date inventaire"
+                  autocomplete="off"
+                  [(ngModel)]="itemPriseDecisionByOrigine.dateInventaire"
+                  disabled
+                  name="dateInventaire"
+                  type="text"
+                  bsDatepicker
+                  [maxDate]="dateActuelle"
+                  [bsConfig]="{
+                    dateInputFormat: 'DD/MM/YYYY',
+                    containerClass: 'theme-dark-blue'
+                  }"
+                />
+              </div>
+
+              <div class="col-10 mb-3">
+                <label> Participants </label>
+                <textarea
+                  rows="2"
+                  class="form-control"
+                  name="libelle"
+                  disabled
+                  placeholder="Participants"
+                  [(ngModel)]="itemPriseDecisionByOrigine.libelle"
+                >
+                </textarea>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="row">
+                <div class="col-md-4 mb-1 mt-1">
+                  <input
+                    type="text"
+                    placeholder="Rechercher un médicament"
+                    class="form-control custom-input"
+                    name="searchMedoc"
+                    [(ngModel)]="itemToSearch.libelle"
+                    (keypress)="searchMedoc()"
+                    autocomplete="off"
+                    (keyup)="searchMedoc()"
+                    id=""
+                  />
+                </div>
+              </div>
+
+              <div
+                class="col-12"
+                [class.overflowy]="
+                  listeItemByOrigine && listeItemByOrigine.length > 10
+                "
+              >
+                <table
+                  class="table table-condensed table-striped table-bordered table-hover table-details"
+                >
+                  <thead>
+                    <tr class="custom-table-head">
+                      <th style="width: 30px" class="txt-align-center">#</th>
+                      <th>Médicament</th>
+                      <th>Prix unitaire</th>
+                      <th style="width: 100px">Quantité théorique</th>
+                      <th style="width: 100px">
+                        Qté physique <br />
+                        <small style="color: rgb(192, 100, 100)">
+                          1er comptage
+                        </small>
+                      </th>
+                      <th style="width: 100px">
+                        Qté physique <br />
+                        <small style="color: rgb(240, 155, 75)">
+                          2ème comptage
+                        </small>
+                      </th>
+                      <th style="width: 100px">Qté physique</th>
+                      <th style="width: 100px">Ecart</th>
+                      <th>Valeur physique</th>
+                      <th>Valeur théorique</th>
+                      <th>Valeur écart</th>
+                    </tr>
+                  </thead>
+
+                  <tbody
+                    *ngIf="listeItemByOrigine && listeItemByOrigine.length"
+                  >
+                    <tr
+                      *ngFor="
+                        let item of listeItemByOrigine;
+                        let indice = index
+                      "
+                    >
+                      <td class="txt-align-center">{{ indice + 1 }}</td>
+                      <td>
+                        {{ item?.pharmacieMedicamentLibelle | uppercase }}
+                      </td>
+                      <td>{{ item?.prixUnitaireVente | moneyFormat }}</td>
+                      <td>{{ item?.quantiteStock }}</td>
+                      <td>{{ item?.qtePhysique1 }}</td>
+                      <td>{{ item?.qtePhysique2 }}</td>
+                      <td>{{ item?.quantitePhysique }}</td>
+                      <td>
+                        {{
+                          ((item?.quantitePhysique || 0) -
+                            (item?.quantiteStock || 0) | moneyFormat) || 0
+                        }}
+                      </td>
+                      <td>
+                        {{
+                          ((item?.prixUnitaireVente || 0) *
+                            (item?.quantitePhysique || 0) | moneyFormat) || 0
+                        }}
+                      </td>
+                      <td>
+                        {{
+                          (item?.prixUnitaireVente || 0) *
+                            (item?.quantiteStock || 0) | moneyFormat
+                        }}
+                      </td>
+                      <td>
+                        {{
+                          item?.prixUnitaireVente *
+                            ((item?.quantitePhysique || 0) -
+                              (item?.quantiteStock || 0)) | moneyFormat
+                        }}
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr
+                      *ngIf="
+                        !listeItemByOrigine || listeItemByOrigine.length == 0
+                      "
+                      style="border-bottom: 1px solid #eceeee"
+                    >
+                      <td colspan="11" style="border: 1px solid #eceeee">
+                        <div class="col-md-12 txt-align-center">
+                          Aucune données disponible
+                        </div>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <!-- FIN DETAILS INVENTAIRE -->
+
+      <!-- DETAILS COMMANDE -->
+      <div class="row" *ngIf="origine == codeCircuit.PHARMACIE_BON_COMMANDE">
+        <fieldset class="custom-fieldset">
+          <legend>Détails commande</legend>
+
+          <div class="row">
+            <div class="row">
+              <div class="col-md-2">
+                <label>Numéro commande </label>
+                <input
+                  disabled
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="itemPriseDecisionByOrigine.numeroCommande"
+                  name=""
+                  id=""
+                />
+              </div>
+
+              <div class="col-md-3">
+                <label>Date Heure </label>
+                <input
+                  disabled
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="itemPriseDecisionByOrigine.createdAt"
+                  name=""
+                  id=""
+                />
+              </div>
+
+              <div class="col-md-5">
+                <label> Fournisseur </label>
+                <sup class="required_champs">*</sup> :
+
+                <input
+                  disabled
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="itemPriseDecisionByOrigine.raisonSocial"
+                  name=""
+                  id=""
+                />
+              </div>
+
+              <div class="col-md-2">
+                <label> Montant TTC </label>
+                <input
+                  type="text"
+                  disabled
+                  class="form-control"
+                  name="montant"
+                  mask="separator"
+                  [(ngModel)]="itemPriseDecisionByOrigine.montantTtc"
+                  id="montantTtc"
+                />
+              </div>
+
+              <div class="col-12 mb-3">
+                <label> Observation </label>
+                <!-- <span class="required_champs">*</span> -->
+                <textarea
+                  name="observation"
+                  disabled
+                  [(ngModel)]="itemPriseDecisionByOrigine.observation"
+                  class="form-control"
+                  rows="2"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="row">
+              <div class="col-md-4 mb-1 mt-1">
+                <input
+                  type="text"
+                  placeholder="Rechercher un médicament"
+                  class="form-control custom-input"
+                  name="searchMedoc"
+                  [(ngModel)]="itemToSearch.libelle"
+                  (keypress)="searchMedoc()"
+                  autocomplete="off"
+                  (keyup)="searchMedoc()"
+                  id=""
+                />
+              </div>
+            </div>
+
+            <div class="row">
+              <div
+                class="col-md-12 col-xs-12 col-sm-12"
+                [class.overflowy]="
+                  listeItemByOrigine && listeItemByOrigine.length > 10
+                "
+              >
+                <table class="table table-bordered table-condensed">
+                  <thead>
+                    <tr class="custom-table-head">
+                      <th class="txt-align-center">#</th>
+                      <th>Nom commercial</th>
+                      <th>Réference</th>
+                      <th>Quantité</th>
+                      <th>Prix unitaire</th>
+                      <th style="width: 180px" class="txt-align-center">
+                        Montant
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody
+                    *ngIf="listeItemByOrigine && listeItemByOrigine.length"
+                  >
+                    <tr
+                      *ngFor="
+                        let item of listeItemByOrigine;
+                        let indice2 = index
+                      "
+                    >
+                      <td class="txt-align-center">
+                        {{ indice2 + 1 }}
+                      </td>
+                      <td>{{ item?.nomCommercial }}</td>
+                      <td>{{ item?.referenceMedicament }}</td>
+                      <td>{{ (item?.quantiteCommande | moneyFormat) || 0 }}</td>
+                      <td>
+                        {{ (item?.prixUnitaireMedicament | moneyFormat) || 0 }}
+                      </td>
+                      <td class="txt-align-center">
+                        {{
+                          (item?.quantiteCommande * item?.prixUnitaireMedicament
+                            | moneyFormat) || 0
+                        }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="5"></td>
+                      <td
+                        class="txt-align-center"
+                        style="
+                          text-align: right;
+                          font-weight: bold;
+                          background-color: orange;
+                          color: #fff;
+                          font-size: 14px !important;
+                        "
+                      >
+                        Montant Total:
+                        {{
+                          (itemPriseDecisionByOrigine?.montantTtc
+                            | moneyFormat) || 0
+                        }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <!--FIN DETAILS COMMANDE -->
+
+      <!-- LIVRAISON -->
+      <div
+        class="row"
+        *ngIf="origine == codeCircuit.PHARMACIE_LIVRAIONS_MEDICAMENT"
+      >
+        <div class="row">
+          <div class="row">
+            <div class="col-md-3 col-sm-12">
+              <fieldset class="custom-fieldset mb-3">
+                <legend>Détails commande</legend>
+
+                <div class="row">
+                  <div class="col-md-12 mb-2">
+                    <label> Numéro commande </label>
+                    <input
+                      disabled
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="
+                        itemPriseDecisionByOrigine.dataCommande.numeroCommande
+                      "
+                      name="numeroCommande"
+                      id=""
+                    />
+                  </div>
+
+                  <div class="col-md-12 mb-2">
+                    <label> Date heure </label>
+                    <input
+                      disabled
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="
+                        itemPriseDecisionByOrigine.dataCommande.createdAt
+                      "
+                      name="createdAt"
+                      id=""
+                    />
+                  </div>
+
+                  <div class="col-md-12 mt-2">
+                    <label> Fournisseur </label>
+                    <input
+                      disabled
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="
+                        itemPriseDecisionByOrigine.dataCommande.raisonSocial
+                      "
+                      name="pharmacieFournisseurLibelle"
+                      id=""
+                    />
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="col-md-9 col-sm-12">
+              <fieldset class="custom-fieldset mb-3">
+                <legend>Bon de livraison</legend>
+
+                <div class="row">
+                  <div class="col-md-4 mb-2">
+                    <label> N°. livraison </label>
+                    <input
+                      type="text"
+                      disabled
+                      class="form-control"
+                      [(ngModel)]="itemPriseDecisionByOrigine.numeroLivraison"
+                      name="refLivraison"
+                      placeholder="N°. livraison"
+                      id=""
+                    />
+                  </div>
+
+                  <div class="col-md-4 col-sm-12 mb-2">
+                    <label> Date livraison </label>
+                    <input
+                      class="form-control custom-input"
+                      placeholder="Date livraison"
+                      autocomplete="off"
+                      [(ngModel)]="itemPriseDecisionByOrigine.dateLivraison"
+                      disabled
+                      name="dateLivraison"
+                      type="text"
+                      bsDatepicker
+                      [maxDate]="dateActuelle"
+                      [bsConfig]="{
+                        dateInputFormat: 'DD/MM/YYYY',
+                        containerClass: 'theme-dark-blue'
+                      }"
+                    />
+                  </div>
+
+                  <div class="col-md-4 mb-2">
+                    <label> Taxe </label>
+                    <input
+                      mask="separator"
+                      disabled
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="itemPriseDecisionByOrigine.taxe"
+                      name="taxe"
+                      placeholder="Taxe"
+                      id=""
+                    />
+                  </div>
+
+                  <div class="col-md-6 mb-2">
+                    <label> Montant HT </label>
+                    <input
+                      mask="separator"
+                      disabled
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="itemPriseDecisionByOrigine.montant"
+                      name="montantHt"
+                      placeholder="Montant HT"
+                      id=""
+                    />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label> Montant TTC </label>
+                    <input
+                      mask="separator"
+                      disabled
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="itemPriseDecisionByOrigine.montantTtc"
+                      name="montantTtc"
+                      placeholder="Montant TTC"
+                      id=""
+                    />
+                  </div>
+                </div>
+
+                <div class="row mt-2">
+                  <div class="col-md-3">
+                    <label> Réf. livraison </label>
+                    <input
+                      type="text"
+                      disabled
+                      class="form-control"
+                      [(ngModel)]="itemPriseDecisionByOrigine.refFournisseur"
+                      name="refLivraison"
+                      placeholder="Réf. livraison"
+                      id=""
+                    />
+                  </div>
+
+                  <div class="col-9 mb-3">
+                    <label> Observations </label>
+                    <textarea
+                      rows="1"
+                      class="form-control"
+                      name="observation"
+                      placeholder="Observations"
+                      disabled
+                      [(ngModel)]="itemPriseDecisionByOrigine.observation"
+                    >
+                    </textarea>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div
+                    class="col-md-12 col-xs-12 col-sm-12"
+                    [class.overflowy]="
+                      listeItemByOrigine && listeItemByOrigine.length > 10
+                    "
+                  >
+                    <table class="table table-bordered table-condensed">
+                      <thead>
+                        <tr class="custom-table-head">
+                          <th style="width: 2%" class="txt-align-center">#</th>
+                          <th>Nom commercial</th>
+                          <th>Quantité</th>
+                          <th>Prix unitaire</th>
+                          <th style="width: 200px">Montant</th>
+                        </tr>
+                      </thead>
+
+                      <tbody
+                        *ngIf="listeItemByOrigine && listeItemByOrigine.length"
+                      >
+                        <tr
+                          *ngFor="
+                            let item of listeItemByOrigine;
+                            let indice2 = index
+                          "
+                        >
+                          <td class="txt-align-center">
+                            {{ indice2 + 1 }}
+                          </td>
+                          <td>{{ item?.nomCommercial }}</td>
+                          <td>
+                            {{ (item?.quantiteLivree | moneyFormat) || 0 }}
+                          </td>
+                          <td>
+                            {{ (item?.prixUnitaireAchat | moneyFormat) || 0 }}
+                          </td>
+                          <td>
+                            {{
+                              (item?.quantiteLivree * item?.prixUnitaireAchat
+                                | moneyFormat) || 0
+                            }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- FIN LIVRAISON -->
+
+      <!-- SORTIE -->
+      <div class="row" *ngIf="origine == codeCircuit.PHARMACIE_SORTIE_DIVERSE">
+        <fieldset class="custom-fieldset">
+          <legend>Détails sortie</legend>
+
+          <div class="row">
+            <div class="col-md-6 col-sm-12 mb-2">
+              <label>N°Sortie :</label>
+              <input
+                class="form-control custom-input"
+                placeholder="N°Sortie"
+                autocomplete="off"
+                [(ngModel)]="itemPriseDecisionByOrigine.code"
+                disabled
+                name="numeroSortie"
+                required
+                type="text"
+              />
+            </div>
+
+            <div class="col-md-6 col-sm-12 mb-2">
+              <label>Motif : </label>
+              <input
+                class="form-control custom-input"
+                placeholder="Motif"
+                autocomplete="off"
+                [(ngModel)]="
+                  itemPriseDecisionByOrigine.pharmacieTypeSortieDiversLibelle
+                "
+                disabled
+                name="numRecuTic"
+                required
+                type="text"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 col-xs-12 col-sm-12">
+              <table class="table table-bordered table-condensed">
+                <thead>
+                  <tr class="custom-table-head">
+                    <th style="width: 2%">#</th>
+                    <th>Nom medicaments</th>
+                    <th>Quantité sortie</th>
+                    <th>Prix U. Ponderé</th>
+                    <th>Nom magasin</th>
+                  </tr>
+                </thead>
+
+                <tbody
+                  *ngIf="listeItemByOrigine && listeItemByOrigine.length > 0"
+                >
+                  <tr
+                    *ngFor="let item of listeItemByOrigine; let indice2 = index"
+                  >
+                    <td class="txt-align-center">{{ indice2 + 1 }}</td>
+                    <td>{{ item?.nomMedicament }}</td>
+                    <td>{{ (item?.quantiteSortie | moneyFormat) || 0 }}</td>
+                    <td>{{ (item?.prixUnitaire | moneyFormat) || 0 }}</td>
+                    <td>{{ item?.nomMagasin }}</td>
+                  </tr>
+                </tbody>
+
+                <tfoot></tfoot>
+              </table>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <!-- FIN VALIDATION SORTIE -->
+
+      <!-- TRANSFERT MEDICAMENT  -->
+      <div
+        class="row"
+        *ngIf="origine == codeCircuit.PHARMACIE_TRANSFERT_MEDICAMENT"
+      >
+        <fieldset class="custom-fieldset">
+          <legend>Détails transfert</legend>
+
+          <div class="row">
+            <div class="col-md-4 col-sm-12 mb-2">
+              <label>N°Transfert :</label>
+              <input
+                class="form-control custom-input"
+                placeholder="N° Transfert"
+                autocomplete="off"
+                [(ngModel)]="
+                  itemPriseDecisionByOrigine.code ??
+                  itemPriseDecisionByOrigine.numeroTransfert
+                "
+                disabled
+                name="numeroSortie"
+                type="text"
+              />
+            </div>
+
+            <div class="col-md-4 col-sm-12 mb-3">
+              <label>Magasin origine : </label>
+              <input
+                class="form-control custom-input"
+                placeholder="Magasin origine"
+                autocomplete="off"
+                [(ngModel)]="
+                  itemPriseDecisionByOrigine.magasinSource ??
+                  itemPriseDecisionByOrigine.magasinSourceLibelle
+                "
+                disabled
+                name="magasinSource"
+                required
+                type="text"
+              />
+            </div>
+
+            <div class="col-md-4 col-sm-12 mb-2">
+              <label>Magasin destination : </label>
+              <input
+                class="form-control custom-input"
+                placeholder="Magasin destination"
+                autocomplete="off"
+                [(ngModel)]="
+                  itemPriseDecisionByOrigine.pharmacieMagasinLibelle ??
+                  itemPriseDecisionByOrigine.pharmacieMagasinLibelle
+                "
+                disabled
+                name="pharmacieMagasinLibelle"
+                type="text"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 col-xs-12 col-sm-12">
+              <table class="table table-bordered table-condensed">
+                <thead>
+                  <tr class="custom-table-head">
+                    <th style="width: 2%">#</th>
+                    <th>Nom medicaments</th>
+                    <th>Quantité</th>
+                  </tr>
+                </thead>
+
+                <tbody
+                  *ngIf="listeItemByOrigine && listeItemByOrigine.length > 0"
+                >
+                  <tr
+                    *ngFor="let item of listeItemByOrigine; let indice2 = index"
+                  >
+                    <td class="txt-align-center">{{ indice2 + 1 }}</td>
+                    <td>{{ item?.nomMedivament || item?.nomMedicament }}</td>
+                    <td>{{ (item?.quantiteTransferee | moneyFormat) || 0 }}</td>
+                  </tr>
+                </tbody>
+
+                <tfoot></tfoot>
+              </table>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <!-- FIN TRANSFERT MEDICAMENT -->
+
+      <!-- JOURNAL DE CAISSE -->
+      <div class="row" *ngIf="origine == codeCircuit.JOURNAL">
+        <fieldset class="custom-fieldset">
+          <legend>Détails journal</legend>
+
+          <div class="row">
+            <div class="col-md-3 col-sm-12 mb-2">
+              <label>N°Journal :</label>
+              <input
+                class="form-control custom-input"
+                placeholder="N°Journal"
+                autocomplete="off"
+                [(ngModel)]="itemPriseDecisionByOrigine.code"
+                disabled
+                name="code"
+                required
+                type="text"
+              />
+            </div>
+
+            <div class="col-md-3 col-sm-12 mb-2">
+              <label>Caisse : </label>
+              <input
+                class="form-control custom-input"
+                placeholder="Caisse"
+                autocomplete="off"
+                [(ngModel)]="itemPriseDecisionByOrigine.tresoCaisseLibelle"
+                disabled
+                name="tresoCaisseLibelle"
+                required
+                type="text"
+              />
+            </div>
+
+            <div class="col-md-4 col-sm-12 mb-2">
+              <label>Caissier : </label>
+              <input
+                class="form-control custom-input"
+                placeholder="Caissier"
+                autocomplete="off"
+                [(ngModel)]="itemPriseDecisionByOrigine.enregistrerPar"
+                disabled
+                name="enregistrerPar"
+                required
+                type="text"
+                style="text-transform: uppercase"
+              />
+            </div>
+
+            <div class="col-md-2 col-sm-12 mb-2">
+              <label>Montant :</label>
+              <input
+                class="form-control custom-input"
+                placeholder="Montant"
+                autocomplete="off"
+                [(ngModel)]="itemPriseDecisionByOrigine.amountJournal"
+                disabled
+                name="montant"
+                type="text"
+                mask="separator"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 col-xs-12 col-sm-12">
+              <table class="table table-bordered table-condensed">
+                <thead>
+                  <tr class="custom-table-head">
+                    <th style="width: 2%">#</th>
+                    <th>N°Reçu</th>
+                    <th>Date Heure</th>
+                    <th>Unité fonc</th>
+                    <th>Type acte</th>
+                    <th>Nom prénoms</th>
+                    <th>Montant</th>
+                    <th>Mode règlt</th>
+                  </tr>
+                </thead>
+
+                <tbody
+                  *ngIf="listeItemByOrigine && listeItemByOrigine.length > 0"
+                >
+                  <tr
+                    *ngFor="let item of listeItemByOrigine; let indice2 = index"
+                  >
+                    <td class="txt-align-center">{{ indice2 + 1 }}</td>
+                    <td>{{ item?.numeroReglement }}</td>
+                    <td>
+                      {{ item?.dateReglement + " " + item?.heureReglement }}
+                    </td>
+                    <td>{{ item?.uniteFoncLibelle }}</td>
+                    <td>{{ item?.typeActeLibelle }}</td>
+                    <td>{{ item?.nomPrenom }}</td>
+                    <td style="font-weight: bold">
+                      {{ (item?.montantARegler | moneyFormat) || 0 }}
+                    </td>
+                    <td>{{ item?.tresoModeReglementLibelle }}</td>
+                  </tr>
+                </tbody>
+
+                <tfoot></tfoot>
+              </table>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <!-- FIN JOURNAL DE CAISSE -->
+
+      <!-- CERTIFICAT -->
+      <div class="row" *ngIf="origine == codeCircuit.CERTIFICAT_MEDICAL">
+        <fieldset class="custom-fieldset">
+          <legend>Détails Certificat</legend>
+
+          <div class="row">
+            <div class="col-md-2 col-sm-12 mb-2">
+              <label>N°Certificat :</label>
+              <input
+                class="form-control custom-input"
+                placeholder="N°Certificat"
+                autocomplete="off"
+                [(ngModel)]="itemPriseDecisionByOrigine.code"
+                disabled
+                name="code"
+                required
+                type="text"
+              />
+            </div>
+
+            <div class="col-md-3 col-sm-12 mb-2">
+              <label>Type de certificat : </label>
+              <input
+                class="form-control custom-input"
+                placeholder="Type certificat"
+                autocomplete="off"
+                [(ngModel)]="
+                  itemPriseDecisionByOrigine.adminTypeDocumentMedicalLibelle
+                "
+                disabled
+                name="adminTypeDocumentMedicalLibelle"
+                required
+                type="text"
+              />
+            </div>
+
+            <div class="col-md-4 col-sm-12 mb-2">
+              <label>Patient : </label>
+              <input
+                class="form-control custom-input"
+                placeholder="Caissier"
+                autocomplete="off"
+                [(ngModel)]="
+                  itemPriseDecisionByOrigine.dataConsultation.nomPrenom
+                "
+                disabled
+                name="enregistrerPar"
+                required
+                type="text"
+                style="text-transform: uppercase"
+              />
+            </div>
+
+            <div class="col-md-3 col-sm-12 mb-2">
+              <label>Médecin : </label>
+              <input
+                class="form-control custom-input"
+                placeholder="Caissier"
+                autocomplete="off"
+                [(ngModel)]="itemPriseDecisionByOrigine.enregistrePar"
+                disabled
+                name="enregistrePar"
+                required
+                type="text"
+                style="text-transform: uppercase"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <b style="color: #fb5a5b">Contenu certificat</b>
+            <hr />
+            <div class="col-12">
+              <div [innerHtml]="itemPriseDecisionByOrigine?.modele"></div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <!-- FIN CERTIFICAT -->
+
+      <!-- TRAITEMENT HONORAIRE -->
+      <div *ngIf="origine == codeCircuit.HONNORAIRE">
+        <fieldset class="custom-fieldset">
+          <legend>Détails honoraire</legend>
+
+          <div class="row">
+            <div class="col-2 mb-3">
+              <label>N° Honoraire : </label>
+              <input
+                class="form-control custom-input"
+                placeholder="N° honoraire"
+                autocomplete="off"
+                [(ngModel)]="itemPriseDecisionByOrigine.numeroHonoraire"
+                name="numH"
+                disabled
+                type="text"
+              />
+            </div>
+
+            <div class="col-md-2 col-sm-12 mb-3">
+              <label>Mois : </label>
+              <input
+                class="form-control custom-input"
+                disabled
+                placeholder="Mois"
+                autocomplete="off"
+                [(ngModel)]="itemPriseDecisionByOrigine.moisLetter"
+                name="moisLetter"
+                type="text"
+              />
+            </div>
+
+            <div class="col-md-2 col-sm-12 mb-3">
+              <label>Année : </label>
+              <input
+                class="form-control custom-input"
+                disabled
+                placeholder="Année"
+                autocomplete="off"
+                [(ngModel)]="itemPriseDecisionByOrigine.annee"
+                name="Annee"
+                type="text"
+              />
+            </div>
+
+            <div class="col-md-2 col-sm-12 mb-3">
+              <label>Net à payer : </label>
+              <input
+                class="form-control custom-input"
+                placeholder="Net à payer"
+                autocomplete="off"
+                [(ngModel)]="itemPriseDecisionByOrigine.netAPayer"
+                name="netAPayer"
+                mask="separator"
+                disabled
+                type="text"
+              />
+            </div>
+
+            <div class="col-4 mb-3">
+              <label>Vacataire : </label>
+              <input
+                disabled
+                class="form-control custom-input"
+                placeholder="Vacataire"
+                autocomplete="off"
+                [(ngModel)]="itemPriseDecisionByOrigine.identiteVacataire"
+                name="matric"
+                disabled
+                type="text"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div
+              class="col-12"
+              [class.isOverFlow]="listeItemByOrigine?.length > 15"
+            >
+              <fieldset class="custom-fieldset">
+                <legend>Détails des vacations</legend>
+
+                <div class="row">
+                  <div class="col-12">
+                    <table class="table table-condensed table-striped">
+                      <thead>
+                        <tr class="custom-table-head">
+                          <th style="width: 85px">
+                            <a style="cursor: pointer" title="Actualiser">
+                              <i class="fa fa-redo-alt"></i></a
+                            >&nbsp;&nbsp; #
+                          </th>
+                          <th>N° vacation</th>
+                          <th>Date arrivée</th>
+                          <th>Date départ</th>
+                          <th>Type validation</th>
+                          <th>Observation</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let item of listeItemByOrigine;
+                            let indice = index
+                          "
+                        >
+                          <td class="txt-align-center">{{ indice + 1 }}</td>
+                          <td>{{ item?.numeroVacation }}</td>
+                          <td>{{ item?.dateArrive }}</td>
+                          <td>{{ item?.dateDepart }}</td>
+                          <td>{{ item?.adminTypeVacationLibelle }}</td>
+                          <td>{{ item?.obervation }}</td>
+                        </tr>
+
+                        <tr
+                          *ngIf="
+                            !listeItemByOrigine ||
+                            listeItemByOrigine?.length == 0
+                          "
+                        >
+                          <td colspan="7" class="txt-align-center">
+                            Aucune donnée disponible
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <!-- FIN TRAITEMENT HONORAIRE -->
+
+      <!-- TRAITEMENT REMBOURSEMENT -->
+      <div *ngIf="origine == codeCircuit.REMBOURSEMENT_ACTE_EXTERNES">
+        <div class="row">
+          <div class="col-md-4 col-sm-6 mb-3">
+            <label>N°Demande :</label>
+            <input
+              class="form-control custom-input"
+              placeholder="N°Demande"
+              autocomplete="off"
+              [(ngModel)]="itemPriseDecisionByOrigine.numeroRemboursement"
+              [disabled]="true"
+              name="numeroRemboursement"
+              type="text"
+            />
+          </div>
+
+          <div class="col-md-4 col-sm-6 mb-3">
+            <label>N°Reçu ticket :</label>
+            <input
+              class="form-control custom-input"
+              placeholder="Libellé"
+              autocomplete="off"
+              [(ngModel)]="
+                itemPriseDecisionByOrigine.dataReglement.numeroReglement
+              "
+              [disabled]="true"
+              name="numRecuTic"
+              required
+              type="text"
+            />
+          </div>
+
+          <div class="col-md-4 col-sm-6 mb-3">
+            <label>Montant à rembourser : </label>
+            <input
+              class="form-control custom-input"
+              placeholder="Montant total"
+              autocomplete="off"
+              [(ngModel)]="
+                itemPriseDecisionByOrigine.dataReglement.montantARegler
+              "
+              [disabled]="true"
+              name="montantTotal"
+              mask="separator"
+              type="text"
+            />
+          </div>
+
+          <!-- <div class="col-md-3 col-sm-6 mb-3">
+                        <label>Montant payé : </label>
+                        <input class="form-control custom-input" placeholder="Montant payé" autocomplete="off" [(ngModel)]="itemPriseDecisionByOrigine.dataReglement.montantPayer" [disabled]="true"   name="paye"  mask="separator"  type="text">
+                    </div> -->
+        </div>
+
+        <div class="row">
+          <div class="col-12 mb-2">
+            <label>Justificatif : </label>
+            <textarea
+              rows="2"
+              class="form-control custom-input"
+              disabled
+              name="Justificatif"
+              [(ngModel)]="itemPriseDecisionByOrigine.justificatif"
+            >
+            </textarea>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-8 col-sm-12 mb-3">
+                <label>Nom et prénoms : </label>
+                <input
+                  class="form-control custom-input"
+                  placeholder="Nom & Prénoms"
+                  autocomplete="off"
+                  [(ngModel)]="itemPriseDecisionByOrigine.nomPrenomPatient"
+                  [disabled]="true"
+                  name="nomPrenom"
+                  required
+                  type="text"
+                />
+              </div>
+
+              <div class="col-md-4 col-sm-12 mb-3">
+                <label>Matricule : </label>
+                <input
+                  class="form-control custom-input"
+                  placeholder="Matricule"
+                  autocomplete="off"
+                  [(ngModel)]="itemPriseDecisionByOrigine.matriculePatient"
+                  [disabled]="true"
+                  name="matricule"
+                  required
+                  type="text"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="row"
+          *ngIf="
+            itemPriseDecisionByOrigine.medicaments &&
+            itemPriseDecisionByOrigine.medicaments.length
+          "
+        >
+          <div class="col-12">
+            <table class="table table-striped table-condensed">
+              <thead>
+                <tr>
+                  <th colspan="5" class="txt-align-center">
+                    Produits retournés
+                  </th>
+                </tr>
+                <tr class="custom-table-head">
+                  <th style="width: 30px" class="txt-align-center">#</th>
+                  <th>Produit</th>
+                  <th>Quantité</th>
+                  <th>Prix unitaire vente</th>
+                  <th>Montant</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr
+                  *ngFor="
+                    let item of itemPriseDecisionByOrigine.medicaments;
+                    let indice2 = index
+                  "
+                >
+                  <td class="txt-align-center">{{ indice2 + 1 }}</td>
+                  <td>{{ item?.nomMedivament }}</td>
+                  <td>{{ item?.quantite | moneyFormat }}</td>
+                  <td>{{ item?.prixUnitaireVente | moneyFormat }}</td>
+                  <td>
+                    {{ item?.prixUnitaireVente * item?.quantite | moneyFormat }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- FIN DE TRAITEMENT REMBOURSEMENT -->
+
+      <!-- TRAITEMENT REMISE -->
+      <div *ngIf="origine == codeCircuit.GC_DEMANDE_REMISE">
+        <fieldset class="custom-fieldset">
+          <form
+            class="m-1"
+            [ngBusy]="{
+              busy: busyGet,
+              message: 'Veuillez patienter ...',
+              backdrop: false
+            }"
+          >
+            <div class="row">
+              <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                <ng-container>
+                  <div class="details-info-part">
+                    <div class="row">
+                      <div class="col-md-8">
+                        <div class="row">
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+                            <label>N° Demande :</label>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="N° Demande"
+                              autocomplete="off"
+                              [(ngModel)]="
+                                itemReglement.dataDecomnpte.numDemande
+                              "
+                              [disabled]="true"
+                              name="numDemande"
+                              required
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
+                            <label>N° Décompte :</label>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="N° Décompte"
+                              autocomplete="off"
+                              [(ngModel)]="
+                                itemReglement.dataDecomnpte.numFacture
+                              "
+                              [disabled]="true"
+                              name="numFacture"
+                              required
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mb-2">
+                            <label>Date heure :</label>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Libellé"
+                              autocomplete="off"
+                              [(ngModel)]="
+                                itemReglement.dataDecomnpte.createdAt
+                              "
+                              [disabled]="true"
+                              name="numDateHeur"
+                              required
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">
+                            <label>N° Dossier:</label>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="numDossier"
+                              autocomplete="off"
+                              [(ngModel)]="
+                                itemReglement.dataDecomnpte.numeroDossierHospi
+                              "
+                              [disabled]="true"
+                              name="numeroDossierHospi"
+                              required
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">
+                            <label>Matricule : </label>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Matricule"
+                              autocomplete="off"
+                              [(ngModel)]="
+                                itemReglement.dataDecomnpte
+                                  .matriculeBeneficiaire
+                              "
+                              [disabled]="true"
+                              name="matriculeBeneficiaire"
+                              required
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mb-2">
+                            <label>Nom : </label>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Nom "
+                              autocomplete="off"
+                              [(ngModel)]="itemReglement.nomPatient"
+                              [disabled]="true"
+                              name="nomPatient"
+                              required
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
+                            <label>Prenoms : </label>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Prenom"
+                              autocomplete="off"
+                              [(ngModel)]="itemReglement.prenomPatient"
+                              [disabled]="true"
+                              name="prenomPatient"
+                              required
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
+                            <label>Médecin :</label>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="medecin"
+                              autocomplete="off"
+                              [(ngModel)]="itemReglement.medecin"
+                              [disabled]="true"
+                              (keyup.enter)="confirmSaveItem(itemReglement)"
+                              name="medecin"
+                              required
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+                            <label>Montant Total : </label>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="coutTotalActe"
+                              autocomplete="off"
+                              [(ngModel)]="itemReglement.coutTotalActe"
+                              [disabled]="true"
+                              name="coutTotalActe"
+                              required
+                              type="text"
+                              mask="separator"
+                            />
+                          </div>
+
+                          <div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+                            <label>Part Assurance : </label>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="partAssurance"
+                              autocomplete="off"
+                              [(ngModel)]="itemReglement.partAssurance"
+                              [disabled]="true"
+                              name="partAssurance"
+                              required
+                              type="text"
+                              mask="separator"
+                            />
+                          </div>
+
+                          <div class="col-lg-3 col-md-3 col-xs-3 col-sm-3">
+                            <label>Part patient : </label>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="partPartient"
+                              autocomplete="off"
+                              [(ngModel)]="itemReglement.partPartient"
+                              [disabled]="true"
+                              name="partPartient"
+                              required
+                              type="text"
+                              mask="separator"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4" style="border: solid #e9ecef">
+                        <div class="row">
+                          <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                            <label
+                              >Raison :
+                              <span class="required_champs">*</span></label
+                            >
+                            <input
+                              disabled
+                              class="form-control custom-input"
+                              placeholder="Raison"
+                              autocomplete="off"
+                              [(ngModel)]="itemRemise.raison"
+                              name="raison"
+                              required
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                            <label
+                              >Taux :
+                              <span class="required_champs">*</span></label
+                            >
+                            <input
+                              (keyup)="onEditTaux()"
+                              class="form-control custom-input"
+                              placeholder="Taux"
+                              autocomplete="off"
+                              [(ngModel)]="itemRemise.taux"
+                              name="taux"
+                              required
+                              mask="separator"
+                              type="text"
+                            />
+                          </div>
+
+                          <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                            <label
+                              >Valeur :
+                              <span class="required_champs">*</span></label
+                            >
+                            <input
+                              (keyup)="onEditValeur()"
+                              class="form-control custom-input"
+                              placeholder="Valeur"
+                              autocomplete="off"
+                              [(ngModel)]="itemRemise.valeur"
+                              name="valeur"
+                              mask="separator"
+                              required
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                        <div
+                          class="row body table-responsive"
+                          style="max-height: 400px; overflow: auto"
+                        >
+                          <span>Détail Décompte</span>
+                          <table
+                            class="table table-condensed table-striped table-hover table-details"
+                          >
+                            <thead>
+                              <tr class="custom-table-head">
+                                <th>
+                                  <a (click)="getItems()" title="Actualiser">
+                                    <i
+                                      class="fa fa-redo-alt"
+                                      style="font-size: 10px"
+                                    ></i
+                                  ></a>
+                                  Type Acte
+                                </th>
+                                <th style="text-align: left; width: 40%">
+                                  Designation
+                                </th>
+                                <th style="text-align: left; width: 10%">
+                                  Quantité
+                                </th>
+                                <th style="text-align: left; width: 10%">
+                                  Prix Unitaire
+                                </th>
+                                <th style="text-align: right">Montant</th>
+                                <th style="text-align: right">
+                                  Prise en charge
+                                </th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              <tr
+                                *ngFor="
+                                  let item of itemsActes;
+                                  let indice = index
+                                "
+                              >
+                                <td>{{ item?.libelle }}</td>
+                                <td colspan="5">
+                                  <table class="table">
+                                    <tbody
+                                      *ngFor="let item2 of item.datasElements"
+                                    >
+                                      <tr *ngIf="!item2.isTotal">
+                                        <td
+                                          style="text-align: left; width: 40%"
+                                        >
+                                          {{ item2.libelle }}
+                                        </td>
+                                        <td style="text-align: right">
+                                          {{ item2.quantite | moneyFormat }}
+                                        </td>
+                                        <td style="text-align: center">
+                                          {{ item2.prixUnitaire | moneyFormat }}
+                                        </td>
+                                        <td style="text-align: center">
+                                          {{
+                                            item2.prixUnitaire * item2.quantite
+                                              | moneyFormat
+                                          }}
+                                        </td>
+                                        <td style="text-align: right">
+                                          {{ item2.isPc ? "Oui" : "Non" }}
+                                        </td>
+                                      </tr>
+                                      <tr *ngIf="item2.isTotal" class="setBold">
+                                        <td
+                                          style="text-align: left; width: 40%"
+                                        >
+                                          {{ item2.libelle }}
+                                        </td>
+                                        <td style="text-align: right">
+                                          {{ item2.quantite | moneyFormat }}
+                                        </td>
+                                        <td style="text-align: center"></td>
+                                        <td style="text-align: center">
+                                          {{ item2.montantTotal | moneyFormat }}
+                                        </td>
+                                        <td style="text-align: center"></td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                              <tr *ngIf="!itemsActes || itemsActes.length == 0">
+                                <td colspan="12">
+                                  <div class="col-md-12 txt-align-center">
+                                    Aucune données disponible
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </form>
+        </fieldset>
+      </div>
+      <!-- FIN TRAITEMENT REMISE -->
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+      <fieldset class="custom-fieldset">
+        <legend>Prise de décision</legend>
+
+        <div class="row">
+          <div class="col-md-12 col-sm-12 mb-3">
+            <label
+              >Décision:
+              <span class="required_champs">*</span>
+            </label>
+
+            <select
+              class="form-control"
+              name="Décision"
+              [(ngModel)]="itemToSave.decision"
+            >
+              <option value="">--Choisissez--</option>
+              <option value="Valide">Valider</option>
+              <option value="Rejete">Rejeter</option>
+            </select>
+          </div>
+          <div class="col-12 mb-3">
+            <label
+              >Motif :
+              <span
+                *ngIf="itemToSave?.decision != 'Valide'"
+                class="required_champs"
+                >*</span
+              >
+            </label>
+            <textarea
+              rows="7"
+              class="form-control custom-input"
+              name="avis"
+              [(ngModel)]="itemToSave.libelle"
+            >
+            </textarea>
+          </div>
+
+          <div class="col-12">
+            <div class="btn-manager">
+              <button
+                type="button"
+                class="btn btn-md btn-cancel pull-right"
+                (click)="closeModal(true)"
+              >
+                Fermer
+              </button>
+
+              <button
+                type="button"
+                (click)="confirmSaveItem(itemToSave)"
+                class="btn btn-md custom_btn_primary pull-right"
+                [class.auth-spinner]="loading"
+              >
+                {{ itemToSave?.id ? "Modifier" : "Enregistrer" }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+</ng-container>
