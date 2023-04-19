@@ -35,6 +35,7 @@ import { PriseDeDecisionWorkflowComponent } from "./components/prise-de-decision
 import { AppAccessDirective } from "./directive/app-access.directive";
 import { ChartModule } from 'angular-highcharts';
 
+
 @NgModule({
   declarations: [
     MoneyFormatPipe,
@@ -78,6 +79,7 @@ import { ChartModule } from 'angular-highcharts';
     CKEditorModule,
     ChartModule,
     PopoverModule.forRoot(),
+   
     UiSwitchModule.forRoot({
       size: 'small',
       color: 'red',

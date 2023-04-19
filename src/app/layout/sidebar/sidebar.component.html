@@ -20,14 +20,14 @@
         <!-- Top Most level menu -->
         <li [class.active]="level1Menu === sidebarItem.moduleName && sidebarItem.submenu.length != 0"
           *ngFor="let sidebarItem of sidebarItems" [routerLinkActive]="sidebarItem.submenu.length != 0 ? '' : 'active'">
-          <div class="header" *ngIf="sidebarItem.groupTitle === true">{{sidebarItem.title | translate}}</div>
+          <div class="header" *ngIf="sidebarItem.groupTitle === true">{{sidebarItem.title }}</div>
           <a [routerLink]="sidebarItem.class === '' ? [sidebarItem.path] : null" *ngIf="!sidebarItem.groupTitle;" appAppAccess appAccess="{{sidebarItem?.code || ''}}"
             [ngClass]="[sidebarItem.class]" (click)="callLevel1Toggle($event, sidebarItem.moduleName)" class="menu-top">
             <!-- <i [ngClass]="[sidebarItem.iconType]">{{sidebarItem.icon}}</i> --> 
 
             <i [ngClass]="'fa fa-'+[sidebarItem.iconType]"></i>
 
-            <span class="hide-menu">{{sidebarItem.title | translate}}
+            <span class="hide-menu">{{sidebarItem.title}}
             </span>
             <span *ngIf="sidebarItem.badge != '' " [ngClass]="[sidebarItem.badgeClass]">{{sidebarItem.badge}}</span>
           </a>
@@ -39,7 +39,7 @@
               <a [routerLink]="sidebarSubItem.submenu.length > 0 ? null : [sidebarSubItem.path]"
                 (click)="callLevel2Toggle($event,sidebarSubItem.moduleName)" [ngClass]="[sidebarSubItem.class]">
                 <!-- <i [ngClass]="'fa fa-'+[sidebarSubItem.iconType]" *ngIf="sidebarSubItem.iconType"></i>  -->
-                {{sidebarSubItem.title | translate}}
+                {{sidebarSubItem.title }}
                 <i [ngClass]="'fa fa-link link-exist-children pull-right'"  *ngIf="sidebarSubItem.submenu && sidebarSubItem.submenu.length > 0"></i> 
               </a>
               <!-- Second level menu -->
@@ -50,7 +50,7 @@
                   <a [routerLink]="sidebarSubsubItem.submenu.length > 0 ? null : [sidebarSubsubItem.path]"
                     (click)="callLevel3Toggle($event,sidebarSubsubItem.moduleName)"
                     [ngClass]="[sidebarSubsubItem.class]">
-                     {{sidebarSubsubItem.title | translate}}
+                     {{sidebarSubsubItem.title }}
                      <i [ngClass]="'fa fa-link link-exist-children pull-right'"  *ngIf="sidebarSubsubItem.submenu && sidebarSubsubItem.submenu.length > 0"></i> 
                   </a>
 
@@ -61,7 +61,7 @@
                       <a [routerLink]="sidebarSubsubItemTrois.submenu.length > 0 ? null : [sidebarSubsubItemTrois.path]"
                         (click)="callLevel3Toggle($event,sidebarSubsubItemTrois.moduleName)"
                         [ngClass]="[sidebarSubsubItemTrois.class]">
-                         {{sidebarSubsubItemTrois.title | translate}}
+                         {{sidebarSubsubItemTrois.title }}
                       </a>
                     </li>
                   </ul>

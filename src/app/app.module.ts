@@ -41,6 +41,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelPropagation: false,
 };
 
+import { JwtModule } from "@auth0/angular-jwt";
+
+export function tokenGetter() {
+  return localStorage.getItem("accesToken");
+}
+
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, "assets/i18n/", ".json");
 }
@@ -71,6 +77,11 @@ export function createTranslateLoader(http: HttpClient): any {
     //   },
     // }),
     // core & shared
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter
+      },
+    }),
     CoreModule,
     SharedModule,
     FullCalendarModule,

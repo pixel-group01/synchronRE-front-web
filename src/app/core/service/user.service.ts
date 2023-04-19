@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UserToken } from '../models/userToken';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +9,8 @@ import { UserToken } from '../models/userToken';
 export class UserService {
 
   keySessionStorageUser: string = 'accesToken';
-  constructor() { }
+  constructor(
+    private jwtHelper: JwtHelperService) { }
 
   setAuthToken(dataToken:UserToken) {
     if(dataToken) {
@@ -25,6 +28,19 @@ export class UserService {
 
     return userToken;
   }
+
+  getCurrentUserInfo() {
+    let decode_data : any;
+
+    if(this.getCurrentToken().accessToken) {
+       decode_data = this.jwtHelper.decodeToken(this.getCurrentToken().accessToken) as any
+    }
+
+    return decode_data;
+  }
+
+ 
+
 
   removeCurrentUser() {
     sessionStorage.removeItem(this.keySessionStorageUser);
