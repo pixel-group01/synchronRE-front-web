@@ -33,7 +33,8 @@ export class ErrorInterceptor implements HttpInterceptor {
           error = "Connexion momentanement interronpue !";
         }
         
-        this.utilities.showNotification("snackbar-danger",error,"bottom","center");
+        // Je stringify en attendant que le backend ne trouve la solution
+        this.utilities.showNotification("snackbar-danger",JSON.stringify(error),"bottom","center");
         return throwError(error);
       })
     );

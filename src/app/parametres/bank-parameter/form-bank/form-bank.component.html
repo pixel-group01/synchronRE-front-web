@@ -83,9 +83,9 @@
       <button
         type="submit"
         class="btn btn-md custom_btn_primary pull-right"
-        [disabled]="!paramBankForm.valid || loading"
+        [disabled]="!paramBankForm.valid"
       >
-        Enregistrer
+        {{!bankToUpdate ? 'Enregistrer' : 'Modifier'}}
       </button>
 
       <button

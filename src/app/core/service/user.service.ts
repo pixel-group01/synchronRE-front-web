@@ -35,7 +35,7 @@ export class UserService {
     if(this.getCurrentToken().accessToken) {
        decode_data = this.jwtHelper.decodeToken(this.getCurrentToken().accessToken) as any
     }
-
+    
     return decode_data;
   }
 

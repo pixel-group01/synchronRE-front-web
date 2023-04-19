@@ -21,9 +21,6 @@ export class JwtInterceptor implements HttpInterceptor {
     // add authorization header with jwt token if available
     let currentUser = this.userService.getCurrentToken(); // this.authenticationService.currentUserValue;
 
-    console.log(" request in interceptor jwrt ",request);
-    
-    console.log(" currentUser ",currentUser); 
     let headers: HttpHeaders = request?.headers;
     if (currentUser && currentUser.accessToken) {
 
@@ -31,16 +28,6 @@ export class JwtInterceptor implements HttpInterceptor {
       headers = headers.append('Content-Type', 'application/json');
       headers = headers.append('Access-Control-Allow-Methods', '*');
       headers = headers.append('Access-Control-Allow-Origin', '*');
-      // request = request.clone({
-      //   setHeaders: {
-      //     Authorization: `Bearer ${currentUser.accessToken}`,
-      //   },
-      // });
-
-       //  if(this.user && this.user.token) 
-        //  {
-        //     headers = headers.append('token', this.user.token);
-        //  }
 
          request = request.clone({
                         headers: headers,

@@ -86,7 +86,7 @@ export const ROUTES: RouteInfo[] = [
     code: "PARAM-NAV",
     submenu: [
       {
-        path: "/parametres/administratif",
+        path: "/parametres/country",
         title: "Pays",
         moduleName: "parametres",
         iconType: "",
@@ -99,7 +99,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: "/parametres/bureau-entrees",
+        path: "/parametres/statut",
         title: "Statuts",
         moduleName: "parametres",
         iconType: "",
@@ -112,7 +112,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: "/parametres/gestion-commercial",
+        path: "/parametres/branche",
         title: "Branche",
         moduleName: "parametres",
         iconType: "",
@@ -125,7 +125,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: "/parametres/unite-de-soin",
+        path: "/parametres/cession-legal",
         title: "Cession legale",
         moduleName: "parametres",
         iconType: "",
@@ -151,20 +151,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: "/parametres/unite-de-soin",
-        title: "Cession legale",
-        moduleName: "parametres",
-        iconType: "",
-        icon: "",
-        class: "ml-menu",
-        groupTitle: false,
-        badge: "",
-        badgeClass: "",
-        code: "PARAM-UNITE-SOIN",
-        submenu: [],
-      },
-      {
-        path: "/parametres/unite-de-soin",
+        path: "/parametres/couverture",
         title: "Couverture",
         moduleName: "parametres",
         iconType: "",

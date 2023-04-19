@@ -14,12 +14,32 @@ import { SharedModule } from "../shared/shared.module";
 import { BankParameterComponent } from './bank-parameter/bank-parameter.component';
 import { FormBankComponent } from './bank-parameter/form-bank/form-bank.component';
 import { BankService } from "../core/service/bank.service";
+import { CountryParameterComponent } from './country-parameter/country-parameter.component';
+import { FormCountryComponent } from './country-parameter/form-country/form-country.component';
+import { StatutParameterComponent } from './statut-parameter/statut-parameter.component';
+import { FormStatutComponent } from './statut-parameter/form-statut/form-statut.component';
+import { CessionLegalComponent } from './cession-legal/cession-legal.component';
+import { CouvertureParameterComponent } from './couverture-parameter/couverture-parameter.component';
+import { BrancheParameterComponent } from './branche-parameter/branche-parameter.component';
+import { FormBranchParameterComponent } from './branche-parameter/form-branch-parameter/form-branch-parameter.component';
+import { FormCouvertureComponent } from './couverture-parameter/form-couverture/form-couverture.component';
+import { FormCessionComponent } from './cession-legal/form-cession/form-cession.component';
 
 @NgModule({
   declarations: [
     SampleComponent,
     BankParameterComponent,
     FormBankComponent,
+    CountryParameterComponent,
+    FormCountryComponent,
+    StatutParameterComponent,
+    FormStatutComponent,
+    CessionLegalComponent,
+    CouvertureParameterComponent,
+    BrancheParameterComponent,
+    FormBranchParameterComponent,
+    FormCouvertureComponent,
+    FormCessionComponent,
   ],
   imports: [
     CommonModule,

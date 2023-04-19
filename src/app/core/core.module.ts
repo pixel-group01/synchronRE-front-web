@@ -10,7 +10,8 @@ import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [CommonModule,ModalModule.forRoot(),MatSnackBarModule],
   providers: [
     RightSidebarService,

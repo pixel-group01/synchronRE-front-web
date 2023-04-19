@@ -30,6 +30,14 @@ const routes: Routes = [
           ),
       },
       {
+        path: "business",
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import("./business-manager/business-manager.module").then(
+            (m) => m.BusinessManagerModule
+          ),
+      },
+      {
         path: "parametres",
         canActivate: [AuthGuard],
         loadChildren: () =>

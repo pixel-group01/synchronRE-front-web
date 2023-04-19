@@ -89,6 +89,9 @@ export class UtilitiesService {
       return item;
   }
 
+  getMessageOperationSuccessFull() {
+    return "Opération effectuée avec succès !"
+  }
   
   formatMsgServeur(msg) {
     var messageError = msg;

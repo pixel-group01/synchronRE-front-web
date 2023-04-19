@@ -1,35 +1,28 @@
 import { Injectable } from '@angular/core';
 import { RestClientService } from './rest-client.service';
-import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BankService {
 
-  constructor(private restClient:RestClientService,private http:HttpClient) { }
+  constructor(private restClient:RestClientService) { }
 
   create = (body:any) => {
-
-    let dataToSend = {...body}
-    return this.http
-      .post<any>(`${environment.apiUrl}banques/create`, dataToSend)
-      .pipe(
-        map((response:any) => {
-          return response;
-        })
-      );
+    return this.restClient.post('banques/create',body)
   } 
 
-  getAllBank = () => {
-
-    //http://localhost:5001/banques/list?page=0&size=10&key=tes
-    return this.http.get(environment.apiUrl+'banques/list?page=0&size=10&key=blala');
+  getAll = () => {
+    return this.restClient.get('banques/list');
   }
  
+  getByCriteria = (index:number = 0,size:number=10,key?:string) => {
+    let endPointFinal = "banques/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
+    return this.restClient.get(endPointFinal);
+  }
+
   update = (body:any) => {
-    return this.http.put(environment.apiUrl+'banques/update',body)
+    return this.restClient.put('banques/update',body)
   }
 }

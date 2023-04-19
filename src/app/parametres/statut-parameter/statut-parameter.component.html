@@ -1,0 +1,127 @@
+<section class="content">
+    <div class="content-block">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header mb-3">
+                        <h2><strong>Paramètrage</strong> statut</h2>
+                    </div>
+
+                    <div class="body table-responsive p-10-important" [ngBusy]="{
+              busy: busyGet,
+              message: 'Veuillez patienter ...',
+              backdrop: false
+            }">
+                        <table class="table table-condensed table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th colspan="5">
+                                        <div class="row mt-4">
+                                            <div class="col-md-4">
+                                                <input [(ngModel)]="itemToSearch.libelle"
+                                                    class="form-control custom-input pull-left"
+                                                    placeholder="Rechercher ..."
+                                                    (keyup)="currentPage = 1; getItems()" />
+                                            </div>
+
+                                            <div class="col-md-8">
+                                                <button type="button" class="btn btn-md custom_btn_primary pull-right"
+                                                    (click)="openModal(null, templateCrud)">
+                                                    <i class="fa fa-plus"></i>&nbsp; Ajouter un statut
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+
+                                <tr class="custom-table-head">
+                                    <th class="txt-align-center-counter-row">
+                                        <a (click)="currentPage = 1; getItems()" title="Actualiser">
+                                            <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                                    </th>
+                                    <th>Code</th>
+                                    <th>Libellé</th>
+                                    <th>Type</th>
+                                    <th class="txt-align-center">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let item of items; let indice = index">
+                                    <td class="txt-align-center">
+                                        {{ getExactlyNumberRow(this.currentPage, indice) }}
+                                    </td>
+                                    <td>{{ item?.staCode }}</td>
+                                    <td>{{ item?.staLibelle }}</td>
+                                    <td>{{ item?.staType }}</td>
+                                    <td class="custom-width-td-action">
+                                        <div class="custom-td-action">
+                                            <a title="Modifier" (click)="openModal(item, templateCrud)"
+                                                class="custom-btn-update">
+                                                <i class="fa fa-edit"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tfoot>
+                                <tr *ngIf="items && items.length > 0">
+                                    <td colspan="5">
+                                        <div class="row pagination-part">
+                                            <div class="col-md-9" style="text-align: center">
+                                                <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage"
+                                                    [totalItems]="totalItems" [(ngModel)]="currentPage"
+                                                    class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;"
+                                                    firstText="&laquo;" lastText="&raquo;"
+                                                    (pageChanged)="pageChanged($event)"></pagination>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="paginator-per-page">
+                                                    <app-element-by-page-paginator
+                                                        (paginationChange)="changePaginationSize($event)"
+                                                        [defaultItemPerPage]="itemsPerPage"></app-element-by-page-paginator>
+
+                                                    <span class="span_total_entree pull-right">Total : {{ totalItems
+                                                        }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr *ngIf="!items || items.length == 0">
+                                    <td colspan="5">
+                                        <div class="col-md-12 txt-align-center">
+                                            Aucune données disponible
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enregistrer une depense -->
+<ng-template #templateCrud>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">
+            {{
+            itemToSave?.staId
+            ? "Modification d'un statut"
+            : "Enregistrement d'un statut"
+            }}
+        </h4>
+
+        <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-form-statut (closeModal)="closeModal($event)" [itemToUpdate]="itemToSave"></app-form-statut>
+    </div>
+</ng-template>
