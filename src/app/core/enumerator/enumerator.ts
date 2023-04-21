@@ -2,6 +2,11 @@ export enum Enumerator {
 
 }
 
+export enum enumStatutAffaire {
+    SAISIE = 'SOI',
+    PLACE = 'LAB',
+    ARCHIVE = 'RAD',
+}
 
 export enum enumCodeTypeActe {
     SOINS = 'SOI',

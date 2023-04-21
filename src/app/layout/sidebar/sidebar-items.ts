@@ -19,9 +19,9 @@ export const ROUTES: RouteInfo[] = [
   },
   // Treso
   {
-    path: "/tresorerie/main-tresorerie",
+    path: "",
     title: "Gestion des affaires",
-    moduleName: "tresorerie",
+    moduleName: "business",
     iconType: "money-bill",
     icon: "monetization_on",
     class: "menu-toggle",
@@ -31,9 +31,9 @@ export const ROUTES: RouteInfo[] = [
     code: "TRESO-NAV",
     submenu: [
       {
-        path: "/tresorerie/main-tresorerie/mouvement-caisse",
+        path: "/business/affaire-facultatives",
         title: "Facultatives",
-        moduleName: "main-tresorerie",
+        moduleName: "business",
         iconType: "list",
         icon: "plus",
         class: "ml-menu",
@@ -163,6 +163,20 @@ export const ROUTES: RouteInfo[] = [
         code: "PARAM-UNITE-SOIN",
         submenu: [],
       },
+      {
+        path: "/parametres/cedente",
+        title: "Cédentes",
+        moduleName: "parametres",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        code: "PARAM-UNITE-SOIN",
+        submenu: [],
+      },
+      
     ],
   },
 

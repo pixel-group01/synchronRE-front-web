@@ -24,6 +24,8 @@ import { BrancheParameterComponent } from './branche-parameter/branche-parameter
 import { FormBranchParameterComponent } from './branche-parameter/form-branch-parameter/form-branch-parameter.component';
 import { FormCouvertureComponent } from './couverture-parameter/form-couverture/form-couverture.component';
 import { FormCessionComponent } from './cession-legal/form-cession/form-cession.component';
+import { CedenteParameterComponent } from './cedente-parameter/cedente-parameter.component';
+import { FormCedenteComponent } from './cedente-parameter/form-cedente/form-cedente.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { FormCessionComponent } from './cession-legal/form-cession/form-cession.
     FormBranchParameterComponent,
     FormCouvertureComponent,
     FormCessionComponent,
+    CedenteParameterComponent,
+    FormCedenteComponent,
   ],
   imports: [
     CommonModule,

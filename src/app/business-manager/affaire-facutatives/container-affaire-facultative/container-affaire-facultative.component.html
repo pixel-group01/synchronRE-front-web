@@ -1,0 +1,42 @@
+<section class="content">
+    <div class="content-block">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header mb-3">
+                        <h2><strong>Gestion des</strong> affaires facultatives</h2>
+                    </div>
+
+                    <div class="body">
+                        <mat-tab-group>
+                            <mat-tab label="Affaires saisies">
+                                <ng-template matTabContent>
+                                        <div class="header-btn-new-affaire">
+                                            <button type="button" class="btn btn-md custom_btn_primary pull-right"
+                                            >
+                                            <i class="fa fa-plus"></i>&nbsp; Ajouter une cédente
+                                        </button>
+                                        </div>
+                                        <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.SAISIE"></app-list-affaires-facultatives>
+                                </ng-template>
+                            </mat-tab>
+
+                            <mat-tab label="Affaires placées">
+                                <ng-template matTabContent>
+                                    <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.PLACE"></app-list-affaires-facultatives>
+                                </ng-template>
+                            </mat-tab>
+
+                            <mat-tab label="Affaires archivées">
+                                <ng-template matTabContent>
+                                    <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.ARCHIVE"></app-list-affaires-facultatives>
+                                </ng-template>
+                            </mat-tab>
+
+                        </mat-tab-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
