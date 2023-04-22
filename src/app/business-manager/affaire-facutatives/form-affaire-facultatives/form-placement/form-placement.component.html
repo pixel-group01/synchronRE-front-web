@@ -1,0 +1,128 @@
+<div class="placement-container">
+    <form name="placement">
+
+        <div class="row">
+            <div class="col-12 mb-3">
+                <fieldset>
+                    <legend>
+                        Informations sur l'affaire
+                    </legend>
+                    <div>
+                        <app-details-information-identification></app-details-information-identification>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-12 mt-3 mb-3">
+                <fieldset>
+                    <legend>
+                        Nouveau placement
+                    </legend>
+
+                    <div class="row">
+
+                        <div class="col-md-3 col-xs-12 mb-3">
+                            <label>Cessionnaire :
+                                <span class="required_champs">*</span>
+                            </label>
+                            <input class="form-control custom-input" placeholder="Filiale" autocomplete="off"
+                                name="repCapital" mask="separator" type="text" />
+                        </div>
+
+                        <div class="col-md-3 col-xs-12 mb-3">
+                            <label>Interlocuteur:
+                            </label>
+                            <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
+                                name="repTaux" type="text" />
+                        </div>
+
+                        <div class="col-md-2 col-xs-12 mb-3">
+                            <label>Capital:
+                            </label>
+                            <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
+                                name="repTaux" type="text" />
+                        </div>
+
+                        <div class="col-md-1 col-xs-12 mb-3">
+                            <label>Part:
+                            </label>
+                            <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
+                                name="repTaux" type="text" />
+                        </div>
+
+                        <div class="col-md-1 col-xs-12 mb-3">
+                            <label>SC/C:
+                            </label>
+                            <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
+                                name="repTaux" type="text" />
+                        </div>
+
+                        <div class="col-md-2 col-xs-12 mb-3">
+                            <button class="btn btn-xs btn-default btn-add" type="button"> Ajouter </button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-12 mb-3 table-responsive">
+                <fieldset>
+                    <legend>
+                        Liste des placements
+                    </legend>
+
+                    <div class="row">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr class="custom-table-head">
+                                    <th>#</th>
+                                    <th>Cessionnaire</th>
+                                    <th>Interlocuteur</th>
+                                    <th>Capital</th>
+                                    <th>Part(%)</th>
+                                    <th>S/C</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>SNDI</td>
+                                    <td>SALIF</td>
+                                    <td>20 000</td>
+                                    <td>10</td>
+                                    <td>5</td>
+                                    <td style="text-align: center;">
+                                        <a title="Supprimer" style="color: red;">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="custom-btn-save-manager">
+            <button type="submit" class="btn btn-md custom_btn_primary pull-right">
+                Enregistrer
+            </button>
+
+            <button type="button" class="btn btn-md btn-cancel pull-right" (click)="gotoPreviousStep()">
+                Précedent
+            </button>
+        </div>
+
+    </form>
+</div>

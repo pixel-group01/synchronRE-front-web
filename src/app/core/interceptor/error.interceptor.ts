@@ -26,7 +26,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           location.reload();
         }
 
-        let error = err.error || err.error.message || err.statusText;
+        let error = err?.error || err?.error?.message || err?.statusText;
 
         
         if(err.statusText === 'Unknown Error') {

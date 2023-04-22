@@ -1,0 +1,234 @@
+<div class="repartition-container">
+    <form name="form-repartition" [formGroup]="formulaireGroup" (ngSubmit)="confirmSaveItem()">
+
+        <div class="row">
+            <div class="col-12">
+                <fieldset>
+                    <legend>
+                        Informations sur l'affaire
+                    </legend>
+
+                    <div>
+                        <app-details-information-identification></app-details-information-identification>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="row mt-3 mb-3">
+
+            <div class="col-md-6 col-xs-12">
+                <div class="row">
+
+                    <div class="col-12 mt-3 mb-3">
+                        <fieldset>
+                            <legend>
+                                Repartition filiale
+                            </legend>
+
+                            <div class="row">
+
+                                <div class="col-md-6 col-xs-12 mb-3">
+                                    <label>Filiale :
+                                        <span class="required_champs">*</span>
+                                    </label>
+                                    <input class="form-control custom-input" placeholder="Filiale" autocomplete="off"
+                                        formControlName="repCapital" name="repCapital" mask="separator"
+                                        [class.errorInputForm]="getFormFiledsValue('repCapital')?.invalid && getFormFiledsValue('repCapital')?.touched"
+                                        type="text" />
+                                    <small class="text-danger"
+                                        *ngIf="(getFormFiledsValue('repCapital')?.dirty || getFormFiledsValue('repCapital')?.touched) && getFormFiledsValue('repCapital')?.invalid && getFormFiledsValue('repCapital')?.errors?.['required']">
+                                        Ce champs est obligatoire
+                                    </small>
+                                </div>
+
+                                <div class="col-md-6 col-xs-12 mb-3">
+                                    <label>Taux (%) :
+                                    </label>
+                                    <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
+                                        formControlName="repTauxBesoinFac" name="repTaux"
+                                        [class.errorInputForm]="getFormFiledsValue('repTaux')?.invalid && getFormFiledsValue('repTaux')?.touched"
+                                        type="text" />
+                                    <small class="text-danger"
+                                        *ngIf="(getFormFiledsValue('repTaux')?.dirty || getFormFiledsValue('repTaux')?.touched) && getFormFiledsValue('repTaux')?.invalid && getFormFiledsValue('repTaux')?.errors?.['required']">
+                                        Ce champs est obligatoire
+                                    </small>
+                                </div>
+
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="col-12 mt-3 mb-3">
+                        <fieldset>
+                            <legend>
+                                Informations cessions legales
+                            </legend>
+
+                            <div class="row">
+
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-condensed table-striped table-hover">
+                                        <thead>
+                                            <tr class="custom-table-head">
+                                                <th>Libellé</th>
+                                                <th>Capitaux</th>
+                                                <th>Part (%)</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <td>CL1 FICA</td>
+                                                <td>
+                                                    500 000
+                                                </td>
+                                                <td>
+                                                    10%
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>CL2 FILIALE FICA</td>
+                                                <td>
+                                                    1 500 000
+                                                </td>
+                                                <td>
+                                                    30%
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <fieldset>
+                            <legend>
+                                Cession FAC
+                            </legend>
+
+                            <div class="row">
+
+                                <div class="col-md-6 col-xs-12 mb-3">
+                                    <label>Besoin FAC :
+                                        <span class="required_champs">*</span>
+                                    </label>
+                                    <input class="form-control custom-input" placeholder="Filiale" autocomplete="off"
+                                        formControlName="repCapital" name="repCapital" mask="separator"
+                                        [class.errorInputForm]="getFormFiledsValue('repCapital')?.invalid && getFormFiledsValue('repCapital')?.touched"
+                                        type="text" />
+                                    <small class="text-danger"
+                                        *ngIf="(getFormFiledsValue('repCapital')?.dirty || getFormFiledsValue('repCapital')?.touched) && getFormFiledsValue('repCapital')?.invalid && getFormFiledsValue('repCapital')?.errors?.['required']">
+                                        Ce champs est obligatoire
+                                    </small>
+                                </div>
+
+                                <div class="col-md-6 col-xs-12 mb-3">
+                                    <label>Taux (%) :
+                                    </label>
+                                    <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
+                                        formControlName="repTaux" name="repTaux"
+                                        [class.errorInputForm]="getFormFiledsValue('repTauxBesoinFac')?.invalid && getFormFiledsValue('repTauxBesoinFac')?.touched"
+                                        type="text" />
+                                    <small class="text-danger"
+                                        *ngIf="(getFormFiledsValue('repTauxBesoinFac')?.dirty || getFormFiledsValue('repTauxBesoinFac')?.touched) && getFormFiledsValue('repTauxBesoinFac')?.invalid && getFormFiledsValue('repTauxBesoinFac')?.errors?.['required']">
+                                        Ce champs est obligatoire
+                                    </small>
+                                </div>
+
+                            </div>
+                        </fieldset>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-xs-12 mt-3">
+                <fieldset>
+                    <legend>
+                        Repartition traitée
+                    </legend>
+
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-condensed table-striped table-hover">
+                                <thead>
+                                    <tr class="custom-table-head">
+                                        <th></th>
+                                        <th>Capitaux</th>
+                                        <th>Part (%)</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>Restriction</td>
+                                        <td>
+                                            <input class="form-control custom-input" placeholder="Capital"
+                                                autocomplete="off" mask="separator" type="text" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control custom-input" placeholder="Part (%)"
+                                                autocomplete="off" mask="separator" type="text" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Traité XL</td>
+                                        <td>
+                                            <input class="form-control custom-input" placeholder="Capital"
+                                                autocomplete="off" mask="separator" type="text" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control custom-input" placeholder="Part (%)"
+                                                autocomplete="off" mask="separator" type="text" />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Traité Facob</td>
+                                        <td>
+                                            <input class="form-control custom-input" placeholder="Capital"
+                                                autocomplete="off" mask="separator" type="text" />
+                                        </td>
+                                        <td>
+                                            <input class="form-control custom-input" placeholder="Part (%)"
+                                                autocomplete="off" mask="separator" type="text" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+
+        <div class="custom-btn-save-manager">
+            <button
+              type="submit"
+              class="btn btn-md custom_btn_primary pull-right"
+              
+            >
+              {{itemToUpdate?.affId ? 'Modifier' : 'Enregistrer et continuer'}}
+            </button>
+      
+            <button
+              type="button"
+              class="btn btn-md btn-cancel pull-right"
+              (click)="gotoPreviousStep()"
+            >
+              Précedent
+            </button>
+          </div>
+
+    </form>
+</div>

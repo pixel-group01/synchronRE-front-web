@@ -1,0 +1,103 @@
+
+.container-affaire-facultative {
+    .step-evolution {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        padding: 5px 0px 5px;
+        width: 100%;
+        z-index: 0;
+        .step-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10000;
+    
+            i {
+                color: var(--ion-color-medium-tint);
+                margin-top: 62px;
+                position: absolute;
+                font-size: 18px;
+                border: 2px solid var(--ion-color-medium);
+                border-radius: 50%;
+                padding: 1px 2px 0px 2px;
+                background-color: #fff;
+                aspect-ratio: 1;
+                display: flex;
+                align-items: center;
+            }
+    
+            .title-stepper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 200px;
+                // border-bottom: 10px solid var(--oneci-orange);
+    
+                span {
+                    display: block;
+                    text-align: center;
+                    color: var(--ion-color-medium);
+                    font-size: 12px;
+                }
+    
+                b {
+                    font-size: 27px;
+                    color: var(--ion-color-medium);
+                }
+            }
+    
+            &.active-stepper {
+                i {
+                    color: var(--secondary-color);
+                    border: 2px solid var(--secondary-color);
+    
+                }
+    
+                .title-stepper {
+    
+                    b,
+                    span {
+                        color: var(--secondary-color);
+                    }
+    
+                }
+            }
+    
+            &.good-stepper {
+    
+                i {
+                    color: var(--cie-color-secondary);
+                    border: 2px solid var(--ion-color-success-tint);
+                }
+    
+                .title-stepper {
+    
+                    b,
+                    span {
+                        color: var(--cie-color-secondary);
+                    }
+    
+                }
+            }
+        }
+    
+        .divider-evolution {
+            position: absolute;
+            height: 4px;
+            border-bottom: 3px dashed var(--grey-color);
+            width: 100%;
+            z-index: 0;
+            margin-top: 92px;
+        }
+    }
+    
+    .stepper-body {
+        width: 100%;
+        padding: 0px;
+        margin-top: 45px;
+    }
+}
+

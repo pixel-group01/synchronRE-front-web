@@ -1,0 +1,60 @@
+<div class="container-affaire-facultative">
+
+    <div class="step-evolution">
+        <div
+          class="step-item"
+          [class.active-stepper]="stepWizard == 1"
+          [class.good-stepper]="stepWizard > 1"
+        >
+          <div class="title-stepper">
+            <b>1</b>
+            <span>Indentification</span>
+          </div>
+          <i class="fa fa-circle"></i>
+        </div>
+
+        <div
+          class="step-item"
+          [class.active-stepper]="stepWizard == 2"
+          [class.good-stepper]="stepWizard > 2"
+        >
+          <div class="title-stepper">
+            <b>2</b>
+            <span>Repartition</span>
+          </div>
+          <i class="fa fa-circle"></i>
+        </div>
+
+        <div
+          class="step-item"
+          [class.active-stepper]="stepWizard == 3"
+          [class.good-stepper]="stepWizard > 3"
+        >
+          <div class="title-stepper">
+            <b>3</b>
+            <span>Placement</span>
+          </div>
+          <i class="fa fa-circle"></i>
+        </div>
+
+        <div class="divider-evolution"></div>
+      </div>
+
+      <div class="stepper-body">
+        <div class="stepper-form">
+            <ng-container *ngIf="stepWizard == 1">
+                <app-form-identification (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" ></app-form-identification>
+            </ng-container>
+ 
+            <ng-container *ngIf="stepWizard == 2">
+                <app-form-repartition  (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" ></app-form-repartition>
+            </ng-container>
+
+            <ng-container *ngIf="stepWizard == 3">
+                <app-form-placement></app-form-placement>
+            </ng-container>
+
+        </div>
+      </div>
+
+</div>

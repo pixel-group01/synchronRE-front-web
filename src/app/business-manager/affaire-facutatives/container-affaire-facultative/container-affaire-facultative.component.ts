@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { enumStatutAffaire } from 'src/app/core/enumerator/enumerator';
 
 @Component({
@@ -9,10 +10,24 @@ import { enumStatutAffaire } from 'src/app/core/enumerator/enumerator';
 export class ContainerAffaireFacultativeComponent implements OnInit {
 
   statutAffaire : any = {}
-  constructor() {
+  modalRef: BsModalRef;
+  
+  constructor(private modalService: BsModalService) {
     this.statutAffaire = enumStatutAffaire;
   }
 
+
+  openModal(template: TemplateRef<any>) {
+
+    let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-lg'};
+
+    this.modalRef = this.modalService.show(template,config);
+  }
+
+  closeFormModal($event:boolean){
+    this.modalRef.hide();
+  }
+  
   ngOnInit(): void {
   }
 

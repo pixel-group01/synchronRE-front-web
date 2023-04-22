@@ -481,3 +481,20 @@ button {
 .errorInputForm {
   border: 1px solid var(--danger-color);
 }
+
+fieldset {
+  border: 1px solid var(--grey-color);
+  padding: 5px;
+  border-radius: 5px;
+
+  legend {
+      width: auto;
+      margin-bottom: initial;
+      font-weight: bold;
+      font-size: 1rem;
+      margin-top: -20px;
+      background: #fff;
+      padding: 0 10px;
+      color: var(--primary-color);
+  }
+}

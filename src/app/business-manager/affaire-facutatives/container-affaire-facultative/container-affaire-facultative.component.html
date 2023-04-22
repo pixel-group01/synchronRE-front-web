@@ -12,9 +12,9 @@
                             <mat-tab label="Affaires saisies">
                                 <ng-template matTabContent>
                                         <div class="header-btn-new-affaire">
-                                            <button type="button" class="btn btn-md custom_btn_primary pull-right"
+                                            <button type="button" class="btn btn-md custom_btn_primary pull-right" (click)="openModal(templateNewBusiness)"
                                             >
-                                            <i class="fa fa-plus"></i>&nbsp; Ajouter une cédente
+                                            <i class="fa fa-plus"></i>&nbsp; Nouvelle affaire
                                         </button>
                                         </div>
                                         <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.SAISIE"></app-list-affaires-facultatives>
@@ -40,3 +40,20 @@
         </div>
     </div>
 </section>
+
+
+<!-- Enregistrement template -->
+<ng-template #templateNewBusiness>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">
+           Nouvelle affaire
+        </h4>
+
+        <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="modal-body">
+       <app-form-affaire-facultatives  (closeModal)="closeFormModal($event)"></app-form-affaire-facultatives>
+    </div>
+</ng-template>
