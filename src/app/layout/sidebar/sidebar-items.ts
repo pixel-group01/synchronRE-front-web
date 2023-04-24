@@ -1,3 +1,4 @@
+import { enumCodeACL } from "src/app/core/enumerator/enumerator";
 import { RouteInfo } from "./sidebar.metadata";
 
 export const ROUTES: RouteInfo[] = [
@@ -14,6 +15,8 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: "",
     code: "DASHBORD-NAV",
     acl: "",
+    codeAclAdmin: enumCodeACL.ADMIN,
+    codeAclCedente: enumCodeACL.CEDANTE,
     submenu: [],
   },
   // Affaire
@@ -28,6 +31,8 @@ export const ROUTES: RouteInfo[] = [
     badge: "",
     badgeClass: "",
     code: "TRESO-NAV",
+    codeAclAdmin: enumCodeACL.ADMIN,
+    codeAclCedente: enumCodeACL.CEDANTE,
     submenu: [
       {
         path: "/business/affaire-facultatives",
@@ -70,6 +75,8 @@ export const ROUTES: RouteInfo[] = [
     badge: "",
     badgeClass: "",
     code: "TRESO-NAV",
+    codeAclAdmin: enumCodeACL.ADMIN,
+    codeAclCedente: enumCodeACL.CEDANTE,
     submenu: [
       {
         path: "/business/affaire-facultatives",
@@ -125,6 +132,8 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: "",
     code: "DASHBORD-NAV",
     acl: "",
+    codeAclAdmin: enumCodeACL.ADMIN,
+    codeAclCedente: enumCodeACL.CEDANTE,
     submenu: [],
   },
 
@@ -139,6 +148,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
+    codeAclAdmin: enumCodeACL.ADMIN,
     code: "GEST-ADMINISTRATIVE-NAV",
     submenu: [
       {
@@ -265,6 +275,7 @@ export const ROUTES: RouteInfo[] = [
     badge: "",
     badgeClass: "",
     code: "PARAM-NAV",
+    codeAclAdmin: enumCodeACL.ADMIN,
     submenu: [
       {
         path: "/parametres/country",
@@ -372,6 +383,7 @@ export const ROUTES: RouteInfo[] = [
     badge: "",
     badgeClass: "",
     code: "ADMIN-NAV",
+    codeAclAdmin: enumCodeACL.ADMIN,
     submenu: [
       {
         path: "/administration/utilisateurs",

@@ -29,6 +29,7 @@
           class="step-item"
           [class.active-stepper]="stepWizard == 3"
           [class.good-stepper]="stepWizard > 3"
+          *ngIf="!user?.cedId"
         >
           <div class="title-stepper">
             <b>3</b>

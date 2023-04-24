@@ -5,6 +5,8 @@ import { BusinessOptional } from 'src/app/core/models/businessOptional';
 import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
 import { Cedante } from 'src/app/core/models/cedante';
 import { CedanteService } from 'src/app/core/service/cedante.service';
+import { UserService } from 'src/app/core/service/user.service';
+import { User } from 'src/app/core/models/user';
 
 @Component({
   selector: 'app-list-affaires-facultatives',
@@ -21,9 +23,15 @@ export class ListAffairesFacultativesComponent implements OnInit {
   itemsPerPage: number = 10;
   totalItems: number;
   busyGet: Subscription;
-
+  user : User;
   @Input() statutAffaire! : string;
-  constructor(private businessOptionalService:BusinessOptionalService,private cedenteService:CedanteService) {
+
+  constructor(private businessOptionalService:BusinessOptionalService,private cedenteService:CedanteService,private userService:UserService) {
+    this.user = this.userService.getCurrentUserInfo();
+
+    if(this.user.cedId) {
+      this.itemToSearch.cedenteId = this.user.cedId;
+    }
   }
 
   pageChanged(event: any): void {

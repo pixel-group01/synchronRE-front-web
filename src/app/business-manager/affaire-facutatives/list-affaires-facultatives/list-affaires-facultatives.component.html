@@ -17,6 +17,7 @@
               <ng-select
                 [(ngModel)]="itemToSearch.cedenteId"
                 (change)="currentPage = 1; getItems()"
+                [readonly]="user?.cedId"
                 id="cedenteId"
               >
                 <ng-option

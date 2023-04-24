@@ -10,7 +10,7 @@
                 <label>Filiale/cédante : <span class="required_champs">*</span>
                 </label>
 
-                <ng-select formControlName="cedId" name="cedenteId" id="cedenteId">
+                <ng-select formControlName="cedId" name="cedenteId" id="cedenteId" [readonly]="user?.cedId">
                     <ng-option *ngFor="let cedente of listeCedente"
                         [value]="cedente?.cedId">{{cedente.cedNomFiliale}}</ng-option>
                 </ng-select>

@@ -1,6 +1,8 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { enumStatutAffaire } from 'src/app/core/enumerator/enumerator';
+import { User } from 'src/app/core/models/user';
+import { UserService } from 'src/app/core/service/user.service';
 
 @Component({
   selector: 'app-container-affaire-facultative',
@@ -11,11 +13,12 @@ export class ContainerAffaireFacultativeComponent implements OnInit {
 
   statutAffaire : any = {}
   modalRef: BsModalRef;
-  
-  constructor(private modalService: BsModalService) {
-    this.statutAffaire = enumStatutAffaire;
-  }
+  user : User;
 
+  constructor(private modalService: BsModalService,private userService:UserService) {
+    this.statutAffaire = enumStatutAffaire;
+    this.user = this.userService.getCurrentUserInfo();
+  }
 
   openModal(template: TemplateRef<any>) {
 

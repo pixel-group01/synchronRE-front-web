@@ -8,6 +8,11 @@ export enum enumStatutAffaire {
     ARCHIVE = 'RAD',
 }
 
+export enum enumCodeACL {
+    ADMIN = 'ADMIN',
+    CEDANTE = 'CEDANTE'
+}
+
 export enum enumCodeTypeActe {
     SOINS = 'SOI',
     LABORATOIRE = 'LAB',

@@ -11,9 +11,11 @@ import { Subscription } from "rxjs";
 import { BusinessOptional } from "src/app/core/models/businessOptional";
 import { Cedante } from "src/app/core/models/cedante";
 import { Couverture } from "src/app/core/models/couverture";
+import { User } from "src/app/core/models/user";
 import { BusinessOptionalService } from "src/app/core/service/business-optional.service";
 import { CedanteService } from "src/app/core/service/cedante.service";
 import { CouvertureService } from "src/app/core/service/couverture.service";
+import { UserService } from "src/app/core/service/user.service";
 import { UtilitiesService } from "src/app/core/service/utilities.service";
 import Swal from "sweetalert2";
 
@@ -31,6 +33,7 @@ export class FormIdentificationComponent implements OnInit {
   dateActuelle = new Date();
   busySave : Subscription;
   currentAffaire: BusinessOptional;
+  user : User;
 
   @Input() itemToUpdate: BusinessOptional;
   @Input() isWizardProcess:boolean = false;
@@ -42,13 +45,25 @@ export class FormIdentificationComponent implements OnInit {
     private cedanteServcie: CedanteService,
     private couvertureService: CouvertureService,
     private businessOptionalService: BusinessOptionalService,
-    private utilities: UtilitiesService
-  ) {}
+    private utilities: UtilitiesService,
+    private userService:UserService
+  ) {
+    this.user = this.userService.getCurrentUserInfo();
+  }
 
   getCedente() {
     this.cedanteServcie.getAll().subscribe((response: any) => {
       if (response && response["content"]) {
         this.listeCedente = response["content"] as Cedante[];
+
+        console.log(" cedente ",this.listeCedente);
+        console.log(" this.user ",this.user?.cedId);
+        
+        
+        if(this.user.cedId) {
+          this.createForm();
+        }
+       
       } else {
         this.listeCedente = [];
       }
@@ -89,7 +104,7 @@ export class FormIdentificationComponent implements OnInit {
       ],
       facSmpLci: [this.itemToUpdate?.facSmpLci || ""],
       facPrime: [this.itemToUpdate?.facPrime || ""],
-      cedId: [this.itemToUpdate?.cedId || "", Validators.required],
+      cedId: [ (this.itemToUpdate?.cedId || this.user?.cedId) || "", Validators.required],
       statutCode: [this.itemToUpdate?.statutCode || ""],
       couvertureId: [this.itemToUpdate?.couvertureId || "", Validators.required],
       restARepartir: [""],

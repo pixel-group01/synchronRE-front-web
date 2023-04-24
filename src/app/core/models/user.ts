@@ -10,6 +10,7 @@ export class User {
   nom?:string;
   prenom?:string;
   lastName: string;
+  cedId?:number;
   role?: Role;
   token: string;
   uniteFoncActiveId?:string;

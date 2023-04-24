@@ -15,10 +15,12 @@ import { CessionLegale } from "src/app/core/models/cessionLegale";
 import { Couverture } from "src/app/core/models/couverture";
 import { RepartitionByTauxOrCapital } from "src/app/core/models/repartitionByTauxOrCapital";
 import { RepartitionCedanteCessionLegal } from "src/app/core/models/repartitionCedanteCessionLegal";
+import { User } from "src/app/core/models/user";
 import { BusinessOptionalRepartitionService } from "src/app/core/service/business-optional-repartition.service";
 import { BusinessOptionalService } from "src/app/core/service/business-optional.service";
 import { CedanteService } from "src/app/core/service/cedante.service";
 import { CouvertureService } from "src/app/core/service/couverture.service";
+import { UserService } from "src/app/core/service/user.service";
 import { UtilitiesService } from "src/app/core/service/utilities.service";
 import Swal from "sweetalert2";
 
@@ -38,7 +40,8 @@ export class FormRepartitionComponent implements OnInit {
   repartitionBesoinFac: RepartitionByTauxOrCapital;
   dateActuelle = new Date();
   busySave: Subscription;
-
+  user : User;
+  
   @Input() itemToUpdate: BusinessOptionalRepartition;
   @Input() isWizardProcess: boolean = false;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
@@ -49,8 +52,10 @@ export class FormRepartitionComponent implements OnInit {
     private couvertureService: CouvertureService,
     private businessOptionalService: BusinessOptionalService,
     private businessOptionalRepartitionService: BusinessOptionalRepartitionService,
-    private utilities: UtilitiesService
-  ) {}
+    private utilities: UtilitiesService,
+    private userService:UserService) {
+      this.user = this.userService.getCurrentUserInfo();
+    }
 
   getCouverture() {
     this.couvertureService.getAll().subscribe((response) => {
@@ -145,7 +150,14 @@ export class FormRepartitionComponent implements OnInit {
               "bottom",
               "center"
             );
-            this.stepperInice.emit(3);
+
+            // Dans le cas ou c'est une cedente on ferme le modal
+            if(this.user && this.user?.cedId){
+              this.closeModal.emit(true);
+            }else{
+              this.stepperInice.emit(3);
+            }
+           
           }
         });
     } else {

@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { User } from 'src/app/core/models/user';
 import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
+import { UserService } from 'src/app/core/service/user.service';
 
 @Component({
   selector: 'app-form-affaire-facultatives',
@@ -9,9 +11,12 @@ import { BusinessOptionalService } from 'src/app/core/service/business-optional.
 export class FormAffaireFacultativesComponent implements OnInit {
 
   stepWizard : number = 1;  
+  user : User;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private businessOptionalService: BusinessOptionalService) { }
+  constructor(private businessOptionalService: BusinessOptionalService, private userService:UserService) {
+    this.user = this.userService.getCurrentUserInfo();
+  }
 
   closeFormModal($event:boolean) {
     this.closeModal.emit(true);

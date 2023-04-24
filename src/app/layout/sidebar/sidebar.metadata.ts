@@ -11,7 +11,10 @@ export interface RouteInfo {
   badgeClass: string;
   role?: string[];
   isVisible?:Boolean;
-  code?:string,
-  acl ? : String,
+  code?:string;
+  acl ? : String;
   submenu: RouteInfo[];
+  codeAclAdmin?:string;
+  codeAclCedente?:string;
+  codeAcl3?:string;
 }
