@@ -27,16 +27,16 @@
                     <div class="col-12 mt-3 mb-3">
                         <fieldset>
                             <legend>
-                                Repartition filiale
+                                Part filiale
                             </legend>
 
                             <div class="row">
 
                                 <div class="col-md-6 col-xs-12 mb-3">
-                                    <label>Filiale :
+                                    <label>Capitaux :
                                         <span class="required_champs">*</span>
                                     </label>
-                                    <input class="form-control custom-input" placeholder="Filiale" autocomplete="off"
+                                    <input class="form-control custom-input" placeholder="Capitaux" autocomplete="off"
                                         [(ngModel)]="itemToSave.repCapital" name="repCapital" mask="separator" (keyup)="getRepartionByCapital()"
                                         type="text" />
                                     <!-- <small class="text-danger"
@@ -84,15 +84,17 @@
                                                 <td>{{cession?.paramCesLegLibelle}}</td>
                                                 <td>
                                                     <input class="form-control custom-input" 
-                                                    [(ngModel)]="cession.repCapital" (keyup)="getRepartionByCapital(cession.repCapital)"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]="cession.repCapital" (keyup)="getRepartionCessionByCapital(cession)"
                                                     placeholder="Capital" autocomplete="off"
                                                         name="capCessionFormArray" mask="separator"  />
                                                 </td>
                                                 <td>
                                                     <input class="form-control custom-input" 
                                                     [(ngModel)]="cession.repTaux"
+                                                    [ngModelOptions]="{standalone: true}"
                                                         placeholder="Taux" autocomplete="off"
-                                                        (keyup)="getRepartionByTaux(cession.repTaux)"
+                                                        (keyup)="getRepartionCessionByTaux(cession)"
                                                             name="tauxFrmArray" mask="separator"/>
                                                 </td>
                                             </tr>
@@ -164,7 +166,7 @@
 
                                 <tbody>
                                     <tr>
-                                        <td>Restriction</td>
+                                        <td>Retention</td>
                                         <td>
                                             <input class="form-control custom-input" placeholder="Capital"
                                                 autocomplete="off" mask="separator" type="text" />

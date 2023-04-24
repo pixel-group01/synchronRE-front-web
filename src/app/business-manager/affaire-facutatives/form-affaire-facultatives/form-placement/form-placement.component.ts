@@ -271,26 +271,26 @@ export class FormPlacementComponent implements OnInit {
     this.currentAffaire =
       this.businessOptionalService.businessOptionalSubject$.value;
 
-    this.currentAffaire = {
-      affId: 8,
-      affCode: null,
-      affAssure: "noglo koffi",
-      affActivite: "REASSUREUR",
-      affDateEffet: "2023-04-25",
-      affDateEcheance: "2023-04-29",
-      facNumeroPolice: null,
-      affCapitalInitial: 30000000,
-      facSmpLci: null,
-      facPrime: null,
-      cedId: 2,
-      cedNomFiliale: "NSIA BN",
-      cedSigleFiliale: "NSIA BN",
-      statutCode: "SAI",
-      couvertureId: 1,
-      restARepartir: 30000000,
-      capitalDejaReparti: 0,
-      etatComptable: null,
-    };
+    // this.currentAffaire = {
+    //   affId: 8,
+    //   affCode: null,
+    //   affAssure: "noglo koffi",
+    //   affActivite: "REASSUREUR",
+    //   affDateEffet: "2023-04-25",
+    //   affDateEcheance: "2023-04-29",
+    //   facNumeroPolice: null,
+    //   affCapitalInitial: 30000000,
+    //   facSmpLci: null,
+    //   facPrime: null,
+    //   cedId: 2,
+    //   cedNomFiliale: "NSIA BN",
+    //   cedSigleFiliale: "NSIA BN",
+    //   statutCode: "SAI",
+    //   couvertureId: 1,
+    //   restARepartir: 30000000,
+    //   capitalDejaReparti: 0,
+    //   etatComptable: null,
+    // };
 
     this.getRepartition();
     this.getCessionnaire();

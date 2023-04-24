@@ -333,34 +333,115 @@ export class FormRepartitionComponent implements OnInit {
       });
   }
 
+  /** Repartition capital par cession legale */
+  getRepartionCessionByCapital(itemRepartition) {
+    if (!this.currentAffaire || !this.currentAffaire.affId) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Aucune affaire sélectionnée !",
+        "bottom",
+        "center"
+      );
+      return;
+    }
+
+    let currentCapitalSaisi = itemRepartition?.repCapital; //this.getFormFiledsValue('repCapital')?.value;
+    if (!currentCapitalSaisi || !currentCapitalSaisi) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Aucun capital defini !",
+        "bottom",
+        "center"
+      );
+      return;
+    }
+
+    this.businessOptionalRepartitionService
+      .getRepartitionCalculatByCapital(
+        this.currentAffaire.affId,
+        currentCapitalSaisi
+      )
+      .subscribe((response) => {
+        if (response) {
+          let resultRepartitionTaux = response as RepartitionByTauxOrCapital;
+          itemRepartition.repTaux = resultRepartitionTaux?.taux;
+        }
+      });
+  }
+
+  getRepartionCessionByTaux(itemRepartition) {
+
+    if (!this.currentAffaire || !this.currentAffaire.affId) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Aucune affaire sélectionnée !",
+        "bottom",
+        "center"
+      );
+      return;
+    }
+
+    let currentTauxSaisi = itemRepartition?.repTauxBesoinFac; //this.getFormFiledsValue('repTauxBesoinFac')?.value;
+    if (!currentTauxSaisi || !currentTauxSaisi) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Aucun taux defini !",
+        "bottom",
+        "center"
+      );
+      return;
+    }
+
+    if (currentTauxSaisi > 100) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Le taux ne doit pas être supérieur à 100 !",
+        "bottom",
+        "center"
+      );
+      return;
+    }
+
+    this.businessOptionalRepartitionService
+      .getRepartitionCalculatTaux(this.currentAffaire.affId, currentTauxSaisi)
+      .subscribe((response) => {
+        if (response) {
+          let resultRepartitionTaux  = response as RepartitionByTauxOrCapital;
+          itemRepartition.repCapital = resultRepartitionTaux?.capital;
+        }
+      });
+  }
+
+
+
   ngOnInit(): void {
     // Initialisation du forms group
 
-    // this.currentAffaire = this.businessOptionalService.businessOptionalSubject$.value;
+    this.currentAffaire = this.businessOptionalService.businessOptionalSubject$.value;
 
     // this.createForm();
     this.getCouverture();
 
-    this.currentAffaire = {
-      affId: 6,
-      affCode: null,
-      affAssure: "noglo koffi",
-      affActivite: "REASSUREUR",
-      affDateEffet: "2023-04-25",
-      affDateEcheance: "2023-04-29",
-      facNumeroPolice: null,
-      affCapitalInitial: 30000000,
-      facSmpLci: null,
-      facPrime: null,
-      cedId: 2,
-      cedNomFiliale: "NSIA BN",
-      cedSigleFiliale: "NSIA BN",
-      statutCode: "SAI",
-      couvertureId: 1,
-      restARepartir: 30000000,
-      capitalDejaReparti: 0,
-      etatComptable: null,
-    };
+    // this.currentAffaire = {
+    //   affId: 6,
+    //   affCode: null,
+    //   affAssure: "noglo koffi",
+    //   affActivite: "REASSUREUR",
+    //   affDateEffet: "2023-04-25",
+    //   affDateEcheance: "2023-04-29",
+    //   facNumeroPolice: null,
+    //   affCapitalInitial: 30000000,
+    //   facSmpLci: null,
+    //   facPrime: null,
+    //   cedId: 2,
+    //   cedNomFiliale: "NSIA BN",
+    //   cedSigleFiliale: "NSIA BN",
+    //   statutCode: "SAI",
+    //   couvertureId: 1,
+    //   restARepartir: 30000000,
+    //   capitalDejaReparti: 0,
+    //   etatComptable: null,
+    // };
 
     this.getCessionLegale();
     // this.getAffaireFacultativeEtatCompta();
