@@ -12,6 +12,10 @@ export class BusinessOptionalRepartitionService {
     return this.restClient.post('repartitions/create',body)
   } 
 
+  createPlacement = (body:any) => {
+    return this.restClient.post('repartitions/create-placement',body)
+  } 
+
   getAll = () => {
     return this.restClient.get('repartitions/list');
   }
@@ -24,4 +28,29 @@ export class BusinessOptionalRepartitionService {
   update = (body:any) => {
     return this.restClient.put('repartitions/update',body)
   }
+
+  getRepartitionCessionLegaleParam = (affaireid:number = 0) => {
+    let endPointFinal = "repartitions/ces-leg-param/"+affaireid;
+    return this.restClient.get(endPointFinal);
+  }
+
+  getRepartitionCalculatTaux = (affaireId?:number,taux?:number) => {
+    let endPointFinal = "repartitions/calculate/by-taux/"+affaireId+"/"+taux;
+    return this.restClient.get(endPointFinal);
+  }
+
+  getRepartitionCalculatByTauxBesoin = (affaireId?:number,tauxBesoin?:number) => {
+    let endPointFinal = "repartitions/calculate/by-taux-besoin/"+affaireId+"/"+tauxBesoin;
+    return this.restClient.get(endPointFinal);
+  }
+
+  getRepartitionCalculatByCapital = (affaireId?:number,capital?:number) => {
+    let endPointFinal = "repartitions/calculate/by-capital/"+affaireId+"/"+capital;
+    return this.restClient.get(endPointFinal);
+  }
+
+  createCedanteLegaleRepartition = (body:any) => {
+    return this.restClient.post('repartitions/create-cedante-legale-repartition',body)
+  } 
+
 }

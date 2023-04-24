@@ -1,4 +1,4 @@
-export class CessionLegale {
+export class Cessionnaire {
     cesId?: number;
     cesNom?: string;
     cesSigle?: string;

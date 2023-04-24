@@ -1,5 +1,9 @@
 <div class="placement-container">
-    <form name="placement">
+    <form name="placement" [ngBusy]="{
+        busy: busySave,
+        message: 'Veuillez patienter ...',
+        backdrop: false
+      }">
 
         <div class="row">
             <div class="col-12 mb-3">
@@ -17,54 +21,61 @@
 
         <div class="row">
 
-            <div class="col-12 mt-3 mb-3">
+            <div class="col-12 mt-3 mb-3" >
                 <fieldset>
                     <legend>
                         Nouveau placement
                     </legend>
 
-                    <div class="row">
-
-                        <div class="col-md-3 col-xs-12 mb-3">
-                            <label>Cessionnaire :
-                                <span class="required_champs">*</span>
-                            </label>
-                            <input class="form-control custom-input" placeholder="Filiale" autocomplete="off"
-                                name="repCapital" mask="separator" type="text" />
-                        </div>
-
-                        <div class="col-md-3 col-xs-12 mb-3">
-                            <label>Interlocuteur:
-                            </label>
-                            <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
-                                name="repTaux" type="text" />
-                        </div>
-
-                        <div class="col-md-2 col-xs-12 mb-3">
-                            <label>Capital:
-                            </label>
-                            <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
-                                name="repTaux" type="text" />
-                        </div>
-
-                        <div class="col-md-1 col-xs-12 mb-3">
-                            <label>Part:
-                            </label>
-                            <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
-                                name="repTaux" type="text" />
-                        </div>
-
-                        <div class="col-md-1 col-xs-12 mb-3">
-                            <label>SC/C:
-                            </label>
-                            <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
-                                name="repTaux" type="text" />
-                        </div>
-
-                        <div class="col-md-2 col-xs-12 mb-3">
-                            <button class="btn btn-xs btn-default btn-add" type="button"> Ajouter </button>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-3 col-xs-12 mb-3">
+                                <label>Cessionnaire :
+                                    <span class="required_champs">*</span>
+                                </label>
+    
+                                  <ng-select [(ngModel)]="itemToSave.cesId" id="cesId" name="cesId">
+                                          <ng-option *ngFor="let cessionaire of listeCessionnaire" [value]="cessionaire?.cesId">{{cessionaire.cesNom}}</ng-option>
+                                  </ng-select>
+    
+                                <!-- <input class="form-control custom-input" [(ngModel)]="itemToSavePlacement" placeholder="Filiale" autocomplete="off"
+                                    name="repCapital" mask="separator" type="text" /> -->
+                            </div>
+    
+                            <div class="col-md-3 col-xs-12 mb-3">
+                                <label>Interlocuteur:<span class="required_champs">*</span>
+                                </label>
+                                <input class="form-control custom-input" placeholder="Interlocuteur" autocomplete="off" name="repInterlocuteur"
+                                    name="interlocuteur" [(ngModel)]="itemToSave.repInterlocuteur" type="text" />
+                            </div>
+    
+                            <div class="col-md-2 col-xs-12 mb-3">
+                                <label>Capital:<span class="required_champs">*</span>
+                                </label>
+                                <input class="form-control custom-input" mask="separator" placeholder="Capital" autocomplete="off"
+                                    name="capitalRep" type="text"  [(ngModel)]="itemToSave.repCapital" name="repCapital" />
+                            </div>
+    
+                            <div class="col-md-1 col-xs-12 mb-3">
+                                <label>Part:<span class="required_champs">*</span>
+                                </label>
+                                <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
+                                    name="repPart" mask="separator" type="text"  [(ngModel)]="itemToSave.repTaux" name="repTaux"  />
+                            </div>
+    
+                            <div class="col-md-1 col-xs-12 mb-3">
+                                <label>SC/C:<span class="required_champs">*</span>
+                                </label>
+                                <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
+                                    name="repSousCommission" type="text"  mask="separator" [(ngModel)]="itemToSave.repSousCommission" name="repSousCommission" />
+                            </div>
+    
+                            <div class="col-md-2 col-xs-12 mb-3">
+                                <button class="btn btn-xs btn-default btn-add" type="button" (click)="confirmSaveItem()"> Ajouter </button>
+                            </div>
                         </div>
                     </div>
+                   
                 </fieldset>
             </div>
 
@@ -72,13 +83,13 @@
 
         <div class="row">
 
-            <div class="col-12 mb-3 table-responsive">
+            <div class="col-12 mb-3 mt-3 table-responsive">
                 <fieldset>
                     <legend>
                         Liste des placements
                     </legend>
 
-                    <div class="row">
+                    <div class="col-12 mt-3 table-responsive">
                         <table class="table table-condensed">
                             <thead>
                                 <tr class="custom-table-head">

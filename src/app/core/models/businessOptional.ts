@@ -6,12 +6,15 @@ export class BusinessOptional {
     affDateEffet?: string;
     affDateEcheance?: string;
     facNumeroPolice?: string;
-    affCapitalInitial?: string;
+    affCapitalInitial?: number;
+    cedNomFiliale?:string;
+    cedSigleFiliale?:string;
+    etatComptable?:string;
     facSmpLci?: number;
     facPrime?: number;
     cedenteId?: number;
     statutCode?: string;
-    couvertureId?: string;
-    restARepartir?: string;
+    couvertureId?: number;
+    restARepartir?: number;
     capitalDejaReparti?: number;
 }

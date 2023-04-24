@@ -36,7 +36,7 @@
 
                 <textarea class="form-control custom-input" formControlName="affActivite" name="affActivite"
                     [class.errorInputForm]="getFormFiledsValue('affActivite')?.invalid && getFormFiledsValue('affActivite')?.touched"
-                    type="text" id="affActivite" rows="3" placeholder="Observation" autocomplete="off"></textarea>
+                    type="text" id="affActivite" rows="2" placeholder="Observation" autocomplete="off"></textarea>
 
                 <!-- <input
                   class="form-control custom-input"
@@ -69,7 +69,7 @@
                 <label>N°Police :
                     <span class="required_champs">*</span>
                 </label>
-                <input class="form-control custom-input" placeholder="Couverture" autocomplete="off"
+                <input class="form-control custom-input" placeholder="N° Police" autocomplete="off"
                     formControlName="facNumeroPolice" name="facNumeroPolice"
                     [class.errorInputForm]="getFormFiledsValue('facNumeroPolice')?.invalid && getFormFiledsValue('facNumeroPolice')?.touched"
                     type="text" />
@@ -167,7 +167,7 @@
         </div>
 
         <div class="custom-btn-save-manager">
-            <button type="submit" class="btn btn-md custom_btn_primary pull-right">
+            <button type="submit" class="btn btn-md custom_btn_primary pull-right" [disabled]="!formulaireGroup.valid">
                 {{itemToUpdate?.affId ? 'Modifier' : 'Enregistrer et continuer'}}
             </button>
 
@@ -175,6 +175,7 @@
                 Annuler
             </button>
         </div>
+        
     </form>
 
 </div>

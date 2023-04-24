@@ -51,7 +51,7 @@
             </ng-container>
 
             <ng-container *ngIf="stepWizard == 3">
-                <app-form-placement></app-form-placement>
+                <app-form-placement  (stepperInice)="gotoStepper($event)"></app-form-placement>
             </ng-container>
 
         </div>

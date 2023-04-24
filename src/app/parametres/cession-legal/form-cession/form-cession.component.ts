@@ -96,8 +96,10 @@ export class FormCessionComponent implements OnInit {
             "bottom",
             "center"
           );
+
+          this.closeModal.emit(true);
         }
-        this.closeModal.emit(true);
+       
       });
     } else {
       // Nous sommes en modification
@@ -110,8 +112,10 @@ export class FormCessionComponent implements OnInit {
             "bottom",
             "center"
           );
+
+          this.closeModal.emit(true);
         }
-        this.closeModal.emit(true);
+       
       });
     }
   }

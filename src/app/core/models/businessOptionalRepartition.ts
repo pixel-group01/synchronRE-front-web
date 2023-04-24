@@ -9,4 +9,5 @@ export class BusinessOptionalRepartition {
     cesId?: number;
     paramCesLegalId?: number;
     typId?: number;
+    besoinFacInitial?:number
 }

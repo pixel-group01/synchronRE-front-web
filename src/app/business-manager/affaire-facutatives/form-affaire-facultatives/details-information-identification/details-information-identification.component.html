@@ -3,27 +3,45 @@
         <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
             <b>Filiale/cédante :
             </b>
-            <span>Libelle de la filiale</span>
+            <span>{{itemDetailsAffaire?.cedNomFiliale | uppercase}}</span>
         </div>
+
+        <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+            <b>Assuré :
+            </b>
+            <span>{{itemDetailsAffaire?.affAssure | uppercase}}</span>
+        </div>
+
+
+
+    </div>
+
+    <div class="row">
 
         <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
             <b>Activité :
             </b>
-            <span>Activité libellé</span>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
-            <b>Assuré :
-            </b>
-            <span>Nom de l'assuré</span>
+            <span>{{itemDetailsAffaire?.affActivite}}</span>
         </div>
 
         <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
             <b>Couverture :
             </b>
-            <span>Couverture libellé </span>
+            <span>{{itemDetailsAffaire?.couLibelle}}</span>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="currentRepartitionTaux && currentRepartitionTaux?.capital">
+        <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+            <b>Capital :
+            </b>
+            <span>{{currentRepartitionTaux?.capital | moneyFormat}}</span>
+        </div>
+
+        <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+            <b>Bésoin fac restant :
+            </b>
+            <span>{{currentRepartitionTaux?.besoinFacRestant | moneyFormat}}</span>
         </div>
     </div>
 

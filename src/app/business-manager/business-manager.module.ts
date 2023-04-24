@@ -11,6 +11,7 @@ import { FormIdentificationComponent } from './affaire-facutatives/form-affaire-
 import { FormRepartitionComponent } from './affaire-facutatives/form-affaire-facultatives/form-repartition/form-repartition.component';
 import { FormPlacementComponent } from './affaire-facutatives/form-affaire-facultatives/form-placement/form-placement.component';
 import { DetailsInformationIdentificationComponent } from './affaire-facutatives/form-affaire-facultatives/details-information-identification/details-information-identification.component';
+import { FormArray } from '@angular/forms';
 
 
 @NgModule({

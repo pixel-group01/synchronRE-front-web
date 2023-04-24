@@ -151,3 +151,7 @@ to {
 .swal2-container {
   z-index: 1999 !important;
 }
+
+.form-control:disabled, .form-control[readonly] {
+  background-color: #e9ecef !important;
+}

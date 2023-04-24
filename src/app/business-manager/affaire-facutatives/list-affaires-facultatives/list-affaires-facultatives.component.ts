@@ -57,7 +57,7 @@ export class ListAffairesFacultativesComponent implements OnInit {
   // }
 
   getItems() {
-    this.busyGet = this.businessOptionalService.getByCriteria((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null))
+    this.busyGet = this.businessOptionalService.getAffaireFacultativeByReassureurEnTraitement((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.cedenteId ? this.itemToSearch.cedenteId : null))
       .subscribe(
         res => {
           if (res && res['content']) {

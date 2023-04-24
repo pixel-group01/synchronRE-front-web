@@ -69,15 +69,15 @@
             &.good-stepper {
     
                 i {
-                    color: var(--cie-color-secondary);
-                    border: 2px solid var(--ion-color-success-tint);
+                    color: var(--green-color-cie);
+                    border: 2px solid var(--green-color-cie);
                 }
     
                 .title-stepper {
     
                     b,
                     span {
-                        color: var(--cie-color-secondary);
+                        color: var(--green-color-cie);
                     }
     
                 }

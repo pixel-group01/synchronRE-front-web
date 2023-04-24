@@ -64,15 +64,15 @@
         <td class="txt-align-center">
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td>
-        <td>{{ item?.paysCode }}</td>
-        <td>{{ item?.paysCode }}</td>
-        <td>{{ item?.paysNom }}</td>
+        <td>{{ item?.affCode }}</td>
+        <td>{{ item?.cedNomFiliale }}</td>
+        <td>{{ item?.couLibelle }}</td>
         <td>{{ item?.affAssure }}</td>
         <td>{{ item?.affActivite }}</td>
         <td>{{ item?.affDateEffet }}</td>
         <td>{{ item?.affDateEcheance }}</td>
         <td>{{ item?.facNumeroPolice }}</td>
-        <td>{{ item?.facCapitaux }}</td>
+        <td>{{ item?.facCapitaux | moneyFormat }}</td>
         <td>{{ item?.facSmpLci }}</td>
         <td>{{ item?.facPrime }}</td>
         <td class="custom-width-td-action">

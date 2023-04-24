@@ -27,8 +27,6 @@ export class RequestInterceptor implements HttpInterceptor {
     //   httpRequest.body.data.uniteFoncId=JSON.parse(localStorage.getItem('currentUser'))?.uniteFoncActiveId||null
     // }
 
-    console.log(" httpRequest ",httpRequest);
-    
     return next.handle(
       httpRequest.url.includes("open/login")
         ? httpRequest

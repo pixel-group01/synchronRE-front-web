@@ -9,7 +9,7 @@
                     </legend>
 
                     <div>
-                        <app-details-information-identification></app-details-information-identification>
+                        <app-details-information-identification [currentRepartitionTaux]="repartitionBesoinFac"></app-details-information-identification>
                     </div>
                 </fieldset>
             </div>
@@ -33,7 +33,7 @@
                                         <span class="required_champs">*</span>
                                     </label>
                                     <input class="form-control custom-input" placeholder="Filiale" autocomplete="off"
-                                        formControlName="repCapital" name="repCapital" mask="separator"
+                                        formControlName="repCapital" name="repCapital" mask="separator" (keyup)="getRepartionByCapital()"
                                         [class.errorInputForm]="getFormFiledsValue('repCapital')?.invalid && getFormFiledsValue('repCapital')?.touched"
                                         type="text" />
                                     <small class="text-danger"
@@ -46,7 +46,7 @@
                                     <label>Taux (%) :
                                     </label>
                                     <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
-                                        formControlName="repTauxBesoinFac" name="repTaux"
+                                        formControlName="repTauxBesoinFac" name="repTaux" maxlength="3" (keyup)="getRepartionByTaux()"
                                         [class.errorInputForm]="getFormFiledsValue('repTaux')?.invalid && getFormFiledsValue('repTaux')?.touched"
                                         type="text" />
                                     <small class="text-danger"
@@ -67,7 +67,7 @@
 
                             <div class="row">
 
-                                <div class="col-12 table-responsive">
+                                <div class="col-12 table-responsive" formArrayName="repartitionCessionLegal">
                                     <table class="table table-condensed table-striped table-hover">
                                         <thead>
                                             <tr class="custom-table-head">
@@ -78,25 +78,21 @@
                                         </thead>
 
                                         <tbody>
-                                            <tr>
-                                                <td>CL1 FICA</td>
+                                            <!-- <tr *ngFor="let cession of repartitionCessionLegal().controls; let idx=index"  [formGroupName]="i">
+                                                <td>{{cession?.paramCesLegLibelle}}</td>
                                                 <td>
-                                                    500 000
+                                                    <input class="form-control custom-input" 
+                                                    formControlName="repCapital"
+                                                    placeholder="Capital" autocomplete="off"
+                                                        name="capCessionFormArray" mask="separator"  />
                                                 </td>
                                                 <td>
-                                                    10%
+                                                    <input class="form-control custom-input" 
+                                                    formControlName="repTaux"
+                                                        placeholder="Taux" autocomplete="off"
+                                                            name="tauxFrmArray" mask="separator"/>
                                                 </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>CL2 FILIALE FICA</td>
-                                                <td>
-                                                    1 500 000
-                                                </td>
-                                                <td>
-                                                    30%
-                                                </td>
-                                            </tr>
+                                            </tr> -->
 
                                         </tbody>
                                     </table>
@@ -118,21 +114,17 @@
                                     <label>Besoin FAC :
                                         <span class="required_champs">*</span>
                                     </label>
-                                    <input class="form-control custom-input" placeholder="Filiale" autocomplete="off"
-                                        formControlName="repCapital" name="repCapital" mask="separator"
-                                        [class.errorInputForm]="getFormFiledsValue('repCapital')?.invalid && getFormFiledsValue('repCapital')?.touched"
-                                        type="text" />
-                                    <small class="text-danger"
-                                        *ngIf="(getFormFiledsValue('repCapital')?.dirty || getFormFiledsValue('repCapital')?.touched) && getFormFiledsValue('repCapital')?.invalid && getFormFiledsValue('repCapital')?.errors?.['required']">
-                                        Ce champs est obligatoire
-                                    </small>
+                                    <input class="form-control custom-input" 
+                                    formControlName="besoinFacInitial"
+                                    placeholder="Besoin FAC" autocomplete="off"
+                                        name="besoinFacRes" mask="separator" [disabled]="true" [readonly]="true" />
                                 </div>
 
                                 <div class="col-md-6 col-xs-12 mb-3">
                                     <label>Taux (%) :
                                     </label>
                                     <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
-                                        formControlName="repTaux" name="repTaux"
+                                        formControlName="repTauxBesoinFac" name="repTauxBesoinFac" (keyup)="getRepartionByTauxBesoinFac()"
                                         [class.errorInputForm]="getFormFiledsValue('repTauxBesoinFac')?.invalid && getFormFiledsValue('repTauxBesoinFac')?.touched"
                                         type="text" />
                                     <small class="text-danger"

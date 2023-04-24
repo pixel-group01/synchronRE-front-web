@@ -64,7 +64,7 @@
           </label>
           <input
             class="form-control custom-input"
-            placeholder="Libellé du pays"
+            placeholder="Taux"
             autocomplete="off"
             formControlName="paramCesLegTaux"
             maxlength="3"
@@ -109,7 +109,7 @@
           class="btn btn-md custom_btn_primary pull-right"
           [disabled]="!paramForm.valid"
         >
-          {{!itemToUpdate ? 'Enregistrer' : 'Modifier'}}
+          {{(!itemToUpdate || !itemToUpdate?.paramCesLegId ) ? 'Enregistrer' : 'Modifier'}}
         </button>
   
         <button

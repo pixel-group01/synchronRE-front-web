@@ -49,7 +49,7 @@ export class HeaderComponent
   isNavbarCollapsed = true;
   flagvalue;
   modalRef?: BsModalRef;
-  currentUser: User = JSON.parse(localStorage.getItem("currentUser"));
+  currentUser: User;
   countryName;
   langStoreValue: string;
   defaultFlag: string;
@@ -84,7 +84,6 @@ export class HeaderComponent
     private userService: UserService
   ) {
     super();
-    this.user = this.authService.currentUserValue;
     this.codeCirucit = enumCodeCircuitValidation;
   }
 
@@ -147,7 +146,7 @@ export class HeaderComponent
   ];
 
   ngOnInit() {
-    console.log(" current user info ",this.userService.getCurrentUserInfo());
+    this.currentUser = this.userService.getCurrentUserInfo();
   }
 
   openModal(data: any, template: TemplateRef<any>) {
@@ -160,122 +159,8 @@ export class HeaderComponent
         itemPriseDecisionByOrigine: null,
         origine: data?.code,
       };
-
-      if (data?.code == enumCodeCircuitValidation.PHARMACIE_SORTIE_DIVERSE) {
-        this.itemToSave.itemPriseDecisionByOrigine = { ...data?.dataSortie };
-      }
-
-      if (
-        data?.code == enumCodeCircuitValidation.PHARMACIE_TRANSFERT_MEDICAMENT
-      ) {
-        this.itemToSave.itemPriseDecisionByOrigine = { ...data?.dataTransfert };
-      }
-
-      if (
-        data?.code == enumCodeCircuitValidation.PHARMACIE_LIVRAIONS_MEDICAMENT
-      ) {
-        this.itemToSave.itemPriseDecisionByOrigine = { ...data?.dataLivraison };
-      }
-
-      if (data?.code == enumCodeCircuitValidation.PHARMACIE_BON_COMMANDE) {
-        this.itemToSave.itemPriseDecisionByOrigine = { ...data?.dataCommande };
-      }
-
-      if (data?.code == enumCodeCircuitValidation.CERTIFICAT_MEDICAL) {
-        this.itemToSave.itemPriseDecisionByOrigine = {
-          ...data?.dataCertificat,
-        };
-      }
-
-      if (data?.code == enumCodeCircuitValidation.PHARMACIE_INVENTAIRE) {
-        this.itemToSave.itemPriseDecisionByOrigine = {
-          ...data?.dataInventaire,
-        };
-        this.itemToSave.listeItemByOrigine = [];
-      }
-
-      if (data?.code == enumCodeCircuitValidation.GC_DEMANDE_REMISE) {
-        this.itemToSave.itemPriseDecisionByOrigine = { ...data?.dataRemise };
-        // this.itemToSave.listeItemByOrigine = [];
-      }
-
-      if (data?.code == enumCodeCircuitValidation.PHARMACIE_INVENTAIRE) {
-        this.itemToSave.itemPriseDecisionByOrigine = {
-          ...data?.dataInventaire,
-        };
-        this.itemToSave.listeItemByOrigine = [];
-      }
-
-      if (data?.code == enumCodeCircuitValidation.JOURNAL) {
-        this.itemToSave.itemPriseDecisionByOrigine = { ...data?.dataJournal };
-        this.itemToSave.listeItemByOrigine = data?.dataJournal?.datasReglement;
-      }
-
-      if (data?.code == enumCodeCircuitValidation.HONNORAIRE) {
-        this.itemToSave.itemPriseDecisionByOrigine = { ...data?.dataHonoraire };
-        this.itemToSave.listeItemByOrigine = data?.dataHonoraire?.vacations;
-
-        let listeMois = this.utilities.getMonth();
-        this.itemToSave.itemPriseDecisionByOrigine.moisLetter = _.find(
-          listeMois,
-          (o) => {
-            return o.indice == this.itemToSave.itemPriseDecisionByOrigine?.mois;
-          }
-        )?.libelle;
-        this.itemToSave.itemPriseDecisionByOrigine.identiteVacataire =
-          this.itemToSave.itemPriseDecisionByOrigine.datasVacataire[0]
-            ?.userNom +
-          " " +
-          this.itemToSave.itemPriseDecisionByOrigine.datasVacataire[0]
-            ?.userPrenom;
-      }
-
-      if (data?.code == enumCodeCircuitValidation.REMBOURSEMENT_ACTE_EXTERNES) {
-        this.itemToSave.itemPriseDecisionByOrigine = {
-          ...data?.dataRemboursement,
-        };
-        this.itemToSave.listeItemByOrigine = data?.dataRemboursement?.documents;
-
-        console.log(" data notification", data);
-
-        if (
-          data.dataRemboursement?.typeRemboursement?.toLowerCase() ==
-          enumTypeRetour.VENTE_DIRECTE?.toLowerCase()
-        ) {
-          this.itemToSave.itemPriseDecisionByOrigine.medicaments =
-            data.dataRemboursement?.dataRetour?.retourVentesDirectes;
-
-          this.itemToSave.itemPriseDecisionByOrigine.nomPrenomPatient =
-            data.dataRemboursement?.dataRetour?.dataVenteDirecte?.nomClient;
-
-          this.itemToSave.itemPriseDecisionByOrigine.dataReglement = {
-            numeroReglement:
-              data.dataRemboursement?.dataRetour?.dataVenteDirecte?.numeroVente,
-            montantARegler:
-              data.dataRemboursement?.dataRetour?.dataVenteDirecte?.montant,
-          };
-        }
-
-        if (
-          data.dataRemboursement?.typeRemboursement?.toLowerCase() ==
-          enumTypeRetour.VENTE_ACTE_EXTERNES?.toLowerCase()
-        ) {
-          this.itemToSave.itemPriseDecisionByOrigine.medicaments =
-            data.dataRemboursement?.dataRetour?.retourActesExternes;
-
-          this.itemToSave.itemPriseDecisionByOrigine.nomPrenomPatient =
-            data.dataRemboursement?.dataRetour?.dataVenteActeExterne?.nomClient;
-
-          this.itemToSave.itemPriseDecisionByOrigine.dataReglement = {
-            numeroReglement:
-              data.dataRemboursement?.dataRetour?.dataVenteActeExterne
-                ?.numeroVente,
-            montantARegler:
-              data.dataRemboursement?.dataRetour?.dataVenteActeExterne?.montant,
-          };
-        }
-      }
     }
+
     this.modalRef = this.modalService.show(
       template,
       Object.assign({}, config, { class: "modal-lg modal-width-75" })
