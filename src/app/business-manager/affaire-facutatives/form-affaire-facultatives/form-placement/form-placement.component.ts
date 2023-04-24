@@ -18,13 +18,13 @@ export class FormPlacementComponent implements OnInit {
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Output() stepperInice: EventEmitter<number> = new EventEmitter();
 
-  itemToSave: RepartitionPlacement = new RepartitionPlacement(); 
+  itemToSave: RepartitionPlacement = new RepartitionPlacement();
   listeCessionnaire: Cessionnaire[];
   listeRepartitions: any = [];
   itemToUpdate: any;
   currentAffaire: BusinessOptional;
   isUpdateRepartition: boolean;
-  busySave: Subscription
+  busySave: Subscription;
 
   constructor(
     private cessionaireService: CessionnaireService,
@@ -128,39 +128,78 @@ export class FormPlacementComponent implements OnInit {
   }
 
   getRepartition() {
-    this.businessOptionalRepartition.getAll().subscribe((response) => {
-      if (response && response["content"]) {
-        console.log(" this.listeRepartitions ",this.listeRepartitions);
-        
-        this.listeRepartitions = response["content"];
+    this.businessOptionalRepartition
+      .getPlacementByAffaire(0, 10, "", this.currentAffaire?.affId)
+      .subscribe((response) => {
+        console.log(" response ", response);
+
+        if (response && response["content"]) {
+          console.log(" this.listeRepartitions ", this.listeRepartitions);
+
+          this.listeRepartitions = response["content"];
+        }
+      });
+  }
+
+  confirmDeletePlacement(repartition) {
+    Swal.fire({
+      title: "Suppression placement",
+      text:"Vous êtes sur le point de supprimer un placement. Voulez-vous poursuivre cette action ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#0665aa",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    }).then((result) => {
+      if (result.value) {
+        // On effectue l'enregistrement
+
+        this.deletePlacement(repartition?.repId);
       }
     });
+  }
+
+  deletePlacement(idRepartition) {
+   this.busySave = this.businessOptionalRepartition.deleteRepartitionPlacement(idRepartition).subscribe(
+    (response) => {
+      console.log(" response ",response);
+      this.utilities.showNotification(
+        "snackbar-success",
+        this.utilities.getMessageOperationSuccessFull(),
+        "bottom",
+        "center"
+      );
+
+      this.getRepartition();
+    }
+   )
   }
 
   ngOnInit(): void {
     this.currentAffaire =
       this.businessOptionalService.businessOptionalSubject$.value;
 
-    this.currentAffaire = {
-      affId: 6,
-      affCode: null,
-      affAssure: "noglo koffi",
-      affActivite: "REASSUREUR",
-      affDateEffet: "2023-04-25",
-      affDateEcheance: "2023-04-29",
-      facNumeroPolice: null,
-      affCapitalInitial: 30000000,
-      facSmpLci: null,
-      facPrime: null,
-      cedenteId: 2,
-      cedNomFiliale: "NSIA BN",
-      cedSigleFiliale: "NSIA BN",
-      statutCode: "SAI",
-      couvertureId: 1,
-      restARepartir: 30000000,
-      capitalDejaReparti: 0,
-      etatComptable: null,
-    };
+    // this.currentAffaire = {
+    //   affId: 6,
+    //   affCode: null,
+    //   affAssure: "noglo koffi",
+    //   affActivite: "REASSUREUR",
+    //   affDateEffet: "2023-04-25",
+    //   affDateEcheance: "2023-04-29",
+    //   facNumeroPolice: null,
+    //   affCapitalInitial: 30000000,
+    //   facSmpLci: null,
+    //   facPrime: null,
+    //   cedenteId: 2,
+    //   cedNomFiliale: "NSIA BN",
+    //   cedSigleFiliale: "NSIA BN",
+    //   statutCode: "SAI",
+    //   couvertureId: 1,
+    //   restARepartir: 30000000,
+    //   capitalDejaReparti: 0,
+    //   etatComptable: null,
+    // };
 
     this.getRepartition();
     this.getCessionnaire();

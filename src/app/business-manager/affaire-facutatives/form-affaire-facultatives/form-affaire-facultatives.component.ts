@@ -8,7 +8,7 @@ import { BusinessOptionalService } from 'src/app/core/service/business-optional.
 })
 export class FormAffaireFacultativesComponent implements OnInit {
 
-  stepWizard : number = 3;
+  stepWizard : number = 1; 
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private businessOptionalService: BusinessOptionalService) { }

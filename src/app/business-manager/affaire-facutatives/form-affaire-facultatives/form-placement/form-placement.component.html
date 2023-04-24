@@ -85,13 +85,16 @@
 
             <div class="col-12 mb-3 mt-3 table-responsive">
                 <fieldset>
-                    <legend>
+                    <!-- <legend>
                         Liste des placements
-                    </legend>
+                    </legend> -->
 
                     <div class="col-12 mt-3 table-responsive">
                         <table class="table table-condensed">
                             <thead>
+                                <tr>
+                                    <th colspan="7" class="text-align-center"> <b>Liste des placements</b> </th>
+                                </tr>
                                 <tr class="custom-table-head">
                                     <th>#</th>
                                     <th>Cessionnaire</th>
@@ -104,18 +107,22 @@
                             </thead>
 
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>SNDI</td>
-                                    <td>SALIF</td>
-                                    <td>20 000</td>
-                                    <td>10</td>
-                                    <td>5</td>
-                                    <td style="text-align: center;">
+                                <tr *ngFor="let repart of listeRepartitions; let i = index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{repart?.cesNom}}</td>
+                                    <td>{{repart?.repInterlocuteur}}</td>
+                                    <td>{{repart?.repCapital | moneyFormat}}</td>
+                                    <td>{{repart?.repTaux}}</td>
+                                    <td>{{repart?.repSousCommission}}</td>
+                                    <td style="text-align: center;" (click)="confirmDeletePlacement(repart)">
                                         <a title="Supprimer" style="color: red;">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
+                                </tr>
+
+                                <tr *ngIf="!listeRepartitions || listeRepartitions.length == 0">
+                                    <td colspan="7" class="text-align-center"> Aucune donnée disponible</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -126,10 +133,6 @@
         </div>
 
         <div class="custom-btn-save-manager">
-            <button type="submit" class="btn btn-md custom_btn_primary pull-right">
-                Enregistrer
-            </button>
-
             <button type="button" class="btn btn-md btn-cancel pull-right" (click)="gotoPreviousStep()">
                 Précedent
             </button>

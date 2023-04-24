@@ -12,20 +12,22 @@
         <th colspan="13">
           <div class="row mt-4">
             <div class="col-md-3 col-xs-12 col-sm-12">
-                <label
-                >Filiale/cédante :
-              </label>
-              
-              <ng-select [(ngModel)]="itemToSearch.cedenteId" (change)="currentPage = 1;getItems()"
-                      id="cedenteId">
-                      <ng-option *ngFor="let cedente of listeCedente" [value]="cedente?.cedId">{{cedente.cedNomFiliale}}</ng-option>
-              </ng-select>
+              <label>Filiale/cédante : </label>
 
+              <ng-select
+                [(ngModel)]="itemToSearch.cedenteId"
+                (change)="currentPage = 1; getItems()"
+                id="cedenteId"
+              >
+                <ng-option
+                  *ngFor="let cedente of listeCedente"
+                  [value]="cedente?.cedId"
+                  >{{ cedente.cedNomFiliale }}</ng-option
+                >
+              </ng-select>
             </div>
             <div class="col-md-4 col-xs-12 col-sm-12">
-                <label
-                >Rechercher par mot clé :
-              </label>
+              <label>Rechercher par mot clé : </label>
               <input
                 [(ngModel)]="itemToSearch.libelle"
                 class="form-control custom-input pull-left"
@@ -45,7 +47,7 @@
         </th>
         <th>N° Affaire</th>
         <th>Cédante</th>
-        <th>Couverture</th>
+        <th>Branche</th>
         <th>Assuré</th>
         <th>Activité</th>
         <th>Date effet</th>
@@ -95,26 +97,45 @@
                   ngbDropdownItem
                   (click)="openModal(item, templateCreateVacataire)"
                 >
-                  <i class="fa fa-edit"></i>&nbsp;Modifier
+                  <i class="fa fa-list"></i>&nbsp;Etat comptable
+                </button>
+
+                <button
+                  ngbDropdownItem
+                  (click)="openModal(item, templateCreateVacataire)"
+                >
+                  <i class="fa fa-edit"></i>&nbsp;Modifier l'affaire
                 </button>
 
                 <button
                   ngbDropdownItem
                   (click)="openModal(item, templateUniteFocntionnelle, true)"
                 >
-                  <i class="fa fa-list"></i>&nbsp; Unités fonctionnelles
+                  <i class="fa fa-check"></i>&nbsp; Effectuer une répartition
                 </button>
 
                 <button
                   ngbDropdownItem
                   (click)="openModal(item, templateActes, true)"
-                  *ngIf="item?.actes"
+                  
                 >
-                  <i class="fa fa-list"></i>&nbsp; Taux des actes
+                  <i class="fa fa-check"></i>&nbsp; Effectuer un placement
                 </button>
 
-                <button ngbDropdownItem (click)="confirmDelete(item)">
-                  <i class="fa fa-trash"></i>&nbsp;Supprimer
+                <button
+                  ngbDropdownItem
+                  (click)="openModal(item, templateActes, true)"
+                 
+                >
+                  <i class="fa fa-list"></i>&nbsp; Transmettre une affaire
+                </button>
+
+                <button
+                  ngbDropdownItem
+                  (click)="openModal(item, templateActes, true)"
+                  
+                >
+                  <i class="fa fa-redo-alt"></i>&nbsp; Retourner une affaire
                 </button>
               </div>
             </div>

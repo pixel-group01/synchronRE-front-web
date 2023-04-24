@@ -93,6 +93,23 @@ export class UtilitiesService {
     return "Opération effectuée avec succès !"
   }
   
+  formatDateInIsoData(date : string){
+    if(!date) return null;
+
+    /** Le format de la date est AAAA-MM-JJ */
+    
+    console.log(" date ",date);
+    
+    let splitDate: any = date.split("-");
+
+    let finalDate : any;
+    if(splitDate && splitDate.length > 0){
+      finalDate = new Date(splitDate[0],splitDate[1]-1,splitDate[2]);
+    }
+
+    return finalDate;
+  }
+
   formatMsgServeur(msg) {
     var messageError = msg;
 

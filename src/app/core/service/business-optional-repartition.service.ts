@@ -53,4 +53,15 @@ export class BusinessOptionalRepartitionService {
     return this.restClient.post('repartitions/create-cedante-legale-repartition',body)
   } 
 
+  deleteRepartitionPlacement = (idRepartition:any) => {
+    return this.restClient.delete('repartitions/delete-placement'+idRepartition);
+  } 
+
+  getPlacementByAffaire = (index:number = 0,size:number=10,key?:string,affaireId?:number) => {
+    let endPointFinal = "repartitions/list-placement/"+affaireId;
+
+    endPointFinal = endPointFinal+"?page="+index+"&size="+size+""+(key ? "&key="+key : "");
+    return this.restClient.get(endPointFinal);
+  }
+
 }

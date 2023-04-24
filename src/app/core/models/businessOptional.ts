@@ -12,7 +12,7 @@ export class BusinessOptional {
     etatComptable?:string;
     facSmpLci?: number;
     facPrime?: number;
-    cedenteId?: number;
+    cedId?: number;
     statutCode?: string;
     couvertureId?: number;
     restARepartir?: number;

@@ -8,7 +8,7 @@
         >
           <div class="title-stepper">
             <b>1</b>
-            <span>Indentification</span>
+            <span>Identification</span>
           </div>
           <i class="fa fa-circle"></i>
         </div>
@@ -43,11 +43,11 @@
       <div class="stepper-body">
         <div class="stepper-form">
             <ng-container *ngIf="stepWizard == 1">
-                <app-form-identification (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" ></app-form-identification>
+                <app-form-identification (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" [isWizardProcess]="true"></app-form-identification>
             </ng-container>
  
             <ng-container *ngIf="stepWizard == 2">
-                <app-form-repartition  (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" ></app-form-repartition>
+                <app-form-repartition  (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" [isWizardProcess]="true" ></app-form-repartition>
             </ng-container>
 
             <ng-container *ngIf="stepWizard == 3">

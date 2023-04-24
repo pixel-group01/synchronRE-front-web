@@ -7,6 +7,7 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Subscription } from "rxjs";
 import { BusinessOptional } from "src/app/core/models/businessOptional";
 import { Cedante } from "src/app/core/models/cedante";
 import { Couverture } from "src/app/core/models/couverture";
@@ -26,8 +27,13 @@ export class FormIdentificationComponent implements OnInit {
   formulaireGroup!: FormGroup;
   listeCedente: Array<Cedante> = [];
   listeCouvertures: Array<Couverture> = [];
+  isUpdateForm : boolean = false;
   dateActuelle = new Date();
+  busySave : Subscription;
+  currentAffaire: BusinessOptional;
+
   @Input() itemToUpdate: BusinessOptional;
+  @Input() isWizardProcess:boolean = false;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Output() stepperInice: EventEmitter<number> = new EventEmitter();
 
@@ -83,10 +89,10 @@ export class FormIdentificationComponent implements OnInit {
       ],
       facSmpLci: [this.itemToUpdate?.facSmpLci || ""],
       facPrime: [this.itemToUpdate?.facPrime || ""],
-      cedenteId: [this.itemToUpdate?.cedenteId || "", Validators.required],
+      cedId: [this.itemToUpdate?.cedId || "", Validators.required],
       statutCode: [this.itemToUpdate?.statutCode || ""],
       couvertureId: [this.itemToUpdate?.couvertureId || "", Validators.required],
-      restARepartir: [this.itemToUpdate?.cedenteId || ""],
+      restARepartir: [""],
       capitalDejaReparti: [
         this.itemToUpdate?.capitalDejaReparti || ""
       ],
@@ -120,9 +126,9 @@ export class FormIdentificationComponent implements OnInit {
 
   saveItem(item: BusinessOptional) {
     let itemAEnregistrer = Object.assign({}, item);
-    if (!itemAEnregistrer.affId) {
+    if (!this.isUpdateForm) {
       // nous sommes au create
-      this.businessOptionalService
+      this.busySave = this.businessOptionalService
         .create(itemAEnregistrer)
         .subscribe((response: any) => {
           if (response && response.affId) {
@@ -143,7 +149,7 @@ export class FormIdentificationComponent implements OnInit {
         });
     } else {
       // Nous sommes en modification
-      this.businessOptionalService
+      this.busySave = this.businessOptionalService
         .update(itemAEnregistrer)
         .subscribe((response: any) => {
           if (response && response?.affId) {
@@ -155,26 +161,62 @@ export class FormIdentificationComponent implements OnInit {
             );
           }
 
-          if (!this.businessOptionalService.businessOptionalSubject$.value) {
+          if (!this.isWizardProcess) {
             this.closeModal.emit(true);
           } else {
+            // Nous sommes toujours sur le wizard
             this.stepperInice.emit(2);
           }
         });
     }
   }
 
+
   ngOnInit(): void {
     // Initialisation du forms group
+ 
+    // this.currentAffaire = {
+    //     affId: 6,
+    //     affCode: null,
+    //     affAssure: "noglo koffi",
+    //     affActivite: "REASSUREUR",
+    //     affDateEffet: "2023-04-25",
+    //     affDateEcheance: "2023-04-29",
+    //     facNumeroPolice: null,
+    //     affCapitalInitial: 30000000,
+    //     facSmpLci: null,
+    //     facPrime: null,
+    //     cedenteId: 2,
+    //     cedNomFiliale: "NSIA BN",
+    //     cedSigleFiliale: "NSIA BN",
+    //     statutCode: "SAI",
+    //     couvertureId: 1,
+    //     restARepartir: 30000000,
+    //     capitalDejaReparti: 0,
+    //     etatComptable: null,
+    //   };
+
+    this.currentAffaire = {...this.businessOptionalService.businessOptionalSubject$.value};
+
+    if(this.currentAffaire && this.currentAffaire.affId) {
+      this.isUpdateForm = true; // Pour signifier que nous sommes en modification
+      this.itemToUpdate = {...this.currentAffaire};
+
+      // Nous allons formater la date pour eviter invalid date
+      if(this.itemToUpdate && this.itemToUpdate.affDateEffet) {
+        this.itemToUpdate.affDateEffet = this.utilities.formatDateInIsoData(this.itemToUpdate.affDateEffet);
+      }
+
+      if(this.itemToUpdate && this.itemToUpdate.affDateEcheance) {
+        this.itemToUpdate.affDateEcheance = this.utilities.formatDateInIsoData(this.itemToUpdate.affDateEcheance);
+      }
+    }
+
     this.createForm();
     this.getCedente();
     this.getCouverture();
 
-    /** Valeur de l'observable au chargement */
-    console.log(
-      " this.businessOptionalService.businessOptionalSubject$.value ",
-      this.businessOptionalService.businessOptionalSubject$.value
-    );
+
   }
 
   // ngOnChanges(changes: SimpleChanges) {

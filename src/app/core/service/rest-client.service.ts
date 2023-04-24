@@ -25,4 +25,9 @@ export class RestClientService {
     return this.http.put(this.url+''+endpoint,body,option).pipe(timeout(1000*60*3));
   }
 
+  delete(endpoint: string, params?: any, options?: any) {
+    return this.http.delete(this.url + '' + endpoint,options);
+  }
+
+
 }

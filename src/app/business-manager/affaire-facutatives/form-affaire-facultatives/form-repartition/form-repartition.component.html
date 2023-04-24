@@ -1,4 +1,8 @@
-<div class="repartition-container">
+<div class="repartition-container" [ngBusy]="{
+    busy: busySave,
+    message: 'Veuillez patienter ...',
+    backdrop: false
+  }">
     <form name="form-repartition" [formGroup]="formulaireGroup" (ngSubmit)="confirmSaveItem()">
 
         <div class="row">

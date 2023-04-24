@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { BusinessOptional } from 'src/app/core/models/businessOptional';
 import { BusinessOptionalRepartition } from 'src/app/core/models/businessOptionalRepartition';
 import { Cedante } from 'src/app/core/models/cedante';
@@ -29,7 +30,10 @@ export class FormRepartitionComponent implements OnInit {
   currentAffaire : BusinessOptional;
   repartitionBesoinFac: RepartitionByTauxOrCapital;
   dateActuelle = new Date();
+  busySave : Subscription;
+
   @Input() itemToUpdate: BusinessOptionalRepartition; 
+  @Input() isWizardProcess: boolean = false;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Output() stepperInice: EventEmitter<number> = new EventEmitter();
 
@@ -126,7 +130,7 @@ export class FormRepartitionComponent implements OnInit {
     let itemAEnregistrer = Object.assign({}, item);
     if (!this.isUpdateRepartition) {
       // nous sommes au create
-      this.businessOptionalRepartitionService.createCedanteLegaleRepartition(itemAEnregistrer).subscribe((response : any) => {
+      this.busySave = this.businessOptionalRepartitionService.createCedanteLegaleRepartition(itemAEnregistrer).subscribe((response : any) => {
         
         console.log(" response businessOptionalRepartitionService",response);
         
@@ -144,7 +148,7 @@ export class FormRepartitionComponent implements OnInit {
       });
     } else {
       // Nous sommes en modification
-      this.businessOptionalRepartitionService.update(itemAEnregistrer).subscribe((response: any) => {
+      this.busySave = this.businessOptionalRepartitionService.update(itemAEnregistrer).subscribe((response: any) => {
         if (response && response?.repId) {
           this.utilities.showNotification(
             "snackbar-success",
@@ -153,7 +157,7 @@ export class FormRepartitionComponent implements OnInit {
             "center"
           );
 
-          if(!this.businessOptionalService.businessOptionalSubject$.value) {
+          if(!this.isWizardProcess) {
             this.closeModal.emit(true);
           }else{
             this.stepperInice.emit(3);
@@ -272,37 +276,48 @@ export class FormRepartitionComponent implements OnInit {
     )
   }
 
+  getAffaireFacultativeEtatCompta(){
+    this.businessOptionalService.getAffaireFacultativeEtatComptable(this.currentAffaire.affId).subscribe(
+      (response) => {
+        console.log(" response affaire ",response);
+        
+        // On recupere les elements à modifier ici
+      }
+    )
+  }
+
 
   ngOnInit(): void {
     // Initialisation du forms group
+  
+    this.currentAffaire = this.businessOptionalService.businessOptionalSubject$.value;
+
     this.createForm();
     this.getCouverture();
-  
 
-    this.currentAffaire = {
-      "affId": 6,
-      "affCode": null,
-      "affAssure": "noglo koffi",
-      "affActivite": "REASSUREUR",
-      "affDateEffet": "2023-04-25",
-      "affDateEcheance": "2023-04-29",
-      "facNumeroPolice": null,
-      affCapitalInitial: 30000000,
-      "facSmpLci": null,
-      "facPrime": null,
-      "cedenteId": 2,
-      "cedNomFiliale": "NSIA BN",
-      "cedSigleFiliale": "NSIA BN",
-      "statutCode": "SAI",
-      couvertureId: 1,
-      restARepartir: 30000000,
-      "capitalDejaReparti": 0,
-      "etatComptable": null
-  };
+  //   this.currentAffaire = {
+  //     "affId": 6,
+  //     "affCode": null,
+  //     "affAssure": "noglo koffi",
+  //     "affActivite": "REASSUREUR",
+  //     "affDateEffet": "2023-04-25",
+  //     "affDateEcheance": "2023-04-29",
+  //     "facNumeroPolice": null,
+  //     affCapitalInitial: 30000000,
+  //     "facSmpLci": null,
+  //     "facPrime": null,
+  //     "cedenteId": 2,
+  //     "cedNomFiliale": "NSIA BN",
+  //     "cedSigleFiliale": "NSIA BN",
+  //     "statutCode": "SAI",
+  //     couvertureId: 1,
+  //     restARepartir: 30000000,
+  //     "capitalDejaReparti": 0,
+  //     "etatComptable": null
+  // };
 
   this.getCessionLegale();
-   //this.businessOptionalService.businessOptionalSubject$.value;
-    console.log(" this.currentAffaire ",this.currentAffaire);
+  this.getAffaireFacultativeEtatCompta();
    
   }
 }
