@@ -109,7 +109,7 @@ export class FormIdentificationComponent implements OnInit {
       text:
         this.itemToUpdate?.affId && this.itemToUpdate?.affId > 0
           ? "Vous êtes sur le point de modifier une identification. Voulez-vous poursuivre cette action ?"
-          : "Vous êtes sur le point d'enregistrer une cédante. Voulez-vous poursuivre cette action ?",
+          : "Vous êtes sur le point d'enregistrer une identification. Voulez-vous poursuivre cette action ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#0665aa",

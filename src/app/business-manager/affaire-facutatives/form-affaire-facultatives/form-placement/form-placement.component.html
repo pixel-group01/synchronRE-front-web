@@ -53,13 +53,13 @@
                                 <label>Capital:<span class="required_champs">*</span>
                                 </label>
                                 <input class="form-control custom-input" mask="separator" placeholder="Capital" autocomplete="off"
-                                    name="capitalRep" type="text"  [(ngModel)]="itemToSave.repCapital" name="repCapital" />
+                                    name="capitalRep" type="text"  [(ngModel)]="itemToSave.repCapital" name="repCapital"  (keyup)="getRepartionByCapital(itemToSave)" />
                             </div>
     
                             <div class="col-md-1 col-xs-12 mb-3">
                                 <label>Part:<span class="required_champs">*</span>
                                 </label>
-                                <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
+                                <input class="form-control custom-input" placeholder="Taux" autocomplete="off" (keyup)="getRepartionByTaux(itemToSave)"
                                     name="repPart" mask="separator" type="text"  [(ngModel)]="itemToSave.repTaux" name="repTaux"  />
                             </div>
     
@@ -102,7 +102,7 @@
                                     <th>Capital</th>
                                     <th>Part(%)</th>
                                     <th>S/C</th>
-                                    <th>Action</th>
+                                    <th style="text-align: center;">Action</th>
                                 </tr>
                             </thead>
 
@@ -115,7 +115,12 @@
                                     <td>{{repart?.repTaux}}</td>
                                     <td>{{repart?.repSousCommission}}</td>
                                     <td style="text-align: center;" (click)="confirmDeletePlacement(repart)">
-                                        <a title="Supprimer" style="color: red;">
+                                      
+                                        <a title="Imprimer" style="color: rgb(240, 180, 29);">
+                                            <i class="fa fa-print"></i>
+                                        </a>&nbsp;&nbsp;
+
+                                        <a title="Supprimer" (click)="confirmDeletePlacement(repart)" style="color: red;">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>

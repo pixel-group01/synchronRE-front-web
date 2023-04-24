@@ -1,0 +1,36 @@
+<section class="content">
+    <div class="content-block">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header mb-3">
+                        <h2><strong>Affaire traitée</strong></h2>
+                    </div>
+
+                    <div class="body">
+                        <mat-tab-group>
+                            <mat-tab label="Demande de placement">
+                                <ng-template matTabContent>
+                                        <app-demande-placement></app-demande-placement>
+                                </ng-template>
+                            </mat-tab>
+
+                            <mat-tab label="Déclaration de sinistre">
+                                <ng-template matTabContent>
+                                    <app-declarations-sinistre></app-declarations-sinistre>
+                                </ng-template>
+                            </mat-tab> 
+
+                            <!-- <mat-tab label="Affaires archivées">
+                                <ng-template matTabContent>
+                                    <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.ARCHIVE"></app-list-affaires-facultatives>
+                                </ng-template>
+                            </mat-tab> -->
+
+                        </mat-tab-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -54,7 +54,7 @@ export class BusinessOptionalRepartitionService {
   } 
 
   deleteRepartitionPlacement = (idRepartition:any) => {
-    return this.restClient.delete('repartitions/delete-placement'+idRepartition);
+    return this.restClient.delete('repartitions/delete-placement/'+idRepartition);
   } 
 
   getPlacementByAffaire = (index:number = 0,size:number=10,key?:string,affaireId?:number) => {

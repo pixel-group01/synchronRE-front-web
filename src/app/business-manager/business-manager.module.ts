@@ -11,7 +11,9 @@ import { FormIdentificationComponent } from './affaire-facutatives/form-affaire-
 import { FormRepartitionComponent } from './affaire-facutatives/form-affaire-facultatives/form-repartition/form-repartition.component';
 import { FormPlacementComponent } from './affaire-facutatives/form-affaire-facultatives/form-placement/form-placement.component';
 import { DetailsInformationIdentificationComponent } from './affaire-facutatives/form-affaire-facultatives/details-information-identification/details-information-identification.component';
-import { FormArray } from '@angular/forms';
+import { ContainerAffaireTraiteeComponent } from './traites/container-affaire-traitee/container-affaire-traitee.component';
+import { DemandePlacementComponent } from './traites/demande-placement/demande-placement.component';
+import { DeclarationsSinistreComponent } from './traites/declarations-sinistre/declarations-sinistre.component';
 
 
 @NgModule({
@@ -23,7 +25,10 @@ import { FormArray } from '@angular/forms';
     FormIdentificationComponent,
     FormRepartitionComponent,
     FormPlacementComponent,
-    DetailsInformationIdentificationComponent
+    DetailsInformationIdentificationComponent,
+    ContainerAffaireTraiteeComponent,
+    DemandePlacementComponent,
+    DeclarationsSinistreComponent
   ],
   imports: [
     CommonModule,

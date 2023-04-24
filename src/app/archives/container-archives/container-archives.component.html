@@ -1,0 +1,36 @@
+<section class="content">
+    <div class="content-block">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header mb-3">
+                        <h2><strong>Archives</strong></h2>
+                    </div>
+
+                    <div class="body">
+                        <mat-tab-group>
+                            <mat-tab label="Affaire facultatives">
+                                <ng-template matTabContent>
+                                      <app-archive-affaires-facultatives></app-archive-affaires-facultatives>
+                                </ng-template>
+                            </mat-tab>
+
+                            <mat-tab label="Affaires traitées">
+                                <ng-template matTabContent>
+                                    <app-archive-affaires-traitees></app-archive-affaires-traitees>
+                                </ng-template>
+                            </mat-tab> 
+
+                            <mat-tab label="Sinistre">
+                                <ng-template matTabContent>
+                                   <app-archive-sinistre></app-archive-sinistre>
+                                </ng-template>
+                            </mat-tab> 
+                            
+                        </mat-tab-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

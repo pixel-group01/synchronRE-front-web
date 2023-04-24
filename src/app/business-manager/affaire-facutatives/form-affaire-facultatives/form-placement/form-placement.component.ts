@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { Subscription } from "rxjs";
 import { BusinessOptional } from "src/app/core/models/businessOptional";
 import { Cessionnaire } from "src/app/core/models/cessionnaire";
+import { RepartitionByTauxOrCapital } from "src/app/core/models/repartitionByTauxOrCapital";
 import { RepartitionPlacement } from "src/app/core/models/repartitionPlacement";
 import { BusinessOptionalRepartitionService } from "src/app/core/service/business-optional-repartition.service";
 import { BusinessOptionalService } from "src/app/core/service/business-optional.service";
@@ -128,6 +129,16 @@ export class FormPlacementComponent implements OnInit {
   }
 
   getRepartition() {
+
+    if(!this.currentAffaire?.affId) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Aucune affaire selectionnée !",
+        "bottom",
+        "center"
+      );
+      return;
+    }
     this.businessOptionalRepartition
       .getPlacementByAffaire(0, 10, "", this.currentAffaire?.affId)
       .subscribe((response) => {
@@ -176,30 +187,110 @@ export class FormPlacementComponent implements OnInit {
    )
   }
 
+
+  getRepartionByCapital(itemRepartition) {
+    if (!this.currentAffaire || !this.currentAffaire.affId) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Aucune affaire sélectionnée !",
+        "bottom",
+        "center"
+      );
+      return;
+    }
+
+    let currentCapitalSaisi = itemRepartition?.repCapital; //this.getFormFiledsValue('repCapital')?.value;
+    if (!currentCapitalSaisi || !currentCapitalSaisi) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Aucun capital defini !",
+        "bottom",
+        "center"
+      );
+      return;
+    }
+
+    this.businessOptionalRepartition
+      .getRepartitionCalculatByCapital(
+        this.currentAffaire.affId,
+        currentCapitalSaisi
+      )
+      .subscribe((response) => {
+        if (response) {
+          let resultRepartitionTaux = response as RepartitionByTauxOrCapital;
+          itemRepartition.repTaux = resultRepartitionTaux?.taux;
+        }
+      });
+  }
+
+  getRepartionByTaux(itemRepartition) {
+
+    if (!this.currentAffaire || !this.currentAffaire.affId) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Aucune affaire sélectionnée !",
+        "bottom",
+        "center"
+      );
+      return;
+    }
+
+    let currentTauxSaisi = itemRepartition?.repTauxBesoinFac; //this.getFormFiledsValue('repTauxBesoinFac')?.value;
+    if (!currentTauxSaisi || !currentTauxSaisi) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Aucun taux defini !",
+        "bottom",
+        "center"
+      );
+      return;
+    }
+
+    if (currentTauxSaisi > 100) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Le taux ne doit pas être supérieur à 100 !",
+        "bottom",
+        "center"
+      );
+      return;
+    }
+
+    this.businessOptionalRepartition
+      .getRepartitionCalculatTaux(this.currentAffaire.affId, currentTauxSaisi)
+      .subscribe((response) => {
+        if (response) {
+          let resultRepartitionTaux  = response as RepartitionByTauxOrCapital;
+          itemRepartition.repCapital = resultRepartitionTaux?.capital;
+        }
+      });
+  }
+
+
   ngOnInit(): void {
     this.currentAffaire =
       this.businessOptionalService.businessOptionalSubject$.value;
 
-    // this.currentAffaire = {
-    //   affId: 6,
-    //   affCode: null,
-    //   affAssure: "noglo koffi",
-    //   affActivite: "REASSUREUR",
-    //   affDateEffet: "2023-04-25",
-    //   affDateEcheance: "2023-04-29",
-    //   facNumeroPolice: null,
-    //   affCapitalInitial: 30000000,
-    //   facSmpLci: null,
-    //   facPrime: null,
-    //   cedenteId: 2,
-    //   cedNomFiliale: "NSIA BN",
-    //   cedSigleFiliale: "NSIA BN",
-    //   statutCode: "SAI",
-    //   couvertureId: 1,
-    //   restARepartir: 30000000,
-    //   capitalDejaReparti: 0,
-    //   etatComptable: null,
-    // };
+    this.currentAffaire = {
+      affId: 8,
+      affCode: null,
+      affAssure: "noglo koffi",
+      affActivite: "REASSUREUR",
+      affDateEffet: "2023-04-25",
+      affDateEcheance: "2023-04-29",
+      facNumeroPolice: null,
+      affCapitalInitial: 30000000,
+      facSmpLci: null,
+      facPrime: null,
+      cedId: 2,
+      cedNomFiliale: "NSIA BN",
+      cedSigleFiliale: "NSIA BN",
+      statutCode: "SAI",
+      couvertureId: 1,
+      restARepartir: 30000000,
+      capitalDejaReparti: 0,
+      etatComptable: null,
+    };
 
     this.getRepartition();
     this.getCessionnaire();

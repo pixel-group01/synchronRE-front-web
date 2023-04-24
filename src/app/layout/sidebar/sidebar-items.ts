@@ -1,7 +1,6 @@
 import { RouteInfo } from "./sidebar.metadata";
 
 export const ROUTES: RouteInfo[] = [
-
   // Tableau de bord
   {
     path: "/admin/dashboard/main",
@@ -14,7 +13,7 @@ export const ROUTES: RouteInfo[] = [
     badge: "",
     badgeClass: "",
     code: "DASHBORD-NAV",
-    acl : '',
+    acl: "",
     submenu: [],
   },
   // Affaire
@@ -44,9 +43,9 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: "/tresorerie/main-tresorerie/caisse-actes-externes",
+        path: "/business/affaire-traitee",
         title: "Traitées",
-        moduleName: "main-tresorerie",
+        moduleName: "business",
         iconType: "list",
         icon: "plus",
         class: "ml-menu",
@@ -56,24 +55,11 @@ export const ROUTES: RouteInfo[] = [
         code: "TRESO-CAISSE-BUREAU-ENTREES",
         submenu: [],
       },
-      {
-        path: "/tresorerie/main-tresorerie/caisse-actes-externes",
-        title: "Réedition de bordereau",
-        moduleName: "main-tresorerie",
-        iconType: "list",
-        icon: "plus",
-        class: "ml-menu",
-        groupTitle: false,
-        badge: "",
-        badgeClass: "",
-        code: "TRESO-CAISSE-BUREAU-ENTREES",
-        submenu: [],
-      }
     ],
   },
 
-   // Affaire
-   {
+  // Affaire
+  {
     path: "",
     title: "Sinistre",
     moduleName: "sinistre",
@@ -127,9 +113,23 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
 
+  {
+    path: "/archives",
+    title: "Archives",
+    moduleName: "archives",
+    iconType: "list",
+    icon: "tachometer",
+    class: "",
+    groupTitle: false,
+    badge: "",
+    badgeClass: "",
+    code: "DASHBORD-NAV",
+    acl: "",
+    submenu: [],
+  },
 
-   // Comptabilité
-   {
+  // Comptabilité
+  {
     path: "",
     title: "Comptabilité",
     moduleName: "gestion-administrative",
@@ -182,7 +182,7 @@ export const ROUTES: RouteInfo[] = [
         ],
       },
       {
-        path: "/gestion-administrative/rdv",
+        path: "",
         title: "Traité",
         moduleName: "rdv",
         iconType: "list",
@@ -195,7 +195,7 @@ export const ROUTES: RouteInfo[] = [
 
         submenu: [
           {
-            path: "/gestion-administrative/rdv",
+            path: "",
             title: "Paiement",
             moduleName: "rdv",
             iconType: "list",
@@ -222,7 +222,34 @@ export const ROUTES: RouteInfo[] = [
           },
         ],
       },
-      
+      {
+        path: "",
+        title: "Sinistre",
+        moduleName: "rdv",
+        iconType: "list",
+        icon: "plus",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        code: "GEST-ADMINISTRATIVE-PRISE-RENDEZ-VOUS",
+
+        submenu: [
+          {
+            path: "",
+            title: "Règlements",
+            moduleName: "rdv",
+            iconType: "list",
+            icon: "",
+            class: "ml-menu",
+            groupTitle: false,
+            badge: "",
+            badgeClass: "",
+            // code: "82209945",
+            submenu: [],
+          },
+        ],
+      },
     ],
   },
 
@@ -330,7 +357,6 @@ export const ROUTES: RouteInfo[] = [
         code: "PARAM-UNITE-SOIN",
         submenu: [],
       },
-      
     ],
   },
 
@@ -399,7 +425,6 @@ export const ROUTES: RouteInfo[] = [
         code: "ADMIN-HISTORIQUE-CONNEXION",
         submenu: [],
       },
-
     ],
   },
 ];

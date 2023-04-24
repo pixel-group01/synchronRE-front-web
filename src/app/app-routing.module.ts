@@ -38,6 +38,14 @@ const routes: Routes = [
           ),
       },
       {
+        path: "archives",
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import("./archives/archives.module").then(
+            (m) => m.ArchivesModule
+          ),
+      },
+      {
         path: "parametres",
         canActivate: [AuthGuard],
         loadChildren: () =>

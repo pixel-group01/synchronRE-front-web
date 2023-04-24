@@ -3,7 +3,7 @@
     message: 'Veuillez patienter ...',
     backdrop: false
   }">
-    <form name="form-repartition" [formGroup]="formulaireGroup" (ngSubmit)="confirmSaveItem()">
+    <form name="form-repartition" (ngSubmit)="confirmSaveItem()">
 
         <div class="row">
             <div class="col-12">
@@ -37,26 +37,24 @@
                                         <span class="required_champs">*</span>
                                     </label>
                                     <input class="form-control custom-input" placeholder="Filiale" autocomplete="off"
-                                        formControlName="repCapital" name="repCapital" mask="separator" (keyup)="getRepartionByCapital()"
-                                        [class.errorInputForm]="getFormFiledsValue('repCapital')?.invalid && getFormFiledsValue('repCapital')?.touched"
+                                        [(ngModel)]="itemToSave.repCapital" name="repCapital" mask="separator" (keyup)="getRepartionByCapital()"
                                         type="text" />
-                                    <small class="text-danger"
+                                    <!-- <small class="text-danger"
                                         *ngIf="(getFormFiledsValue('repCapital')?.dirty || getFormFiledsValue('repCapital')?.touched) && getFormFiledsValue('repCapital')?.invalid && getFormFiledsValue('repCapital')?.errors?.['required']">
                                         Ce champs est obligatoire
-                                    </small>
+                                    </small> -->
                                 </div>
 
                                 <div class="col-md-6 col-xs-12 mb-3">
                                     <label>Taux (%) :
                                     </label>
                                     <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
-                                        formControlName="repTauxBesoinFac" name="repTaux" maxlength="3" (keyup)="getRepartionByTaux()"
-                                        [class.errorInputForm]="getFormFiledsValue('repTaux')?.invalid && getFormFiledsValue('repTaux')?.touched"
+                                        [(ngModel)]="itemToSave.repTauxBesoinFac" name="repTaux" maxlength="3" (keyup)="getRepartionByTaux()"
                                         type="text" />
-                                    <small class="text-danger"
+                                    <!-- <small class="text-danger"
                                         *ngIf="(getFormFiledsValue('repTaux')?.dirty || getFormFiledsValue('repTaux')?.touched) && getFormFiledsValue('repTaux')?.invalid && getFormFiledsValue('repTaux')?.errors?.['required']">
                                         Ce champs est obligatoire
-                                    </small>
+                                    </small> -->
                                 </div>
 
                             </div>
@@ -71,7 +69,7 @@
 
                             <div class="row">
 
-                                <div class="col-12 table-responsive" formArrayName="repartitionCessionLegal">
+                                <div class="col-12 table-responsive">
                                     <table class="table table-condensed table-striped table-hover">
                                         <thead>
                                             <tr class="custom-table-head">
@@ -80,23 +78,24 @@
                                                 <th>Part (%)</th>
                                             </tr>
                                         </thead>
-
+ 
                                         <tbody>
-                                            <!-- <tr *ngFor="let cession of repartitionCessionLegal().controls; let idx=index"  [formGroupName]="i">
+                                            <tr *ngFor="let cession of listeParametreCessionsLegale; let idx=index">
                                                 <td>{{cession?.paramCesLegLibelle}}</td>
                                                 <td>
                                                     <input class="form-control custom-input" 
-                                                    formControlName="repCapital"
+                                                    [(ngModel)]="cession.repCapital" (keyup)="getRepartionByCapital(cession.repCapital)"
                                                     placeholder="Capital" autocomplete="off"
                                                         name="capCessionFormArray" mask="separator"  />
                                                 </td>
                                                 <td>
                                                     <input class="form-control custom-input" 
-                                                    formControlName="repTaux"
+                                                    [(ngModel)]="cession.repTaux"
                                                         placeholder="Taux" autocomplete="off"
+                                                        (keyup)="getRepartionByTaux(cession.repTaux)"
                                                             name="tauxFrmArray" mask="separator"/>
                                                 </td>
-                                            </tr> -->
+                                            </tr>
 
                                         </tbody>
                                     </table>
@@ -119,7 +118,7 @@
                                         <span class="required_champs">*</span>
                                     </label>
                                     <input class="form-control custom-input" 
-                                    formControlName="besoinFacInitial"
+                                    [(ngModel)]="itemToSave.besoinFacInitial"
                                     placeholder="Besoin FAC" autocomplete="off"
                                         name="besoinFacRes" mask="separator" [disabled]="true" [readonly]="true" />
                                 </div>
@@ -128,13 +127,13 @@
                                     <label>Taux (%) :
                                     </label>
                                     <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
-                                        formControlName="repTauxBesoinFac" name="repTauxBesoinFac" (keyup)="getRepartionByTauxBesoinFac()"
-                                        [class.errorInputForm]="getFormFiledsValue('repTauxBesoinFac')?.invalid && getFormFiledsValue('repTauxBesoinFac')?.touched"
+                                    [(ngModel)]="itemToSave.repTauxBesoinFac"
+                                         name="repTauxBesoinFac" (keyup)="getRepartionByTauxBesoinFac()"
                                         type="text" />
-                                    <small class="text-danger"
+                                    <!-- <small class="text-danger"
                                         *ngIf="(getFormFiledsValue('repTauxBesoinFac')?.dirty || getFormFiledsValue('repTauxBesoinFac')?.touched) && getFormFiledsValue('repTauxBesoinFac')?.invalid && getFormFiledsValue('repTauxBesoinFac')?.errors?.['required']">
                                         Ce champs est obligatoire
-                                    </small>
+                                    </small> -->
                                 </div>
 
                             </div>
