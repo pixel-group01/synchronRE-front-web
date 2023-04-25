@@ -99,6 +99,7 @@ export class FormPlacementComponent implements OnInit {
         .createPlacement(itemAEnregistrer)
         .subscribe((response: any) => {
           if (response && response.affId) {
+            this.itemToSave = {};
             this.utilities.showNotification(
               "snackbar-success",
               this.utilities.getMessageOperationSuccessFull(),
@@ -115,6 +116,7 @@ export class FormPlacementComponent implements OnInit {
         .update(itemAEnregistrer)
         .subscribe((response: any) => {
           if (response && response?.affId) {
+            this.itemToSave = {};
             this.utilities.showNotification(
               "snackbar-success",
               this.utilities.getMessageOperationSuccessFull(),

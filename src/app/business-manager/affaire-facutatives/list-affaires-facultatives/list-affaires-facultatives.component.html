@@ -118,23 +118,22 @@
                 <button
                   ngbDropdownItem
                   (click)="openModal(item, templateActes, true)"
-                  
                 >
                   <i class="fa fa-check"></i>&nbsp; Effectuer un placement
                 </button>
 
                 <button
                   ngbDropdownItem
-                  (click)="openModal(item, templateActes, true)"
-                 
+                  (click)="confirmTransmissionOrReturnAffaire(true, item)"
+                  *ngIf="user.cedId"
                 >
                   <i class="fa fa-list"></i>&nbsp; Transmettre une affaire
                 </button>
 
                 <button
                   ngbDropdownItem
-                  (click)="openModal(item, templateActes, true)"
-                  
+                  (click)="confirmTransmissionOrReturnAffaire(false, item)"
+                  *ngIf="!user.cedId"
                 >
                   <i class="fa fa-redo-alt"></i>&nbsp; Retourner une affaire
                 </button>

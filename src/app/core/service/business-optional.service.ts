@@ -99,4 +99,20 @@ export class BusinessOptionalService {
     this.businessOptionalSubject$.next(businessOptional);
   }
 
+  transmissionAffaire = (idAffaire:number,body:any) => {
+    return this.restClient.post('affaires/facultative/transmettre/'+idAffaire,body)
+  } 
+
+  validerAffaire = (idAffaire:number,body:any) => {
+    return this.restClient.post('affaires/facultative/valider/'+idAffaire,body)
+  } 
+
+  retournerAffaire = (idAffaire:number,body:any) => {
+    return this.restClient.post('affaires/facultative/retourner/'+idAffaire,body)
+  } 
+
+  archiverAffaire = (idAffaire:number,body:any) => {
+    return this.restClient.post('affaires/facultative/archiver/'+idAffaire,body)
+  } 
+
 }
