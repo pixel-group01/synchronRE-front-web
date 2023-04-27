@@ -221,7 +221,7 @@
             <button
               type="button"
               class="btn btn-md btn-cancel pull-right"
-              (click)="gotoPreviousStep()"
+              (click)="gotoPreviousStep()" *ngIf="isWizardProcess"
             >
               Précedent
             </button>

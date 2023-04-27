@@ -31,9 +31,11 @@ export class BusinessOptionalService {
     return this.restClient.put('affaires/facultative/update',body)
   }
 
-  getAffaireFacultativeByReassureurEnTraitement = (index:number = 0,size:number=10,key?:string,cedId?:number) => {
-    let endPointFinal = "affaires/facultative/by-reassureur-en-traitement?page="+index+"&size="+size+""+(key ? "&key="+key : "");
+  getAffaireFacultativeByReassureurEnTraitement = (index:number = 0,size:number=10,key?:string,cedId?:number,exeCode?:any) => {
+    let endPointFinal = "affaires/facultative/by-reassureur-en-traitement?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
    
+    console.log(" exeCode ",exeCode);
+    
     if(endPointFinal && cedId) {
       endPointFinal = endPointFinal+"&cedId="+cedId;
     }
@@ -70,8 +72,8 @@ export class BusinessOptionalService {
     return this.restClient.get(endPointFinal);
   }
 
-  getAffaireFacultativeByFunction = (index:number = 0,size:number=10,key?:string) => {
-    let endPointFinal = "affaires/facultative/by-function?page="+index+"&size="+size+""+(key ? "&key="+key : "");
+  getAffaireFacultativeByFunction = (index:number = 0,size:number=10,key?:string,exeCode?:any) => {
+    let endPointFinal = "affaires/facultative/by-function?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
     return this.restClient.get(endPointFinal);
   }
 
@@ -80,8 +82,8 @@ export class BusinessOptionalService {
     return this.restClient.get(endPointFinal);
   }
 
-  getAffaireFacultativeByCedante = (index:number = 0,size:number=10,key?:string) => {
-    let endPointFinal = "affaires/facultative/by-cedante?page="+index+"&size="+size+""+(key ? "&key="+key : "");
+  getAffaireFacultativeByCedante = (index:number = 0,size:number=10,key?:string,exeCode?:any) => {
+    let endPointFinal = "affaires/facultative/by-cedante?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
     return this.restClient.get(endPointFinal);
   }
 

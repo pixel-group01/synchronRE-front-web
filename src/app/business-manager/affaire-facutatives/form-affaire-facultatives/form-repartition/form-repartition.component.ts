@@ -317,6 +317,8 @@ export class FormRepartitionComponent implements OnInit {
     this.itemToSave.repCapital = itemRepartitionTaux.capital;
     this.itemToSave.repTaux = itemRepartitionTaux.taux;
     this.itemToSave.repTauxBesoinFac = itemRepartitionTaux.tauxBesoinFac;
+
+    sessionStorage.setItem("itemRepartitionTaux",JSON.stringify(itemRepartitionTaux));
   }
 
   //Recuperer les cession legale
@@ -324,7 +326,7 @@ export class FormRepartitionComponent implements OnInit {
     this.businessOptionalRepartitionService
       .getRepartitionCessionLegaleParam(this.currentAffaire.affId)
       .subscribe((response) => {
-        console.log(" cession param ", response);
+
         this.listeCessionLegale = response as any;
 
         this.listeCessionLegale.forEach((cessionLegal: CessionLegale) => {
@@ -393,7 +395,7 @@ export class FormRepartitionComponent implements OnInit {
       return;
     }
 
-    let currentTauxSaisi = itemRepartition?.repTauxBesoinFac; //this.getFormFiledsValue('repTauxBesoinFac')?.value;
+    let currentTauxSaisi = itemRepartition?.repTaux; //this.getFormFiledsValue('repTauxBesoinFac')?.value;
     if (!currentTauxSaisi || !currentTauxSaisi) {
       this.utilities.showNotification(
         "snackbar-danger",

@@ -17,4 +17,6 @@ export class BusinessOptional {
     couvertureId?: number;
     restARepartir?: number;
     capitalDejaReparti?: number;
+    exeCode?:number;
+    cedanteId?:number
 }

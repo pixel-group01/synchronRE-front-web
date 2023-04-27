@@ -5,5 +5,6 @@ export class RepartitionPlacement {
     repSousCommission?: number;
     affId?:number;
     repInterlocuteur?:string;
-    cesId?: number
+    cesId?: number;
+    repTauxComCourt?:number
 }

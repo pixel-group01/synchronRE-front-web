@@ -62,6 +62,8 @@
                                 <input class="form-control custom-input" placeholder="Taux" autocomplete="off" (keyup)="getRepartionByTaux(itemToSave)"
                                     name="repPart" mask="separator" type="text"  [(ngModel)]="itemToSave.repTaux" name="repTaux"  />
                             </div>
+ 
+                          
     
                             <div class="col-md-1 col-xs-12 mb-3">
                                 <label>SC/C:<span class="required_champs">*</span>
@@ -69,8 +71,15 @@
                                 <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
                                     name="repSousCommission" type="text"  mask="separator" [(ngModel)]="itemToSave.repSousCommission" name="repSousCommission" />
                             </div>
+
+                            <div class="col-md-1 col-xs-12 mb-3">
+                                <label>Taux C.C:<span class="required_champs">*</span>
+                                </label>
+                                <input class="form-control custom-input" placeholder="Taux Court" autocomplete="off"
+                                    name="repTauxComCourt" mask="separator" type="text"  [(ngModel)]="itemToSave.repTauxComCourt" name="repTauxComCourt"  />
+                            </div>
     
-                            <div class="col-md-2 col-xs-12 mb-3">
+                            <div class="col-md-1 col-xs-12 mb-3">
                                 <button class="btn btn-xs btn-default btn-add" type="button" (click)="confirmSaveItem()"> Ajouter </button>
                             </div>
                         </div>
@@ -93,7 +102,7 @@
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
-                                    <th colspan="7" class="text-align-center"> <b>Liste des placements</b> </th>
+                                    <th colspan="8" class="text-align-center"> <b>Liste des placements</b> </th>
                                 </tr>
                                 <tr class="custom-table-head">
                                     <th>#</th>
@@ -101,6 +110,7 @@
                                     <th>Interlocuteur</th>
                                     <th>Capital</th>
                                     <th>Part(%)</th>
+                                    <th>Taux Com. court</th>
                                     <th>S/C</th>
                                     <th style="text-align: center;">Action</th>
                                 </tr>
@@ -113,21 +123,22 @@
                                     <td>{{repart?.repInterlocuteur}}</td>
                                     <td>{{repart?.repCapital | moneyFormat}}</td>
                                     <td>{{repart?.repTaux}}</td>
-                                    <td>{{repart?.repSousCommission}}</td>
-                                    <td style="text-align: center;" (click)="confirmDeletePlacement(repart)">
+                                    <td>{{repart?.repTauxComCourt | moneyFormat}}</td>
+                                    <td>{{repart?.repSousCommission | moneyFormat}}</td>
+                                    <td style="text-align: center;">
                                       
-                                        <a title="Imprimer" style="color: rgb(240, 180, 29);">
+                                        <a title="Imprimer" style="color: rgb(240, 180, 29);cursor: pointer;" (click)="getReportPlacement(repart.repId)">
                                             <i class="fa fa-print"></i>
                                         </a>&nbsp;&nbsp;
 
-                                        <a title="Supprimer" (click)="confirmDeletePlacement(repart)" style="color: red;">
+                                        <a title="Supprimer" (click)="confirmDeletePlacement(repart)" style="color: red;cursor: pointer">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
 
                                 <tr *ngIf="!listeRepartitions || listeRepartitions.length == 0">
-                                    <td colspan="7" class="text-align-center"> Aucune donnée disponible</td>
+                                    <td colspan="8" class="text-align-center"> Aucune donnée disponible</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -138,7 +149,7 @@
         </div>
 
         <div class="custom-btn-save-manager">
-            <button type="button" class="btn btn-md btn-cancel pull-right" (click)="gotoPreviousStep()">
+            <button type="button" class="btn btn-md btn-cancel pull-right" (click)="gotoPreviousStep()"  *ngIf="isWizardProcess"> 
                 Précedent
             </button>
         </div>

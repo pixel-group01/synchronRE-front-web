@@ -9,7 +9,7 @@
   <table class="table table-condensed table-striped table-hover">
     <thead>
       <tr>
-        <th colspan="13">
+        <th colspan="14">
           <div class="row mt-4">
             <div class="col-md-3 col-xs-12 col-sm-12">
               <label>Filiale/cédante : </label>
@@ -27,6 +27,23 @@
                 >
               </ng-select>
             </div>
+
+            <div class="col-md-3 col-xs-12 col-sm-12">
+              <label>Exercice : </label>
+
+              <ng-select
+                [(ngModel)]="itemToSearch.exeCode"
+                (change)="currentPage = 1; getItems()"
+                id="exeCode"
+              >
+                <ng-option
+                  *ngFor="let exercice of listeExercices"
+                  [value]="exercice?.exeCode"
+                  >{{ exercice.exeLibelle }}</ng-option
+                >
+              </ng-select>
+            </div>
+
             <div class="col-md-4 col-xs-12 col-sm-12">
               <label>Rechercher par mot clé : </label>
               <input
@@ -46,6 +63,7 @@
             <i class="fa fa-redo-alt"></i></a
           >&nbsp;&nbsp; #
         </th>
+        <th>Exercice</th>
         <th>N° Affaire</th>
         <th>Cédante</th>
         <th>Branche</th>
@@ -67,6 +85,8 @@
         <td class="txt-align-center">
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td>
+        
+        <td>{{ item?.exeCode }}</td>
         <td>{{ item?.affCode }}</td>
         <td>{{ item?.cedNomFiliale }}</td>
         <td>{{ item?.couLibelle }}</td>
@@ -76,8 +96,8 @@
         <td>{{ item?.affDateEcheance }}</td>
         <td>{{ item?.facNumeroPolice }}</td>
         <td>{{ item?.facCapitaux | moneyFormat }}</td>
-        <td>{{ item?.facSmpLci }}</td>
-        <td>{{ item?.facPrime }}</td>
+        <td>{{ item?.facSmpLci | moneyFormat }}</td>
+        <td>{{ item?.facPrime | moneyFormat }}</td>
         <td class="custom-width-td-action">
           <div class="custom-td-action">
             <div ngbDropdown class="d-inline-block">
@@ -94,32 +114,33 @@
                 aria-labelledby="action"
                 class="dropdown-validation-plainte"
               >
-                <button
+                <!-- <button
                   ngbDropdownItem
                   (click)="openModal(item, templateCreateVacataire)"
                 >
                   <i class="fa fa-list"></i>&nbsp;Etat comptable
-                </button>
+                </button> -->
 
                 <button
                   ngbDropdownItem
-                  (click)="openModal(item, templateCreateVacataire)"
+                  (click)="openModal(templateUpdateAffaire,item)"
                 >
                   <i class="fa fa-edit"></i>&nbsp;Modifier l'affaire
                 </button>
 
                 <button
                   ngbDropdownItem
-                  (click)="openModal(item, templateUniteFocntionnelle, true)"
+                  (click)="openModal(templateUpdateRepartition,item)"
                 >
-                  <i class="fa fa-check"></i>&nbsp; Effectuer une répartition
+                  <i class="fa fa-edit"></i>&nbsp; Effectuer une répartition
                 </button>
 
                 <button
                   ngbDropdownItem
-                  (click)="openModal(item, templateActes, true)"
+                  *ngIf="!user.cedId"
+                  (click)="openModal(templateUpdatePlacement,item)"
                 >
-                  <i class="fa fa-check"></i>&nbsp; Effectuer un placement
+                  <i class="fa fa-edit"></i>&nbsp; Effectuer un placement
                 </button>
 
                 <button
@@ -129,6 +150,14 @@
                 >
                   <i class="fa fa-list"></i>&nbsp; Transmettre une affaire
                 </button>
+
+                <button
+                ngbDropdownItem
+                (click)="confirmValidationAffaire(item)"
+                *ngIf="!user.cedId"
+              >
+                <i class="fa fa-check"></i>&nbsp; Valider l'affaire
+              </button>
 
                 <button
                   ngbDropdownItem
@@ -146,7 +175,7 @@
 
     <tfoot>
       <tr *ngIf="items && items.length > 0">
-        <td colspan="13">
+        <td colspan="14">
           <div class="row pagination-part">
             <div class="col-md-9" style="text-align: center">
               <pagination
@@ -180,7 +209,7 @@
       </tr>
 
       <tr *ngIf="!items || items.length == 0">
-        <td colspan="13">
+        <td colspan="14">
           <div class="col-md-12 txt-align-center">
             Aucune données disponible
           </div>
@@ -189,3 +218,53 @@
     </tfoot>
   </table>
 </div>
+
+<!-- Enregistrement Identification -->
+<ng-template #templateUpdateAffaire>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">
+          Identification
+      </h4>
+
+      <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+      </button>
+  </div>
+  <div class="modal-body">
+      <app-form-identification (closeModal)="closeFormModal($event)"></app-form-identification>
+  </div>
+</ng-template>
+
+
+<!-- Enregistrement Repartition -->
+<ng-template #templateUpdateRepartition>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">
+          Repartition
+      </h4>
+
+      <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+      </button>
+  </div>
+  <div class="modal-body">
+      <app-form-repartition (closeModal)="closeFormModal($event)"></app-form-repartition>
+  </div>
+</ng-template>
+
+
+<!-- Enregistrement placement -->
+<ng-template #templateUpdatePlacement>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">
+          Repartition
+      </h4>
+
+      <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+      </button>
+  </div>
+  <div class="modal-body">
+      <app-form-placement (closeModal)="closeFormModal($event)"></app-form-placement>
+  </div>
+</ng-template>

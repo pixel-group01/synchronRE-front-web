@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Component, Input, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { BusinessOptional } from 'src/app/core/models/businessOptional';
 import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
@@ -9,6 +9,8 @@ import { UserService } from 'src/app/core/service/user.service';
 import { User } from 'src/app/core/models/user';
 import Swal from "sweetalert2";
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
+import { Exercice } from 'src/app/core/models/exercice';
+import { ExerciceService } from 'src/app/core/service/exercice.service';
 
 @Component({
   selector: 'app-list-affaires-facultatives',
@@ -26,11 +28,13 @@ export class ListAffairesFacultativesComponent implements OnInit {
   totalItems: number;
   busyGet: Subscription;
   user : User;
+  listeExercices : Array<Exercice> = [];
   @Input() statutAffaire! : string;
+  @Input() refreshDataTable! : string;
   initialEndPoint : string;
 
-  constructor(private businessOptionalService:BusinessOptionalService,private cedenteService:CedanteService,private userService:UserService,
-    private utilities: UtilitiesService) {
+  constructor(private businessOptionalService:BusinessOptionalService,private cedenteService:CedanteService,private exercieService:ExerciceService,private userService:UserService,
+    private utilities: UtilitiesService,private modalService: BsModalService) {
     this.user = this.userService.getCurrentUserInfo();
 
     if(this.user.cedId) {
@@ -38,6 +42,20 @@ export class ListAffairesFacultativesComponent implements OnInit {
     }
   }
 
+  openModal(template: TemplateRef<any>,itemAffaire : BusinessOptional) {
+    let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
+    if(itemAffaire) {
+      this.businessOptionalService.setCurrentOptionalBusiness(itemAffaire);
+    }
+    this.modalRef = this.modalService.show(template,config);
+  }
+
+  closeFormModal($event) {
+    this.modalRef.hide();
+    this.businessOptionalService.setCurrentOptionalBusiness(null);
+    this.getItems();
+  }
+  
   pageChanged(event: any): void {
     this.currentPage = event.page ;
     this.getItems();
@@ -74,13 +92,34 @@ export class ListAffairesFacultativesComponent implements OnInit {
       });
   }
 
+  confirmValidationAffaire(affaire:BusinessOptional) {
+    /** Faire les controls */
+    let itemAEnregistrer = Object.assign({}, affaire);
+
+    if (itemAEnregistrer)
+      Swal.fire({
+        title: "Validation d'affaire",
+        text:"Vous êtes sur le point de valider cette affaire. Voulez-vous poursuivre cette action ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0665aa",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Oui",
+        cancelButtonText: "Non",
+      }).then((result) => {
+        if (result.value) {
+            this.validationAffaire(itemAEnregistrer);
+        }
+      });
+  }
+
 
   saveTransmission(itemAEnregistrer: BusinessOptional) {
     this.busyGet = this.businessOptionalService
     .transmissionAffaire(itemAEnregistrer.affId,itemAEnregistrer)
     .subscribe((response: any) => {
-      if (response && response.affId) {
-        this.itemToSave = {};
+
+      if(response) {
         this.utilities.showNotification(
           "snackbar-success",
           this.utilities.getMessageOperationSuccessFull(),
@@ -89,6 +128,26 @@ export class ListAffairesFacultativesComponent implements OnInit {
         );
         this.getItems();
       }
+
+    });
+  }
+
+
+  validationAffaire(itemAEnregistrer: BusinessOptional) {
+    this.busyGet = this.businessOptionalService
+    .validerAffaire(itemAEnregistrer.affId,itemAEnregistrer)
+    .subscribe((response: any) => {
+
+      if(response) {
+        this.utilities.showNotification(
+          "snackbar-success",
+          this.utilities.getMessageOperationSuccessFull(),
+          "bottom",
+          "center"
+        );
+        this.getItems();
+      }
+
     });
   }
 
@@ -97,8 +156,7 @@ export class ListAffairesFacultativesComponent implements OnInit {
     this.busyGet = this.businessOptionalService
     .retournerAffaire(itemAEnregistrer.affId,itemAEnregistrer)
     .subscribe((response: any) => {
-      if (response && response.affId) {
-        this.itemToSave = {};
+      if(response) {
         this.utilities.showNotification(
           "snackbar-success",
           this.utilities.getMessageOperationSuccessFull(),
@@ -123,6 +181,21 @@ export class ListAffairesFacultativesComponent implements OnInit {
       }
     )
   }
+
+
+  getExercice(){
+    this.exercieService.getAll().subscribe((response : any) => {
+      if (response) {
+        this.listeExercices = response as Exercice[];
+        this.itemToSearch.exeCode = this.listeExercices[0].exeCode;
+
+        this.getItems();
+      } else {
+        this.listeExercices = [];
+      }
+    });
+  }
+
   // openModal(data: any, template: TemplateRef<any>) {
 
   //   let config = {backdrop: true, ignoreBackdropClick: true};
@@ -137,11 +210,14 @@ export class ListAffairesFacultativesComponent implements OnInit {
   // }
 
   getItems() {
+
+    console.log(" this.itemToSearch.exeCode ",this.itemToSearch.exeCode);
+    
     this.busyGet =
     (!this.user.cedId ?
-     this.businessOptionalService.getAffaireFacultativeByReassureurEnTraitement((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.cedenteId || null))
+     this.businessOptionalService.getAffaireFacultativeByReassureurEnTraitement((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.cedenteId || null),(this.itemToSearch.exeCode || null))
       :
-    this.businessOptionalService.getAffaireFacultativeByCedante((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null)))
+    this.businessOptionalService.getAffaireFacultativeByCedante((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.exeCode || null))) 
       .subscribe(
         res => {
           if (res && res['content']) {
@@ -185,9 +261,21 @@ export class ListAffairesFacultativesComponent implements OnInit {
     this.getItems();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (
+      changes["refreshDataTable"] &&
+      changes["refreshDataTable"].currentValue
+    ) {
+      /** On reinitialise la pagination  */
+      this.currentPage = 1;
+      this.getItems();
+    }
+  }
+  
   ngOnInit() {
-    this.getItems();
+    // this.getItems();
     this.getCedente();
+    this.getExercice();
   }
 
 

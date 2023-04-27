@@ -20,22 +20,28 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((err) => {
-        if (err.status === 401) {
-          // auto logout if 401 response returned from api
-          this.authenticationService.logout();
-          location.reload();
-        }
 
-        let error = err?.error || err?.error?.message || err?.statusText;
-
+        console.log(" err ",err);
         
-        if(err.statusText === 'Unknown Error') {
-          error = "Connexion momentanement interronpue !";
+        if(err && !err?.message.includes('reports')){
+          if (err.status === 401) {
+            // auto logout if 401 response returned from api
+            this.authenticationService.logout();
+            location.reload();
+          }
+  
+          let error = err?.error || err?.error?.message || err?.statusText;
+  
+          
+          if(err.statusText === 'Unknown Error') {
+            error = "Connexion momentanement interronpue !";
+          }
+          
+          // Je stringify en attendant que le backend ne trouve la solution
+          this.utilities.showNotification("snackbar-danger",JSON.stringify(error),"bottom","center");
+          return throwError(error);
         }
-        
-        // Je stringify en attendant que le backend ne trouve la solution
-        this.utilities.showNotification("snackbar-danger",JSON.stringify(error),"bottom","center");
-        return throwError(error);
+       
       })
     );
   }

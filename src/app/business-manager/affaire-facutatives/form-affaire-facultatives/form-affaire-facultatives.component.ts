@@ -32,6 +32,10 @@ export class FormAffaireFacultativesComponent implements OnInit {
   ngOnDestroy() {
    // On annule l'observable d'affaire facultative
    this.businessOptionalService.setCurrentOptionalBusiness(null);
+
+   if(sessionStorage.getItem("itemRepartitionTaux")) {
+    sessionStorage.removeItem("itemRepartitionTaux");
+   }
   }
  
 }

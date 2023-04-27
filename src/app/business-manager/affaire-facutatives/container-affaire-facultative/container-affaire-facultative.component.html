@@ -11,19 +11,21 @@
                         <mat-tab-group>
                             <mat-tab label="Demande de placement">
                                 <ng-template matTabContent>
-                                        <div class="header-btn-new-affaire">
-                                            <button type="button" class="btn btn-md custom_btn_primary pull-right" (click)="openModal(templateNewBusiness)"
-                                            >
+                                    <div class="header-btn-new-affaire">
+                                        <button type="button" class="btn btn-md custom_btn_primary pull-right"
+                                            (click)="openModal(templateNewBusiness)">
                                             <i class="fa fa-plus"></i>&nbsp; Nouvelle affaire
                                         </button>
-                                        </div>
-                                        <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.SAISIE"></app-list-affaires-facultatives>
+                                    </div>
+                                    <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.SAISIE"
+                                        [refreshDataTable]="refreshDataTable"></app-list-affaires-facultatives>
                                 </ng-template>
                             </mat-tab>
 
                             <mat-tab label="Déclaration de sinistre">
                                 <ng-template matTabContent>
-                                    <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.PLACE"></app-list-affaires-facultatives>
+                                    <app-list-affaires-facultatives
+                                        [statutAffaire]="statutAffaire?.PLACE"></app-list-affaires-facultatives>
                                 </ng-template>
                             </mat-tab>
 
@@ -46,14 +48,14 @@
 <ng-template #templateNewBusiness>
     <div class="modal-header">
         <h4 class="modal-title pull-left">
-           Nouvelle affaire
+            Nouvelle affaire
         </h4>
 
-        <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+        <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
             <mat-icon>close</mat-icon>
         </button>
     </div>
     <div class="modal-body">
-       <app-form-affaire-facultatives  (closeModal)="closeFormModal($event)"></app-form-affaire-facultatives>
+        <app-form-affaire-facultatives (closeModal)="closeFormModal($event)"></app-form-affaire-facultatives>
     </div>
 </ng-template>

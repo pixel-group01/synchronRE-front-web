@@ -35,19 +35,6 @@ export const ROUTES: RouteInfo[] = [
     codeAclCedente: enumCodeACL.CEDANTE,
     submenu: [
       {
-        path: "/business/affaire-facultatives",
-        title: "Facultatives",
-        moduleName: "business",
-        iconType: "list",
-        icon: "plus",
-        class: "ml-menu",
-        groupTitle: false,
-        badge: "",
-        badgeClass: "",
-        code: "TRESO-MOUVEMENT-CAISSE",
-        submenu: [],
-      },
-      {
         path: "/business/affaire-traitee",
         title: "Traitées",
         moduleName: "business",
@@ -60,6 +47,19 @@ export const ROUTES: RouteInfo[] = [
         code: "TRESO-CAISSE-BUREAU-ENTREES",
         submenu: [],
       },
+      {
+        path: "/business/affaire-facultatives",
+        title: "Facultatives",
+        moduleName: "business",
+        iconType: "list",
+        icon: "plus",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        code: "TRESO-MOUVEMENT-CAISSE",
+        submenu: [],
+      }
     ],
   },
 

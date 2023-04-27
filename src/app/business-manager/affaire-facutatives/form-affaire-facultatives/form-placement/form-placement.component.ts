@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Subscription } from "rxjs";
 import { BusinessOptional } from "src/app/core/models/businessOptional";
 import { Cessionnaire } from "src/app/core/models/cessionnaire";
@@ -26,7 +26,8 @@ export class FormPlacementComponent implements OnInit {
   currentAffaire: BusinessOptional;
   isUpdateRepartition: boolean;
   busySave: Subscription;
-
+  @Input() isWizardProcess:boolean = false;
+  
   constructor(
     private cessionaireService: CessionnaireService,
     private businessOptionalRepartition: BusinessOptionalRepartitionService,
@@ -55,7 +56,8 @@ export class FormPlacementComponent implements OnInit {
       !itemAEnregistrer?.repInterlocuteur ||
       !itemAEnregistrer?.repCapital ||
       !itemAEnregistrer?.repTaux ||
-      !itemAEnregistrer?.repSousCommission
+      !itemAEnregistrer?.repSousCommission || 
+      !itemAEnregistrer?.repTauxComCourt
     ) {
       this.utilities.showNotification(
         "snackbar-danger",
@@ -67,8 +69,20 @@ export class FormPlacementComponent implements OnInit {
       return;
     }
 
+    if(itemAEnregistrer?.repTauxComCourt > itemAEnregistrer?.repSousCommission) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Le taux de commission courtage ne doit pas être supérieur au SC/C",
+        "bottom",
+        "center"
+      );
+
+      return;
+    }
+
     itemAEnregistrer.affId = this.currentAffaire?.affId;
-    itemAEnregistrer.repTauxBesoinFac = 14;
+
+    // itemAEnregistrer.repTauxBesoinFac = 14;
 
     if (itemAEnregistrer)
       Swal.fire({
@@ -152,6 +166,61 @@ export class FormPlacementComponent implements OnInit {
           this.listeRepartitions = response["content"];
         }
       });
+  }
+
+  getReportPlacement(idPlacement : number){
+    if(idPlacement) {
+      // this.busySave = this.businessOptionalRepartition
+      // .reportNoteCessionPlacement(idPlacement)
+      // .subscribe((response:any) => {
+      //   console.log(" response ", response);
+
+      //   const url = window.URL.createObjectURL(new Blob([response.data]));
+      //   const link = document.createElement('a');
+      //   link.href = url;
+      //   link.setAttribute('download', 'file.pdf');
+      //   document.body.appendChild(link);
+
+      //   link.click();
+      // });
+
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Content-Type", "octet-stream");
+      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJmdW5jdGlvblN0YXJ0aW5nRGF0ZSI6MTY4MjU1MzYwMDAwMCwiZnVuY3Rpb25OYW1lIjoiQWRtaW5pc3RyYXRldXIgU3luY3Job25lUmUiLCJmdW5jdGlvbkVuZGluZ0RhdGUiOjE3MTQxNzYwMDAwMDAsInVzZXJJZCI6MSwibm9tIjoiYWRtaW4iLCJhdXRob3JpdGllcyI6WyJBRE1JTiJdLCJjZXNJZCI6NCwiY2VzTm9tIjoiTkVMU09OLVJFIiwiY2VzU2lnbGUiOiJOUkUiLCJmdW5jdGlvbklkIjo0LCJpc0NvdXJ0aWVyIjp0cnVlLCJjb25uZWN0aW9uSWQiOiJlYmU4NGRlZC1iMDRjLTRkMzYtOGE2ZS01ODlhY2MxYWQ1YjgiLCJ0ZWwiOiIxMjM0IiwicHJlbm9tIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInN1YiI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY4MjU5NzY3OSwiZXhwIjoxNjgyNjg0MDc5fQ.-IiCfdrRym_mXjE-fnKLcTmdHA5j5vA7ca6Ytzsf1Ow");
+
+      var requestOptions : any = {
+        method: 'GET',
+        responseType: "blob",
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+
+      fetch("http://localhost:5001/reports/note-cession/4", requestOptions)
+        .then(response => response.text())
+        .then(
+          (result:any) => {
+            console.log(result)
+
+            typeof(result);
+            console.log(" typeof(result) ",typeof(result));
+            const pdfBlob = new Blob([result.data], { type: 'application/pdf' });
+
+            const url = window.URL.createObjectURL(pdfBlob);
+            const link = document.createElement('a');
+            link.href = url;
+
+            console.log(" url ",url);
+            
+            link.setAttribute('download', 'fileExport.pdf');
+            document.body.appendChild(link);
+
+            link.click();
+          }
+        )
+        .catch(error => console.log('error', error));
+
+      }
   }
 
   confirmDeletePlacement(repartition) {

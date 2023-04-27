@@ -4,17 +4,18 @@ import {
   Input,
   OnInit,
   Output,
-  SimpleChanges,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { BusinessOptional } from "src/app/core/models/businessOptional";
 import { Cedante } from "src/app/core/models/cedante";
 import { Couverture } from "src/app/core/models/couverture";
+import { Exercice } from "src/app/core/models/exercice";
 import { User } from "src/app/core/models/user";
 import { BusinessOptionalService } from "src/app/core/service/business-optional.service";
 import { CedanteService } from "src/app/core/service/cedante.service";
 import { CouvertureService } from "src/app/core/service/couverture.service";
+import { ExerciceService } from "src/app/core/service/exercice.service";
 import { UserService } from "src/app/core/service/user.service";
 import { UtilitiesService } from "src/app/core/service/utilities.service";
 import Swal from "sweetalert2";
@@ -34,6 +35,7 @@ export class FormIdentificationComponent implements OnInit {
   busySave : Subscription;
   currentAffaire: BusinessOptional;
   user : User;
+  listeExercices: Array<Exercice> = [];
 
   @Input() itemToUpdate: BusinessOptional;
   @Input() isWizardProcess:boolean = false;
@@ -46,6 +48,7 @@ export class FormIdentificationComponent implements OnInit {
     private couvertureService: CouvertureService,
     private businessOptionalService: BusinessOptionalService,
     private utilities: UtilitiesService,
+    private exerciceService: ExerciceService,
     private userService:UserService
   ) {
     this.user = this.userService.getCurrentUserInfo();
@@ -56,10 +59,6 @@ export class FormIdentificationComponent implements OnInit {
       if (response && response["content"]) {
         this.listeCedente = response["content"] as Cedante[];
 
-        console.log(" cedente ",this.listeCedente);
-        console.log(" this.user ",this.user?.cedId);
-        
-        
         if(this.user.cedId) {
           this.createForm();
         }
@@ -76,6 +75,16 @@ export class FormIdentificationComponent implements OnInit {
         this.listeCouvertures = response["content"] as Couverture[];
       } else {
         this.listeCouvertures = [];
+      }
+    });
+  }
+
+  getExercice() {
+    this.exerciceService.getAll().subscribe((response : any) => {
+      if (response) {
+        this.listeExercices = response as Exercice[];
+      } else {
+        this.listeExercices = [];
       }
     });
   }
@@ -107,6 +116,7 @@ export class FormIdentificationComponent implements OnInit {
       cedId: [ (this.itemToUpdate?.cedId || this.user?.cedId) || "", Validators.required],
       statutCode: [this.itemToUpdate?.statutCode || ""],
       couvertureId: [this.itemToUpdate?.couvertureId || "", Validators.required],
+      exeCode: [this.itemToUpdate?.exeCode || "", Validators.required],
       restARepartir: [""],
       capitalDejaReparti: [
         this.itemToUpdate?.capitalDejaReparti || ""
@@ -213,9 +223,12 @@ export class FormIdentificationComponent implements OnInit {
 
     this.currentAffaire = {...this.businessOptionalService.businessOptionalSubject$.value};
 
+    console.log(" this.currentAffaire ",this.currentAffaire);
+    
     if(this.currentAffaire && this.currentAffaire.affId) {
       this.isUpdateForm = true; // Pour signifier que nous sommes en modification
       this.itemToUpdate = {...this.currentAffaire};
+      this.itemToUpdate.cedId = this.itemToUpdate.cedanteId || this.itemToUpdate.cedId;
 
       // Nous allons formater la date pour eviter invalid date
       if(this.itemToUpdate && this.itemToUpdate.affDateEffet) {
@@ -230,8 +243,7 @@ export class FormIdentificationComponent implements OnInit {
     this.createForm();
     this.getCedente();
     this.getCouverture();
-
-
+    this.getExercice();
   }
 
   // ngOnChanges(changes: SimpleChanges) {

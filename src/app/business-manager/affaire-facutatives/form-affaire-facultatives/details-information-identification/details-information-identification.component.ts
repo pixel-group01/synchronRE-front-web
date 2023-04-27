@@ -42,6 +42,10 @@ export class DetailsInformationIdentificationComponent implements OnInit {
     }
 
     this.getDetailsBussinessOptional();
+
+    if(!this.currentRepartitionTaux || !this.currentRepartitionTaux.taux) {
+      this.currentRepartitionTaux = JSON.parse(sessionStorage.getItem("itemRepartitionTaux")) as RepartitionByTauxOrCapital;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {

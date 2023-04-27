@@ -64,4 +64,8 @@ export class BusinessOptionalRepartitionService {
     return this.restClient.get(endPointFinal);
   }
 
+  reportNoteCessionPlacement(placementId:number){
+    return this.restClient.get('reports/note-cession/'+placementId);
+  }
+
 }
