@@ -24,7 +24,7 @@ export const ROUTES: RouteInfo[] = [
     path: "",
     title: "Production",
     moduleName: "business",
-    iconType: "money-bill",
+    iconType: "clock",
     icon: "monetization_on",
     class: "menu-toggle",
     groupTitle: false,
@@ -141,8 +141,8 @@ export const ROUTES: RouteInfo[] = [
   {
     path: "",
     title: "Comptabilité",
-    moduleName: "gestion-administrative",
-    iconType: "clock",
+    moduleName: "comptabilites",
+    iconType: "money-bill",
     icon: "plus",
     class: "menu-toggle",
     groupTitle: false,
@@ -152,9 +152,9 @@ export const ROUTES: RouteInfo[] = [
     code: "GEST-ADMINISTRATIVE-NAV",
     submenu: [
       {
-        path: "/gestion-administrative/gestion-vacations",
+        path: "",
         title: "Facultative",
-        moduleName: "gestion-vacations",
+        moduleName: "comptabilites-fac",
         iconType: "list",
         icon: "plus",
         class: "ml-menu",
@@ -164,9 +164,9 @@ export const ROUTES: RouteInfo[] = [
         code: "GEST-ADMINISTRATIVE-GESTION-VACATIONS",
         submenu: [
           {
-            path: "/gestion-administrative/gestion-vacations/vacataire",
+            path: "/comptabilites/paiement",
             title: "Paiement",
-            moduleName: "gestion-vacations",
+            moduleName: "comptabilites-fac",
             iconType: "list",
             icon: "",
             class: "ml-menu",
@@ -177,9 +177,9 @@ export const ROUTES: RouteInfo[] = [
             submenu: [],
           },
           {
-            path: "/gestion-administrative/gestion-vacations/vacations",
+            path: "/comptabilites/reversement",
             title: "Reversement",
-            moduleName: "gestion-vacations",
+            moduleName: "comptabilites-fac",
             iconType: "list",
             icon: "",
             class: "ml-menu",

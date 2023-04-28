@@ -36,7 +36,7 @@ export class FormIdentificationComponent implements OnInit {
   currentAffaire: BusinessOptional;
   user : User;
   listeExercices: Array<Exercice> = [];
-
+  @Input() isDetails:boolean = false;
   @Input() itemToUpdate: BusinessOptional;
   @Input() isWizardProcess:boolean = false;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();

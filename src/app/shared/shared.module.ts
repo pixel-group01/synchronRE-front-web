@@ -34,6 +34,7 @@ import { TimeLineComponent } from "./components/time-line/time-line.component";
 import { PriseDeDecisionWorkflowComponent } from "./components/prise-de-decision-workflow/prise-de-decision-workflow.component";
 import { AppAccessDirective } from "./directive/app-access.directive";
 import { ChartModule } from 'angular-highcharts';
+import { ListAffairesFacultativesComponent } from "../business-manager/affaire-facutatives/list-affaires-facultatives/list-affaires-facultatives.component";
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { ChartModule } from 'angular-highcharts';
     PosologiePrescriptionComponent,
     TimeLineComponent,
     PriseDeDecisionWorkflowComponent,
+    ListAffairesFacultativesComponent,
     AppAccessDirective,
     // ProgrammeDialyseComponent,
     // FormCreateProgrammeComponent,
@@ -128,6 +130,7 @@ import { ChartModule } from 'angular-highcharts';
     PosologiePrescriptionComponent,
     TimeLineComponent,
     PriseDeDecisionWorkflowComponent,
+    ListAffairesFacultativesComponent,
     AppAccessDirective,
     ChartModule 
   ],

@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import { Exercice } from 'src/app/core/models/exercice';
 import { ExerciceService } from 'src/app/core/service/exercice.service';
+import { enumStatut, enumStatutAffaire } from 'src/app/core/enumerator/enumerator';
 
 @Component({
   selector: 'app-list-affaires-facultatives',
@@ -31,11 +32,14 @@ export class ListAffairesFacultativesComponent implements OnInit {
   listeExercices : Array<Exercice> = [];
   @Input() statutAffaire! : string;
   @Input() refreshDataTable! : string;
+  @Input() noPutAction : boolean = false;
   initialEndPoint : string;
+  statutAffEnum : any;
 
   constructor(private businessOptionalService:BusinessOptionalService,private cedenteService:CedanteService,private exercieService:ExerciceService,private userService:UserService,
     private utilities: UtilitiesService,private modalService: BsModalService) {
     this.user = this.userService.getCurrentUserInfo();
+    this.statutAffEnum = enumStatutAffaire;
 
     if(this.user.cedId) {
       this.itemToSearch.cedenteId = this.user.cedId;
@@ -45,6 +49,7 @@ export class ListAffairesFacultativesComponent implements OnInit {
   openModal(template: TemplateRef<any>,itemAffaire : BusinessOptional) {
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
     if(itemAffaire) {
+      this.itemToSave = {...itemAffaire};
       this.businessOptionalService.setCurrentOptionalBusiness(itemAffaire);
     }
     this.modalRef = this.modalService.show(template,config);
@@ -211,14 +216,28 @@ export class ListAffairesFacultativesComponent implements OnInit {
 
   getItems() {
 
-    console.log(" this.itemToSearch.exeCode ",this.itemToSearch.exeCode);
+    let endPoint : any;
+
+    console.log(" this.statutAffaire ",this.statutAffaire);
     
-    this.busyGet =
-    (!this.user.cedId ?
-     this.businessOptionalService.getAffaireFacultativeByReassureurEnTraitement((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.cedenteId || null),(this.itemToSearch.exeCode || null))
-      :
-    this.businessOptionalService.getAffaireFacultativeByCedante((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.exeCode || null))) 
-      .subscribe(
+
+    if(this.statutAffaire?.toLowerCase() === this.statutAffEnum.AFFAIRES_TRANSMIS?.toLowerCase()){
+      endPoint = this.businessOptionalService.getAffaireFacultativeByCedanteTransmis((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.exeCode || null))
+    }else{
+      if(!this.user.cedId){
+        endPoint = this.businessOptionalService.getAffaireFacultativeByReassureurEnTraitement((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.cedenteId || null),(this.itemToSearch.exeCode || null));
+        if(this.statutAffaire?.toLowerCase() === this.statutAffEnum.EN_ATTENTE_DE_REGLEMENT?.toLowerCase()){
+          endPoint = this.businessOptionalService.getAffaireFacultativeByReassureurEnReglement((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.cedenteId || null),(this.itemToSearch.exeCode || null));
+        }
+      }else{
+        endPoint = this.businessOptionalService.getAffaireFacultativeByCedante((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.exeCode || null));
+        if(this.statutAffaire?.toLowerCase() === this.statutAffEnum.EN_ATTENTE_DE_REGLEMENT_CEDENTE?.toLowerCase()){
+          endPoint = this.businessOptionalService.getAffaireFacultativeByCedanteEnReglement((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.exeCode || null));
+        }
+      }
+    }
+
+    this.busyGet =endPoint.subscribe(
         res => {
           if (res && res['content']) {
             this.items = res['content'] as BusinessOptional[];

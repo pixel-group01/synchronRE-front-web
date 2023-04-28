@@ -22,6 +22,13 @@
                                 </ng-template>
                             </mat-tab>
 
+                            <mat-tab label="Affaire transmis" *ngIf="user && user.cedId">
+                                <ng-template matTabContent>
+                                    <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.AFFAIRES_TRANSMIS"
+                                        [refreshDataTable]="refreshDataTable" [noPutAction]="true"></app-list-affaires-facultatives>
+                                </ng-template>
+                            </mat-tab>
+
                             <mat-tab label="Déclaration de sinistre">
                                 <ng-template matTabContent>
                                     <app-list-affaires-facultatives

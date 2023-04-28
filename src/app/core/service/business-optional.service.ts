@@ -87,8 +87,25 @@ export class BusinessOptionalService {
     return this.restClient.get(endPointFinal);
   }
 
-  getAffaireFacultativeByCedanteTransmis = (index:number = 0,size:number=10,key?:string) => {
-    let endPointFinal = "affaires/facultative/by-cedante-transmis?page="+index+"&size="+size+""+(key ? "&key="+key : "");
+  getAffaireFacultativeByCedanteTransmis = (index:number = 0,size:number=10,key?:string,exeCode?:any) => {
+    let endPointFinal = "affaires/facultative/by-cedante-transmis?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
+    return this.restClient.get(endPointFinal);
+  }
+
+  getAffaireFacultativeByCedanteEnReglement = (index:number = 0,size:number=10,key?:string,exeCode?:any) => {
+    let endPointFinal = "affaires/facultative/by-cedante-en-reglement?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
+    return this.restClient.get(endPointFinal);
+  }
+
+  getAffaireFacultativeByReassureurEnReglement = (index:number = 0,size:number=10,key?:string,cedId?:number,exeCode?:any) => {
+    let endPointFinal = "affaires/facultative/by-reassureur-en-reglement?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
+   
+    console.log(" exeCode ",exeCode);
+    
+    if(endPointFinal && cedId) {
+      endPointFinal = endPointFinal+"&cedId="+cedId;
+    }
+
     return this.restClient.get(endPointFinal);
   }
 

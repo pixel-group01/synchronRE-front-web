@@ -1,0 +1,32 @@
+<section class="content">
+    <div class="content-block">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header mb-3">
+                        <h2><strong>Paiements</strong></h2>
+                    </div>
+
+                    <div class="body">
+                        <mat-tab-group>
+                            <mat-tab label="Paiements en attentes">
+                                <ng-template matTabContent>
+                                    <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.EN_ATTENTE_DE_REGLEMENT"  [noPutAction]="true"
+                                        ></app-list-affaires-facultatives>
+                                </ng-template>
+                            </mat-tab>
+
+                            <mat-tab label="Paiements effectués">
+                                <ng-template matTabContent>
+                                    <!-- <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.AFFAIRES_TRANSMIS"
+                                        [refreshDataTable]="refreshDataTable" [noPutAction]="true"></app-list-affaires-facultatives> -->
+                                </ng-template>
+                            </mat-tab>
+
+                        </mat-tab-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

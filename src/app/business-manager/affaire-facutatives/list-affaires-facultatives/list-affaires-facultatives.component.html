@@ -74,7 +74,8 @@
         <th>N°Police</th>
         <th>Capitaux</th>
         <th>SMPLCI</th>
-        <th>Prime</th>
+        <!-- <th>Prime</th> -->
+        <!-- <th>Statut</th> -->
 
         <th class="txt-align-center">Actions</th>
       </tr>
@@ -97,7 +98,8 @@
         <td>{{ item?.facNumeroPolice }}</td>
         <td>{{ item?.facCapitaux | moneyFormat }}</td>
         <td>{{ item?.facSmpLci | moneyFormat }}</td>
-        <td>{{ item?.facPrime | moneyFormat }}</td>
+        <!-- <td>{{ item?.facPrime | moneyFormat }}</td> -->
+        <!-- <td> <span class="badge">{{item?.staLibelle}} </span> </td> -->
         <td class="custom-width-td-action">
           <div class="custom-td-action">
             <div ngbDropdown class="d-inline-block">
@@ -122,8 +124,16 @@
                 </button> -->
 
                 <button
+                ngbDropdownItem
+                (click)="openModal(templateDetailsAffaire,item)"
+              >
+                <i class="fa fa-list"></i>&nbsp;Détails l'affaire
+              </button>
+
+                <button
                   ngbDropdownItem
                   (click)="openModal(templateUpdateAffaire,item)"
+                  *ngIf="!noPutAction"
                 >
                   <i class="fa fa-edit"></i>&nbsp;Modifier l'affaire
                 </button>
@@ -131,14 +141,16 @@
                 <button
                   ngbDropdownItem
                   (click)="openModal(templateUpdateRepartition,item)"
+                  *ngIf="!noPutAction"
                 >
                   <i class="fa fa-edit"></i>&nbsp; Effectuer une répartition
                 </button>
 
                 <button
                   ngbDropdownItem
-                  *ngIf="!user.cedId"
+                  *ngIf="!user.cedId && !noPutAction"
                   (click)="openModal(templateUpdatePlacement,item)"
+               
                 >
                   <i class="fa fa-edit"></i>&nbsp; Effectuer un placement
                 </button>
@@ -146,7 +158,7 @@
                 <button
                   ngbDropdownItem
                   (click)="confirmTransmissionOrReturnAffaire(true, item)"
-                  *ngIf="user.cedId"
+                  *ngIf="user.cedId && !noPutAction"
                 >
                   <i class="fa fa-list"></i>&nbsp; Transmettre une affaire
                 </button>
@@ -154,7 +166,7 @@
                 <button
                 ngbDropdownItem
                 (click)="confirmValidationAffaire(item)"
-                *ngIf="!user.cedId"
+                *ngIf="!user.cedId && !noPutAction"
               >
                 <i class="fa fa-check"></i>&nbsp; Valider l'affaire
               </button>
@@ -162,7 +174,7 @@
                 <button
                   ngbDropdownItem
                   (click)="confirmTransmissionOrReturnAffaire(false, item)"
-                  *ngIf="!user.cedId"
+                  *ngIf="!user.cedId && !noPutAction"
                 >
                   <i class="fa fa-redo-alt"></i>&nbsp; Retourner une affaire
                 </button>
@@ -268,3 +280,19 @@
       <app-form-placement (closeModal)="closeFormModal($event)"></app-form-placement>
   </div>
 </ng-template>
+
+<ng-template #templateDetailsAffaire>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">
+          Détails affaire N° {{itemToSave?.affCode}}
+      </h4>
+
+      <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+      </button>
+  </div>
+  <div class="modal-body">
+      <app-details-affaire-facultative></app-details-affaire-facultative>
+  </div>
+</ng-template>
+

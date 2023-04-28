@@ -27,6 +27,7 @@ export class FormPlacementComponent implements OnInit {
   isUpdateRepartition: boolean;
   busySave: Subscription;
   @Input() isWizardProcess:boolean = false;
+  @Input() isDetails:boolean = false;
   
   constructor(
     private cessionaireService: CessionnaireService,

@@ -19,7 +19,7 @@
         </div>
 
 
-        <div class="row">
+        <div class="row" *ngIf="!isDetails">
 
             <div class="col-12 mt-3 mb-3" >
                 <fieldset>
@@ -112,7 +112,7 @@
                                     <th>Part(%)</th>
                                     <th>Taux Com. court</th>
                                     <th>S/C</th>
-                                    <th style="text-align: center;">Action</th>
+                                    <th style="text-align: center;"  *ngIf="!isDetails">Action</th>
                                 </tr>
                             </thead>
 
@@ -125,7 +125,7 @@
                                     <td>{{repart?.repTaux}}</td>
                                     <td>{{repart?.repTauxComCourt | moneyFormat}}</td>
                                     <td>{{repart?.repSousCommission | moneyFormat}}</td>
-                                    <td style="text-align: center;">
+                                    <td style="text-align: center;" *ngIf="!isDetails">
                                       
                                         <a title="Imprimer" style="color: rgb(240, 180, 29);cursor: pointer;" (click)="getReportPlacement(repart.repId)">
                                             <i class="fa fa-print"></i>
@@ -149,7 +149,7 @@
         </div>
 
         <div class="custom-btn-save-manager">
-            <button type="button" class="btn btn-md btn-cancel pull-right" (click)="gotoPreviousStep()"  *ngIf="isWizardProcess"> 
+            <button type="button" class="btn btn-md btn-cancel pull-right" (click)="gotoPreviousStep()"  *ngIf="isWizardProcess && !isDetails"> 
                 Précedent
             </button>
         </div>

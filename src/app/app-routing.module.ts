@@ -46,6 +46,14 @@ const routes: Routes = [
           ),
       },
       {
+        path: "comptabilites",
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import("./comptabilite/comptabilite.module").then(
+            (m) => m.ComptabiliteModule
+          ),
+      },
+      {
         path: "parametres",
         canActivate: [AuthGuard],
         loadChildren: () =>

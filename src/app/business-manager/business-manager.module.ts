@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BusinessManagerRoutingModule } from './business-manager-routing.module';
 import { BusinessManagerComponent } from './business-manager.component';
 import { ContainerAffaireFacultativeComponent } from './affaire-facutatives/container-affaire-facultative/container-affaire-facultative.component';
-import { ListAffairesFacultativesComponent } from './affaire-facutatives/list-affaires-facultatives/list-affaires-facultatives.component';
+// import { ListAffairesFacultativesComponent } from './affaire-facutatives/list-affaires-facultatives/list-affaires-facultatives.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormAffaireFacultativesComponent } from './affaire-facutatives/form-affaire-facultatives/form-affaire-facultatives.component';
 import { FormIdentificationComponent } from './affaire-facutatives/form-affaire-facultatives/form-identification/form-identification.component';
@@ -14,13 +14,14 @@ import { DetailsInformationIdentificationComponent } from './affaire-facutatives
 import { ContainerAffaireTraiteeComponent } from './traites/container-affaire-traitee/container-affaire-traitee.component';
 import { DemandePlacementComponent } from './traites/demande-placement/demande-placement.component';
 import { DeclarationsSinistreComponent } from './traites/declarations-sinistre/declarations-sinistre.component';
+import { DetailsAffaireFacultativeComponent } from './affaire-facutatives/form-affaire-facultatives/details-affaire-facultative/details-affaire-facultative.component';
 
 
 @NgModule({
   declarations: [
     BusinessManagerComponent,
     ContainerAffaireFacultativeComponent,
-    ListAffairesFacultativesComponent,
+
     FormAffaireFacultativesComponent,
     FormIdentificationComponent,
     FormRepartitionComponent,
@@ -28,7 +29,8 @@ import { DeclarationsSinistreComponent } from './traites/declarations-sinistre/d
     DetailsInformationIdentificationComponent,
     ContainerAffaireTraiteeComponent,
     DemandePlacementComponent,
-    DeclarationsSinistreComponent
+    DeclarationsSinistreComponent,
+    DetailsAffaireFacultativeComponent
   ],
   imports: [
     CommonModule,
