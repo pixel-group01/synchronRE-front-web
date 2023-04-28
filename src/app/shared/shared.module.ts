@@ -54,7 +54,6 @@ import { ListAffairesFacultativesComponent } from "../business-manager/affaire-f
     PosologiePrescriptionComponent,
     TimeLineComponent,
     PriseDeDecisionWorkflowComponent,
-    ListAffairesFacultativesComponent,
     AppAccessDirective,
     // ProgrammeDialyseComponent,
     // FormCreateProgrammeComponent,
@@ -130,7 +129,7 @@ import { ListAffairesFacultativesComponent } from "../business-manager/affaire-f
     PosologiePrescriptionComponent,
     TimeLineComponent,
     PriseDeDecisionWorkflowComponent,
-    ListAffairesFacultativesComponent,
+    // ListAffairesFacultativesComponent,
     AppAccessDirective,
     ChartModule 
   ],

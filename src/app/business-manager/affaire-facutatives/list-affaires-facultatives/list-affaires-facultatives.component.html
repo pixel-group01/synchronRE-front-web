@@ -269,7 +269,7 @@
 <ng-template #templateUpdatePlacement>
   <div class="modal-header">
       <h4 class="modal-title pull-left">
-          Repartition
+          Placement
       </h4>
 
       <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
@@ -277,7 +277,7 @@
       </button>
   </div>
   <div class="modal-body">
-      <app-form-placement (closeModal)="closeFormModal($event)"></app-form-placement>
+      <app-form-placement (closeModal)="closeFormModal($event)" [isPlacement]="true"></app-form-placement>
   </div>
 </ng-template>
 

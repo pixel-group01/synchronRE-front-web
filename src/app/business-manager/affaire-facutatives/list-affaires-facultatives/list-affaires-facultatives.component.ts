@@ -57,6 +57,7 @@ export class ListAffairesFacultativesComponent implements OnInit {
 
   closeFormModal($event) {
     this.modalRef.hide();
+    sessionStorage.removeItem("itemRepartitionTaux");
     this.businessOptionalService.setCurrentOptionalBusiness(null);
     this.getItems();
   }

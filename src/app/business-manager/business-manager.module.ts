@@ -15,13 +15,13 @@ import { ContainerAffaireTraiteeComponent } from './traites/container-affaire-tr
 import { DemandePlacementComponent } from './traites/demande-placement/demande-placement.component';
 import { DeclarationsSinistreComponent } from './traites/declarations-sinistre/declarations-sinistre.component';
 import { DetailsAffaireFacultativeComponent } from './affaire-facutatives/form-affaire-facultatives/details-affaire-facultative/details-affaire-facultative.component';
+import { ListAffairesFacultativesComponent } from './affaire-facutatives/list-affaires-facultatives/list-affaires-facultatives.component';
 
 
 @NgModule({
   declarations: [
     BusinessManagerComponent,
     ContainerAffaireFacultativeComponent,
-
     FormAffaireFacultativesComponent,
     FormIdentificationComponent,
     FormRepartitionComponent,
@@ -30,7 +30,8 @@ import { DetailsAffaireFacultativeComponent } from './affaire-facutatives/form-a
     ContainerAffaireTraiteeComponent,
     DemandePlacementComponent,
     DeclarationsSinistreComponent,
-    DetailsAffaireFacultativeComponent
+    DetailsAffaireFacultativeComponent,
+    ListAffairesFacultativesComponent,
   ],
   imports: [
     CommonModule,

@@ -70,16 +70,16 @@ export class FormPlacementComponent implements OnInit {
       return;
     }
 
-    if(itemAEnregistrer?.repTauxComCourt < itemAEnregistrer?.repSousCommission) {
-      this.utilities.showNotification(
-        "snackbar-danger",
-        "Le taux de commission courtage ne doit pas être supérieur au SC/C",
-        "bottom",
-        "center"
-      );
+    // if(itemAEnregistrer?.repTauxComCourt > itemAEnregistrer?.repSousCommission) {
+    //   this.utilities.showNotification(
+    //     "snackbar-danger",
+    //     "Le taux de commission courtage ne doit pas être supérieur au SC/C",
+    //     "bottom",
+    //     "center"
+    //   );
 
-      return;
-    }
+    //   return;
+    // }
 
     itemAEnregistrer.affId = this.currentAffaire?.affId;
 
