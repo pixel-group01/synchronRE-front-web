@@ -70,7 +70,7 @@ export class FormPlacementComponent implements OnInit {
       return;
     }
 
-    if(itemAEnregistrer?.repTauxComCourt > itemAEnregistrer?.repSousCommission) {
+    if(itemAEnregistrer?.repTauxComCourt < itemAEnregistrer?.repSousCommission) {
       this.utilities.showNotification(
         "snackbar-danger",
         "Le taux de commission courtage ne doit pas être supérieur au SC/C",
