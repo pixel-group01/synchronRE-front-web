@@ -70,19 +70,8 @@ export class FormPlacementComponent implements OnInit {
       return;
     }
 
-    // if(itemAEnregistrer?.repTauxComCourt > itemAEnregistrer?.repSousCommission) {
-    //   this.utilities.showNotification(
-    //     "snackbar-danger",
-    //     "Le taux de commission courtage ne doit pas être supérieur au SC/C",
-    //     "bottom",
-    //     "center"
-    //   );
-    //   return;
-    // }
-
+    itemAEnregistrer.cesId = this.itemToSave.cessionnaireSelected?.cesId;
     itemAEnregistrer.affId = this.currentAffaire?.affId;
-
-    // itemAEnregistrer.repTauxBesoinFac = 14;
 
     if (itemAEnregistrer)
       Swal.fire({
@@ -104,6 +93,10 @@ export class FormPlacementComponent implements OnInit {
           this.saveItem(itemAEnregistrer);
         }
       });
+  }
+
+  getInterlocuteur() {
+    this.itemToSave.repInterlocuteur = this.itemToSave.cessionnaireSelected?.cesInterlocuteur;
   }
 
   saveItem(itemAEnregistrer: RepartitionPlacement) {
@@ -258,7 +251,6 @@ export class FormPlacementComponent implements OnInit {
    )
   }
 
-
   getRepartionByCapital(itemRepartition) {
     if (!this.currentAffaire || !this.currentAffaire.affId) {
       this.utilities.showNotification(
@@ -306,7 +298,7 @@ export class FormPlacementComponent implements OnInit {
       return;
     }
 
-    let currentTauxSaisi = itemRepartition?.repTauxBesoinFac; //this.getFormFiledsValue('repTauxBesoinFac')?.value;
+    let currentTauxSaisi = itemRepartition?.repTaux; //this.getFormFiledsValue('repTauxBesoinFac')?.value;
     if (!currentTauxSaisi || !currentTauxSaisi) {
       this.utilities.showNotification(
         "snackbar-danger",

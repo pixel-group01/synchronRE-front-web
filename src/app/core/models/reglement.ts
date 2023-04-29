@@ -1,3 +1,5 @@
+import { ReglementDocument } from "./reglementDocument";
+
 export class Reglement
  {
     regId?: number;
@@ -16,4 +18,6 @@ export class Reglement
     cedSigleFiliale?: string;
     userId?:number;
     regMode?:string;
+    regRecu?:string;
+    regDocReqs? : ReglementDocument[]
 }

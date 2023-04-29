@@ -15,6 +15,10 @@ export class CessionnaireService {
   getAll = () => {
     return this.restClient.get('cessionnaires/list');
   }
+
+  getInterlocuteur = (cesId:number) => {
+    return this.restClient.get('cessionnaires/getInterlocuteur?cesId='+cesId);
+  }
  
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {
     let endPointFinal = "cessionnaires/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");

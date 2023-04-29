@@ -6,4 +6,5 @@ export class Cessionnaire {
     cesTelephone?:string;
     cesAdressePostale?: string;
     cesSituationGeo?: string;
+    cesInterlocuteur?:string
 }

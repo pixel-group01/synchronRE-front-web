@@ -34,14 +34,14 @@
                                     <span class="required_champs">*</span>
                                 </label>
     
-                                  <ng-select [(ngModel)]="itemToSave.cesId" id="cesId" name="cesId">
-                                          <ng-option *ngFor="let cessionaire of listeCessionnaire" [value]="cessionaire?.cesId">{{cessionaire.cesNom}}</ng-option>
+                                  <ng-select [(ngModel)]="itemToSave.cessionnaireSelected" id="cesId" name="cesId" (change)="getInterlocuteur()">
+                                          <ng-option *ngFor="let cessionaire of listeCessionnaire" [value]="cessionaire">{{cessionaire.cesNom}}</ng-option>
                                   </ng-select>
     
                                 <!-- <input class="form-control custom-input" [(ngModel)]="itemToSavePlacement" placeholder="Filiale" autocomplete="off"
                                     name="repCapital" mask="separator" type="text" /> -->
                             </div>
-    
+     
                             <div class="col-md-3 col-xs-12 mb-3">
                                 <label>Interlocuteur:<span class="required_champs">*</span>
                                 </label>

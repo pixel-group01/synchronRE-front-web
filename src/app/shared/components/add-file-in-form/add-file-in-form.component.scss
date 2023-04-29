@@ -1,7 +1,37 @@
 .file-add-container {
+    position: relative;
     .btn-add-file {
         border: 1px solid var(--primary-color);
         color: var(--primary-color);
         margin-top: 20px;
     }
+
+    .btn-add-document {
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        margin-top: 20px;
+    }
+
+    .visualisation-part {
+        // position: absolute;
+        height: 0px;
+        // display: none;
+
+        .showVisualisation {
+            display: block !important;
+            height: 80%;
+
+            img {
+                width: 80%;
+                height: auto;
+                position: absolute;
+                /* z-index: 1000; */
+                top: -100px;
+                border: 2px solid #eceeee;
+                border-radius: 10px;
+                box-shadow: 12px 2px 20px gray;
+            }
+        }
+    }
+
 }

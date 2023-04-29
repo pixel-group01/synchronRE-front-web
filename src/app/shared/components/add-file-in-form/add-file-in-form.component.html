@@ -1,13 +1,13 @@
 <div class="file-add-container">
     <div class="row mb-3">
-        <div class="col-md-4">
+        <div class="col-md-4 mb-3">
             <label>Type de document
                 <span class="required_champs">*</span>
             </label>
 
-            <ng-select [(ngModel)]="itemDocumentAjoute.type" name="regMode" id="mode">
-                <ng-option *ngFor="let document of listeTypesDocuments" [value]="document?.libelle">{{
-                    document.libelle }}</ng-option>
+            <ng-select [(ngModel)]="itemDocumentAjoute.typeDocSelected" name="regMode" id="mode">
+                <ng-option *ngFor="let document of listeTypesDocuments" [value]="document">{{
+                    document.name }}</ng-option>
             </ng-select>
         </div>
 
@@ -20,8 +20,8 @@
         <div class="col-md-4">
             <!-- <app-add-document></app-add-document> -->
             <!-- <div class="form-group col-md-6 pull-right" style="padding-left: 0px"> -->
-                <button id="btnadd-img"  type="button" (click)="gotoUploadFile()" class="btn btn-xs btn-add-document pull-left">
-                    Joindre le fichier (Max:1 Mo)
+                <button id="btn-add-img"  type="button" (click)="gotoUploadFile()" class="btn btn-xs btn-add-document pull-left">
+                    <i class="fa fa-file"></i> Joindre le fichier (Max:5 Mo)
                   </button>
             <!-- </div> -->
         </div>
@@ -39,16 +39,43 @@
                         <th>#</th>
                         <th>Type document</th>
                         <th>Observations</th>
-                        <th>Actions</th> 
+                        <th  class="txt-align-center">Actions</th> 
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        
+                    <tr *ngFor="let doc of listeDocumentsAjoutes;let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{doc?.libelleTypeDoc}}</td>
+                        <td>{{doc?.description}}</td>
+                        <td class="txt-align-center">
+                            <a title="Supprimer" (click)="deleteFileInTable(repart)" style="color: red;cursor: pointer">
+                                <i class="fa fa-trash"></i>
+                            </a>&nbsp;&nbsp;
+
+                            <a title="Visualiser" style="color:#1f2c56" (click)="seeDetails(doc)">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </td>
+
                     </tr>
                 </tbody>
             </table>
 
+        </div>
+      
+    </div>
+
+
+    <!-- Partie de visualisation de l'image-->
+    <div class="visualisation-part">
+        <div  [class.showVisualisation]="currentDocument && currentDocument?.extension">
+            <ng-container *ngIf="currentDocument?.extension == 'pdf' ">
+                pdf file
+            </ng-container>
+    
+            <ng-container  *ngIf="currentDocument?.extension != 'pdf' ">
+                 <img src="{{currentDocument?.base64file}}" (click)="currentDocument = null" />
+            </ng-container>
         </div>
       
     </div>

@@ -50,7 +50,7 @@
       </div>
 
       <div class="col-md-2 col-xs-12 col-sm-12 mb-2">
-        <label>Statut affaire : <span class="required_champs">*</span> </label>
+        <label>Statut : <span class="required_champs">*</span> </label>
 
         <ng-select
           formControlName="affStatutCreation"
@@ -75,9 +75,9 @@
         <label>Devise : <span class="required_champs">*</span> </label>
 
         <ng-select
-          formControlName="deviseCode"
-          name="deviseCode"
-          id="deviseCode"
+          formControlName="devCode"
+          name="devCode"
+          id="devCode"
         >
           <ng-option
             *ngFor="let devise of listeDevises"

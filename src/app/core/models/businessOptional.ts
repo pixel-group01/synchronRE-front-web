@@ -19,6 +19,6 @@ export class BusinessOptional {
     capitalDejaReparti?: number;
     exeCode?:number;
     cedanteId?:number;
-    deviseCode?:string;
+    devCode?:string;
     affStatutCreation?:string;
 }

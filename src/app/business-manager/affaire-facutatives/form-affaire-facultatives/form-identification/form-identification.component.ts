@@ -41,13 +41,13 @@ export class FormIdentificationComponent implements OnInit {
   listeExercices: Array<Exercice> = [];
   listeStatus : any = [
     {
-      libelle: "Réalisé"
+      libelle: "Réalisée"
     },
     {
       libelle: "En instance"
     },
     {
-      libelle: "Non réalisé"
+      libelle: "Non réalisée"
     }
   ]
   @Input() isDetails:boolean = false;
@@ -143,8 +143,8 @@ export class FormIdentificationComponent implements OnInit {
         this.itemToUpdate?.affCapitalInitial || "",
         Validators.required,
       ],
-      deviseCode: [
-        this.itemToUpdate?.deviseCode || "",
+      devCode: [
+        this.itemToUpdate?.devCode || "",
         Validators.required,
       ],
       affStatutCreation: [

@@ -24,6 +24,7 @@ export class FormPaiementComponent implements OnInit {
   busySave: Subscription;
   itemToUpdate : Reglement;
   @Input() currentAffaire : BusinessOptional;
+  listeDocumentsAjoutes : any = {};
   currentUser : User;
   dateActuelle = new Date()
   listeModeReglement : any = [
@@ -111,34 +112,81 @@ export class FormPaiementComponent implements OnInit {
   saveItem(item: Reglement) {
     let itemAEnregistrer = Object.assign({}, item);
     itemAEnregistrer.regDate = moment(itemAEnregistrer.regDate).format("YYYY-MM-DD");
-    console.log(" itemAEnregistrer ",itemAEnregistrer);
+
+    let listeDocumentsAEnregistrer = [];
+
+    // Formatage du request en format data
+    let formData = new FormData();
+
+    formData.append("regReference",itemAEnregistrer.regReference);
+    formData.append("regDate",itemAEnregistrer.regDate);
+    formData.append("regMontant",JSON.stringify(itemAEnregistrer.regMontant));
+    formData.append("userId",JSON.stringify(itemAEnregistrer.userId) );
+    formData.append("regMode",itemAEnregistrer.regMode);
+    formData.append("regDocReqs",JSON.stringify(this.listeDocumentsAjoutes));
+
+
+    // //Formater la liste des documents au cas ou le client a joint des documebnt
+    // if(this.listeDocumentsAjoutes && this.listeDocumentsAjoutes.length > 0){
+    //   this.listeDocumentsAjoutes.forEach(doc => {
+    //       let formData = new FormData();
+
+    //       formData.append('docTypeId',doc.docTypeId);
+    //       formData.append('description',doc.description);
+    //       formData.append('regDoc',doc.regDoc);
+
+    //       listeDocumentsAEnregistrer.push(formData);
+    //   });
+    // }
+
+    // itemAEnregistrer.regDocReqs = listeDocumentsAEnregistrer;
+
+    // console.log(" itemAEnregistrer ",itemAEnregistrer);
     // return;
     
+    let option = {
+      'Content-Type':"multipart/form-data"
+    }
       // nous sommes au create
       this.busySave = this.reglementService
-        .create('paiements',itemAEnregistrer)
+        .create('paiements',formData,option)
         .subscribe((response: any) => {
           if (response) {
 
             console.log(" response",response);
-            
-            this.utilities.showNotification(
-              "snackbar-success",
-              this.utilities.getMessageOperationSuccessFull(),
-              "bottom",
-              "center"
-            );
-
-            // On actualise la liste des paiements
-            this.getOldPaiement();
-            this.getEtatComptable();
+            if(response?.regId){
+              this.utilities.showNotification(
+                "snackbar-success",
+                this.utilities.getMessageOperationSuccessFull(),
+                "bottom",
+                "center"
+              );
+  
+              // On actualise la liste des paiements
+              this.getOldPaiement();
+              this.getEtatComptable();
+            }
+           
           }
         });
     
   }
 
-  getOldPaiement(){
+  getDocumentAdd($event) {
+    if($event) {
+      this.listeDocumentsAjoutes = $event;
 
+      console.log(" this.listeDocumentsAjoutes ",this.listeDocumentsAjoutes);
+      
+    }
+  }
+
+  getOldPaiement(){
+    this.busySave = this.reglementService.getReglementByAffaire('paiements',this.currentAffaire.affId).subscribe(
+      (response)=> {
+        console.log(" reposen get old paiement ",response);
+      }
+    )
   }
 
 

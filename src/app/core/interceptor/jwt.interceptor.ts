@@ -26,6 +26,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
       headers = headers.append('Authorization',`Bearer ${currentUser.accessToken}`);
       headers = headers.append('Content-Type', 'application/json');
+      headers = headers.append('Content-Type', 'multipart/form-data');
       headers = headers.append('Access-Control-Allow-Methods', '*');
       headers = headers.append('Access-Control-Allow-Origin', '*');
 
