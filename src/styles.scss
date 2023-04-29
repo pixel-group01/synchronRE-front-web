@@ -155,3 +155,15 @@ to {
 .form-control:disabled, .form-control[readonly] {
   background-color: #e9ecef !important;
 }
+
+
+.btn-add{
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+
+  &:hover {
+    background-color: #fff;
+    color: var(--primary-color);
+  }
+}

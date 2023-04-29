@@ -1,0 +1,60 @@
+<div class="file-add-container">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label>Type de document
+                <span class="required_champs">*</span>
+            </label>
+
+            <ng-select [(ngModel)]="itemDocumentAjoute.type" name="regMode" id="mode">
+                <ng-option *ngFor="let document of listeTypesDocuments" [value]="document?.libelle">{{
+                    document.libelle }}</ng-option>
+            </ng-select>
+        </div>
+
+        <div class="col-md-4">
+            <label>Observations </label>
+            <input class="form-control custom-input" placeholder="Observation" autocomplete="off"
+            [(ngModel)]="itemDocumentAjoute.observations" name="regReference" type="text" />
+        </div>
+
+        <div class="col-md-4">
+            <!-- <app-add-document></app-add-document> -->
+            <!-- <div class="form-group col-md-6 pull-right" style="padding-left: 0px"> -->
+                <button id="btnadd-img"  type="button" (click)="gotoUploadFile()" class="btn btn-xs btn-add-document pull-left">
+                    Joindre le fichier (Max:1 Mo)
+                  </button>
+            <!-- </div> -->
+        </div>
+
+        <!-- <div class="col-md-1">
+            <button type="button" class="btn btn-xs btn-default btn-add-file" (click)="addDocument()">Ajouter</button>
+        </div> -->
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-condensed">
+                <thead>
+                    <tr class="custom-table-head">
+                        <th>#</th>
+                        <th>Type document</th>
+                        <th>Observations</th>
+                        <th>Actions</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+      
+    </div>
+</div>
+
+
+<div class="input-group-btn" style="display: none">
+    <input id="id-joindre-file" (change)="uploadFile($event)" class="input-file" type="file"  accept="image/*"/>
+</div>

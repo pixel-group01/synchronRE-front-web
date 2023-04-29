@@ -10,11 +10,11 @@ import { FormAffaireFacultativesComponent } from './affaire-facutatives/form-aff
 import { FormIdentificationComponent } from './affaire-facutatives/form-affaire-facultatives/form-identification/form-identification.component';
 import { FormRepartitionComponent } from './affaire-facutatives/form-affaire-facultatives/form-repartition/form-repartition.component';
 import { FormPlacementComponent } from './affaire-facutatives/form-affaire-facultatives/form-placement/form-placement.component';
-import { DetailsInformationIdentificationComponent } from './affaire-facutatives/form-affaire-facultatives/details-information-identification/details-information-identification.component';
+// import { DetailsInformationIdentificationComponent } from './affaire-facutatives/form-affaire-facultatives/details-information-identification/details-information-identification.component';
 import { ContainerAffaireTraiteeComponent } from './traites/container-affaire-traitee/container-affaire-traitee.component';
 import { DemandePlacementComponent } from './traites/demande-placement/demande-placement.component';
 import { DeclarationsSinistreComponent } from './traites/declarations-sinistre/declarations-sinistre.component';
-import { DetailsAffaireFacultativeComponent } from './affaire-facutatives/form-affaire-facultatives/details-affaire-facultative/details-affaire-facultative.component';
+// import { DetailsAffaireFacultativeComponent } from '../shared/components/details-affaire-facultative/details-affaire-facultative.component';
 import { ListAffairesFacultativesComponent } from './affaire-facutatives/list-affaires-facultatives/list-affaires-facultatives.component';
 
 
@@ -26,11 +26,10 @@ import { ListAffairesFacultativesComponent } from './affaire-facutatives/list-af
     FormIdentificationComponent,
     FormRepartitionComponent,
     FormPlacementComponent,
-    DetailsInformationIdentificationComponent,
+    // DetailsInformationIdentificationComponent,
     ContainerAffaireTraiteeComponent,
     DemandePlacementComponent,
     DeclarationsSinistreComponent,
-    DetailsAffaireFacultativeComponent,
     ListAffairesFacultativesComponent,
   ],
   imports: [

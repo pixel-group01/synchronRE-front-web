@@ -26,6 +26,9 @@ import { TimeLineComponent } from "./components/time-line/time-line.component";
 import { PriseDeDecisionWorkflowComponent } from "./components/prise-de-decision-workflow/prise-de-decision-workflow.component";
 import { AppAccessDirective } from "./directive/app-access.directive";
 import { ChartModule } from 'angular-highcharts';
+import { DetailsBusinessOptionalComponent } from "./components/details-business-optional/details-business-optional.component";
+import { DetailsInformationIdentificationComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/details-information-identification/details-information-identification.component";
+import { AddFileInFormComponent } from "./components/add-file-in-form/add-file-in-form.component";
 
 @NgModule({
   declarations: [
@@ -37,7 +40,12 @@ import { ChartModule } from 'angular-highcharts';
     TimePickerComponent,
     TimeLineComponent,
     PriseDeDecisionWorkflowComponent,
-    AppAccessDirective
+    AppAccessDirective,
+    DetailsBusinessOptionalComponent,
+    DetailsInformationIdentificationComponent,
+    AddFileInFormComponent
+    // DetailsAffaireFacultativeComponent
+    // DetailsAffaireFacultativeComponent
     // ProgrammeDialyseComponent,
     // FormCreateProgrammeComponent,
     // ProgrammeDialyseAgendaComponent,
@@ -54,14 +62,14 @@ import { ChartModule } from 'angular-highcharts';
     NgBusyModule,
     PaginationModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    MatTabsModule,
+    MatTabsModule, 
     NgSelectModule,
     FullCalendarModule, 
     MatIconModule,
     MatButtonModule,
     ChartModule,
     PopoverModule.forRoot(),
-   
+
     UiSwitchModule.forRoot({
       size: 'small',
       color: 'red',
@@ -99,9 +107,12 @@ import { ChartModule } from 'angular-highcharts';
     FullCalendarModule,
     NgbModule,
     ElementByPagePaginatorComponent,
+    DetailsInformationIdentificationComponent,
+    AddFileInFormComponent,
     TimePickerComponent,
     TimeLineComponent,
     PriseDeDecisionWorkflowComponent,
+    DetailsBusinessOptionalComponent,
     AppAccessDirective,
     ChartModule 
   ],

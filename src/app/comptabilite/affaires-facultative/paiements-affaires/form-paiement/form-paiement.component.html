@@ -1,0 +1,208 @@
+<div class="paiment-container">
+
+    <form class="paiement-form">
+
+        <div class="row">
+            <div class="col-12 mb-3">
+                <fieldset>
+                    <legend>
+                        Informations sur l'affaire
+                    </legend>
+
+                    <div>
+                        <app-details-information-identification></app-details-information-identification>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 mt-3 mb-3">
+                <fieldset>
+                    <legend>
+                        Information sur le paiement
+                    </legend>
+
+                    <div class="info-paiement-container">
+                        <div class="row">
+
+                            <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
+                                <b>A payer : </b>
+                                <span>{{itemInfoCompta?.facPrime | moneyFormat}}</span>
+                            </div>
+    
+                            <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
+                                <b>Déjà reçu : </b>
+                                <span>{{itemInfoCompta?.dejaRegle | moneyFormat}}</span>
+                            </div>
+    
+                            <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
+                                <b>Reste à payer : </b>
+                                <span>{{itemInfoCompta?.resteARegler | moneyFormat}}</span>
+                            </div>
+                        </div>
+                    </div>
+                  
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 mt-3">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th colspan="5">
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <button class="btn btn-xs btn-default btn-add pull-right" type="button"
+                                            (click)="openPanelNewPaiement(true)"> Ajouter </button>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+
+                        <tr class="custom-table-head">
+                            <th>#</th>
+                            <th>Réf paiement</th>
+                            <th>Montant (F.CFA)</th>
+                            <th>Date</th>
+                            <th>Enregistré par</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let item of listePaiementDejaEffectue; let i = index">
+                            <td> {{i+1}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="5" class="text-align-center"> Aucune donnée disponible</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="new-paiement-bilan" id="new-paiement-bilan">
+            <div class="details-header">
+                <b> Paiement </b>
+                <i class="fa fa-times" (click)="openPanelNewPaiement(false)"></i>
+            </div>
+
+            <div class="col-12 details-body">
+                <ng-container>
+                    <div class="row">
+
+                        <form class="form-paiement" [formGroup]="formulaireGroup" (ngSubmit)="confirmSaveItem()">
+
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <label>Reste à payer
+                                    </label>
+                                    <input class="form-control custom-input" placeholder="Reste à payer"
+                                        autocomplete="off" [readonly]="true" mask="separator"
+                                        formControlName="resteAPayer" name="resteAPayer" type="text" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label>Mode de paiement
+                                        <span class="required_champs">*</span>
+                                    </label>
+ 
+                                    <ng-select formControlName="regMode" name="regMode" id="mode">
+                                        <ng-option *ngFor="let mode of listeModeReglement" [value]="mode?.libelle">{{
+                                            mode.libelle }}</ng-option>
+                                    </ng-select>
+                                </div>
+
+                                <div class="col-6 mb-3">
+                                    <label>Date de paiement
+                                        <span class="required_champs">*</span>
+                                    </label>
+                                    <input class="form-control custom-input" placeholder="Date de paiement"
+                                        autocomplete="off" bsDatepicker [maxDate]="dateActuelle" [bsConfig]="{
+                                  dateInputFormat: 'DD/MM/YYYY',
+                                  containerClass: 'theme-dark-blue'
+                                }" formControlName="regDate" name="regDate" [class.errorInputForm]="
+                                  getFormFiledsValue('regDate')?.invalid &&
+                                  getFormFiledsValue('regDate')?.touched
+                                " type="text" />
+
+                                    <small class="text-danger"
+                                        *ngIf="(getFormFiledsValue('regDate')?.dirty || getFormFiledsValue('regDate')?.touched) && getFormFiledsValue('regDate')?.invalid && getFormFiledsValue('regDate')?.errors?.['required']">
+                                        Ce champs est obligatoire
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-6 mb-3">
+                                    <label>Réference paiement
+                                        <span class="required_champs">*</span>
+                                    </label>
+                                    <input class="form-control custom-input" placeholder="Réference" autocomplete="off"
+                                         formControlName="regReference" name="regReference"
+                                        [class.errorInputForm]="
+                                        getFormFiledsValue('regReference')?.invalid &&
+                                        getFormFiledsValue('regReference')?.touched
+                                      " type="text" />
+                                    <small class="text-danger"
+                                        *ngIf="(getFormFiledsValue('regReference')?.dirty || getFormFiledsValue('regReference')?.touched) && getFormFiledsValue('regReference')?.invalid && getFormFiledsValue('regReference')?.errors?.['required']">
+                                        Ce champs est obligatoire
+                                    </small>
+                                </div>
+
+                                <div class="col-6 mb-3">
+                                    <label>Montant
+                                        <span class="required_champs">*</span>
+                                    </label>
+                                    <input class="form-control custom-input" placeholder="Montant" autocomplete="off"
+                                        [disabled]="true" mask="separator" formControlName="regMontant"
+                                        name="regMontant" type="text" />
+                                    <small class="text-danger"
+                                        *ngIf="(getFormFiledsValue('regMontant')?.dirty || getFormFiledsValue('regMontant')?.touched) && getFormFiledsValue('regMontant')?.invalid && getFormFiledsValue('regMontant')?.errors?.['required']">
+                                        Ce champs est obligatoire
+                                    </small>
+                                </div>
+                            </div>
+
+
+                            <!-- MANIPULATION DE FICHIER -->
+                            <div class="file-part">
+                                <app-add-file-in-form></app-add-file-in-form>
+                            </div>
+                           
+
+                            <!-- FIN MANIPULATION DE FICHIER -->
+
+                            <div class="custom-btn-save-manager">
+                                <button type="submit" class="btn btn-md custom_btn_primary pull-right"
+                                    [disabled]="!formulaireGroup.valid">
+                                    Enregistrer
+                                </button>
+
+                                <button type="button" class="btn btn-md btn-cancel pull-right"
+                                    (click)="openPanelNewPaiement(false)">
+                                    Annuler
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </ng-container>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,10 +1,6 @@
 <div
   class="body table-responsive"
-  [ngBusy]="{
-    busy: busyGet,
-    message: 'Veuillez patienter ...',
-    backdrop: false
-  }"
+  [ngBusy]="{busy: busyGet, message: 'Veuillez patienter ...', backdrop: false}"
 >
   <table class="table table-condensed table-striped table-hover">
     <thead>
@@ -132,51 +128,24 @@
 
                 <button
                   ngbDropdownItem
-                  (click)="openModal(templateUpdateAffaire,item)"
-                  *ngIf="!noPutAction"
+                  (click)="openModal(templatePaiement,item)"
                 >
-                  <i class="fa fa-edit"></i>&nbsp;Modifier l'affaire
+                  <i class="fa fa-money-bill"></i>&nbsp;Paiement
                 </button>
 
                 <button
                   ngbDropdownItem
                   (click)="openModal(templateUpdateRepartition,item)"
-                  *ngIf="!noPutAction"
                 >
-                  <i class="fa fa-edit"></i>&nbsp; Effectuer une répartition
+                  <i class="fa fa-redo-alt"></i>&nbsp; Reversement
                 </button>
 
                 <button
                   ngbDropdownItem
-                  *ngIf="!user.cedId && !noPutAction"
                   (click)="openModal(templateUpdatePlacement,item)"
                
                 >
-                  <i class="fa fa-edit"></i>&nbsp; Effectuer un placement
-                </button>
-
-                <button
-                  ngbDropdownItem
-                  (click)="confirmTransmissionOrReturnAffaire(true, item)"
-                  *ngIf="user.cedId && !noPutAction"
-                >
-                  <i class="fa fa-list"></i>&nbsp; Transmettre une affaire
-                </button>
-
-                <button
-                ngbDropdownItem
-                (click)="confirmValidationAffaire(item)"
-                *ngIf="!user.cedId && !noPutAction"
-              >
-                <i class="fa fa-check"></i>&nbsp; Valider l'affaire
-              </button>
-
-                <button
-                  ngbDropdownItem
-                  (click)="confirmTransmissionOrReturnAffaire(false, item)"
-                  *ngIf="!user.cedId && !noPutAction"
-                >
-                  <i class="fa fa-redo-alt"></i>&nbsp; Retourner une affaire
+                  <i class="fa fa-print"></i>&nbsp; Imprimer la note
                 </button>
               </div>
             </div>
@@ -230,3 +199,19 @@
     </tfoot>
   </table>
 </div>
+
+
+<ng-template #templatePaiement>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">
+        Paiement affaire N° {{itemToSave?.affCode}}
+      </h4>
+  
+      <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-form-paiement [currentAffaire]="itemToSave"></app-form-paiement>
+    </div>
+  </ng-template>

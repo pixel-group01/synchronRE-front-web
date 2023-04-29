@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PaiementsComponent } from './affaires-facultative/paiements/paiements.component';
-import { ReversementsComponent } from './affaires-facultative/reversements/reversements.component';
+import { AffairesFacultativeComponent } from './affaires-facultative/affaires-facultative.component';
 
 const routes: Routes = [
   {
-    path:'paiement',
-    component:PaiementsComponent
+    path:'affaires',
+    component:AffairesFacultativeComponent
   },
-  {
-    path:'reversement',
-    component:ReversementsComponent
-  }
+  // {
+  //   path:'reversement',
+  //   component:ReversementsComponent
+  // }
 ];
 
 @NgModule({

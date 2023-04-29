@@ -4,21 +4,22 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header mb-3">
-                        <h2><strong>Paiements</strong></h2>
+                        <h2><strong>Comptabilité</strong> affaire facultatives</h2>
                     </div>
 
                     <div class="body">
                         <mat-tab-group>
-                            <mat-tab label="Paiements en attentes">
+                            <mat-tab label="Paiements">
                                 <ng-template matTabContent>
-                                    <app-list-affaire-en-comptabilite></app-list-affaire-en-comptabilite>
+                                    <app-list-affaire-en-comptabilite 
+                                        [refreshDataTable]="refreshDataTable"></app-list-affaire-en-comptabilite>
                                 </ng-template>
                             </mat-tab>
 
-                            <mat-tab label="Paiements effectués">
+                            <mat-tab label="Reversements">
                                 <ng-template matTabContent>
-                                    <!-- <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.AFFAIRES_TRANSMIS"
-                                        [refreshDataTable]="refreshDataTable" [noPutAction]="true"></app-list-affaires-facultatives> -->
+                                    <app-list-affaire-en-comptabilite [statutAffaire]="statutAffaire?.AFFAIRES_TRANSMIS"
+                                        [refreshDataTable]="refreshDataTable"></app-list-affaire-en-comptabilite>
                                 </ng-template>
                             </mat-tab>
 

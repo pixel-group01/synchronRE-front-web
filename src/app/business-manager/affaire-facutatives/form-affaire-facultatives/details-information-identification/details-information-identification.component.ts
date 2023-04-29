@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
+import { Subscription } from "rxjs";
 import { BusinessOptional } from "src/app/core/models/businessOptional";
 import { RepartitionByTauxOrCapital } from "src/app/core/models/repartitionByTauxOrCapital";
 import { BusinessOptionalRepartitionService } from "src/app/core/service/business-optional-repartition.service";
@@ -15,7 +16,8 @@ export class DetailsInformationIdentificationComponent implements OnInit {
   @Input() currentRepartitionTaux!: RepartitionByTauxOrCapital;
   @Input() isPlacement:boolean = false;
   detailsPlacement : any;
-
+  busyGet: Subscription;
+  
   constructor(private businessOptionalService: BusinessOptionalService,private businessOptionalRepartitionService: BusinessOptionalRepartitionService,) {}
 
   getDetailsBussinessOptional() {
@@ -47,17 +49,11 @@ export class DetailsInformationIdentificationComponent implements OnInit {
       return;
     }
 
-    console.log(" this.currentAffaireFacultative ",this.currentAffaireFacultative);
-    
-
-     this.businessOptionalService
+     this.busyGet = this.businessOptionalService
       .getAffaireFacultativeEtatComptable(this.currentAffaireFacultative.affId)
       .subscribe((response) => {
         if (response) {
-          console.log(" response etat comptable ", response);
           this.detailsPlacement = response;
-
-          console.log(" this.detailsPlacement  ",this.detailsPlacement );
           
         }
       });

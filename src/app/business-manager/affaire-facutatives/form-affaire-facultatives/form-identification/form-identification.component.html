@@ -8,7 +8,7 @@
 >
   <form [formGroup]="formulaireGroup" (ngSubmit)="confirmSaveItem()">
     <div class="row">
-      <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
+      <div class="col-md-2 col-xs-12 col-sm-12 mb-2">
         <label>Exercice : <span class="required_champs">*</span> </label>
 
         <ng-select formControlName="exeCode" name="exeCode" id="exeCode">
@@ -26,7 +26,7 @@
         </small>
       </div>
 
-      <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
+      <div class="col-md-2 col-xs-12 col-sm-12 mb-2">
         <label>Filiale/cédante : <span class="required_champs">*</span> </label>
 
         <ng-select
@@ -49,7 +49,51 @@
         </small>
       </div>
 
-      <div class="col-md-6 col-xs-12 mb-3">
+      <div class="col-md-2 col-xs-12 col-sm-12 mb-2">
+        <label>Statut affaire : <span class="required_champs">*</span> </label>
+
+        <ng-select
+          formControlName="affStatutCreation"
+          name="affStatutCreation"
+          id="affStatutCreation"
+        >
+          <ng-option
+            *ngFor="let affaires of listeStatus"
+            [value]="affaires?.libelle"
+            >{{ affaires.libelle }}</ng-option
+          >
+        </ng-select>
+        <small
+          class="text-danger"
+          *ngIf="(getFormFiledsValue('affStatutCreation')?.dirty || getFormFiledsValue('affStatutCreation')?.touched) && getFormFiledsValue('affStatutCreation')?.invalid && getFormFiledsValue('affStatutCreation')?.errors?.['required']"
+        >
+          Ce champs est obligatoire
+        </small>
+      </div>
+
+      <div class="col-md-2 col-xs-12 col-sm-12 mb-2">
+        <label>Devise : <span class="required_champs">*</span> </label>
+
+        <ng-select
+          formControlName="deviseCode"
+          name="deviseCode"
+          id="deviseCode"
+        >
+          <ng-option
+            *ngFor="let devise of listeDevises"
+            [value]="devise?.devCode"
+            >{{ devise.devLibelle }}</ng-option
+          >
+        </ng-select>
+        <small
+          class="text-danger"
+          *ngIf="(getFormFiledsValue('deviseCode')?.dirty || getFormFiledsValue('deviseCode')?.touched) && getFormFiledsValue('deviseCode')?.invalid && getFormFiledsValue('deviseCode')?.errors?.['required']"
+        >
+          Ce champs est obligatoire
+        </small>
+      </div>
+
+      <div class="col-md-4 col-xs-12 mb-3">
         <label
           >Assuré :
           <span class="required_champs">*</span>

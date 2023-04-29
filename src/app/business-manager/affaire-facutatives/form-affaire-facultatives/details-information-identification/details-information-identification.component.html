@@ -1,4 +1,8 @@
-<div class="container-details">
+<div class="container-details"  [ngBusy]="{
+    busy: busyGet,
+    message: 'Veuillez patienter ...',
+    backdrop: false
+  }">
     <div class="row">
         <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
             <b>Filiale/cédante :
@@ -11,9 +15,6 @@
             </b>
             <span>{{itemDetailsAffaire?.affAssure | uppercase}}</span>
         </div>
-
-
-
     </div>
 
     <div class="row">

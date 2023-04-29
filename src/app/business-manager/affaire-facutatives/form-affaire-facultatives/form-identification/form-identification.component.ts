@@ -10,11 +10,13 @@ import { Subscription } from "rxjs";
 import { BusinessOptional } from "src/app/core/models/businessOptional";
 import { Cedante } from "src/app/core/models/cedante";
 import { Couverture } from "src/app/core/models/couverture";
+import { Devise } from "src/app/core/models/devise";
 import { Exercice } from "src/app/core/models/exercice";
 import { User } from "src/app/core/models/user";
 import { BusinessOptionalService } from "src/app/core/service/business-optional.service";
 import { CedanteService } from "src/app/core/service/cedante.service";
 import { CouvertureService } from "src/app/core/service/couverture.service";
+import { DeviseService } from "src/app/core/service/devise.service";
 import { ExerciceService } from "src/app/core/service/exercice.service";
 import { UserService } from "src/app/core/service/user.service";
 import { UtilitiesService } from "src/app/core/service/utilities.service";
@@ -30,12 +32,24 @@ export class FormIdentificationComponent implements OnInit {
   formulaireGroup!: FormGroup;
   listeCedente: Array<Cedante> = [];
   listeCouvertures: Array<Couverture> = [];
+  listeDevises: Array<Devise> = [];
   isUpdateForm : boolean = false;
   dateActuelle = new Date();
   busySave : Subscription;
   currentAffaire: BusinessOptional;
   user : User;
   listeExercices: Array<Exercice> = [];
+  listeStatus : any = [
+    {
+      libelle: "Réalisé"
+    },
+    {
+      libelle: "En instance"
+    },
+    {
+      libelle: "Non réalisé"
+    }
+  ]
   @Input() isDetails:boolean = false;
   @Input() itemToUpdate: BusinessOptional;
   @Input() isWizardProcess:boolean = false;
@@ -49,7 +63,8 @@ export class FormIdentificationComponent implements OnInit {
     private businessOptionalService: BusinessOptionalService,
     private utilities: UtilitiesService,
     private exerciceService: ExerciceService,
-    private userService:UserService
+    private userService:UserService,
+    private deviseService:DeviseService
   ) {
     this.user = this.userService.getCurrentUserInfo();
   }
@@ -65,6 +80,23 @@ export class FormIdentificationComponent implements OnInit {
        
       } else {
         this.listeCedente = [];
+      }
+    });
+  }
+ 
+  getDevise() {
+    this.deviseService.getAll().subscribe((response: any) => {
+      console.log(" response devise ",response);
+      
+      if (response && response["content"]) {
+        this.listeDevises = response["content"] as Devise[];
+
+        if(this.itemToUpdate && this.itemToUpdate.affId) {
+          this.createForm();
+        }
+       
+      } else {
+        this.listeDevises = [];
       }
     });
   }
@@ -109,6 +141,14 @@ export class FormIdentificationComponent implements OnInit {
       ],
       affCapitalInitial: [
         this.itemToUpdate?.affCapitalInitial || "",
+        Validators.required,
+      ],
+      deviseCode: [
+        this.itemToUpdate?.deviseCode || "",
+        Validators.required,
+      ],
+      affStatutCreation: [
+        this.itemToUpdate?.affStatutCreation || "",
         Validators.required,
       ],
       facSmpLci: [this.itemToUpdate?.facSmpLci || ""],
@@ -244,6 +284,7 @@ export class FormIdentificationComponent implements OnInit {
     this.getCedente();
     this.getCouverture();
     this.getExercice();
+    this.getDevise();
   }
 
   // ngOnChanges(changes: SimpleChanges) {

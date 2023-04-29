@@ -1,11 +1,8 @@
-<div
-  class="body table-responsive"
-  [ngBusy]="{
+<div class="body table-responsive" [ngBusy]="{
     busy: busyGet,
     message: 'Veuillez patienter ...',
     backdrop: false
-  }"
->
+  }">
   <table class="table table-condensed table-striped table-hover">
     <thead>
       <tr>
@@ -14,44 +11,26 @@
             <div class="col-md-3 col-xs-12 col-sm-12">
               <label>Filiale/cédante : </label>
 
-              <ng-select
-                [(ngModel)]="itemToSearch.cedenteId"
-                (change)="currentPage = 1; getItems()"
-                [readonly]="user?.cedId"
-                id="cedenteId"
-              >
-                <ng-option
-                  *ngFor="let cedente of listeCedente"
-                  [value]="cedente?.cedId"
-                  >{{ cedente.cedNomFiliale }}</ng-option
-                >
+              <ng-select [(ngModel)]="itemToSearch.cedenteId" (change)="currentPage = 1; getItems()"
+                [readonly]="user?.cedId" id="cedenteId">
+                <ng-option *ngFor="let cedente of listeCedente" [value]="cedente?.cedId">{{ cedente.cedNomFiliale
+                  }}</ng-option>
               </ng-select>
             </div>
 
             <div class="col-md-3 col-xs-12 col-sm-12">
               <label>Exercice : </label>
 
-              <ng-select
-                [(ngModel)]="itemToSearch.exeCode"
-                (change)="currentPage = 1; getItems()"
-                id="exeCode"
-              >
-                <ng-option
-                  *ngFor="let exercice of listeExercices"
-                  [value]="exercice?.exeCode"
-                  >{{ exercice.exeLibelle }}</ng-option
-                >
+              <ng-select [(ngModel)]="itemToSearch.exeCode" (change)="currentPage = 1; getItems()" id="exeCode">
+                <ng-option *ngFor="let exercice of listeExercices" [value]="exercice?.exeCode">{{ exercice.exeLibelle
+                  }}</ng-option>
               </ng-select>
             </div>
 
             <div class="col-md-4 col-xs-12 col-sm-12">
               <label>Rechercher par mot clé : </label>
-              <input
-                [(ngModel)]="itemToSearch.libelle"
-                class="form-control custom-input pull-left"
-                placeholder="Rechercher ..."
-                (keyup)="currentPage = 1; getItems()"
-              />
+              <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
+                placeholder="Rechercher ..." (keyup)="currentPage = 1; getItems()" />
             </div>
           </div>
         </th>
@@ -60,8 +39,7 @@
       <tr class="custom-table-head">
         <th class="txt-align-center-counter-row">
           <a (click)="currentPage = 1; getItems()" title="Actualiser">
-            <i class="fa fa-redo-alt"></i></a
-          >&nbsp;&nbsp; #
+            <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
         </th>
         <th>Exercice</th>
         <th>N° Affaire</th>
@@ -86,7 +64,7 @@
         <td class="txt-align-center">
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td>
-        
+
         <td>{{ item?.exeCode }}</td>
         <td>{{ item?.affCode }}</td>
         <td>{{ item?.cedNomFiliale }}</td>
@@ -103,19 +81,10 @@
         <td class="custom-width-td-action">
           <div class="custom-td-action">
             <div ngbDropdown class="d-inline-block">
-              <button
-                type="button"
-                class="btn btn-custom-action-dropdown"
-                id="action"
-                ngbDropdownToggle
-              >
+              <button type="button" class="btn btn-custom-action-dropdown" id="action" ngbDropdownToggle>
                 Actions
               </button>
-              <div
-                ngbDropdownMenu
-                aria-labelledby="action"
-                class="dropdown-validation-plainte"
-              >
+              <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
                 <!-- <button
                   ngbDropdownItem
                   (click)="openModal(item, templateCreateVacataire)"
@@ -130,52 +99,30 @@
                 <i class="fa fa-list"></i>&nbsp;Détails l'affaire
               </button>
 
-                <button
-                  ngbDropdownItem
-                  (click)="openModal(templateUpdateAffaire,item)"
-                  *ngIf="!noPutAction"
-                >
+                <button ngbDropdownItem (click)="openModal(templateUpdateAffaire,item)" *ngIf="!noPutAction">
                   <i class="fa fa-edit"></i>&nbsp;Modifier l'affaire
                 </button>
 
-                <button
-                  ngbDropdownItem
-                  (click)="openModal(templateUpdateRepartition,item)"
-                  *ngIf="!noPutAction"
-                >
+                <button ngbDropdownItem (click)="openModal(templateUpdateRepartition,item)" *ngIf="!noPutAction">
                   <i class="fa fa-edit"></i>&nbsp; Effectuer une répartition
                 </button>
 
-                <button
-                  ngbDropdownItem
-                  *ngIf="!user.cedId && !noPutAction"
-                  (click)="openModal(templateUpdatePlacement,item)"
-               
-                >
+                <button ngbDropdownItem *ngIf="!user.cedId && !noPutAction"
+                  (click)="openModal(templateUpdatePlacement,item)">
                   <i class="fa fa-edit"></i>&nbsp; Effectuer un placement
                 </button>
 
-                <button
-                  ngbDropdownItem
-                  (click)="confirmTransmissionOrReturnAffaire(true, item)"
-                  *ngIf="user.cedId && !noPutAction"
-                >
+                <button ngbDropdownItem (click)="confirmTransmissionOrReturnAffaire(true, item)"
+                  *ngIf="user.cedId && !noPutAction">
                   <i class="fa fa-list"></i>&nbsp; Transmettre une affaire
                 </button>
 
-                <button
-                ngbDropdownItem
-                (click)="confirmValidationAffaire(item)"
-                *ngIf="!user.cedId && !noPutAction"
-              >
-                <i class="fa fa-check"></i>&nbsp; Valider l'affaire
-              </button>
+                <button ngbDropdownItem (click)="confirmValidationAffaire(item)" *ngIf="!user.cedId && !noPutAction">
+                  <i class="fa fa-check"></i>&nbsp; Valider l'affaire
+                </button>
 
-                <button
-                  ngbDropdownItem
-                  (click)="confirmTransmissionOrReturnAffaire(false, item)"
-                  *ngIf="!user.cedId && !noPutAction"
-                >
+                <button ngbDropdownItem (click)="confirmTransmissionOrReturnAffaire(false, item)"
+                  *ngIf="!user.cedId && !noPutAction">
                   <i class="fa fa-redo-alt"></i>&nbsp; Retourner une affaire
                 </button>
               </div>
@@ -190,30 +137,17 @@
         <td colspan="14">
           <div class="row pagination-part">
             <div class="col-md-9" style="text-align: center">
-              <pagination
-                [boundaryLinks]="true"
-                [itemsPerPage]="itemsPerPage"
-                [totalItems]="totalItems"
-                [(ngModel)]="currentPage"
-                class="pagination-sm"
-                previousText="&lsaquo;"
-                nextText="&rsaquo;"
-                firstText="&laquo;"
-                lastText="&raquo;"
-                (pageChanged)="pageChanged($event)"
-              ></pagination>
+              <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage" [totalItems]="totalItems"
+                [(ngModel)]="currentPage" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;"
+                firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)"></pagination>
             </div>
 
             <div class="col-md-3">
               <div class="paginator-per-page">
-                <app-element-by-page-paginator
-                  (paginationChange)="changePaginationSize($event)"
-                  [defaultItemPerPage]="itemsPerPage"
-                ></app-element-by-page-paginator>
+                <app-element-by-page-paginator (paginationChange)="changePaginationSize($event)"
+                  [defaultItemPerPage]="itemsPerPage"></app-element-by-page-paginator>
 
-                <span class="span_total_entree pull-right"
-                  >Total : {{ totalItems }}</span
-                >
+                <span class="span_total_entree pull-right">Total : {{ totalItems }}</span>
               </div>
             </div>
           </div>
@@ -234,16 +168,16 @@
 <!-- Enregistrement Identification -->
 <ng-template #templateUpdateAffaire>
   <div class="modal-header">
-      <h4 class="modal-title pull-left">
-          Identification
-      </h4>
+    <h4 class="modal-title pull-left">
+      Identification
+    </h4>
 
-      <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
-          <mat-icon>close</mat-icon>
-      </button>
+    <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
   <div class="modal-body">
-      <app-form-identification (closeModal)="closeFormModal($event)"></app-form-identification>
+    <app-form-identification (closeModal)="closeFormModal($event)"></app-form-identification>
   </div>
 </ng-template>
 
@@ -251,16 +185,16 @@
 <!-- Enregistrement Repartition -->
 <ng-template #templateUpdateRepartition>
   <div class="modal-header">
-      <h4 class="modal-title pull-left">
-          Repartition
-      </h4>
+    <h4 class="modal-title pull-left">
+      Repartition
+    </h4>
 
-      <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
-          <mat-icon>close</mat-icon>
-      </button>
+    <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
   <div class="modal-body">
-      <app-form-repartition (closeModal)="closeFormModal($event)"></app-form-repartition>
+    <app-form-repartition (closeModal)="closeFormModal($event)"></app-form-repartition>
   </div>
 </ng-template>
 
@@ -268,31 +202,30 @@
 <!-- Enregistrement placement -->
 <ng-template #templateUpdatePlacement>
   <div class="modal-header">
-      <h4 class="modal-title pull-left">
-          Placement
-      </h4>
+    <h4 class="modal-title pull-left">
+      Placement
+    </h4>
 
-      <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
-          <mat-icon>close</mat-icon>
-      </button>
+    <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
   <div class="modal-body">
-      <app-form-placement (closeModal)="closeFormModal($event)" [isPlacement]="true"></app-form-placement>
+    <app-form-placement (closeModal)="closeFormModal($event)" [isPlacement]="true"></app-form-placement>
   </div>
 </ng-template>
 
 <ng-template #templateDetailsAffaire>
   <div class="modal-header">
-      <h4 class="modal-title pull-left">
-          Détails affaire N° {{itemToSave?.affCode}}
-      </h4>
+    <h4 class="modal-title pull-left">
+      Détails affaire N° {{itemToSave?.affCode}}
+    </h4>
 
-      <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
-          <mat-icon>close</mat-icon>
-      </button>
+    <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
   <div class="modal-body">
-      <app-details-affaire-facultative></app-details-affaire-facultative>
+    <app-details-affaire-facultative></app-details-affaire-facultative>
   </div>
 </ng-template>
-

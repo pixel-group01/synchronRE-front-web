@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import { Exercice } from 'src/app/core/models/exercice';
 import { ExerciceService } from 'src/app/core/service/exercice.service';
-import { enumStatut, enumStatutAffaire } from 'src/app/core/enumerator/enumerator';
+import { enumStatutAffaire } from 'src/app/core/enumerator/enumerator';
 
 @Component({
   selector: 'app-list-affaires-facultatives',
