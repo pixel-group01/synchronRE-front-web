@@ -11,7 +11,6 @@ import { PaginationModule } from "ngx-bootstrap/pagination";
 import { MoneyFormatPipe } from "../core/pipes/money-format.pipe";
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { AddDocumentComponent } from "./components/add-document/add-document.component";
-import { CKEditorModule } from "ng2-ckeditor";
 import { MatTabsModule } from "@angular/material/tabs";
 import { DetailsDocumentsJointsComponent } from "./components/details-documents-joints/details-documents-joints.component";
 import { UiSwitchModule } from 'ngx-ui-switch';
@@ -47,7 +46,6 @@ import { ChartModule } from 'angular-highcharts';
   ],
   imports: [
     CommonModule,
-    CKEditorModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
@@ -61,7 +59,6 @@ import { ChartModule } from 'angular-highcharts';
     FullCalendarModule, 
     MatIconModule,
     MatButtonModule,
-    CKEditorModule,
     ChartModule,
     PopoverModule.forRoot(),
    
@@ -79,7 +76,6 @@ import { ChartModule } from 'angular-highcharts';
   ],
   exports: [
     CommonModule,
-    CKEditorModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,

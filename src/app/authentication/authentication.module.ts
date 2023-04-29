@@ -11,6 +11,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { ModalUpdatePasswordComponent } from './signin/modal-update-password/modal-update-password.component';
 import { ModalForgotPasswordComponent } from './signin/modal-forgot-password/modal-forgot-password.component';
 import { SharedModule } from "../shared/shared.module";
+
 @NgModule({
   declarations: [
     SigninComponent,
@@ -26,7 +27,8 @@ import { SharedModule } from "../shared/shared.module";
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    SharedModule
+    SharedModule,
+  
   ],
 })
 export class AuthenticationModule {}
