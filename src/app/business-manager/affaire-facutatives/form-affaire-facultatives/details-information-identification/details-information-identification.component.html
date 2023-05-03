@@ -32,17 +32,17 @@
         </div>
     </div>
 
-    <div class="row" *ngIf="currentRepartitionTaux && currentRepartitionTaux?.capital && !isPlacement">
+    <div class="row" *ngIf="!isPlacement">
         <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
-            <b>Capital à 100%:
+            <b>Capitaux à 100%:
             </b>
-            <span>{{currentRepartitionTaux?.capital | moneyFormat}}</span>
+            <span>{{itemDetailsAffaire?.affCapitalInitial | moneyFormat}}</span>
         </div>
 
         <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
             <b>Bésoin fac  :
             </b>
-            <span>{{currentRepartitionTaux?.besoinFacRestant | moneyFormat}}</span>
+            <span>{{ (currentRepartitionTaux?.besoinFacRestant || itemDetailsAffaire?.restARepartir) | moneyFormat}}</span>
         </div>
     </div>
 

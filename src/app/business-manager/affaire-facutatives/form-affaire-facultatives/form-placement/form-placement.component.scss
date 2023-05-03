@@ -2,6 +2,11 @@
 ::ng-deep .cdk-overlay-container {
     position: fixed;
     z-index: 10000;
+  
+}
+
+.placement-container{
+    margin-top: 15px;
 }
 
 .text-align-center {

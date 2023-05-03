@@ -95,6 +95,8 @@ export class FormIdentificationComponent implements OnInit {
       if (response && response["content"]) {
         this.listeDevises = response["content"] as Devise[];
 
+        this.listeDevises =   _.orderBy( this.listeDevises, ['devLibelle'], ['asc']);
+ 
         if(this.itemToUpdate && this.itemToUpdate.affId) {
           this.createForm();
         }
@@ -126,7 +128,10 @@ export class FormIdentificationComponent implements OnInit {
           console.log(" currentExercice ",currentExercice);
           
           if(currentExercice && currentExercice.exeCode) {
-            this.formulaireGroup.patchValue({'exeCode':currentExercice?.exeCode})
+            setTimeout(() => {
+              this.formulaireGroup.patchValue({'exeCode':currentExercice?.exeCode})
+            }, 1000);
+          
           }
         }
         
@@ -284,7 +289,7 @@ export class FormIdentificationComponent implements OnInit {
       this.isUpdateForm = true; // Pour signifier que nous sommes en modification
       this.itemToUpdate = {...this.currentAffaire};
       this.itemToUpdate.cedId = this.itemToUpdate.cedanteId || this.itemToUpdate.cedId;
-
+      this.itemToUpdate.affCapitalInitial = this.itemToUpdate.facCapitaux;
       // Nous allons formater la date pour eviter invalid date
       if(this.itemToUpdate && this.itemToUpdate.affDateEffet) {
         this.itemToUpdate.affDateEffet = this.utilities.formatDateInIsoData(this.itemToUpdate.affDateEffet);

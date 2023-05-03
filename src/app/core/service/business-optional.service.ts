@@ -34,13 +34,21 @@ export class BusinessOptionalService {
   getAffaireFacultativeByReassureurEnTraitement = (index:number = 0,size:number=10,key?:string,cedId?:number,exeCode?:any) => {
     let endPointFinal = "affaires/facultative/by-reassureur-en-traitement?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
    
-    console.log(" exeCode ",exeCode);
-    
     if(endPointFinal && cedId) {
       endPointFinal = endPointFinal+"&cedId="+cedId;
     }
     return this.restClient.get(endPointFinal);
   }
+
+  getAffaireFacultativeByReassureurEnPlacement = (index:number = 0,size:number=10,key?:string,cedId?:number,exeCode?:any) => {
+    let endPointFinal = "affaires/facultative/by-reassureur-en-placement?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
+   
+    if(endPointFinal && cedId) {
+      endPointFinal = endPointFinal+"&cedId="+cedId;
+    }
+    return this.restClient.get(endPointFinal);
+  }
+  
 
 
   getAffaireFacultativeByReassureurValide = (index:number = 0,size:number=10,key?:string,cedId?:number) => {
@@ -126,8 +134,8 @@ export class BusinessOptionalService {
     return this.restClient.post('affaires/facultative/valider/'+idAffaire,body)
   } 
 
-  retournerAffaire = (idAffaire:number,body:any) => {
-    return this.restClient.post('affaires/facultative/retourner/'+idAffaire,body)
+  retournerAffaire = (body:any) => {
+    return this.restClient.post('affaires/facultative/retourner',body)
   } 
 
   archiverAffaire = (idAffaire:number,body:any) => {

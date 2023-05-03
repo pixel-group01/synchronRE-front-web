@@ -120,22 +120,22 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
 
-  {
-    path: "/archives",
-    title: "Archives",
-    moduleName: "archives",
-    iconType: "list",
-    icon: "tachometer",
-    class: "",
-    groupTitle: false,
-    badge: "",
-    badgeClass: "",
-    code: "DASHBORD-NAV",
-    acl: "",
-    codeAclAdmin: enumCodeACL.ADMIN,
-    codeAclCedente: enumCodeACL.CEDANTE,
-    submenu: [],
-  },
+  // {
+  //   path: "/archives",
+  //   title: "Archives",
+  //   moduleName: "archives",
+  //   iconType: "list",
+  //   icon: "tachometer",
+  //   class: "",
+  //   groupTitle: false,
+  //   badge: "",
+  //   badgeClass: "",
+  //   code: "DASHBORD-NAV",
+  //   acl: "",
+  //   codeAclAdmin: enumCodeACL.ADMIN,
+  //   codeAclCedente: enumCodeACL.CEDANTE,
+  //   submenu: [],
+  // },
 
   // Comptabilité
   {

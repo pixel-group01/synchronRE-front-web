@@ -21,4 +21,6 @@ export class BusinessOptional {
     cedanteId?:number;
     devCode?:string;
     affStatutCreation?:string;
+    facCapitaux?:number;
+    isSeeMotifRetour?:boolean
 }

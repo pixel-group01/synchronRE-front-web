@@ -9,7 +9,7 @@
 
                     <div class="body">
                         <mat-tab-group>
-                            <mat-tab label="Demande de placement">
+                            <mat-tab label="En cours de saisie">
                                 <ng-template matTabContent>
                                     <div class="header-btn-new-affaire">
                                         <button type="button" class="btn btn-md custom_btn_primary pull-right"
@@ -17,30 +17,39 @@
                                             <i class="fa fa-plus"></i>&nbsp; Nouvelle affaire
                                         </button>
                                     </div>
-                                    <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.SAISIE"
+                                    <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante':'affaires/facultative/by-reassureur-en-traitement' "
                                         [refreshDataTable]="refreshDataTable"></app-list-affaires-facultatives>
                                 </ng-template>
                             </mat-tab>
 
-                            <mat-tab label="Affaire transmis" *ngIf="user && user.cedId">
+                            <mat-tab label="En cours de placement">
                                 <ng-template matTabContent>
-                                    <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.AFFAIRES_TRANSMIS"
+                                    <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante-transmis':'affaires/facultative/by-reassureur-en-placement' "
+                                        [refreshDataTable]="refreshDataTable"  [noPutAction]="true" [isEnCoursPlacementNelson]="user?.cedId ? false : true"></app-list-affaires-facultatives>
+                                </ng-template>
+                            </mat-tab>
+
+                            <mat-tab label="En cours de règlement">
+                                <ng-template matTabContent>
+                                    <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante-en-reglement':'' "
+                                        [refreshDataTable]="refreshDataTable"></app-list-affaires-facultatives>
+                                </ng-template>
+                            </mat-tab>
+
+                            <mat-tab label="Historique" >
+                                <ng-template matTabContent>
+                                    <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante-arch':'' "
                                         [refreshDataTable]="refreshDataTable" [noPutAction]="true"></app-list-affaires-facultatives>
                                 </ng-template>
                             </mat-tab>
 
-                            <mat-tab label="Déclaration de sinistre">
+
+                            <mat-tab label="Archives" >
                                 <ng-template matTabContent>
-                                    <!-- <app-list-affaires-facultatives
-                                        [statutAffaire]="statutAffaire?.PLACE"></app-list-affaires-facultatives> -->
+                                    <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante-arch':'' "
+                                        [refreshDataTable]="refreshDataTable" [noPutAction]="true"></app-list-affaires-facultatives>
                                 </ng-template>
                             </mat-tab>
-
-                            <!-- <mat-tab label="Affaires archivées">
-                                <ng-template matTabContent>
-                                    <app-list-affaires-facultatives [statutAffaire]="statutAffaire?.ARCHIVE"></app-list-affaires-facultatives>
-                                </ng-template>
-                            </mat-tab> -->
 
                         </mat-tab-group>
                     </div>

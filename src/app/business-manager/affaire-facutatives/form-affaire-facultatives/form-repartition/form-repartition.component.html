@@ -37,7 +37,7 @@
                                         <span class="required_champs">*</span>
                                     </label>
                                     <input class="form-control custom-input" placeholder="Capitaux" autocomplete="off"
-                                        [(ngModel)]="itemToSave.repCapital" name="repCapital" mask="separator" (keyup)="getRepartionByCapital()"
+                                        [(ngModel)]="itemToSave.repCapital" [disabled]="isDetails" name="repCapital" mask="separator" (keyup)="getRepartionByCapital()"
                                         type="text" />
                                     <!-- <small class="text-danger"
                                         *ngIf="(getFormFiledsValue('repCapital')?.dirty || getFormFiledsValue('repCapital')?.touched) && getFormFiledsValue('repCapital')?.invalid && getFormFiledsValue('repCapital')?.errors?.['required']">
@@ -48,7 +48,7 @@
                                 <div class="col-md-6 col-xs-12 mb-3">
                                     <label>Taux (%) :
                                     </label>
-                                    <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
+                                    <input class="form-control custom-input" placeholder="Taux" autocomplete="off"  [disabled]="isDetails" 
                                         [(ngModel)]="itemToSave.repTauxBesoinFac" name="repTaux" maxlength="3" (keyup)="getRepartionByTaux()"
                                         type="text" />
                                     <!-- <small class="text-danger"
@@ -76,7 +76,7 @@
                                                 <th>Libellé</th>
                                                 <th>Capitaux</th>
                                                 <th>Part (%)</th>
-                                                <th></th>
+                                                <th  *ngIf="!isDetails"></th>
                                             </tr>
                                         </thead>
  
@@ -100,7 +100,7 @@
                                                         (keyup)="getRepartionCessionByTaux(cession)"
                                                             name="tauxFrmArray" mask="separator"/>
                                                 </td>
-                                                <td>
+                                                <td *ngIf="!isDetails">
                                                     <input type="checkbox"
                                                     [(ngModel)]="cession.checked"
                                                     [ngModelOptions]="{standalone: true}" name="checked"/>
@@ -137,7 +137,7 @@
                                     <label>Taux (%) :
                                     </label>
                                     <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
-                                    [(ngModel)]="itemToSave.repTauxBesoinFac"
+                                    [(ngModel)]="itemToSave.repTauxBesoinFac"  [disabled]="isDetails" 
                                          name="repTauxBesoinFac" (keyup)="getRepartionByTauxBesoinFac()"
                                         type="text" />
                                     <!-- <small class="text-danger"

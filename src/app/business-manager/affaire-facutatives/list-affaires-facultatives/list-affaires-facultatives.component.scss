@@ -1,4 +1,27 @@
 .body {
     padding: 10px 0px !important;
     min-height: 50vh;
+
+    .statLibelle {
+        font-size: 0.75rem;
+        font-weight: bold;
+      
+        color: #fff;
+        border-radius: 7px;
+        border: 1px solid gray;
+        padding: 3px 5px;
+
+        &.CREP {
+            background-color: orange;
+        }
+
+        &.APLA {
+            background-color: yellow;
+            color: black;
+        }
+
+        &.RET {
+            background-color: var(--danger-color);
+        }
+    }
 }

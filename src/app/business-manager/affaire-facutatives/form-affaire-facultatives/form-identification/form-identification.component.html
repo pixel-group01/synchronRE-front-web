@@ -33,7 +33,7 @@
           formControlName="cedId"
           name="cedenteId"
           id="cedenteId"
-          [readonly]="user?.cedId"
+          [readonly]="user?.cedId || isDetails"
         >
           <ng-option
             *ngFor="let cedente of listeCedente"
@@ -56,6 +56,7 @@
           formControlName="affStatutCreation"
           name="affStatutCreation"
           id="affStatutCreation"
+          [readonly]="isDetails" 
         >
           <ng-option
             *ngFor="let affaires of listeStatus"
@@ -77,6 +78,7 @@
         <ng-select
           formControlName="devCode"
           name="devCode"
+          [readonly]="isDetails" 
           id="devCode"
         >
           <ng-option
@@ -104,6 +106,7 @@
           autocomplete="off"
           formControlName="affAssure"
           name="affAssure"
+          [readonly]="isDetails" 
           [class.errorInputForm]="
             getFormFiledsValue('affAssure')?.invalid &&
             getFormFiledsValue('affAssure')?.touched
@@ -130,6 +133,7 @@
           class="form-control custom-input"
           formControlName="affActivite"
           name="affActivite"
+          [readonly]="isDetails" 
           [class.errorInputForm]="
             getFormFiledsValue('affActivite')?.invalid &&
             getFormFiledsValue('affActivite')?.touched
@@ -164,6 +168,7 @@
         <label>Branche : <span class="required_champs">*</span> </label>
         <ng-select
           formControlName="couvertureId"
+          [readonly]="isDetails" 
           name="couvertureId"
           id="couvertureId"
         >
@@ -184,6 +189,7 @@
           class="form-control custom-input"
           placeholder="N° Police"
           autocomplete="off"
+          [readonly]="isDetails" 
           formControlName="facNumeroPolice"
           name="facNumeroPolice"
           [class.errorInputForm]="
@@ -211,7 +217,7 @@
           class="form-control custom-input"
           placeholder="Date d'effet"
           autocomplete="off"
-          bsDatepicker
+          bsDatepicker  [readonly]="isDetails" 
           [minDate]="dateActuelle"
           [bsConfig]="{
             dateInputFormat: 'DD/MM/YYYY',
@@ -243,6 +249,7 @@
           class="form-control custom-input"
           placeholder="Date d'écheance"
           autocomplete="off"
+          [readonly]="isDetails" 
           bsDatepicker
           [minDate]="
             getFormFiledsValue('affDateEffet')
@@ -281,6 +288,7 @@
           class="form-control custom-input"
           placeholder="Capital"
           autocomplete="off"
+          [readonly]="isDetails" 
           mask="separator"
           formControlName="affCapitalInitial"
           name="affCapitalInitial"
@@ -306,6 +314,7 @@
         <input
           class="form-control custom-input"
           placeholder="SMPL/CI"
+          [readonly]="isDetails" 
           autocomplete="off"
           mask="separator"
           formControlName="facSmpLci"
@@ -334,6 +343,7 @@
           placeholder="Capital"
           autocomplete="off"
           mask="separator"
+          [readonly]="isDetails" 
           formControlName="facPrime"
           name="facPrime"
           [class.errorInputForm]="

@@ -58,7 +58,6 @@ export class ListAffaireEnComptabiliteComponent implements OnInit {
 
   closeFormModal($event) {
     this.modalRef.hide();
-    sessionStorage.removeItem("itemRepartitionTaux");
     this.businessOptionalService.setCurrentOptionalBusiness(null);
     this.getItems();
   }
@@ -66,113 +65,6 @@ export class ListAffaireEnComptabiliteComponent implements OnInit {
   pageChanged(event: any): void {
     this.currentPage = event.page ;
     this.getItems();
-  }
-
-  confirmTransmissionOrReturnAffaire(isTransmission:boolean,affaire:BusinessOptional) {
-    /** Faire les controls */
-    let itemAEnregistrer = Object.assign({}, affaire);
-
-   
-    if (itemAEnregistrer)
-      Swal.fire({
-        title: isTransmission ? "Transmission d'affaire":"Retourner une affaire",
-        text:
-        isTransmission
-            ? "Vous êtes sur le point de transmettre une affaire. Voulez-vous poursuivre cette action ?"
-            : "Vous êtes sur le point de retourner une affaire. Voulez-vous poursuivre cette action ?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#0665aa",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Oui",
-        cancelButtonText: "Non",
-      }).then((result) => {
-        if (result.value) {
-
-          if(isTransmission) {
-            this.saveTransmission(itemAEnregistrer);
-          }else {
-            this.saveRetournerAffaire(itemAEnregistrer);
-          }
-          
-        }
-      });
-  }
-
-  confirmValidationAffaire(affaire:BusinessOptional) {
-    /** Faire les controls */
-    let itemAEnregistrer = Object.assign({}, affaire);
-
-    if (itemAEnregistrer)
-      Swal.fire({
-        title: "Validation d'affaire",
-        text:"Vous êtes sur le point de valider cette affaire. Voulez-vous poursuivre cette action ?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#0665aa",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Oui",
-        cancelButtonText: "Non",
-      }).then((result) => {
-        if (result.value) {
-            this.validationAffaire(itemAEnregistrer);
-        }
-      });
-  }
-
-
-  saveTransmission(itemAEnregistrer: BusinessOptional) {
-    this.busyGet = this.businessOptionalService
-    .transmissionAffaire(itemAEnregistrer.affId,itemAEnregistrer)
-    .subscribe((response: any) => {
-
-      if(response) {
-        this.utilities.showNotification(
-          "snackbar-success",
-          this.utilities.getMessageOperationSuccessFull(),
-          "bottom",
-          "center"
-        );
-        this.getItems();
-      }
-
-    });
-  }
-
-
-  validationAffaire(itemAEnregistrer: BusinessOptional) {
-    this.busyGet = this.businessOptionalService
-    .validerAffaire(itemAEnregistrer.affId,itemAEnregistrer)
-    .subscribe((response: any) => {
-
-      if(response) {
-        this.utilities.showNotification(
-          "snackbar-success",
-          this.utilities.getMessageOperationSuccessFull(),
-          "bottom",
-          "center"
-        );
-        this.getItems();
-      }
-
-    });
-  }
-
-
-  saveRetournerAffaire(itemAEnregistrer: BusinessOptional) {
-    this.busyGet = this.businessOptionalService
-    .retournerAffaire(itemAEnregistrer.affId,itemAEnregistrer)
-    .subscribe((response: any) => {
-      if(response) {
-        this.utilities.showNotification(
-          "snackbar-success",
-          this.utilities.getMessageOperationSuccessFull(),
-          "bottom",
-          "center"
-        );
-        this.getItems();
-      }
-    });
   }
 
 
@@ -227,7 +119,7 @@ export class ListAffaireEnComptabiliteComponent implements OnInit {
       endPoint = this.businessOptionalService.getAffaireFacultativeByCedanteTransmis((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.exeCode || null))
     }else{
       if(!this.user.cedId){
-        endPoint = this.businessOptionalService.getAffaireFacultativeByReassureurEnTraitement((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.cedenteId || null),(this.itemToSearch.exeCode || null));
+        endPoint = this.businessOptionalService.getAffaireFacultativeByReassureurEnPlacement((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.cedenteId || null),(this.itemToSearch.exeCode || null));
         if(this.statutAffaire?.toLowerCase() === this.statutAffEnum.EN_ATTENTE_DE_REGLEMENT?.toLowerCase()){
           endPoint = this.businessOptionalService.getAffaireFacultativeByReassureurEnReglement((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),(this.itemToSearch.cedenteId || null),(this.itemToSearch.exeCode || null));
         }

@@ -29,6 +29,13 @@ import { ChartModule } from 'angular-highcharts';
 import { DetailsBusinessOptionalComponent } from "./components/details-business-optional/details-business-optional.component";
 import { DetailsInformationIdentificationComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/details-information-identification/details-information-identification.component";
 import { AddFileInFormComponent } from "./components/add-file-in-form/add-file-in-form.component";
+import { FormAffaireFacultativesComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-affaire-facultatives.component";
+import { FormIdentificationComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-identification/form-identification.component";
+import { FormRepartitionComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-repartition/form-repartition.component";
+import { FormPlacementComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-placement/form-placement.component";
+import { DetailsAffaireFacultativeComponent } from "./components/details-affaire-facultative/details-affaire-facultative.component";
+import { ListAffairesFacultativesComponent } from "../business-manager/affaire-facutatives/list-affaires-facultatives/list-affaires-facultatives.component";
+import { FormRetournerAffaireComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-retourner-affaire/form-retourner-affaire.component";
 
 @NgModule({
   declarations: [
@@ -43,8 +50,14 @@ import { AddFileInFormComponent } from "./components/add-file-in-form/add-file-i
     AppAccessDirective,
     DetailsBusinessOptionalComponent,
     DetailsInformationIdentificationComponent,
-    AddFileInFormComponent
-    // DetailsAffaireFacultativeComponent
+    AddFileInFormComponent,
+    FormAffaireFacultativesComponent,
+    FormIdentificationComponent,
+    FormRepartitionComponent,
+    FormPlacementComponent,
+    DetailsAffaireFacultativeComponent,
+    ListAffairesFacultativesComponent,
+    FormRetournerAffaireComponent
     // DetailsAffaireFacultativeComponent
     // ProgrammeDialyseComponent,
     // FormCreateProgrammeComponent,
@@ -113,6 +126,12 @@ import { AddFileInFormComponent } from "./components/add-file-in-form/add-file-i
     TimeLineComponent,
     PriseDeDecisionWorkflowComponent,
     DetailsBusinessOptionalComponent,
+    FormAffaireFacultativesComponent,
+    FormIdentificationComponent,
+    FormRepartitionComponent,
+    FormPlacementComponent,
+    ListAffairesFacultativesComponent,
+    FormRetournerAffaireComponent,
     AppAccessDirective,
     ChartModule 
   ],

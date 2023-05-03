@@ -44,6 +44,7 @@ export class FormRepartitionComponent implements OnInit {
   @Input() itemToUpdate: BusinessOptionalRepartition;
   @Input() isWizardProcess: boolean = false;
   @Input() isUpdateRepartition: boolean = false;
+  @Input() isDetails: boolean = false;
 
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Output() stepperInice: EventEmitter<number> = new EventEmitter();
@@ -108,7 +109,7 @@ export class FormRepartitionComponent implements OnInit {
     Swal.fire({
       title: "Répartition",
       text:
-        this.itemToUpdate?.repId && this.itemToUpdate?.repId > 0
+        this.isUpdateRepartition
           ? "Vous êtes sur le point de modifier une répartition. Voulez-vous poursuivre cette action ?"
           : "Vous êtes sur le point d'enregistrer une répartition. Voulez-vous poursuivre cette action ?",
       icon: "warning",

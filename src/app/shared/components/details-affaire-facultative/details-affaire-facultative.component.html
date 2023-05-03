@@ -1,9 +1,14 @@
 <div class="container-details-affaire">
-
     <mat-tab-group>
         <mat-tab label="Identification">
             <ng-template matTabContent>
                <app-form-identification [isDetails]="true"></app-form-identification>
+            </ng-template>
+        </mat-tab>
+
+        <mat-tab label="Repartition">
+            <ng-template matTabContent>
+                <app-form-repartition  [isDetails]="true"></app-form-repartition>
             </ng-template>
         </mat-tab>
 

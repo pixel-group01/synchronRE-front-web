@@ -14,12 +14,15 @@ export class DetailsInformationIdentificationComponent implements OnInit {
   currentAffaireFacultative: BusinessOptional;
   itemDetailsAffaire: any;
   @Input() currentRepartitionTaux!: RepartitionByTauxOrCapital;
-  @Input() isPlacement:boolean = false;
-  @Input() refreshData:string = '';
-  detailsPlacement : any;
+  @Input() isPlacement: boolean = false;
+  @Input() refreshData: string = "";
+  detailsPlacement: any;
   busyGet: Subscription;
-  
-  constructor(private businessOptionalService: BusinessOptionalService,private businessOptionalRepartitionService: BusinessOptionalRepartitionService,) {}
+
+  constructor(
+    private businessOptionalService: BusinessOptionalService,
+    private businessOptionalRepartitionService: BusinessOptionalRepartitionService
+  ) {}
 
   getDetailsBussinessOptional() {
     // On verifie si il y a un business déjà crée
@@ -50,12 +53,11 @@ export class DetailsInformationIdentificationComponent implements OnInit {
       return;
     }
 
-     this.busyGet = this.businessOptionalService
+    this.busyGet = this.businessOptionalService
       .getAffaireFacultativeEtatComptable(this.currentAffaireFacultative.affId)
       .subscribe((response) => {
         if (response) {
           this.detailsPlacement = response;
-          
         }
       });
   }
@@ -67,66 +69,51 @@ export class DetailsInformationIdentificationComponent implements OnInit {
       };
 
       this.getDetailsBussinessOptional();
-     
     }
 
-
-    if(!this.currentRepartitionTaux || !this.currentRepartitionTaux.taux) {
-      this.currentRepartitionTaux = JSON.parse(sessionStorage.getItem("itemRepartitionTaux")) as RepartitionByTauxOrCapital;
-    }
+    // if(!this.currentRepartitionTaux || !this.currentRepartitionTaux.taux) {
+    //   this.currentRepartitionTaux = JSON.parse(sessionStorage.getItem("itemRepartitionTaux")) as RepartitionByTauxOrCapital;
+    // }
   }
 
   getRepartionByCapital() {
-  
     this.businessOptionalRepartitionService
-      .getRepartitionCalculatByCapital(
-        this.currentAffaireFacultative.affId,
-        0
-      )
+      .getRepartitionCalculatByCapital(this.currentAffaireFacultative.affId, 0)
       .subscribe((response) => {
         if (response) {
+          console.log(" response capital ", response);
 
-          console.log(" response capital ",response);
-          
           this.currentRepartitionTaux = response as RepartitionByTauxOrCapital;
         }
       });
   }
 
-
   ngOnChanges(changes: SimpleChanges) {
-
     if (
       changes["currentRepartitionTaux"] &&
       changes["currentRepartitionTaux"].currentValue
     ) {
       this.currentRepartitionTaux =
         changes["currentRepartitionTaux"].currentValue;
+
+        console.log(" this.currentRepartitionTaux ",this.currentRepartitionTaux);
+        
     }
- 
-    if (
-      changes["isPlacement"] &&
-      changes["isPlacement"].currentValue
-    ) {
+
+    if (changes["isPlacement"] && changes["isPlacement"].currentValue) {
       setTimeout(() => {
         this.getEtatComptable();
       }, 1000);
     }
-    
-    if (
-      changes["refreshData"] &&
-      changes["refreshData"].currentValue
-    ) {
+
+    if (changes["refreshData"] && changes["refreshData"].currentValue) {
       this.getEtatComptable();
     }
-    
 
     // else{
     //   setTimeout(() => {
     //       this.getRepartionByCapital();
     //   }, 1000);
     // }
-
-   
   }
 }

@@ -167,7 +167,7 @@ export class FormPlacementComponent implements OnInit {
   getReportPlacement(idPlacement : number){
     if(idPlacement) {
 
-      window.open(environment.apiUrl+'/reports/note-cession/'+idPlacement, '_blank');
+      window.open(environment.apiUrl+'reports/note-cession/'+idPlacement, '_blank');
 
       // this.busySave = this.businessOptionalRepartition
       // .reportNoteCessionPlacement(idPlacement)
