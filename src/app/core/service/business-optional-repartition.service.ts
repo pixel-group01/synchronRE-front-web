@@ -64,6 +64,13 @@ export class BusinessOptionalRepartitionService {
     return this.restClient.get(endPointFinal);
   }
 
+  getPlacementSaisieByAffaire = (index:number = 0,size:number=10,key?:string,affaireId?:number) => {
+    let endPointFinal = "repartitions/list-placement-saisie/"+affaireId;
+
+    endPointFinal = endPointFinal+"?page="+index+"&size="+size+""+(key ? "&key="+key : "");
+    return this.restClient.get(endPointFinal);
+  }
+
   reportNoteCessionPlacement(placementId:number){
     return this.restClient.get('reports/note-cession/'+placementId);
   }

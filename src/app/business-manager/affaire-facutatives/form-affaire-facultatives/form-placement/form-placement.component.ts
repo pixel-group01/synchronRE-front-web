@@ -8,6 +8,7 @@ import { BusinessOptionalRepartitionService } from "src/app/core/service/busines
 import { BusinessOptionalService } from "src/app/core/service/business-optional.service";
 import { CessionnaireService } from "src/app/core/service/cessionnaire.service";
 import { UtilitiesService } from "src/app/core/service/utilities.service";
+import { environment } from "src/environments/environment";
 import Swal from "sweetalert2";
 
 @Component({
@@ -24,10 +25,12 @@ export class FormPlacementComponent implements OnInit {
   listeRepartitions: any = [];
   itemToUpdate: any;
   currentAffaire: BusinessOptional;
-  isUpdateRepartition: boolean;
   busySave: Subscription;
+  refreshData:string;
+
   @Input() isWizardProcess:boolean = false;
   @Input() isDetails:boolean = false;
+  @Input() isUpdatePlacement:boolean = false;
   
   constructor(
     private cessionaireService: CessionnaireService,
@@ -100,7 +103,7 @@ export class FormPlacementComponent implements OnInit {
   }
 
   saveItem(itemAEnregistrer: RepartitionPlacement) {
-    if (!this.isUpdateRepartition) {
+    if (!this.isUpdatePlacement) {
       // nous sommes au create
       this.busySave = this.businessOptionalRepartition
         .createPlacement(itemAEnregistrer)
@@ -113,7 +116,8 @@ export class FormPlacementComponent implements OnInit {
               "bottom",
               "center"
             );
-            this.getRepartition();
+            this.getPlacementByAff();
+            this.refreshData = new Date().getTime().toString();
             // this.closeModal.emit(true);
           }
         });
@@ -131,13 +135,14 @@ export class FormPlacementComponent implements OnInit {
               "center"
             );
           }
-          this.getRepartition();
+          this.refreshData = new Date().getTime().toString();
+          this.getPlacementByAff();
           // this.closeModal.emit(true);
         });
     }
   }
 
-  getRepartition() {
+  getPlacementByAff() {
 
     if(!this.currentAffaire?.affId) {
       this.utilities.showNotification(
@@ -149,13 +154,11 @@ export class FormPlacementComponent implements OnInit {
       return;
     }
     this.businessOptionalRepartition
-      .getPlacementByAffaire(0, 10, "", this.currentAffaire?.affId)
+      .getPlacementSaisieByAffaire(0, 10, "", this.currentAffaire?.affId)
       .subscribe((response) => {
         console.log(" response ", response);
 
         if (response && response["content"]) {
-          console.log(" this.listeRepartitions ", this.listeRepartitions);
-
           this.listeRepartitions = response["content"];
         }
       });
@@ -163,6 +166,9 @@ export class FormPlacementComponent implements OnInit {
 
   getReportPlacement(idPlacement : number){
     if(idPlacement) {
+
+      window.open(environment.apiUrl+'/reports/note-cession/'+idPlacement, '_blank');
+
       // this.busySave = this.businessOptionalRepartition
       // .reportNoteCessionPlacement(idPlacement)
       // .subscribe((response:any) => {
@@ -177,41 +183,41 @@ export class FormPlacementComponent implements OnInit {
       //   link.click();
       // });
 
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("Content-Type", "octet-stream");
-      myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJmdW5jdGlvblN0YXJ0aW5nRGF0ZSI6MTY4MjU1MzYwMDAwMCwiZnVuY3Rpb25OYW1lIjoiQWRtaW5pc3RyYXRldXIgU3luY3Job25lUmUiLCJmdW5jdGlvbkVuZGluZ0RhdGUiOjE3MTQxNzYwMDAwMDAsInVzZXJJZCI6MSwibm9tIjoiYWRtaW4iLCJhdXRob3JpdGllcyI6WyJBRE1JTiJdLCJjZXNJZCI6NCwiY2VzTm9tIjoiTkVMU09OLVJFIiwiY2VzU2lnbGUiOiJOUkUiLCJmdW5jdGlvbklkIjo0LCJpc0NvdXJ0aWVyIjp0cnVlLCJjb25uZWN0aW9uSWQiOiJlYmU4NGRlZC1iMDRjLTRkMzYtOGE2ZS01ODlhY2MxYWQ1YjgiLCJ0ZWwiOiIxMjM0IiwicHJlbm9tIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInN1YiI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY4MjU5NzY3OSwiZXhwIjoxNjgyNjg0MDc5fQ.-IiCfdrRym_mXjE-fnKLcTmdHA5j5vA7ca6Ytzsf1Ow");
+      // var myHeaders = new Headers();
+      // myHeaders.append("Content-Type", "application/json");
+      // myHeaders.append("Content-Type", "octet-stream");
+      // myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJmdW5jdGlvblN0YXJ0aW5nRGF0ZSI6MTY4MjU1MzYwMDAwMCwiZnVuY3Rpb25OYW1lIjoiQWRtaW5pc3RyYXRldXIgU3luY3Job25lUmUiLCJmdW5jdGlvbkVuZGluZ0RhdGUiOjE3MTQxNzYwMDAwMDAsInVzZXJJZCI6MSwibm9tIjoiYWRtaW4iLCJhdXRob3JpdGllcyI6WyJBRE1JTiJdLCJjZXNJZCI6NCwiY2VzTm9tIjoiTkVMU09OLVJFIiwiY2VzU2lnbGUiOiJOUkUiLCJmdW5jdGlvbklkIjo0LCJpc0NvdXJ0aWVyIjp0cnVlLCJjb25uZWN0aW9uSWQiOiJlYmU4NGRlZC1iMDRjLTRkMzYtOGE2ZS01ODlhY2MxYWQ1YjgiLCJ0ZWwiOiIxMjM0IiwicHJlbm9tIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInN1YiI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY4MjU5NzY3OSwiZXhwIjoxNjgyNjg0MDc5fQ.-IiCfdrRym_mXjE-fnKLcTmdHA5j5vA7ca6Ytzsf1Ow");
 
-      var requestOptions : any = {
-        method: 'GET',
-        responseType: "blob",
-        headers: myHeaders,
-        redirect: 'follow'
-      };
+      // var requestOptions : any = {
+      //   method: 'GET',
+      //   responseType: "blob",
+      //   headers: myHeaders,
+      //   redirect: 'follow'
+      // };
 
-      fetch("http://localhost:5001/reports/note-cession/4", requestOptions)
-        .then(response => response.text())
-        .then(
-          (result:any) => {
-            console.log(result)
+      // fetch("http://localhost:5001/reports/note-cession/4", requestOptions)
+      //   .then(response => response.text())
+      //   .then(
+      //     (result:any) => {
+      //       console.log(result)
 
-            typeof(result);
-            console.log(" typeof(result) ",typeof(result));
-            const pdfBlob = new Blob([result.data], { type: 'application/pdf' });
+      //       typeof(result);
+      //       console.log(" typeof(result) ",typeof(result));
+      //       const pdfBlob = new Blob([result.data], { type: 'application/pdf' });
 
-            const url = window.URL.createObjectURL(pdfBlob);
-            const link = document.createElement('a');
-            link.href = url;
+      //       const url = window.URL.createObjectURL(pdfBlob);
+      //       const link = document.createElement('a');
+      //       link.href = url;
 
-            console.log(" url ",url);
+      //       console.log(" url ",url);
             
-            link.setAttribute('download', 'fileExport.pdf');
-            document.body.appendChild(link);
+      //       link.setAttribute('download', 'fileExport.pdf');
+      //       document.body.appendChild(link);
 
-            link.click();
-          }
-        )
-        .catch(error => console.log('error', error));
+      //       link.click();
+      //     }
+      //   )
+      //   .catch(error => console.log('error', error));
 
       }
   }
@@ -246,7 +252,7 @@ export class FormPlacementComponent implements OnInit {
         "center"
       );
 
-      this.getRepartition();
+      this.getPlacementByAff();
     }
    )
   }
@@ -355,7 +361,7 @@ export class FormPlacementComponent implements OnInit {
     //   etatComptable: null,
     // };
 
-    this.getRepartition();
+    this.getPlacementByAff();
     this.getCessionnaire();
   }
 }

@@ -70,21 +70,23 @@
                             <div class="row">
 
                                 <div class="col-12 table-responsive">
-                                    <table class="table table-condensed table-striped table-hover">
+                                    <table class="table table-condensed table-bordered">
                                         <thead>
                                             <tr class="custom-table-head">
                                                 <th>Libellé</th>
                                                 <th>Capitaux</th>
                                                 <th>Part (%)</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
  
                                         <tbody>
-                                            <tr *ngFor="let cession of listeParametreCessionsLegale; let idx=index">
+                                            <tr *ngFor="let cession of listeParametreCessionsLegale; let idx=index" [class.inactif]="!cession.checked">
                                                 <td>{{cession?.paramCesLegLibelle}}</td>
                                                 <td>
                                                     <input class="form-control custom-input" 
                                                     [ngModelOptions]="{standalone: true}"
+                                                    [disabled]="!cession.checked"
                                                     [(ngModel)]="cession.repCapital" (keyup)="getRepartionCessionByCapital(cession)"
                                                     placeholder="Capital" autocomplete="off"
                                                         name="capCessionFormArray" mask="separator"  />
@@ -92,10 +94,16 @@
                                                 <td>
                                                     <input class="form-control custom-input" 
                                                     [(ngModel)]="cession.repTaux"
+                                                    [disabled]="!cession.checked"
                                                     [ngModelOptions]="{standalone: true}"
                                                         placeholder="Taux" autocomplete="off"
                                                         (keyup)="getRepartionCessionByTaux(cession)"
                                                             name="tauxFrmArray" mask="separator"/>
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox"
+                                                    [(ngModel)]="cession.checked"
+                                                    [ngModelOptions]="{standalone: true}" name="checked"/>
                                                 </td>
                                             </tr>
 
@@ -175,6 +183,7 @@
                                             <input class="form-control custom-input" placeholder="Part (%)"
                                                 autocomplete="off" mask="separator" type="text" />
                                         </td>
+
                                     </tr>
 
                                     <tr>
@@ -215,7 +224,7 @@
               class="btn btn-md custom_btn_primary pull-right"
               
             >
-              {{itemToUpdate?.affId ? 'Modifier' : 'Enregistrer et continuer'}}
+              {{ (itemToUpdate?.affId || isUpdateRepartition) ? 'Modifier' : 'Enregistrer et continuer'}}
             </button>
       
             <button

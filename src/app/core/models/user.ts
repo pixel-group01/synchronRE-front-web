@@ -15,5 +15,6 @@ export class User {
   token: string;
   uniteFoncActiveId?:string;
   adminUniteFonctionnelleCode?:string;
-  userId?:number
+  userId?:number;
+  functionName?:string
 }

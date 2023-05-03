@@ -194,7 +194,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-form-repartition (closeModal)="closeFormModal($event)"></app-form-repartition>
+    <app-form-repartition (closeModal)="closeFormModal($event)" [isUpdateRepartition]="true"></app-form-repartition>
   </div>
 </ng-template>
 
@@ -211,7 +211,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-form-placement (closeModal)="closeFormModal($event)" [isPlacement]="true"></app-form-placement>
+    <app-form-placement (closeModal)="closeFormModal($event)" [isPlacement]="true" [isUpdatePlacement]="true"></app-form-placement>
   </div>
 </ng-template>
 

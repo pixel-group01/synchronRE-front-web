@@ -15,6 +15,7 @@ export class DetailsInformationIdentificationComponent implements OnInit {
   itemDetailsAffaire: any;
   @Input() currentRepartitionTaux!: RepartitionByTauxOrCapital;
   @Input() isPlacement:boolean = false;
+  @Input() refreshData:string = '';
   detailsPlacement : any;
   busyGet: Subscription;
   
@@ -94,8 +95,7 @@ export class DetailsInformationIdentificationComponent implements OnInit {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(" changes ",changes);
-    
+
     if (
       changes["currentRepartitionTaux"] &&
       changes["currentRepartitionTaux"].currentValue
@@ -110,9 +110,17 @@ export class DetailsInformationIdentificationComponent implements OnInit {
     ) {
       setTimeout(() => {
         this.getEtatComptable();
-      }, 1300);
+      }, 1000);
     }
     
+    if (
+      changes["refreshData"] &&
+      changes["refreshData"].currentValue
+    ) {
+      this.getEtatComptable();
+    }
+    
+
     // else{
     //   setTimeout(() => {
     //       this.getRepartionByCapital();

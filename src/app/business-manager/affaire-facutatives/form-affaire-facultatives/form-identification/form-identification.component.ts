@@ -21,6 +21,7 @@ import { ExerciceService } from "src/app/core/service/exercice.service";
 import { UserService } from "src/app/core/service/user.service";
 import { UtilitiesService } from "src/app/core/service/utilities.service";
 import Swal from "sweetalert2";
+import * as _ from "lodash";
 
 @Component({
   selector: "app-form-identification",
@@ -41,13 +42,16 @@ export class FormIdentificationComponent implements OnInit {
   listeExercices: Array<Exercice> = [];
   listeStatus : any = [
     {
-      libelle: "Réalisée"
+      libelle: "Réalisée",
+      code : 'REALISEE'
     },
     {
-      libelle: "En instance"
+      libelle: "En instance",
+      code : 'INSTANCE'
     },
     {
-      libelle: "Non réalisée"
+      libelle: "Non réalisée",
+      code : 'NON_REALISEE'
     }
   ]
   @Input() isDetails:boolean = false;
@@ -115,6 +119,17 @@ export class FormIdentificationComponent implements OnInit {
     this.exerciceService.getAll().subscribe((response : any) => {
       if (response) {
         this.listeExercices = response as Exercice[];
+
+        // Recuperer l'exercice courante et fixer
+        if(!this.currentAffaire.affId) {
+          let currentExercice = _.find(this.listeExercices, (o) => { return o.exeCourant });
+          console.log(" currentExercice ",currentExercice);
+          
+          if(currentExercice && currentExercice.exeCode) {
+            this.formulaireGroup.patchValue({'exeCode':currentExercice?.exeCode})
+          }
+        }
+        
       } else {
         this.listeExercices = [];
       }

@@ -11,7 +11,7 @@
       <div class="col-md-2 col-xs-12 col-sm-12 mb-2">
         <label>Exercice : <span class="required_champs">*</span> </label>
 
-        <ng-select formControlName="exeCode" name="exeCode" id="exeCode">
+        <ng-select formControlName="exeCode" name="exeCode" id="exeCode" [readonly]="true">
           <ng-option
             *ngFor="let exercice of listeExercices"
             [value]="exercice?.exeCode"
@@ -59,7 +59,7 @@
         >
           <ng-option
             *ngFor="let affaires of listeStatus"
-            [value]="affaires?.libelle"
+            [value]="affaires?.code"
             >{{ affaires.libelle }}</ng-option
           >
         </ng-select>

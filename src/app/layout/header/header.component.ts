@@ -147,6 +147,9 @@ export class HeaderComponent
 
   ngOnInit() {
     this.currentUser = this.userService.getCurrentUserInfo();
+
+    console.log(" this.currentUser ",this.currentUser);
+    
   }
 
   openModal(data: any, template: TemplateRef<any>) {

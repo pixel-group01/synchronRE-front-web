@@ -174,11 +174,11 @@
             <span>{{
               currentUser?.nom + " " + currentUser?.prenom | uppercase
             }}</span>
-            <!-- <span
+            <small style="font-size: 9px;font-weight: bold;"
               >&nbsp;&nbsp;({{
-                activeUniteFonctionnelle.libelleUniteFonctionnelle | uppercase
-              }})</span
-            > -->
+                currentUser.functionName | uppercase
+              }})</small
+            >
           </div>
           <div ngbDropdownMenu class="notification-dropdown pullDown">
             <div

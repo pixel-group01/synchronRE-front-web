@@ -10,7 +10,6 @@ import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { BusinessOptional } from "src/app/core/models/businessOptional";
 import { BusinessOptionalRepartition } from "src/app/core/models/businessOptionalRepartition";
-import { Cedante } from "src/app/core/models/cedante";
 import { CessionLegale } from "src/app/core/models/cessionLegale";
 import { Couverture } from "src/app/core/models/couverture";
 import { RepartitionByTauxOrCapital } from "src/app/core/models/repartitionByTauxOrCapital";
@@ -18,11 +17,11 @@ import { RepartitionCedanteCessionLegal } from "src/app/core/models/repartitionC
 import { User } from "src/app/core/models/user";
 import { BusinessOptionalRepartitionService } from "src/app/core/service/business-optional-repartition.service";
 import { BusinessOptionalService } from "src/app/core/service/business-optional.service";
-import { CedanteService } from "src/app/core/service/cedante.service";
 import { CouvertureService } from "src/app/core/service/couverture.service";
 import { UserService } from "src/app/core/service/user.service";
 import { UtilitiesService } from "src/app/core/service/utilities.service";
 import Swal from "sweetalert2";
+import * as _ from "lodash";
 
 @Component({
   selector: "app-form-repartition",
@@ -32,7 +31,7 @@ import Swal from "sweetalert2";
 export class FormRepartitionComponent implements OnInit {
   itemToSave: BusinessOptionalRepartition = {};
   formulaireGroup!: FormGroup;
-  isUpdateRepartition: boolean = false;
+  
   listeCouvertures: Array<Couverture> = [];
   listeCessionLegale: Array<CessionLegale> = [];
   listeParametreCessionsLegale: any = [];
@@ -44,11 +43,12 @@ export class FormRepartitionComponent implements OnInit {
   
   @Input() itemToUpdate: BusinessOptionalRepartition;
   @Input() isWizardProcess: boolean = false;
+  @Input() isUpdateRepartition: boolean = false;
+
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Output() stepperInice: EventEmitter<number> = new EventEmitter();
 
   constructor(
-    private formBuilder: FormBuilder,
     private couvertureService: CouvertureService,
     private businessOptionalService: BusinessOptionalService,
     private businessOptionalRepartitionService: BusinessOptionalRepartitionService,
@@ -121,8 +121,12 @@ export class FormRepartitionComponent implements OnInit {
       if (result.value) {
         /** On format le request à ce niveau comme le backend le veut  */
         let currentValueRepartion = { ...this.itemToSave };
+
+        // Recupererons les cessions cochés
+        let cessionsCoches = _.filter(this.listeParametreCessionsLegale, (o) => { return o.checked; });
+
         let requestRepartition: RepartitionCedanteCessionLegal = {
-          cesLegDtos: this.listeParametreCessionsLegale,
+          cesLegDtos: cessionsCoches || [],
           repCapital: currentValueRepartion.repCapital,
           repTauxBesoinFac: currentValueRepartion.repTauxBesoinFac,
           affId: this.currentAffaire?.affId,
@@ -152,7 +156,7 @@ export class FormRepartitionComponent implements OnInit {
             );
 
             // Dans le cas ou c'est une cedente on ferme le modal
-            if(this.user && this.user?.cedId){
+            if( (this.user && this.user?.cedId) || !this.isWizardProcess){
               this.closeModal.emit(true);
             }else{
               this.stepperInice.emit(3);
@@ -317,8 +321,6 @@ export class FormRepartitionComponent implements OnInit {
     this.itemToSave.repCapital = itemRepartitionTaux.capital;
     this.itemToSave.repTaux = itemRepartitionTaux.taux;
     this.itemToSave.repTauxBesoinFac = itemRepartitionTaux.tauxBesoinFac;
-
-    sessionStorage.setItem("itemRepartitionTaux",JSON.stringify(itemRepartitionTaux));
   }
 
   //Recuperer les cession legale
@@ -427,7 +429,6 @@ export class FormRepartitionComponent implements OnInit {
   }
 
 
-
   ngOnInit(): void {
     // Initialisation du forms group
 
@@ -435,28 +436,6 @@ export class FormRepartitionComponent implements OnInit {
 
     // this.createForm();
     this.getCouverture();
-
-    // this.currentAffaire = {
-    //   affId: 6,
-    //   affCode: null,
-    //   affAssure: "noglo koffi",
-    //   affActivite: "REASSUREUR",
-    //   affDateEffet: "2023-04-25",
-    //   affDateEcheance: "2023-04-29",
-    //   facNumeroPolice: null,
-    //   affCapitalInitial: 30000000,
-    //   facSmpLci: null,
-    //   facPrime: null,
-    //   cedId: 2,
-    //   cedNomFiliale: "NSIA BN",
-    //   cedSigleFiliale: "NSIA BN",
-    //   statutCode: "SAI",
-    //   couvertureId: 1,
-    //   restARepartir: 30000000,
-    //   capitalDejaReparti: 0,
-    //   etatComptable: null,
-    // };
-
     this.getCessionLegale();
     // this.getAffaireFacultativeEtatCompta();
   }
