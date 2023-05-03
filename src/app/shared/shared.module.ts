@@ -36,6 +36,7 @@ import { FormPlacementComponent } from "../business-manager/affaire-facutatives/
 import { DetailsAffaireFacultativeComponent } from "./components/details-affaire-facultative/details-affaire-facultative.component";
 import { ListAffairesFacultativesComponent } from "../business-manager/affaire-facutatives/list-affaires-facultatives/list-affaires-facultatives.component";
 import { FormRetournerAffaireComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-retourner-affaire/form-retourner-affaire.component";
+import { TableauPlacementComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-placement/tableau-placement/tableau-placement.component";
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { FormRetournerAffaireComponent } from "../business-manager/affaire-facut
     FormPlacementComponent,
     DetailsAffaireFacultativeComponent,
     ListAffairesFacultativesComponent,
-    FormRetournerAffaireComponent
+    FormRetournerAffaireComponent,
+    TableauPlacementComponent
     // DetailsAffaireFacultativeComponent
     // ProgrammeDialyseComponent,
     // FormCreateProgrammeComponent,
@@ -132,6 +134,7 @@ import { FormRetournerAffaireComponent } from "../business-manager/affaire-facut
     FormPlacementComponent,
     ListAffairesFacultativesComponent,
     FormRetournerAffaireComponent,
+    TableauPlacementComponent,
     AppAccessDirective,
     ChartModule 
   ],

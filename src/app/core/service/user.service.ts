@@ -33,7 +33,13 @@ export class UserService {
     let decode_data : any;
 
     if(this.getCurrentToken().accessToken) {
-       decode_data = this.jwtHelper.decodeToken(this.getCurrentToken().accessToken) as any
+       decode_data = this.jwtHelper.decodeToken(this.getCurrentToken().accessToken) as any;
+
+       if(decode_data.functionName === 'Acteur de Validation'){
+        decode_data.isActeurValideur = true;
+       }else{
+        decode_data.isActeurValideur = false;
+       }
     }
     
     return decode_data;

@@ -109,17 +109,17 @@
                   <i class="fa fa-edit"></i>&nbsp;Effectuer une répartition
                 </button>
 
-                <button ngbDropdownItem *ngIf="(!user.cedId && !noPutAction) || isEnCoursPlacementNelson"
+                <button ngbDropdownItem *ngIf="((!user.cedId && !noPutAction) || isEnCoursPlacementNelson) && !user?.isActeurValideur"
                   (click)="openModal(templateUpdatePlacement,item)">
                   <i class="fa fa-edit"></i>&nbsp;Effectuer un placement
                 </button>
 
                 <button ngbDropdownItem (click)="confirmTransmissionOrReturnAffaire(true, item)"
                   *ngIf="(user.cedId && !noPutAction)">
-                  <i class="fa fa-list"></i>&nbsp;Transmettre une affaire
+                  <i class="fa fa-share"></i>&nbsp;Transmettre une affaire
                 </button>
 
-                <button ngbDropdownItem (click)="confirmValidationAffaire(item)" *ngIf="!user.cedId && !noPutAction">
+                <button ngbDropdownItem (click)="openModal(templateValidationPlacement,item)" *ngIf="!user.cedId && user?.isActeurValideur">
                   <i class="fa fa-check"></i>&nbsp;Valider l'affaire
                 </button>
 
@@ -219,6 +219,21 @@
   </div>
   <div class="modal-body">
     <app-form-placement (closeModal)="closeFormModal($event)" [isPlacement]="true" [isUpdatePlacement]="true"></app-form-placement>
+  </div>
+</ng-template>
+ 
+<!-- Validation placement -->
+<ng-template #templateValidationPlacement>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">
+      Validation de placement
+    </h4>
+    <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-form-placement (closeModal)="closeFormModal($event)" [isPlacement]="true" [isUpdatePlacement]="true" [isValidationPlacement]="true"></app-form-placement>
   </div>
 </ng-template>
 

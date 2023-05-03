@@ -76,7 +76,6 @@ export class ListAffairesFacultativesComponent implements OnInit {
       }else{
         this.itemToSave.isSeeMotifRetour = false;
       }
-
       this.businessOptionalService.setCurrentOptionalBusiness(this.itemToSave);
     }
     this.modalRef = this.modalService.show(template, config);

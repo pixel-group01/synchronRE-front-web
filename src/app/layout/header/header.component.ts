@@ -28,6 +28,7 @@ import { PriseDeDecisionWorkflowComponent } from "src/app/shared/components/pris
 import {
   enumCodeCircuitValidation,
   enumOrigineOuvertureModalForNotification,
+  enumStatutAffaire,
   enumTypeRetour,
 } from "src/app/core/enumerator/enumerator";
 import * as _ from "lodash";
@@ -149,7 +150,36 @@ export class HeaderComponent
     this.currentUser = this.userService.getCurrentUserInfo();
 
     console.log(" this.currentUser ",this.currentUser);
-    
+    if(this.currentUser && this.currentUser?.cedId) {
+      this.refreshDataNotification();
+    }
+  }
+
+  getNotificationCedenteAffaireRetourner(){
+    this.restClient.get('affaires/facultative/by-cedante').subscribe(
+      (response : any) => {
+        console.log(" Retour du service ",response);
+        this.listeNotifications = [];
+        if(response['content'] && response['content'].length > 0) {
+          let results =  _.filter(response['content'], (o)=> { return o.statutCode?.toLowerCase() === enumStatutAffaire?.RETOURNER?.toLowerCase() });
+
+          if(results && results.length > 0){
+            this.listeNotifications.push({
+              message : "Vous avez "+(results.length)+ " affaire(s) retournée(s) par NELSONRE",
+            })
+          }
+        }
+
+      }
+    )
+  }
+
+  refreshDataNotification() {
+    this.getNotificationCedenteAffaireRetourner();
+    this.requestRefreshNotifications = interval( 5 * 1000) /* On actualise chaque 5 sécondes */
+      .subscribe(i => {
+        this.getNotificationCedenteAffaireRetourner()
+      })
   }
 
   openModal(data: any, template: TemplateRef<any>) {
@@ -185,6 +215,8 @@ export class HeaderComponent
     //   }, 2000);
     // }
   }
+
+
 
   ngAfterViewInit() {
     // set theme on startup
@@ -311,9 +343,9 @@ export class HeaderComponent
     });
   }
 
-  // ngOnDestroy() {
-  //   if (this.subscribeEcouteNotification) {
-  //     this.subscribeEcouteNotification.unsubscribe();
-  //   }
-  // }
+  ngOnDestroy() {
+    if (this.requestRefreshNotifications) {
+      this.requestRefreshNotifications.unsubscribe();
+    }
+  }
 }

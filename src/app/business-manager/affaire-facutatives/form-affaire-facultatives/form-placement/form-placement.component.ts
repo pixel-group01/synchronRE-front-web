@@ -8,8 +8,10 @@ import { BusinessOptionalRepartitionService } from "src/app/core/service/busines
 import { BusinessOptionalService } from "src/app/core/service/business-optional.service";
 import { CessionnaireService } from "src/app/core/service/cessionnaire.service";
 import { UtilitiesService } from "src/app/core/service/utilities.service";
-import { environment } from "src/environments/environment";
 import Swal from "sweetalert2";
+import * as _ from "lodash";
+import { User } from "src/app/core/models/user";
+import { UserService } from "src/app/core/service/user.service";
 
 @Component({
   selector: "app-form-placement",
@@ -23,6 +25,7 @@ export class FormPlacementComponent implements OnInit {
   itemToSave: RepartitionPlacement = new RepartitionPlacement();
   listeCessionnaire: Cessionnaire[];
   listeRepartitions: any = [];
+  listePlacementValides : any = [];
   itemToUpdate: any;
   currentAffaire: BusinessOptional;
   busySave: Subscription;
@@ -31,13 +34,20 @@ export class FormPlacementComponent implements OnInit {
   @Input() isWizardProcess:boolean = false;
   @Input() isDetails:boolean = false;
   @Input() isUpdatePlacement:boolean = false;
+  @Input() isValidationPlacement:boolean = false;
+
+  currentUser : User;
+  listeHistoriquePlacement : any = [];
   
   constructor(
     private cessionaireService: CessionnaireService,
     private businessOptionalRepartition: BusinessOptionalRepartitionService,
     private utilities: UtilitiesService,
-    private businessOptionalService: BusinessOptionalService
-  ) {}
+    private businessOptionalService: BusinessOptionalService,
+    private userService: UserService
+  ) {
+    this.currentUser = this.userService.getCurrentUserInfo();
+  }
 
   gotoPreviousStep() {
     this.stepperInice.emit(2);
@@ -76,11 +86,15 @@ export class FormPlacementComponent implements OnInit {
     itemAEnregistrer.cesId = this.itemToSave.cessionnaireSelected?.cesId;
     itemAEnregistrer.affId = this.currentAffaire?.affId;
 
+    console.log(" this.itemToUpdate ",this.itemToUpdate);
+    console.log(" itemAEnregistrer ",itemAEnregistrer);
+    itemAEnregistrer.cessionnaireSelected = null;
+    
     if (itemAEnregistrer)
       Swal.fire({
         title: "Placement",
         text:
-          this.itemToUpdate?.affId && this.itemToUpdate?.affId > 0
+           itemAEnregistrer?.isUpdatePlacement
             ? "Vous êtes sur le point de modifier un placement. Voulez-vous poursuivre cette action ?"
             : "Vous êtes sur le point d'enregistrer un placement. Voulez-vous poursuivre cette action ?",
         icon: "warning",
@@ -103,7 +117,8 @@ export class FormPlacementComponent implements OnInit {
   }
 
   saveItem(itemAEnregistrer: RepartitionPlacement) {
-    if (!this.isUpdatePlacement) {
+    if (!itemAEnregistrer.isUpdatePlacement) {
+      itemAEnregistrer.cessionnaireSelected = null;
       // nous sommes au create
       this.busySave = this.businessOptionalRepartition
         .createPlacement(itemAEnregistrer)
@@ -116,7 +131,7 @@ export class FormPlacementComponent implements OnInit {
               "bottom",
               "center"
             );
-            this.getPlacementByAff();
+            this.getPlacementSaisieByAff();
             this.refreshData = new Date().getTime().toString();
             // this.closeModal.emit(true);
           }
@@ -124,7 +139,7 @@ export class FormPlacementComponent implements OnInit {
     } else {
       // Nous sommes en modification
       this.busySave = this.businessOptionalRepartition
-        .update(itemAEnregistrer)
+        .modificationPlacement(itemAEnregistrer)
         .subscribe((response: any) => {
           if (response && response?.affId) {
             this.itemToSave = {};
@@ -136,13 +151,13 @@ export class FormPlacementComponent implements OnInit {
             );
           }
           this.refreshData = new Date().getTime().toString();
-          this.getPlacementByAff();
+          this.getPlacementSaisieByAff();
           // this.closeModal.emit(true);
         });
     }
   }
 
-  getPlacementByAff() {
+  getPlacementSaisieByAff($event? : any) {
 
     if(!this.currentAffaire?.affId) {
       this.utilities.showNotification(
@@ -164,98 +179,50 @@ export class FormPlacementComponent implements OnInit {
       });
   }
 
-  getReportPlacement(idPlacement : number){
-    if(idPlacement) {
 
-      window.open(environment.apiUrl+'reports/note-cession/'+idPlacement, '_blank');
+  getPlacementEnAttenteValidation($event? : any) {
 
-      // this.busySave = this.businessOptionalRepartition
-      // .reportNoteCessionPlacement(idPlacement)
-      // .subscribe((response:any) => {
-      //   console.log(" response ", response);
-
-      //   const url = window.URL.createObjectURL(new Blob([response.data]));
-      //   const link = document.createElement('a');
-      //   link.href = url;
-      //   link.setAttribute('download', 'file.pdf');
-      //   document.body.appendChild(link);
-
-      //   link.click();
-      // });
-
-      // var myHeaders = new Headers();
-      // myHeaders.append("Content-Type", "application/json");
-      // myHeaders.append("Content-Type", "octet-stream");
-      // myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJmdW5jdGlvblN0YXJ0aW5nRGF0ZSI6MTY4MjU1MzYwMDAwMCwiZnVuY3Rpb25OYW1lIjoiQWRtaW5pc3RyYXRldXIgU3luY3Job25lUmUiLCJmdW5jdGlvbkVuZGluZ0RhdGUiOjE3MTQxNzYwMDAwMDAsInVzZXJJZCI6MSwibm9tIjoiYWRtaW4iLCJhdXRob3JpdGllcyI6WyJBRE1JTiJdLCJjZXNJZCI6NCwiY2VzTm9tIjoiTkVMU09OLVJFIiwiY2VzU2lnbGUiOiJOUkUiLCJmdW5jdGlvbklkIjo0LCJpc0NvdXJ0aWVyIjp0cnVlLCJjb25uZWN0aW9uSWQiOiJlYmU4NGRlZC1iMDRjLTRkMzYtOGE2ZS01ODlhY2MxYWQ1YjgiLCJ0ZWwiOiIxMjM0IiwicHJlbm9tIjoiYWRtaW4iLCJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsInN1YiI6ImFkbWluQGdtYWlsLmNvbSIsImlhdCI6MTY4MjU5NzY3OSwiZXhwIjoxNjgyNjg0MDc5fQ.-IiCfdrRym_mXjE-fnKLcTmdHA5j5vA7ca6Ytzsf1Ow");
-
-      // var requestOptions : any = {
-      //   method: 'GET',
-      //   responseType: "blob",
-      //   headers: myHeaders,
-      //   redirect: 'follow'
-      // };
-
-      // fetch("http://localhost:5001/reports/note-cession/4", requestOptions)
-      //   .then(response => response.text())
-      //   .then(
-      //     (result:any) => {
-      //       console.log(result)
-
-      //       typeof(result);
-      //       console.log(" typeof(result) ",typeof(result));
-      //       const pdfBlob = new Blob([result.data], { type: 'application/pdf' });
-
-      //       const url = window.URL.createObjectURL(pdfBlob);
-      //       const link = document.createElement('a');
-      //       link.href = url;
-
-      //       console.log(" url ",url);
-            
-      //       link.setAttribute('download', 'fileExport.pdf');
-      //       document.body.appendChild(link);
-
-      //       link.click();
-      //     }
-      //   )
-      //   .catch(error => console.log('error', error));
-
-      }
-  }
-
-  confirmDeletePlacement(repartition) {
-    Swal.fire({
-      title: "Suppression placement",
-      text:"Vous êtes sur le point de supprimer un placement. Voulez-vous poursuivre cette action ?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#0665aa",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Oui",
-      cancelButtonText: "Non",
-    }).then((result) => {
-      if (result.value) {
-        // On effectue l'enregistrement
-
-        this.deletePlacement(repartition?.repId);
-      }
-    });
-  }
-
-  deletePlacement(idRepartition) {
-   this.busySave = this.businessOptionalRepartition.deleteRepartitionPlacement(idRepartition).subscribe(
-    (response) => {
-      console.log(" response ",response);
+    if(!this.currentAffaire?.affId) {
       this.utilities.showNotification(
-        "snackbar-success",
-        this.utilities.getMessageOperationSuccessFull(),
+        "snackbar-danger",
+        "Aucune affaire selectionnée !",
         "bottom",
         "center"
       );
-
-      this.getPlacementByAff();
+      return;
     }
-   )
+    this.businessOptionalRepartition
+      .getPlacementEnAttenteValidationByAffaire(0, 10, "", this.currentAffaire?.affId)
+      .subscribe((response) => {
+        console.log(" response ", response);
+
+        if (response && response["content"]) {
+          this.listeHistoriquePlacement = response["content"];
+        }
+      });
   }
+
+
+  getPlacementValideByAff($event? : any) {
+
+    if(!this.currentAffaire?.affId) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Aucune affaire selectionnée !",
+        "bottom",
+        "center"
+      );
+      return;
+    }
+    this.businessOptionalRepartition
+      .getPlacementValideByAffaire(0, 10, "", this.currentAffaire?.affId)
+      .subscribe((response) => {
+        if (response && response["content"]) {
+          this.listePlacementValides = response["content"];
+        }
+      });
+  }
+  
 
   getRepartionByCapital(itemRepartition) {
     if (!this.currentAffaire || !this.currentAffaire.affId) {
@@ -335,6 +302,16 @@ export class FormPlacementComponent implements OnInit {
       });
   }
 
+  /** Taraitement de la modificatioon */
+  getCurrentPlacementToUpdate(placement : RepartitionPlacement){
+    console.log(' placement ',placement);
+
+    placement.isUpdatePlacement = true;
+    this.itemToSave = {...placement};
+
+    // Preseledctionner le cessionnnaire selectionné
+    this.itemToSave.cessionnaireSelected = _.find(this.listeCessionnaire, (o) => { return o.cesId === placement.cesId });
+  }
 
   ngOnInit(): void {
     this.currentAffaire =
@@ -361,7 +338,14 @@ export class FormPlacementComponent implements OnInit {
     //   etatComptable: null,
     // };
 
-    this.getPlacementByAff();
+    this.getPlacementSaisieByAff();
     this.getCessionnaire();
+    
+
+    if(this.isUpdatePlacement) {
+      // En ce moment nous pouvons avoir des placements validés
+      this.getPlacementValideByAff();
+      this.getPlacementEnAttenteValidation();
+    }
   }
 }

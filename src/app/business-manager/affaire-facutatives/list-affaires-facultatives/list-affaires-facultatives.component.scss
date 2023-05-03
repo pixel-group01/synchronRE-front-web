@@ -23,5 +23,10 @@
         &.RET {
             background-color: var(--danger-color);
         }
+
+        &.CPLA {
+            background-color: orange;
+            color: black;
+        }
     }
 }

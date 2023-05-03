@@ -1,35 +1,17 @@
 <nav #navbar class="navbar active">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a
-        href="#"
-        onClick="return false;"
-        class="navbar-toggle collapsed"
-        (click)="isNavbarCollapsed = !isNavbarCollapsed"
-        aria-expanded="false"
-      ></a>
-      <a
-        href="#"
-        onClick="return false;"
-        class="bars"
-        (click)="mobileMenuSidebarOpen($event, 'overlay-open')"
-      ></a>
+      <a href="#" onClick="return false;" class="navbar-toggle collapsed"
+        (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-expanded="false"></a>
+      <a href="#" onClick="return false;" class="bars" (click)="mobileMenuSidebarOpen($event, 'overlay-open')"></a>
       <a class="navbar-brand">
-        <img
-          src="assets/images/images-app/logo_synchro_re.png"
-          class="logo-app"
-          alt=""
-        />
+        <img src="assets/images/images-app/logo_synchro_re.png" class="logo-app" alt="" />
       </a>
     </div>
     <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed">
       <ul class="float-start collapse-menu-icon">
         <li>
-          <button
-            mat-icon-button
-            (click)="callSidemenuCollapse()"
-            class="sidemenu-collapse"
-          >
+          <button mat-icon-button (click)="callSidemenuCollapse()" class="sidemenu-collapse">
             <i class="material-icons-outlined icon-color"> menu </i>
           </button>
         </li>
@@ -37,102 +19,70 @@
       <ul class="nav navbar-nav navbar-right">
         <!-- Full Screen Button -->
         <li class="fullscreen">
-          <button
-            mat-icon-button
-            (click)="callFullscreen()"
-            class="nav-notification-icons"
-          >
+          <button mat-icon-button (click)="callFullscreen()" class="nav-notification-icons">
             <i class="material-icons-outlined icon-color"> fullscreen </i>
           </button>
         </li>
         <!-- #END# Full Screen Button -->
         <!-- #START# Notifications-->
         <li class="nav-item li-notification" ngbDropdown>
-          <button
-            mat-icon-button
-            ngbDropdownToggle
-            class="nav-notification-icons"
-            (click)="openToogle((isOpen = !isOpen))"
-          >
+          <button mat-icon-button ngbDropdownToggle class="nav-notification-icons"
+            (click)="openToogle((isOpen = !isOpen))">
             <i class="material-icons-outlined icon-color">
               notifications_active
             </i>
             <sup *ngIf="listeNotifications && listeNotifications.length > 0">{{
               listeNotifications?.length | moneyFormat
-            }}</sup>
+              }}</sup>
           </button>
           <div ngbDropdownMenu class="notification-dropdown pullDown">
-            <div
-              class="noti-list"
-              style="position: relative; max-width: 700px; max-height: 450px"
-              [perfectScrollbar]
-            >
+            <div class="noti-list" style="position: relative; max-width: 700px; max-height: 450px" [perfectScrollbar]>
               <ul class="menu">
                 <li class="nfc-header">
                   <h5 class="mb-0">Notifications</h5>
                 </li>
 
-                <li
-                  *ngIf="!listeNotifications || listeNotifications?.length == 0"
-                  style="text-align: center"
-                >
+                <li *ngIf="!listeNotifications || listeNotifications?.length == 0" style="text-align: center">
                   Aucune notification disponible
                 </li>
 
                 <li>
-                  <a
-                    href="#"
-                    *ngFor="let notification of listeNotifications"
-                    onClick="return false;"
-                    style="border-top: 1px solid #eceeee"
-                  >
+                  <a href="#" *ngFor="let notification of listeNotifications" onClick="return false;"
+                    style="border-top: 1px solid #eceeee">
                     <!-- <span class="table-img msg-user">
                       <i class="fa fa-plus" [ngClass]="{'nfc-green' : notification.typeNotificationId == 1}"></i>
                     </span> -->
                     <span class="menu-info">
-                      <span class="menu-title"
-                        >{{ notification?.message }}
+                      <span class="menu-title">{{ notification?.message }}
                       </span>
-                      <span class="menu-desc mt-2">
+                      <!-- <span class="menu-desc mt-2">
                         <i class="material-icons">access_time</i>
                         {{ getDuree(notification.createdAt) }}
-                      </span>
+                      </span> -->
                     </span>
                     <span class="nfc-close">
-                      <b
-                        *ngIf="notification?.hasValidation"
-                        class="badge badge-success pull-right"
-                        (click)="
+                      <b *ngIf="notification?.hasValidation" class="badge badge-success pull-right" (click)="
                           openModal(notification, templateTraiterDossier)
-                        "
-                      >
+                        ">
                         Traiter
                       </b>
-                      <b
-                        *ngIf="
+                      <b *ngIf="
                           !notification?.hasValidation &&
                           (notification?.code?.toLowerCase() ==
                             codeCirucit?.RADIO?.toLowerCase() ||
                             notification?.code?.toLowerCase() ==
                               codeCirucit?.LABO?.toLowerCase())
-                        "
-                        class="badge badge-danger pull-right"
-                        (click)="
+                        " class="badge badge-danger pull-right" (click)="
                           openModal(notification, templateVisualiserResulat)
-                        "
-                        >Interprètation
+                        ">Interprètation
                       </b>
-                      <b
-                        *ngIf="
+                      <b *ngIf="
                           !notification?.hasValidation &&
                           notification?.code?.toLowerCase() ==
                             codeCirucit?.RES_RADIO?.toLowerCase()
-                        "
-                        class="badge badge-warning pull-right"
-                        (click)="
+                        " class="badge badge-warning pull-right" (click)="
                           openModal(notification, templateVisualiserResulat)
-                        "
-                      >
+                        ">
                         Résultat
                       </b>
                       <!-- <app-feather-icons [icon]="'x'" [class]="'user-menu-icons'"></app-feather-icons> -->
@@ -159,47 +109,25 @@
           </div>
         </li> -->
         <li class="nav-item user_profile" ngbDropdown>
-          <div
-            class="chip dropdown-toggle"
-            ngbDropdownToggle
-            class="nav-notification-icons pt-0"
-          >
-            <img
-              src="{{ userImg || 'assets/images/images-app/logo.png' }}"
-              class="user_img"
-              width="32"
-              height="32"
-              alt="User"
-            />
+          <div class="chip dropdown-toggle" ngbDropdownToggle class="nav-notification-icons pt-0">
+            <img src="{{ userImg || 'assets/images/images-app/logo.png' }}" class="user_img" width="32" height="32"
+              alt="User" />
             <span>{{
               currentUser?.nom + " " + currentUser?.prenom | uppercase
-            }}</span>
-            <small style="font-size: 9px;font-weight: bold;"
-              >&nbsp;&nbsp;({{
-                currentUser.functionName | uppercase
-              }})</small
-            >
+              }}</span>
+            <small style="font-size: 9px;font-weight: bold;">&nbsp;&nbsp;({{
+              currentUser.functionName | uppercase
+              }})</small>
           </div>
           <div ngbDropdownMenu class="notification-dropdown pullDown">
-            <div
-              class="noti-list"
-              style="position: relative; max-width: 600px; max-height: 300px"
-              [perfectScrollbar]
-            >
+            <div class="noti-list" style="position: relative; max-width: 600px; max-height: 300px" [perfectScrollbar]>
               <ul class="menu">
                 <li class="body">
                   <ul class="user_dw_menu">
                     <li>
-                      <a
-                        href="#"
-                        onClick="return false;"
-                        (click)="updatePassword()"
-                      >
-                        <app-feather-icons
-                          [icon]="'user'"
-                          [class]="'user-menu-icons'"
-                        ></app-feather-icons
-                        >Modifier mot de passe
+                      <a href="#" onClick="return false;" (click)="updatePassword()">
+                        <app-feather-icons [icon]="'user'" [class]="'user-menu-icons'"></app-feather-icons>Modifier mot
+                        de passe
                       </a>
                     </li>
                     <!-- <li>
@@ -214,10 +142,7 @@
                     </li> -->
                     <li>
                       <a href="javascript:void(0);" (click)="logout()">
-                        <app-feather-icons
-                          [icon]="'log-out'"
-                          [class]="'user-menu-icons'"
-                        ></app-feather-icons>
+                        <app-feather-icons [icon]="'log-out'" [class]="'user-menu-icons'"></app-feather-icons>
                         Deconnexion
                       </a>
                     </li>
@@ -237,32 +162,20 @@
 <ng-template #templateTraiterDossier>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Traitement de demande</h4>
-    <button
-      mat-icon-button
-      class="pull-right"
-      (click)="modalRef.hide()"
-      aria-label="Close dialog"
-    >
+    <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <div
-    class="modal-body"
-    [ngBusy]="{
+  <div class="modal-body" [ngBusy]="{
       busy: busySave,
       message: 'Veuillez patienter ...',
       backdrop: false
-    }"
-  >
+    }">
     <form class="m-1">
       <div class="row">
-        <app-prise-de-decision-workflow
-          [itemPriseDecisionByOrigine]="itemToSave.itemPriseDecisionByOrigine"
-          [origine]="itemToSave.origine"
-          [listeItemByOrigine]="itemToSave.listeItemByOrigine"
-          [origineOuvertureModal]="'header'"
-          (closeItem)="closeItemTraitement($event)"
-        >
+        <app-prise-de-decision-workflow [itemPriseDecisionByOrigine]="itemToSave.itemPriseDecisionByOrigine"
+          [origine]="itemToSave.origine" [listeItemByOrigine]="itemToSave.listeItemByOrigine"
+          [origineOuvertureModal]="'header'" (closeItem)="closeItemTraitement($event)">
         </app-prise-de-decision-workflow>
       </div>
     </form>
@@ -273,17 +186,12 @@
   <div class="modal-header">
     <h4 class="modal-title pull-left">
       {{
-        !isInterpretationRadioOrLabo
-          ? "Résultat examen"
-          : "Interprètation résultat"
+      !isInterpretationRadioOrLabo
+      ? "Résultat examen"
+      : "Interprètation résultat"
       }}
     </h4>
-    <button
-      mat-icon-button
-      class="pull-right"
-      (click)="modalRef.hide()"
-      aria-label="Close dialog"
-    >
+    <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
       <mat-icon>close</mat-icon>
     </button>
   </div>
@@ -296,9 +204,7 @@
           <fieldset class="custom-fieldset">
             <legend>Actes / Examens</legend>
             <div class="row">
-              <div
-                class="col-xl-12 col-lg-3 col-md-3 col-sm-12 mb-3 table-responsive"
-              >
+              <div class="col-xl-12 col-lg-3 col-md-3 col-sm-12 mb-3 table-responsive">
                 <table class="table table-bordered table-hover">
                   <thead>
                     <tr class="custom-table-head">
@@ -309,12 +215,8 @@
                   </thead>
 
                   <tbody>
-                    <tr
-                      *ngFor="let acte of listeActesExamens; let index = index"
-                      style="cursor: pointer"
-                      [class.isActive]="acte?.id == acteSelected?.id"
-                      (click)="selectedActe(acte)"
-                    >
+                    <tr *ngFor="let acte of listeActesExamens; let index = index" style="cursor: pointer"
+                      [class.isActive]="acte?.id == acteSelected?.id" (click)="selectedActe(acte)">
                       <td class="txt-align-center">{{ index + 1 }}</td>
                       <td>
                         {{ acte?.numeroResultat || acte?.numeroPrelevement }}
@@ -329,27 +231,19 @@
         </div>
 
         <div class="col-md-8 col-sm-12">
-          <div
-            class="row"
-            *ngIf="
+          <div class="row" *ngIf="
               itemToSave.origine == codeCircuit?.RADIO ||
               itemToSave.origine == codeCircuit?.RES_RADIO
-            "
-          >
+            ">
             <fieldset class="custom-fieldset">
               <legend>
                 Films de l'acte {{ acteSelected?.adminActeLibelle }}
               </legend>
               <div class="row">
-                <div
-                  class="col-xl-12 col-lg-3 col-md-3 col-sm-12 mb-3 table-responsive"
-                >
-                  <app-add-document-radio
-                    (addDocument)="addDocument($event)"
-                    [defaultDocuments]="acteSelected.datasDocument"
-                    [isReadOnly]="true"
-                    [isViewNotification]="true"
-                  ></app-add-document-radio>
+                <div class="col-xl-12 col-lg-3 col-md-3 col-sm-12 mb-3 table-responsive">
+                  <app-add-document-radio (addDocument)="addDocument($event)"
+                    [defaultDocuments]="acteSelected.datasDocument" [isReadOnly]="true"
+                    [isViewNotification]="true"></app-add-document-radio>
                 </div>
               </div>
             </fieldset>
@@ -359,27 +253,16 @@
           <div class="row" *ngIf="isInterpretationRadioOrLabo">
             <div class="col-12 mb-2">
               <label>Compte rendu :</label>
-              <textarea
-                rows="3"
-                disabled
-                class="form-control custom-input"
-                name="cpr_libelle"
-                [(ngModel)]="
+              <textarea rows="3" disabled class="form-control custom-input" name="cpr_libelle" [(ngModel)]="
                   acteSelected.libelle ?? acteSelected.interpretation
-                "
-              >
+                ">
               </textarea>
             </div>
 
             <div class="col-12 mb-2">
               <label>Conclusion :</label>
-              <textarea
-                rows="3"
-                disabled
-                class="form-control custom-input"
-                name="conclusionAc"
-                [(ngModel)]="acteSelected.conclusion"
-              >
+              <textarea rows="3" disabled class="form-control custom-input" name="conclusionAc"
+                [(ngModel)]="acteSelected.conclusion">
               </textarea>
             </div>
 

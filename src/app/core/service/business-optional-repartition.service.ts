@@ -29,6 +29,34 @@ export class BusinessOptionalRepartitionService {
     return this.restClient.put('repartitions/update',body)
   }
 
+  modificationPlacement = (body:any) => {
+    return this.restClient.put('repartitions/modifier-placement',body)
+  }
+
+  accepterPlacement = (body:any,repartitionId:number) => {
+    return this.restClient.put('repartitions/accepter-placement/'+repartitionId,body)
+  }
+
+  validerPlacement = (body:any,repartitionId:number) => {
+    return this.restClient.put('repartitions/valider-placement/'+repartitionId,body)
+  }
+
+  sendNoteCession = (body:any,repartitionId:number) => {
+    return this.restClient.put('repartitions/envoyer-note-cession/'+repartitionId,body)
+  }
+
+  refuserPlacement = (body:any,repartitionId:number) => {
+    return this.restClient.put('repartitions/refuser-placement/'+repartitionId,body)
+  }
+
+  retourPlacement = (body:any,repartitionId:number) => {
+    return this.restClient.put('repartitions/retourner-placement/'+repartitionId,body)
+  }
+
+  transmettrePlacement = (body:any,repartitionId:number) => {
+    return this.restClient.put('repartitions/transmettre-placement-pour-validation/'+repartitionId,body)
+  }
+
   getRepartitionCessionLegaleParam = (affaireid:number = 0) => {
     let endPointFinal = "repartitions/ces-leg-param/"+affaireid;
     return this.restClient.get(endPointFinal);
@@ -66,7 +94,18 @@ export class BusinessOptionalRepartitionService {
 
   getPlacementSaisieByAffaire = (index:number = 0,size:number=10,key?:string,affaireId?:number) => {
     let endPointFinal = "repartitions/list-placement-saisie/"+affaireId;
+    endPointFinal = endPointFinal+"?page="+index+"&size="+size+""+(key ? "&key="+key : "");
+    return this.restClient.get(endPointFinal);
+  }
 
+  getPlacementEnAttenteValidationByAffaire = (index:number = 0,size:number=10,key?:string,affaireId?:number) => {
+    let endPointFinal = "repartitions/list-placement-en-attente-de-validation/"+affaireId;
+    endPointFinal = endPointFinal+"?page="+index+"&size="+size+""+(key ? "&key="+key : "");
+    return this.restClient.get(endPointFinal);
+  }
+
+  getPlacementValideByAffaire = (index:number = 0,size:number=10,key?:string,affaireId?:number) => {
+    let endPointFinal = "repartitions/list-placement-valide/"+affaireId;
     endPointFinal = endPointFinal+"?page="+index+"&size="+size+""+(key ? "&key="+key : "");
     return this.restClient.get(endPointFinal);
   }
