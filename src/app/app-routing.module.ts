@@ -18,8 +18,13 @@ const routes: Routes = [
         data: {
           role: Role.Admin,
         },
-        loadChildren: () => 
-          import("./dashbord/admin.module").then((m) => m.AdminModule),
+        loadChildren: () =>
+        import("./dashbord-synchrore/dashbord-synchrore.module").then(
+          (m) => m.DashbordSynchroreModule
+        ),
+
+        // loadChildren: () => 
+        //   import("./dashbord/admin.module").then((m) => m.AdminModule),
       },
       {
         path: "extra-pages",

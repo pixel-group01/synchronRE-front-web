@@ -22,6 +22,10 @@ export class BusinessOptionalService {
     return this.restClient.get('affaires/facultative/list');
   }
  
+  getAffaireForStatistique = () => {
+    return this.restClient.get('affaires/facultative/all');
+  }
+
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {
     let endPointFinal = "affaires/facultative/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
     return this.restClient.get(endPointFinal);

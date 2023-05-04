@@ -1,0 +1,48 @@
+.container-block-stat {
+    background-color: var(--grey-color);
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-betweens;
+    width: 100%;
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        color: #fff;
+        padding: 10px;
+    }
+
+    .body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        color: #fff;
+        padding: 10px;
+        h1 {
+            font-size: 3.2rem;
+            line-height: 1.2 !important;
+        }
+    }
+
+    &.allAffaire {
+        background-color: var(--info-color) !important ;
+    }
+
+    &.affaireEnAttenteDePlacement {
+        background-color: var(--secondary-color) !important ;
+    }
+
+    &.affaireEnReglement {
+        background-color: var(--green-color-tint) !important ;
+    }
+
+    &.affaireRegle {
+        background-color: var(--green-color-light) !important ;
+    }
+}

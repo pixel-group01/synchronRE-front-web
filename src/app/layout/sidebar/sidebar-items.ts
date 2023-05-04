@@ -4,7 +4,7 @@ import { RouteInfo } from "./sidebar.metadata";
 export const ROUTES: RouteInfo[] = [
   // Tableau de bord
   {
-    path: "/admin/dashboard/main",
+    path: "/admin",
     title: "Tableau de bord",
     moduleName: "dashboard",
     iconType: "home",
