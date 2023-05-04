@@ -359,12 +359,9 @@ button {
 
   &.btn-print {
     font-size: 12px !important;
-    background-color: #ff729a !important;
-    border: 1px solid #ff729a;
-    color: #fff;
     &:hover {
-      background-color: #fff !important;
-      color: #ff729a !important;
+      background-color: var(--primary-color) !important;
+      color: #fff !important;
     }
   }
 }

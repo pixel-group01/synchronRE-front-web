@@ -76,6 +76,8 @@ export class AddFileInFormComponent implements OnInit {
         extension : extension?.toLowerCase()
       };
   
+      this.itemDocumentAjoute = {};
+      
       this.listeDocumentsAjoutes.push(currentItemImage);
 
       console.log(" this.listeDocumentsAjoutes ",this.listeDocumentsAjoutes);

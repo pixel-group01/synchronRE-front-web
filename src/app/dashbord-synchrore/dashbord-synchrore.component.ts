@@ -1,6 +1,5 @@
 import { Component, OnInit, TemplateRef } from "@angular/core";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { enumStatutAffaire } from "src/app/core/enumerator/enumerator";
 import { User } from "src/app/core/models/user";
 import { UserService } from "src/app/core/service/user.service";
 import { BusinessOptionalService } from "../core/service/business-optional.service";
@@ -10,6 +9,8 @@ import { Cedante } from "../core/models/cedante";
 import { CedanteService } from "../core/service/cedante.service";
 import { ExerciceService } from "../core/service/exercice.service";
 var Highcharts = require("highcharts");
+import * as _ from "lodash";
+import { enumStatutAffaire } from "../core/enumerator/enumerator";
 
 @Component({
   selector: "app-dashbord-synchrore",
@@ -23,6 +24,7 @@ export class DashbordSynchroreComponent implements OnInit {
   listeExercices: Array<Exercice> = [];
   listeCedente: Array<Cedante> = [];
   itemToSearch: any = {};
+  itemStatistique : any = {};
 
   constructor(
     private modalService: BsModalService,
@@ -38,6 +40,11 @@ export class DashbordSynchroreComponent implements OnInit {
     this.cedenteService.getAll().subscribe((response: any) => {
       if (response && response["content"]) {
         this.listeCedente = response["content"] as Cedante[];
+
+        if(this.user.cedId) {
+          this.itemToSearch.cedenteId = this.user.cedId;
+        }
+
       } else {
         this.listeCedente = [];
       }
@@ -66,10 +73,39 @@ export class DashbordSynchroreComponent implements OnInit {
   }
 
   getStatistique() {
+
     this.busyGet = this.businessOptionalService
-      .getAffaireForStatistique()
+      .getAffaireForStatistique(0,10000,null,(this.itemToSearch.cedenteId || null),(this.itemToSearch.exeCode || null))
       .subscribe((response) => {
         console.log(" response statitstique ", response);
+
+        if(response['content']) {
+          this.itemStatistique.totalAffaires = response['content']?.length;
+
+          let groupeResult = _.groupBy(response['content'], 'statutCode');
+
+          _.map(groupeResult,(value,key) => {
+            console.log(" key ",key);
+            console.log(" value ",value);
+            const nombre = value.length;
+
+            if(key?.toLowerCase() === enumStatutAffaire.EN_COURS_PLACEMENT.toLowerCase()) {
+              this.itemStatistique.totalEnCoursPlacement =  nombre;
+            }
+
+            if(key?.toLowerCase() === enumStatutAffaire.EN_REGLEMENT.toLowerCase()) {
+              this.itemStatistique.totalEnCoursReglement =  nombre;
+            }
+
+            if(key?.toLowerCase() === enumStatutAffaire.ARCHIVE.toLowerCase()) {
+              this.itemStatistique.totalArchive =  nombre;
+            }
+
+          })
+        
+          console.log(" groupeResult ",groupeResult);
+          
+        }
       });
   }
 

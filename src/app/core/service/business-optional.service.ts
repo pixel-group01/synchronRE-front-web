@@ -22,12 +22,27 @@ export class BusinessOptionalService {
     return this.restClient.get('affaires/facultative/list');
   }
  
-  getAffaireForStatistique = () => {
-    return this.restClient.get('affaires/facultative/all');
+  // getAffaireForStatistique = () => {
+  //   return this.restClient.get('affaires/facultative/all');
+  // }
+
+  getAffaireForStatistique = (index:number = 0,size:number=10000,key?:string,cedId?:number,exeCode?:any) => {
+    let endPointFinal = "affaires/facultative/all?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
+   
+    if(endPointFinal && cedId) {
+      endPointFinal = endPointFinal+"&cedId="+cedId;
+    }
+    return this.restClient.get(endPointFinal);
   }
+
 
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {
     let endPointFinal = "affaires/facultative/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
+    return this.restClient.get(endPointFinal);
+  }
+
+  getMouvementAffaire = (affId?:number) => {
+    let endPointFinal = "mouvements/affaire/"+affId;
     return this.restClient.get(endPointFinal);
   }
 
@@ -131,19 +146,19 @@ export class BusinessOptionalService {
   }
 
   transmissionAffaire = (idAffaire:number,body:any) => {
-    return this.restClient.post('affaires/facultative/transmettre/'+idAffaire,body)
+    return this.restClient.put('affaires/facultative/transmettre/'+idAffaire,body)
   } 
 
   validerAffaire = (idAffaire:number,body:any) => {
-    return this.restClient.post('affaires/facultative/valider/'+idAffaire,body)
+    return this.restClient.put('affaires/facultative/valider/'+idAffaire,body)
   } 
 
   retournerAffaire = (body:any) => {
-    return this.restClient.post('affaires/facultative/retourner',body)
+    return this.restClient.put('affaires/facultative/retourner',body)
   } 
 
   archiverAffaire = (idAffaire:number,body:any) => {
-    return this.restClient.post('affaires/facultative/archiver/'+idAffaire,body)
+    return this.restClient.put('affaires/facultative/archiver/'+idAffaire,body)
   } 
 
 }

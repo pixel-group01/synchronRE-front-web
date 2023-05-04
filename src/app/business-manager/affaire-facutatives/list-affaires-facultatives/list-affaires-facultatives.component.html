@@ -72,8 +72,8 @@
         <td>{{ item?.affAssure }}</td>
         <!-- <td>{{ item?.affActivite }}</td> -->
         <td>{{ item?.affDateEffet }}</td>
-        <td>{{ item?.affDateEcheance }}</td>
-        <td>{{ item?.facNumeroPolice }}</td>
+        <td>{{ item?.affDateEcheance || '-'  }}</td>
+        <td>{{ item?.facNumeroPolice || '-' }}</td>
         <td>{{ item?.facCapitaux | moneyFormat }}</td>
         <td>{{ item?.facSmpLci | moneyFormat }}</td>
         <!-- <td>{{ item?.facPrime | moneyFormat }}</td> -->
@@ -123,12 +123,20 @@
                   <i class="fa fa-check"></i>&nbsp;Valider l'affaire
                 </button>
 
+                <button ngbDropdownItem (click)="confirmTransmissionPourReglement(item)" *ngIf="item?.placementTermine && isEnCoursPlacementNelson">
+                  <i class="fa fa-share"></i>&nbsp;Envoyer au règlement
+                </button>
+
+                <button ngbDropdownItem (click)="getReportDebit(item.affId)" *ngIf="item?.placementTermine && !isEnCoursPlacementNelson && user?.cedId">
+                  <i class="fa fa-print"></i>&nbsp;Imprimer note débit
+                </button>
+
                 <button ngbDropdownItem (click)="openModal(templateRetournerAffaire,item)"
                   *ngIf="(!user.cedId && !noPutAction) || isEnCoursPlacementNelson">
                   <i class="fa fa-redo-alt"></i>&nbsp;Retourner l'affaire
                 </button>
 
-                <button ngbDropdownItem (click)="confirmTransmissionOrReturnAffaire(false, item)">
+                <button ngbDropdownItem (click)="openModal(templateHistoriqueTraitement,item)">
                 <i class="fa fa-list"></i>&nbsp;Historique traitement
               </button>
 
@@ -268,3 +276,21 @@
     <app-form-retourner-affaire (closeModal)="closeFormModal($event)"></app-form-retourner-affaire>
   </div>
 </ng-template>
+
+
+<!-- Retourner placement -->
+<ng-template #templateHistoriqueTraitement>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">
+     Historique traitement l'affaire n° {{itemToSave?.affCode}}
+    </h4>
+
+    <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-form-historique-traitement></app-form-historique-traitement>
+  </div>
+</ng-template>
+

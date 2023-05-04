@@ -169,7 +169,7 @@
           <mat-tab label="Saisie" *ngIf="!isValidationPlacement">
             <ng-template matTabContent>
               <app-tableau-placement
-                (refreshData)="getPlacementSaisieByAff($event)"
+                (refreshData)="getPlacementSaisieByAff($event);getPlacementValideByAff($event);getPlacementEnAttenteValidation($event)"
                 [listeRepartitions]="listeRepartitions"
                 [isDetails]="isDetails"
                 [title]="'Liste des placements saisis'"
@@ -195,7 +195,7 @@
                 [listeRepartitions]="listeHistoriquePlacement"
                 [isDetails]="isDetails"
                 [title]="'En attente de placement'"
-                (refreshData)="getPlacementSaisieByAff($event)"
+                (refreshData)="getPlacementSaisieByAff($event);getPlacementValideByAff($event);getPlacementEnAttenteValidation($event)"
                 (refreshDataAffaireValide)="getPlacementValideByAff($event);getPlacementEnAttenteValidation($event)"
                 [canPutAction]="false"
                 [isEnAttenteTab]="true"
@@ -207,7 +207,7 @@
           <mat-tab label="Validé">
             <ng-template matTabContent>
               <app-tableau-placement
-                (refreshData)="getPlacementSaisieByAff($event)"
+                (refreshData)="getPlacementSaisieByAff($event);getPlacementValideByAff($event);getPlacementEnAttenteValidation($event)"
                 (refreshDataAffaireValide)="getPlacementValideByAff($event);getPlacementEnAttenteValidation($event)"
                 [listeRepartitions]="listePlacementValides"
                 [isDetails]="isDetails"

@@ -37,6 +37,8 @@ import { DetailsAffaireFacultativeComponent } from "./components/details-affaire
 import { ListAffairesFacultativesComponent } from "../business-manager/affaire-facutatives/list-affaires-facultatives/list-affaires-facultatives.component";
 import { FormRetournerAffaireComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-retourner-affaire/form-retourner-affaire.component";
 import { TableauPlacementComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-placement/tableau-placement/tableau-placement.component";
+import { FormHistoriqueTraitementComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-historique-traitement/form-historique-traitement.component";
+import { DateFormatInDateHourPipe } from "../core/pipes/date-format-in-date-hour.pipe";
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { TableauPlacementComponent } from "../business-manager/affaire-facutativ
     DetailsAffaireFacultativeComponent,
     ListAffairesFacultativesComponent,
     FormRetournerAffaireComponent,
-    TableauPlacementComponent
+    TableauPlacementComponent,
+    FormHistoriqueTraitementComponent,
+    DateFormatInDateHourPipe
     // DetailsAffaireFacultativeComponent
     // ProgrammeDialyseComponent,
     // FormCreateProgrammeComponent,
@@ -128,6 +132,7 @@ import { TableauPlacementComponent } from "../business-manager/affaire-facutativ
     TimeLineComponent,
     PriseDeDecisionWorkflowComponent,
     DetailsBusinessOptionalComponent,
+    DetailsAffaireFacultativeComponent,
     FormAffaireFacultativesComponent,
     FormIdentificationComponent,
     FormRepartitionComponent,
@@ -135,7 +140,9 @@ import { TableauPlacementComponent } from "../business-manager/affaire-facutativ
     ListAffairesFacultativesComponent,
     FormRetournerAffaireComponent,
     TableauPlacementComponent,
+    FormHistoriqueTraitementComponent,
     AppAccessDirective,
+    DateFormatInDateHourPipe,
     ChartModule 
   ],
   entryComponents:[TimePickerComponent]

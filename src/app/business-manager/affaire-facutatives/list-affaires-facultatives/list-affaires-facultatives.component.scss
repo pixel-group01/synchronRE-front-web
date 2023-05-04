@@ -7,9 +7,9 @@
         font-weight: bold;
       
         color: #fff;
-        border-radius: 7px;
+        border-radius: 10px;
         border: 1px solid gray;
-        padding: 3px 5px;
+        padding: 3px 7px;
 
         &.CREP {
             background-color: orange;
@@ -27,6 +27,19 @@
         &.CPLA {
             background-color: orange;
             color: black;
+        }
+
+        &.SAI {
+            background-color: var(--info-color);
+        }
+
+        &.CREG {
+            background-color: rgb(76, 133, 139);
+            color: #fff;
+        }
+
+        &.SAI-CRT {
+            background-color: var(--info-color);
         }
     }
 }

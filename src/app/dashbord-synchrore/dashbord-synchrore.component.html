@@ -35,19 +35,19 @@
                         <div class="statistique-part mb-3">
                             <div class="row">
                                 <div class="col-md-3 col-xs-12 col-sm-12">
-                                    <app-block-statistique [title]="'Nombre total d\'affaire'" [nombre]="20" [cssClass]="'allAffaire'"></app-block-statistique>
+                                    <app-block-statistique [title]="'Nombre total d\'affaire'" [nombre]="itemStatistique.totalAffaires" [cssClass]="'allAffaire'"></app-block-statistique>
                                 </div>
 
                                 <div class="col-md-3 col-xs-12 col-sm-12">
-                                    <app-block-statistique  [title]="'Affaires en attentes/en cours de placement'" [nombre]="20" [cssClass]="'affaireEnAttenteDePlacement'"></app-block-statistique>
+                                    <app-block-statistique  [title]="'Affaires en cours de placement'" [nombre]="itemStatistique.totalEnCoursPlacement" [cssClass]="'affaireEnAttenteDePlacement'"></app-block-statistique>
                                 </div>
 
                                 <div class="col-md-3 col-xs-12 col-sm-12">
-                                    <app-block-statistique  [title]="'Affaires en règlement'" [nombre]="20" [cssClass]="'affaireEnReglement'"></app-block-statistique>
+                                    <app-block-statistique  [title]="'Affaires en règlement'" [nombre]="itemStatistique.totalEnCoursReglement" [cssClass]="'affaireEnReglement'"></app-block-statistique>
                                 </div>
 
                                 <div class="col-md-3 col-xs-12 col-sm-12">
-                                    <app-block-statistique  [title]="'Affaires en reglées'" [nombre]="20" [cssClass]="'affaireRegle'"></app-block-statistique>
+                                    <app-block-statistique  [title]="'Affaires archivées'" [nombre]="itemStatistique.totalArchive" [cssClass]="'affaireRegle'"></app-block-statistique>
                                 </div>
                             </div>
                         </div>

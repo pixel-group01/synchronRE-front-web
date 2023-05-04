@@ -19,6 +19,7 @@ import { Exercice } from "src/app/core/models/exercice";
 import { ExerciceService } from "src/app/core/service/exercice.service";
 import { enumStatutAffaire } from "src/app/core/enumerator/enumerator";
 import { RestClientService } from "src/app/core/service/rest-client.service";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-list-affaires-facultatives",
@@ -70,10 +71,10 @@ export class ListAffairesFacultativesComponent implements OnInit {
     };
     if (itemAffaire) {
       this.itemToSave = { ...itemAffaire };
-      
-      if(this.itemToSave.statutCode?.toLowerCase() === 'ret') {
+
+      if (this.itemToSave.statutCode?.toLowerCase() === "ret") {
         this.itemToSave.isSeeMotifRetour = true;
-      }else{
+      } else {
         this.itemToSave.isSeeMotifRetour = false;
       }
       this.businessOptionalService.setCurrentOptionalBusiness(this.itemToSave);
@@ -159,6 +160,43 @@ export class ListAffairesFacultativesComponent implements OnInit {
       });
   }
 
+  confirmTransmissionPourReglement(affaire: BusinessOptional) {
+    /** Faire les controls */
+    let itemAEnregistrer = Object.assign({}, affaire);
+
+    if (itemAEnregistrer)
+      Swal.fire({
+        title: "Transmission pour règelement",
+        text: "Vous êtes sur le point de transmettre cette affaire. Voulez-vous poursuivre cette action ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0665aa",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Oui",
+        cancelButtonText: "Non",
+      }).then((result) => {
+        if (result.value) {
+          this.transmissionPourReglementAffaire(itemAEnregistrer);
+        }
+      });
+  }
+
+  transmissionPourReglementAffaire(itemAEnregistrer: BusinessOptional) {
+    this.busyGet = this.businessOptionalService
+      .validerAffaire(itemAEnregistrer.affId, itemAEnregistrer)
+      .subscribe((response: any) => {
+        if (response) {
+          this.utilities.showNotification(
+            "snackbar-success",
+            this.utilities.getMessageOperationSuccessFull(),
+            "bottom",
+            "center"
+          );
+          this.getItems();
+        }
+      });
+  }
+
   validationAffaire(itemAEnregistrer: BusinessOptional) {
     this.busyGet = this.businessOptionalService
       .validerAffaire(itemAEnregistrer.affId, itemAEnregistrer)
@@ -212,11 +250,21 @@ export class ListAffairesFacultativesComponent implements OnInit {
   // }
 
   getItems() {
+    let endPointFinal =
+      this.endPoint +
+      "?page=" +
+      (this.currentPage - 1) +
+      "&size=" +
+      this.itemsPerPage +
+      "" +
+      (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "") +
+      "" +
+      (this.itemToSearch.exeCode
+        ? "&exeCode=" + this.itemToSearch.exeCode
+        : "");
 
-    let endPointFinal = this.endPoint+"?page="+(this.currentPage - 1)+"&size="+this.itemsPerPage+""+(this.itemToSearch.libelle ? "&key="+this.itemToSearch.libelle : "")+""+(this.itemToSearch.exeCode ? "&exeCode="+this.itemToSearch.exeCode : "");
-
-    if(endPointFinal && this.itemToSearch.cedenteId) {
-      endPointFinal = endPointFinal+"&cedId="+this.itemToSearch.cedenteId;
+    if (endPointFinal && this.itemToSearch.cedenteId) {
+      endPointFinal = endPointFinal + "&cedId=" + this.itemToSearch.cedenteId;
     }
 
     this.busyGet = this.restClient.get(endPointFinal).subscribe(
@@ -256,6 +304,15 @@ export class ListAffairesFacultativesComponent implements OnInit {
       this.itemsPerPage = parseInt($event);
     }
     this.getItems();
+  }
+
+  getReportDebit(idAffaire: number) {
+    if (idAffaire) {
+      window.open(
+        environment.apiUrl + "reports/note-de-debit/" + idAffaire,
+        "_blank"
+      );
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {

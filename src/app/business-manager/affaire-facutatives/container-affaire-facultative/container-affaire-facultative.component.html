@@ -31,14 +31,14 @@
 
                             <mat-tab label="En cours de règlement">
                                 <ng-template matTabContent>
-                                    <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante-en-reglement':'' "
+                                    <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante-en-reglement':'affaires/facultative/by-reassureur-en-reglement' "
                                         [refreshDataTable]="refreshDataTable"></app-list-affaires-facultatives>
                                 </ng-template>
                             </mat-tab>
 
-                            <mat-tab label="Historique" >
+                            <mat-tab label="Historique">
                                 <ng-template matTabContent>
-                                    <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante-arch':'' "
+                                    <app-list-affaires-facultatives [endPoint]="'affaires/facultative/all' "
                                         [refreshDataTable]="refreshDataTable" [noPutAction]="true"></app-list-affaires-facultatives>
                                 </ng-template>
                             </mat-tab>

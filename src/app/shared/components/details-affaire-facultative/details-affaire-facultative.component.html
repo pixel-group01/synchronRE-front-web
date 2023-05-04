@@ -2,19 +2,24 @@
     <mat-tab-group>
         <mat-tab label="Identification">
             <ng-template matTabContent>
-               <app-form-identification [isDetails]="true"></app-form-identification>
+                <app-form-identification [isDetails]="true"></app-form-identification>
             </ng-template>
         </mat-tab>
 
         <mat-tab label="Repartition">
             <ng-template matTabContent>
-                <app-form-repartition  [isDetails]="true"></app-form-repartition>
+                <div style="overflow: hidden;" class="mt-3">
+                    <app-form-repartition [isDetails]="true"></app-form-repartition>
+                </div>
+
             </ng-template>
         </mat-tab>
 
         <mat-tab label="Placement">
             <ng-template matTabContent>
-                <app-form-placement  [isDetails]="true"></app-form-placement>
+                <div style="overflow: hidden;" class="mt-3">
+                    <app-form-placement [isDetails]="true"></app-form-placement>
+                </div>
             </ng-template>
         </mat-tab>
 

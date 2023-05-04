@@ -12,14 +12,14 @@
                             <mat-tab label="Paiements">
                                 <ng-template matTabContent>
                                     <app-list-affaire-en-comptabilite 
-                                        [refreshDataTable]="refreshDataTable"></app-list-affaire-en-comptabilite>
+                                        [refreshDataTable]="refreshDataTable" [isOngletPaiement]="true" [endPoint]="'affaires/facultative/by-reassureur-en-reglement'"></app-list-affaire-en-comptabilite>
                                 </ng-template>
                             </mat-tab>
 
                             <mat-tab label="Reversements">
                                 <ng-template matTabContent>
-                                    <app-list-affaire-en-comptabilite [statutAffaire]="statutAffaire?.AFFAIRES_TRANSMIS"
-                                        [refreshDataTable]="refreshDataTable"></app-list-affaire-en-comptabilite>
+                                    <app-list-affaire-en-comptabilite
+                                        [refreshDataTable]="refreshDataTable"  [isOngletPaiement]="false" [isOngletReversement]="true"  [endPoint]="'affaires/facultative/by-reassureur-en-reglement'"></app-list-affaire-en-comptabilite>
                                 </ng-template>
                             </mat-tab>
 

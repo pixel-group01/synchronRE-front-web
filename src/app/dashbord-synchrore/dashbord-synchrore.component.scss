@@ -1,8 +1,8 @@
 .graph-part {
-    padding: 10px;
+    // padding: 10px;
     display: flex;
     gap: 30px;
-    flex-wrap: wrap;
+    justify-content: space-between;
 
     .repartition-affaire {
         border: 1px dashed var(--grey-color);
@@ -15,6 +15,6 @@
         border: 1px dashed var(--grey-color);
         border-radius: 5px;
         padding: 10px;
-        flex: 1;
+       flex: 1;
     }
 }

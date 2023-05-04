@@ -30,31 +30,34 @@
                                 <b>A payer : </b>
                                 <span>{{itemInfoCompta?.facPrime | moneyFormat}}</span>
                             </div>
-    
+
                             <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
                                 <b>Déjà reçu : </b>
                                 <span>{{itemInfoCompta?.dejaRegle | moneyFormat}}</span>
                             </div>
-    
+
                             <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
                                 <b>Reste à payer : </b>
                                 <span>{{itemInfoCompta?.resteARegler | moneyFormat}}</span>
                             </div>
                         </div>
                     </div>
-                  
+
                 </fieldset>
             </div>
         </div>
 
         <div class="row">
             <div class="col-12 mt-3">
-                <table class="table table-condensed table-hover">
+                
+                <table class="table table-condensed table-striped table-hover">
                     <thead>
                         <tr>
-                            <th colspan="5">
+                            <th colspan="7">
                                 <div class="row">
-                                    <div class="col-12 mb-3">
+                                    <div class="header-table">
+                                        <span>{{isPaiement ? 'Liste des paiements effectués' : 'Liste des reversements
+                                            effectués' }} </span>
                                         <button class="btn btn-xs btn-default btn-add pull-right" type="button"
                                             (click)="openPanelNewPaiement(true)"> Ajouter </button>
                                     </div>
@@ -64,33 +67,40 @@
 
                         <tr class="custom-table-head">
                             <th>#</th>
-                            <th>Réf paiement</th>
+                            <th>Mode</th>
+                            <th>Réf {{!isPaiement ? 'paiement':'reversement'}}</th>
                             <th>Montant (F.CFA)</th>
                             <th>Date</th>
-                            <th>Enregistré par</th>
+                            <th  *ngIf="!isPaiement">Cessionnaire</th>
+                            <th *ngIf="!isPaiement" class="txt-align-center">Action</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr *ngFor="let item of listePaiementDejaEffectue; let i = index">
                             <td> {{i+1}}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>{{item?.regMode}}</td>
+                            <td>{{item?.regReference}}</td>
+                            <td>{{item?.regMontant | moneyFormat}}</td>
+                            <td>{{item?.regDate}}</td>
+                            <td *ngIf="!isPaiement">{{item?.cesNom}}</td>
+                            <td *ngIf="!isPaiement"  class="txt-align-center">
+                                <button type="button" class="btn btn-xs btn-default btn-print" (click)="getNoteCredit(item?.cesId)"> <i class="fa fa-print"></i> Imprimer note crédit</button>
+                            </td>
                         </tr>
 
-                        <tr>
-                            <td colspan="5" class="text-align-center"> Aucune donnée disponible</td>
+                        <tr *ngIf="!listePaiementDejaEffectue || listePaiementDejaEffectue.length == 0">
+                            <td colspan="7" class="text-align-center"> Aucune donnée disponible</td>
                         </tr>
                     </tbody>
                 </table>
+
             </div>
         </div>
 
         <div class="new-paiement-bilan" id="new-paiement-bilan">
             <div class="details-header">
-                <b> Paiement </b>
+                <b> {{ isPaiement ? 'Paiement' : 'Reversement' }} </b>
                 <i class="fa fa-times" (click)="openPanelNewPaiement(false)"></i>
             </div>
 
@@ -98,9 +108,10 @@
                 <ng-container>
                     <div class="row">
 
-                        <form class="form-paiement" [formGroup]="formulaireGroup" (ngSubmit)="confirmSaveItem()">
+                        <form class="form-paiement" enctype="multipart/form-data" [formGroup]="formulaireGroup"
+                            (ngSubmit)="confirmSaveItem()">
 
-                            <div class="row">
+                            <div class="row" *ngIf="isPaiement">
                                 <div class="col-12 mb-3">
                                     <label>Reste à payer
                                     </label>
@@ -110,12 +121,25 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-6 mb-3">
-                                    <label>Mode de paiement
+                            <div class="row" *ngIf="!isPaiement">
+                                <div class="col-12 mb-3">
+                                    <label>Cessionnaire
                                         <span class="required_champs">*</span>
                                     </label>
- 
+
+                                    <ng-select formControlName="cesId" id="cesId" name="cesId">
+                                        <ng-option *ngFor="let cessionaire of listeCessionnaire"
+                                            [value]="cessionaire.cesId">{{ cessionaire.cesNom }}</ng-option>
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label>Mode de {{ isPaiement ? 'paiement' : 'reversement' }}
+                                        <span class="required_champs">*</span>
+                                    </label>
+
                                     <ng-select formControlName="regMode" name="regMode" id="mode">
                                         <ng-option *ngFor="let mode of listeModeReglement" [value]="mode?.libelle">{{
                                             mode.libelle }}</ng-option>
@@ -123,7 +147,7 @@
                                 </div>
 
                                 <div class="col-6 mb-3">
-                                    <label>Date de paiement
+                                    <label>Date de {{ isPaiement ? 'paiement' : 'reversement' }}
                                         <span class="required_champs">*</span>
                                     </label>
                                     <input class="form-control custom-input" placeholder="Date de paiement"
@@ -147,12 +171,11 @@
                             <div class="row">
 
                                 <div class="col-6 mb-3">
-                                    <label>Réference paiement
+                                    <label>Réference {{ isPaiement ? 'paiement' : 'reversement' }}
                                         <span class="required_champs">*</span>
                                     </label>
                                     <input class="form-control custom-input" placeholder="Réference" autocomplete="off"
-                                         formControlName="regReference" name="regReference"
-                                        [class.errorInputForm]="
+                                        formControlName="regReference" name="regReference" [class.errorInputForm]="
                                         getFormFiledsValue('regReference')?.invalid &&
                                         getFormFiledsValue('regReference')?.touched
                                       " type="text" />
@@ -178,10 +201,10 @@
 
 
                             <!-- MANIPULATION DE FICHIER -->
-                            <div class="file-part">
+                            <!-- <div class="file-part">
                                 <app-add-file-in-form (emitDocuments)="getDocumentAdd($event)"></app-add-file-in-form>
                             </div>
-                           
+                            -->
 
                             <!-- FIN MANIPULATION DE FICHIER -->
 

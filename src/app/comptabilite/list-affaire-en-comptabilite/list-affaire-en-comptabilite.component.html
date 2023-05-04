@@ -128,25 +128,18 @@
 
                 <button
                   ngbDropdownItem
-                  (click)="openModal(templatePaiement,item)"
+                  (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
                 >
                   <i class="fa fa-money-bill"></i>&nbsp;Paiement
                 </button>
 
-                <button
-                  ngbDropdownItem
-                  (click)="openModal(templateUpdateRepartition,item)"
-                >
+                <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
                   <i class="fa fa-redo-alt"></i>&nbsp; Reversement
                 </button>
 
-                <button
-                  ngbDropdownItem
-                  (click)="openModal(templateUpdatePlacement,item)"
-               
-                >
+                <!-- <button ngbDropdownItem (click)="openModal(templateUpdatePlacement,item)">
                   <i class="fa fa-print"></i>&nbsp; Imprimer la note
-                </button>
+                </button> -->
               </div>
             </div>
           </div>
@@ -204,7 +197,7 @@
 <ng-template #templatePaiement>
     <div class="modal-header">
       <h4 class="modal-title pull-left">
-        Paiement affaire N° {{itemToSave?.affCode}}
+        {{isOngletPaiement ? 'Paiement':'Reversement' }} affaire N° {{itemToSave?.affCode}}
       </h4>
   
       <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
@@ -212,6 +205,22 @@
       </button>
     </div>
     <div class="modal-body">
-      <app-form-paiement [currentAffaire]="itemToSave"></app-form-paiement>
+      <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement>
     </div>
   </ng-template>
+
+
+<ng-template #templateDetailsAffaire>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">
+      Détails affaire N° {{itemToSave?.affCode}}
+    </h4>
+
+    <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-details-affaire-facultative></app-details-affaire-facultative>
+  </div>
+</ng-template>

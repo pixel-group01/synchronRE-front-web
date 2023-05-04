@@ -11,6 +11,7 @@ import { ContainerAffaireTraiteeComponent } from './traites/container-affaire-tr
 import { DemandePlacementComponent } from './traites/demande-placement/demande-placement.component';
 import { DeclarationsSinistreComponent } from './traites/declarations-sinistre/declarations-sinistre.component';
 import { TableauPlacementComponent } from './affaire-facutatives/form-affaire-facultatives/form-placement/tableau-placement/tableau-placement.component';
+// import { FormHistoriqueTraitementComponent } from './affaire-facutatives/form-affaire-facultatives/form-historique-traitement/form-historique-traitement.component';
 // import { FormRetournerAffaireComponent } from './affaire-facutatives/form-affaire-facultatives/form-retourner-affaire/form-retourner-affaire.component';
 
 
@@ -26,6 +27,7 @@ import { TableauPlacementComponent } from './affaire-facutatives/form-affaire-fa
     ContainerAffaireTraiteeComponent,
     DemandePlacementComponent,
     DeclarationsSinistreComponent,
+    // FormHistoriqueTraitementComponent,
   ],
   imports: [
     CommonModule,

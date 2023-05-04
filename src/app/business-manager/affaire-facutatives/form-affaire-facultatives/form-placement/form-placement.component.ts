@@ -85,9 +85,6 @@ export class FormPlacementComponent implements OnInit {
 
     itemAEnregistrer.cesId = this.itemToSave.cessionnaireSelected?.cesId;
     itemAEnregistrer.affId = this.currentAffaire?.affId;
-
-    console.log(" this.itemToUpdate ",this.itemToUpdate);
-    console.log(" itemAEnregistrer ",itemAEnregistrer);
     itemAEnregistrer.cessionnaireSelected = null;
     
     if (itemAEnregistrer)
@@ -159,6 +156,9 @@ export class FormPlacementComponent implements OnInit {
 
   getPlacementSaisieByAff($event? : any) {
 
+    console.log(" Actualisation de la liste des affaires saisies ");
+
+
     if(!this.currentAffaire?.affId) {
       this.utilities.showNotification(
         "snackbar-danger",
@@ -171,16 +171,19 @@ export class FormPlacementComponent implements OnInit {
     this.businessOptionalRepartition
       .getPlacementSaisieByAffaire(0, 10, "", this.currentAffaire?.affId)
       .subscribe((response) => {
-        console.log(" response ", response);
-
+      
         if (response && response["content"]) {
           this.listeRepartitions = response["content"];
+        }else{
+          this.listeRepartitions = [];
         }
       });
   }
 
 
   getPlacementEnAttenteValidation($event? : any) {
+
+    console.log(" Actualisation de getPlacementEnAttenteValidation ");
 
     if(!this.currentAffaire?.affId) {
       this.utilities.showNotification(
@@ -198,6 +201,8 @@ export class FormPlacementComponent implements OnInit {
 
         if (response && response["content"]) {
           this.listeHistoriquePlacement = response["content"];
+        }else{
+          this.listeHistoriquePlacement = [];
         }
       });
   }
@@ -219,6 +224,8 @@ export class FormPlacementComponent implements OnInit {
       .subscribe((response) => {
         if (response && response["content"]) {
           this.listePlacementValides = response["content"];
+        }else{
+          this.listePlacementValides = [];
         }
       });
   }
@@ -317,31 +324,9 @@ export class FormPlacementComponent implements OnInit {
     this.currentAffaire =
       this.businessOptionalService.businessOptionalSubject$.value;
 
-    // this.currentAffaire = {
-    //   affId: 8,
-    //   affCode: null,
-    //   affAssure: "noglo koffi",
-    //   affActivite: "REASSUREUR",
-    //   affDateEffet: "2023-04-25",
-    //   affDateEcheance: "2023-04-29",
-    //   facNumeroPolice: null,
-    //   affCapitalInitial: 30000000,
-    //   facSmpLci: null,
-    //   facPrime: null,
-    //   cedId: 2,
-    //   cedNomFiliale: "NSIA BN",
-    //   cedSigleFiliale: "NSIA BN",
-    //   statutCode: "SAI",
-    //   couvertureId: 1,
-    //   restARepartir: 30000000,
-    //   capitalDejaReparti: 0,
-    //   etatComptable: null,
-    // };
-
     this.getPlacementSaisieByAff();
     this.getCessionnaire();
     
-
     if(this.isUpdatePlacement) {
       // En ce moment nous pouvons avoir des placements validés
       this.getPlacementValideByAff();

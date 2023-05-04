@@ -9,7 +9,7 @@ export class ReglementService {
 
   constructor(private restClient:RestClientService) { }
 
-  create = (typeReglement:string,body:any,option:any): Observable<any> => {
+  create = (typeReglement:string,body:any,option?:any): Observable<any> => {
     console.log(" body ",body);
     
     return this.restClient.post(typeReglement+'/create',body,option)
