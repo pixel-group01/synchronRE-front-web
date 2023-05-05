@@ -74,7 +74,7 @@ export class FormRetournerAffaireComponent implements OnInit {
       (response : any) => {
         console.log(" response message de retour ",response);
         
-        this.itemToSave.motif = JSON.stringify(response);
+        this.itemToSave.motif = response?.message;
       }
     )
   }
