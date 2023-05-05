@@ -11,7 +11,12 @@
       <div class="col-md-2 col-xs-12 col-sm-12 mb-2">
         <label>Exercice : <span class="required_champs">*</span> </label>
 
-        <ng-select formControlName="exeCode" name="exeCode" id="exeCode" [readonly]="true">
+        <ng-select
+          formControlName="exeCode"
+          name="exeCode"
+          id="exeCode"
+          [readonly]="true"
+        >
           <ng-option
             *ngFor="let exercice of listeExercices"
             [value]="exercice?.exeCode"
@@ -50,35 +55,12 @@
       </div>
 
       <div class="col-md-2 col-xs-12 col-sm-12 mb-2">
-        <label>Statut : <span class="required_champs">*</span> </label>
-
-        <ng-select
-          formControlName="affStatutCreation"
-          name="affStatutCreation"
-          id="affStatutCreation"
-          [readonly]="isDetails" 
-        >
-          <ng-option
-            *ngFor="let affaires of listeStatus"
-            [value]="affaires?.code"
-            >{{ affaires.libelle }}</ng-option
-          >
-        </ng-select>
-        <small
-          class="text-danger"
-          *ngIf="(getFormFiledsValue('affStatutCreation')?.dirty || getFormFiledsValue('affStatutCreation')?.touched) && getFormFiledsValue('affStatutCreation')?.invalid && getFormFiledsValue('affStatutCreation')?.errors?.['required']"
-        >
-          Ce champs est obligatoire
-        </small>
-      </div>
-
-      <div class="col-md-2 col-xs-12 col-sm-12 mb-2">
         <label>Devise : <span class="required_champs">*</span> </label>
 
         <ng-select
           formControlName="devCode"
           name="devCode"
-          [readonly]="isDetails" 
+          [readonly]="isDetails"
           id="devCode"
         >
           <ng-option
@@ -95,6 +77,29 @@
         </small>
       </div>
 
+      <div class="col-md-2 col-xs-12 col-sm-12 mb-2">
+        <label>Statut : <span class="required_champs">*</span> </label>
+
+        <ng-select
+          formControlName="affStatutCreation"
+          name="affStatutCreation"
+          id="affStatutCreation"
+          [readonly]="isDetails"
+        >
+          <ng-option
+            *ngFor="let affaires of listeStatus"
+            [value]="affaires?.code"
+            >{{ affaires.libelle }}</ng-option
+          >
+        </ng-select>
+        <small
+          class="text-danger"
+          *ngIf="(getFormFiledsValue('affStatutCreation')?.dirty || getFormFiledsValue('affStatutCreation')?.touched) && getFormFiledsValue('affStatutCreation')?.invalid && getFormFiledsValue('affStatutCreation')?.errors?.['required']"
+        >
+          Ce champs est obligatoire
+        </small>
+      </div>
+
       <div class="col-md-4 col-xs-12 mb-3">
         <label
           >Assuré :
@@ -106,7 +111,7 @@
           autocomplete="off"
           formControlName="affAssure"
           name="affAssure"
-          [readonly]="isDetails" 
+          [readonly]="isDetails"
           [class.errorInputForm]="
             getFormFiledsValue('affAssure')?.invalid &&
             getFormFiledsValue('affAssure')?.touched
@@ -133,7 +138,7 @@
           class="form-control custom-input"
           formControlName="affActivite"
           name="affActivite"
-          [readonly]="isDetails" 
+          [readonly]="isDetails"
           [class.errorInputForm]="
             getFormFiledsValue('affActivite')?.invalid &&
             getFormFiledsValue('affActivite')?.touched
@@ -168,7 +173,7 @@
         <label>Branche : <span class="required_champs">*</span> </label>
         <ng-select
           formControlName="couvertureId"
-          [readonly]="isDetails" 
+          [readonly]="isDetails"
           name="couvertureId"
           id="couvertureId"
         >
@@ -189,7 +194,7 @@
           class="form-control custom-input"
           placeholder="N° Police"
           autocomplete="off"
-          [readonly]="isDetails" 
+          [readonly]="isDetails"
           formControlName="facNumeroPolice"
           name="facNumeroPolice"
           [class.errorInputForm]="
@@ -217,7 +222,8 @@
           class="form-control custom-input"
           placeholder="Date d'effet"
           autocomplete="off"
-          bsDatepicker  [readonly]="isDetails" 
+          bsDatepicker
+          [readonly]="isDetails"
           [minDate]="dateActuelle"
           [bsConfig]="{
             dateInputFormat: 'DD/MM/YYYY',
@@ -249,7 +255,7 @@
           class="form-control custom-input"
           placeholder="Date d'écheance"
           autocomplete="off"
-          [readonly]="isDetails" 
+          [readonly]="isDetails"
           bsDatepicker
           [minDate]="
             getFormFiledsValue('affDateEffet')
@@ -288,7 +294,7 @@
           class="form-control custom-input"
           placeholder="Capital"
           autocomplete="off"
-          [readonly]="isDetails" 
+          [readonly]="isDetails"
           mask="separator"
           formControlName="affCapitalInitial"
           name="affCapitalInitial"
@@ -314,7 +320,7 @@
         <input
           class="form-control custom-input"
           placeholder="SMPL/CI"
-          [readonly]="isDetails" 
+          [readonly]="isDetails"
           autocomplete="off"
           mask="separator"
           formControlName="facSmpLci"
@@ -343,7 +349,7 @@
           placeholder="Capital"
           autocomplete="off"
           mask="separator"
-          [readonly]="isDetails" 
+          [readonly]="isDetails"
           formControlName="facPrime"
           name="facPrime"
           [class.errorInputForm]="
@@ -373,7 +379,8 @@
       <button
         type="button"
         class="btn btn-md btn-cancel pull-right"
-        (click)="closeModal.emit(false)"  *ngIf="isWizardProcess"
+        (click)="closeModal.emit(false)"
+        *ngIf="isWizardProcess"
       >
         Annuler
       </button>

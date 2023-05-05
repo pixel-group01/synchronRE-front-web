@@ -124,7 +124,7 @@
                 </button>
 
                 <button ngbDropdownItem (click)="confirmTransmissionPourReglement(item)" *ngIf="item?.placementTermine && isEnCoursPlacementNelson">
-                  <i class="fa fa-share"></i>&nbsp;Envoyer au règlement
+                  <i class="fa fa-share"></i>&nbsp;Transmettre à la comptabilité
                 </button>
 
                 <button ngbDropdownItem (click)="getReportDebit(item.affId)" *ngIf="item?.placementTermine && !isEnCoursPlacementNelson && user?.cedId">

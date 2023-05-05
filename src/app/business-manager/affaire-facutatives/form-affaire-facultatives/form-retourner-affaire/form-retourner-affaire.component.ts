@@ -69,7 +69,15 @@ export class FormRetournerAffaireComponent implements OnInit {
         });
   } 
 
-
+  getMotifRetour() {
+    this.businessOptionalService.getMessageRetour(this.currentAffaire.affId).subscribe(
+      (response : any) => {
+        console.log(" response message de retour ",response);
+        
+        this.itemToSave.motif = JSON.stringify(response);
+      }
+    )
+  }
 
   closeFormModal(){
     this.closeModal.emit(true);
@@ -78,8 +86,9 @@ export class FormRetournerAffaireComponent implements OnInit {
   ngOnInit(): void {
     this.currentAffaire = this.businessOptionalService.businessOptionalSubject$.value;
 
-    console.log("  this.currentAffaire retourner ", this.currentAffaire);
-    
+    if(this.currentAffaire.isSeeMotifRetour) {
+      this.getMotifRetour();
+    }
   }
 
 }

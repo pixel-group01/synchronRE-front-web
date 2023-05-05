@@ -161,4 +161,8 @@ export class BusinessOptionalService {
     return this.restClient.put('affaires/facultative/archiver/'+idAffaire,body)
   } 
 
+  getMessageRetour = (affId:number) => {
+    return this.restClient.get('mouvements/affaire/message-retour/'+affId)
+  } 
+
 }
