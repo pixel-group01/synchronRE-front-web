@@ -20,6 +20,9 @@
                         <td>{{histo?.userFullNom | uppercase}} <br> <small style="color: rgb(231, 158, 158);">{{histo?.functionName}}</small></td>
                         <td>{{histo?.mvtObservation}}</td>
                     </tr>
+                    <tr *ngIf="!listeHistoriqueTraitement || listeHistoriqueTraitement.length === 0">
+                        <td colspan="5" class="txt-align-center">Aucune données disponible</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
