@@ -4,25 +4,25 @@ import { RestClientService } from './rest-client.service';
 @Injectable({
   providedIn: 'root'
 })
-export class RoleService {
+export class PrivilegeService {
 
   constructor(private restClient:RestClientService) { }
 
   create = (body:any) => {
-    return this.restClient.post('roles/create',body)
+    return this.restClient.post('privileges/create',body)
   } 
 
   getAll = () => {
-    return this.restClient.get('roles/search');
+    return this.restClient.get('privileges/search');
   }
  
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {
-    let endPointFinal = "roles/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
+    let endPointFinal = "privileges/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
     return this.restClient.get(endPointFinal);
   }
 
   update = (body:any) => {
-    return this.restClient.put('roles/update',body)
+    return this.restClient.put('privileges/update',body)
   }
   
 }

@@ -1,0 +1,38 @@
+.contanier-select-privilege {
+    display: flex;
+    justify-content: space-between;
+   
+    border-radius: 5px;
+    .first-part {
+        width: 45%;
+        border: 1px dashed #eceeee;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .action-part {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 10%;
+        i {
+            color: var(--primary-color);
+            font-size: 14px;
+        }
+    }
+
+    .right-part {
+        display: flex;
+        padding: 5px;
+        border-radius: 5px;
+        flex: 1;
+    }
+
+    table {
+        font-size: 0.76rem;
+        font-weight: bold;
+        width: 100%;
+    }
+}

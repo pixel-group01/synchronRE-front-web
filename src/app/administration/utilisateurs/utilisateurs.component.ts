@@ -7,6 +7,8 @@ import { UtilitiesService } from "src/app/core/service/utilities.service";
 import Swal from "sweetalert2";
 import * as moment from "moment";
 import * as _ from "lodash";
+import { UserService } from "src/app/core/service/user.service";
+import { UserSynchroRE } from "src/app/core/models/userSynscroRE";
 
 @Component({
   selector: "app-utilisateurs",
@@ -53,7 +55,8 @@ export class UtilisateursComponent implements OnInit {
     private authService: AuthService,
     private restClient: RestClientService,
     private modalService: BsModalService,
-    private utilities: UtilitiesService
+    private utilities: UtilitiesService,
+    private userService: UserService
   ) {
     this.user = this.authService.currentUserValue;
   }
@@ -330,35 +333,26 @@ export class UtilisateursComponent implements OnInit {
   }
 
   getItems() {
-    let request = {
-      user: this.user.id,
-      data: {
-        nom: this.itemToSearch.libelle ? this.itemToSearch.libelle : null,
-      },
-      index: this.currentPage - 1,
-      size: this.itemsPerPage,
-    };
-
-    this.busyGet = this.restClient
-      .post(this.endPoint + "/getByCriteria", request)
+    this.busyGet = this.userService.getByCriteria((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null))
       .subscribe(
-        (res) => {
-          if (res && res["items"]) {
-            this.items = res["items"];
-            this.totalItems = res["count"];
-          } else {
+        res => {
+          if (res && res['content']) {
+            this.items = res['content'] as UserSynchroRE[];
+            this.totalItems = res['totalElements'];
+          }
+          else {
             this.items = [];
             this.totalItems = 0;
           }
         },
-        (err) => { }
+        err => {
+        }
       );
   }
 
   getItemsRoles() {
     console.log("getting data");
     let request = {
-      user: this.user.id,
       data: {},
     };
 

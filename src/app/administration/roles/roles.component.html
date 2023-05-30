@@ -49,12 +49,12 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr [class.activeRow]="selectedRow?.id == item?.id" (click)="
+                                <tr [class.activeRow]="selectedRow?.roleId == item?.roleId" (click)="
                                     onSetMatchedFuncs(item); selectRow(item)
-                                  " *ngFor="let item of result; let i = index" style="cursor: pointer">
+                                  " *ngFor="let item of listeRoles; let i = index" style="cursor: pointer">
                                   <td class="text-center">{{ i + 1 }}</td>
                                   <td>
-                                    {{ item.libelle | uppercase }}
+                                    {{ item.roleName | uppercase }}
                                   </td>
                                   <td class="text-center" style="width: 50px;">
                                     <a title="Supprimer" (click)="onConfirmDelete(item)" class="custom-btn-delete">
@@ -248,7 +248,7 @@
                                   </td>
                                 
                                 </tr>
-                                <tr *ngFor="let res of listFonctionalitesHierachises;let indice = index" [class.itemCheckCss]=" (res && res.icheckedItem )">
+                                <tr *ngFor="let res of listePrivileges;let indice = index" [class.itemCheckCss]=" (res && res.icheckedItem )">
                                   <td class="minus-td">
                                     <a (click)="displayDetails(res)" *ngIf="res.datasChildren && res.datasChildren.length>0"> 
                                       <i class="fa fa-caret-right fa-ico-fct" *ngIf="!res.isOpen"></i>
@@ -256,11 +256,18 @@
                                     </a>
                                   </td>
                                
-                                  <td colspan="6" style="text-align: left">
+                                  <td colspan="" style="text-align: left">
                                     
-                                    <mat-checkbox  [ngModelOptions]="{standalone: true}" name="ligneChecked" [indeterminate]="res.indeterminate" [(ngModel)]="res.isChecked" (change)="setCheckedItem(res.isChecked,(res.datasChildren && res.datasChildren.length>0 ? 'parent':'simple'),res.datasChildren ? res.datasChildren : '')">&nbsp;&nbsp;{{res.libelle}}</mat-checkbox>
+                                    <mat-checkbox  [ngModelOptions]="{standalone: true}" name="ligneChecked" [indeterminate]="res.indeterminate" [(ngModel)]="res.isChecked" (change)="setCheckedItem(res.isChecked,(res.datasChildren && res.datasChildren.length>0 ? 'parent':'simple'),res.datasChildren ? res.datasChildren : '')">&nbsp;&nbsp;</mat-checkbox>
                                    
-                                    <div class="col-md-12  div-fct" style="padding: 0px" *ngIf="res.isOpen">
+                                  </td>
+                                  <td>
+                                    {{res.prvTypeName}}
+                                  </td>
+
+                                  <td>
+                                    {{res.privilegeName}}
+                                    <!-- <div class="col-md-12  div-fct" style="padding: 0px" *ngIf="res.isOpen">
                                       <table class="table">
                                         <tbody>
                                           <tr *ngFor="let chil of res.datasChildren;">
@@ -273,7 +280,7 @@
                                             </td>
                                          
                                             <td colspan="6">
-                                              <mat-checkbox  [ngModelOptions]="{standalone: true}" name="ligneChecked"  [indeterminate]="chil.indeterminate"  [(ngModel)]="chil.isChecked" (change)="setCheckedItem(chil.isChecked,(chil.datasChildren && chil.datasChildren.length>0 ? 'parent':'simple'),chil.datasChildren ? chil.datasChildren : res.datasChildren,res)">&nbsp;&nbsp; {{chil.libelle}}</mat-checkbox>
+                                              <mat-checkbox  [ngModelOptions]="{standalone: true}" name="ligneChecked"  [indeterminate]="chil.indeterminate"  [(ngModel)]="chil.isChecked" (change)="setCheckedItem(chil.isChecked,(chil.datasChildren && chil.datasChildren.length>0 ? 'parent':'simple'),chil.datasChildren ? chil.datasChildren : res.datasChildren,res)">&nbsp;&nbsp; {{chil.listePrivileges}}</mat-checkbox>
                                    
                                               <div class="col-md-12 div-fct" style="padding: 0px" *ngIf='chil.datasChildren && chil.datasChildren.length>0 && chil.isOpen'>
                                                 <table class="table">
@@ -322,7 +329,7 @@
                                           </tr>
                                         </tbody>
                                       </table>
-                                    </div>
+                                    </div> -->
                                   </td>
                         
                         

@@ -17,7 +17,9 @@ import { SharedModule } from '../shared/shared.module';
 import { WorkflowCircuitComponent } from './workflow-circuit/workflow-circuit.component';
 import { FormCircuitValidationComponent } from './workflow-circuit/form-circuit-validation/form-circuit-validation.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { HistoriqueConnexionComponent } from './historique-connexion/historique-connexion.component'
+import { HistoriqueConnexionComponent } from './historique-connexion/historique-connexion.component';
+import { FormCreateUserComponent } from './utilisateurs/form-create-user/form-create-user.component';
+import { SelectMenuItemPrivilegeComponent } from './utilisateurs/form-create-user/select-menu-item-privilege/select-menu-item-privilege.component'
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { HistoriqueConnexionComponent } from './historique-connexion/historique-
     WorkflowCircuitComponent,
     FormCircuitValidationComponent,
     HistoriqueConnexionComponent,
+    FormCreateUserComponent,
+    SelectMenuItemPrivilegeComponent,
   ],
   imports: [
     CommonModule,

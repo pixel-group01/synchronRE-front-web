@@ -45,7 +45,7 @@
 
                             <mat-tab label="Archives" >
                                 <ng-template matTabContent>
-                                    <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante-arch':'' "
+                                    <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante-arch':'affaires/facultative/by-user-arch' "
                                         [refreshDataTable]="refreshDataTable" [noPutAction]="true"></app-list-affaires-facultatives>
                                 </ng-template>
                             </mat-tab>

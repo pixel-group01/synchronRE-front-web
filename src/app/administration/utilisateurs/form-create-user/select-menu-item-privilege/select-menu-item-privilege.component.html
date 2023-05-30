@@ -1,0 +1,35 @@
+<div class="contanier-select-privilege">
+    <div class="first-part table-responsive">
+        <table  class="table-condensed">
+            <tbody>
+                <tr *ngFor="let priv of listePrivileges; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{priv?.privilegeName}}</td>
+                    <td>
+                        <a (click)="addPrivilegeBoxRight(priv)"> <i class="fa fa-arrow-right"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="action-part">
+        <a title="Retirer le privilège"> <i class="fa fa-arrow-left"></i> <i class="fa fa-circle-chevron"></i></a>
+        <a title="Ajouter le privilège"> <i class="fa fa-arrow-right"></i></a>
+    </div>
+
+    <div class="right-part table-responsive">
+        <table class="table table-condensed">
+            <tbody>
+                <tr *ngFor="let priv of listePrivilegesSelected; let i = index">
+                    <td>
+                        <a (click)="removePrivilegeBoxRight(priv)"> <i class="fa fa-arrow-left"></i></a>
+                    </td>
+                    <td>{{i+1}}</td>
+                    <td>{{priv?.privilegeName}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

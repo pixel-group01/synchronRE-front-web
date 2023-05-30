@@ -38,7 +38,7 @@ export class FormCessionComponent implements OnInit {
     this.paramForm = this.formBuilder.group({
       paramCesLegId: [this.itemToUpdate?.paramCesLegId || ""],
       paramCesLegLibelle: [this.itemToUpdate?.paramCesLegLibelle || "", Validators.required],
-      paramCesLegCapital: [this.itemToUpdate?.paramCesLegCapital || "", Validators.required],
+      // paramCesLegCapital: [this.itemToUpdate?.paramCesLegCapital || "", Validators.required],
       paramCesLegTaux: [this.itemToUpdate?.paramCesLegTaux || "",
         Validators.required,
       ],

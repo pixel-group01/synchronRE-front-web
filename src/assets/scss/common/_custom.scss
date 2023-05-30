@@ -171,6 +171,10 @@ tr > td {
   background-color: var(--primary-color); // #0665aa !important;
   padding: 10px !important;
   color: #fff;
+
+  h4 {
+    margin-bottom: 0px !important; 
+  }
 }
 
 .modal-content {

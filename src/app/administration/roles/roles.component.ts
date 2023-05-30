@@ -1,29 +1,34 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { RestClientService } from 'src/app/core/service/rest-client.service';
-import { UtilitiesService } from 'src/app/core/service/utilities.service';
+import { Component, OnInit, TemplateRef } from "@angular/core";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { Subscription } from "rxjs";
+import { AuthService } from "src/app/core/service/auth.service";
+import { RestClientService } from "src/app/core/service/rest-client.service";
+import { UtilitiesService } from "src/app/core/service/utilities.service";
 import Swal from "sweetalert2";
-import * as moment from 'moment';
-import * as _ from 'lodash';
+import * as moment from "moment";
+import * as _ from "lodash";
+import { privilegeSynchroRE } from "src/app/core/models/privilegeSynscroRE";
+import { RoleSynchroRE } from "src/app/core/models/roleSynscroRE";
+import { PrivilegeService } from "src/app/core/service/privilege.service";
+import { RoleService } from "src/app/core/service/role.service";
+import { Role } from "src/app/core/models/role";
 @Component({
-  selector: 'app-roles',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.scss']
+  selector: "app-roles",
+  templateUrl: "./roles.component.html",
+  styleUrls: ["./roles.component.scss"],
 })
 export class RolesComponent implements OnInit {
-  imageName = 'Choisir une image'
+  imageName = "Choisir une image";
   // modalRef: BsModalRef;
-  enable = true
+  enable = true;
   maxDate = new Date();
   ModalConfig = {
     backdrop: true,
-    ignoreBackdropClick: false
+    ignoreBackdropClick: false,
   };
   itemToSave: any = {};
   itemToSearch: any = {};
-  selectedMenu = 'list-user';
+  selectedMenu = "list-user";
   result: any;
   page = 4;
   config: any;
@@ -32,6 +37,9 @@ export class RolesComponent implements OnInit {
   public directionLinks: boolean = true;
   public autoHide: boolean = false;
   public responsive: boolean = true;
+
+  listePrivileges: Array<privilegeSynchroRE> = [];
+  listeRoles: Array<RoleSynchroRE> = [];
 
   ListRoles: any[];
   ListStatus: any;
@@ -45,12 +53,12 @@ export class RolesComponent implements OnInit {
   documents = [];
   currentItemImage: any;
   selectedRow: any;
-  busyGet: Subscription
+  busyGet: Subscription;
   modalRef: any;
   disabledMode: boolean = false;
   ListDomaines: any[];
   ListFonctionnalites: any;
-  isAllParentChecked = false
+  isAllParentChecked = false;
   listItems: Array<any> = [];
   items: Array<any> = [];
   user: any = {};
@@ -59,20 +67,26 @@ export class RolesComponent implements OnInit {
   totalItems: number;
   busySave: Subscription;
   loading: boolean = false;
-  endPoint: string = 'hospiCommandeMedicament/';
   itemsRole: any;
   itemsSpecialites: any;
   dateNais: any;
   bsValue: Date;
 
-  constructor(private authService: AuthService, private restClient: RestClientService, private modalService: BsModalService, private utilities: UtilitiesService) {
+  constructor(
+    private authService: AuthService,
+    private restClient: RestClientService,
+    private modalService: BsModalService,
+    private utilities: UtilitiesService,
+    private privilegeService: PrivilegeService,
+    private roleService: RoleService
+  ) {
     this.user = this.authService.currentUserValue;
   }
 
   ngOnInit() {
-    this.getDataFonctionnalites()
+    this.getDataFonctionnalites();
     setTimeout(() => {
-      this.getItems()
+      this.getItems();
     }, 200);
   }
 
@@ -82,51 +96,42 @@ export class RolesComponent implements OnInit {
         fonct.isChecked = event.target.checked;
         fonct.isOpen = event.target.checked;
         if (fonct.datasChildren && fonct.datasChildren.length) {
-          fonct.datasChildren.map(
-            child => {
-              child.isChecked = event.target.checked;
-              child.isOpen = event.target.checked;
-            }
-          );
+          fonct.datasChildren.map((child) => {
+            child.isChecked = event.target.checked;
+            child.isOpen = event.target.checked;
+          });
         }
-
-      }
-      );
+      });
     }
   }
 
   checkIfAllFuncSelected() {
     let parentFonctionnalites = this.ListFonctionnalites.filter(
-      pf => !pf.parentId
-    )
-    console.log('all parent func', parentFonctionnalites);
-    let unChekedParents = parentFonctionnalites.filter(
-      pF => !pF.isChecked
-    )
+      (pf) => !pf.parentId
+    );
+    console.log("all parent func", parentFonctionnalites);
+    let unChekedParents = parentFonctionnalites.filter((pF) => !pF.isChecked);
 
-    this.isAllParentChecked = !unChekedParents.length
+    this.isAllParentChecked = !unChekedParents.length;
   }
 
   setCheckedChildItem(event, item?) {
-    console.log('child event', event);
-    console.log('child item', item);
+    console.log("child event", event);
+    console.log("child item", item);
 
-    let totalChecked = 0
+    let totalChecked = 0;
     if (item.datasChildren && item.datasChildren.length) {
-      item.datasChildren.map(
-        child => {
-          if (child.isChecked) {
-            totalChecked++
-            console.log('total', totalChecked);
-
-          }
+      item.datasChildren.map((child) => {
+        if (child.isChecked) {
+          totalChecked++;
+          console.log("total", totalChecked);
         }
-      );
+      });
 
-      item.isChecked = item.datasChildren.length == totalChecked
+      item.isChecked = item.datasChildren.length == totalChecked;
     }
 
-    this.checkIfAllFuncSelected()
+    this.checkIfAllFuncSelected();
   }
 
   displayDetails(item) {
@@ -137,120 +142,135 @@ export class RolesComponent implements OnInit {
   setCheckedAllItem() {
     console.log("itemToSave.isAllFct", this.itemToSave.isAllFct);
 
-    _.forEach(this.ListFonctionnalites, (fct) => {
-      fct.isChecked = this.itemToSave.isAllFct || false
+    _.forEach(this.listePrivileges, (fct) => {
+      fct.isChecked = this.itemToSave.isAllFct || false;
     });
   }
 
-  setCheckedItem(valeur, type, listFct,parentFct : any) {
+  // setCheckedItem(valeur, type, listFct,parentFct : any) {
 
-    console.log(" listFct ",listFct);
-    console.log(" parentFct ",parentFct);
-    
-    
-    // console.log('event', event);
-    // console.log('item', item);
+  //   console.log(" listFct ",listFct);
+  //   console.log(" parentFct ",parentFct);
 
+  //   // console.log('event', event);
+  //   // console.log('item', item);
 
-    // if (item.datasChildren && item.datasChildren.length) {
-    //   item.datasChildren.map(
-    //     child => {
-    //       child.isChecked = event.target.checked;
-    //     }
-    //   );
-    // }
-    // this.checkIfAllFuncSelected();
+  //   // if (item.datasChildren && item.datasChildren.length) {
+  //   //   item.datasChildren.map(
+  //   //     child => {
+  //   //       child.isChecked = event.target.checked;
+  //   //     }
+  //   //   );
+  //   // }
+  //   // this.checkIfAllFuncSelected();
 
+  //   if (type == "parent") {
+  //     _.forEach(listFct, function (value, key) {
+  //         // console.log("la valeur",value);
+  //         // console.log("la clé",key);
 
-    if (type == "parent") {
-      _.forEach(listFct, function (value, key) {
-          // console.log("la valeur",value);
-          // console.log("la clé",key);
+  //         value.isChecked = valeur;
 
-          value.isChecked = valeur;
+  //         if (value.datasChildren) {
+  //             _.forEach(value.datasChildren, function (valueChild, keyChild) {
+  //                 valueChild.isChecked = valeur;
 
-          if (value.datasChildren) {
-              _.forEach(value.datasChildren, function (valueChild, keyChild) {
-                  valueChild.isChecked = valeur;
+  //                 _.forEach(valueChild.datasChildren, function (valueChildSecond, keyChild) {
+  //                     valueChildSecond.isChecked = valeur;
+  //                 });
 
-                  _.forEach(valueChild.datasChildren, function (valueChildSecond, keyChild) {
-                      valueChildSecond.isChecked = valeur;
-                  });
+  //             });
+  //         }
+  //     });
+  //   }
 
-              });
-          }
+  //   if(type == "simple") {
+  //    // Verifier si tout les enfants sont cochés
+  //    let fctCheckeds = _.filter(listFct, (o) => { return o.isChecked; });
+  //    if(fctCheckeds && fctCheckeds.length > 0) {
+  //     if(fctCheckeds.length == listFct.length) {
+  //       // Toutes les fct enfant sont coché, il faut coché le parent
+  //       parentFct.isChecked = true;
+  //       parentFct.indeterminate = false;
+  //     }else {
+  //       parentFct.isChecked = false;
 
+  //       // Si au moins un enfant est coché, on le met en unideterminate
+  //       if(fctCheckeds.length > 0) {
+  //         parentFct.indeterminate = true;
+  //       }else {
+  //         parentFct.isChecked = false;
+  //         parentFct.indeterminate = false;
+  //       }
+  //     }
+  //    }else {
+  //     // Rien aucun enfant n'est coché o
+  //     parentFct.isChecked = false;
+  //     parentFct.indeterminate = false;
+  //    }
+  //   }
 
-      });
-    }
+  //   // Checker le undeterminate
+  //   this.getIndeterminateToutCocher();
+  // }
 
-    if(type == "simple") {
-     // Verifier si tout les enfants sont cochés
-     let fctCheckeds = _.filter(listFct, (o) => { return o.isChecked; });
-     if(fctCheckeds) {
-      if(fctCheckeds.length == listFct.length) {
-        // Toutes les fct enfant sont coché, il faut coché le parent
-        parentFct.isChecked = true;
-        parentFct.indeterminate = false;
-      }else {
-        parentFct.isChecked = false;
+  setCheckedItem() {
+    // Recuperer le nombre d'élement selectionné
+    let privilegeChecked = _.filter(this.listePrivileges, (o) => {
+      return o.isChecked;
+    });
 
-        // Si au moins un enfant est coché, on le met en unideterminate
-        if(fctCheckeds.length > 0) {
-          parentFct.indeterminate = true;
-        }else {
-          parentFct.isChecked = false;
-          parentFct.indeterminate = false;
-        }
+    if (
+      privilegeChecked &&
+      privilegeChecked.length > 0 &&
+      privilegeChecked.length === this.listePrivileges.length
+    ) {
+      this.itemToSave.indeterminateCheckAll = false;
+      this.itemToSave.isAllFct = true;
+    } else {
+      if (privilegeChecked && privilegeChecked.length > 0) {
+        this.itemToSave.indeterminateCheckAll = true;
       }
-     }else {
-      // Rien aucun enfant n'est coché o
-      parentFct.isChecked = false;
-      parentFct.indeterminate = false;
-     }
+      this.itemToSave.isAllFct = false;
     }
-
-    // Checker le undeterminate
-    this.getIndeterminateToutCocher();
   }
 
   getIndeterminateToutCocher() {
-    let fctsCheckedsAll =  _.filter(this.ListFonctionnalites, (o) => { return o.isChecked; });
+    let fctsCheckedsAll = _.filter(this.ListFonctionnalites, (o) => {
+      return o.isChecked;
+    });
 
-    console.log(" fctsCheckedsAll ",fctsCheckedsAll);
-    
-    if(fctsCheckedsAll) {
+    console.log(" fctsCheckedsAll ", fctsCheckedsAll);
 
-      if(fctsCheckedsAll.length == this.ListFonctionnalites.length) {
+    if (fctsCheckedsAll) {
+      if (fctsCheckedsAll.length == this.ListFonctionnalites.length) {
         this.itemToSave.isAllFct = true;
         this.itemToSave.indeterminateCheckAll = false;
-      }else {
-        if(fctsCheckedsAll.length > 0) {
+      } else {
+        if (fctsCheckedsAll.length > 0) {
           // En ce moment il y au moins enfant un qui est coché
           this.itemToSave.isAllFct = false;
           this.itemToSave.indeterminateCheckAll = true;
-        }else {
+        } else {
           this.itemToSave.isAllFct = false;
           this.itemToSave.indeterminateCheckAll = false;
         }
       }
-    }else {
+    } else {
       this.itemToSave.isAllFct = false;
       this.itemToSave.indeterminateCheckAll = false;
     }
   }
 
-  
-
   cancelSave() {
-    this.imageName = 'Choisir une image'
-    this.itemToSave = {}
-    this.disabledMode = false
+    this.imageName = "Choisir une image";
+    this.itemToSave = {};
+    this.disabledMode = false;
     this.isAllParentChecked = false;
     this.itemToSave.indeterminateCheckAll = false;
     this.itemToSave.isAllFct = false;
 
-    this.ListFonctionnalites.forEach(fct => {
+    this.ListFonctionnalites.forEach((fct) => {
       fct.isChecked = false;
       fct.isOpen = false;
       fct.indeterminate = false;
@@ -260,140 +280,163 @@ export class RolesComponent implements OnInit {
   }
 
   cancelSearch() {
-    this.itemToSearch = {}
-    this.getItems()
+    this.itemToSearch = {};
+    this.getItems();
   }
 
   pageChanged(event) {
     this.config.currentPage = event;
-    this.getItems()
+    this.getItems();
   }
 
   onSelectMenu(menu: any) {
-    this.selectedMenu = menu
+    this.selectedMenu = menu;
   }
 
-  getItems(mode?) {
-    if (mode)
-      this.config.currentPage = 1
-    let request = {
-      user: this.user.id,
-      isSimpleLoading: false,
-      // index: (this.currentPage - 1),
-      // size: this.itemsPerPage,
-      data: {
-        profilCode: 100,
-        code: this.itemToSearch.code
+  // getItems(mode?) {
+  //   if (mode)
+  //     this.config.currentPage = 1
+  //   let request = {
+  //     user: this.user.id,
+  //     isSimpleLoading: false,
+  //     // index: (this.currentPage - 1),
+  //     // size: this.itemsPerPage,
+  //     data: {
+  //       profilCode: 100,
+  //       code: this.itemToSearch.code
 
-      }
-    }
-    
-    this.busyGet = this.restClient.post('role/getByCriteria', request).subscribe(
-      (res: any) => {
-        console.log('return of getData', res);
+  //     }
+  //   }
 
-        if (res && !res.hasError) {
-          if (res.status.code == 903) {
-            this.result = []
-          }
-          else {
-            this.result = res.items
-            // this.selectedRow = this.result[0];
-            // this.onSetMatchedFuncs(this.selectedRow)
-            // this.selectRow(this.selectedRow)
-          }
-          this.totalItems = res.count
+  //   this.busyGet = this.restClient.post('role/getByCriteria', request).subscribe(
+  //     (res: any) => {
+  //       console.log('return of getData', res);
 
-        }
-        else {
-          this.result = []
-          this.utilities.showNotification("snackbar-danger",
-            this.utilities.formatMsgServeur(res.status.message),
-            "bottom",
-            "center");
+  //       if (res && !res.hasError) {
+  //         if (res.status.code == 903) {
+  //           this.result = []
+  //         }
+  //         else {
+  //           this.result = res.items
+  //           // this.selectedRow = this.result[0];
+  //           // this.onSetMatchedFuncs(this.selectedRow)
+  //           // this.selectRow(this.selectedRow)
+  //         }
+  //         this.totalItems = res.count
 
-        }
-      },
-      (error: any) => {
-        this.result = []
-        this.utilities.showNotification("snackbar-danger",
-          this.utilities.formatMsgServeur(error.message),
-          "bottom",
-          "center");
-      }
-    )
-  }
+  //       }
+  //       else {
+  //         this.result = []
+  //         this.utilities.showNotification("snackbar-danger",
+  //           this.utilities.formatMsgServeur(res.status.message),
+  //           "bottom",
+  //           "center");
+
+  //       }
+  //     },
+  //     (error: any) => {
+  //       this.result = []
+  //       this.utilities.showNotification("snackbar-danger",
+  //         this.utilities.formatMsgServeur(error.message),
+  //         "bottom",
+  //         "center");
+  //     }
+  //   )
+  // }
 
   getDataFonctionnalites() {
-    let request = {
-      user: this.user.id,
-      isSimpleLoading: false,
-      // hierarchyFormat:true,
-      data: {
-
+    this.privilegeService.getAll().subscribe((response: any) => {
+      if (response && response["content"]) {
+        this.listePrivileges = response["content"] as privilegeSynchroRE[];
+        this.ListFonctionnalites = this.listePrivileges;
+      } else {
+        this.listePrivileges = [];
+        this.ListFonctionnalites = [];
       }
-    }
-
-    this.busyGet = this.restClient.post('fonctionnalite/getByCriteria', request).subscribe(
-      (res: any) => {
-        console.log('return of getData les fonctionnalites ', res);
-
-        if (res && !res.hasError) {
-          if (res.status?.code == 903) {
-            this.ListFonctionnalites = []
-          }
-          else {
-            this.ListFonctionnalites = res.items
-
-            // Retirer ceux qui ont des codes numerique ce sont les anciens
-            this.ListFonctionnalites = _.filter(this.ListFonctionnalites, (o) => { return !parseFloat(o.code) });
-
-            this.formatHierachicalFonctionnalite();
-          }
-          this.totalItems = res.count;
-
-
-        }
-        else {
-          this.ListFonctionnalites = []
-          this.utilities.showNotification("snackbar-danger",
-            this.utilities.formatMsgServeur(res.status.message),
-            "bottom",
-            "center");
-        }
-      },
-      (error: any) => {
-        this.ListFonctionnalites = []
-        this.utilities.showNotification("snackbar-danger",
-          'Connexion momentanément interrompue',
-          "bottom",
-          "center");
-      }
-    )
+    });
   }
+
+  getItems() {
+    this.roleService.getAll().subscribe((response: any) => {
+      if (response && response["content"]) {
+        this.listeRoles = response["content"] as RoleSynchroRE[];
+      } else {
+        this.listeRoles = [];
+      }
+    });
+  }
+
+  // getDataFonctionnalites() {
+  //   let request = {
+  //     user: this.user.id,
+  //     isSimpleLoading: false,
+  //     // hierarchyFormat:true,
+  //     data: {
+
+  //     }
+  //   }
+
+  //   this.busyGet = this.restClient.post('fonctionnalite/getByCriteria', request).subscribe(
+  //     (res: any) => {
+  //       console.log('return of getData les fonctionnalites ', res);
+
+  //       if (res && !res.hasError) {
+  //         if (res.status?.code == 903) {
+  //           this.ListFonctionnalites = []
+  //         }
+  //         else {
+  //           this.ListFonctionnalites = res.items
+
+  //           // Retirer ceux qui ont des codes numerique ce sont les anciens
+  //           this.ListFonctionnalites = _.filter(this.ListFonctionnalites, (o) => { return !parseFloat(o.code) });
+
+  //           this.formatHierachicalFonctionnalite();
+  //         }
+  //         this.totalItems = res.count;
+
+  //       }
+  //       else {
+  //         this.ListFonctionnalites = []
+  //         this.utilities.showNotification("snackbar-danger",
+  //           this.utilities.formatMsgServeur(res.status.message),
+  //           "bottom",
+  //           "center");
+  //       }
+  //     },
+  //     (error: any) => {
+  //       this.ListFonctionnalites = []
+  //       this.utilities.showNotification("snackbar-danger",
+  //         'Connexion momentanément interrompue',
+  //         "bottom",
+  //         "center");
+  //     }
+  //   )
+  // }
 
   formatHierachicalFonctionnalite() {
     this.listFonctionalitesHierachises = [];
     if (this.ListFonctionnalites && this.ListFonctionnalites.length > 0) {
-
       // On recupère la liste des fonctionnalites pour mettre dans une autre variable
       let listFonctionnalites = Object.assign([], this.ListFonctionnalites);
 
-
       // Je recupere ceux qui n'on pas de parent id
-      let listModuleFonctionnalites = _.filter(listFonctionnalites, (o) => { return !o.parentId; });
+      let listModuleFonctionnalites = _.filter(listFonctionnalites, (o) => {
+        return !o.parentId;
+      });
 
       // On groupe l'ensemble des modules par parentiD
-      let fonctionnaliteGroupByParentIds = _.groupBy(listFonctionnalites, 'parentId');
+      let fonctionnaliteGroupByParentIds = _.groupBy(
+        listFonctionnalites,
+        "parentId"
+      );
 
       // On faire un map pour avoir une lise de clé valeur
       this.listeFctByParentId = [];
       _.forEach(fonctionnaliteGroupByParentIds, (value, key) => {
-
         if (key && parseFloat(key) > 0) {
           this.listeFctByParentId.push({
             parentIdModule: key,
-            fcts: value
+            fcts: value,
           });
         }
       });
@@ -401,11 +444,10 @@ export class RolesComponent implements OnInit {
       // On parcours la liste des module et pour chaque module on associe c'est sous fct
       // On effectue cette opération justqu'a la 3eme iteration
       _.forEach(listModuleFonctionnalites, (moduleFct) => {
-
         if (moduleFct && moduleFct?.id) {
-          // On rattache c'est sous fonctionnalites 
+          // On rattache c'est sous fonctionnalites
           // Dans le cas ou on le retrouve on met dans un datasChildren
-          let moduleChildrens = this.getChildrenModuleByIdParent(moduleFct?.id)
+          let moduleChildrens = this.getChildrenModuleByIdParent(moduleFct?.id);
 
           if (moduleChildrens) {
             moduleFct.datasChildren = moduleChildrens?.fcts;
@@ -413,74 +455,96 @@ export class RolesComponent implements OnInit {
             // On parcours chaque premier fils
             if (moduleFct.datasChildren && moduleFct.datasChildren.length > 0) {
               _.forEach(moduleFct.datasChildren, (firstSousModule) => {
-
                 if (firstSousModule) {
-                  let moduleChildrensFirstFils = this.getChildrenModuleByIdParent(firstSousModule?.id);
+                  let moduleChildrensFirstFils =
+                    this.getChildrenModuleByIdParent(firstSousModule?.id);
                   if (moduleChildrensFirstFils) {
                     firstSousModule.datasChildren = moduleChildrens?.fcts;
 
                     // On parcours le sous fils
-                    if (firstSousModule.datasChildren && firstSousModule.datasChildren.length > 0) {
-                      _.forEach(firstSousModule.datasChildren, (secondSousModule) => {
+                    if (
+                      firstSousModule.datasChildren &&
+                      firstSousModule.datasChildren.length > 0
+                    ) {
+                      _.forEach(
+                        firstSousModule.datasChildren,
+                        (secondSousModule) => {
+                          let moduleChildrensSecondFils =
+                            this.getChildrenModuleByIdParent(
+                              secondSousModule?.id
+                            );
+                          // Verifier si il doit être coché au cas ou nous sommes en modification
+                          if (moduleChildrensSecondFils) {
+                            secondSousModule.datasChildren =
+                              moduleChildrensSecondFils?.fcts;
 
-                        let moduleChildrensSecondFils = this.getChildrenModuleByIdParent(secondSousModule?.id);
-                        // Verifier si il doit être coché au cas ou nous sommes en modification
-                        if (moduleChildrensSecondFils) {
-                          secondSousModule.datasChildren = moduleChildrensSecondFils?.fcts;
-
-                          // Traitemet du sous sous fils
-                          // On parcours le sous fils
-                          if (secondSousModule.datasChildren && secondSousModule.datasChildren.length > 0) {
-                            _.forEach(secondSousModule.datasChildren, (thirdSousModule) => {
-
-                              let moduleChildrensThirdFils = this.getChildrenModuleByIdParent(thirdSousModule?.id);
-                              // Verifier si il doit être coché au cas ou nous sommes en modification
-                              if (moduleChildrensThirdFils) {
-                                thirdSousModule.datasChildren = moduleChildrensThirdFils?.fcts
-                              }
-                            });
+                            // Traitemet du sous sous fils
+                            // On parcours le sous fils
+                            if (
+                              secondSousModule.datasChildren &&
+                              secondSousModule.datasChildren.length > 0
+                            ) {
+                              _.forEach(
+                                secondSousModule.datasChildren,
+                                (thirdSousModule) => {
+                                  let moduleChildrensThirdFils =
+                                    this.getChildrenModuleByIdParent(
+                                      thirdSousModule?.id
+                                    );
+                                  // Verifier si il doit être coché au cas ou nous sommes en modification
+                                  if (moduleChildrensThirdFils) {
+                                    thirdSousModule.datasChildren =
+                                      moduleChildrensThirdFils?.fcts;
+                                  }
+                                }
+                              );
+                            }
                           }
-
                         }
-                      });
+                      );
                     }
 
-                    // 
+                    //
                   }
                 }
               });
             }
-
           }
         }
 
         // On ajoute le module a   la liste
         this.listFonctionalitesHierachises.push(moduleFct);
 
-        console.log(" this.listFonctionalitesHierachises ", this.listFonctionalitesHierachises);
-
+        console.log(
+          " this.listFonctionalitesHierachises ",
+          this.listFonctionalitesHierachises
+        );
       });
-
     }
-
   }
 
   getChildrenModuleByIdParent(idParent: any) {
-    let moduleChildrens = _.find(this.listeFctByParentId, (o) => { return parseInt(o.parentIdModule) == parseInt(idParent) });
+    let moduleChildrens = _.find(this.listeFctByParentId, (o) => {
+      return parseInt(o.parentIdModule) == parseInt(idParent);
+    });
     return moduleChildrens;
   }
 
   onConfirmSave() {
-
-    let data = {...this.itemToSave};
+    let data = { ...this.itemToSave };
 
     if (!data.libelle) {
-      this.utilities.showNotification("snackbar-danger",'Veuillez renseigner libellé',"bottom","center");
-      return
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Veuillez renseigner libellé",
+        "bottom",
+        "center"
+      );
+      return;
     }
 
-    console.log('fonct content: ', this.ListFonctionnalites);
-    let fonctionnalites = []
+    console.log("fonct content: ", this.ListFonctionnalites);
+    let fonctionnalites = [];
     // let parentFonctionnalites = []
 
     // this.ListFonctionnalites.map(
@@ -520,44 +584,47 @@ export class RolesComponent implements OnInit {
     //   return;
     // }
 
-
     // Recuperer les fonctionnalites cochés (A REVOIR)
-    let fctCoche = _.filter(this.ListFonctionnalites, (o) => { return o.isChecked || o.indeterminate; });
+    let fctCoche = _.filter(this.ListFonctionnalites, (o) => {
+      return o.isChecked || o.indeterminate;
+    });
     if (fctCoche && fctCoche.length > 0) {
       fonctionnalites = fctCoche;
     }
 
     if (!fonctionnalites.length) {
       //  this.toastr.error('Veuillez choisir au moins une fonctionnalité svp!', 'Erreur');
-      this.utilities.showNotification("snackbar-danger",'Veuillez cocher les fonctionnalités du rôle',"bottom","center");
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Veuillez cocher les fonctionnalités du rôle",
+        "bottom",
+        "center"
+      );
       return;
     }
 
-
     Swal.fire({
-
       title: data.id ? "Mise à jour" : "Enregistrement",
 
-      text: data.id ? "Vous êtes sur le point de mettre a jour un rôle. Voulez-vous poursuivre cette action ?" : "Vous êtes sur le point d'enregistrer un rôle. Voulez-vous poursuivre cette action ?",
-      icon: 'warning',
+      text: data.id
+        ? "Vous êtes sur le point de mettre a jour un rôle. Voulez-vous poursuivre cette action ?"
+        : "Vous êtes sur le point d'enregistrer un rôle. Voulez-vous poursuivre cette action ?",
+      icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#0665aa",
       cancelButtonColor: "#d33",
-      confirmButtonText: 'Oui',
-      cancelButtonText: 'Non'
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
     }).then((result) => {
       if (result.value) {
-        data.libelle = data?.libelle?.toUpperCase();
-        this.saveItem(data, fonctionnalites)
+        data.roleName = data?.libelle?.toUpperCase();
+        this.saveItem(data, fonctionnalites);
       }
-    })
-
+    });
   }
 
   saveItem(data, fonctionnalites) {
-   
-
-    let action = data.id ? 'update' : 'create';
+    let action = data.id ? "update" : "create";
     let request = {
       user: this.user.id,
       isSimpleLoading: false,
@@ -565,35 +632,40 @@ export class RolesComponent implements OnInit {
         {
           id: data.id,
           libelle: data.libelle,
-          datasFonctionnalite: fonctionnalites
-        }
-      ]
-    }
+          datasFonctionnalite: fonctionnalites,
+        },
+      ],
+    };
 
-    this.busyGet = this.restClient.post('role/' + action, request).subscribe(
+    this.busyGet = this.restClient.post("roles/" + action, request).subscribe(
       (res: any) => {
         if (res && !res.hasError) {
-          this.utilities.showNotification("snackbar-success",
+          this.utilities.showNotification(
+            "snackbar-success",
             this.utilities.formatMsgServeur(res.status.message),
             "bottom",
-            "center");
-          this.cancelSave()
+            "center"
+          );
+          this.cancelSave();
           this.cancelSearch();
-        }
-        else {
-          this.utilities.showNotification("snackbar-danger",
+        } else {
+          this.utilities.showNotification(
+            "snackbar-danger",
             this.utilities.formatMsgServeur(res.status.message),
             "bottom",
-            "center");
+            "center"
+          );
         }
       },
       (error: any) => {
-        this.utilities.showNotification("snackbar-success",
-          'Connexion momentanément interrompue',
+        this.utilities.showNotification(
+          "snackbar-success",
+          "Connexion momentanément interrompue",
           "bottom",
-          "center");
+          "center"
+        );
       }
-    )
+    );
   }
 
   selectRow(data) {
@@ -601,14 +673,14 @@ export class RolesComponent implements OnInit {
   }
 
   onSetMatchedFuncs(data?, bool?: boolean) {
-    this.cancelSave()
-    console.log('bool', bool);
+    this.cancelSave();
+    console.log("bool", bool);
     this.uncheckFull();
 
     if (data) {
-      this.disabledMode = bool ? bool : false
+      this.disabledMode = bool ? bool : false;
       this.itemToSave = data ? { ...data } : {};
-      console.log('target fonc: ', { ...data }.fonctionnalites);
+      console.log("target fonc: ", { ...data }.fonctionnalites);
       let foncTarget = { ...data }.fonctionnalites;
       // this.listFonctionnalites = itemToModified ? {... itemToModified}.datasFonctionnalite : this.listFonctionnalites;
 
@@ -645,116 +717,82 @@ export class RolesComponent implements OnInit {
       //   )
       // }
 
-      // Verifier si la fonctionnalité ne dois ^pas etre coché
-      foncTarget.forEach(oldFct => {
-        let hasFonctionnalite = _.find(this.ListFonctionnalites, { 'code': oldFct.code });
+      if (foncTarget && foncTarget.length > 0) {
+        // Verifier si la fonctionnalité ne dois ^pas etre coché
+        foncTarget.forEach((oldFct) => {
+          let hasFonctionnalite = _.find(this.ListFonctionnalites, {
+            code: oldFct.code,
+          });
 
-        if (hasFonctionnalite) {
-          hasFonctionnalite.isChecked = true;
-        } 
-      });
+          if (hasFonctionnalite) {
+            hasFonctionnalite.isChecked = true;
+          }
+        });
+      }
 
       this.getIndeterminateToutCocher();
-
     }
-    this.checkIfAllFuncSelected()
+    this.checkIfAllFuncSelected();
   }
 
-  // Cocher les 
+  // Cocher les
 
   onConfirmDelete(data) {
-
     Swal.fire({
       title: "Suppression",
       text: "Vous êtes sur le point de supprimer un élémement. Voulez-vous poursuivre cette action ?",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Oui',
-      cancelButtonText: 'Non'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
     }).then((result) => {
       if (result.value) {
-        this.deleteItem(data)
+        this.deleteItem(data);
       }
-    })
-
+    });
   }
 
-
   deleteItem(data) {
-
-    let action = 'delete';
+    let action = "delete";
     let request = {
       user: this.user.id,
       isSimpleLoading: false,
       datas: [
         {
-          id: data.id
-        }
-      ]
-    }
+          id: data.id,
+        },
+      ],
+    };
 
-    this.busyGet = this.restClient.post('role/' + action, request).subscribe(
+    this.busyGet = this.restClient.post("role/" + action, request).subscribe(
       (res: any) => {
-        console.log('return of deleteItem', res);
+        console.log("return of deleteItem", res);
 
         if (res && !res.hasError) {
           // this.toastr.success(res.status.message, 'Succès')
-          this.cancelSave()
-          this.cancelSearch()
-          this.getItems()
-        }
-        else {
-          this.utilities.showNotification("snackbar-danger",
+          this.cancelSave();
+          this.cancelSearch();
+          this.getItems();
+        } else {
+          this.utilities.showNotification(
+            "snackbar-danger",
             res.status.message,
             "bottom",
-            "center");
-
+            "center"
+          );
         }
       },
       (error: any) => {
         // this.toastr.error('Connexion momentanément interrompue', 'Erreur');
       }
-    )
+    );
   }
 
   hasChildrenIncluded(id, fonctionnalites) {
-
-    return _.find(fonctionnalites, ['parentId', id]);
-
+    return _.find(fonctionnalites, ["parentId", id]);
   }
-
-  // onSelectDate(event){
-  //   console.log("event");
-
-  //   this.itemToSave.dateOfBirth = moment(event).format('DD/MM/YYYY');
-  //   console.log('this.itemToSave',this.itemToSave);
-
-  // }
-
-  // onConfirmTestimonial(event,data){
-
-  //   Swal.fire({
-  //     title: data.isActive?"Invalidation":"Validation",
-  //     text: "Souhaitez-vous continuer",
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: 'Oui',
-  //     cancelButtonText:'Non'
-  //   }).then((result) => {
-  //     if (result.value) {
-  //         this.validateTestimonial(data);
-  //     } else if(result.dismiss){
-
-  //       data.isActive = !event
-  //     }
-  // }
-  // )
-
-  // }
 
   uncheckFull() {
     if (this.ListFonctionnalites && this.ListFonctionnalites.length) {
@@ -762,54 +800,12 @@ export class RolesComponent implements OnInit {
         fonct.isChecked = false;
         fonct.isOpen = false;
         if (fonct.datasChildren && fonct.datasChildren.length) {
-          fonct.datasChildren.map(
-            child => {
-              child.isChecked = false;
-              child.isOpen = false;
-            }
-          );
+          fonct.datasChildren.map((child) => {
+            child.isChecked = false;
+            child.isOpen = false;
+          });
         }
-
-      }
-      );
+      });
     }
-
   }
-
-  // validateTestimonial(data){
-  //   let action = 'update';
-  //   let request = {
-  //     user: this.user.id,
-  //     isSimpleLoading:false,
-  //     datas:[
-  //       {
-  //         id:data.id,
-  //         isActive: data.isActive,
-  //         userId: data.userId
-  //       }
-  //     ]
-  //   }
-  //   console.log('deleteItem',JSON.stringify(request));
-  //   this.busyGet = this.restClient.post('role/'+action,request).subscribe(
-  //     (res:any)=>{
-  //       console.log('return of validateTestimonial',res);
-
-  //       if(res && !res.hasError){
-  //         // this.toastr.success(res.status.message, 'Succès')
-  //         this.cancelSave()
-  //         this.cancelSearch()
-  //         this.getItems()
-  //       }
-  //       else{
-  //         // this.toastr.error(res.status.message, 'Erreur')
-
-  //       }
-  //     },
-  //     (error:any)=>{
-  //       // this.toastr.error('Connexion momentanément interrompue', 'Erreur');
-  //     }
-  //   )
-
-  // }
-
 }

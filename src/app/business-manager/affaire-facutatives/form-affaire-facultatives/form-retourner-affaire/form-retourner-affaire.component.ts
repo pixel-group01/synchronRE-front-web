@@ -73,8 +73,7 @@ export class FormRetournerAffaireComponent implements OnInit {
     this.businessOptionalService.getMessageRetour(this.currentAffaire.affId).subscribe(
       (response : any) => {
         console.log(" response message de retour ",response);
-        
-        this.itemToSave.motif = response?.message;
+        this.itemToSave.motif = response?.message  ;
       }
     )
   }

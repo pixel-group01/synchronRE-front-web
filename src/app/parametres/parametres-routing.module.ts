@@ -8,6 +8,7 @@ import { CessionLegalComponent } from './cession-legal/cession-legal.component';
 import { BrancheParameterComponent } from './branche-parameter/branche-parameter.component';
 import { CouvertureParameterComponent } from './couverture-parameter/couverture-parameter.component';
 import { CedenteParameterComponent } from './cedente-parameter/cedente-parameter.component';
+import { CessionnaireComponent } from './cessionnaire/cessionnaire.component';
 const routes: Routes = [
   {
     path: 'sample',
@@ -38,8 +39,12 @@ const routes: Routes = [
     component: CouvertureParameterComponent,
   },
   {
-    path: 'cedente',
+    path: 'cedante',
     component: CedenteParameterComponent, 
+  },
+  {
+    path: 'cessionnaire',
+    component: CessionnaireComponent, 
   },
 
 ];
