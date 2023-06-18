@@ -31,7 +31,6 @@ export class ErrorInterceptor implements HttpInterceptor {
           }
   
           let error = err?.error || err?.error?.message || err?.statusText;
-  
           
           if(err.statusText === 'Unknown Error') {
             error = "Connexion momentanement interronpue !";

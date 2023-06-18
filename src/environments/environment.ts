@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   // apiUrl: 'http://51.178.43.143:8080/hospital/',  
   // apiUrl : 'http://51.178.43.143:8080/hospital-prod/',  
-  apiUrl : 'http://localhost:5001/', 
+  apiUrl : 'http://localhost:5000/', 
   // apiUrl : 'http://158.175.180.112:8080/hospital/'
   // oldUrl : 51.222.86.183
 };
