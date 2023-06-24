@@ -30,7 +30,7 @@ import * as _ from "lodash";
 })
 export class FormIdentificationComponent implements OnInit {
   itemToSave: BusinessOptional = {};
-  formulaireGroup!: FormGroup;
+  formulaireGroup!: FormGroup; 
   listeCedente: Array<Cedante> = [];
   listeCouvertures: Array<Couverture> = [];
   listeDevises: Array<Devise> = [];
@@ -121,7 +121,6 @@ export class FormIdentificationComponent implements OnInit {
     this.exerciceService.getAll().subscribe((response : any) => {
       if (response) {
         this.listeExercices = response as Exercice[];
-
         // Recuperer l'exercice courante et fixer
         if(!this.currentAffaire.affId) {
           let currentExercice = _.find(this.listeExercices, (o) => { return o.exeCourant });

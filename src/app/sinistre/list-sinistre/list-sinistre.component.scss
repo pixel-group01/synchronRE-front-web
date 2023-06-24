@@ -1,0 +1,45 @@
+.body {
+    padding: 10px 0px !important;
+    min-height: 50vh;
+
+    .statLibelle {
+        font-size: 0.75rem;
+        font-weight: bold;
+      
+        color: #fff;
+        border-radius: 10px;
+        border: 1px solid gray;
+        padding: 3px 7px;
+
+        &.CREP {
+            background-color: orange;
+        }
+
+        &.APLA {
+            background-color: yellow;
+            color: black;
+        }
+
+        &.RET {
+            background-color: var(--danger-color);
+        }
+
+        &.CPLA {
+            background-color: orange;
+            color: black;
+        }
+
+        &.SAI {
+            background-color: var(--info-color);
+        }
+
+        &.CREG {
+            background-color: rgb(76, 133, 139);
+            color: #fff;
+        }
+
+        &.SAI-CRT {
+            background-color: var(--info-color);
+        }
+    }
+}

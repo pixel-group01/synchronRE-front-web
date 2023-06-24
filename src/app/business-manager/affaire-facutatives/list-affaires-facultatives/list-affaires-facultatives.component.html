@@ -4,7 +4,7 @@
     backdrop: false
   }">
   <table class="table table-condensed table-striped table-hover">
-    <thead>
+    <thead> 
       <tr>
         <th colspan="14">
           <div class="row mt-4">
@@ -28,7 +28,7 @@
             </div>
 
             <div class="col-md-4 col-xs-12 col-sm-12">
-              <label>Rechercher par mot clé : </label>
+              <label>Rechercher par mot clé: </label>
               <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
                 placeholder="Rechercher ..." (keyup)="currentPage = 1; getItems()" />
             </div>

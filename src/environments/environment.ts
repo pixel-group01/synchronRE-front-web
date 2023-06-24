@@ -9,6 +9,8 @@ export const environment = {
   apiUrl : 'http://localhost:5000/', 
   // apiUrl : 'http://158.175.180.112:8080/hospital/'
   // oldUrl : 51.222.86.183
+  // apiUrl:'http://192.168.1.20:8080/',
+
 };
 
 /*

@@ -43,6 +43,14 @@ const routes: Routes = [
           ),
       },
       {
+        path: "sinistres",
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import("./sinistre/sinistre.module").then(
+            (m) => m.SinistreModule
+          ),
+      },
+      {
         path: "archives",
         canActivate: [AuthGuard],
         loadChildren: () =>

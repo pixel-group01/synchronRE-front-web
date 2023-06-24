@@ -5,3 +5,4 @@ export class Statut {
     staLibelleLong?: string;
     staType?:string
 }
+ 
