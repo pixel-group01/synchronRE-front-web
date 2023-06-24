@@ -11,7 +11,12 @@ export class UserSynchroRE {
   cedId?:number;
   visibilityId?:number;
   cesId?:number;
-  typeUser?:string
+  typeUser?:string;
+  libelleFonction?:string;
+  dateDebutFonction?:string;
+  dateFinFonction?:string;
+  roles? : [];
+  privileges? : []
 }
 
   

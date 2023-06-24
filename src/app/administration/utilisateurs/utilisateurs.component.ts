@@ -578,11 +578,17 @@ export class UtilisateursComponent implements OnInit {
     this.getItems();
   }
 
+  closeModalFormUser($event:any){
+
+    if($event) {
+      this.getItems();
+    }
+
+    this.modalRef.hide();
+  }
+
   ngOnInit() {
     this.resetForm();
     this.getItems();
-    this.getItemsRoles();
-    this.getItemsSpecialite();
-    this.getItemsUniteFonctionnelle();
   }
 }

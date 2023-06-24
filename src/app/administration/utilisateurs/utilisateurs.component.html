@@ -59,13 +59,10 @@
                                 >&nbsp;&nbsp; #
                               </th>
                               <th>Nom prenoms</th>
-                              <th>Spécialité</th>
+                              <th>Cédente</th>
                               <th>Email</th>
                               <th>Dernière connexion</th>
-                              <th>Login</th>
-                              <th>Role</th>
                               <th>Contact</th>
-                              <th>Photo</th>
                               <th>Statut</th>
                               <th class="txt-align-center">Actions</th>
                             </tr>
@@ -74,41 +71,28 @@
                           <tbody>
                             <tr *ngFor="let item of items; let indice = index">
                               <td class="txt-align-center">{{ indice + 1 }}</td>
-                              <td>{{ item?.nom }} {{ item?.prenom }}</td>
-                              <td>{{ item?.adminSpecialiteLibelle }}</td>
+                              <td>{{ item?.lastName }} {{ item?.firstName }}</td>
+                              <td>{{ item?.cedName }}</td>
                               <td>{{ item?.email }}</td>
                               <td>{{ item?.lastConnectionDate }}</td>
-                              <td>{{ item?.login }}</td>
-                              <td>{{ item?.roleLibelle }}</td>
+                              <!-- <td>{{ item?.login }}</td> -->
+                              <!-- <td>{{ item?.roleLibelle }}</td> -->
                               <td>
-                                {{ item?.contact | mask: "00 00 00 00 00" }}
+                                {{ item?.tel | mask: "00 00 00 00 00" }}
                               </td>
-                              <td>
-                                <img
-                                  src="{{
-                                    item?.photo ||
-                                      'assets/images/custom/user-ano.jpeg'
-                                  }}"
-                                  style="
-                                    width: 50px;
-                                    height: 50px;
-                                    display: block;
-                                    border-radius: 50px;
-                                  "
-                                />
-                              </td>
+                             
                               <td>
                                 <span
-                                  *ngIf="item?.isMedecin"
+                                  *ngIf="item?.notBlocked"
                                   style="background-color: green;color: #fff;"
                                   class="badge badge-success"
-                                  >Medecin</span
+                                  >Actif</span
                                 >
                                 <span
-                                  *ngIf="!item?.isMedecin"
+                                  *ngIf="!item?.notBlocked"
                                   style="background-color: red;color: #fff"
                                   class="badge badge-danger"
-                                  >Non medecin</span
+                                  >Vérrouillé</span
                                 >
                               </td>
                               <td>
@@ -215,7 +199,7 @@
                         }"
                       >
                        <div>
-                         <app-form-create-user></app-form-create-user>
+                         <app-form-create-user (closeModal)="closeModalFormUser($event)"></app-form-create-user>
                        </div>
                       </div>
 

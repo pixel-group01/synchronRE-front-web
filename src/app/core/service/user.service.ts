@@ -55,6 +55,10 @@ export class UserService {
     return this.restClient.post('users/create',body,option)
   } 
 
+  createUserWithFonction = (body:any,option?:any): Observable<any> => {
+    return this.restClient.post('users/create-user-and-function',body,option)
+  } 
+
   getAll = () => {
     return this.restClient.get('users/list');
   }

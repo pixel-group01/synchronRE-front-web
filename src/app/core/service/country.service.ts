@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { RestClientService } from './rest-client.service';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'

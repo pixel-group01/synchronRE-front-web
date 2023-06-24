@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { Cedante } from 'src/app/core/models/cedante';
 import { privilegeSynchroRE } from 'src/app/core/models/privilegeSynscroRE';
@@ -25,9 +26,27 @@ export class FormCreateUserComponent implements OnInit {
   listeCedente: Array<Cedante> = [];
   listeRoles: Array<RoleSynchroRE> = [];
   listePrivileges: Array<privilegeSynchroRE> = [];
-
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   dateActuelle = new Date();
+
+  typeUserForm : any = {
+    createUserDTO: {
+      email: null,
+      tel: null,
+      firstName: null,
+      lastName: null,
+      visibilityId: null,
+      cesId: null
+    },
+    createInitialFncDTO: {
+      name: "",
+      startsAt: "",
+      endsAt: "",
+      roleIds: [],
+      prvIds: []
+    }
+  }
+
   constructor(
     private formBuilder: FormBuilder,
     private cedenteService: CedanteService,
@@ -62,6 +81,9 @@ export class FormCreateUserComponent implements OnInit {
   };
 
   confirmSaveItem() {
+
+    console.log(" this.userForm.value ",this.userForm.value);
+    
     Swal.fire({
       title: "Utilisateur",
       text: (this.itemToUpdate?.userId && this.itemToUpdate?.userId > 0)
@@ -81,10 +103,37 @@ export class FormCreateUserComponent implements OnInit {
   }
 
   saveItem(item: UserSynchroRE) {
+
     let itemAEnregistrer = Object.assign({}, item);
+
+    let createUserDTO = {
+      email: itemAEnregistrer.email,
+      tel: itemAEnregistrer.tel,
+      firstName: itemAEnregistrer.firstName,
+      lastName: itemAEnregistrer.lastName,
+      visibilityId: null,
+      cesId: itemAEnregistrer.cesId,
+      cedId : itemAEnregistrer.cedId
+    };
+
+    let initialFonctionDTO = {
+      name: itemAEnregistrer.libelleFonction,
+      startsAt: moment(itemAEnregistrer.dateDebutFonction).format("YYYY-MM-DD"),
+      endsAt: moment(itemAEnregistrer.dateFinFonction).format("YYYY-MM-DD"),
+      roleIds: itemAEnregistrer.roles,
+      prvIds: itemAEnregistrer.privileges
+    };
+
+    let requestUser = {
+      createInitialFncDTO : initialFonctionDTO,
+      createUserDTO : createUserDTO
+    }
+
     if (!itemAEnregistrer.userId) {
+
+     
       // nous sommes au create
-      this.userService.create(itemAEnregistrer).subscribe((response : any) => {
+      this.busySuscription = this.userService.createUserWithFonction(requestUser).subscribe((response : any) => {
         console.log(" response ", response);
         if (response && response.branId) {
           this.utilities.showNotification(
@@ -98,7 +147,7 @@ export class FormCreateUserComponent implements OnInit {
       });
     } else {
       // Nous sommes en modification
-      this.userService.update(itemAEnregistrer).subscribe((response: any) => {
+      this.busySuscription = this.userService.update(requestUser).subscribe((response: any) => {
         console.log(" response ", response);
         if (response && response?.branId) {
           this.utilities.showNotification(
@@ -143,6 +192,9 @@ export class FormCreateUserComponent implements OnInit {
     });
   }
 
+  closeModalUser(){
+    this.closeModal.emit(true);
+  }
 
   ngOnInit(): void {
     // Initialisation du forms group
