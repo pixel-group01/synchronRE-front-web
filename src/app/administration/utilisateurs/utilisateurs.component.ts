@@ -65,271 +65,20 @@ export class UtilisateursComponent implements OnInit {
     this.currentPage = event.page;
     this.getItems();
   }
-  resetForm() {
-    this.itemToSave.typeActeId = null;
-    this.itemToSave.libelle = "";
-  }
 
-  confirmSaveItem(item) {
-    console.log('item: ', item)
-
-    console.log(" itemToSave ", this.itemToSave);
-    console.log(" item ", item);
-
-    // item.specialiteId = this.selectedSpecialite.id
-
-    if (!item || !item.civilite) {
-      this.utilities.showNotification(
-        "snackbar-danger",
-        "Veuillez renseigner civilité !",
-        "bottom",
-        "center"
-      );
-      return;
-    }
-    if (!item || !item.nom) {
-      this.utilities.showNotification(
-        "snackbar-danger",
-        "Veuillez renseigner nom !",
-        "bottom",
-        "center"
-      );
-      return;
-    }
-    item.nom = item.nom.toUpperCase()
-
-    if (!item || !item.prenom) {
-      this.utilities.showNotification(
-        "snackbar-danger",
-        "Veuillez renseigner prenom !",
-        "bottom",
-        "center"
-      );
-      return;
-    }
-
-    item.prenom = item.prenom.toUpperCase()
-
-    if (!item || !item.roleId) {
-      this.utilities.showNotification(
-        "snackbar-danger",
-        "Veuillez renseigner role !",
-        "bottom",
-        "center"
-      );
-      return;
-    }
-
-    if (!item || !item.contact) {
-      this.utilities.showNotification(
-        "snackbar-danger",
-        "Veuillez renseigner contact !",
-        "bottom",
-        "center"
-      );
-      return;
-    }
-    // item.dateNais=this.dateNais
-    // if (!item || !item.bsValue) {
-    //   this.utilities.showNotification("snackbar-danger", "Veuillez renseigner date naissance !",
-    //     "bottom",
-    //     "center"
-    //   );
-    //   return;
-    // }
-
-    // if (!item || !item.email) {
-    //   this.utilities.showNotification(
-    //     "snackbar-danger",
-    //     "Veuillez renseigner e-mail !",
-    //     "bottom",
-    //     "center"
-    //   );
-    //   return;
-    // }
-
-    if (!item || !item.login) {
-      this.utilities.showNotification(
-        "snackbar-danger",
-        "Veuillez renseigner login !",
-        "bottom",
-        "center"
-      );
-      return;
-    }
-    if (
-      !this.listSelectedUniteFonctionnelle ||
-      !this.listSelectedUniteFonctionnelle.length
-    ) {
-      this.utilities.showNotification(
-        "snackbar-danger",
-        "Veuillez renseigner Unité fonctionnelle !",
-        "bottom",
-        "center"
-      );
-      return;
-    }
-
-    if (!item || (item.isMedecin && !item.specialiteId)) {
-      this.utilities.showNotification(
-        "snackbar-danger",
-        "Veuillez renseigner spécialité !",
-        "bottom",
-        "center"
-      );
-      return;
-    }
-
-    if (!item.dateNais) {
-      this.utilities.showNotification(
-        "snackbar-danger",
-        "Veuillez renseigner la date de naissance !",
-        "bottom",
-        "center"
-      );
-      return;
-    }
-
-    item.dateNais = moment(item.dateNais).format("DD/MM/YYYY");
-
-    let objToSave = Object.assign({}, item);
-    // if (!item.typeActeId) {
-    //   this.utilities.showNotification("snackbar-danger", "Veuillez renseigner le type d'acte !",
-    //     "bottom",
-    //     "center");
-    //   return;
-    // }
-
-    Swal.fire({
-      title: "Utilisateur",
-      text: objToSave?.id
-        ? "Vous êtes sur le point de modifier un utilisateur. Voulez-vous poursuivre cette action ?"
-        : "Vous êtes sur le point d'enregistrer un utilisateur. Voulez-vous poursuivre cette action ?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#0665aa",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Oui",
-      cancelButtonText: "Non",
-    }).then((result) => {
-      if (result.value) {
-        // objToSave.libelle = objToSave.libelle.toUpperCase();
-        this.saveItem(objToSave);
-      }
-    });
-  }
-
-  openModal(data: any, template: TemplateRef<any>) {
+  openModal(data: any, template: TemplateRef<any>,isDetails?:boolean) {
     let config = {
       backdrop: true,
       ignoreBackdropClick: true,
       id: 1,
       // class: "modal-lg",
-      class: "gray modal-lg modal-width-65",
+      class: isDetails ? "gray modal-md" : "gray modal-lg modal-width-65",
     };
     this.itemToSave = {};
-    this.imageDisplay = "";
-    this.listSelectedUniteFonctionnelle = [];
     if (data) {
-      // Lorsque nous sommes en modification
-      // this.bsValue = data.dateNais
-      console.log('data', data);
-      this.listSelectedUniteFonctionnelle = data.uniteFonctionnelles
-      this.listSelectedUniteFonctionnelle.map(suf => {
-        suf.id = suf.idUniteFonctionnelle
-        suf.libelle = suf.libelleUniteFonctionnelle
-
-      })
-
-      console.log('hello: ', this.listSelectedUniteFonctionnelle);
-
-
       this.itemToSave = Object.assign({}, data);
-
-      // Si nous sommes en modification reformater la date
-      if (data.dateNais) {
-        data.dateNais = moment(data.dateNais, 'YYYY-MM-DD').toDate();
-      }
-
-      if (data.photo) {
-        this.imageDisplay = data.photo;
-      }
     }
-
     this.modalRef = this.modalService.show(template, config);
-  }
-
-  saveItem(item) {
-    console.log("item to save", item);
-
-    this.loading = true;
-
-    let itemAEnregistrer = Object.assign({}, item, {
-      class: "full-screen-modal modal-lg",
-    });
-    let reduce = [];
-    this.listSelectedUniteFonctionnelle.map((dp) => {
-      reduce.push({
-        id: dp.id,
-
-      });
-      console.log(reduce);
-    });
-    itemAEnregistrer.isMedecin = item.isMedecin ? item.isMedecin : false;
-    itemAEnregistrer.datasUniteFonctionnelles = reduce;
-    if (this.currentItemImage && Object.keys(this.currentItemImage).length) {
-      itemAEnregistrer.dataPhoto = this.currentItemImage;
-    } else {
-      delete itemAEnregistrer.dataPhoto;
-    }
-    var request = {
-      user: this.user.id,
-      datas: [itemAEnregistrer],
-    };
-
-    this.busySave = this.restClient
-      .post(
-        this.endPoint + "" + (itemAEnregistrer.id ? "update" : "create"),
-        request
-      )
-      .subscribe(
-        (res) => {
-          console.log("resul", res);
-          this.loading = false;
-
-          if (!res["hasError"]) {
-            if (res["items"] && res["items"].length > 0) {
-              this.utilities.showNotification(
-                "snackbar-success",
-                this.utilities.formatMsgServeur(res["status"]["message"]),
-                "bottom",
-                "center"
-              );
-
-              this.getItems();
-              this.modalRef.hide();
-            }
-          } else {
-            if (res["status"] && res["status"]["message"]) {
-              this.utilities.showNotification(
-                "snackbar-danger",
-                this.utilities.formatMsgServeur(res["status"]["message"]),
-                "bottom",
-                "center"
-              );
-            }
-          }
-        },
-        (err) => {
-          this.utilities.showNotification(
-            "snackbar-danger",
-            this.utilities.getMessageEndPointNotAvailble(),
-            "bottom",
-            "center"
-          );
-          this.loading = false;
-        }
-      );
   }
 
   getItems() {
@@ -350,84 +99,10 @@ export class UtilisateursComponent implements OnInit {
       );
   }
 
-  getItemsRoles() {
-    console.log("getting data");
-    let request = {
-      data: {},
-    };
-
-    this.busyGet = this.restClient
-      .post("role/getByCriteria", request)
-      .subscribe(
-        (res) => {
-          console.log("itemsRole", res);
-
-          if (res && res["items"]) {
-            this.itemsRole = _.orderBy(res["items"], ['libelle']);
-          } else {
-            this.itemsRole = [];
-          }
-        },
-        (err) => { }
-      );
-  }
-
-  getItemsUniteFonctionnelle() {
-    let request = {
-      user: this.user.id,
-      data: {
-
-      },
-    }
-
-    this.busyGet = this.restClient
-      .post("adminUniteFonctionnelle/getByCriteria", request)
-      .subscribe(
-        res => {
-          console.log('itemsUniteFonctionnelle', res);
-
-          if (res && res['items']) {
-            this.itemsUniteFonctionnelle = res['items'];
-
-          }
-          else {
-            this.itemsUniteFonctionnelle = [];
-          }
-        },
-        (err) => { }
-      );
-  }
-
-  getItemsSpecialite() {
-    let request = {
-      user: this.user.id,
-      data: {},
-    };
-
-    this.busyGet = this.restClient
-      .post("adminSpecialite/getByCriteria", request)
-      .subscribe(
-        (res) => {
-          console.log("itemsSpecialites", res);
-
-          if (res && res["items"]) {
-            this.itemsSpecialites = _.orderBy(
-              res["items"],
-              ["libelle"],
-              ["asc"]
-            );
-          } else {
-            this.itemsSpecialites = [];
-          }
-        },
-        (err) => { }
-      );
-  }
-
-  confirmDelete(item) {
+  confirmUnLockAccount(item) {
     Swal.fire({
-      title: "Utilisateur",
-      text: "Vous êtes sur le point de supprimer cet utilisateur. Voulez-vous poursuivre cette action ?",
+      title: "Désactiver le compte d'un utilisateur",
+      text: "Vous êtes sur le point de désactiver cet utilisateur. Voulez-vous poursuivre cette action ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3f51b5",
@@ -436,41 +111,70 @@ export class UtilisateursComponent implements OnInit {
       cancelButtonText: "Non",
     }).then((result) => {
       if (result.value) {
-        this.deleteItem(item);
+        this.unLockAccount(item);
       }
     });
   }
 
-  deleteItem(obj) {
-    var request = {
-      user: this.user.id,
-      datas: [obj],
-    };
+  confirmLockAccount(item) {
+    Swal.fire({
+      title: "Activation le compte d'un utilisateur",
+      text: "Vous êtes sur le point d'activer cet utilisateur. Voulez-vous poursuivre cette action ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3f51b5",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    }).then((result) => {
+      if (result.value) {
+        this.lockAccount(item?.id);
+      }
+    });
+  }
 
-    this.busyGet = this.restClient
-      .post(this.endPoint + "delete", request)
+  lockAccount(idUser:any) {
+
+    this.busyGet = this.userService.lockAccount(idUser)
       .subscribe(
-        (res) => {
-          console.log(res);
-          if (!res["hasError"]) {
+        (response) => {
+          console.log(response);
+          if (response) {
             this.utilities.showNotification(
               "snackbar-success",
-              this.utilities.formatMsgServeur(res["status"]["message"]),
+              this.utilities.getMessageOperationSuccessFull,
               "bottom",
               "center"
             );
-
-            this.currentPage = 1;
             this.getItems();
-          } else {
-            if (res["status"] && res["status"]["message"]) {
-              this.utilities.showNotification(
-                "snackbar-danger",
-                this.utilities.formatMsgServeur(res["status"]["message"]),
-                "bottom",
-                "center"
-              );
-            }
+          }
+        },
+        (err) => {
+          console.log("Error occured", err);
+          this.utilities.showNotification(
+            "snackbar-danger",
+            this.utilities.getMessageEndPointNotAvailble(),
+            "bottom",
+            "center"
+          );
+          this.getItems();
+        }
+      );
+  }
+
+
+  unLockAccount(idUser:any) {
+    this.busyGet = this.userService.unLockAccount(idUser)
+      .subscribe(
+        (response) => {
+          console.log(response);
+          if (response) {
+            this.utilities.showNotification(
+              "snackbar-success",
+              this.utilities.getMessageOperationSuccessFull,
+              "bottom",
+              "center"
+            );
           }
         },
         (err) => {
@@ -485,91 +189,6 @@ export class UtilisateursComponent implements OnInit {
       );
   }
 
-  onSelectDate(event) {
-    if (event) {
-      (this.dateNais = moment(event).format("DD/MM/YYYY")),
-        console.log("dateNais", this.dateNais);
-    }
-  }
-
-  uploadFile(event: any) {
-    const reader = new FileReader();
-    if (event.target.files && event.target.files.length) {
-      const file = event.target.files[0];
-      const fileName = file.name.split(".")[0];
-      const Tabextension = file.name.split(".");
-      const extension = Tabextension[Tabextension.length - 1];
-
-      console.log("fileName", fileName);
-      console.log("extension", extension);
-      this.imageName = fileName + "." + extension;
-      reader.onload = (readerEvent) => {
-        const data = (readerEvent.target as any).result;
-        this.imageDisplay = data;
-        const fileBase64 = data.split(",")[1];
-        this.currentItemImage = {
-          fileBase64: fileBase64,
-          fileName: fileName,
-          extension: extension,
-          typeDocument: "custom type",
-        };
-      };
-    }
-
-    reader.readAsDataURL(event.target.files[0]);
-  }
-
-  toggleIsMedecin(itemToToggle) {
-    itemToToggle.isMedecin = !itemToToggle.isMedecin
-  }
-
-  onSelectUniteFonctionnelle() {
-    // console.log(this.selectedUniteFoncId);
-    // if (
-    //   this.listSelectedUniteFonctionnelle ||
-    //   this.listSelectedUniteFonctionnelle.length
-    // ) {
-    //   let isExist = this.listSelectedUniteFonctionnelle.filter(
-    //     (lsf) => lsf.id == this.selectedUniteFoncId
-    //   ).length
-    //   if (isExist) {
-    //     this.utilities.showNotification(
-    //       "snackbar-danger",
-    //       this.utilities.formatMsgServeur(
-    //         "Cette unité fonctionnelle exite dejà dans la liste"
-    //       ),
-    //       "bottom",
-    //       "center"
-    //     );
-    //     return;
-    //   }
-
-    // }
-
-    // let uf = this.itemsUniteFonctionnelle.filter(uf=>uf.id == this.selectedUniteFoncId)[0]
-    // this.listSelectedUniteFonctionnelle.push(uf)
-    // console.log('listSelectedUniteFonctionnelle: ',this.listSelectedUniteFonctionnelle);
-
-    // this.listSelectedUniteFonctionnelle=this.listSelectedUniteFonctionnelle.reverse()
-
-
-    // On verifie si une unité fonctionnelle est selectionnée
-    if (this.uniteFonctionnelleSelected && this.uniteFonctionnelleSelected?.id) {
-
-      // On verifie si l'unité fonctionnelle n'est pas dans la liste
-      let isExisteUniteFct = _.find(this.listSelectedUniteFonctionnelle, (o) => { return o.id == this.uniteFonctionnelleSelected?.id });
-      if (isExisteUniteFct) {
-        this.utilities.showNotification("snackbar-danger", "Cette unité fonctionnelle exite dejà dans la liste", "bottom", "center");
-        return;
-      }
-
-      // Dan sle cas conteraire le l'ajopute a la liste
-      this.listSelectedUniteFonctionnelle.push(this.uniteFonctionnelleSelected);
-      this.listSelectedUniteFonctionnelle = this.listSelectedUniteFonctionnelle?.reverse();
-    }
-
-  }
-
   changePaginationSize($event) {
     if ($event) {
       this.currentPage = 1;
@@ -579,16 +198,13 @@ export class UtilisateursComponent implements OnInit {
   }
 
   closeModalFormUser($event:any){
-
     if($event) {
       this.getItems();
     }
-
     this.modalRef.hide();
   }
 
   ngOnInit() {
-    this.resetForm();
     this.getItems();
   }
 }

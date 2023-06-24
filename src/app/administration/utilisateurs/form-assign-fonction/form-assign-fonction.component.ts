@@ -7,6 +7,7 @@ import { privilegeSynchroRE } from 'src/app/core/models/privilegeSynscroRE';
 import { RoleSynchroRE } from 'src/app/core/models/roleSynscroRE';
 import { UserSynchroRE } from 'src/app/core/models/userSynscroRE';
 import { CedanteService } from 'src/app/core/service/cedante.service';
+import { FonctionService } from 'src/app/core/service/fonction.service';
 import { PrivilegeService } from 'src/app/core/service/privilege.service';
 import { RoleService } from 'src/app/core/service/role.service';
 import { UserService } from 'src/app/core/service/user.service';
@@ -14,12 +15,13 @@ import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-form-create-user',
-  templateUrl: './form-create-user.component.html',
-  styleUrls: ['./form-create-user.component.scss']
+  selector: 'app-form-assign-fonction',
+  templateUrl: './form-assign-fonction.component.html',
+  styleUrls: ['./form-assign-fonction.component.scss']
 })
-export class FormCreateUserComponent implements OnInit {
+export class FormAssignFonctionComponent implements OnInit {
 
+ 
   userForm!: FormGroup;
   @Input() itemToUpdate: UserSynchroRE; // Pour signifier la mofification de l'element
   busySuscription!: Subscription;
@@ -28,24 +30,7 @@ export class FormCreateUserComponent implements OnInit {
   listePrivileges: Array<privilegeSynchroRE> = [];
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   dateActuelle = new Date();
-
-  typeUserForm : any = {
-    createUserDTO: {
-      email: null,
-      tel: null,
-      firstName: null,
-      lastName: null,
-      visibilityId: null,
-      cesId: null
-    },
-    createInitialFncDTO: {
-      name: "",
-      startsAt: "",
-      endsAt: "",
-      roleIds: [],
-      prvIds: []
-    }
-  }
+  currentFonction : any = {};
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,24 +38,32 @@ export class FormCreateUserComponent implements OnInit {
     private userService: UserService,
     private utilities: UtilitiesService,
     private privilegeService: PrivilegeService,
-    private roleService: RoleService
+    private roleService: RoleService,
+    private fonctionService: FonctionService
   ) {}
 
   createForm = () => {
 
+    // Conversion des dates
+    if(this.currentFonction.endsAt) {
+      let tabsDateEnd = this.currentFonction.endsAt.split("-");
+      this.currentFonction.endsAt = new Date(tabsDateEnd[0],tabsDateEnd[1]-1,tabsDateEnd[2]);
+    }
+
+    if(this.currentFonction.startsAt) {
+      let tabsDateStart = this.currentFonction.startsAt.split("-");
+      this.currentFonction.startsAt = new Date(tabsDateStart[0],tabsDateStart[1]-1,tabsDateStart[2]);
+    }
+
     this.userForm = this.formBuilder.group({
       userId: [this.itemToUpdate?.userId || ""],
-      email: [this.itemToUpdate?.email || "", Validators.required],
-      tel: [this.itemToUpdate?.tel || "", Validators.required],
-      firstName: [this.itemToUpdate?.firstName || "", Validators.required],
-      lastName: [this.itemToUpdate?.lastName || "", Validators.required],
-      cedId: [this.itemToUpdate?.cedId || ""],
-      typeUser: [this.itemToUpdate?.typeUser || ""],
-      libelleFonction : [""],
-      dateDebutFonction : [""],
-      roles : [""],
-      privileges : [""],
-      dateFinFonction : [""],
+      fncId: [this.currentFonction?.id || ""],
+      visibilityId:[this.currentFonction?.visibilityId],
+      libelleFonction : [this.currentFonction?.name],
+      dateDebutFonction : [this.currentFonction?.startsAt],
+      roles : [],
+      privileges : [],
+      dateFinFonction : [this.currentFonction?.endsAt]
       // visibilityId: [this.itemToUpdate?.visibilityId || "", Validators.required],
       // cesId: [this.itemToUpdate?.cesId || "", Validators.required]
     });
@@ -84,9 +77,7 @@ export class FormCreateUserComponent implements OnInit {
 
     Swal.fire({
       title: "Utilisateur",
-      text: (this.itemToUpdate?.userId && this.itemToUpdate?.userId > 0)
-        ? "Vous êtes sur le point de modifier un utilisateur. Voulez-vous poursuivre cette action ?"
-        : "Vous êtes sur le point d'enregistrer un utilisateur. Voulez-vous poursuivre cette action ?",
+      text: "Vous êtes sur le point de modifier la fonction de l'utilisateur. Voulez-vous poursuivre cette action ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#0665aa",
@@ -104,70 +95,30 @@ export class FormCreateUserComponent implements OnInit {
 
     let itemAEnregistrer = Object.assign({}, item);
 
-    let createUserDTO = {
-      email: itemAEnregistrer.email,
-      tel: itemAEnregistrer.tel,
-      firstName: itemAEnregistrer.firstName,
-      lastName: itemAEnregistrer.lastName,
-      visibilityId: null,
-      cesId: itemAEnregistrer.cesId,
-      cedId : itemAEnregistrer.cedId
-    };
-
     let initialFonctionDTO = {
       name: itemAEnregistrer.libelleFonction,
+      fncId: this.currentFonction?.id,
+      userId: this.itemToUpdate.userId,
       startsAt: moment(itemAEnregistrer.dateDebutFonction).format("YYYY-MM-DD"),
       endsAt: moment(itemAEnregistrer.dateFinFonction).format("YYYY-MM-DD"),
       roleIds: itemAEnregistrer.roles,
       prvIds: itemAEnregistrer.privileges
     };
 
-    let requestUser = {
-      createInitialFncDTO : initialFonctionDTO,
-      createUserDTO : createUserDTO
-    }
-
-    if (!itemAEnregistrer.userId) {
-
-     
-      // nous sommes au create
-      this.busySuscription = this.userService.createUserWithFonction(requestUser).subscribe((response : any) => {
-        console.log(" response ", response);
-        if (response) {
-          this.utilities.showNotification(
-            "snackbar-success",
-            this.utilities.getMessageOperationSuccessFull(),
-            "bottom",
-            "center"
-          );
-        }
-        this.closeModal.emit(true);
-      });
-    } else {
-      // Nous sommes en modification
-      this.busySuscription = this.userService.update(requestUser).subscribe((response: any) => {
-        console.log(" response ", response);
-        if (response && response?.branId) {
-          this.utilities.showNotification(
-            "snackbar-success",
-            this.utilities.getMessageOperationSuccessFull(),
-            "bottom",
-            "center"
-          );
-        }
-        this.closeModal.emit(true);
-      });
-    }
-  }
-
-  getCedente() {
-    this.cedenteService.getAll().subscribe((response: any) => {
-      if (response && response["content"]) {
-        this.listeCedente = response["content"] as Cedante[];
-      } else {
-        this.listeCedente = [];
+    // nous sommes au create
+    this.busySuscription = this.fonctionService.update(initialFonctionDTO).subscribe((response : any) => {
+      console.log(" response ", response);
+      if (response) {
+        this.utilities.showNotification(
+          "snackbar-success",
+          this.utilities.getMessageOperationSuccessFull(),
+          "bottom",
+          "center"
+        );
       }
+      this.closeModal.emit(true);
     });
+    
   }
 
   getPrivilege() {
@@ -190,6 +141,18 @@ export class FormCreateUserComponent implements OnInit {
     });
   }
 
+
+  getDetailsFonction() {
+    this.fonctionService.getDetailsInfoFonctionForUser(this.itemToUpdate?.userId).subscribe((response: any) => {
+      if(response) {
+        console.log(" response ",response);
+        this.currentFonction = {...response[0]};
+        this.createForm();
+      }
+    });
+  }
+
+
   closeModalUser(){
     this.closeModal.emit(true);
   }
@@ -197,7 +160,6 @@ export class FormCreateUserComponent implements OnInit {
   ngOnInit(): void {
     // Initialisation du forms group
     this.createForm();
-    this.getCedente();
     this.getPrivilege();
     this.getRoles();
   }
@@ -205,8 +167,8 @@ export class FormCreateUserComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     if (changes["itemToUpdate"] && changes["itemToUpdate"].currentValue) {
       this.createForm();
+      this.getDetailsFonction();
     }
   }
-
 
 }

@@ -23,7 +23,7 @@
                             max-height: 700px;
                             overflow: auto;
                           ">
-                          <div class="table-responsive">
+                          <div class="table-responsive" style="overflow: hidden;">
                             <table class="table table-condensed table-striped table-hover">
                               <thead>
                                 <tr>
@@ -57,8 +57,8 @@
                                     {{ item.roleName | uppercase }}
                                   </td>
                                   <td class="text-center" style="width: 50px;">
-                                    <a title="Supprimer" (click)="onConfirmDelete(item)" class="custom-btn-delete">
-                                      <i class="fa fa-trash"></i></a>
+                                    <a title="Modifier" (click)="onConfirmDelete(item)" class="custom-btn-update">
+                                      <i class="fa fa-edit"></i></a>
                                   </td>
                                 </tr>
                                 <tr>
@@ -93,12 +93,22 @@
                         <div class="col-md-6 mt-3">
                           <div class="form-group col-md-12">
                             <div class="row">
-                              <div class="col-9 mb-3">
+
+                              <div class="col-3 mb-3">
+                                <label>Code :
+                                  <span class="required_champs">*</span>
+                                </label>
+                                <input class="form-control custom-input" placeholder="Code" autocomplete="off"
+                                  [(ngModel)]="itemToSave.roleCode" name="roleCode" required type="text"
+                                  style="padding-left: 10px" />
+                              </div>
+
+                              <div class="col-6 mb-3">
                                 <label>Libellé :
                                   <span class="required_champs">*</span>
                                 </label>
                                 <input class="form-control custom-input" placeholder="Libellé" autocomplete="off"
-                                  [(ngModel)]="itemToSave.libelle" name="libelle" required type="text"
+                                  [(ngModel)]="itemToSave.roleName" name="roleName" required type="text"
                                   style="padding-left: 10px" />
                               </div>
 

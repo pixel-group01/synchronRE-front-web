@@ -72,4 +72,12 @@ export class UserService {
     return this.restClient.put('users/update',body)
   }
 
+  unLockAccount = (idUser:any) => {
+    return this.restClient.put('users/unblock/'+idUser,{});
+  }
+
+  lockAccount = (idUser:any) => {
+    return this.restClient.put('users/block/'+idUser,{});
+  }
+
 }

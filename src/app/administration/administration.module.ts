@@ -19,7 +19,9 @@ import { FormCircuitValidationComponent } from './workflow-circuit/form-circuit-
 import { NgSelectModule } from '@ng-select/ng-select';
 import { HistoriqueConnexionComponent } from './historique-connexion/historique-connexion.component';
 import { FormCreateUserComponent } from './utilisateurs/form-create-user/form-create-user.component';
-import { SelectMenuItemPrivilegeComponent } from './utilisateurs/form-create-user/select-menu-item-privilege/select-menu-item-privilege.component'
+import { SelectMenuItemPrivilegeComponent } from './utilisateurs/form-create-user/select-menu-item-privilege/select-menu-item-privilege.component';
+import { FormUpdateInfoUserComponent } from './utilisateurs/form-update-info-user/form-update-info-user.component';
+import { FormAssignFonctionComponent } from './utilisateurs/form-assign-fonction/form-assign-fonction.component'
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { SelectMenuItemPrivilegeComponent } from './utilisateurs/form-create-use
     HistoriqueConnexionComponent,
     FormCreateUserComponent,
     SelectMenuItemPrivilegeComponent,
+    FormUpdateInfoUserComponent,
+    FormAssignFonctionComponent,
   ],
   imports: [
     CommonModule,
