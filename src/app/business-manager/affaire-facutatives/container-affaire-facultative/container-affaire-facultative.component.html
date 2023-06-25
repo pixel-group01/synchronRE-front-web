@@ -4,7 +4,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header mb-3">
-                        <h2><strong>Affaire facultatives</strong></h2>
+                        <h2><strong>Affaire facultative</strong></h2>
                     </div>
 
                     <div class="body">
@@ -16,11 +16,11 @@
                                             (click)="openModal(templateNewBusiness)">
                                             <i class="fa fa-plus"></i>&nbsp; Nouvelle affaire
                                         </button>
-                                    </div>
+                                    </div> 
                                     <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante':'affaires/facultative/by-reassureur-en-traitement' "
                                         [refreshDataTable]="refreshDataTable"></app-list-affaires-facultatives>
                                 </ng-template>
-                            </mat-tab>
+                            </mat-tab> 
 
                             <mat-tab label="En cours de placement">
                                 <ng-template matTabContent>
@@ -53,24 +53,24 @@
                         </mat-tab-group>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div> 
+        </div> 
     </div>
 </section>
 
-
+ 
 <!-- Enregistrement template -->
 <ng-template #templateNewBusiness>
     <div class="modal-header">
         <h4 class="modal-title pull-left">
-            Nouvelle affaire
+            Ajout d'une nouvelle affaire facultative 
         </h4>
 
         <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
             <mat-icon>close</mat-icon>
         </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body p-4">
         <app-form-affaire-facultatives (closeModal)="closeFormModal($event)"></app-form-affaire-facultatives>
     </div>
 </ng-template>

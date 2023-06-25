@@ -26,7 +26,7 @@ export class FormAffaireFacultativesComponent implements OnInit {
     this.stepWizard = $event;
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
   }
 
   ngOnDestroy() {

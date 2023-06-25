@@ -21,7 +21,7 @@ import { TableauPlacementComponent } from './affaire-facutatives/form-affaire-fa
     ContainerAffaireFacultativeComponent,
     // FormAffaireFacultativesComponent,
     // FormIdentificationComponent,
-    // FormRepartitionComponent,
+    // FormRepartitionComponent, 
     // FormPlacementComponent,
     // DetailsInformationIdentificationComponent,
     ContainerAffaireTraiteeComponent,

@@ -1,0 +1,16 @@
+<div class="container p-0 mb-4" style="border:2px solid #ffc20f; border-radius: 0;background-color: #ffc20f !important;">
+    <button type="button" class="btn btn-light rounded-0 cls-indent-sinis1" style="width: 50%;" id="Config1"
+            aria-controls="collapseBasic" (click)="selectTab(1)" > Indentification du sinistre
+    </button>
+    <button type="button" class="btn btn-light rounded-0 cls-indent-sinis2"  style="width: 50%;" id="Config2"
+       aria-controls="collapseBasic" (click)="selectTab(2)"> Documents
+    </button> 
+ 
+</div>
+
+<div  *ngIf="staticTabs == 1">
+    <app-creation-sinistre></app-creation-sinistre>
+</div>
+<div  *ngIf="staticTabs == 2">
+    <app-creation-document-sinistre></app-creation-document-sinistre>
+</div> 

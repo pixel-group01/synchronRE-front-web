@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RestClientService } from './rest-client.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' 
 })
 export class CedanteService {
 
@@ -20,7 +20,7 @@ export class CedanteService {
     let endPointFinal = "cedentes/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
     return this.restClient.get(endPointFinal);
   }
-
+ 
   update = (body:any) => {
     return this.restClient.put('cedentes/update',body)
   }

@@ -41,7 +41,7 @@ export class FormRetournerAffaireComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: "#0665aa",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Oui",
+      confirmButtonText: "Oui", 
       cancelButtonText: "Non",
     }).then((result) => {
       if (result.value) {

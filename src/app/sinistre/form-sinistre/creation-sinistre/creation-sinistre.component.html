@@ -1,0 +1,137 @@
+
+<fieldset class="mb-4" *ngIf="affDetail">
+    <legend> Information sur l'affaire</legend>
+  
+      <div class="row gy-2 p-3">
+        <div class="col-6">
+            <label for="inputEmail3" class="col-sm-2 fw-normal">N° affaire</label>
+            <label for="inputEmail3" class="col-sm-10 w-bold"> {{affDetail.affCode}}</label>
+        </div>
+        <div class="col-6">  
+          <label for="inputEmail1" class="col-sm-4 fw-normal">Montant</label>
+          <label for="inputEmail1" class="col-sm-8 w-bold"> {{affDetail.facSmpLci}}</label>
+        </div>
+        <div class="col-6">
+          <label for="inputEmail" class="col-sm-2 fw-normal">Filiale</label>
+          <label for="inputEmail" class="col-sm-10 w-bold"> {{affDetail.couLibelle}}</label>
+        </div>
+        <div class="col-6">
+          <label for="inputEmail1" class="col-sm-4 fw-normal">Capitaux à 100%</label>
+          <label for="inputEmail1" class="col-sm-8 w-bold"> {{affDetail.facCapitaux}}</label>
+        </div>
+        <div class="col-6">
+          <label for="inputEmail1" class="col-sm-2 fw-normal">Assuré</label>
+          <label for="inputEmail1" class="col-sm-10 w-bold"> {{affDetail.affCode}}</label>
+        </div> 
+        <div class="col-6">
+          <label for="inputEmail1" class="col-sm-4 fw-normal">Date d'effet</label>
+          <label for="inputEmail1" class="col-sm-8 w-bold"> {{affDetail.affDateEffet}}</label>
+        </div>
+        <div class="col-6">      
+          <label for="inputEmail1" class="col-sm-2 fw-normal">Activites</label>
+          <label for="inputEmail1" class="col-sm-10 w-bold"> {{affDetail.affActivite}}</label>
+        </div>   
+        <div class="col-6">
+          <label for="inputEmail1" class="col-sm-4 fw-normal">Date d'échéance</label>
+          <label for="inputEmail1" class="col-sm-8 w-bold"> {{affDetail.affDateEffet}}</label>
+        </div>
+        
+      </div>
+  </fieldset>
+   
+  <fieldset class=" mb-3">
+      <legend> Information sur le sinistre</legend>
+       <form [formGroup]="sinistre">
+              <div class="row p-3">
+                  
+                  <div class="col-md-12 col-xs-12 mb-3">
+                   <label>Affaire :</label>
+                    <ng-select 
+                        name="affaireName" 
+                        id="affaireId"
+                        notFoundText="Aucune donnée"
+                        placeholder="Ex : Affaire N° XX XX"
+                        [items]="listeAffaires"
+                        bindLabel="affActivite"
+                        (change)="affaireDetail(sinistre.value)"
+                        bindValue="affId"
+                        formControlName="affId">
+                    </ng-select>
+                  </div>
+                  <div class="col-md-6 col-xs-12 mb-3">
+                      <label>Montant :
+                      </label>
+                      <input
+                      class="form-control custom-input"
+                      placeholder="10 000 000 000"
+                      autocomplete="off"
+                      formControlName="sinMontant100"
+                      name="sinMontant100"
+                      type="text"
+                      mask="separator" thousandSeparator=" " 
+                      />
+                  </div>
+                  <div class="col-md-6 col-xs-12 mb-3">
+                      <label>Date de survenance :
+                      </label>
+                      <input
+                      class="form-control custom-input"
+                      placeholder="02/01/2023"
+                      autocomplete="off"
+                      formControlName="sinDateSurvenance"
+                      [bsConfig]="{ isAnimated: true ,dateInputFormat: 'DD/MM/YYYY',containerClass: 'theme-blue'}"
+                      (ngModelChange)="formatDateSurvenance($event)"
+                      bsDatepicker
+                      name="sinDateSurvenance"
+                      type="text"
+                      />
+                  </div>
+                  <div class="col-md-6 col-xs-12 mb-3">
+                      <label>Montant honoraire :
+                      </label>
+                      <input
+                      class="form-control custom-input"
+                      placeholder="50 000 000"
+                      autocomplete="off"
+                      formControlName="montantHoraire" 
+                      name="honoraire"
+                      type="text"
+                      mask="separator" thousandSeparator=" " 
+                      />
+                  </div>
+                  <div class="col-md-6 col-xs-12 mb-3">
+                      <label>Date de declaration :
+                      </label>
+                      <input
+                      class="form-control custom-input"
+                      placeholder="10/01/2023"
+                      autocomplete="off"
+                      formControlName="sinDateDeclaration"
+                      (ngModelChange)="formatDateDeclaration($event)"
+                      [bsConfig]="{ isAnimated: true ,dateInputFormat: 'DD/MM/YYYY',containerClass: 'theme-blue'}"
+                      [maxDate]="maxDate"
+                      bsDatepicker
+                      name="honoraire"
+                      type="text"
+                      />
+                  </div>
+                  <div class="col-md-12 col-xs-12">
+                      <label>Description</label>
+                      <textarea  class="form-control custom-input" placeholder="Commentaire sur le sinistre"
+                       name="description" id="description" cols="15" rows="5" formControlName="sinCommentaire"></textarea>
+                  </div>
+              </div>
+       </form>
+  </fieldset>
+  
+  <div class="row justify-content-between" style="padding: 0 15px;">
+      <div class="col-md-1">
+          <button class="form-control btn btn-light p-2 border-0" type="button">Fermer</button>
+      </div>
+      <div class="col-md-1">
+          <button class="form-control border-0 text-white" (click)="save(sinistre.value)" type="button" style="background-color: #6683ab;border-radius: 3px;">
+            Suivant
+          </button>
+      </div>
+  </div>
+  

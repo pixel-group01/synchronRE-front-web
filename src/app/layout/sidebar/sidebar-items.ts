@@ -66,20 +66,20 @@ export const ROUTES: RouteInfo[] = [
   // Affaire
   {
     path: "",
-    title: "Sinistre",
-    moduleName: "sinistre",
+    title: "Sinistres",
+    moduleName: "sinistres",
     iconType: "money-bill",
     icon: "monetization_on",
     class: "menu-toggle",
     groupTitle: false,
     badge: "",
     badgeClass: "",
-    code: "TRESO-NAV",
+    code: "",
     codeAclAdmin: enumCodeACL.ADMIN,
     codeAclCedente: enumCodeACL.CEDANTE,
     submenu: [
       {
-        path: "/business/affaire-facultatives",
+        path: "/sinistres/declarations",
         title: "Déclaration",
         moduleName: "business",
         iconType: "list",
@@ -88,7 +88,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "TRESO-MOUVEMENT-CAISSE",
+        code: "",
         submenu: [],
       },
       // {

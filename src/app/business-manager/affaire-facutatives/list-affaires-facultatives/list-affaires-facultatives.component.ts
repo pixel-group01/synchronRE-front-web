@@ -249,8 +249,16 @@ export class ListAffairesFacultativesComponent implements OnInit {
   //   this.modalRef = this.modalService.show(template,config);
   // }
 
+  getTest(){
+    this.busyGet =  this.restClient.get('sinistres/list?page=0&size=10')
+      .subscribe((res: any) => {
+        console.log("res sinistre :",res);
+        
+      })
+  }
+
   getItems() {
-    let endPointFinal =
+    let endPointFinal ="sinistres/list?page=0&size=10"
       this.endPoint +
       "?page=" +
       (this.currentPage - 1) +
@@ -328,6 +336,7 @@ export class ListAffairesFacultativesComponent implements OnInit {
 
   ngOnInit() {
     // this.getItems();
+    this.getTest();
     this.getCedente();
     this.getExercice();
   }

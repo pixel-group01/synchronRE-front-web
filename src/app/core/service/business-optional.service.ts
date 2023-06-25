@@ -68,8 +68,6 @@ export class BusinessOptionalService {
     return this.restClient.get(endPointFinal);
   }
   
-
-
   getAffaireFacultativeByReassureurValide = (index:number = 0,size:number=10,key?:string,cedId?:number) => {
     let endPointFinal = "affaires/facultative/by-reassureur-valide?page="+index+"&size="+size+""+(key ? "&key="+key : "");
    
