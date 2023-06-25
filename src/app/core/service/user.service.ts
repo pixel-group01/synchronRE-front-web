@@ -68,6 +68,10 @@ export class UserService {
     return this.restClient.get(endPointFinal);
   }
 
+  getInfoUser = (idUser:number) => {
+    return this.restClient.get('users/infos/'+idUser);
+  }
+
   update = (body:any) => {
     return this.restClient.put('users/update',body)
   }

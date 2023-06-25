@@ -141,6 +141,15 @@ export class FormAssignFonctionComponent implements OnInit {
     });
   }
 
+  getDetailsInfo() {
+    this.userService.getInfoUser(this.itemToUpdate.userId).subscribe((response: any) => {
+      
+      if(response) {
+        console.log(" response ",response);
+      }
+
+    });
+  }
 
   getDetailsFonction() {
     this.fonctionService.getDetailsInfoFonctionForUser(this.itemToUpdate?.userId).subscribe((response: any) => {
@@ -162,6 +171,7 @@ export class FormAssignFonctionComponent implements OnInit {
     this.createForm();
     this.getPrivilege();
     this.getRoles();
+    this.getDetailsInfo();
   }
 
   ngOnChanges(changes: SimpleChanges) {

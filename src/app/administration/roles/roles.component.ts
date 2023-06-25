@@ -325,7 +325,8 @@ export class RolesComponent implements OnInit {
   }
 
   getItems() {
-    this.roleService.getAll().subscribe((response: any) => {
+    this.roleService.getByCriteria().subscribe((response: any) => {
+
       if (response && response["content"]) {
         this.listeRoles = response["content"] as RoleSynchroRE[];
       } else {

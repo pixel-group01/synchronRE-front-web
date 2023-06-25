@@ -17,7 +17,7 @@ export class RoleService {
   }
  
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {
-    let endPointFinal = "roles/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
+    let endPointFinal = "roles/search?page="+index+"&size="+size+""+(key ? "&key="+key : "");
     return this.restClient.get(endPointFinal);
   }
 
