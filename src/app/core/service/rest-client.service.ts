@@ -21,7 +21,7 @@ export class RestClientService {
     return this.http.post(this.url+''+endpoint,body,option).pipe(timeout(1000*60*3));
   }
 
-  put(endpoint:string, body: any, option ? : any){
+  put(endpoint:string, body?: any, option ? : any){
     return this.http.put(this.url+''+endpoint,body,option).pipe(timeout(1000*60*3));
   }
 

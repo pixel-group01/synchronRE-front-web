@@ -7,6 +7,7 @@ export const environment = {
   // apiUrl: 'http://51.178.43.143:8080/hospital/',  
   // apiUrl : 'http://51.178.43.143:8080/hospital-prod/',  
   apiUrl : 'http://localhost:5000/', 
+  // apiUrl:'http://164.160.41.153/swagger-ui/index.html/'
   // apiUrl : 'http://158.175.180.112:8080/hospital/'
   // oldUrl : 51.222.86.183
   // apiUrl:'http://192.168.1.20:8080/',

@@ -12,24 +12,17 @@
               <label>N° Affaire : </label>
               <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
               placeholder="Rechercher ..."  />
-             <!-- <ng-select [(ngModel)]="itemToSearch.cedenteId" (change)="currentPage = 1; getItems()"
-                [readonly]="user?.cedId" id="cedenteId">
-                <ng-option *ngFor="let cedente of listeCedente" [value]="cedente?.cedId">{{ cedente.cedNomFiliale
-                  }}</ng-option>
-              </ng-select> -->
+      
             </div>
 
             <div class="col-md-3 col-xs-12 col-sm-12">
               <label>Date de survenance : </label>
               <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
               placeholder="Rechercher ..."  />
-              <!-- <ng-select [(ngModel)]="itemToSearch.exeCode" (change)="currentPage = 1; getItems()" id="exeCode">
-                <ng-option *ngFor="let exercice of listeExercices" [value]="exercice?.exeCode">{{ exercice.exeLibelle
-                  }}</ng-option>
-              </ng-select> -->
+
             </div>
 
-            <div class="col-md-4 col-xs-12 col-sm-12">
+            <div class="col-md-3 col-xs-12 col-sm-12">
               <label>Date de declaration : </label>
               <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
                 placeholder="Rechercher ..."  />
@@ -57,11 +50,11 @@
         <td class="txt-align-center">
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td>
-        <td>{{ item?.affCode }}</td>
+        <td>{{ item?.affCode }}</td> 
         <td>{{ item?.sinMontant100 }}</td>
-        <td>{{ item?.sinDateSurvenance }}</td>
-        <td>{{ item?.sinDateDeclaration }}</td>
-        <td>{{ item?.sinMontant100 }}</td>
+        <td>{{ item?.sinDateSur }}</td>
+        <td>{{ item?.sinDateDecl }}</td>
+        <td>{{ item?.sinMontantHonoraire }}</td>
         <!-- <td>{{ item?.affActivite }}</td> -->
         <td class="custom-width-td-action">
           <div class="custom-td-action">
@@ -71,24 +64,22 @@
               </button>
                 <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
                   <button
-                  ngbDropdownItem
+                  ngbDropdownItem  (click)="openModal(templateSinistre,item,true)"
                 >
-                  <i class="fa fa-list" (click)="openModal(templateSinistre,item)"></i>&nbsp;Détails sinistre
+                  <i class="fa fa-list"></i>&nbsp;Détails sinistre
                 </button>
                   <button ngbDropdownItem (click)="openModal(templateSinistre,item)">
                     <i class="fa fa-edit"></i>&nbsp;Modifier sinistre
                   </button>
   
-                  <button ngbDropdownItem >
+                  <button ngbDropdownItem (click)="confirmTransmettreSinistre(item.sinId)">
                     <i class="fa fa-share"></i>&nbsp;Transmettre
                   </button>
   
                   <button ngbDropdownItem >
                   <i class="fa fa-list" (click)="openModal(templateSinistre,item)"></i>&nbsp;Historique sinistre
                 </button>
-                <button ngbDropdownItem >
-                  <i class="fa fa-trash"></i>&nbsp;Supprimer sinistre
-                </button>
+        
               </div>
             </div>
           </div>
@@ -121,12 +112,12 @@
       <tr *ngIf="!items || items.length == 0">
         <td colspan="14">
           <div class="col-md-12 txt-align-center">
-            Aucune données disponible
+            Aucune donnée disponible
           </div>
         </td>
       </tr>
     </tfoot>
-  </table>
+  </table> 
 </div>
 
 <!-- Enregistrement template -->
@@ -141,6 +132,8 @@
         </button>
     </div>
     <div class="modal-body p-4">
-        <app-form-sinistre (closeModal)="closeFormModal($event)"></app-form-sinistre>
+        <app-form-sinistre [itemSinistre]="itemsinistre" [isActive]="isActiveInput" (closeModal)="closeFormModal($event)"></app-form-sinistre>
     </div>
 </ng-template>
+
+ 

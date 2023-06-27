@@ -38,10 +38,10 @@
         
       </div>
   </fieldset>
-   
+
+  <form [formGroup]="sinistre" (ngSubmit)="confirmSaveItem()">
   <fieldset class=" mb-3">
       <legend> Information sur le sinistre</legend>
-       <form [formGroup]="sinistre">
               <div class="row p-3">
                   
                   <div class="col-md-12 col-xs-12 mb-3">
@@ -49,14 +49,24 @@
                     <ng-select 
                         name="affaireName" 
                         id="affaireId"
+                        [readonly]="isActiveCreationSinistre"
                         notFoundText="Aucune donnée"
                         placeholder="Ex : Affaire N° XX XX"
                         [items]="listeAffaires"
                         bindLabel="affActivite"
                         (change)="affaireDetail(sinistre.value)"
                         bindValue="affId"
-                        formControlName="affId">
+                        formControlName="affId" [class.errorInputForm]="
+                        getFormFiledsValue('affId')?.invalid &&
+                        getFormFiledsValue('affId')?.touched
+                      ">
                     </ng-select>
+                    <small
+                    class="text-danger"
+                    *ngIf="(getFormFiledsValue('affId')?.dirty || getFormFiledsValue('affId')?.touched) && getFormFiledsValue('affId')?.invalid && getFormFiledsValue('affId')?.errors?.['required']"
+                  >
+                    Ce champs est obligatoire
+                  </small>
                   </div>
                   <div class="col-md-6 col-xs-12 mb-3">
                       <label>Montant :
@@ -67,9 +77,20 @@
                       autocomplete="off"
                       formControlName="sinMontant100"
                       name="sinMontant100"
-                      type="text"
+                      [readonly]="isActiveCreationSinistre"
+                      type="text" 
                       mask="separator" thousandSeparator=" " 
+                      [class.errorInputForm]="
+                        getFormFiledsValue('sinMontant100')?.invalid &&
+                        getFormFiledsValue('sinMontant100')?.touched
+                      "
                       />
+                      <small
+                      class="text-danger"
+                      *ngIf="(getFormFiledsValue('sinMontant100')?.dirty || getFormFiledsValue('sinMontant100')?.touched) && getFormFiledsValue('sinMontant100')?.invalid && getFormFiledsValue('sinMontant100')?.errors?.['required']"
+                    >
+                      Ce champs est obligatoire
+                    </small>
                   </div>
                   <div class="col-md-6 col-xs-12 mb-3">
                       <label>Date de survenance :
@@ -78,13 +99,24 @@
                       class="form-control custom-input"
                       placeholder="02/01/2023"
                       autocomplete="off"
+                      [readonly]="isActiveCreationSinistre"
                       formControlName="sinDateSurvenance"
-                      [bsConfig]="{ isAnimated: true ,dateInputFormat: 'DD/MM/YYYY',containerClass: 'theme-blue'}"
+                      [bsConfig]="{ isAnimated: true ,dateInputFormat: 'YYYY-MM-DD',containerClass: 'theme-dark-blue'}"
                       (ngModelChange)="formatDateSurvenance($event)"
                       bsDatepicker
                       name="sinDateSurvenance"
                       type="text"
+                      [class.errorInputForm]="
+                      getFormFiledsValue('sinDateSurvenance')?.invalid &&
+                      getFormFiledsValue('sinDateSurvenance')?.touched
+                    "
                       />
+                      <small
+                      class="text-danger"
+                      *ngIf="(getFormFiledsValue('sinDateSurvenance')?.dirty || getFormFiledsValue('sinDateSurvenance')?.touched) && getFormFiledsValue('sinDateSurvenance')?.invalid && getFormFiledsValue('sinDateSurvenance')?.errors?.['required']"
+                    >
+                      Ce champs est obligatoire
+                    </small>
                   </div>
                   <div class="col-md-6 col-xs-12 mb-3">
                       <label>Montant honoraire :
@@ -93,11 +125,21 @@
                       class="form-control custom-input"
                       placeholder="50 000 000"
                       autocomplete="off"
-                      formControlName="montantHoraire" 
+                      formControlName="sinMontantHonoraire" 
                       name="honoraire"
-                      type="text"
+                      type="text" 
+                      [readonly]="isActiveCreationSinistre"
                       mask="separator" thousandSeparator=" " 
+                      [class.errorInputForm]="
+                      getFormFiledsValue('sinMontantHonoraire')?.invalid &&
+                      getFormFiledsValue('sinMontantHonoraire')?.touched"
                       />
+                      <small
+                      class="text-danger"
+                      *ngIf="(getFormFiledsValue('montantHoraire')?.dirty || getFormFiledsValue('montantHoraire')?.touched) && getFormFiledsValue('montantHoraire')?.invalid && getFormFiledsValue('montantHoraire')?.errors?.['required']"
+                    >
+                      Ce champs est obligatoire
+                    </small>
                   </div>
                   <div class="col-md-6 col-xs-12 mb-3">
                       <label>Date de declaration :
@@ -108,20 +150,38 @@
                       autocomplete="off"
                       formControlName="sinDateDeclaration"
                       (ngModelChange)="formatDateDeclaration($event)"
-                      [bsConfig]="{ isAnimated: true ,dateInputFormat: 'DD/MM/YYYY',containerClass: 'theme-blue'}"
+                      [bsConfig]="{ isAnimated: true ,dateInputFormat: 'YYYY-MM-DD',containerClass: 'theme-dark-blue'}"
                       [maxDate]="maxDate"
                       bsDatepicker
+                      [readonly]="isActiveCreationSinistre"
                       name="honoraire"
                       type="text"
+                      [class.errorInputForm]="
+                      getFormFiledsValue('sinDateDeclaration')?.invalid &&
+                      getFormFiledsValue('sinDateDeclaration')?.touched"
                       />
+                      <small
+                      class="text-danger"
+                      *ngIf="(getFormFiledsValue('sinDateDeclaration')?.dirty || getFormFiledsValue('sinDateDeclaration')?.touched) && getFormFiledsValue('sinDateDeclaration')?.invalid && getFormFiledsValue('sinDateDeclaration')?.errors?.['required']"
+                    >
+                      Ce champs est obligatoire
+                    </small>
                   </div>
-                  <div class="col-md-12 col-xs-12">
+                  <div class="col-md-12 col-xs-12"> 
                       <label>Description</label>
-                      <textarea  class="form-control custom-input" placeholder="Commentaire sur le sinistre"
-                       name="description" id="description" cols="15" rows="5" formControlName="sinCommentaire"></textarea>
+                      <!--[class.errorInputForm]="
+                      getFormFiledsValue('sinCommentaire')?.invalid && getFormFiledsValue('sinCommentaire')?.touched"-->
+                      <textarea  class="form-control custom-input" placeholder="Commentaire sur le sinistre" 
+                      [readonly]="isActiveCreationSinistre" name="description" id="description" 
+                      cols="15" rows="5" formControlName="sinCommentaire"></textarea>
+                       <!-- <small
+                       class="text-danger"
+                       *ngIf="(getFormFiledsValue('sinCommentaire')?.dirty || getFormFiledsValue('sinCommentaire')?.touched) && getFormFiledsValue('sinCommentaire')?.invalid && getFormFiledsValue('sinCommentaire')?.errors?.['required']"
+                     >
+                       Ce champs est obligatoire
+                     </small> -->
                   </div>
               </div>
-       </form>
   </fieldset>
   
   <div class="row justify-content-between" style="padding: 0 15px;">
@@ -129,9 +189,11 @@
           <button class="form-control btn btn-light p-2 border-0" type="button">Fermer</button>
       </div>
       <div class="col-md-1">
-          <button class="form-control border-0 text-white" (click)="save(sinistre.value)" type="button" style="background-color: #6683ab;border-radius: 3px;">
+          <button class="form-control border-0 text-white" 
+               type="submit" style="background-color: #6683ab;border-radius: 3px;" [disabled]="!sinistre.valid">
             Suivant
           </button>
       </div>
   </div>
-  
+
+</form>
