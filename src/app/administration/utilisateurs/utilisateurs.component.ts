@@ -77,9 +77,24 @@ export class UtilisateursComponent implements OnInit {
     this.itemToSave = {};
     if (data) {
       this.itemToSave = Object.assign({}, data);
+
+      if(isDetails) {
+        this.getDetailsInfo();
+      }
     }
     this.modalRef = this.modalService.show(template, config);
   }
+
+  getDetailsInfo() {
+    this.userService.getInfoUser(this.itemToSave.userId).subscribe((response: any) => {
+      
+      if(response) {
+        console.log(" response details ",response);
+      }
+    });
+  }
+
+
 
   getItems() {
     this.busyGet = this.userService.getByCriteria((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null))

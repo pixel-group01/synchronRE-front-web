@@ -84,4 +84,18 @@ export class UserService {
     return this.restClient.put('users/block/'+idUser,{});
   }
 
+  activateAccount = (body:any,option?:any): Observable<any> => {
+    return this.restClient.put('users/open/activate-account',body,option)
+  } 
+
+  sendEmailForReinitPassword = (email:any,option?:any): Observable<any> => {
+    return this.restClient.put('users/open/send-reinit-password-email/'+email,{})
+  } 
+
+  reinitPassword = (body:any,option?:any): Observable<any> => {
+    return this.restClient.put('users/open/reinit-password',body,option)
+  } 
+
+  
+
 }

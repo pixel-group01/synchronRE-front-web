@@ -11,12 +11,14 @@ import { MatButtonModule } from "@angular/material/button";
 import { ModalUpdatePasswordComponent } from './signin/modal-update-password/modal-update-password.component';
 import { ModalForgotPasswordComponent } from './signin/modal-forgot-password/modal-forgot-password.component';
 import { SharedModule } from "../shared/shared.module";
+import { ResetPasswordComponent } from './signin/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
     SigninComponent,
     ModalUpdatePasswordComponent,
     ModalForgotPasswordComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     CommonModule,

@@ -6,6 +6,7 @@ import { RestClientService } from 'src/app/core/service/rest-client.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from "sweetalert2";
 import * as _ from "lodash";
+import { UserService } from 'src/app/core/service/user.service';
 
 @Component({
   selector: 'app-modal-forgot-password',
@@ -27,7 +28,8 @@ export class ModalForgotPasswordComponent implements OnInit {
   modalRef?: BsModalRef;
   title='reinitialiser mot de passe'
   listAssurances: any;
-  constructor(public bsModalRef: BsModalRef,private authService: AuthService, private restClient: RestClientService,private modalService: BsModalService,private utilities: UtilitiesService) {
+  constructor(public bsModalRef: BsModalRef,private authService: AuthService, private restClient: RestClientService,private modalService: BsModalService,private utilities: UtilitiesService,
+    private userService: UserService) {
     this.user = this.authService.currentUserValue;
     
   }
@@ -42,8 +44,8 @@ export class ModalForgotPasswordComponent implements OnInit {
     //   return;
     // }
 
-    if (!item || !item.contact) {
-      this.utilities.showNotification("snackbar-danger", "Veuillez renseiger contact!",
+    if (!item || !item.email) {
+      this.utilities.showNotification("snackbar-danger", "Veuillez renseiger l'email!",
         "bottom",
         "center");
       return;
@@ -70,42 +72,22 @@ export class ModalForgotPasswordComponent implements OnInit {
   saveItem(item) {
 
     this.loading = true;
-
-    let itemAEnregistrer = Object.assign({}, item);
-
-    var request = {
-      // user: this.user.id,
-      data: 
-        itemAEnregistrer
-      
-    }
-    console.log('item to save: ',JSON.stringify(request));
     
-    this.busyGet = this.restClient.post('user/resetAccount', request)
+    this.busyGet = this.userService.sendEmailForReinitPassword(item.email, {})
       .subscribe(
         res => {
           console.log("resul", res);
           this.loading = false;
 
-          if (!res['hasError']) {
-            if (res['items'] && res['items'].length > 0) {
-              this.utilities.showNotification("snackbar-success",
-                this.utilities.formatMsgServeur(res['status']['message']),
-                "bottom",
-                "center");
-                // this.cancelItem(true);
-                this.itemToSave = {};
-                this.bsModalRef.hide()
-                this.authService.logout()
-            }
-          } else {
-            if (res['status'] && res['status']['message']) {
-              this.utilities.showNotification("snackbar-danger",
-                this.utilities.formatMsgServeur(res['status']['message']),
-                "bottom",
-                "center");
-            }
-          }
+          this.utilities.showNotification(
+            "snackbar-success",
+            "Veuillez accéder à votre mail pour continuer l'opération !",
+            "bottom",
+            "center"
+          );
+
+          this.bsModalRef.hide();
+          
         },
         err => {
           this.utilities.showNotification("snackbar-danger", this.utilities.getMessageEndPointNotAvailble(),
