@@ -202,7 +202,7 @@
                 [isValidationPlacement]="isValidationPlacement"
               ></app-tableau-placement>
             </ng-template>
-          </mat-tab> 
+          </mat-tab>
 
           <mat-tab label="Validé">
             <ng-template matTabContent>
@@ -211,7 +211,7 @@
                 (refreshDataAffaireValide)="getPlacementValideByAff($event);getPlacementEnAttenteValidation($event)"
                 [listeRepartitions]="listePlacementValides"
                 [isDetails]="isDetails"
-                [title]="'Liste des placements validé'"
+                [title]="'Liste des placements validés'"
                 [isValidateOnglet]="true"
                 [canPutAction]="false"
               ></app-tableau-placement>

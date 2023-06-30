@@ -4,7 +4,7 @@
     backdrop: false
   }">
   <table class="table table-condensed table-striped table-hover">
-    <thead> 
+    <thead>
       <tr>
         <th colspan="14">
           <div class="row mt-4">
@@ -77,8 +77,8 @@
         <td>{{ item?.facCapitaux | moneyFormat }}</td>
         <td>{{ item?.facSmpLci | moneyFormat }}</td>
         <!-- <td>{{ item?.facPrime | moneyFormat }}</td> -->
-        <td> 
-          <span class="statLibelle {{item?.statutCode}}" >{{item?.staLibelle}} </span>  <span *ngIf="item?.statutCode === 'RET'" (click)="openModal(templateRetournerAffaire,item)">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope"></i></span> 
+        <td>
+          <span class="statLibelle {{item?.statutCode}}" >{{item?.staLibelle}} </span>  <span *ngIf="item?.statutCode === 'RET'" (click)="openModal(templateRetournerAffaire,item)">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope"></i></span>
         </td>
         <td class="custom-width-td-action">
           <div class="custom-td-action">
@@ -91,7 +91,7 @@
                 ngbDropdownItem
                 (click)="openModal(templateDetailsAffaire,item)"
               >
-                <i class="fa fa-list"></i>&nbsp;Détails l'affaire
+                <i class="fa fa-list"></i>&nbsp;Détails de l'affaire
               </button>
 
                 <button ngbDropdownItem (click)="openModal(templateUpdateAffaire,item)" *ngIf="!noPutAction">
@@ -165,7 +165,7 @@
       <tr *ngIf="!items || items.length == 0">
         <td colspan="14">
           <div class="col-md-12 txt-align-center">
-            Aucune données disponible
+            Aucune donnée disponible
           </div>
         </td>
       </tr>
@@ -177,7 +177,7 @@
 <ng-template #templateUpdateAffaire>
   <div class="modal-header">
     <h4 class="modal-title pull-left">
-     Modification identification
+     Modification d'une identification
     </h4>
 
     <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
@@ -222,7 +222,7 @@
     <app-form-placement (closeModal)="closeFormModal($event)" [isPlacement]="true" [isUpdatePlacement]="true"></app-form-placement>
   </div>
 </ng-template>
- 
+
 <!-- Validation placement -->
 <ng-template #templateValidationPlacement>
   <div class="modal-header">
@@ -241,7 +241,7 @@
 <ng-template #templateDetailsAffaire>
   <div class="modal-header">
     <h4 class="modal-title pull-left">
-      Détails affaire N° {{itemToSave?.affCode}}
+      Détails de l'affaire N° {{itemToSave?.affCode}}
     </h4>
 
     <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
@@ -275,7 +275,7 @@
 <ng-template #templateHistoriqueTraitement>
   <div class="modal-header">
     <h4 class="modal-title pull-left">
-     Historique traitement l'affaire n° {{itemToSave?.affCode}}
+     Historique traitement de l'affaire n° {{itemToSave?.affCode}}
     </h4>
 
     <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
