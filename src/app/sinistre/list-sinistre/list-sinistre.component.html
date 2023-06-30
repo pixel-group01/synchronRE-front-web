@@ -4,7 +4,7 @@
     backdrop: false
   }">
   <table class="table table-condensed table-striped table-hover">
-    <thead> 
+    <thead>
       <tr>
         <th colspan="14">
           <div class="row mt-4">
@@ -78,11 +78,11 @@
                   <button ngbDropdownItem (click)="openModal(templateSinistre,item)">
                     <i class="fa fa-edit"></i>&nbsp;Modifier sinistre
                   </button>
-  
+
                   <button ngbDropdownItem >
                     <i class="fa fa-share"></i>&nbsp;Transmettre
                   </button>
-  
+
                   <button ngbDropdownItem >
                   <i class="fa fa-list" (click)="openModal(templateSinistre,item)"></i>&nbsp;Historique sinistre
                 </button>
@@ -121,7 +121,7 @@
       <tr *ngIf="!items || items.length == 0">
         <td colspan="14">
           <div class="col-md-12 txt-align-center">
-            Aucune données disponible
+            Aucune donnée disponible
           </div>
         </td>
       </tr>
@@ -133,7 +133,7 @@
 <ng-template #templateSinistre>
     <div class="modal-header">
         <h4 class="modal-title pull-left">
-            Ajout d'un nouveau sinistre 
+            Ajout d'un nouveau sinistre
         </h4>
 
         <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">

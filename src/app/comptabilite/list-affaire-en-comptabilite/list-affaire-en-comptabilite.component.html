@@ -82,7 +82,7 @@
         <td class="txt-align-center">
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td>
-        
+
         <td>{{ item?.exeCode }}</td>
         <td>{{ item?.affCode }}</td>
         <td>{{ item?.cedNomFiliale }}</td>
@@ -185,7 +185,7 @@
       <tr *ngIf="!items || items.length == 0">
         <td colspan="14">
           <div class="col-md-12 txt-align-center">
-            Aucune données disponible
+            Aucune donnée disponible
           </div>
         </td>
       </tr>
@@ -199,7 +199,7 @@
       <h4 class="modal-title pull-left">
         {{isOngletPaiement ? 'Paiement':'Reversement' }} affaire N° {{itemToSave?.affCode}}
       </h4>
-  
+
       <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
         <mat-icon>close</mat-icon>
       </button>
