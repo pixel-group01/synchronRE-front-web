@@ -21,16 +21,16 @@
             [class.errorInputForm]="getFormFiledsValue('cesNom')?.invalid && getFormFiledsValue('cesNom')?.touched"
             type="text"
           />
-  
+
           <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('cesNom')?.dirty || getFormFiledsValue('cesNom')?.touched) && getFormFiledsValue('cesNom')?.invalid && getFormFiledsValue('cesNom')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
         </div>
       </div>
-  
+
       <div class="row">
         <div class="col-md-6 col-xs-12 mb-3">
           <label
@@ -45,12 +45,12 @@
             name="cesSigle"
             [class.errorInputForm]="getFormFiledsValue('cesSigle')?.invalid && getFormFiledsValue('cesSigle')?.touched"
             type="text"
-          /> 
+          />
           <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('cesSigle')?.dirty || getFormFiledsValue('cesSigle')?.touched) && getFormFiledsValue('cesSigle')?.invalid && getFormFiledsValue('cesSigle')?.errors?.['required']"
         >
-          Ce champs est obligatoire
+          Ce champ est obligatoire
         </small>
         </div>
 
@@ -67,17 +67,17 @@
               name="cesTelephone"
               [class.errorInputForm]="getFormFiledsValue('cesTelephone')?.invalid && getFormFiledsValue('cesTelephone')?.touched"
               type="text"
-            /> 
+            />
             <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('cesTelephone')?.dirty || getFormFiledsValue('cesTelephone')?.touched) && getFormFiledsValue('cesTelephone')?.invalid && getFormFiledsValue('cesTelephone')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
           </div>
 
       </div>
-  
+
       <div class="row">
         <div class="col-md-6 col-xs-12 mb-3">
           <label
@@ -92,12 +92,12 @@
             name="cesEmail"
             [class.errorInputForm]="getFormFiledsValue('cesEmail')?.invalid && getFormFiledsValue('cesEmail')?.touched"
             type="text"
-          /> 
+          />
           <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('cesEmail')?.dirty || getFormFiledsValue('cesEmail')?.touched) && getFormFiledsValue('cesEmail')?.invalid && getFormFiledsValue('cesEmail')?.errors?.['required']"
         >
-          Ce champs est obligatoire
+          Ce champ est obligatoire
         </small>
         </div>
 
@@ -114,19 +114,19 @@
               name="cesAdressePostale"
               [class.errorInputForm]="getFormFiledsValue('cesAdressePostale')?.invalid && getFormFiledsValue('cesAdressePostale')?.touched"
               type="text"
-            /> 
+            />
             <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('cesAdressePostale')?.dirty || getFormFiledsValue('cesAdressePostale')?.touched) && getFormFiledsValue('cesAdressePostale')?.invalid && getFormFiledsValue('cesAdressePostale')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
           </div>
 
       </div>
 
       <div class="row">
-     
+
 
         <div class="col-md-6 col-xs-12 mb-3">
             <label
@@ -141,12 +141,12 @@
               name="cesSituationGeo"
               [class.errorInputForm]="getFormFiledsValue('cesSituationGeo')?.invalid && getFormFiledsValue('cesSituationGeo')?.touched"
               type="text"
-            /> 
+            />
             <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('cesSituationGeo')?.dirty || getFormFiledsValue('cesSituationGeo')?.touched) && getFormFiledsValue('cesSituationGeo')?.invalid && getFormFiledsValue('cesSituationGeo')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
           </div>
 
@@ -163,17 +163,17 @@
               name="cesInterlocuteur"
               [class.errorInputForm]="getFormFiledsValue('cesInterlocuteur')?.invalid && getFormFiledsValue('cesInterlocuteur')?.touched"
               type="text"
-            /> 
+            />
             <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('cesInterlocuteur')?.dirty || getFormFiledsValue('cesInterlocuteur')?.touched) && getFormFiledsValue('cesInterlocuteur')?.invalid && getFormFiledsValue('cesInterlocuteur')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
           </div>
 
       </div>
-  
+
       <div class="custom-btn-save-manager">
         <button
           type="submit"
@@ -182,7 +182,7 @@
         >
           {{itemToUpdate?.cesId ? 'Modifier' : 'Enregistrer'}}
         </button>
-  
+
         <button
           type="button"
           class="btn btn-md btn-cancel pull-right"
@@ -193,4 +193,3 @@
       </div>
     </div>
   </form>
-  

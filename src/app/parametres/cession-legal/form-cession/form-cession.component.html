@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col-12 mb-3">
           <label
-            >Libelle :
+            >Libellé :
             <span class="required_champs">*</span>
           </label>
           <input
@@ -21,16 +21,16 @@
             [class.errorInputForm]="getFormFiledsValue('paramCesLegLibelle')?.invalid && getFormFiledsValue('paramCesLegLibelle')?.touched"
             type="text"
           />
-  
+
           <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('paramCesLegLibelle')?.dirty || getFormFiledsValue('paramCesLegLibelle')?.touched) && getFormFiledsValue('paramCesLegLibelle')?.invalid && getFormFiledsValue('paramCesLegLibelle')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
         </div>
       </div>
-  
+
       <!-- <div class="row">
         <div class="col-12 mb-3">
           <label
@@ -46,7 +46,7 @@
             name="paramCesLegCapital"
             [class.errorInputForm]="getFormFiledsValue('paramCesLegCapital')?.invalid && getFormFiledsValue('paramCesLegCapital')?.touched"
             type="text"
-          /> 
+          />
           <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('paramCesLegCapital')?.dirty || getFormFiledsValue('paramCesLegCapital')?.touched) && getFormFiledsValue('paramCesLegCapital')?.invalid && getFormFiledsValue('paramCesLegCapital')?.errors?.['required']"
@@ -72,23 +72,23 @@
             name="paramCesLegTaux"
             [class.errorInputForm]="getFormFiledsValue('paramCesLegTaux')?.invalid && getFormFiledsValue('paramCesLegTaux')?.touched"
             type="text"
-          /> 
+          />
           <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('paramCesLegTaux')?.dirty || getFormFiledsValue('paramCesLegTaux')?.touched) && getFormFiledsValue('paramCesLegTaux')?.invalid && getFormFiledsValue('paramCesLegTaux')?.errors?.['required']"
         >
-          Ce champs est obligatoire
+          Ce champ est obligatoire
         </small>
         </div>
       </div>
-  
+
       <div class="row">
         <div class="col-12 mb-3">
           <label
             >Pays :
             <span class="required_champs">*</span>
           </label>
-          
+
           <ng-select formControlName="paysCode" name="paysCode"
                   id="paysCode">
                   <ng-option *ngFor="let country of listeCountry" [value]="country?.paysCode">{{country.paysNom}}</ng-option>
@@ -98,11 +98,11 @@
             class="text-danger"
             *ngIf="(getFormFiledsValue('paysCode')?.dirty || getFormFiledsValue('paysCode')?.touched) && getFormFiledsValue('paysCode')?.invalid && getFormFiledsValue('paysCode')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
         </div>
       </div>
-  
+
       <div class="custom-btn-save-manager">
         <button
           type="submit"
@@ -111,7 +111,7 @@
         >
           {{(!itemToUpdate || !itemToUpdate?.paramCesLegId ) ? 'Enregistrer' : 'Modifier'}}
         </button>
-  
+
         <button
           type="button"
           class="btn btn-md btn-cancel pull-right"
@@ -122,4 +122,3 @@
       </div>
     </div>
   </form>
-  

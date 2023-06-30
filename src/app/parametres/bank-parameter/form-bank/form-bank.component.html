@@ -26,7 +26,7 @@
           class="text-danger"
           *ngIf="(getFormFiledsValue('banCode')?.dirty || getFormFiledsValue('banCode')?.touched) && getFormFiledsValue('banCode')?.invalid && getFormFiledsValue('banCode')?.errors?.['required']"
         >
-          Ce champs est obligatoire
+          Ce champ est obligatoire
         </small>
       </div>
     </div>
@@ -45,12 +45,12 @@
           name="banLibelle"
           [class.errorInputForm]="getFormFiledsValue('banLibelle')?.invalid && getFormFiledsValue('banLibelle')?.touched"
           type="text"
-        /> 
+        />
         <small
         class="text-danger"
         *ngIf="(getFormFiledsValue('banLibelle')?.dirty || getFormFiledsValue('banLibelle')?.touched) && getFormFiledsValue('banLibelle')?.invalid && getFormFiledsValue('banLibelle')?.errors?.['required']"
       >
-        Ce champs est obligatoire
+        Ce champ est obligatoire
       </small>
       </div>
     </div>
@@ -74,7 +74,7 @@
         class="text-danger"
         *ngIf="(getFormFiledsValue('banLibelleAbrege')?.dirty || getFormFiledsValue('banLibelleAbrege')?.touched) && getFormFiledsValue('banLibelleAbrege')?.invalid && getFormFiledsValue('banLibelleAbrege')?.errors?.['required']"
       >
-        Ce champs est obligatoire
+        Ce champ est obligatoire
       </small>
       </div>
     </div>
