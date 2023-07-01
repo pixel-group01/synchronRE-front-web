@@ -44,8 +44,6 @@ export class CreationDocumentSinistreComponent implements OnInit {
     fd.append('docDescription',"un test");
     fd.append('objectId', "1");
     fd.append('file', this.currentFichier.fichier);
-    console.log("item fd::",fd);
-
     this.documentService.create(fd).subscribe((res:any)=>{
       console.log("res fb :",res);
   })
@@ -54,6 +52,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
   documForm = () =>{
     this.documentForm = this.formBuilder.group({
       uniqueCode: [null,Validators.required],
+      docDescription: ["",Validators.required],
     })
   }
 

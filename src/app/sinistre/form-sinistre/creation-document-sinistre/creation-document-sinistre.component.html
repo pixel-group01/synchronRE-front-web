@@ -20,7 +20,7 @@
               </ng-select>
             
             </div>
-            <div class="col-md-4 col-xs-12 mb-3">
+            <div class="col-md-6 col-xs-12 mb-3">
                <label class="text-white">Selectionnez un fichier
                 </label>
                <!--<input
@@ -31,12 +31,22 @@
                 type="text"
                 mask="separator" thousandSeparator=" " 
                 />-->
-                <input type="file" id="idFileDoc" name="idFileDoc" (change)="uploadFile($event)" multiple="false">
+                <input type="file" id="idFileDoc" class="w-100" name="idFileDoc" (change)="uploadFile($event)" multiple="false">
+            </div>
+
+            <div class="col-md-12 col-xs-12 mb-3">
+              <label> Description</label>
+                <textarea class="form-control custom-input" name="descrip" 
+                id="descrip" formControlName="docDescription" cols="30" rows="5" placeholder="une description svp!">
+
+                </textarea>
             </div>
        
-            <div class="col-md-2 col-xs-12">
+            <div class="col-md-2 col-xs-12 d-flex" style="margin-left: auto;">
+                <button type="submit" class="form-control btn btn-light border-0" style="position: relative;top: 3px;margin-right: 10px;"> Annuler </button>
                 <button type="submit" class="form-control btn btn-secondary border-0" style="position: relative;top: 3px;"> Ajouter </button>
             </div>
+
         </div>
       </fieldset>
 </form>
