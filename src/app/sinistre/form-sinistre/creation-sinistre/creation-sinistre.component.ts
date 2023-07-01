@@ -20,7 +20,7 @@ export class CreationSinistreComponent implements OnInit {
   @Input() isActiveCreationSinistre :boolean =false;
   maxDate = new Date();
   minDate = new Date();
-  dataSurvenance:any;
+  dataSurvenance:any; 
   dataDeclaration:any;
   affDetail:any;
   sinistre:FormGroup 
@@ -33,6 +33,7 @@ export class CreationSinistreComponent implements OnInit {
   ) { }
 
   ngOnInit(): void { 
+    this.affaireDetail();
     this.getAffaire();
     this.maxDate.setDate(this.maxDate.getDate());
     this.sinistreForm()
@@ -114,7 +115,7 @@ export class CreationSinistreComponent implements OnInit {
         this.save(this.sinistre.value);
       }
     });
-  }
+  } 
 
   getFormFiledsValue = (field: string) => {
     return this.sinistre.get(field);
@@ -131,7 +132,12 @@ export class CreationSinistreComponent implements OnInit {
 
   save(data:any){
     // console.log('les données 0:',data ,this.itemCreationSinistre);
- 
+    if(this.dataDeclaration){
+      data.sinDateDeclaration = this.dataDeclaration;
+    }
+    if (this.dataSurvenance) {
+      data.sinDateSurvenance =  this.dataSurvenance;
+    }
     if (this.itemCreationSinistre) {
     data.sinId = this.itemCreationSinistre.sinId;
       this.sinistreService.update(data).subscribe((res:any)=>{
@@ -160,21 +166,22 @@ export class CreationSinistreComponent implements OnInit {
     })
   }
 
-  // formatDateSurvenance(evt:any){
-  //   // this.dataSurvenance = moment(evt).format("YYYY-MM-DD");
-  //   // console.log("date survenance :",this.dataSurvenance);
-  // }
+  formatDateSurvenance(evt:any){
+    if(evt){
+      this.dataSurvenance = moment(evt).format("DD/MM/YYYY");
+    }
+  }
 
-  // formatDateDeclaration(evt:any){
-    // this.dataDeclaration = moment(evt).format("YYYY-MM-DD");
-    // console.log("date declar :",this.dataSurvenance);
-  // }
+  formatDateDeclaration(evt:any){
+    if(evt){
+      this.dataDeclaration = moment(evt).format("DD/MM/YYYY");
+    }
+  }
 
-  affaireDetail(item :any){
-    console.log("test ok :",item);
-    this.affDetail = {...this.listeAffaires.find((elt:any)=>  elt.affId == item.affId)}
-    console.log("test ok ok:",this.affDetail);
-
+  affaireDetail(){
+    setTimeout(() => {
+    this.affDetail = {...this.listeAffaires.find((elt:any)=>  elt.affId == this.sinistre.value.affId)}
+    }, 500);
   }
 
   closeFormModal($event:boolean){

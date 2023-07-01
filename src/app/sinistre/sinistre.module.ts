@@ -11,7 +11,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CreationSinistreComponent } from './form-sinistre/creation-sinistre/creation-sinistre.component';
 import { CreationDocumentSinistreComponent } from './form-sinistre/creation-document-sinistre/creation-document-sinistre.component';
-
+import { FormRetournerSinstreComponent } from './list-sinistre/form-retourner-sinstre/form-retourner-sinstre.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,8 @@ import { CreationDocumentSinistreComponent } from './form-sinistre/creation-docu
     FormSinistreComponent,
     ListSinistreComponent,
     CreationSinistreComponent,
-    CreationDocumentSinistreComponent
+    CreationDocumentSinistreComponent,
+    FormRetournerSinstreComponent
   ],
   imports: [
     CommonModule,
@@ -31,3 +32,4 @@ import { CreationDocumentSinistreComponent } from './form-sinistre/creation-docu
   ]
 })
 export class SinistreModule { }
+

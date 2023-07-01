@@ -1,5 +1,5 @@
  <div>
-<form style="margin-top: 29px;margin-bottom: 29px;">
+<form style="margin-top: 29px;margin-bottom: 29px;" [formGroup]="documentForm" (ngSubmit)="save(documentForm.value)">
 
     <fieldset >
         <legend> Ajouter un document</legend>
@@ -14,24 +14,24 @@
                   notFoundText="Aucune donnée"
                   placeholder="Ex : Reçu de paiement"
                   [items]="listeTypeDocument"
-                  bindLabel="libelle"
-                  bindValue="id" 
-                  >
+                  formControlName="uniqueCode"
+                  bindLabel="name"
+                  bindValue="uniqueCode">
               </ng-select>
             
             </div>
             <div class="col-md-4 col-xs-12 mb-3">
-                <label>Selectionnez un fichier
+               <label class="text-white">Selectionnez un fichier
                 </label>
-                <input
+               <!--<input
                 class="form-control custom-input"
                 placeholder="C://test.pdf"
                 autocomplete="off"
                 name="fichierName"
                 type="text"
                 mask="separator" thousandSeparator=" " 
-                />
-            
+                />-->
+                <input type="file" id="idFileDoc" name="idFileDoc" (change)="uploadFile($event)" multiple="false">
             </div>
        
             <div class="col-md-2 col-xs-12">

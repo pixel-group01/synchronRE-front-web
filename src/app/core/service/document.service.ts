@@ -9,9 +9,9 @@ export class DocumentService {
 
   constructor(private restClient:RestClientService) { }
 
-  // create = (body:any) => {
-  //   return this.restClient.post('pays/create',body)
-  // } 
+  getAllDocOfSinistre = (body:any) => {
+    return this.restClient.get('documents/sinistre/'+`${body}`)
+  } 
 
   typeDocument = () => {
     return this.restClient.get('documents/doc_sin/types');
@@ -22,7 +22,7 @@ export class DocumentService {
   //   return this.restClient.get(endPointFinal);
   // }
 
-  // update = (body:any) => {
-  //   return this.restClient.put('pays/update',body)
-  // }
+  create = (body:any) => {
+    return this.restClient.post('documents/doc_sin/upload',body)
+  }
 }

@@ -68,12 +68,17 @@ export class ListSinistreComponent implements OnInit {
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
     this.modalRef = this.modalService.show(template,config);
   }
+ 
+  openModalRetourner(template: TemplateRef<any>) {
+    let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-30'};
+    this.modalRef = this.modalService.show(template,config);
+  }
 
   transmettre(data:any){
     this.sinistreService.transmission(data).subscribe((res:any)=>{
         if (res) {
           console.log(res ,' info sinistre');
-          
+          this.getSinistre()
         }
     })
   }
@@ -96,6 +101,35 @@ export class ListSinistreComponent implements OnInit {
     });
   }
 
+  confirmValiderSinistre(item:any) {
+    Swal.fire({
+      title: "Validation d'un sinistre",
+      text:"Vous êtes sur le point de valider un sinistre. Voulez-vous poursuivre cette action ?",
+      icon: "success",
+      showCancelButton: true,
+      confirmButtonColor: "#0665aa",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    }).then((result) => {
+      if (result.value) {
+        // On effectue une transmission de sinistre
+        this.validerSinistre(item);
+      }
+    });
+  }
+
+  validerSinistre(item: any) {
+    const data = {
+      id: item.sinId
+    }
+    this.sinistreService.transmission(data).subscribe((res: any) => {
+      if (res) {
+        this.getSinistre()
+      }
+    })
+  }
+
   closeFormModal($event) {
     console.log('okok',$event);    
     this.getSinistre();
@@ -114,10 +148,11 @@ export class ListSinistreComponent implements OnInit {
       .subscribe((res: any) => {
         console.log("res sinistre :",res);
         this.items = res.content.map((elt:any)=>{
-          let dateDecl = elt.sinDateDeclaration.split('-');
-          let dateSur =  elt.sinDateSurvenance.split('-');
-          elt.sinDateDeclaration = dateDecl[2] + '/' + dateDecl[1] + '/' + dateDecl[0];
-          elt.sinDateSurvenance =  dateSur[2] + '/' + dateSur[1] + '/' + dateSur[0]
+          let dateDecl = elt.sinDateDeclaration?.split('-');
+          let dateSur =  elt.sinDateSurvenance?.split('-');
+            elt.sinDateDeclaration = dateDecl[2] + '/' + dateDecl[1] + '/' + dateDecl[0];
+            elt.sinDateSurvenance =  dateSur[2] + '/' + dateSur[1] + '/' + dateSur[0]
+          
           return elt
         });
         this.totalItems = res.totalElements;
