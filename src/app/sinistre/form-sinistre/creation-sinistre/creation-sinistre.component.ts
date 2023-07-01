@@ -17,10 +17,10 @@ export class CreationSinistreComponent implements OnInit {
   // listeAffaires: Array<Sinistre> = [];
   listeAffaires: any =[] ;
   @Input() itemCreationSinistre :any ;
-  @Input() isActiveCreationSinistre :boolean ;
+  @Input() isActiveCreationSinistre :boolean =false;
   maxDate = new Date();
   minDate = new Date();
-  dataSurvenance:any;
+  dataSurvenance:any; 
   dataDeclaration:any;
   affDetail:any;
   sinistre:FormGroup 
@@ -32,14 +32,14 @@ export class CreationSinistreComponent implements OnInit {
     private sinistreService: SinistreService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
+    this.affaireDetail();
     this.getAffaire();
     this.maxDate.setDate(this.maxDate.getDate());
     this.sinistreForm()
-    // console.log("sinistre :",this.sinistre.value);
     if (this.itemCreationSinistre) {
       this.sinistre.patchValue({...this.itemCreationSinistre})
-    }
+    }    
   }
 
   // createForm = () => {
@@ -115,12 +115,12 @@ export class CreationSinistreComponent implements OnInit {
         this.save(this.sinistre.value);
       }
     });
-  }
-  
+  } 
+
   getFormFiledsValue = (field: string) => {
     return this.sinistre.get(field);
   };
-  
+
   // new FormGroup({
   //   affId : new FormControl(),
   //   sinMontant100: new FormControl(),
@@ -132,57 +132,56 @@ export class CreationSinistreComponent implements OnInit {
 
   save(data:any){
     // console.log('les données 0:',data ,this.itemCreationSinistre);
- 
+    if(this.dataDeclaration){
+      data.sinDateDeclaration = this.dataDeclaration;
+    }
+    if (this.dataSurvenance) {
+      data.sinDateSurvenance =  this.dataSurvenance;
+    }
     if (this.itemCreationSinistre) {
     data.sinId = this.itemCreationSinistre.sinId;
       this.sinistreService.update(data).subscribe((res:any)=>{
         if(res && res.sinId){
-          // console.log("creation sinistre : :",res);
-          // this.closeModal.emit(true);
-          // this.closeFormModal(true)
           this.utilities.showNotification(
             "snackbar-success",
             this.utilities.getMessageOperationSuccessFull(),
             "top",
             "center"
           );
-          // this.closeModal.emit(true);
+          this.closeModal.emit(true)
         }
       })
       return
     }
     this.sinistreService.create(data).subscribe((res:any)=>{
       if(res && res.sinId){
-        // console.log("creation sinistre : :",res);
-        // this.closeModal.emit(true);
-        // this.closeFormModal(true)
         this.utilities.showNotification(
           "snackbar-success",
           this.utilities.getMessageOperationSuccessFull(),
           "top",
           "center"
         );
-        // this.closeModal.emit(true);
+        this.closeModal.emit(true)
       }
-
     })
   }
 
   formatDateSurvenance(evt:any){
-    // this.dataSurvenance = moment(evt).format("YYYY-MM-DD");
-    // console.log("date survenance :",this.dataSurvenance);
+    if(evt){
+      this.dataSurvenance = moment(evt).format("DD/MM/YYYY");
+    }
   }
 
   formatDateDeclaration(evt:any){
-    // this.dataDeclaration = moment(evt).format("YYYY-MM-DD");
-    // console.log("date declar :",this.dataSurvenance);
+    if(evt){
+      this.dataDeclaration = moment(evt).format("DD/MM/YYYY");
+    }
   }
 
-  affaireDetail(item :any){
-    console.log("test ok :",item);
-    this.affDetail = {...this.listeAffaires.find((elt:any)=>  elt.affId == item.affId)}
-    console.log("test ok ok:",this.affDetail);
-
+  affaireDetail(){
+    setTimeout(() => {
+    this.affDetail = {...this.listeAffaires.find((elt:any)=>  elt.affId == this.sinistre.value.affId)}
+    }, 500);
   }
 
   closeFormModal($event:boolean){

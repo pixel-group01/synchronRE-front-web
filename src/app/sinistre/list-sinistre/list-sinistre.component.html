@@ -12,14 +12,12 @@
               <label>N° Affaire : </label>
               <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
               placeholder="Rechercher ..."  />
-      
             </div>
 
             <div class="col-md-3 col-xs-12 col-sm-12">
               <label>Date de survenance : </label>
               <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
               placeholder="Rechercher ..."  />
-
             </div>
 
             <div class="col-md-3 col-xs-12 col-sm-12">
@@ -52,8 +50,8 @@
         </td>
         <td>{{ item?.affCode }}</td> 
         <td>{{ item?.sinMontant100 }}</td>
-        <td>{{ item?.sinDateSur }}</td>
-        <td>{{ item?.sinDateDecl }}</td>
+        <td>{{ item?.sinDateSurvenance }}</td>
+        <td>{{ item?.sinDateDeclaration }}</td>
         <td>{{ item?.sinMontantHonoraire }}</td>
         <!-- <td>{{ item?.affActivite }}</td> -->
         <td class="custom-width-td-action">
@@ -63,26 +61,27 @@
                 Actions
               </button>
                 <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
-                  <button
-                  ngbDropdownItem  (click)="openModal(templateSinistre,item,true)"
-                >
-                  <i class="fa fa-list"></i>&nbsp;Détails sinistre
-                </button>
-                  <button ngbDropdownItem (click)="openModal(templateSinistre,item)">
+                  <button ngbDropdownItem (click)="openModal(templateSinistre,item,true)">
+                    <i class="fa fa-list"></i>&nbsp;Détails sinistre
+                  </button>
+                  <button ngbDropdownItem (click)="openModal(templateSinistre,item,false)">
                     <i class="fa fa-edit"></i>&nbsp;Modifier sinistre
                   </button>
-  
                   <button ngbDropdownItem (click)="confirmTransmettreSinistre(item.sinId)">
-                    <i class="fa fa-share"></i>&nbsp;Transmettre
+                    <i class="fa fa-share"></i>&nbsp;Transmettre sinistre
                   </button>
-
-                  <button ngbDropdownItem >
-                  <i class="fa fa-list" (click)="openModal(templateSinistre,item)"></i>&nbsp;Historique sinistre
-                </button>
-        
+                  <button ngbDropdownItem (click)="openModalRetourner(templateRetournerSinistre)">
+                    <i class="fa fa-share"></i>&nbsp;Retourner sinistre
+                  </button>
+                  <button ngbDropdownItem (click)="confirmValiderSinistre(item.sinId)">
+                    <i class="fa fa-share"></i>&nbsp;Valider sinistre
+                  </button>
+                  <button ngbDropdownItem>
+                    <i class="fa fa-list" (click)="openModal(templateSinistre,item,false)"></i>&nbsp;Historique sinistre
+                  </button>
               </div>
             </div>
-          </div>
+          </div> 
         </td>
       </tr>
     </tbody>
@@ -132,8 +131,21 @@
         </button>
     </div>
     <div class="modal-body p-4">
-        <app-form-sinistre [itemSinistre]="itemsinistre" [isActive]="isActiveInput" (closeModal)="closeFormModal($event)"></app-form-sinistre>
+        <app-form-sinistre [itemSinistre]="itemsinistre" [isActive]="isActiveInput"></app-form-sinistre>
     </div>
 </ng-template>
 
- 
+<!-- Retourner un sinistre -->
+<ng-template #templateRetournerSinistre>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">
+          Retourner un sinistre
+      </h4>
+      <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+      </button>
+  </div>
+  <div class="modal-body p-4">
+      <app-form-retourner-sinstre></app-form-retourner-sinstre>
+  </div>
+</ng-template>

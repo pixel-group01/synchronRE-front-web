@@ -9,7 +9,8 @@
 </div>
 
 <div  *ngIf="staticTabs == 1">
-    <app-creation-sinistre [itemCreationSinistre]="itemSinistre" [isActiveCreationSinistre]="isActive"></app-creation-sinistre>
+    <app-creation-sinistre [itemCreationSinistre]="itemSinistre" (closeModal) ="closeFormModal($event)"
+     [isActiveCreationSinistre]="isActive"></app-creation-sinistre>
 </div>
 <div  *ngIf="staticTabs == 2">
     <app-creation-document-sinistre></app-creation-document-sinistre>

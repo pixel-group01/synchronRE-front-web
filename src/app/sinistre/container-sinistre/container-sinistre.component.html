@@ -6,18 +6,46 @@
                     <div class="header mb-3">
                         <h2><strong>Sinistre</strong></h2>
                     </div>
-
                     <div class="body">
                         <mat-tab-group>
                             <mat-tab label="Liste des sinistres">
                                 <ng-template matTabContent>
                                     <div class="header-btn-new-affaire">
-                                        <button type="button" class="btn btn-md custom_btn_primary pull-right" (click)="openModal(templateSinistre)">
+                                        <button type="button" class="btn btn-md custom_btn_primary pull-right"
+                                            (click)="openModal(templateSinistre)">
                                             <i class="fa fa-plus"></i>&nbsp; Nouveau sinistre
                                         </button>
                                     </div>
-                                        <app-list-sinistre></app-list-sinistre>
+                                    <app-list-sinistre [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
+                            </mat-tab>
+
+                            <mat-tab label="En cours de validation">
+                                <ng-template matTabContent>
+                                    <app-list-sinistre [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                </ng-template>
+
+                            </mat-tab>
+
+                            <mat-tab label="En reglement">
+                                <ng-template matTabContent>
+                                    <app-list-sinistre [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                </ng-template>
+
+                            </mat-tab>
+
+                            <mat-tab label="Suivie">
+                                <ng-template matTabContent>
+                                    <app-list-sinistre [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                </ng-template>
+
+                            </mat-tab>
+
+                            <mat-tab label="Archives">
+                                <ng-template matTabContent>
+                                    <app-list-sinistre [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                </ng-template>
+
                             </mat-tab>
                         </mat-tab-group>
                     </div>
@@ -32,7 +60,7 @@
 <ng-template #templateSinistre>
     <div class="modal-header">
         <h4 class="modal-title pull-left">
-            Ajout d'un nouveau sinistre 
+            Ajout d'un nouveau sinistre
         </h4>
 
         <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
