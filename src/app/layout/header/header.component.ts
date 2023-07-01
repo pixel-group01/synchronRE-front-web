@@ -196,7 +196,7 @@ export class HeaderComponent
 
     this.modalRef = this.modalService.show(
       template,
-      Object.assign({}, config, { class: "modal-lg modal-width-75" })
+      Object.assign({}, config, { class: "modal-md" })
     );
   }
 

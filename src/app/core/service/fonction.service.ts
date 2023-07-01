@@ -16,6 +16,15 @@ export class FonctionService {
     return this.restClient.get('functions/all-fnc-for-user/'+idUser);
   }
  
+  getFunctionActiveByUser = (idUser:number) => {
+    return this.restClient.get('functions/active-fnc-for-user/'+idUser);
+  }
+
+   
+  setDefaultFunction = (idUser:number) => {
+    return this.restClient.get('functions/set-fnc-as-default/'+idUser);
+  }
+
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {
     let endPointFinal = "statuts/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
     return this.restClient.get(endPointFinal);
@@ -28,6 +37,8 @@ export class FonctionService {
   revoke = (idFct:any) => {
     return this.restClient.put('functions/revoke/'+idFct)
   }
+
+  
 
 
 }

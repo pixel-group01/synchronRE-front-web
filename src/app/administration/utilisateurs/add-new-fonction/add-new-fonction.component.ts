@@ -139,26 +139,26 @@ export class AddNewFonctionComponent implements OnInit {
       }
     });
   }
+// recuperer les privileges d'un role
+getPrivilegeByRole(){
+  let rolesId = this.userForm.value.roles;
 
-  // getDetailsInfo() {
-  //   this.userService.getInfoUser(this.itemToUpdate.userId).subscribe((response: any) => {
-      
-  //     if(response) {
-  //       console.log(" response ",response);
-  //     }
+  this.busySuscription = this.privilegeService.getPrivilegeByRoleIds(rolesId).subscribe(
+    (response :any) => {
+      console.log(" response busy ",response);
+      if(response) { 
+        // this.checkedPrivilegeDefauft(response);
+        let idsPrivileges = [];
 
-  //   });
-  // }
+        response.forEach(prv => {
+          idsPrivileges.push(prv.privilegeId);
+        });
+        this.userForm.get("privileges").setValue(idsPrivileges);
+      }
+    }
+  )
+}
 
-  // getDetailsFonction() {
-  //   this.fonctionService.getDetailsInfoFonctionForUser(this.itemToUpdate?.userId).subscribe((response: any) => {
-  //     if(response) {
-  //       console.log(" response ",response);
-  //       this.currentFonction = {...response[0]};
-  //       this.createForm();
-  //     }
-  //   });
-  // }
 
   closeModalUser(){
     this.closeModal.emit(true);

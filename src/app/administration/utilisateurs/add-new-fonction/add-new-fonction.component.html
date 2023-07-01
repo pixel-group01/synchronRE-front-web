@@ -89,7 +89,7 @@
                           <span class="required_champs">*</span>
                         </label>
 
-                        <ng-select formControlName="roles" [multiple]="true" [closeOnSelect]="false" id="roles">
+                        <ng-select formControlName="roles" [multiple]="true" [closeOnSelect]="false" id="roles" (change)="getPrivilegeByRole()">
                           <ng-option *ngFor="let role of listeRoles" [value]="role?.roleId">{{ role.roleName
                             }}</ng-option>
                         </ng-select>

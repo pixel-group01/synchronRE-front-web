@@ -216,6 +216,26 @@ export class FormAssignFonctionComponent implements OnInit {
     });
   }
 
+   // recuperer les privileges d'un role
+   getPrivilegeByRole(){
+    let rolesId = this.userForm.value.roles;
+
+    this.busySuscription = this.privilegeService.getPrivilegeByRoleIds(rolesId).subscribe(
+      (response :any) => {
+        console.log(" response busy ",response);
+        if(response) {
+          // this.checkedPrivilegeDefauft(response);
+          let idsPrivileges = [];
+
+          response.forEach(prv => {
+            idsPrivileges.push(prv.privilegeId);
+          });
+          this.userForm.get("privileges").setValue(idsPrivileges);
+        }
+      }
+    )
+  }
+
   getRoles() {
     this.roleService.getAll().subscribe((response: any) => {
       if (response && response["content"]) {

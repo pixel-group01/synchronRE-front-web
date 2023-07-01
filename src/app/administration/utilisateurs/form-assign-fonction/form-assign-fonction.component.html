@@ -187,6 +187,9 @@
                       <ng-select
                         formControlName="roles"
                         [multiple]="true"
+                        notFoundText="Aucune donnée"
+                        placeholder="Rôle"
+                        (change)="getPrivilegeByRole()"
                         [closeOnSelect]="false"
                         id="roles"
                       >
