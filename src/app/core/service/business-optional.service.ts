@@ -35,7 +35,6 @@ export class BusinessOptionalService {
     return this.restClient.get(endPointFinal);
   }
 
-
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {
     let endPointFinal = "affaires/facultative/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
     return this.restClient.get(endPointFinal);

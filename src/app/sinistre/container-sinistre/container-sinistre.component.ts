@@ -8,6 +8,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 })
 export class ContainerSinistreComponent implements OnInit {
   modalRef: BsModalRef;
+  refreshDataTable : string;
 
   constructor(
     private modalService: BsModalService
@@ -23,9 +24,8 @@ export class ContainerSinistreComponent implements OnInit {
 
 
   closeFormModal($event:boolean){
-    this.modalRef.hide();
-
-    // this.refreshDataTable = new Date().getTime().toString();
+    this.modalRef.hide();    
+    this.refreshDataTable = new Date().getTime().toString();
 
     // if($event) {
     //   this.refreshDataTable = new Date().getTime().toString();

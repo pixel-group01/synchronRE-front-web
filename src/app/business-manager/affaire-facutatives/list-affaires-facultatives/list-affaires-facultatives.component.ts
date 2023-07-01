@@ -249,7 +249,6 @@ export class ListAffairesFacultativesComponent implements OnInit {
   //   this.modalRef = this.modalService.show(template,config);
   // }
 
-
   getItems() {
     let endPointFinal ="sinistres/list?page=0&size=10"
       this.endPoint +

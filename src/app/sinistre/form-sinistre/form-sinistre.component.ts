@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { TabsetComponent, TabsetConfig } from 'ngx-bootstrap/tabs';
+import { TabsetConfig } from 'ngx-bootstrap/tabs';
  
 export function getTabsetConfig(): TabsetConfig {
   return Object.assign(new TabsetConfig(), { type: 'pills', isKeysAllowed: true });
@@ -24,12 +24,12 @@ export class FormSinistreComponent implements OnInit {
         clsButton1.style.color = "#fff";
         clsButton1.style.borderColor = "#ffc20f";
       }
-      this.staticTabs = 1;
-      
-  }
+      this.staticTabs = 1;  
+    }
 
-  closeFormModal($event:boolean) {
-    this.closeModal.emit(true); 
+  closeFormModal(event:any) {    
+    console.log('ok ok ',event);
+    this.closeModal.emit(event); 
   }
 
  

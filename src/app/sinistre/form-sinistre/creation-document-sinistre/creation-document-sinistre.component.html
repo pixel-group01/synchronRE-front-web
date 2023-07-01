@@ -15,7 +15,7 @@
                   placeholder="Ex : Reçu de paiement"
                   [items]="listeTypeDocument"
                   bindLabel="libelle"
-                  bindValue="id"
+                  bindValue="id" 
                   >
               </ng-select>
             
@@ -78,9 +78,11 @@
                         <td> FAC-001</td>
                         <td>Reçu de paiement</td>
                         <td>Reçu de paiement</td>
-                        <td class="custom-width-td-action">
-                          <div class="custom-td-action">
-                            <div ngbDropdown class="d-inline-block">
+                        <td class="custom-width-td-action text-center">
+                          <i class="fa fa-edit btn"></i>
+                          <i class="fa fa-trash text-danger"></i>
+                          <!--  <div class="custom-td-action"> 
+                           <div ngbDropdown class="d-inline-block">
                               <button type="button" class="btn btn-custom-action-dropdown" id="action" ngbDropdownToggle>
                                 Actions
                               </button>
@@ -98,8 +100,9 @@
                                   <i class="fa fa-trash"></i>&nbsp;Supprimer le document
                                 </button>
                               </div>
-                            </div>
-                          </div>
+                            </div> 
+                             
+                          </div>-->
                         </td>
                       </tr>
                     </tbody>

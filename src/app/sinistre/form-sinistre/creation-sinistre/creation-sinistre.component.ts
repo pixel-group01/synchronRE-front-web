@@ -17,7 +17,7 @@ export class CreationSinistreComponent implements OnInit {
   // listeAffaires: Array<Sinistre> = [];
   listeAffaires: any =[] ;
   @Input() itemCreationSinistre :any ;
-  @Input() isActiveCreationSinistre :boolean ;
+  @Input() isActiveCreationSinistre :boolean =false;
   maxDate = new Date();
   minDate = new Date();
   dataSurvenance:any;
@@ -32,14 +32,13 @@ export class CreationSinistreComponent implements OnInit {
     private sinistreService: SinistreService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
     this.getAffaire();
     this.maxDate.setDate(this.maxDate.getDate());
     this.sinistreForm()
-    // console.log("sinistre :",this.sinistre.value);
     if (this.itemCreationSinistre) {
       this.sinistre.patchValue({...this.itemCreationSinistre})
-    }
+    }    
   }
 
   // createForm = () => {
@@ -116,11 +115,11 @@ export class CreationSinistreComponent implements OnInit {
       }
     });
   }
-  
+
   getFormFiledsValue = (field: string) => {
     return this.sinistre.get(field);
   };
-  
+
   // new FormGroup({
   //   affId : new FormControl(),
   //   sinMontant100: new FormControl(),
@@ -137,46 +136,39 @@ export class CreationSinistreComponent implements OnInit {
     data.sinId = this.itemCreationSinistre.sinId;
       this.sinistreService.update(data).subscribe((res:any)=>{
         if(res && res.sinId){
-          // console.log("creation sinistre : :",res);
-          // this.closeModal.emit(true);
-          // this.closeFormModal(true)
           this.utilities.showNotification(
             "snackbar-success",
             this.utilities.getMessageOperationSuccessFull(),
             "top",
             "center"
           );
-          // this.closeModal.emit(true);
+          this.closeModal.emit(true)
         }
       })
       return
     }
     this.sinistreService.create(data).subscribe((res:any)=>{
       if(res && res.sinId){
-        // console.log("creation sinistre : :",res);
-        // this.closeModal.emit(true);
-        // this.closeFormModal(true)
         this.utilities.showNotification(
           "snackbar-success",
           this.utilities.getMessageOperationSuccessFull(),
           "top",
           "center"
         );
-        // this.closeModal.emit(true);
+        this.closeModal.emit(true)
       }
-
     })
   }
 
-  formatDateSurvenance(evt:any){
-    // this.dataSurvenance = moment(evt).format("YYYY-MM-DD");
-    // console.log("date survenance :",this.dataSurvenance);
-  }
+  // formatDateSurvenance(evt:any){
+  //   // this.dataSurvenance = moment(evt).format("YYYY-MM-DD");
+  //   // console.log("date survenance :",this.dataSurvenance);
+  // }
 
-  formatDateDeclaration(evt:any){
+  // formatDateDeclaration(evt:any){
     // this.dataDeclaration = moment(evt).format("YYYY-MM-DD");
     // console.log("date declar :",this.dataSurvenance);
-  }
+  // }
 
   affaireDetail(item :any){
     console.log("test ok :",item);

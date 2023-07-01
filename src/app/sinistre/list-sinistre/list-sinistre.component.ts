@@ -30,14 +30,14 @@ export class ListSinistreComponent implements OnInit {
   // listeCedente: Array<Cedante> = [];
   itemToSearch: any = {};
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 5;
   totalItems: number; 
   busyGet: Subscription; 
   user:  any;
   isActiveInput :boolean = false
   // listeExercices: Array<Exercice> = [];
   // @Input() statutAffaire!: string;
-  // @Input() refreshDataTable!: string;
+  @Input() refreshDataTable!: string;
   // @Input() noPutAction: boolean = false;
   // @Input() endPoint: any;
   // @Input() isEnCoursPlacementNelson: boolean = false;
@@ -51,12 +51,7 @@ export class ListSinistreComponent implements OnInit {
     private modalService: BsModalService,
     private restClient: RestClientService
   ) {
-    // this.user = this.userService.getCurrentUserInfo();
-    // this.statutAffEnum = enumStatutAffaire;
 
-    // if (this.user.cedId) {
-    //   this.itemToSearch.cedenteId = this.user.cedId;
-    // }
   }
 
   getExactlyNumberRow(page, index) {
@@ -67,43 +62,9 @@ export class ListSinistreComponent implements OnInit {
     return num;
   }
 
-  getItems() {
-    // let endPointFinal ="sinistres/list?page=0&size=10"
-    //   this.endPoint +
-    //   "?page=" +
-    //   (this.currentPage - 1) +
-    //   "&size=" +
-    //   this.itemsPerPage +
-    //   "" +
-    //   (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "") +
-    //   "" +
-    //   (this.itemToSearch.exeCode
-    //     ? "&exeCode=" + this.itemToSearch.exeCode
-    //     : "");
-
-    // if (endPointFinal && this.itemToSearch.cedenteId) {
-    //   endPointFinal = endPointFinal + "&cedId=" + this.itemToSearch.cedenteId;
-    // }
-
-    // this.busyGet = this.restClient.get(endPointFinal).subscribe(
-    //   (res) => {
-    //     if (res && res["content"]) {
-    //       this.items = res["content"] as BusinessOptional[];
-    //       this.totalItems = res["totalElements"];
-    //     } else {
-    //       this.items = [];
-    //       this.totalItems = 0;
-    //     }
-    //   },
-    //   (err) => {}
-    // );
-  }
-
   openModal(template: TemplateRef<any>,data?:any,isActive?:any) {
     this.itemsinistre = {...data}
-    isActive ?  this.isActiveInput = isActive :  this.isActiveInput
-    
-    // console.log("this.itemsinistr :",this.itemsinistre);
+    this.isActiveInput = isActive || false
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
     this.modalRef = this.modalService.show(template,config);
   }
@@ -136,37 +97,37 @@ export class ListSinistreComponent implements OnInit {
   }
 
   closeFormModal($event) {
-    this.modalRef.hide();
-    // this.businessOptionalService.setCurrentOptionalBusiness(null);
+    console.log('okok',$event);    
     this.getSinistre();
+    this.modalRef.hide();
+ 
   }
 
   pageChanged(event: any): void {
     this.currentPage = event.page;
-    this.getItems();
+    this.getSinistre();
   }
 
   getSinistre(){
-    this.busyGet =  this.restClient.get('sinistres/list')
+    let  endPoint :any = "sinistres/list?" + 'page=' + `${this.currentPage-1}` + '&size=' + this.itemsPerPage;
+    this.busyGet =  this.restClient.get(endPoint)
       .subscribe((res: any) => {
         console.log("res sinistre :",res);
         this.items = res.content.map((elt:any)=>{
           let dateDecl = elt.sinDateDeclaration.split('-');
           let dateSur =  elt.sinDateSurvenance.split('-');
-          elt.sinDateDecl = dateDecl[2] + '/' + dateDecl[1] + '/' + dateDecl[0];
-          elt.sinDateSur =  dateSur[2] + '/' + dateSur[1] + '/' + dateSur[0]
-
-
+          elt.sinDateDeclaration = dateDecl[2] + '/' + dateDecl[1] + '/' + dateDecl[0];
+          elt.sinDateSurvenance =  dateSur[2] + '/' + dateSur[1] + '/' + dateSur[0]
           return elt
         });
-        this.totalItems = res.totalPages;
+        this.totalItems = res.totalElements;
         
       }) 
   } 
 
-  closeModal($event: any) {
+  refreschSinistre($event: any) {
     this.modalRef.hide();
-
+    console.log('okok',$event);
     // Dans le cas ou $event vaut true alors on actualise la liste
     if ($event) {
       this.getSinistre();
@@ -182,6 +143,8 @@ export class ListSinistreComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log("change :",changes);
+    
     if (
       changes["refreshDataTable"] &&
       changes["refreshDataTable"].currentValue

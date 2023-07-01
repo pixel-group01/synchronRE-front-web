@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DocumentService } from 'src/app/core/service/document.service';
 
 @Component({
   selector: 'app-creation-document-sinistre',
@@ -12,9 +13,17 @@ export class CreationDocumentSinistreComponent implements OnInit {
   itemsPerPage: number = 5;
   totalItems: number; 
 
-  constructor() { }
+  constructor( private documentService : DocumentService) { }
 
   ngOnInit(): void {
+    this.getTypeDocument()
+  } 
+
+  getTypeDocument(){
+    this.documentService.typeDocument().subscribe((res:any)=>{
+        console.log("res :",res);
+        
+    })
   }
 
 }
