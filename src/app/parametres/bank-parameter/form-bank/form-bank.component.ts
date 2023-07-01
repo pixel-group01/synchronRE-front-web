@@ -35,7 +35,7 @@ export class FormBankComponent implements OnInit {
       banId: [this.bankToUpdate?.banId || ""],
       banCode: [this.bankToUpdate?.banCode || "", Validators.required],
       banLibelle: [this.bankToUpdate?.banLibelle || "", Validators.required],
-      // discoveryChannel: ['', Validators.required],
+      banNumCompte: [this.bankToUpdate?.banNumCompte || "", Validators.required],
       banLibelleAbrege: [
         this.bankToUpdate?.banLibelleAbrege || "",
         Validators.required,
@@ -69,14 +69,14 @@ export class FormBankComponent implements OnInit {
   saveItem(item: Bank) {
     let itemAEnregistrer = Object.assign({}, item);
 
-    if (!itemAEnregistrer && !itemAEnregistrer.banId) {
+    if (!this.bankToUpdate || !this.bankToUpdate.banId) {
       // nous sommes au create
-      this.bankService.create(itemAEnregistrer).subscribe((response : any) => {
+      this.busySuscription = this.bankService.create(itemAEnregistrer).subscribe((response : any) => {
         console.log(" response ", response);
         if (response && response.banId) {
           this.utilities.showNotification(
             "snackbar-success",
-            this.utilities.getMessageOperationSuccessFull,
+            this.utilities.getMessageOperationSuccessFull(),
             "bottom",
             "center"
           );
@@ -85,12 +85,12 @@ export class FormBankComponent implements OnInit {
       });
     } else {
       // Nous sommes en modification
-      this.bankService.update(itemAEnregistrer).subscribe((response: any) => {
+      this.busySuscription = this.bankService.update(itemAEnregistrer).subscribe((response: any) => {
         console.log(" response ", response);
         if (response && response?.banId) {
           this.utilities.showNotification(
             "snackbar-success",
-            this.utilities.getMessageOperationSuccessFull,
+            this.utilities.getMessageOperationSuccessFull(),
             "bottom",
             "center"
           );

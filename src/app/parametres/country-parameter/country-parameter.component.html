@@ -15,7 +15,7 @@
                         <table class="table table-condensed table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th colspan="5">
+                                    <th colspan="6">
                                         <div class="row mt-4">
                                             <div class="col-md-4">
                                                 <input [(ngModel)]="itemToSearch.libelle"
@@ -40,6 +40,7 @@
                                             <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
                                     </th>
                                     <th>Code</th>
+                                    <th>Devise</th>
                                     <th>Libellé</th>
                                     <th>Indicatif</th>
                                     <th class="txt-align-center">Actions</th>
@@ -52,6 +53,7 @@
                                         {{ getExactlyNumberRow(this.currentPage, indice) }}
                                     </td>
                                     <td>{{ item?.paysCode }}</td>
+                                    <td>{{ item?.devLibelle }}</td>
                                     <td>{{ item?.paysNom }}</td>
                                     <td>{{ item?.paysIndicatif }}</td>
                                     <td class="custom-width-td-action">
@@ -66,7 +68,7 @@
 
                             <tfoot>
                                 <tr *ngIf="items && items.length > 0">
-                                    <td colspan="5">
+                                    <td colspan="6">
                                         <div class="row pagination-part">
                                             <div class="col-md-9" style="text-align: center">
                                                 <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage"
@@ -91,7 +93,7 @@
                                 </tr>
 
                                 <tr *ngIf="!items || items.length == 0">
-                                    <td colspan="4">
+                                    <td colspan="6">
                                         <div class="col-md-12 txt-align-center">
                                             Aucune donnée disponible
                                         </div>

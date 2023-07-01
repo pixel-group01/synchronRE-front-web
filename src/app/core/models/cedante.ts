@@ -7,5 +7,6 @@ export class Cedante {
     cedAdressePostale?: string;
     cedFax?: string;
     cedSituationGeo?:string;
-    cedStatut?:string
+    cedStatut?:string;
+    paysCode?:string
 }

@@ -157,7 +157,7 @@ export class UtilisateursComponent implements OnInit {
           if (response) {
             this.utilities.showNotification(
               "snackbar-success",
-              this.utilities.getMessageOperationSuccessFull,
+              this.utilities.getMessageOperationSuccessFull(),
               "bottom",
               "center"
             );
@@ -186,7 +186,7 @@ export class UtilisateursComponent implements OnInit {
           if (response) {
             this.utilities.showNotification(
               "snackbar-success",
-              this.utilities.getMessageOperationSuccessFull,
+              this.utilities.getMessageOperationSuccessFull(),
               "bottom",
               "center"
             );

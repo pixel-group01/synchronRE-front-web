@@ -92,8 +92,8 @@ export class FormIdentificationComponent implements OnInit {
     this.deviseService.getAll().subscribe((response: any) => {
       console.log(" response devise ",response);
       
-      if (response && response["content"]) {
-        this.listeDevises = response["content"] as Devise[];
+      if (response) {
+        this.listeDevises = response as Devise[];
 
         this.listeDevises =   _.orderBy( this.listeDevises, ['devLibelle'], ['asc']);
  

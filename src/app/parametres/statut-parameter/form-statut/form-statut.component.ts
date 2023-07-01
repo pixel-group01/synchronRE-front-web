@@ -84,7 +84,7 @@ export class FormStatutComponent implements OnInit {
         if (response && response.paysId) {
           this.utilities.showNotification(
             "snackbar-success",
-            this.utilities.getMessageOperationSuccessFull,
+            this.utilities.getMessageOperationSuccessFull(),
             "bottom",
             "center"
           );
@@ -98,7 +98,7 @@ export class FormStatutComponent implements OnInit {
         if (response && response?.paysId) {
           this.utilities.showNotification(
             "snackbar-success",
-            this.utilities.getMessageOperationSuccessFull,
+            this.utilities.getMessageOperationSuccessFull(),
             "bottom",
             "center"
           );
