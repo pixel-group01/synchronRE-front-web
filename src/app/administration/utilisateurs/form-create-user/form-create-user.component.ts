@@ -28,6 +28,7 @@ export class FormCreateUserComponent implements OnInit {
   listePrivileges: Array<privilegeSynchroRE> = [];
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   dateActuelle = new Date();
+  listeFonctions : any = [];
 
   typeUserForm : any = {
     createUserDTO: {
@@ -82,6 +83,17 @@ export class FormCreateUserComponent implements OnInit {
 
   confirmSaveItem() {
 
+    if(!this.listeFonctions || this.listeFonctions.length == 0) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Veuillez renseigner les différentes fonctions de l'utilisateur !",
+        "bottom",
+        "center"
+      );
+
+      return;
+    }
+
     Swal.fire({
       title: "Utilisateur",
       text: (this.itemToUpdate?.userId && this.itemToUpdate?.userId > 0)
@@ -114,21 +126,20 @@ export class FormCreateUserComponent implements OnInit {
       cedId : itemAEnregistrer.cedId
     };
 
-    let initialFonctionDTO = {
-      name: itemAEnregistrer.libelleFonction,
-      startsAt: moment(itemAEnregistrer.dateDebutFonction).format("YYYY-MM-DD"),
-      endsAt: moment(itemAEnregistrer.dateFinFonction).format("YYYY-MM-DD"),
-      roleIds: itemAEnregistrer.roles,
-      prvIds: itemAEnregistrer.privileges
-    };
+    // let initialFonctionDTO = {
+    //   name: itemAEnregistrer.libelleFonction,
+    //   startsAt: moment(itemAEnregistrer.dateDebutFonction).format("YYYY-MM-DD"),
+    //   endsAt: moment(itemAEnregistrer.dateFinFonction).format("YYYY-MM-DD"),
+    //   roleIds: itemAEnregistrer.roles,
+    //   prvIds: itemAEnregistrer.privileges
+    // };
 
     let requestUser = {
-      createInitialFncDTO : initialFonctionDTO,
+      createInitialFncDTO : this.listeFonctions,
       createUserDTO : createUserDTO
     }
 
     if (!itemAEnregistrer.userId) {
-
      
       // nous sommes au create
       this.busySuscription = this.userService.createUserWithFonction(requestUser).subscribe((response : any) => {
@@ -180,6 +191,26 @@ export class FormCreateUserComponent implements OnInit {
     });
   }
 
+   // recuperer les privileges d'un role
+   getPrivilegeByRole(){
+    let rolesId = this.userForm.value.roles;
+
+    this.busySuscription = this.privilegeService.getPrivilegeByRoleIds(rolesId).subscribe(
+      (response :any) => {
+        console.log(" response busy ",response);
+        if(response) {
+          // this.checkedPrivilegeDefauft(response);
+          let idsPrivileges = [];
+
+          response.forEach(prv => {
+            idsPrivileges.push(prv.privilegeName);
+          });
+          this.userForm.get("privileges").setValue(idsPrivileges);
+        }
+      }
+    )
+  }
+
   getRoles() {
     this.roleService.getAll().subscribe((response: any) => {
       if (response && response["content"]) {
@@ -192,6 +223,46 @@ export class FormCreateUserComponent implements OnInit {
 
   closeModalUser(){
     this.closeModal.emit(true);
+  }
+
+  addFonction(){
+    let itemFonction = this.userForm.value;
+
+    let initialFonctionDTO = {
+      name: itemFonction.libelleFonction,
+      startsAt: moment(itemFonction.dateDebutFonction).format("YYYY-MM-DD"),
+      endsAt: moment(itemFonction.dateFinFonction).format("YYYY-MM-DD"),
+      roleIds: itemFonction.roles,
+      prvIds: itemFonction.privileges
+    };
+
+    this.listeFonctions.push(initialFonctionDTO);
+
+    this.userForm.get("libelleFonction").setValue("");
+    this.userForm.get("dateDebutFonction").setValue(null);
+    this.userForm.get("dateFinFonction").setValue(null);
+    this.userForm.get("roles").setValue([]);
+    this.userForm.get("privileges").setValue([]);
+  }
+
+  deleteFonction(indice) {
+
+    Swal.fire({
+      title: "Suppression de fonction",
+      text: "Voulez-vous supprimer cette fonction ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#0665aa",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    }).then((result) => {
+      if (result.value) {
+        this.listeFonctions.splice(indice,1);
+      }
+    });
+
+   
   }
 
   ngOnInit(): void {

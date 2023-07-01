@@ -7,80 +7,125 @@
             <h2><strong>Administration</strong> rôle</h2>
           </div>
           <div class="body">
-            <section class="section-parametre" [ngBusy]="{
+            <section
+              class="section-parametre"
+              [ngBusy]="{
                 busy: busyGet,
                 message: 'Veuillez patienter ...',
                 backdrop: false
-              }">
+              }"
+            >
               <div class="">
                 <div class="row clearfix">
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="card">
-                      <div class="row" style="margin-left: 5px; margin-right: 5px">
-                        <div class="col-md-6" style="
+                      <div
+                        class="row"
+                        style="margin-left: 5px; margin-right: 5px"
+                      >
+                        <div
+                          class="col-md-6"
+                          style="
                             background: white;
                             padding-top: 20px;
                             max-height: 700px;
                             overflow: auto;
-                          ">
-                          <div class="table-responsive" style="overflow: hidden;">
-                            <table class="table table-condensed table-striped table-hover">
+                          "
+                        >
+                          <div
+                            class="table-responsive"
+                            style="overflow: hidden"
+                          >
+                            <table
+                              class="table table-condensed table-striped table-hover"
+                            >
                               <thead>
                                 <tr>
                                   <th colspan="10">
                                     <div class="row mt-4">
                                       <div class="col-md-7">
-                                        <input [(ngModel)]="itemToSearch.libelle"
-                                          class="form-control custom-input pull-left" placeholder="Rechercher ..."
-                                          (keyup)="currentPage = 1; getItems()" />
+                                        <input
+                                          [(ngModel)]="itemToSearch.libelle"
+                                          class="form-control custom-input pull-left"
+                                          placeholder="Rechercher ..."
+                                          (keyup)="currentPage = 1; getItems()"
+                                        />
                                       </div>
                                     </div>
                                   </th>
                                 </tr>
                                 <tr class="custom-table-head">
                                   <th class="text-center" width="5%">
-                                    <i class="fa fa-refresh" (click)="getItems()"></i>
+                                    <i
+                                      class="fa fa-refresh"
+                                      (click)="getItems()"
+                                    ></i>
                                     #
                                   </th>
                                   <th>Libellé</th>
-                                  <th class="text-center" style="width: 4%;">
+                                  <th class="text-center" style="width: 4%">
                                     Actions
                                   </th>
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr [class.activeRow]="selectedRow?.roleId == item?.roleId" (click)="
-                                    onSetMatchedFuncs(item); selectRow(item)
-                                  " *ngFor="let item of listeRoles; let i = index" style="cursor: pointer">
+                                <tr
+                                  [class.activeRow]="selectedRow?.roleId == item?.roleId"
+                                  *ngFor="let item of listeRoles; let i = index"
+                                  style="cursor: pointer"
+                                >
                                   <td class="text-center">{{ i + 1 }}</td>
                                   <td>
                                     {{ item.roleName | uppercase }}
                                   </td>
-                                  <td class="text-center" style="width: 50px;">
-                                    <a title="Modifier" (click)="onConfirmDelete(item)" class="custom-btn-update">
-                                      <i class="fa fa-edit"></i></a>
+                                  <td class="text-center" style="width: 50px">
+                                    <a
+                                      title="Modifier"
+                                      (click)="getPrivilegeByRole(item)"
+                                      class="custom-btn-update"
+                                    >
+                                      <i class="fa fa-edit"></i
+                                    ></a>
                                   </td>
                                 </tr>
                                 <tr>
-                                  <td colspan="7" *ngIf="result && result.length == 0" class="text-center"
-                                    style="font-weight: 700">
+                                  <td
+                                    colspan="7"
+                                    *ngIf="listeRoles && listeRoles.length == 0"
+                                    class="text-center"
+                                    style="font-weight: 700"
+                                  >
                                     Aucune donnée disponible
                                   </td>
                                 </tr>
                               </tbody>
                               <tfoot>
-                                <tr *ngIf="items && items.length > 0">
+                                <tr *ngIf="listeRoles && listeRoles.length > 0">
                                   <td colspan="4">
                                     <div class="row pagination-part">
-                                      <div class="col-md-9" style="text-align: center">
-                                        <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage"
-                                          [totalItems]="totalItems" [(ngModel)]="currentPage" class="pagination-sm"
-                                          previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
-                                          lastText="&raquo;" (pageChanged)="pageChanged($event)"></pagination>
+                                      <div
+                                        class="col-md-9"
+                                        style="text-align: center"
+                                      >
+                                        <pagination
+                                          [boundaryLinks]="true"
+                                          [itemsPerPage]="itemsPerPage"
+                                          [totalItems]="totalItems"
+                                          [(ngModel)]="currentPage"
+                                          class="pagination-sm"
+                                          previousText="&lsaquo;"
+                                          nextText="&rsaquo;"
+                                          firstText="&laquo;"
+                                          lastText="&raquo;"
+                                          (pageChanged)="pageChanged($event)"
+                                        ></pagination>
                                       </div>
 
                                       <div class="col-md-3">
-                                        <span class="span_total_entree pull-right">Total : {{ totalItems }}</span>
+                                        <span
+                                          class="span_total_entree pull-right"
+                                          >Total : {{ totalItems }}</span
+                                        >
                                       </div>
                                     </div>
                                   </td>
@@ -93,40 +138,56 @@
                         <div class="col-md-6 mt-3">
                           <div class="form-group col-md-12">
                             <div class="row">
-
                               <div class="col-3 mb-3">
-                                <label>Code :
+                                <label
+                                  >Code :
                                   <span class="required_champs">*</span>
                                 </label>
-                                <input class="form-control custom-input" placeholder="Code" autocomplete="off"
-                                  [(ngModel)]="itemToSave.roleCode" name="roleCode" required type="text"
-                                  style="padding-left: 10px" />
+                                <input
+                                  class="form-control custom-input"
+                                  placeholder="Code"
+                                  autocomplete="off"
+                                  [(ngModel)]="itemToSave.roleCode"
+                                  name="roleCode"
+                                  required
+                                  type="text"
+                                  style="padding-left: 10px"
+                                />
                               </div>
 
                               <div class="col-6 mb-3">
-                                <label>Libellé :
+                                <label
+                                  >Libellé :
                                   <span class="required_champs">*</span>
                                 </label>
-                                <input class="form-control custom-input" placeholder="Libellé" autocomplete="off"
-                                  [(ngModel)]="itemToSave.roleName" name="roleName" required type="text"
-                                  style="padding-left: 10px" />
+                                <input
+                                  class="form-control custom-input"
+                                  placeholder="Libellé"
+                                  autocomplete="off"
+                                  [(ngModel)]="itemToSave.roleName"
+                                  name="roleName"
+                                  required
+                                  type="text"
+                                  style="padding-left: 10px"
+                                />
                               </div>
 
                               <div class="col-3 btn-part">
-                                <button class="btn btn-md btn-cancel" (click)="
-                                    uncheckFull();
-                                    itemToSave = {};
-                                    selectedRow = {};
-                                    isAllParentChecked = false
-                                  ">
+                                <button
+                                  class="btn btn-md btn-cancel"
+                                  (click)="cancelSave();isAllParentChecked = false">
                                   Annuler
                                 </button>
 
-                                <button [ngStyle]="{'margin-right': itemToSave.id ? '0px' : '-2px'}" type="button"
-                                  (click)="onConfirmSave()" class="btn btn-md custom_btn_primary pull-right"
-                                  [class.auth-spinner]="loading" [disabled]="loading">
+                                <button
+                                  type="button"
+                                  (click)="onConfirmSave()"
+                                  class="btn btn-md custom_btn_primary pull-right"
+                                  [class.auth-spinner]="loading"
+                                  [disabled]="loading"
+                                >
                                   {{
-                                  itemToSave?.id ? "Modifier" : "Enregistrer"
+                                    itemToSave?.roleId ? "Modifier" : "Enregistrer"
                                   }}
                                 </button>
                               </div>
@@ -246,110 +307,307 @@
                           <!-- FIN OLD -->
 
                           <div class="form-group col-md-12">
-                            <label>Fonctionnalités :
-                              <!-- <span class="required_champs">*</span> -->
-                            </label>
+                            <label>Fonctionnalités :</label>
 
                             <table class="table">
                               <tbody>
                                 <tr>
-                                  <td class="minus-td" colspan="7" style="text-align: left">
-                                      <mat-checkbox class="example-margin" [(ngModel)]="itemToSave.isAllFct" [indeterminate]="itemToSave.indeterminateCheckAll" name="checkAll" (change)="setCheckedAllItem()">&nbsp;&nbsp;Tout cocher</mat-checkbox>
+                                  <td
+                                    class="minus-td"
+                                    colspan="7"
+                                    style="text-align: left"
+                                  >
+                                    <mat-checkbox
+                                      class="example-margin"
+                                      [(ngModel)]="itemToSave.isAllFct"
+                                      [indeterminate]="
+                                        itemToSave.indeterminateCheckAll
+                                      "
+                                      name="checkAll"
+                                      (change)="setCheckedAllItem()"
+                                      >&nbsp;&nbsp;Tout cocher</mat-checkbox
+                                    >
                                   </td>
-
                                 </tr>
-                                <tr *ngFor="let res of listePrivileges;let indice = index" [class.itemCheckCss]=" (res && res.icheckedItem )">
+                                <tr
+                                  *ngFor="
+                                    let res of listePrivileges;
+                                    let indice = index
+                                  "
+                                  [class.itemCheckCss]="res && res.icheckedItem"
+                                >
                                   <td class="minus-td">
-                                    <a (click)="displayDetails(res)" *ngIf="res.datasChildren && res.datasChildren.length>0">
-                                      <i class="fa fa-caret-right fa-ico-fct" *ngIf="!res.isOpen"></i>
-                                      <i class="fa fa-caret-down fa-ico-fct" *ngIf="res.isOpen"></i>
+                                    <div class="menu-deroulant">
+                                      <a
+                                      (click)="displayDetails(res)"
+                                      *ngIf="
+                                        res.privileges &&
+                                        res.privileges.length > 0
+                                      "
+                                    >
+                                      <i
+                                        class="fa fa-caret-right fa-ico-fct"
+                                        *ngIf="!res.isOpen"
+                                      ></i>
+                                      <i
+                                        class="fa fa-caret-down fa-ico-fct"
+                                        *ngIf="res.isOpen"
+                                      ></i>
                                     </a>
+                                    </div>
+                                    
                                   </td>
 
                                   <td colspan="" style="text-align: left">
-
-                                    <mat-checkbox  [ngModelOptions]="{standalone: true}" name="ligneChecked" [indeterminate]="res.indeterminate" [(ngModel)]="res.isChecked" (change)="setCheckedItem(res.isChecked,(res.datasChildren && res.datasChildren.length>0 ? 'parent':'simple'),res.datasChildren ? res.datasChildren : '')">&nbsp;&nbsp;</mat-checkbox>
-
+                                    <mat-checkbox
+                                      [ngModelOptions]="{ standalone: true }"
+                                      name="ligneChecked"
+                                      [indeterminate]="res.indeterminate"
+                                      [(ngModel)]="res.isChecked"
+                                      (change)="
+                                        setCheckedItem(
+                                          res.isChecked,
+                                          res.privileges &&
+                                            res.privileges.length > 0
+                                            ? 'parent'
+                                            : 'simple',
+                                          res.privileges
+                                            ? res.privileges
+                                            : ''
+                                        )
+                                      "
+                                      >&nbsp;&nbsp;</mat-checkbox
+                                    >
                                   </td>
                                   <td>
-                                    {{res.prvTypeName}}
+                                    {{ res.typeName }}
                                   </td>
 
                                   <td>
-                                    {{res.privilegeName}}
-                                    <!-- <div class="col-md-12  div-fct" style="padding: 0px" *ngIf="res.isOpen">
+                                    <!-- {{res.privilegeName}} -->
+                                    <div
+                                      class="col-md-12 div-fct"
+                                      style="padding: 0px"
+                                      *ngIf="res.isOpen"
+                                    >
                                       <table class="table">
                                         <tbody>
-                                          <tr *ngFor="let chil of res.datasChildren;">
-
-                                            <td class="minus-td" *ngIf='chil.datasChildren'>
+                                          <tr
+                                            *ngFor="let chil of res.privileges"
+                                          >
+                                            <td
+                                              class="minus-td"
+                                              *ngIf="chil.privileges"
+                                            >
                                               <a (click)="displayDetails(chil)">
-                                                <i class="fa fa-caret-right fa-ico-fct" *ngIf="!chil.isOpen"></i>
-                                                <i class="fa fa-caret-down fa-ico-fct" *ngIf="chil.isOpen"></i>
+                                                <i
+                                                  class="fa fa-caret-right fa-ico-fct"
+                                                  *ngIf="!chil.isOpen"
+                                                > 1</i>
+                                                <i
+                                                  class="fa fa-caret-down fa-ico-fct"
+                                                  *ngIf="chil.isOpen"
+                                                > 1</i>
                                               </a>
                                             </td>
 
                                             <td colspan="6">
-                                              <mat-checkbox  [ngModelOptions]="{standalone: true}" name="ligneChecked"  [indeterminate]="chil.indeterminate"  [(ngModel)]="chil.isChecked" (change)="setCheckedItem(chil.isChecked,(chil.datasChildren && chil.datasChildren.length>0 ? 'parent':'simple'),chil.datasChildren ? chil.datasChildren : res.datasChildren,res)">&nbsp;&nbsp; {{chil.listePrivileges}}</mat-checkbox>
+                                              <mat-checkbox
+                                                [ngModelOptions]="{
+                                                  standalone: true
+                                                }"
+                                                name="ligneChecked"
+                                                [indeterminate]="
+                                                  chil.indeterminate
+                                                "
+                                                [(ngModel)]="chil.isChecked"
+                                                (change)="
+                                                  setCheckedItem(
+                                                    chil.isChecked,
+                                                    chil.privileges &&
+                                                      chil.privileges
+                                                        .length > 0
+                                                      ? 'parent'
+                                                      : 'simple',
+                                                    chil.privileges
+                                                      ? chil.privileges
+                                                      : res.privileges,
+                                                    res
+                                                  )
+                                                "
+                                                >&nbsp;&nbsp;
+                                                {{
+                                                  chil.privilegeName
+                                                }}</mat-checkbox
+                                              >
 
-                                              <div class="col-md-12 div-fct" style="padding: 0px" *ngIf='chil.datasChildren && chil.datasChildren.length>0 && chil.isOpen'>
+                                              <div
+                                                class="col-md-12 div-fct"
+                                                style="padding: 0px"
+                                                *ngIf="
+                                                  chil.privileges &&
+                                                  chil.privileges.length > 0 &&
+                                                  chil.isOpen
+                                                "
+                                              >
                                                 <table class="table">
                                                   <tbody>
-                                                    <tr *ngFor="let chil2 of chil.datasChildren;">
-
-                                                      <td class="minus-td" *ngIf='chil2.datasChildren'>
-                                                        <a (click)="displayDetails(chil2)">
-                                                          <i class="fa fa-caret-right fa-ico-fct" *ngIf="!chil2.isOpen"></i>
-                                                          <i class="fa fa-caret-down fa-ico-fct" *ngIf="chil2.isOpen"></i>
+                                                    <tr
+                                                      *ngFor="
+                                                        let chil2 of chil.privileges
+                                                      "
+                                                    >
+                                                      <td
+                                                        class="minus-td"
+                                                        *ngIf="chil2.privileges"
+                                                      >
+                                                        <a
+                                                          (click)="
+                                                            displayDetails(
+                                                              chil2
+                                                            )
+                                                          "
+                                                        >
+                                                          <i
+                                                            class="fa fa-caret-right fa-ico-fct"
+                                                            *ngIf="
+                                                              !chil2.isOpen
+                                                            "
+                                                          > 2 </i>
+                                                          <i
+                                                            class="fa fa-caret-down fa-ico-fct"
+                                                            *ngIf="chil2.isOpen"
+                                                          > 2 </i>
                                                         </a>
                                                       </td>
 
                                                       <td colspan="6">
-                                                        <mat-checkbox  [ngModelOptions]="{standalone: true}" name="ligneChecked"  [indeterminate]="chil2.indeterminate"  [(ngModel)]="chil2.isChecked" (change)="setCheckedItem(chil2.isChecked,(chil2.datasChildren && chil2.datasChildren.length>0 ? 'parent':'simple'),chil2.datasChildren ? chil2.datasChildren : chil.datasChildren,chil)">&nbsp;&nbsp; {{chil2.libelle}}</mat-checkbox>
+                                                        <mat-checkbox
+                                                          [ngModelOptions]="{
+                                                            standalone: true
+                                                          }"
+                                                          name="ligneChecked"
+                                                          [indeterminate]="
+                                                            chil2.indeterminate
+                                                          "
+                                                          [(ngModel)]="
+                                                            chil2.isChecked
+                                                          "
+                                                          (change)="
+                                                            setCheckedItem(
+                                                              chil2.isChecked,
+                                                              chil2.privileges &&
+                                                                chil2.privileges
+                                                                  .length > 0
+                                                                ? 'parent'
+                                                                : 'simple',
+                                                              chil2.privileges
+                                                                ? chil2.privileges
+                                                                : chil.privileges,
+                                                              chil
+                                                            )
+                                                          "
+                                                          >&nbsp;&nbsp;
+                                                          {{
+                                                            chil2.libelle
+                                                          }}</mat-checkbox
+                                                        >
 
-                                                        <div class="col-md-12 div-fct" style="padding: 0px" *ngIf='chil2.datasChildren && chil2.datasChildren.length>0 && chil2.isOpen'>
+                                                        <div
+                                                          class="col-md-12 div-fct"
+                                                          style="padding: 0px"
+                                                          *ngIf="
+                                                            chil2.privileges &&
+                                                            chil2.privileges
+                                                              .length > 0 &&
+                                                            chil2.isOpen
+                                                          "
+                                                        >
                                                           <table class="table">
                                                             <tbody>
-                                                              <tr *ngFor="let chil3 of chil2.datasChildren;">
-
-                                                                <td class="minus-td" *ngIf='chil3.datasChildren'>
-                                                                  <a (click)="displayDetails(chil3)">
-                                                                    <i class="fa fa-caret-right fa-ico-fct" *ngIf="!chil3.isOpen"></i>
-                                                                    <i class="fa fa-caret-down fa-ico-fct" *ngIf="chil3.isOpen"></i>
+                                                              <tr
+                                                                *ngFor="
+                                                                  let chil3 of chil2.privileges
+                                                                "
+                                                              >
+                                                                <td
+                                                                  class="minus-td"
+                                                                  *ngIf="
+                                                                    chil3.privileges
+                                                                  "
+                                                                >
+                                                                  <a
+                                                                    (click)="
+                                                                      displayDetails(
+                                                                        chil3
+                                                                      )
+                                                                    "
+                                                                  >
+                                                                    <i
+                                                                      class="fa fa-caret-right fa-ico-fct"
+                                                                      *ngIf="
+                                                                        !chil3.isOpen
+                                                                      "
+                                                                    ></i>
+                                                                    <i
+                                                                      class="fa fa-caret-down fa-ico-fct"
+                                                                      *ngIf="
+                                                                        chil3.isOpen
+                                                                      "
+                                                                    ></i>
                                                                   </a>
                                                                 </td>
 
                                                                 <td colspan="6">
-                                                                  <mat-checkbox  [ngModelOptions]="{standalone: true}" name="ligneChecked3"  [(ngModel)]="chil3.isChecked" (change)="setCheckedItem(chil3.isChecked,(chil3.datasChildren && chil3.datasChildren.length>0 ? 'parent':'simple'),chil3.datasChildren ? chil3.datasChildren : chil2.datasChildren,chil2)">&nbsp;&nbsp; {{chil3.libelle}}</mat-checkbox>
+                                                                  <mat-checkbox
+                                                                    [ngModelOptions]="{
+                                                                      standalone: true
+                                                                    }"
+                                                                    name="ligneChecked3"
+                                                                    [(ngModel)]="
+                                                                      chil3.isChecked
+                                                                    "
+                                                                    (change)="
+                                                                      setCheckedItem(
+                                                                        chil3.isChecked,
+                                                                        chil3.privileges &&
+                                                                          chil3
+                                                                            .privileges
+                                                                            .length >
+                                                                            0
+                                                                          ? 'parent'
+                                                                          : 'simple',
+                                                                        chil3.privileges
+                                                                          ? chil3.privileges
+                                                                          : chil2.privileges,
+                                                                        chil2
+                                                                      )
+                                                                    "
+                                                                    >&nbsp;&nbsp;
+                                                                    {{
+                                                                      chil3.libelle
+                                                                    }}</mat-checkbox
+                                                                  >
                                                                 </td>
-
                                                               </tr>
                                                             </tbody>
                                                           </table>
                                                         </div>
-
                                                       </td>
-
                                                     </tr>
                                                   </tbody>
                                                 </table>
                                               </div>
-
                                             </td>
                                           </tr>
                                         </tbody>
                                       </table>
-                                    </div> -->
+                                    </div>
                                   </td>
-
-
                                 </tr>
                               </tbody>
                             </table>
-
                           </div>
-
-
                         </div>
                       </div>
                     </div>

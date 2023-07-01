@@ -24,5 +24,9 @@ export class RoleService {
   update = (body:any) => {
     return this.restClient.put('roles/update',body)
   }
-  
+
+  updateRolePrivilege = (body:any) => {
+    return this.restClient.put('roles/update',body)
+  }
+
 }

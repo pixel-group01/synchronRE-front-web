@@ -1,138 +1,254 @@
 <div class="container-form-user">
-    <ng-container>
-      <form class="m-1 mt-3" [formGroup]="userForm" (ngSubmit)="confirmSaveItem()">
-        <div [ngBusy]="{
-                  busy: busySuscription,
-                  message: 'Veuillez patienter ...',
-                  backdrop: false
-                }">
-          <div class="row">
+  <ng-container>
+    <form
+      class="m-1 mt-3"
+      [formGroup]="userForm"
+      (ngSubmit)="confirmSaveItem()"
+    >
+      <div
+        [ngBusy]="{
+          busy: busySuscription,
+          message: 'Veuillez patienter ...',
+          backdrop: false
+        }"
+      >
+        <div class="row">
+          <div class="col-md-6">
+            <table class="table table-condensed table-border table-striped">
+              <thead>
+                <tr>
+                  <th colspan="5" class="txt-align-center">
+                    Fonctions et privilèges
+                  </th>
+                </tr>
 
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col-12 mb-3">
-                  <fieldset>
-                    <legend>
-                      Fonction
-                    </legend>
+                <tr class="custom-table-head">
+                  <th>Libellé</th>
+                  <th>Date début</th>
+                  <th>Date fin</th>
+                  <th>Statut</th>
+                  <th class="txt-align-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let fct of listeFonctionByUser; let indice = index">
+                  <td class="key">{{ fct?.name }}</td>
+                  <td class="key">{{ fct?.startsAt }}</td>
+                  <td class="key">{{ fct?.endsAt }}</td>
+                  <td class="key">
+                    <i class="fa fa-circle" [class.actif]="fct.fncStatus === statutFonction.actif" [class.inactif]="fct.fncStatus === statutFonction.courant"
+                    [class.revoke]="fct.fncStatus === statutFonction.revoke"></i>
+                  </td>
+                  <td class="text-align-center">
+                    <a
+                      title="Modifier"
+                      (click)="gotoUpdateFonction(fct)"
+                      class="custom-btn-update"
+                      *ngIf="fct.fncStatus != statutFonction.revoke"
+                    >
+                      <i class="fa fa-edit"></i
+                    ></a>&nbsp;&nbsp;
 
-                    <div class="p-1">
-                      <div class="row">
-                        <div class="col-md-12 col-xs-12 mb-3">
-                          <label>Libelle :
-                            <span class="required_champs">*</span>
-                          </label>
-                          <input class="form-control custom-input" placeholder="Libellé" autocomplete="off"
-                            formControlName="libelleFonction" name="libelleFonction"
-                            [class.errorInputForm]="getFormFiledsValue('libelleFonction')?.invalid && getFormFiledsValue('libelleFonction')?.touched"
-                            type="text" />
+                    <a
+                    title="Retirer cette fonction"
+                    (click)="confirmRevokeFonction(fct)"
+                    class="custom-btn-delete"
+                    *ngIf="fct.fncStatus != statutFonction.revoke"
+                  >
+                    <i class="fa fa-trash"></i
+                  ></a>
 
-                          <small class="text-danger"
-                            *ngIf="(getFormFiledsValue('libelleFonction')?.dirty || getFormFiledsValue('libelleFonction')?.touched) && getFormFiledsValue('libelleFonction')?.invalid && getFormFiledsValue('libelleFonction')?.errors?.['required']">
-                            Ce champ est obligatoire
-                          </small>
-                        </div>
+                  </td>
+                </tr>
 
-                        <div class="col-md-6 col-xs-12 mb-3">
-                          <label>Date de début
-                            <span class="required_champs">*</span>
-                          </label>
-                          <input class="form-control custom-input" placeholder="Date de début" autocomplete="off"
-                            bsDatepicker [minDate]="dateActuelle" [bsConfig]="{
-                                            dateInputFormat: 'DD/MM/YYYY',
-                                            containerClass: 'theme-dark-blue'
-                                          }" formControlName="dateDebutFonction" name="dateDebutFonction"
-                            [class.errorInputForm]="
-                                            getFormFiledsValue('dateDebutFonction')?.invalid &&
-                                            getFormFiledsValue('dateDebutFonction')?.touched
-                                          " type="text" />
-                          <small class="text-danger"
-                            *ngIf="(getFormFiledsValue('dateDebutFonction')?.dirty || getFormFiledsValue('dateDebutFonction')?.touched) && getFormFiledsValue('dateDebutFonction')?.invalid && getFormFiledsValue('dateDebutFonction')?.errors?.['required']">
-                            Ce champ est obligatoire
-                          </small>
-                        </div>
+                <tr>
+                  <td colspan="6">
+                    <i class="fa fa-circle actif"> Actif</i><br>
+                    <i class="fa fa-circle inactif"> Courant</i><br>
+                    <i class="fa fa-circle revoke">Revoqué</i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-12 mb-3">
+                <fieldset>
+                  <legend>Fonction</legend>
 
-                        <div class="col-md-6 col-xs-12 mb-3">
-                          <label>Date de fin
-                            <span class="required_champs">*</span>
-                          </label>
-                          <input class="form-control custom-input" placeholder="Date de fin" autocomplete="off"
-                            bsDatepicker [minDate]="getFormFiledsValue('dateDebutFonction')?.value" [bsConfig]="{
-                                            dateInputFormat: 'DD/MM/YYYY',
-                                            containerClass: 'theme-dark-blue'
-                                          }" formControlName="dateFinFonction" name="dateFinFonction"
-                            [class.errorInputForm]="
-                                            getFormFiledsValue('dateFinFonction')?.invalid &&
-                                            getFormFiledsValue('dateFinFonction')?.touched
-                                          " type="text" />
-                          <small class="text-danger"
-                            *ngIf="(getFormFiledsValue('dateFinFonction')?.dirty || getFormFiledsValue('dateFinFonction')?.touched) && getFormFiledsValue('dateFinFonction')?.invalid && getFormFiledsValue('dateFinFonction')?.errors?.['required']">
-                            Ce champ est obligatoire
-                          </small>
-                        </div>
+                  <div class="p-1">
+                    <div class="row">
+                      <div class="col-md-12 col-xs-12 mb-3">
+                        <label
+                          >Libelle :
+                          <span class="required_champs">*</span>
+                        </label>
+                        <input
+                          class="form-control custom-input"
+                          placeholder="Libellé"
+                          autocomplete="off"
+                          formControlName="libelleFonction"
+                          name="libelleFonction"
+                          [class.errorInputForm]="
+                            getFormFiledsValue('libelleFonction')?.invalid &&
+                            getFormFiledsValue('libelleFonction')?.touched
+                          "
+                          type="text"
+                        />
+
+                        <small
+                          class="text-danger"
+                          *ngIf="(getFormFiledsValue('libelleFonction')?.dirty || getFormFiledsValue('libelleFonction')?.touched) && getFormFiledsValue('libelleFonction')?.invalid && getFormFiledsValue('libelleFonction')?.errors?.['required']"
+                        >
+                          Ce champ est obligatoire
+                        </small>
+                      </div>
+
+                      <div class="col-md-6 col-xs-12 mb-3">
+                        <label
+                          >Date de début
+                          <span class="required_champs">*</span>
+                        </label>
+                        <input
+                          class="form-control custom-input"
+                          placeholder="Date de début"
+                          autocomplete="off"
+                          bsDatepicker
+                          [minDate]="dateActuelle"
+                          [bsConfig]="{
+                            dateInputFormat: 'DD/MM/YYYY',
+                            containerClass: 'theme-dark-blue'
+                          }"
+                          formControlName="dateDebutFonction"
+                          name="dateDebutFonction"
+                          [class.errorInputForm]="
+                            getFormFiledsValue('dateDebutFonction')?.invalid &&
+                            getFormFiledsValue('dateDebutFonction')?.touched
+                          "
+                          type="text"
+                        />
+                        <small
+                          class="text-danger"
+                          *ngIf="(getFormFiledsValue('dateDebutFonction')?.dirty || getFormFiledsValue('dateDebutFonction')?.touched) && getFormFiledsValue('dateDebutFonction')?.invalid && getFormFiledsValue('dateDebutFonction')?.errors?.['required']"
+                        >
+                          Ce champ est obligatoire
+                        </small>
+                      </div>
+
+                      <div class="col-md-6 col-xs-12 mb-3">
+                        <label
+                          >Date de fin
+                          <span class="required_champs">*</span>
+                        </label>
+                        <input
+                          class="form-control custom-input"
+                          placeholder="Date de fin"
+                          autocomplete="off"
+                          bsDatepicker
+                          [minDate]="
+                            getFormFiledsValue('dateDebutFonction')?.value
+                          "
+                          [bsConfig]="{
+                            dateInputFormat: 'DD/MM/YYYY',
+                            containerClass: 'theme-dark-blue'
+                          }"
+                          formControlName="dateFinFonction"
+                          name="dateFinFonction"
+                          [class.errorInputForm]="
+                            getFormFiledsValue('dateFinFonction')?.invalid &&
+                            getFormFiledsValue('dateFinFonction')?.touched
+                          "
+                          type="text"
+                        />
+                        <small
+                          class="text-danger"
+                          *ngIf="(getFormFiledsValue('dateFinFonction')?.dirty || getFormFiledsValue('dateFinFonction')?.touched) && getFormFiledsValue('dateFinFonction')?.invalid && getFormFiledsValue('dateFinFonction')?.errors?.['required']"
+                        >
+                          Ce champ est obligatoire
+                        </small>
                       </div>
                     </div>
+                  </div>
+                </fieldset>
+              </div>
 
-                  </fieldset>
-                </div>
+              <div class="col-12 mb-3 mt-3">
+                <fieldset>
+                  <legend>Rôles et privilèges</legend>
 
-                <div class="col-12 mb-3 mt-3">
-                  <fieldset>
-                    <legend>
-                      Rôles et privilèges
-                    </legend>
+                  <div class="p-1">
+                    <div class="col-12 mb-3">
+                      <label
+                        >Rôle :
+                        <span class="required_champs">*</span>
+                      </label>
 
-                    <div class="p-1">
+                      <ng-select
+                        formControlName="roles"
+                        [multiple]="true"
+                        [closeOnSelect]="false"
+                        id="roles"
+                      >
+                        <ng-option
+                          *ngFor="let role of listeRoles"
+                          [value]="role?.roleId"
+                          >{{ role.roleName }}</ng-option
+                        >
+                      </ng-select>
+                    </div>
 
-                      <div class="col-12 mb-3">
-                        <label>Rôle :
-                          <span class="required_champs">*</span>
-                        </label>
+                    <div class="col-12 mb-3">
+                      <label
+                        >Privilège :
+                        <span class="required_champs">*</span>
+                      </label>
 
-                        <ng-select formControlName="roles" [multiple]="true" [closeOnSelect]="false" id="roles">
-                          <ng-option *ngFor="let role of listeRoles" [value]="role?.roleId">{{ role.roleName
-                            }}</ng-option>
-                        </ng-select>
-                      </div>
+                      <ng-select
+                        name="privileges"
+                        id="privileges"
+                        notFoundText="Aucune donnée"
+                        placeholder="Privilège"
+                        [multiple]="true"
+                        [closeOnSelect]="false"
+                        [items]="listePrivileges"
+                        formControlName="privileges"
+                        bindLabel="privilegeName"
+                        bindValue="privilegeId"
+                      >
+                      </ng-select>
 
-                      <div class="col-12 mb-3">
-
-                        <!-- <app-select-menu-item-privilege></app-select-menu-item-privilege> -->
-                        <label>Privilège :
-                          <span class="required_champs">*</span>
-                        </label>
-
-                        <ng-select formControlName="privileges" [closeOnSelect]="false" [multiple]="true" id="privileges">
+                      <!-- <ng-select formControlName="privileges" [closeOnSelect]="false" [multiple]="true" id="privileges">
                           <ng-option *ngFor="let privilege of listePrivileges" [value]="privilege?.privilegeId">{{
                             privilege.privilegeName
                             }}</ng-option>
-                        </ng-select>
-                      </div>
-
+                        </ng-select> -->
                     </div>
-                  </fieldset>
-                </div>
-
+                  </div>
+                </fieldset>
               </div>
-
             </div>
-
-          </div>
-
-
-          <div class="custom-btn-save-manager">
-            <button type="submit" class="btn btn-md custom_btn_primary pull-right" [disabled]="!userForm.valid">
-              {{!itemToUpdate ? 'Enregistrer' : 'Modifier'}}
-            </button>
-
-            <button type="button" class="btn btn-md btn-cancel pull-right" (click)="closeModalUser()">
-              Annuler
-            </button>
           </div>
         </div>
-      </form>
 
+        <div class="custom-btn-save-manager">
+          <button
+            type="submit"
+            class="btn btn-md custom_btn_primary pull-right"
+            [disabled]="!userForm.valid"
+          >
+            {{ !itemToUpdate ? "Enregistrer" : "Modifier" }}
+          </button>
 
-    </ng-container>
-
-  </div>
+          <button
+            type="button"
+            class="btn btn-md btn-cancel pull-right"
+            (click)="closeModalUser()"
+          >
+            Annuler
+          </button>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+</div>

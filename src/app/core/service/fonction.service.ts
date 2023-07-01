@@ -9,7 +9,7 @@ export class FonctionService {
   constructor(private restClient:RestClientService) { }
 
   create = (body:any) => {
-    return this.restClient.post('statuts/create',body)
+    return this.restClient.post('functions/create',body)
   } 
 
   getDetailsInfoFonctionForUser = (idUser:number) => {
@@ -22,7 +22,11 @@ export class FonctionService {
   }
 
   update = (body:any) => {
-    return this.restClient.put('functions/update',body)
+    return this.restClient.put('functions/update',body) 
+  }
+
+  revoke = (idFct:any) => {
+    return this.restClient.put('functions/revoke/'+idFct)
   }
 
 

@@ -45,7 +45,7 @@
                               <th>Nom prenoms</th>
                               <th>Cédante</th>
                               <th>Email</th>
-                              <th>Dernière connexion</th>
+                              <!-- <th>Dernière connexion</th> -->
                               <th>Contact</th>
                               <th>Statut</th>
                               <th class="txt-align-center">Actions</th>
@@ -58,7 +58,7 @@
                               <td>{{ item?.lastName }} {{ item?.firstName }}</td>
                               <td>{{ item?.cedName }}</td>
                               <td>{{ item?.email }}</td>
-                              <td>{{ item?.lastConnectionDate }}</td>
+                              <!-- <td>{{ item?.lastConnectionDate }}</td> -->
                               <!-- <td>{{ item?.login }}</td> -->
                               <!-- <td>{{ item?.roleLibelle }}</td> -->
                               <td>
@@ -84,13 +84,16 @@
                                         <i class="fa fa-list"></i>&nbsp;Détails utilisateur
                                       </button>
 
+                                      <button ngbDropdownItem (click)="openModal(item,templateAddFonction,true)">
+                                        <i class="fa fa-plus"></i>&nbsp;Ajouter une fonction
+                                      </button>
 
                                       <button ngbDropdownItem (click)="openModal(item,templateModifierInfo,true)">
                                         <i class="fa fa-edit"></i>&nbsp;Modifier les infos
                                       </button>
 
-                                      <button ngbDropdownItem (click)="openModal(item,templateAssignFonction,true)">
-                                        <i class="fa fa-edit"></i>&nbsp;Modifier la fonction
+                                      <button ngbDropdownItem (click)="openModal(item,templateAssignFonction)">
+                                        <i class="fa fa-edit"></i>&nbsp;Modifier/retirer une fonction
                                       </button>
 
                                       <button ngbDropdownItem (click)="confirmUnLockAccount(item?.userId)"
@@ -192,6 +195,12 @@
                         <div>
 
                           <table class="table table-condensed table-border table-striped">
+
+                            <thead >
+                              <tr>
+                                 <th colspan="2" class="txt-align-center"> Information utilisateur </th>
+                              </tr>
+                            </thead>
                             <tbody>
                               <tr>
                                 <td class="key">Nom</td>
@@ -206,13 +215,36 @@
                                 <td class="key">{{itemToSave?.email}}</td>
                               </tr>
                               <tr *ngIf="itemToSave?.cedName">
-                                <td class="key">Cédente</td>
+                                <td class="key">Cédante</td>
                                 <td class="key">{{itemToSave?.cedName}}</td>
                               </tr>
                               <tr>
                                 <td class="key">Téléphone</td>
                                 <td class="key">{{itemToSave?.tel}}</td>
                               </tr>
+                            </tbody>
+                          </table>
+
+                          <table class="table table-condensed table-border table-striped">
+
+                            <thead>
+                              <tr >
+                                 <th colspan="3" class="txt-align-center"> Fonctions et privilèges </th>
+                              </tr>
+
+                              <tr  class="custom-table-head">
+                                <th>Libellé</th>
+                                <th>Date début</th>
+                                <th>Date fin</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let fct of detailsFonctionUser; let indice = index">
+                                <td class="key">{{fct?.name}}</td>
+                                <td class="key">{{fct?.startsAt}}</td>
+                                <td class="key">{{fct?.endsAt}}</td>
+                              </tr>
+                             
                             </tbody>
                           </table>
 
@@ -226,9 +258,7 @@
 
                     <ng-template #templateAssignFonction>
                       <div class="modal-header">
-                        <h4 class="modal-title pull-left">
-                         Modification de fonction
-                        </h4>
+                        <h4 class="modal-title pull-left"> Modification de fonction </h4>
 
                         <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
                           <mat-icon>close</mat-icon>
@@ -237,6 +267,22 @@
                       <div class="modal-body">
                         <div>
                           <app-form-assign-fonction (closeModal)="closeModalFormUser($event)" [itemToUpdate]="itemToSave"></app-form-assign-fonction>
+                        </div>
+                      </div>
+
+                    </ng-template>
+
+                    <ng-template #templateAddFonction>
+                      <div class="modal-header">
+                        <h4 class="modal-title pull-left"> Ajout de fonction à l'utilisateur {{itemToSave?.firstName}} </h4>
+
+                        <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div>
+                          <app-add-new-fonction (closeModal)="closeModalFormUser($event)" [itemToUpdate]="itemToSave"></app-add-new-fonction>
                         </div>
                       </div>
 

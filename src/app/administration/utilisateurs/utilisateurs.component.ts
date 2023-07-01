@@ -9,6 +9,8 @@ import * as moment from "moment";
 import * as _ from "lodash";
 import { UserService } from "src/app/core/service/user.service";
 import { UserSynchroRE } from "src/app/core/models/userSynscroRE";
+import { FonctionService } from "src/app/core/service/fonction.service";
+import { User } from "src/app/core/models/user";
 
 @Component({
   selector: "app-utilisateurs",
@@ -17,6 +19,7 @@ import { UserSynchroRE } from "src/app/core/models/userSynscroRE";
 })
 export class UtilisateursComponent implements OnInit {
   listItems: Array<any> = [];
+  detailsFonctionUser : any;
   items: Array<any> = [];
   itemToSave: any = {};
   uniteFonctionnelleSelected: any = {};
@@ -56,7 +59,8 @@ export class UtilisateursComponent implements OnInit {
     private restClient: RestClientService,
     private modalService: BsModalService,
     private utilities: UtilitiesService,
-    private userService: UserService
+    private userService: UserService,
+    private fonctionService: FonctionService
   ) {
     this.user = this.authService.currentUserValue;
   }
@@ -79,21 +83,11 @@ export class UtilisateursComponent implements OnInit {
       this.itemToSave = Object.assign({}, data);
 
       if(isDetails) {
-        this.getDetailsInfo();
+        this.getDetailsFonction(this.itemToSave);
       }
     }
     this.modalRef = this.modalService.show(template, config);
   }
-
-  getDetailsInfo() {
-    this.userService.getInfoUser(this.itemToSave.userId).subscribe((response: any) => {
-      
-      if(response) {
-        console.log(" response details ",response);
-      }
-    });
-  }
-
 
 
   getItems() {
@@ -218,6 +212,17 @@ export class UtilisateursComponent implements OnInit {
     }
     this.modalRef.hide();
   }
+
+
+  getDetailsFonction(itemUser : User) {
+    this.fonctionService.getDetailsInfoFonctionForUser(itemUser?.userId).subscribe((response: any) => {
+      if(response) {
+        console.log(" response ",response);
+        this.detailsFonctionUser = response;
+      }
+    });
+  }
+
 
   ngOnInit() {
     this.getItems();

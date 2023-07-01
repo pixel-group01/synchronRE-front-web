@@ -15,6 +15,31 @@ export class PrivilegeService {
   getAll = () => {
     return this.restClient.get('privileges/search');
   }
+
+  getPrivilegeGroupByType = () => {
+    return this.restClient.get('privileges/grouped-by-type');
+  }
+
+  getPrivilegeByRoleId = (roleId:number) => {
+    return this.restClient.get('privileges/privileges-for-roleIds?roleIds='+roleId);
+  }
+
+  getPrivilegeByRoleIds = (roleIds:number[]) => {
+
+    let roleIdsCriteria = "roleIds=";
+
+    roleIds.forEach((role,key) => {
+      console.log(" role ",role);
+      console.log(" key ",key);
+
+      roleIdsCriteria = roleIdsCriteria+role;
+
+      if(key < roleIds.length) {
+        roleIdsCriteria = roleIdsCriteria+'&roleIds='
+      }
+    });
+    return this.restClient.get('privileges/privileges-for-roleIds?'+roleIdsCriteria);
+  }
  
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {
     let endPointFinal = "privileges/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
@@ -24,5 +49,7 @@ export class PrivilegeService {
   update = (body:any) => {
     return this.restClient.put('privileges/update',body)
   }
+
+
   
 }
