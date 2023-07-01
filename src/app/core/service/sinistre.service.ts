@@ -13,17 +13,21 @@ export class SinistreService {
     return this.restClient.post('sinistres/create',body)
   } 
 
-  // getAll = () => {
-  //   return this.restClient.get('affaires/facultative/all');
-  // }
+  delete = (body:any) => {
+    return this.restClient.post('sinistres/delete',body)
+  } 
+
+  transmission = (body:any) => {
+    return this.restClient.put('sinistres/transmettre/'+`${body}`);
+  }
  
   // getByCriteria = (index:number = 0,size:number=10,key?:string) => {
   //   let endPointFinal = "devises/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
   //   return this.restClient.get(endPointFinal);
   // }
 
-  // update = (body:any) => {
-  //   return this.restClient.put('devises/update',body)
-  // }
+  update = (body:any) => {
+    return this.restClient.put('sinistres/update',body)
+  }
 
 }

@@ -1,1 +1,147 @@
-<p>creation-document-sinistre works!</p>
+ <div>
+<form style="margin-top: 29px;margin-bottom: 29px;">
+
+    <fieldset >
+        <legend> Ajouter un document</legend>
+
+        <div class="row p-3" style="align-items: center;">
+                  
+            <div class="col-md-6 col-xs-12 mb-3">
+             <label>Type Document</label>
+              <ng-select 
+                  name="typeDocument" 
+                  id="typeDocument"
+                  notFoundText="Aucune donnée"
+                  placeholder="Ex : Reçu de paiement"
+                  [items]="listeTypeDocument"
+                  bindLabel="libelle"
+                  bindValue="id"
+                  >
+              </ng-select>
+            
+            </div>
+            <div class="col-md-4 col-xs-12 mb-3">
+                <label>Selectionnez un fichier
+                </label>
+                <input
+                class="form-control custom-input"
+                placeholder="C://test.pdf"
+                autocomplete="off"
+                name="fichierName"
+                type="text"
+                mask="separator" thousandSeparator=" " 
+                />
+            
+            </div>
+       
+            <div class="col-md-2 col-xs-12">
+                <button type="submit" class="form-control btn btn-secondary border-0" style="position: relative;top: 3px;"> Ajouter </button>
+            </div>
+        </div>
+      </fieldset>
+</form>
+
+<fieldset>
+    <legend> Liste des documents</legend>
+
+    <div class="row">
+            <div class="col-md-12 col-xs-12">
+
+                <table class="table table-condensed table-striped table-hover">
+                    <thead> 
+                        <tr>
+                            <th colspan="5" style="padding: 14px;">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-12">
+                                        <input class="form-control custom-input pull-left" placeholder="Rechercher ..." />
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                      <tr class="custom-table-head">
+                        <th class="txt-align-center-counter-row">
+                          <a title="Actualiser">
+                            <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                        </th>
+                        <th>N° Doc</th>
+                        <th>Type</th>
+                        <th>Libelle</th>
+                        <th class="txt-align-center">Actions</th>
+                      </tr>
+                    </thead>
+                    <!--{{ getExactlyNumberRow(this.currentPage, indice) }} -->
+                    <tbody>
+                      <tr *ngFor="let item of items; let indice = index">
+                        <td class="txt-align-center">
+                            1
+                        </td>
+                        <td> FAC-001</td>
+                        <td>Reçu de paiement</td>
+                        <td>Reçu de paiement</td>
+                        <td class="custom-width-td-action">
+                          <div class="custom-td-action">
+                            <div ngbDropdown class="d-inline-block">
+                              <button type="button" class="btn btn-custom-action-dropdown" id="action" ngbDropdownToggle>
+                                Actions
+                              </button>
+                                <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
+                                 
+                                  <button ngbDropdownItem (click)="openModal(templateSinistre,item)">
+                                    <i class="fa fa-edit"></i>&nbsp;Modifier le document
+                                  </button>
+                                  <button
+                                  ngbDropdownItem
+                                >
+                                  <i class="fa fa-list" (click)="openModal(templateSinistre,item)"></i>&nbsp;Voir le document
+                                </button>
+                                <button ngbDropdownItem >
+                                  <i class="fa fa-trash"></i>&nbsp;Supprimer le document
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                
+                    <tfoot>
+                      <tr *ngIf="items && items.length > 0">
+                        <td colspan="14">
+                          <div class="row pagination-part">
+                            <div class="col-md-9" style="text-align: center">
+                              <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage" [totalItems]="totalItems"
+                                [(ngModel)]="currentPage" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;"
+                                firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)"></pagination>
+                            </div>
+                
+                            <div class="col-md-3">
+                              <div class="paginator-per-page">
+                                <app-element-by-page-paginator (paginationChange)="changePaginationSize($event)"
+                                  [defaultItemPerPage]="itemsPerPage"></app-element-by-page-paginator>
+                
+                                <span class="span_total_entree pull-right">Total : {{ totalItems }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                
+                      <tr *ngIf="!items || items.length == 0">
+                        <td colspan="14">
+                          <div class="col-md-12 txt-align-center">
+                            Aucune données disponible
+                          </div>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+              </div>
+     
+    </div>
+  </fieldset>
+    
+<div class="col-md-1 col-xs-4 m-4" style="margin-bottom: 0 !important;">
+    <button class="form-control btn btn-light p-2 border-0" style="border-radius: 3px; " type="button">Fermer</button>
+</div>
+
+ </div>

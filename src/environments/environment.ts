@@ -7,8 +7,6 @@ export const environment = {
   // apiUrl : 'http://localhost:5001/',
   // apiUrl : 'https://synchronre.azurewebsites.net/',
   apiUrl : 'http://164.160.41.153:5000/'
-  
-
 };
 
 /*

@@ -10,6 +10,7 @@ import { BusinessOptionalService } from 'src/app/core/service/business-optional.
 import { CedanteService } from 'src/app/core/service/cedante.service';
 import { ExerciceService } from 'src/app/core/service/exercice.service';
 import { RestClientService } from 'src/app/core/service/rest-client.service';
+import { SinistreService } from 'src/app/core/service/sinistre.service';
 import { UserService } from 'src/app/core/service/user.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import { environment } from 'src/environments/environment';
@@ -22,6 +23,7 @@ import Swal from 'sweetalert2';
 })
 export class ListSinistreComponent implements OnInit {
   items: any =[];
+  itemsinistre :any ;
   itemToSave: any = {};
   modalRef: BsModalRef;
   listesSinistre: any=[]
@@ -30,8 +32,9 @@ export class ListSinistreComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalItems: number; 
-  busyGet: Subscription;
+  busyGet: Subscription; 
   user:  any;
+  isActiveInput :boolean = false
   // listeExercices: Array<Exercice> = [];
   // @Input() statutAffaire!: string;
   // @Input() refreshDataTable!: string;
@@ -43,9 +46,7 @@ export class ListSinistreComponent implements OnInit {
 
   constructor(
     private businessOptionalService: BusinessOptionalService,
-    private cedenteService: CedanteService,
-    private exercieService: ExerciceService,
-    private userService: UserService,
+    private sinistreService: SinistreService,
     private utilities: UtilitiesService,
     private modalService: BsModalService,
     private restClient: RestClientService
@@ -98,15 +99,46 @@ export class ListSinistreComponent implements OnInit {
     // );
   }
 
-  openModal(template: TemplateRef<any>,data:any) {
+  openModal(template: TemplateRef<any>,data?:any,isActive?:any) {
+    this.itemsinistre = {...data}
+    isActive ?  this.isActiveInput = isActive :  this.isActiveInput
+    
+    // console.log("this.itemsinistr :",this.itemsinistre);
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
     this.modalRef = this.modalService.show(template,config);
   }
 
+  transmettre(data:any){
+    this.sinistreService.transmission(data).subscribe((res:any)=>{
+        if (res) {
+          console.log(res ,' info sinistre');
+          
+        }
+    })
+  }
+
+  confirmTransmettreSinistre(item:any) {
+    Swal.fire({
+      title: "Transmettre le sinistre",
+      text:"Vous êtes sur le point de transmettre un sinistre. Voulez-vous poursuivre cette action ?",
+      icon: "success",
+      showCancelButton: true,
+      confirmButtonColor: "#0665aa",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    }).then((result) => {
+      if (result.value) {
+        // On effectue une transmission de sinistre
+        this.transmettre(item);
+      }
+    });
+  }
+
   closeFormModal($event) {
     this.modalRef.hide();
-    this.businessOptionalService.setCurrentOptionalBusiness(null);
-    this.getItems();
+    // this.businessOptionalService.setCurrentOptionalBusiness(null);
+    this.getSinistre();
   }
 
   pageChanged(event: any): void {
@@ -118,11 +150,19 @@ export class ListSinistreComponent implements OnInit {
     this.busyGet =  this.restClient.get('sinistres/list')
       .subscribe((res: any) => {
         console.log("res sinistre :",res);
-        this.items = res.content
+        this.items = res.content.map((elt:any)=>{
+          let dateDecl = elt.sinDateDeclaration.split('-');
+          let dateSur =  elt.sinDateSurvenance.split('-');
+          elt.sinDateDecl = dateDecl[2] + '/' + dateDecl[1] + '/' + dateDecl[0];
+          elt.sinDateSur =  dateSur[2] + '/' + dateSur[1] + '/' + dateSur[0]
+
+
+          return elt
+        });
         this.totalItems = res.totalPages;
         
-      })
-  }
+      }) 
+  } 
 
   closeModal($event: any) {
     this.modalRef.hide();
