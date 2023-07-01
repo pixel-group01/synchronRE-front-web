@@ -21,16 +21,16 @@
             [class.errorInputForm]="getFormFiledsValue('staCode')?.invalid && getFormFiledsValue('staCode')?.touched"
             type="text"
           />
-  
+
           <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('staCode')?.dirty || getFormFiledsValue('staCode')?.touched) && getFormFiledsValue('staCode')?.invalid && getFormFiledsValue('staCode')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
         </div>
       </div>
-  
+
       <div class="row">
         <div class="col-12 mb-3">
           <label
@@ -45,16 +45,16 @@
             name="staLibelle"
             [class.errorInputForm]="getFormFiledsValue('staLibelle')?.invalid && getFormFiledsValue('staLibelle')?.touched"
             type="text"
-          /> 
+          />
           <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('staLibelle')?.dirty || getFormFiledsValue('staLibelle')?.touched) && getFormFiledsValue('staLibelle')?.invalid && getFormFiledsValue('staLibelle')?.errors?.['required']"
         >
-          Ce champs est obligatoire
+          Ce champ est obligatoire
         </small>
         </div>
       </div>
-  
+
       <div class="row">
         <div class="col-12 mb-3">
           <label
@@ -69,17 +69,17 @@
             name="staLibelleLong"
             [class.errorInputForm]="getFormFiledsValue('staLibelleLong')?.invalid && getFormFiledsValue('staLibelleLong')?.touched"
             type="text"
-          /> 
+          />
           <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('staLibelleLong')?.dirty || getFormFiledsValue('staLibelleLong')?.touched) && getFormFiledsValue('staLibelleLong')?.invalid && getFormFiledsValue('staLibelleLong')?.errors?.['required']"
         >
-          Ce champs est obligatoire
+          Ce champ est obligatoire
         </small>
         </div>
       </div>
 
-  
+
       <div class="custom-btn-save-manager">
         <button
           type="submit"
@@ -88,7 +88,7 @@
         >
         {{itemToUpdate.staId}} {{!itemToUpdate.staId ? 'Enregistrer' : 'Modifier'}}
         </button>
-  
+
         <button
           type="button"
           class="btn btn-md btn-cancel pull-right"
@@ -99,4 +99,3 @@
       </div>
     </div>
   </form>
-  

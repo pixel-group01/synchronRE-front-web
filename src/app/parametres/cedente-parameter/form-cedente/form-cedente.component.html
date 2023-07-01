@@ -21,16 +21,16 @@
             [class.errorInputForm]="getFormFiledsValue('cedNomFiliale')?.invalid && getFormFiledsValue('cedNomFiliale')?.touched"
             type="text"
           />
-  
+
           <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('cedNomFiliale')?.dirty || getFormFiledsValue('cedNomFiliale')?.touched) && getFormFiledsValue('cedNomFiliale')?.invalid && getFormFiledsValue('cedNomFiliale')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
         </div>
       </div>
-  
+
       <div class="row">
         <div class="col-md-6 col-xs-12 mb-3">
           <label
@@ -45,12 +45,12 @@
             name="cedSigleFiliale"
             [class.errorInputForm]="getFormFiledsValue('cedSigleFiliale')?.invalid && getFormFiledsValue('cedSigleFiliale')?.touched"
             type="text"
-          /> 
+          />
           <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('cedSigleFiliale')?.dirty || getFormFiledsValue('cedSigleFiliale')?.touched) && getFormFiledsValue('cedSigleFiliale')?.invalid && getFormFiledsValue('cedSigleFiliale')?.errors?.['required']"
         >
-          Ce champs est obligatoire
+          Ce champ est obligatoire
         </small>
         </div>
 
@@ -67,17 +67,17 @@
               name="cedTel"
               [class.errorInputForm]="getFormFiledsValue('cedTel')?.invalid && getFormFiledsValue('cedTel')?.touched"
               type="text"
-            /> 
+            />
             <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('cedTel')?.dirty || getFormFiledsValue('cedTel')?.touched) && getFormFiledsValue('cedTel')?.invalid && getFormFiledsValue('cedTel')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
           </div>
 
       </div>
-  
+
       <div class="row">
         <div class="col-md-6 col-xs-12 mb-3">
           <label
@@ -92,12 +92,12 @@
             name="cedFax"
             [class.errorInputForm]="getFormFiledsValue('cedFax')?.invalid && getFormFiledsValue('cedFax')?.touched"
             type="text"
-          /> 
+          />
           <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('cedFax')?.dirty || getFormFiledsValue('cedFax')?.touched) && getFormFiledsValue('cedFax')?.invalid && getFormFiledsValue('cedFax')?.errors?.['required']"
         >
-          Ce champs est obligatoire
+          Ce champ est obligatoire
         </small>
         </div>
 
@@ -114,12 +114,12 @@
               name="cedEmail"
               [class.errorInputForm]="getFormFiledsValue('cedEmail')?.invalid && getFormFiledsValue('cedEmail')?.touched"
               type="text"
-            /> 
+            />
             <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('cedEmail')?.dirty || getFormFiledsValue('cedEmail')?.touched) && getFormFiledsValue('cedEmail')?.invalid && getFormFiledsValue('cedEmail')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
           </div>
 
@@ -139,12 +139,12 @@
             name="cedAdressePostale"
             [class.errorInputForm]="getFormFiledsValue('cedAdressePostale')?.invalid && getFormFiledsValue('cedAdressePostale')?.touched"
             type="text"
-          /> 
+          />
           <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('cedAdressePostale')?.dirty || getFormFiledsValue('cedAdressePostale')?.touched) && getFormFiledsValue('cedAdressePostale')?.invalid && getFormFiledsValue('cedAdressePostale')?.errors?.['required']"
         >
-          Ce champs est obligatoire
+          Ce champ est obligatoire
         </small>
         </div>
 
@@ -161,17 +161,17 @@
               name="cedSituationGeo"
               [class.errorInputForm]="getFormFiledsValue('cedSituationGeo')?.invalid && getFormFiledsValue('cedSituationGeo')?.touched"
               type="text"
-            /> 
+            />
             <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('cedSituationGeo')?.dirty || getFormFiledsValue('cedSituationGeo')?.touched) && getFormFiledsValue('cedSituationGeo')?.invalid && getFormFiledsValue('cedSituationGeo')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
           </div>
 
       </div>
-  
+
       <div class="custom-btn-save-manager">
         <button
           type="submit"
@@ -180,7 +180,7 @@
         >
           {{itemToUpdate?.cedId ? 'Modifier' : 'Enregistrer'}}
         </button>
-  
+
         <button
           type="button"
           class="btn btn-md btn-cancel pull-right"
@@ -191,4 +191,3 @@
       </div>
     </div>
   </form>
-  

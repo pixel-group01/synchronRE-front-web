@@ -113,7 +113,7 @@ export class FormPaiementComponent implements OnInit {
   confirmSaveItem() {
     Swal.fire({
       title: this.isPaiement ? "Paiement" : "Reversement",
-      text: "Vous êtes sur le point d'enregistrer un paiement. Désirez-vous poursuivre ?",
+      text: "Désirez-vous poursuivre ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#0665aa",
@@ -176,7 +176,7 @@ export class FormPaiementComponent implements OnInit {
   getNoteCredit(idCessionnaire: number){
     if(idCessionnaire) {
       window.open(environment.apiUrl+'reports/note-de-credit/'+this.currentAffaire.affId+'/'+idCessionnaire, '_blank');
-      }
+    }
   }
   
   

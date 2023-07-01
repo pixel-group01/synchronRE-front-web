@@ -21,16 +21,16 @@
             [class.errorInputForm]="getFormFiledsValue('paysCode')?.invalid && getFormFiledsValue('paysCode')?.touched"
             type="text"
           />
-  
+
           <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('paysCode')?.dirty || getFormFiledsValue('paysCode')?.touched) && getFormFiledsValue('paysCode')?.invalid && getFormFiledsValue('paysCode')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
         </div>
       </div>
-  
+
       <div class="row">
         <div class="col-12 mb-3">
           <label
@@ -45,16 +45,16 @@
             name="paysNom"
             [class.errorInputForm]="getFormFiledsValue('paysNom')?.invalid && getFormFiledsValue('paysNom')?.touched"
             type="text"
-          /> 
+          />
           <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('paysNom')?.dirty || getFormFiledsValue('paysNom')?.touched) && getFormFiledsValue('paysNom')?.invalid && getFormFiledsValue('paysNom')?.errors?.['required']"
         >
-          Ce champs est obligatoire
+          Ce champ est obligatoire
         </small>
         </div>
       </div>
-  
+
       <div class="row">
         <div class="col-12 mb-3">
           <label
@@ -75,11 +75,11 @@
           class="text-danger"
           *ngIf="(getFormFiledsValue('paysIndicatif')?.dirty || getFormFiledsValue('paysIndicatif')?.touched) && getFormFiledsValue('paysIndicatif')?.invalid && getFormFiledsValue('paysIndicatif')?.errors?.['required']"
         >
-          Ce champs est obligatoire
+          Ce champ est obligatoire
         </small>
         </div>
       </div>
-  
+
       <div class="custom-btn-save-manager">
         <button
           type="submit"
@@ -88,7 +88,7 @@
         >
           {{!itemToUpdate ? 'Enregistrer' : 'Modifier'}}
         </button>
-  
+
         <button
           type="button"
           class="btn btn-md btn-cancel pull-right"
@@ -99,4 +99,3 @@
       </div>
     </div>
   </form>
-  

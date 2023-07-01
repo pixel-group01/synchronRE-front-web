@@ -55,6 +55,10 @@ export class UserService {
     return this.restClient.post('users/create',body,option)
   } 
 
+  createUserWithFonction = (body:any,option?:any): Observable<any> => {
+    return this.restClient.post('users/create-user-and-function',body,option)
+  } 
+
   getAll = () => {
     return this.restClient.get('users/list');
   }
@@ -64,8 +68,34 @@ export class UserService {
     return this.restClient.get(endPointFinal);
   }
 
+  getInfoUser = (idUser:number) => {
+    return this.restClient.get('users/infos/'+idUser);
+  }
+
   update = (body:any) => {
     return this.restClient.put('users/update',body)
   }
+
+  unLockAccount = (idUser:any) => {
+    return this.restClient.put('users/unblock/'+idUser,{});
+  }
+
+  lockAccount = (idUser:any) => {
+    return this.restClient.put('users/block/'+idUser,{});
+  }
+
+  activateAccount = (body:any,option?:any): Observable<any> => {
+    return this.restClient.put('users/open/activate-account',body,option)
+  } 
+
+  sendEmailForReinitPassword = (email:any,option?:any): Observable<any> => {
+    return this.restClient.put('users/open/send-reinit-password-email/'+email,{})
+  } 
+
+  reinitPassword = (body:any,option?:any): Observable<any> => {
+    return this.restClient.put('users/open/reinit-password',body,option)
+  } 
+
+  
 
 }

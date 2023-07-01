@@ -25,6 +25,10 @@ export class SigninComponent
   error = "";
   hide = true;
   password: any;
+  isFirstConnexion : boolean = false;
+  currentToken : string;
+  isPassForget : boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -35,6 +39,24 @@ export class SigninComponent
     private userService: UserService
   ) {
     super();
+
+       
+    this.route.params.subscribe(params => {
+      if (params['token']) {
+        this.isFirstConnexion = true;
+        this.currentToken = params['token'];
+      }
+    });
+ 
+    console.log(" this.route ",this.route);
+    console.log(" this.this.route.snapshot ",this.route.snapshot['_routerState']?.url);
+    
+    console.log(" this.route.snapshot['_routerState']?.url.includes('/authentication/forget-password/') ",this.route.snapshot['_routerState']?.url.includes('/authentication/forget-password/'));
+    
+    if(this.route.snapshot['_routerState']?.url.includes('/authentication/forget-password/')){
+      this.isPassForget = true;
+    }
+
   }
 
   ngOnInit() {

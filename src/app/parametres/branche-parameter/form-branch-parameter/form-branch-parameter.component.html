@@ -21,16 +21,16 @@
             [class.errorInputForm]="getFormFiledsValue('branLibelle')?.invalid && getFormFiledsValue('branLibelle')?.touched"
             type="text"
           />
-  
+
           <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('branLibelle')?.dirty || getFormFiledsValue('branLibelle')?.touched) && getFormFiledsValue('branLibelle')?.invalid && getFormFiledsValue('branLibelle')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
         </div>
       </div>
-  
+
       <div class="row">
         <div class="col-12 mb-3">
           <label
@@ -45,17 +45,17 @@
             name="branLibelleAbrege"
             [class.errorInputForm]="getFormFiledsValue('branLibelleAbrege')?.invalid && getFormFiledsValue('branLibelleAbrege')?.touched"
             type="text"
-          /> 
+          />
           <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('branLibelleAbrege')?.dirty || getFormFiledsValue('branLibelleAbrege')?.touched) && getFormFiledsValue('branLibelleAbrege')?.invalid && getFormFiledsValue('branLibelleAbrege')?.errors?.['required']"
         >
-          Ce champs est obligatoire
+          Ce champ est obligatoire
         </small>
         </div>
       </div>
-  
-  
+
+
       <div class="custom-btn-save-manager">
         <button
           type="submit"
@@ -64,7 +64,7 @@
         >
           {{!itemToUpdate ? 'Enregistrer' : 'Modifier'}}
         </button>
-  
+
         <button
           type="button"
           class="btn btn-md btn-cancel pull-right"
@@ -75,4 +75,3 @@
       </div>
     </div>
   </form>
-  

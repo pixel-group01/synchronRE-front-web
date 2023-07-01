@@ -19,7 +19,7 @@ export const ROUTES: RouteInfo[] = [
     codeAclCedente: enumCodeACL.CEDANTE,
     submenu: [],
   },
-  // Affaire
+  // Affaire mise en commentaire 
   {
     path: "",
     title: "Production",
@@ -63,7 +63,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
 
-  // Affaire
+  // Affaire mise en commentaire
   {
     path: "",
     title: "Sinistres",
@@ -120,24 +120,7 @@ export const ROUTES: RouteInfo[] = [
     ],
   },
 
-  // {
-  //   path: "/archives",
-  //   title: "Archives",
-  //   moduleName: "archives",
-  //   iconType: "list",
-  //   icon: "tachometer",
-  //   class: "",
-  //   groupTitle: false,
-  //   badge: "",
-  //   badgeClass: "",
-  //   code: "DASHBORD-NAV",
-  //   acl: "",
-  //   codeAclAdmin: enumCodeACL.ADMIN,
-  //   codeAclCedente: enumCodeACL.CEDANTE,
-  //   submenu: [],
-  // },
-
-  // Comptabilité
+  // Comptabilité mis en commentaire
   {
     path: "",
     title: "Comptabilité",

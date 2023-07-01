@@ -7,41 +7,30 @@
             <h2><strong>Administration</strong> utilisateur</h2>
           </div>
           <div class="body">
-            <section
-              class="section-parametre"
-              [ngBusy]="{
+            <section class="section-parametre" [ngBusy]="{
                 busy: busyGet,
                 message: 'Veuillez patienter ...',
                 backdrop: false
-              }"
-            >
+              }">
               <div class="">
                 <div class="row clearfix">
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="card">
                       <div class="body table-responsive">
-                        <table
-                          class="table table-condensed table-striped table-hover"
-                        >
+                        <table class="table table-condensed table-striped table-hover">
                           <thead>
                             <tr>
                               <th colspan="11">
                                 <div class="row mt-4">
                                   <div class="col-md-3">
-                                    <input
-                                      [(ngModel)]="itemToSearch.libelle"
-                                      class="form-control custom-input pull-left"
-                                      placeholder="Rechercher par nom ..."
-                                      (keyup)="currentPage = 1; getItems()"
-                                    />
+                                    <input [(ngModel)]="itemToSearch.libelle"
+                                      class="form-control custom-input pull-left" placeholder="Rechercher par nom ..."
+                                      (keyup)="currentPage = 1; getItems()" />
                                   </div>
 
                                   <div class="col-md-9">
-                                    <button
-                                      type="button"
-                                      class="btn btn-md custom_btn_primary pull-right"
-                                      (click)="openModal(null, templateCrud)"
-                                    >
+                                    <button type="button" class="btn btn-md custom_btn_primary pull-right"
+                                      (click)="openModal(null, templateCrud)">
                                       <i class="fa fa-plus"></i>&nbsp; Ajouter
                                     </button>
                                   </div>
@@ -50,22 +39,14 @@
                             </tr>
                             <tr class="custom-table-head">
                               <th>
-                                <a
-                                  style="cursor: pointer"
-                                  (click)="currentPage = 1; getItems()"
-                                  title="Actualiser"
-                                >
-                                  <i class="fa fa-redo-alt"></i></a
-                                >&nbsp;&nbsp; #
+                                <a style="cursor: pointer" (click)="currentPage = 1; getItems()" title="Actualiser">
+                                  <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
                               </th>
                               <th>Nom prenoms</th>
-                              <th>Spécialité</th>
+                              <th>Cédante</th>
                               <th>Email</th>
                               <th>Dernière connexion</th>
-                              <th>Login</th>
-                              <th>Role</th>
                               <th>Contact</th>
-                              <th>Photo</th>
                               <th>Statut</th>
                               <th class="txt-align-center">Actions</th>
                             </tr>
@@ -74,61 +55,59 @@
                           <tbody>
                             <tr *ngFor="let item of items; let indice = index">
                               <td class="txt-align-center">{{ indice + 1 }}</td>
-                              <td>{{ item?.nom }} {{ item?.prenom }}</td>
-                              <td>{{ item?.adminSpecialiteLibelle }}</td>
+                              <td>{{ item?.lastName }} {{ item?.firstName }}</td>
+                              <td>{{ item?.cedName }}</td>
                               <td>{{ item?.email }}</td>
                               <td>{{ item?.lastConnectionDate }}</td>
-                              <td>{{ item?.login }}</td>
-                              <td>{{ item?.roleLibelle }}</td>
+                              <!-- <td>{{ item?.login }}</td> -->
+                              <!-- <td>{{ item?.roleLibelle }}</td> -->
                               <td>
-                                {{ item?.contact | mask: "00 00 00 00 00" }}
+                                {{ item?.tel }}
+                              </td>
+
+                              <td>
+                                <span *ngIf="item?.notBlocked" style="background-color: green;color: #fff;"
+                                  class="badge badge-success">Actif</span>
+                                <span *ngIf="!item?.notBlocked" style="background-color: red;color: #fff"
+                                  class="badge badge-danger">Vérrouillé</span>
                               </td>
                               <td>
-                                <img
-                                  src="{{
-                                    item?.photo ||
-                                      'assets/images/custom/user-ano.jpeg'
-                                  }}"
-                                  style="
-                                    width: 50px;
-                                    height: 50px;
-                                    display: block;
-                                    border-radius: 50px;
-                                  "
-                                />
-                              </td>
-                              <td>
-                                <span
-                                  *ngIf="item?.isMedecin"
-                                  style="background-color: green;color: #fff;"
-                                  class="badge badge-success"
-                                  >Medecin</span
-                                >
-                                <span
-                                  *ngIf="!item?.isMedecin"
-                                  style="background-color: red;color: #fff"
-                                  class="badge badge-danger"
-                                  >Non medecin</span
-                                >
-                              </td>
-                              <td>
+
                                 <div class="custom-td-action">
-                                  <a
-                                    title="Modifier"
-                                    (click)="openModal(item, templateCrud)"
-                                    class="custom-btn-update"
-                                  >
-                                    <i class="fa fa-edit"></i
-                                  ></a>
-                                  <a
-                                    title="Supprimer"
-                                    (click)="confirmDelete(item)"
-                                    class="custom-btn-delete"
-                                  >
-                                    <i class="fa fa-trash"></i
-                                  ></a>
+                                  <div ngbDropdown class="d-inline-block">
+                                    <button type="button" class="btn btn-custom-action-dropdown" id="action"
+                                      ngbDropdownToggle>
+                                      Actions
+                                    </button>
+                                    <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
+                                      <button ngbDropdownItem (click)="openModal(item,templateDetailsUser,true)">
+                                        <i class="fa fa-list"></i>&nbsp;Détails utilisateur
+                                      </button>
+
+
+                                      <button ngbDropdownItem (click)="openModal(item,templateModifierInfo,true)">
+                                        <i class="fa fa-edit"></i>&nbsp;Modifier les infos
+                                      </button>
+
+                                      <button ngbDropdownItem (click)="openModal(item,templateAssignFonction,true)">
+                                        <i class="fa fa-edit"></i>&nbsp;Modifier la fonction
+                                      </button>
+
+                                      <button ngbDropdownItem (click)="confirmUnLockAccount(item?.userId)"
+                                        *ngIf="!item?.notBlocked">
+                                        <i class="fa fa-unlock"></i>&nbsp;Vérrouiller le compte
+                                      </button>
+
+                                      <button ngbDropdownItem (click)="confirmLockAccount(item?.userId)"
+                                        *ngIf="item?.notBlocked">
+                                        <i class="fa fa-lock"></i>&nbsp;Déverrouiller le compte
+                                      </button>
+
+                                    </div>
+                                  </div>
                                 </div>
                               </td>
+
                             </tr>
                           </tbody>
 
@@ -136,38 +115,22 @@
                             <tr *ngIf="items && items.length > 0">
                               <td colspan="12">
                                 <div class="row pagination-part">
-                                  <div
-                                    class="col-md-9"
-                                    style="text-align: center"
-                                  >
-                                    <pagination
-                                      [boundaryLinks]="true"
-                                      [itemsPerPage]="itemsPerPage"
-                                      [totalItems]="totalItems"
-                                      [(ngModel)]="currentPage"
-                                      class="pagination-sm"
-                                      previousText="&lsaquo;"
-                                      nextText="&rsaquo;"
-                                      firstText="&laquo;"
-                                      lastText="&raquo;"
-                                      (pageChanged)="pageChanged($event)"
-                                    >
+                                  <div class="col-md-9" style="text-align: center">
+                                    <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage"
+                                      [totalItems]="totalItems" [(ngModel)]="currentPage" class="pagination-sm"
+                                      previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
+                                      (pageChanged)="pageChanged($event)">
                                     </pagination>
                                   </div>
 
                                   <div class="col-md-3">
                                     <div class="paginator-per-page">
-                                      <app-element-by-page-paginator
-                                        (paginationChange)="
+                                      <app-element-by-page-paginator (paginationChange)="
                                           changePaginationSize($event)
-                                        "
-                                        [defaultItemPerPage]="itemsPerPage"
-                                      >
+                                        " [defaultItemPerPage]="itemsPerPage">
                                       </app-element-by-page-paginator>
 
-                                      <span class="span_total_entree pull-right"
-                                        >Total : {{ totalItems }}</span
-                                      >
+                                      <span class="span_total_entree pull-right">Total : {{ totalItems }}</span>
                                     </div>
                                   </div>
                                 </div>
@@ -177,7 +140,7 @@
                             <tr *ngIf="!items || items.length == 0">
                               <td colspan="9">
                                 <div class="col-md-12 txt-align-center">
-                                  Aucune données disponible
+                                  Aucune donnée disponible
                                 </div>
                               </td>
                             </tr>
@@ -191,35 +154,113 @@
                       <div class="modal-header">
                         <h4 class="modal-title pull-left">
                           {{
-                            itemToSave?.id
-                              ? "Modification d'utilisateur"
-                              : "Enregistrement d'utilisateur"
+                          itemToSave?.id
+                          ? "Modification d'utilisateur"
+                          : "Enregistrement d'utilisateur"
                           }}
                         </h4>
 
-                        <button
-                          mat-icon-button
-                          class="pull-right"
-                          (click)="modalRef.hide()"
-                          aria-label="Close dialog"
-                        >
+                        <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
                           <mat-icon>close</mat-icon>
                         </button>
                       </div>
-                      <div
-                        class="modal-body"
-                        [ngBusy]="{
+                      <div class="modal-body" [ngBusy]="{
                           busy: busySave,
                           message: 'Veuillez patienter ...',
                           backdrop: false
-                        }"
-                      >
-                       <div>
-                         <app-form-create-user></app-form-create-user>
-                       </div>
+                        }">
+                        <div>
+                          <app-form-create-user (closeModal)="closeModalFormUser($event)"></app-form-create-user>
+                        </div>
                       </div>
 
                     </ng-template>
+                    <!-- Fin enregistrer un utilisateur-->
+
+                    <!-- Details utilisateur-->
+                    <ng-template #templateDetailsUser>
+                      <div class="modal-header">
+                        <h4 class="modal-title pull-left">
+                          Détails utilisateur
+                        </h4>
+
+                        <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div>
+
+                          <table class="table table-condensed table-border table-striped">
+                            <tbody>
+                              <tr>
+                                <td class="key">Nom</td>
+                                <td class="key">{{itemToSave?.lastName}}</td>
+                              </tr>
+                              <tr>
+                                <td class="key">Prénoms</td>
+                                <td class="key">{{itemToSave?.firstName}}</td>
+                              </tr>
+                              <tr>
+                                <td class="key">Email</td>
+                                <td class="key">{{itemToSave?.email}}</td>
+                              </tr>
+                              <tr *ngIf="itemToSave?.cedName">
+                                <td class="key">Cédente</td>
+                                <td class="key">{{itemToSave?.cedName}}</td>
+                              </tr>
+                              <tr>
+                                <td class="key">Téléphone</td>
+                                <td class="key">{{itemToSave?.tel}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+                        </div>
+                      </div>
+
+                    </ng-template>
+                    <!-- Fin details utilisateur-->
+
+
+
+                    <ng-template #templateAssignFonction>
+                      <div class="modal-header">
+                        <h4 class="modal-title pull-left">
+                         Modification de fonction
+                        </h4>
+
+                        <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div>
+                          <app-form-assign-fonction (closeModal)="closeModalFormUser($event)" [itemToUpdate]="itemToSave"></app-form-assign-fonction>
+                        </div>
+                      </div>
+
+                    </ng-template>
+
+                    <ng-template #templateModifierInfo>
+                      <div class="modal-header">
+                        <h4 class="modal-title pull-left">
+                         Modification des infos de l'utilisateur
+                        </h4>
+
+                        <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div>
+                          <app-form-update-info-user (closeModal)="closeModalFormUser($event)" [itemToUpdate]="itemToSave"></app-form-update-info-user>
+                        </div>
+                      </div>
+
+                    </ng-template>
+
+
                   </div>
                 </div>
               </div>

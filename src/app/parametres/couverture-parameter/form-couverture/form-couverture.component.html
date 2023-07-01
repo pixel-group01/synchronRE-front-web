@@ -13,7 +13,7 @@
             >Branche :
             <span class="required_champs">*</span>
           </label>
-          
+
           <ng-select formControlName="branId" name="branId"
                   id="branId">
                   <ng-option *ngFor="let branche of listeBranches" [value]="branche?.branId">{{branche.branLibelle}}</ng-option>
@@ -23,12 +23,12 @@
             class="text-danger"
             *ngIf="(getFormFiledsValue('branId')?.dirty || getFormFiledsValue('branId')?.touched) && getFormFiledsValue('branId')?.invalid && getFormFiledsValue('branId')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
         </div>
       </div>
-  
-  
+
+
 
       <div class="row">
         <div class="col-12 mb-3">
@@ -45,16 +45,16 @@
             [class.errorInputForm]="getFormFiledsValue('couLibelle')?.invalid && getFormFiledsValue('couLibelle')?.touched"
             type="text"
           />
-  
+
           <small
             class="text-danger"
             *ngIf="(getFormFiledsValue('couLibelle')?.dirty || getFormFiledsValue('couLibelle')?.touched) && getFormFiledsValue('couLibelle')?.invalid && getFormFiledsValue('couLibelle')?.errors?.['required']"
           >
-            Ce champs est obligatoire
+            Ce champ est obligatoire
           </small>
         </div>
       </div>
-  
+
       <div class="row">
         <div class="col-12 mb-3">
           <label
@@ -69,16 +69,16 @@
             name="couLibelleAbrege"
             [class.errorInputForm]="getFormFiledsValue('couLibelleAbrege')?.invalid && getFormFiledsValue('couLibelleAbrege')?.touched"
             type="text"
-          /> 
+          />
           <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('couLibelleAbrege')?.dirty || getFormFiledsValue('couLibelleAbrege')?.touched) && getFormFiledsValue('couLibelleAbrege')?.invalid && getFormFiledsValue('couLibelleAbrege')?.errors?.['required']"
         >
-          Ce champs est obligatoire
+          Ce champ est obligatoire
         </small>
         </div>
       </div>
-  
+
       <div class="custom-btn-save-manager">
         <button
           type="submit"
@@ -87,7 +87,7 @@
         >
           {{!itemToUpdate ? 'Enregistrer' : 'Modifier'}}
         </button>
-  
+
         <button
           type="button"
           class="btn btn-md btn-cancel pull-right"
@@ -98,4 +98,3 @@
       </div>
     </div>
   </form>
-  

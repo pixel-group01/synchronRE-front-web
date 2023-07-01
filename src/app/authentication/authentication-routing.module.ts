@@ -13,6 +13,14 @@ const routes: Routes = [
     component: SigninComponent,
   },
   {
+    path: 'active-acount/:token',
+    component: SigninComponent,
+  },
+  {
+    path: 'forget-password/:token',
+    component: SigninComponent,
+  },
+  {
     path: 'page404',
     component: Page404Component,
   }
