@@ -22,7 +22,7 @@ export class FonctionService {
 
    
   setDefaultFunction = (idUser:number) => {
-    return this.restClient.get('functions/set-fnc-as-default/'+idUser);
+    return this.restClient.put('functions/set-fnc-as-default/'+idUser);
   }
 
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {

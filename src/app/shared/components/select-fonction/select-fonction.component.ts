@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { enumStatutFonction } from 'src/app/core/enumerator/enumerator';
@@ -20,7 +20,8 @@ export class SelectFonctionComponent implements OnInit {
   busySubscription : Subscription;
   currentUser: UserSynchroRE;
   listeFonctionsActivesByUser : any = [];
-
+  @Output() closeModal: EventEmitter<any> = new EventEmitter();
+  
   constructor(
     private privilegeService: PrivilegeService,
     private roleService: RoleService,
@@ -50,6 +51,7 @@ export class SelectFonctionComponent implements OnInit {
         if(response && response.accessToken) {
           this.userService.setAuthToken(response);
           this.router.navigate(['/admin']);
+          this.closeModal.emit(true);
         }
       }
     )

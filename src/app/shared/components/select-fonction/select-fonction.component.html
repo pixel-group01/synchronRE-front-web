@@ -23,7 +23,7 @@
           <tr *ngFor="let fct of listeFonctionsActivesByUser; let indice = index">
             <td class="key">{{ fct?.name }}</td>
             <!-- <td class="key">{{ fct?.startsAt }}</td> -->
-            <td class="key">{{ fct?.endsAt }}</td>
+            <td class="key">{{ fct?.endsAt || "-" }}</td>
           
             <td class="txt-align-center">
               <button type="button"

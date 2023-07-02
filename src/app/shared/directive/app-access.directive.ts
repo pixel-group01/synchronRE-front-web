@@ -24,13 +24,11 @@ export class AppAccessDirective {
     // Et que access Admin est renseigné et que acees cedente n'est pas renseigné
     // Automatiquement on le cache
 
-    if(this.user && this.user.cedId){
-       if(this.appAccessAdmin && !this.appAccessCedente){
-        this.el.nativeElement.style.display = 'none';
-       }
-    }
-
-    // console.log(" this.user ", this.user);
+    // if(this.user && this.user.cedId){
+    //    if(this.appAccessAdmin && !this.appAccessCedente){
+    //     this.el.nativeElement.style.display = 'none';
+    //    }
+    // }
     
 
     // console.log(" appAccessAdmin ",this.appAccessAdmin);
@@ -41,25 +39,25 @@ export class AppAccessDirective {
     //   this.el.nativeElement.style.display = 'block';
     //   return;
     // }
-    // if(!this.user  && this.user?.fonctionnalites  && this.user.fonctionnalites.length === 0) {
-    //   return;
-    // } 
+    if(!this.user  && this.user?.authorities && this.user.authorities.length === 0) {
+      return;
+    } 
 
-    // // On verifie si le code de l'user a droit a cette fonctionnalité
-    // let hasAcces = _.find(this.user.fonctionnalites, (o) => { return o.code?.trim().toLowerCase() == this.appAccess?.trim()?.toLowerCase() });
+    // On verifie si le code de l'user a droit a cette fonctionnalité
+    let hasAcces = _.find(this.user.authorities, (o) => { return o.trim().toLowerCase() == this.appAccess?.trim()?.toLowerCase() || (this.appAccessCedente ? o.trim().toLowerCase() == this.appAccessCedente?.trim()?.toLowerCase() : null) });
     
-    // // if(this.appAccess === 'GEST-ADMINISTRATIVE-GESTION-VACATIONS-VACATION-ADD') {
-    // //   console.log(" hasAcces ",hasAcces);
-    // // }
-
-    // // console.log(" this.appAccess ",this.appAccess);
-    
-
-    // if (hasAcces) {
-    //   this.el.nativeElement.style.display = 'block';
-    // }else {
-    //   this.el.nativeElement.style.display = 'none';
+    // if(this.appAccess === 'GEST-ADMINISTRATIVE-GESTION-VACATIONS-VACATION-ADD') {
+    //   console.log(" hasAcces ",hasAcces);
     // }
+
+    // console.log(" this.appAccess ",this.appAccess);
+    
+
+    if (hasAcces) {
+      this.el.nativeElement.style.display = 'block';
+    }else {
+      this.el.nativeElement.style.display = 'none';
+    }
   }
 
 

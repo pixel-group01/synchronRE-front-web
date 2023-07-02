@@ -5,7 +5,7 @@ export const ROUTES: RouteInfo[] = [
   // Tableau de bord
   {
     path: "/admin",
-    title: "Tableau de bord",
+    title: "Statistique",
     moduleName: "dashboard",
     iconType: "home",
     icon: "tachometer",
@@ -13,10 +13,10 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
-    code: "DASHBORD-NAV",
+    code: "MENU_STAT",
     acl: "",
-    codeAclAdmin: enumCodeACL.ADMIN,
-    codeAclCedente: enumCodeACL.CEDANTE,
+    // codeAclAdmin: enumCodeACL.ADMIN,
+    // codeAclCedente: enumCodeACL.CEDANTE,
     submenu: [],
   },
   // Affaire mise en commentaire 
@@ -30,9 +30,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
-    code: "TRESO-NAV",
-    codeAclAdmin: enumCodeACL.ADMIN,
-    codeAclCedente: enumCodeACL.CEDANTE,
+    code: "MENU_PROD",
     submenu: [
       {
         path: "/business/affaire-traitee",
@@ -57,7 +55,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "TRESO-MOUVEMENT-CAISSE",
+        code: "GET-FAC-LST",
         submenu: [],
       }
     ],
@@ -74,9 +72,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
-    code: "",
-    codeAclAdmin: enumCodeACL.ADMIN,
-    codeAclCedente: enumCodeACL.CEDANTE,
+    code: "MENU_SIN",
     submenu: [
       {
         path: "/sinistres/declarations",
@@ -88,7 +84,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "",
+        code: "GET-SIN-LST",
         submenu: [],
       },
       // {
@@ -131,8 +127,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
-    codeAclAdmin: enumCodeACL.ADMIN,
-    code: "GEST-ADMINISTRATIVE-NAV",
+    code: "MENU_COMPTA",
     submenu: [
       {
         path: "/comptabilites/affaires",
@@ -144,7 +139,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "TRESO-MOUVEMENT-CAISSE",
+        code: "GET-REG-FAC-LST",
         submenu: [],
       },
 
@@ -158,8 +153,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "GEST-ADMINISTRATIVE-PRISE-RENDEZ-VOUS",
-
+        code: "GET-REG-TRAI-LST",
         submenu: [
           {
             path: "",
@@ -199,8 +193,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "GEST-ADMINISTRATIVE-PRISE-RENDEZ-VOUS",
-
+        code: "GET-REG-SIN-LST",
         submenu: [
           {
             path: "",
@@ -231,8 +224,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
-    code: "PARAM-NAV",
-    codeAclAdmin: enumCodeACL.ADMIN,
+    code: "MENU_PARAM",
     submenu: [
       {
         path: "/parametres/country",
@@ -244,7 +236,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "PARAM-ADMINISTRATIF",
+        code: "GET-PAY-LST",
         submenu: [],
       },
       // {
@@ -270,7 +262,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "PARAM-GESTION-COMMERCIALE",
+        code: "GET-BRAN-LST",
         submenu: [],
       },
       {
@@ -283,7 +275,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "PARAM-UNITE-SOIN",
+        code: "GET-CES-LEG-LST",
         submenu: [],
       },
       {
@@ -296,7 +288,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "PARAM-GESTION-COMMERCIALE",
+        code: "GET-BANK-LST",
         submenu: [],
       },
       {
@@ -309,7 +301,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "PARAM-UNITE-SOIN",
+        code: "GET-COUV-LST",
         submenu: [],
       },
       {
@@ -322,7 +314,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "PARAM-UNITE-SOIN",
+        code: "GET-CED-LST",
         submenu: [],
       },
       {
@@ -335,7 +327,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "PARAM-UNITE-SOIN",
+        code: "GET-CES-LST",
         submenu: [],
       },
     ],
@@ -352,8 +344,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     badge: "",
     badgeClass: "",
-    code: "ADMIN-NAV",
-    codeAclAdmin: enumCodeACL.ADMIN,
+    code: "MENU_ADMIN",
     submenu: [
       {
         path: "/administration/utilisateurs",
@@ -365,7 +356,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "ADMIN-USERS",
+        code: "GET-USER-LST",
         submenu: [],
       },
       {
@@ -378,7 +369,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "ADMIN-ROLE",
+        code: "GET-ROL-LST",
         submenu: [],
       },
       // {

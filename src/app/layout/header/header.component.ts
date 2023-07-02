@@ -200,8 +200,13 @@ export class HeaderComponent
     );
   }
 
-  closeItemTraitement() {
+  closeModalFormSelectForm($event:boolean) {
     this.modalRef.hide();
+
+    if($event) {
+      // On recupere les infos de l'utilisateur
+      this.currentUser = this.userService.getCurrentUserInfo();
+    }
   }
 
   /** On implemente un timer qui va tourner par intervalle de temps */
