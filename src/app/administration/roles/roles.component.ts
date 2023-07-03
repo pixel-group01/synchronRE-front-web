@@ -46,7 +46,7 @@ export class RolesComponent implements OnInit {
   items: Array<any> = [];
   user: any = {};
   currentPage: number = 1;
-  itemsPerPage: number = 20;
+  itemsPerPage: number = 10;
   totalItems: number;
   busySave: Subscription;
   loading: boolean = false;
@@ -193,7 +193,7 @@ export class RolesComponent implements OnInit {
   }
 
   pageChanged(event) {
-    this.config.currentPage = event;
+    this.currentPage = event?.page;
     this.getItems();
   }
 
@@ -209,8 +209,18 @@ export class RolesComponent implements OnInit {
     });
   }
 
+  getExactlyNumberRow(page,index)
+  {
+      let num = index +1;
+      if(page>1)
+      {
+          num = ((page - 1) * 10) + (index+1);
+      }
+      return num;
+  }
+
   getItems() {
-    this.roleService.getByCriteria().subscribe((response: any) => {
+    this.roleService.getByCriteria((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null)).subscribe((response: any) => {
       if (response && response["content"]) {
         this.listeRoles = response["content"] as RoleSynchroRE[];
         this.totalItems = response['totalElements'];
@@ -429,6 +439,7 @@ export class RolesComponent implements OnInit {
   }
 
   checkedOldPrivilegeInModification(listeOldPrivilege : Privilege){
+    this.cancelSave();
     this.ListFonctionnalites.map((fctParent) => {
       if(fctParent.privileges && fctParent.privileges.length > 0) {
         let countItemCoche : number = 0;

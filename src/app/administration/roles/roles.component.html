@@ -74,7 +74,9 @@
                                   *ngFor="let item of listeRoles; let i = index"
                                   style="cursor: pointer"
                                 >
-                                  <td class="text-center">{{ i + 1 }}</td>
+                                  <td class="text-center">
+                                    {{ getExactlyNumberRow(this.currentPage, i) }}
+                                  </td>
                                   <td>
                                     {{ item.roleName | uppercase }}
                                   </td>
