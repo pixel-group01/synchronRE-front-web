@@ -24,10 +24,10 @@
                                 <div class="row mt-4">
                                   <div class="col-md-3">
                                     <input [(ngModel)]="itemToSearch.libelle"
-                                      class="form-control custom-input pull-left" placeholder="Rechercher par nom ..."
+                                      class="form-control custom-input pull-left" placeholder="Rechercher..."
                                       (keyup)="currentPage = 1; getItems()" />
                                   </div>
-
+s
                                   <div class="col-md-9">
                                     <button type="button" class="btn btn-md custom_btn_primary pull-right"
                                       (click)="openModal(null, templateCrud)">
@@ -184,7 +184,7 @@
                     <ng-template #templateDetailsUser>
                       <div class="modal-header">
                         <h4 class="modal-title pull-left">
-                          Détails utilisateur
+                          Détails de l'utilisateur
                         </h4>
 
                         <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
@@ -198,7 +198,7 @@
 
                             <thead >
                               <tr>
-                                 <th colspan="2" class="txt-align-center"> Information utilisateur </th>
+                                 <th colspan="2" class="txt-align-center"> Informations de l'utilisateur </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -244,7 +244,7 @@
                                 <td class="key">{{fct?.startsAt}}</td>
                                 <td class="key">{{fct?.endsAt}}</td>
                               </tr>
-                             
+
                             </tbody>
                           </table>
 
