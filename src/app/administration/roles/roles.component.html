@@ -149,6 +149,7 @@
                                   class="form-control custom-input"
                                   placeholder="Code"
                                   autocomplete="off"
+                                  [disabled]="itemToSave.roleId"
                                   [(ngModel)]="itemToSave.roleCode"
                                   name="roleCode"
                                   required
@@ -166,6 +167,7 @@
                                   class="form-control custom-input"
                                   placeholder="Libellé"
                                   autocomplete="off"
+                                  [disabled]="itemToSave.roleId"
                                   [(ngModel)]="itemToSave.roleName"
                                   name="roleName"
                                   required

@@ -257,7 +257,7 @@ export class DashbordSynchroreComponent implements OnInit {
     this.getStatistique();
     this.getExercice();
     this.getCedente();
-    this.getPieChartValue();
-    this.getLineChartValue();
+    // this.getPieChartValue();
+    // this.getLineChartValue();
   }
 }

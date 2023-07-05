@@ -202,7 +202,7 @@
                       <div class="col-md-3 col-xs-12 mb-3">
                         <label
                           >Date de début
-                          <span class="required_champs">*</span>
+                          <!-- <span class="required_champs">*</span> -->
                         </label>
                         <input
                           class="form-control custom-input"
@@ -233,7 +233,7 @@
                       <div class="col-md-3 col-xs-12 mb-3">
                         <label
                           >Date de fin
-                          <span class="required_champs">*</span>
+                          <!-- <span class="required_champs">*</span> -->
                         </label>
                         <input
                           class="form-control custom-input"
@@ -336,7 +336,7 @@
                   <table>
                     <thead>
                       <tr class="custom-table-head">
-                        <th colspan="2">Liste des fonctions</th>
+                        <th colspan="2" style="padding:5px">Liste des fonctions</th>
                       </tr>
                     </thead>
   
@@ -345,7 +345,7 @@
                         <td>
                           {{ fct.name }}
                         </td>
-                        <td>
+                        <td style="width: 70px;text-align: center;">
                           <a
                             (click)="deleteFonction(indice)"
                             style="color: rgb(224, 87, 87); cursor: pointer"

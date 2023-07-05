@@ -203,7 +203,7 @@ export class FormCreateUserComponent implements OnInit {
           let idsPrivileges = [];
 
           response.forEach(prv => {
-            idsPrivileges.push(prv.privilegeName);
+            idsPrivileges.push(prv.privilegeId);
           });
           this.userForm.get("privileges").setValue(idsPrivileges);
         }
@@ -228,10 +228,19 @@ export class FormCreateUserComponent implements OnInit {
   addFonction(){
     let itemFonction = this.userForm.value;
 
+    if(!itemFonction.libelleFonction) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Veuillez renseigner le libellé de la fonction !",
+        "bottom",
+        "center"
+      );
+    }
+
     let initialFonctionDTO = {
       name: itemFonction.libelleFonction,
-      startsAt: moment(itemFonction.dateDebutFonction).format("YYYY-MM-DD"),
-      endsAt: moment(itemFonction.dateFinFonction).format("YYYY-MM-DD"),
+      startsAt: itemFonction.dateDebutFonction ? moment(itemFonction.dateDebutFonction).format("YYYY-MM-DD") : null,
+      endsAt: itemFonction.dateFinFonction ? moment(itemFonction.dateFinFonction).format("YYYY-MM-DD") : null,
       roleIds: itemFonction.roles,
       prvIds: itemFonction.privileges
     };
@@ -243,6 +252,9 @@ export class FormCreateUserComponent implements OnInit {
     this.userForm.get("dateFinFonction").setValue(null);
     this.userForm.get("roles").setValue([]);
     this.userForm.get("privileges").setValue([]);
+
+    console.log(" this.listeFonctions ",this.listeFonctions);
+    
   }
 
   deleteFonction(indice) {

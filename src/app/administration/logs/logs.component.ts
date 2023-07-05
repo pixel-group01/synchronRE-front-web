@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { Branche } from 'src/app/core/models/banche';
@@ -8,21 +8,23 @@ import { LogsService } from 'src/app/core/service/logs.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 
 @Component({
-  selector: 'app-historique-connexion',
-  templateUrl: './historique-connexion.component.html',
-  styleUrls: ['./historique-connexion.component.scss']
+  selector: 'app-logs',
+  templateUrl: './logs.component.html',
+  styleUrls: ['./logs.component.scss']
 })
-export class HistoriqueConnexionComponent implements OnInit {
+export class LogsComponent implements OnInit {
 
   
   items: Array<any> = [];
   itemToSave: any = {};
   modalRef: BsModalRef;
+  // user: any = {};
   itemToSearch: any = {};
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalItems: number;
   busyGet: Subscription;
+  @Input() currentConnexion : any = {};
 
   constructor(private modalService: BsModalService, private utilities: UtilitiesService,
     private logService:LogsService) {
@@ -33,24 +35,11 @@ export class HistoriqueConnexionComponent implements OnInit {
     this.getItems();
   }
 
-  openModal(data: any, template: TemplateRef<any>) {
-
-    let config = {backdrop: true, ignoreBackdropClick: true,class:  "gray modal-lg modal-width-65",};
-
-    this.itemToSave = {};
-    if (data) {
-      // Lorsque nous sommes en modification
-      this.itemToSave = Object.assign({}, data);
-
-      console.log(" this.itemToSave ",this.itemToSave);
-      
-    }
-
-    this.modalRef = this.modalService.show(template,config);
-  }
-
   getItems() {
-    this.busyGet = this.logService.getHistoryConnexion((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null))
+
+    console.log(" this.currentConnexion ",this.currentConnexion);
+    
+    this.busyGet = this.logService.getLogsByConnexion((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null),this.itemToSearch.userId || null,this.currentConnexion.connectionId || null)
       .subscribe(
         res => {
           if (res && res['content']) {
@@ -61,19 +50,10 @@ export class HistoriqueConnexionComponent implements OnInit {
             this.items = [];
             this.totalItems = 0;
           }
-        },
+        }, 
         err => {
         }
       );
-  }
-
-  closeModal($event : any){
-    this.modalRef.hide();
-
-    // Dans le cas ou $event vaut true alors on actualise la liste
-    if($event) {
-      this.getItems();
-    }
   }
 
   getExactlyNumberRow(page,index)
@@ -95,7 +75,19 @@ export class HistoriqueConnexionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getItems();
+    // this.getItems();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
+    console.log(" changes ",changes);
+    
+    if (
+      changes["currentConnexion"] &&
+      changes["currentConnexion"].currentValue
+    ) {
+      this.getItems();
+    }
   }
 
 

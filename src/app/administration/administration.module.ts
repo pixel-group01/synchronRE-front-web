@@ -22,7 +22,8 @@ import { FormCreateUserComponent } from './utilisateurs/form-create-user/form-cr
 import { SelectMenuItemPrivilegeComponent } from './utilisateurs/form-create-user/select-menu-item-privilege/select-menu-item-privilege.component';
 import { FormUpdateInfoUserComponent } from './utilisateurs/form-update-info-user/form-update-info-user.component';
 import { FormAssignFonctionComponent } from './utilisateurs/form-assign-fonction/form-assign-fonction.component';
-import { AddNewFonctionComponent } from './utilisateurs/add-new-fonction/add-new-fonction.component'
+import { AddNewFonctionComponent } from './utilisateurs/add-new-fonction/add-new-fonction.component';
+import { LogsComponent } from './logs/logs.component'
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { AddNewFonctionComponent } from './utilisateurs/add-new-fonction/add-new
     FormUpdateInfoUserComponent,
     FormAssignFonctionComponent,
     AddNewFonctionComponent,
+    LogsComponent,
   ],
   imports: [
     CommonModule,

@@ -51,6 +51,7 @@ export class SelectFonctionComponent implements OnInit {
         if(response && response.accessToken) {
           this.userService.setAuthToken(response);
           this.router.navigate(['/admin']);
+          document.location.reload();
           this.closeModal.emit(true);
         }
       }

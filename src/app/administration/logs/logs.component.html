@@ -1,0 +1,158 @@
+<ng-container>
+  <div
+    class="body table-responsive p-10-important"
+    [ngBusy]="{
+      busy: busyGet,
+      message: 'Veuillez patienter ...',
+      backdrop: false
+    }"
+  >
+
+  <div class="row">
+     <div class="col-12">
+        <div class="col-12 mb-3 p-10">
+            <fieldset>
+                <legend>Informations sur la connexion</legend>
+
+                <div class="row">
+                    <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+                        <b>Utilisateur :
+                        </b>
+                        <span>{{(currentConnexion?.firstName+' '+currentConnexion?.lastName) | uppercase}}</span>
+                    </div>
+            
+                    <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+                        <b>Date de connexion :
+                        </b>
+                        <span>{{currentConnexion?.actionDateTime | dateFormatInDateHour}}</span>
+                    </div>
+                </div>
+            
+                <div class="row">
+            
+                    <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+                        <b>Fonction : </b>
+                        <span>{{currentConnexion?.foncName}}</span>
+                    </div>
+            
+                    <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+                        <b>Machine : </b>
+                        <span>{{currentConnexion?.hostName}}</span>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+                        <b>Structure :
+                        </b>
+                        <span>{{currentConnexion?.cedName || '-'}}</span>
+                    </div>
+            
+                    <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+                        <b>Adresse IP :</b>
+                        <span>{{ (currentConnexion?.ipAddress)}}</span>
+                    </div>
+                </div>
+
+            </fieldset>
+     </div>
+  </div>
+
+    <table class="table table-condensed table-striped table-hover">
+      <thead>
+        <tr>
+          <th colspan="5">
+            <div class="row mt-4">
+              <div class="col-md-4 mb-2">
+                <input
+                  [(ngModel)]="itemToSearch.libelle"
+                  class="form-control custom-input pull-left"
+                  placeholder="Rechercher ..."
+                  (keyup)="currentPage = 1; getItems()"
+                />
+              </div>
+            </div>
+          </th>
+        </tr>
+
+        <tr class="custom-table-head">
+          <th class="txt-align-center-counter-row">
+            <a (click)="currentPage = 1; getItems()" title="Actualiser">
+              <i class="fa fa-redo-alt"></i></a
+            >&nbsp;&nbsp; #
+          </th>
+          <th>Action</th>
+          <th>Date</th>
+          <!-- <th class="txt-align-center">Actions</th> -->
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let item of items; let indice = index">
+          <td class="txt-align-center">
+            {{ getExactlyNumberRow(this.currentPage, indice) }}
+          </td>
+          <td>{{ item?.action }}</td>
+          <td>{{ item?.actionDateTime | dateFormatInDateHour }}</td>
+          <!-- <td class="custom-width-td-action">
+            <div class="custom-td-action">
+              <a
+                title="Modifier"
+                (click)="openModal(item, templateCrud)"
+                class="custom-btn-update"
+              >
+                <i class="fa fa-edit"></i
+              ></a>
+            </div>
+          </td> -->
+        </tr>
+      </tbody>
+
+      <tfoot>
+        <tr *ngIf="items && items.length > 0">
+          <td colspan="5">
+            <div class="row pagination-part">
+              <div class="col-md-9" style="text-align: center">
+                <pagination
+                  [boundaryLinks]="true"
+                  [itemsPerPage]="itemsPerPage"
+                  [maxSize]="itemsPerPage"
+                  [totalItems]="totalItems"
+                  [(ngModel)]="currentPage"
+                  class="pagination-sm"
+                  previousText="&lsaquo;"
+                  nextText="&rsaquo;"
+                  firstText="&laquo;"
+                  lastText="&raquo;"
+                  (pageChanged)="pageChanged($event)"
+                ></pagination>
+              </div>
+
+              <div class="col-md-3">
+                <div class="paginator-per-page">
+                  <app-element-by-page-paginator
+                    (paginationChange)="changePaginationSize($event)"
+                    [defaultItemPerPage]="itemsPerPage"
+                  ></app-element-by-page-paginator>
+
+                  <span class="span_total_entree pull-right"
+                    >Total : {{ totalItems }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr *ngIf="!items || items.length == 0">
+          <td colspan="4">
+            <div class="col-md-12 txt-align-center">
+              Aucune données disponible
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  </div>
+</ng-container>
