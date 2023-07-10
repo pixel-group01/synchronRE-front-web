@@ -24,6 +24,32 @@
                                                     (keyup)="currentPage = 1; getItems()" />
                                             </div>
 
+                                            <div class="col-md-2 col-sm-12 mb-2">
+                                                <input class="form-control custom-input" placeholder="Période"
+                                                    autocomplete="off" [(ngModel)]="itemToSearch.dateRecherche"
+                                                    name="dateRecherche" type="text" bsDaterangepicker
+                                                    (bsValueChange)="onValueDateChange($event)" [maxDate]="dateActuelle"
+                                                    [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY' , containerClass: 'theme-dark-blue'}">
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <ng-select [(ngModel)]="itemToSearch.userId" name="userId"
+                                                    (change)="getItems()" id="userId">
+                                                    <ng-option *ngFor="let user of ListeUsers" [value]="user?.userId">{{
+                                                        user.firstName +' '+user?.lastName }}</ng-option>
+                                                </ng-select>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <button
+                                                type="button"
+                                                (click)="confirmDeleteManyLogs()"
+                                                class="btn btn-md custom_btn_primary pull-right"
+                                              >
+                                               Supprimer les logs
+                                              </button>
+                                            </div>
+
                                         </div>
                                     </th>
                                 </tr>
@@ -49,6 +75,9 @@
 
                             <tbody>
                                 <tr *ngFor="let item of items; let indice = index">
+                                    <td>
+                                        <input type="checkbox" name="check" [(ngModel)]="item.checked" [ngModelOptions]="{standalone: true}" />
+                                    </td>
                                     <td class="txt-align-center">
                                         {{ getExactlyNumberRow(this.currentPage, indice) }}
                                     </td>
@@ -58,14 +87,14 @@
                                     <td>{{ item?.cedName || '-' }}</td>
                                     <td>{{ item?.hostName }}</td>
                                     <td>{{ item?.ipAddress }}</td>
-                                    <td>{{ item?.action  }}</td>
+                                    <td>{{ item?.action }}</td>
                                     <td>{{ item?.actionDateTime | dateFormatInDateHour }}</td>
-                                    
+
                                     <td class="custom-width-td-action">
                                         <div class="custom-td-action">
-                                            <a title="Détails" (click)="openModal(item, templateDetailsLogs)"
-                                               style="cursor: pointer;" >
-                                                <i class="fa fa-list"></i></a>
+                                            <a title="Supprimer" (click)="confirmDeleteLogs(item)"
+                                                style="cursor: pointer;">
+                                                <i class="fa fa-trash"></i></a>
                                         </div>
                                     </td>
                                 </tr>

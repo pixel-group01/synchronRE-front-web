@@ -24,6 +24,23 @@
                                                     (keyup)="currentPage = 1; getItems()" />
                                             </div>
 
+                                            <div class="col-md-2 col-sm-12 mb-2">
+                                                <input class="form-control custom-input" placeholder="Période"
+                                                    autocomplete="off" [(ngModel)]="itemToSearch.dateRecherche"
+                                                    name="dateRecherche" type="text" bsDaterangepicker
+                                                    (bsValueChange)="onValueDateChange($event)" [maxDate]="dateActuelle"
+                                                    [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY' , containerClass: 'theme-dark-blue'}">
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <ng-select [(ngModel)]="itemToSearch.userId" name="userId"
+                                                    (change)="getItems()" id="userId">
+                                                    <ng-option *ngFor="let user of ListeUsers" [value]="user?.userId">{{
+                                                        user.firstName +' '+user?.lastName }}</ng-option>
+                                                </ng-select>
+                                            </div>
+                                            
+
                                         </div>
                                     </th>
                                 </tr>

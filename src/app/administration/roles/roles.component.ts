@@ -426,7 +426,7 @@ export class RolesComponent implements OnInit {
 
   // recuperer les privileges d'un role
   getPrivilegeByRole(role:RoleSynchroRE){
-
+    this.cancelSave();
     this.itemToSave = {...role};
     this.busyGet = this.privilegeService.getPrivilegeByRoleId(role.roleId).subscribe(
       (response :any) => {
@@ -439,7 +439,7 @@ export class RolesComponent implements OnInit {
   }
 
   checkedOldPrivilegeInModification(listeOldPrivilege : Privilege){
-    this.cancelSave();
+  
     this.ListFonctionnalites.map((fctParent) => {
       if(fctParent.privileges && fctParent.privileges.length > 0) {
         let countItemCoche : number = 0;
