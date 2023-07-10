@@ -23,7 +23,8 @@ import { SelectMenuItemPrivilegeComponent } from './utilisateurs/form-create-use
 import { FormUpdateInfoUserComponent } from './utilisateurs/form-update-info-user/form-update-info-user.component';
 import { FormAssignFonctionComponent } from './utilisateurs/form-assign-fonction/form-assign-fonction.component';
 import { AddNewFonctionComponent } from './utilisateurs/add-new-fonction/add-new-fonction.component';
-import { LogsComponent } from './logs/logs.component'
+import { LogsComponent } from './logs/logs.component';
+import { LogsSystemComponent } from './logs-system/logs-system.component'
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { LogsComponent } from './logs/logs.component'
     FormAssignFonctionComponent,
     AddNewFonctionComponent,
     LogsComponent,
+    LogsSystemComponent,
   ],
   imports: [
     CommonModule,

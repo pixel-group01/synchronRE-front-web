@@ -410,7 +410,21 @@ export const ROUTES: RouteInfo[] = [
         badgeClass: "",
         code: "GET-USER-LST",
         submenu: [],
+      },
+       {
+        path: "/administration/logs-system",
+        title: "Logs système",
+        moduleName: "administration",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        code: "GET-USER-LST",
+        submenu: [],
       }
+      
     ],
   },
 ];

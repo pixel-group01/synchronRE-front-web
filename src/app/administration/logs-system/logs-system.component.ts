@@ -5,11 +5,11 @@ import { LogsService } from 'src/app/core/service/logs.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 
 @Component({
-  selector: 'app-historique-connexion',
-  templateUrl: './historique-connexion.component.html',
-  styleUrls: ['./historique-connexion.component.scss']
+  selector: 'app-logs-system',
+  templateUrl: './logs-system.component.html',
+  styleUrls: ['./logs-system.component.scss']
 })
-export class HistoriqueConnexionComponent implements OnInit {
+export class LogsSystemComponent implements OnInit {
 
   
   items: Array<any> = [];
@@ -47,7 +47,7 @@ export class HistoriqueConnexionComponent implements OnInit {
   }
 
   getItems() {
-    this.busyGet = this.logService.getHistoryConnexion((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null))
+    this.busyGet = this.logService.getLogsSystemError((this.currentPage - 1),this.itemsPerPage,(this.itemToSearch.libelle ? this.itemToSearch.libelle : null))
       .subscribe(
         res => {
           if (res && res['content']) {

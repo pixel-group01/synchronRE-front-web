@@ -26,5 +26,15 @@ export class LogsService {
     return this.restClient.get(endPointFinal);
   }
 
+  getLogsSystemError = (index:number = 0,size:number=10,key?:string,userId?:number) => {
+    let endPointFinal = "logs/system-errors?page="+index+"&size="+size+""+(key ? "&key="+key : ""+(userId ? "userId="+userId : ""));
+    return this.restClient.get(endPointFinal);
+  }
+
+  // deleteSystemError = (idSystem:number) => {
+  //   return this.restClient.delete(typeReglement+'/update'+errorIds,body)
+  // }
+  
+
 
 }
