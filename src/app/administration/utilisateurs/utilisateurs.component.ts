@@ -110,8 +110,8 @@ export class UtilisateursComponent implements OnInit {
 
   confirmUnLockAccount(item) {
     Swal.fire({
-      title: "Désactiver le compte d'un utilisateur",
-      text: "Vous êtes sur le point de désactiver cet utilisateur. Voulez-vous poursuivre cette action ?",
+      title: "Activation de compte d'un utilisateur",
+      text: "Vous êtes sur le point d'activer cet utilisateur. Voulez-vous poursuivre cette action ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3f51b5",
@@ -125,10 +125,10 @@ export class UtilisateursComponent implements OnInit {
     });
   }
 
-  confirmLockAccount(item) {
+  confirmLockAccount(userId) {
     Swal.fire({
-      title: "Activation le compte d'un utilisateur",
-      text: "Vous êtes sur le point d'activer cet utilisateur. Voulez-vous poursuivre cette action ?",
+      title: "Vérrouillage de compte d'un utilisateur",
+      text: "Vous êtes sur le point de verrouiller cet utilisateur. Voulez-vous poursuivre cette action ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3f51b5",
@@ -137,7 +137,7 @@ export class UtilisateursComponent implements OnInit {
       cancelButtonText: "Non",
     }).then((result) => {
       if (result.value) {
-        this.lockAccount(item?.id);
+        this.lockAccount(userId);
       }
     });
   }

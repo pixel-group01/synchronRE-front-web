@@ -15,7 +15,7 @@
                         <table class="table table-condensed table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th colspan="10">
+                                    <th colspan="11">
                                         <div class="row mt-4">
                                             <div class="col-md-4">
                                                 <input [(ngModel)]="itemToSearch.libelle"
@@ -55,6 +55,7 @@
                                 </tr>
 
                                 <tr class="custom-table-head">
+                                    <th></th>
                                     <th class="txt-align-center-counter-row">
                                         <a (click)="currentPage = 1; getItems()" title="Actualiser">
                                             <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
@@ -92,8 +93,8 @@
 
                                     <td class="custom-width-td-action">
                                         <div class="custom-td-action">
-                                            <a title="Supprimer" (click)="confirmDeleteLogs(item)"
-                                                style="cursor: pointer;">
+                                            <a title="Supprimer" (click)="confirmDeleteSingleLog(item)"
+                                                style="cursor: pointer;color: red;">
                                                 <i class="fa fa-trash"></i></a>
                                         </div>
                                     </td>
@@ -102,7 +103,7 @@
 
                             <tfoot>
                                 <tr *ngIf="items && items.length > 0">
-                                    <td colspan="10">
+                                    <td colspan="11">
                                         <div class="row pagination-part">
                                             <div class="col-md-9" style="text-align: center">
                                                 <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage"
@@ -127,7 +128,7 @@
                                 </tr>
 
                                 <tr *ngIf="!items || items.length == 0">
-                                    <td colspan="10">
+                                    <td colspan="11">
                                         <div class="col-md-12 txt-align-center">
                                             Aucune données disponible
                                         </div>

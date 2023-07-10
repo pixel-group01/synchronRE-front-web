@@ -98,12 +98,12 @@
 
                                       <button ngbDropdownItem (click)="confirmUnLockAccount(item?.userId)"
                                         *ngIf="!item?.notBlocked">
-                                        <i class="fa fa-unlock"></i>&nbsp;Vérrouiller le compte
+                                        <i class="fa fa-unlock"></i>&nbsp;Activer le compte
                                       </button>
 
                                       <button ngbDropdownItem (click)="confirmLockAccount(item?.userId)"
                                         *ngIf="item?.notBlocked">
-                                        <i class="fa fa-lock"></i>&nbsp;Déverrouiller le compte
+                                        <i class="fa fa-lock"></i>&nbsp;Verrouiller le compte
                                       </button>
 
                                     </div>

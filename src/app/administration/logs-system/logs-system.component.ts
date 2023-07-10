@@ -126,6 +126,7 @@ export class LogsSystemComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
           this.errorsIds = "errorIds="+item?.id;
+          this.deleteLogs()
       }
     });
   }
@@ -157,8 +158,12 @@ export class LogsSystemComponent implements OnInit {
       cancelButtonText: "Non",
     }).then((result) => {
       if (result.value) {
-         itemLogsChecked.forEach((key,item  :any) => {
-          this.errorsIds = this.errorsIds+""+( key == 0 ? (this.errorsIds+"errorIds="+item?.id) : ("&errorIds="+item?.id));
+        this.errorsIds = "";
+         itemLogsChecked.forEach((item:any,key  :any) => {
+          console.log(" key ",key);
+          console.log(" item ",item);
+          
+          this.errorsIds = this.errorsIds+""+( key == 0 ? ("errorIds="+item?.id) : ("&errorIds="+item?.id));
          });
          this.deleteLogs();
       }
