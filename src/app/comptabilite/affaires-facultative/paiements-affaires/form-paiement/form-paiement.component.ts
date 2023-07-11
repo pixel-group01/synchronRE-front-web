@@ -107,7 +107,7 @@ export class FormPaiementComponent implements OnInit {
   }
 
   getReglementByCessionnaire() {
-
+ 
     let cessionnaireId:number = 0;
     if(this.getFormFiledsValue('cesId')) {
       cessionnaireId = this.getFormFiledsValue('cesId').value;
