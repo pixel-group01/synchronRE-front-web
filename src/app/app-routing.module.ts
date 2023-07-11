@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       { path: "", redirectTo: "/authentication/signin", pathMatch: "full" },
       {
-        path: "admin",
+        path: "dashbord",
         canActivate: [AuthGuard],
         data: {
           role: Role.Admin,

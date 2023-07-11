@@ -160,8 +160,6 @@ export class LogsSystemComponent implements OnInit {
       if (result.value) {
         this.errorsIds = "";
          itemLogsChecked.forEach((item:any,key  :any) => {
-          console.log(" key ",key);
-          console.log(" item ",item);
           
           this.errorsIds = this.errorsIds+""+( key == 0 ? ("errorIds="+item?.id) : ("&errorIds="+item?.id));
          });
