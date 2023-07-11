@@ -39,7 +39,7 @@
                                                         user.firstName +' '+user?.lastName }}</ng-option>
                                                 </ng-select>
                                             </div>
-                                            
+
 
                                         </div>
                                     </th>
@@ -54,7 +54,6 @@
                                     <th>Fonction</th>
                                     <th>Email</th>
                                     <th>Structure</th>
-                                    <th>Machine</th>
                                     <th>IP</th>
                                     <th>Action</th>
                                     <th>Date</th>
@@ -73,11 +72,10 @@
                                     <td>{{ item?.foncName }}</td>
                                     <td>{{ item?.userEmail }}</td>
                                     <td>{{ item?.cedName || '-' }}</td>
-                                    <td>{{ item?.hostName }}</td>
                                     <td>{{ item?.ipAddress }}</td>
                                     <td>{{ item?.action  }}</td>
                                     <td>{{ item?.actionDateTime | dateFormatInDateHour }}</td>
-                                    
+
                                     <td class="custom-width-td-action">
                                         <div class="custom-td-action">
                                             <a title="Détails" (click)="openModal(item, templateDetailsLogs)"
@@ -117,7 +115,7 @@
                                 <tr *ngIf="!items || items.length == 0">
                                     <td colspan="10">
                                         <div class="col-md-12 txt-align-center">
-                                            Aucune données disponible
+                                            Aucune donnée disponible
                                         </div>
                                     </td>
                                 </tr>
@@ -140,7 +138,7 @@
             <mat-icon>close</mat-icon>
         </button>
     </div>
-    <div class="modal-body"> 
+    <div class="modal-body">
        <app-logs [currentConnexion]="itemToSave"></app-logs>
     </div>
 </ng-template>
