@@ -47,8 +47,8 @@
               </a>
             </ng-container>
 
-            <ng-container  *ngIf="isValidationPlacement">
-              <div 
+            <ng-container
+              *ngIf="isValidationPlacement && user?.isActeurValideur"
             >
               <div class="custom-td-action">
                 <div ngbDropdown class="d-inline-block">
@@ -87,9 +87,7 @@
                   </div>
                 </div>
               </div>
-            </div>
             </ng-container>
-         
 
             <ng-container *ngIf="canPutAction">
               <div class="custom-td-action">
