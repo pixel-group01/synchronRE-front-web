@@ -47,9 +47,8 @@
               </a>
             </ng-container>
 
-            <div
-              *ngIf="isValidationPlacement"
-              appAppAccess appAccess="'VAL-PLA'"
+            <ng-container  *ngIf="isValidationPlacement">
+              <div appAppAccess appAccess="'VAL-PLA'"
             >
               <div class="custom-td-action">
                 <div ngbDropdown class="d-inline-block">
@@ -89,6 +88,8 @@
                 </div>
               </div>
             </div>
+            </ng-container>
+         
 
             <ng-container *ngIf="canPutAction">
               <div class="custom-td-action">
