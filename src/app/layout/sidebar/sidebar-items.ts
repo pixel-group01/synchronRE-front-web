@@ -83,7 +83,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "GET-STAT-SIN",
+        code: "GET-STAT-SIN-FAC",
         submenu: [],
       },
       {
@@ -96,7 +96,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "GET-STAT-SIN",
+        code: "GET-STAT-SIN-TRAI",
         submenu: [],
       }
     ],

@@ -121,7 +121,7 @@ export class FormCreateUserComponent implements OnInit {
       tel: itemAEnregistrer.tel,
       firstName: itemAEnregistrer.firstName,
       lastName: itemAEnregistrer.lastName,
-      visibilityId: null,
+      visibilityId: itemAEnregistrer.cedId,
       cesId: itemAEnregistrer.cesId,
       cedId : itemAEnregistrer.cedId
     };
@@ -252,8 +252,6 @@ export class FormCreateUserComponent implements OnInit {
     this.userForm.get("dateFinFonction").setValue(null);
     this.userForm.get("roles").setValue([]);
     this.userForm.get("privileges").setValue([]);
-
-    console.log(" this.listeFonctions ",this.listeFonctions);
     
   }
 

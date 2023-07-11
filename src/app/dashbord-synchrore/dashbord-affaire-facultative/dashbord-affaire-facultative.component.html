@@ -12,8 +12,7 @@
                         <div class="filter-part">
                             <div class="row">
                                 <div class="col-md-2 col-xs-12 col-sm-12 pull-right">
-                                    <label>Filiale/cédante : </label>
-                      
+                                    <label>Filiale/cédante : </label> 
                                     <ng-select [(ngModel)]="itemToSearch.cedenteId" (change)="getStatistique()"
                                       [readonly]="user?.cedId" id="cedenteId">
                                       <ng-option *ngFor="let cedente of listeCedente" [value]="cedente?.cedId">{{ cedente.cedNomFiliale
@@ -62,7 +61,6 @@
                                 <div class="line-chart-part">
                                     <div  id="line-chart"></div>
                                 </div>
-                    
                         </div> -->
                     </div>
                 </div>

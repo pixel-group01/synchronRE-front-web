@@ -50,7 +50,7 @@ export class SelectFonctionComponent implements OnInit {
         // On le ramene sur le tableau de bord pour mieux gerer les acls
         if(response && response.accessToken) {
           this.userService.setAuthToken(response);
-          this.router.navigate(['/admin']);
+          this.router.navigate(['/dashbord']);
           document.location.reload();
           this.closeModal.emit(true);
         }

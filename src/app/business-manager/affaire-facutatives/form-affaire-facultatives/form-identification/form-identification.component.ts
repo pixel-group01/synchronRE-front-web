@@ -141,6 +141,9 @@ export class FormIdentificationComponent implements OnInit {
   }
 
   createForm = () => {
+
+    console.log(" this.itemToUpdate ",this.itemToUpdate);
+    
     this.formulaireGroup = this.formBuilder.group({
       affId: [this.itemToUpdate?.affId || ""],
       affCode: [this.itemToUpdate?.affCode || ""],
@@ -163,7 +166,7 @@ export class FormIdentificationComponent implements OnInit {
         Validators.required,
       ],
       devCode: [
-        this.itemToUpdate?.devCode || "",
+        this.itemToUpdate?.devCode || "XOF",
         Validators.required,
       ],
       affStatutCreation: [
