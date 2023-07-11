@@ -438,6 +438,6 @@ export class FormRepartitionComponent implements OnInit {
     // this.createForm();
     this.getCouverture();
     this.getCessionLegale();
-    // this.getAffaireFacultativeEtatCompta();
+    this.getAffaireFacultativeEtatCompta();
   }
 }

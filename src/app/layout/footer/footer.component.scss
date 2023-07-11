@@ -1,0 +1,18 @@
+.footer-container {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    width: 100%;
+    margin-top: -40px;
+    .left-part {
+        width: 270px;
+    }
+    .right-part {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+        padding: 0 20px;
+    }
+}

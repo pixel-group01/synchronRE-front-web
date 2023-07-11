@@ -43,6 +43,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 import { JwtModule } from "@auth0/angular-jwt";
 import { SinistreComponent } from './sinistre/sinistre.component';
+import { FooterComponent } from "./layout/footer/footer.component";
 
 export function tokenGetter() {
   return localStorage.getItem("accesToken");
@@ -61,6 +62,7 @@ export function createTranslateLoader(http: HttpClient): any {
     RightSidebarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
