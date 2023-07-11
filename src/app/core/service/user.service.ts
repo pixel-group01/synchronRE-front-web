@@ -48,7 +48,7 @@ export class UserService {
 
       if (decode_data.authorities) {
         let hasAcces = _.find(decode_data.authorities, (o) => {
-          return o.trim().toLowerCase() == "VAL-PLA";
+          return o.trim().toUpperCase() == "VAL-PLA";
         });
         if (hasAcces) {
           decode_data.isActeurValideur = true;
