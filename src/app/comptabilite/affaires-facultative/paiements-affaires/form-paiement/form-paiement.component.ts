@@ -99,9 +99,9 @@ export class FormPaiementComponent implements OnInit {
   }
 
   getCessionnaire() {
-    this.cessionaireService.getAll().subscribe((response) => {
-      if (response && response["content"]) {
-        this.listeCessionnaire = response["content"] as Cessionnaire[];
+    this.cessionaireService.getCessionnaireByAffaire(this.currentAffaire.affId).subscribe((response : any) => {
+      if (response) {
+        this.listeCessionnaire = response as Cessionnaire[];
       }
     });
   }
