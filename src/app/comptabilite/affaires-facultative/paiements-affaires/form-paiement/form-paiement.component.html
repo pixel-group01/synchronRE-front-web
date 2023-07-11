@@ -127,7 +127,7 @@
                                         <span class="required_champs">*</span>
                                     </label>
 
-                                    <ng-select formControlName="cesId" id="cesId" name="cesId">
+                                    <ng-select formControlName="cesId" id="cesId" (change)="getReglementByCessionnaire()" name="cesId">
                                         <ng-option *ngFor="let cessionaire of listeCessionnaire"
                                             [value]="cessionaire.cesId">{{ cessionaire.cesNom }}</ng-option>
                                     </ng-select>

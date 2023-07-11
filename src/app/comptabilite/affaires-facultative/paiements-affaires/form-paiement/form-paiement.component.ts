@@ -106,6 +106,21 @@ export class FormPaiementComponent implements OnInit {
     });
   }
 
+  getReglementByCessionnaire() {
+
+    let cessionnaireId:number = 0;
+    if(this.getFormFiledsValue('cesId')) {
+      cessionnaireId = this.getFormFiledsValue('cesId').value;
+    }
+   
+    this.reglementService.getReglementDetailsByAffaireAndCessionnaire(cessionnaireId,this.currentAffaire.affId).subscribe((response : any) => {
+      if (response) {
+        this.formulaireGroup.get("regMontant").setValue(response?.resteAReverser);
+      }
+    });
+  }
+  
+
   getFormFiledsValue = (field: string) => {
     return this.formulaireGroup.get(field);
   };
