@@ -29,7 +29,7 @@
                             <mat-tab label="En cours de règlement">
                                 <ng-template matTabContent>
                                     <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante-en-reglement':'affaires/facultative/by-reassureur-en-reglement' "
-                                        [refreshDataTable]="refreshDataTable"></app-list-affaires-facultatives>
+                                        [refreshDataTable]="refreshDataTable"  [noPutAction]="true"></app-list-affaires-facultatives>
                                 </ng-template>
                             </mat-tab>
                             <mat-tab label="Historique">
