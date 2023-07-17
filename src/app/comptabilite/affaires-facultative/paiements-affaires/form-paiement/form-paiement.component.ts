@@ -194,6 +194,12 @@ export class FormPaiementComponent implements OnInit {
     }
   }
   
+  getCheque(reglementId:number) {
+    if(reglementId) {
+      window.open(environment.apiUrl+'reports/cheque/'+reglementId, '_blank');
+    }
+  }
+  
   
   getDocumentAdd($event) {
     if ($event) {
