@@ -9,36 +9,39 @@
         <th colspan="14">
           <div class="row mt-4">
             <div class="col-md-3 col-xs-12 col-sm-12">
-              <label>N° Affaire : </label>
+              <label>N° FAC : </label>
               <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
               placeholder="Rechercher ..."  />
             </div>
 
-            <div class="col-md-3 col-xs-12 col-sm-12">
-              <label>Date de survenance : </label>
+           <!--   <div class="col-md-3 col-xs-12 col-sm-12">
+              <label>Date : </label>
               <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
               placeholder="Rechercher ..."  />
             </div>
-
-            <div class="col-md-3 col-xs-12 col-sm-12">
+ 
+           <div class="col-md-3 col-xs-12 col-sm-12">
               <label>Date de declaration : </label>
               <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
                 placeholder="Rechercher ..."  />
-            </div>
+            </div> -->
           </div>
         </th>
       </tr>
-
+      
       <tr class="custom-table-head">
         <th class="txt-align-center-counter-row">
           <a (click)="currentPage = 1; getSinistre()" title="Actualiser">
             <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
         </th>
-        <th>N° Affaire</th>
-        <th>Montant</th>
-        <th>Date de survenance</th>
-        <th>Date de declaration</th>
-        <th>Montant honoraire</th>
+        <th>N° FAC</th>
+        <th> Assuré(e)</th>
+        <th>Montant Sinistre</th>
+        <th>Montant Honoraire</th>
+        <th>Montant Total Sinistre</th>
+        <th>Date Survenance</th>
+        <th>Date Declaration</th>
+        <th>Status</th>
         <th class="txt-align-center">Actions</th>
       </tr>
     </thead>
@@ -49,10 +52,15 @@
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td>
         <td>{{ item?.affCode }}</td> 
+        <td>{{ item?.affAssure}}</td> 
         <td>{{ item?.sinMontant100 }}</td>
+        <td>{{ item?.sinMontantHonoraire }}</td>
+        <td>{{ item?.totalMontant }}</td> 
         <td>{{ item?.sinDateSurvenance }}</td>
         <td>{{ item?.sinDateDeclaration }}</td>
-        <td>{{ item?.sinMontantHonoraire }}</td>
+        <td>
+            <span class="statLibelle {{item?.staCode}}" >{{item?.staLibelle}} </span>  <span *ngIf="item?.staCode === 'RET'" (click)="openModalMessage(templateMessage,item.sinId)">&nbsp;<i class="fa fa-envelope fa-sm btn" ></i></span>
+        </td>
         <!-- <td>{{ item?.affActivite }}</td> -->
         <td class="custom-width-td-action">
           <div class="custom-td-action">
@@ -70,11 +78,14 @@
                   <button ngbDropdownItem (click)="confirmTransmettreSinistre(item.sinId)">
                     <i class="fa fa-share"></i>&nbsp;Transmettre sinistre
                   </button>
-                  <button ngbDropdownItem (click)="openModalRetourner(templateRetournerSinistre)">
-                    <i class="fa fa-share"></i>&nbsp;Retourner sinistre
+                  <button ngbDropdownItem (click)="openModalRetourner(templateRetournerSinistre,item.sinId)">
+                    <i class="fa fa-share" style="rotate: 180deg;"></i>&nbsp;Retourner sinistre
                   </button>
                   <button ngbDropdownItem (click)="confirmValiderSinistre(item.sinId)">
-                    <i class="fa fa-share"></i>&nbsp;Valider sinistre
+                    <i class="fa fa-check"></i>&nbsp;Valider sinistre
+                  </button>
+                  <button ngbDropdownItem (click)="etatComptable(item.sinId)">
+                    <i class="fa fa-square"></i>&nbsp;Etat comptable
                   </button>
                   <button ngbDropdownItem>
                     <i class="fa fa-list" (click)="openModal(templateSinistre,item,false)"></i>&nbsp;Historique sinistre
@@ -103,7 +114,7 @@
 
                 <span class="span_total_entree pull-right">Total : {{ totalItems }}</span>
               </div>
-            </div>
+            </div> 
           </div>
         </td>
       </tr>
@@ -146,6 +157,21 @@
       </button>
   </div>
   <div class="modal-body p-4">
-      <app-form-retourner-sinstre></app-form-retourner-sinstre>
+      <app-form-retourner-sinstre [idSinistre]="idSiniOfListe" (closeModal)="closeFormModal($event)"></app-form-retourner-sinstre>
+  </div>
+</ng-template>
+
+<!-- afficher message de retour -->
+<ng-template #templateMessage>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">
+          Motif de retour sinistre
+      </h4>
+      <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+      </button>
+  </div>
+  <div class="modal-body p-4">
+      <app-afficher-message [idSinistre]="idSiniOfListe" (closeModal)="closeFormModal($event)"></app-afficher-message>
   </div>
 </ng-template>

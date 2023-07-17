@@ -23,8 +23,10 @@ export class CreationSinistreComponent implements OnInit {
   dataSurvenance:any; 
   dataDeclaration:any;
   affDetail:any;
-  sinistre:FormGroup 
+  sinistre:FormGroup;
+  isCollapsed =true;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  @Output() step2: EventEmitter<any> = new EventEmitter();
   constructor(
     private formBuilder: FormBuilder,
     private utilities: UtilitiesService,
@@ -36,7 +38,7 @@ export class CreationSinistreComponent implements OnInit {
     this.affaireDetail();
     this.getAffaire();
     this.maxDate.setDate(this.maxDate.getDate());
-    this.sinistreForm()
+    this.sinistreForm();  
     if (this.itemCreationSinistre) {
       this.sinistre.patchValue({...this.itemCreationSinistre})
     }    
@@ -119,7 +121,7 @@ export class CreationSinistreComponent implements OnInit {
 
   getFormFiledsValue = (field: string) => {
     return this.sinistre.get(field);
-  };
+  }
 
   // new FormGroup({
   //   affId : new FormControl(),
@@ -148,7 +150,11 @@ export class CreationSinistreComponent implements OnInit {
             "top",
             "center"
           );
-          this.closeModal.emit(true)
+          // this.closeModal.emit(true)
+          const item :any ={
+            id:res.sinId,
+          };
+          this.step2.emit(item)
         }
       })
       return
@@ -161,7 +167,12 @@ export class CreationSinistreComponent implements OnInit {
           "top",
           "center"
         );
-        this.closeModal.emit(true)
+        // this.closeModal.emit(true)
+        const item :any ={
+          id:res.sinId,
+        };
+        console.log("step 2 :",this.step2);
+        this.step2.emit(item)
       }
     })
   }
@@ -181,7 +192,7 @@ export class CreationSinistreComponent implements OnInit {
   affaireDetail(){
     setTimeout(() => {
     this.affDetail = {...this.listeAffaires.find((elt:any)=>  elt.affId == this.sinistre.value.affId)}
-    }, 500);
+    }, 500);    
   }
 
   closeFormModal($event:boolean){

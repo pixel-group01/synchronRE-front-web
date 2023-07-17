@@ -1,11 +1,8 @@
  <div>
 <form style="margin-top: 29px;margin-bottom: 29px;" [formGroup]="documentForm" (ngSubmit)="save(documentForm.value)">
-
     <fieldset >
         <legend> Ajouter un document</legend>
-
-        <div class="row p-3" style="align-items: center;">
-                  
+        <div class="row p-3" style="align-items: center;"> 
             <div class="col-md-6 col-xs-12 mb-3">
              <label>Type Document</label>
               <ng-select 
@@ -23,18 +20,10 @@
             <div class="col-md-6 col-xs-12 mb-3">
                <label class="text-white">Selectionnez un fichier
                 </label>
-               <!--<input
-                class="form-control custom-input"
-                placeholder="C://test.pdf"
-                autocomplete="off"
-                name="fichierName"
-                type="text"
-                mask="separator" thousandSeparator=" " 
-                />-->
                 <input type="file" id="idFileDoc" class="w-100" name="idFileDoc" (change)="uploadFile($event)" multiple="false">
             </div>
 
-            <div class="col-md-12 col-xs-12 mb-3">
+            <div class="col-md-12 col-xs-12 mb-3"> 
               <label> Description</label>
                 <textarea class="form-control custom-input" name="descrip" 
                 id="descrip" formControlName="docDescription" cols="30" rows="5" placeholder="une description svp!">
@@ -43,7 +32,7 @@
             </div>
        
             <div class="col-md-2 col-xs-12 d-flex" style="margin-left: auto;">
-                <button type="submit" class="form-control btn btn-light border-0" style="position: relative;top: 3px;margin-right: 10px;"> Annuler </button>
+                <button type="button" class="form-control btn btn-light border-0" (click)="clear()" style="position: relative;top: 3px;margin-right: 10px;"> Annuler </button>
                 <button type="submit" class="form-control btn btn-secondary border-0" style="position: relative;top: 3px;"> Ajouter </button>
             </div>
 
@@ -153,8 +142,18 @@
     </div>
   </fieldset>
     
-<div class="col-md-1 col-xs-4 m-4" style="margin-bottom: 0 !important;">
-    <button class="form-control btn btn-light p-2 border-0" style="border-radius: 3px; " type="button">Fermer</button>
+
+
+<div class="row justify-content-between" style="padding: 15px 20px 0px 14px;">
+  <div class="col-md-1">
+      <button class="form-control btn btn-light p-2 border-0" type="button">Fermer</button>
+  </div>
+  <div class="col-md-1 gx-0">
+      <button class="form-control border-0 text-white"  (click)="precedent()"
+           type="submit" style="background-color: #003362;border-radius: 3px;">
+           Précédent
+      </button>
+  </div>
 </div>
 
  </div>

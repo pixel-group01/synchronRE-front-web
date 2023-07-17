@@ -63,7 +63,6 @@ export class UtilitiesService {
     return nombre;
   }
 
-
   showNotification(colorName, text, placementFrom, placementAlign,isForcePosition?) {
     this.snackBar.open(text, "", {
       duration: 8000,

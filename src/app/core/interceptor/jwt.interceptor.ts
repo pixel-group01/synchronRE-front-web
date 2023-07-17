@@ -22,6 +22,9 @@ export class JwtInterceptor implements HttpInterceptor {
     let currentUser = this.userService.getCurrentToken(); // this.authenticationService.currentUserValue;
 
     let headers: HttpHeaders = request?.headers;
+    if (request.body instanceof FormData) {
+      // headers = headers.append('Content-Type', 'multipart/form-data');
+    }
     if (currentUser && currentUser.accessToken) {
 
       headers = headers.append('Authorization',`Bearer ${currentUser.accessToken}`);

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TabsetConfig } from 'ngx-bootstrap/tabs';
+import { AuthService } from 'src/app/core/service/auth.service';
  
 export function getTabsetConfig(): TabsetConfig {
   return Object.assign(new TabsetConfig(), { type: 'pills', isKeysAllowed: true });
@@ -13,9 +14,13 @@ export class FormSinistreComponent implements OnInit {
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() itemSinistre :any ;
   @Input() isActive :boolean ;
-
-  staticTabs :number
-  constructor() { }
+  idSinistre :number;
+  staticTabs :number;
+  user:any
+  constructor(private authService: AuthService) { 
+    // console.log(this.user = this.authService.currentUser);
+    
+  }
 
   ngOnInit(): void {
     const clsButton1 = document.querySelector<HTMLElement>(".cls-indent-sinis1")
@@ -32,6 +37,13 @@ export class FormSinistreComponent implements OnInit {
     this.closeModal.emit(event); 
   }
 
+  receiveStep1(evt:any){
+    console.log("evt :",evt);
+    this.idSinistre = evt.id;
+    setTimeout(() => {
+       this.selectTab(2)
+    }, 1000);
+  }
  
   selectTab(tabId: number) {
       this.staticTabs = tabId

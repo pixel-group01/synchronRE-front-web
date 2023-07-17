@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DocumentService } from 'src/app/core/service/document.service';
 import * as _ from "lodash";
@@ -17,7 +17,8 @@ export class CreationDocumentSinistreComponent implements OnInit {
   totalItems: number; 
   currentFichier : any ={};
   documentForm:FormGroup 
-
+  @Output() step1: EventEmitter<number> = new EventEmitter();
+  @Input() idSinistreInDoc :number
   constructor( private documentService : DocumentService,
               private formBuilder: FormBuilder,
               public sanitizer: DomSanitizer) { }
@@ -25,7 +26,9 @@ export class CreationDocumentSinistreComponent implements OnInit {
   ngOnInit(): void {
     this.getTypeDocument();
     this.getDocumentOfSinistre();
-    this.documForm()
+    this.documForm();
+    // console.log('idSinistreInDoc :',this.idSinistreInDoc);
+    
   } 
 
   getTypeDocument(){
@@ -33,17 +36,17 @@ export class CreationDocumentSinistreComponent implements OnInit {
         console.log("res :",res);
         this.listeTypeDocument = res
     })
-  }
-
+  } 
+  
   save(item:any){
     console.log("item ::",item);
-    
     const fd = new FormData();
     fd.append('typeDocUniqueCode',item.uniqueCode);
     fd.append('docNum',"1");
     fd.append('docDescription',"un test");
     fd.append('objectId', "1");
     fd.append('file', this.currentFichier.fichier);
+    
     this.documentService.create(fd).subscribe((res:any)=>{
       console.log("res fb :",res);
   })
@@ -54,6 +57,14 @@ export class CreationDocumentSinistreComponent implements OnInit {
       uniqueCode: [null,Validators.required],
       docDescription: ["",Validators.required],
     })
+  }
+
+  clear(){
+    this.documentForm.reset()
+  }
+
+  precedent(){
+    this.step1.emit(this.idSinistreInDoc)
   }
 
   getDocumentOfSinistre(item:any=1){

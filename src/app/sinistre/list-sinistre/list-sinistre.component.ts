@@ -1,19 +1,10 @@
 import { Component, Input, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
-import { User } from 'angular-feather/icons';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
-import { enumStatutAffaire } from 'src/app/core/enumerator/enumerator';
-import { BusinessOptional } from 'src/app/core/models/businessOptional';
-import { Cedante } from 'src/app/core/models/cedante';
-import { Exercice } from 'src/app/core/models/exercice';
 import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
-import { CedanteService } from 'src/app/core/service/cedante.service';
-import { ExerciceService } from 'src/app/core/service/exercice.service';
 import { RestClientService } from 'src/app/core/service/rest-client.service';
 import { SinistreService } from 'src/app/core/service/sinistre.service';
-import { UserService } from 'src/app/core/service/user.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
-import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -34,25 +25,17 @@ export class ListSinistreComponent implements OnInit {
   totalItems: number; 
   busyGet: Subscription; 
   user:  any;
-  isActiveInput :boolean = false
-  // listeExercices: Array<Exercice> = [];
-  // @Input() statutAffaire!: string;
+  isActiveInput :boolean = false;
   @Input() refreshDataTable!: string;
-  // @Input() noPutAction: boolean = false;
-  // @Input() endPoint: any;
-  // @Input() isEnCoursPlacementNelson: boolean = false;
-  // initialEndPoint: string;
-  // statutAffEnum: any;
-
+  @Input() endPoint: any ;
+  idSiniOfListe :number
   constructor(
     private businessOptionalService: BusinessOptionalService,
     private sinistreService: SinistreService,
     private utilities: UtilitiesService,
     private modalService: BsModalService,
     private restClient: RestClientService
-  ) {
-
-  }
+  ) {}
 
   getExactlyNumberRow(page, index) {
     let num = index + 1;
@@ -68,22 +51,32 @@ export class ListSinistreComponent implements OnInit {
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
     this.modalRef = this.modalService.show(template,config);
   }
- 
-  openModalRetourner(template: TemplateRef<any>) {
-    let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-30'};
+
+  openModalRetourner(template: TemplateRef<any>,item:any) {
+    console.log("idSiniOfListe :",this.idSiniOfListe = item);
+    
+    let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
     this.modalRef = this.modalService.show(template,config);
   }
 
+  openModalMessage(template: TemplateRef<any>,item:any) {
+    console.log("idSiniOfListe :",this.idSiniOfListe = item);
+    
+    let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
+    this.modalRef = this.modalService.show(template,config);
+  }
+
+
   transmettre(data:any){
     this.sinistreService.transmission(data).subscribe((res:any)=>{
-        if (res) {
-          console.log(res ,' info sinistre');
-          this.getSinistre()
-        }
+          setTimeout(() => {
+            this.getSinistre();
+          }, 100);
     })
   }
 
   confirmTransmettreSinistre(item:any) {
+    // console.log(item ,' info sinistre');
     Swal.fire({
       title: "Transmettre le sinistre",
       text:"Vous êtes sur le point de transmettre un sinistre. Voulez-vous poursuivre cette action ?",
@@ -99,6 +92,13 @@ export class ListSinistreComponent implements OnInit {
         this.transmettre(item);
       }
     });
+  }
+
+  messageDuRetour(data:any){
+    this.sinistreService.messageRetour(data).subscribe((res :any)=>{
+        console.log("message retour :",res);
+        
+    })
   }
 
   confirmValiderSinistre(item:any) {
@@ -120,21 +120,25 @@ export class ListSinistreComponent implements OnInit {
   }
 
   validerSinistre(item: any) {
-    const data = {
-      id: item.sinId
-    }
-    this.sinistreService.transmission(data).subscribe((res: any) => {
-      if (res) {
-        this.getSinistre()
-      }
+    this.sinistreService.validation(item).subscribe((res: any) => {
+      setTimeout(() => {
+        this.getSinistre();
+      }, 100);
     })
   }
 
+
+  etatComptable(item:any){
+    this.sinistreService.etatComptable(item).subscribe((res:any)=>{
+      console.log("res res ::", res);
+    })
+  }
+
+  
   closeFormModal($event) {
     console.log('okok',$event);    
     this.getSinistre();
     this.modalRef.hide();
- 
   }
 
   pageChanged(event: any): void {
@@ -143,7 +147,7 @@ export class ListSinistreComponent implements OnInit {
   }
 
   getSinistre(){
-    let  endPoint :any = "sinistres/list?" + 'page=' + `${this.currentPage-1}` + '&size=' + this.itemsPerPage;
+    let  endPoint :any = this.endPoint + '?page=' + `${this.currentPage-1}` + '&size=' + this.itemsPerPage;
     this.busyGet =  this.restClient.get(endPoint)
       .subscribe((res: any) => {
         console.log("res sinistre :",res);
@@ -151,8 +155,8 @@ export class ListSinistreComponent implements OnInit {
           let dateDecl = elt.sinDateDeclaration?.split('-');
           let dateSur =  elt.sinDateSurvenance?.split('-');
             elt.sinDateDeclaration = dateDecl[2] + '/' + dateDecl[1] + '/' + dateDecl[0];
-            elt.sinDateSurvenance =  dateSur[2] + '/' + dateSur[1] + '/' + dateSur[0]
-          
+            elt.sinDateSurvenance =  dateSur[2] + '/' + dateSur[1] + '/' + dateSur[0];
+            elt.totalMontant =  elt.sinMontantHonoraire + elt.sinMontant100 
           return elt
         });
         this.totalItems = res.totalElements;
@@ -179,7 +183,6 @@ export class ListSinistreComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log("change :",changes);
-    
     if (
       changes["refreshDataTable"] &&
       changes["refreshDataTable"].currentValue
@@ -192,6 +195,7 @@ export class ListSinistreComponent implements OnInit {
 
   ngOnInit() {
     // this.getItems();
+    console.log("endPoint :", this.endPoint);
     this.getSinistre();
   }
 }

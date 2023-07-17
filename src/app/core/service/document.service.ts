@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RestClientService } from './rest-client.service';
 import { typeDocument } from '../models/typeDocument';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
