@@ -1,7 +1,13 @@
-
-<fieldset class="mb-4"  *ngIf="affDetail && sinistre.value.affId">
+<div class="sinistre-creer-container"
+  [ngBusy]="{
+    busy: busySave,
+    message: 'Veuillez patienter ...',
+    backdrop: false
+  }"
+>
+  <fieldset class="mb-4"  *ngIf="affDetail && sinistre.value.affId">
     <legend > Information sur l'affaire</legend>
-  
+
       <div class="row gy-2 p-3">
         <div class="col-6">
             <label for="inputEmail3" class="col-sm-2 fw-normal">N° affaire</label>
@@ -9,7 +15,7 @@
         </div>
         <div class="col-6">  
           <label for="inputEmail1" class="col-sm-4 fw-normal">Montant</label>
-          <label for="inputEmail1" class="col-sm-8 w-bold"> {{affDetail?.facSmpLci}}</label>
+          <label for="inputEmail1" class="col-sm-8 w-bold"> {{affDetail?.facSmpLci | moneyFormat}}</label>
         </div>
         <div class="col-6">
           <label for="inputEmail" class="col-sm-2 fw-normal">Filiale</label>
@@ -17,7 +23,7 @@
         </div>
         <div class="col-6">
           <label for="inputEmail1" class="col-sm-4 fw-normal">Capitaux à 100%</label>
-          <label for="inputEmail1" class="col-sm-8 w-bold"> {{affDetail?.facCapitaux}}</label>
+          <label for="inputEmail1" class="col-sm-8 w-bold"> {{affDetail?.facCapitaux | moneyFormat}}</label>
         </div>
         <div class="col-6">
           <label for="inputEmail1" class="col-sm-2 fw-normal">Assuré</label>
@@ -35,7 +41,7 @@
           <label for="inputEmail1" class="col-sm-4 fw-normal">Date d'échéance</label>
           <label for="inputEmail1" class="col-sm-8 w-bold"> {{affDetail?.affDateEffet}}</label>
         </div>
-         
+        
       </div>
   </fieldset>
 
@@ -45,7 +51,7 @@
               <div class="row p-3">
                   
                   <div class="col-md-12 col-xs-12 mb-3">
-                   <label>Affaire :</label>
+                  <label>Affaire :</label>
                     <ng-select 
                         name="affaireName" 
                         id="affaireId"
@@ -126,7 +132,7 @@
                       autocomplete="off"
                       formControlName="sinMontantHonoraire" 
                       name="honoraire"
-                      type="text" 
+                      type="text"  
                       [readonly]="isActiveCreationSinistre"
                       mask="separator" thousandSeparator=" " 
                       [class.errorInputForm]="
@@ -173,26 +179,32 @@
                       <textarea  class="form-control custom-input" placeholder="Commentaire sur le sinistre" 
                       [readonly]="isActiveCreationSinistre" name="description" id="description" 
                       cols="15" rows="5" formControlName="sinCommentaire"></textarea>
-                       <!-- <small
-                       class="text-danger"
-                       *ngIf="(getFormFiledsValue('sinCommentaire')?.dirty || getFormFiledsValue('sinCommentaire')?.touched) && getFormFiledsValue('sinCommentaire')?.invalid && getFormFiledsValue('sinCommentaire')?.errors?.['required']"
-                     >
-                       Ce champs est obligatoire
-                     </small> -->
+                      <!-- <small
+                      class="text-danger"
+                      *ngIf="(getFormFiledsValue('sinCommentaire')?.dirty || getFormFiledsValue('sinCommentaire')?.touched) && getFormFiledsValue('sinCommentaire')?.invalid && getFormFiledsValue('sinCommentaire')?.errors?.['required']"
+                    >
+                      Ce champs est obligatoire
+                    </small> -->
                   </div>
               </div>
   </fieldset>
-  
+
   <div class="row justify-content-between" style="padding: 0 15px;">
       <div class="col-md-1">
-          <button class="form-control btn btn-light p-2 border-0" type="button" (click)="this.closeModal.emit(true)">Fermer</button>
+          <button class="form-control btn btn-light p-2 border-0" type="button" (click)="fermer()">Fermer</button>
       </div>
       <div class="col-md-1">
           <button class="form-control border-0 text-white" 
-               type="submit" style="background-color: #003362;border-radius: 3px;" [disabled]="!sinistre.valid">
-            Suivant
+              type="submit" style="background-color: #003362;border-radius: 3px;" [disabled]="!sinistre.valid">
+              <span *ngIf="itemCreationSinistre?.sinId">Modifier</span>
+              <span *ngIf="!itemCreationSinistre?.sinId">Suivant</span>
+            
           </button>
       </div>
   </div>
 
-</form>
+  </form>
+
+</div>
+
+ 

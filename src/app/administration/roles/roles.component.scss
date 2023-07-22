@@ -13,11 +13,12 @@ td {
 .btn-part {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
+  justify-content: space-between; 
+} 
 
 .minus-td {
   vertical-align: baseline;
+  text-align: center;
 }
 
 .fa-ico-fct {
@@ -32,3 +33,8 @@ td {
 .div-fct>table {
   margin-bottom: 0px !important;
 }
+
+// .menu-deroulant {
+//   display: flex;
+//   align-items: center;
+// }

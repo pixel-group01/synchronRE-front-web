@@ -92,8 +92,8 @@ export class FormIdentificationComponent implements OnInit {
     this.deviseService.getAll().subscribe((response: any) => {
       console.log(" response devise ",response);
       
-      if (response && response["content"]) {
-        this.listeDevises = response["content"] as Devise[];
+      if (response) {
+        this.listeDevises = response as Devise[];
 
         this.listeDevises =   _.orderBy( this.listeDevises, ['devLibelle'], ['asc']);
  
@@ -141,6 +141,9 @@ export class FormIdentificationComponent implements OnInit {
   }
 
   createForm = () => {
+
+    console.log(" this.itemToUpdate ",this.itemToUpdate);
+    
     this.formulaireGroup = this.formBuilder.group({
       affId: [this.itemToUpdate?.affId || ""],
       affCode: [this.itemToUpdate?.affCode || ""],
@@ -163,7 +166,7 @@ export class FormIdentificationComponent implements OnInit {
         Validators.required,
       ],
       devCode: [
-        this.itemToUpdate?.devCode || "",
+        this.itemToUpdate?.devCode || "XOF",
         Validators.required,
       ],
       affStatutCreation: [

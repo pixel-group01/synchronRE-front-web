@@ -1,0 +1,156 @@
+<div class="body table-responsive" [ngBusy]="{
+    busy: busyGet,
+    message: 'Veuillez patienter ...',
+    backdrop: false
+  }">
+  <table class="table table-condensed table-striped table-hover">
+    <thead>
+      <tr>
+        <th colspan="14">
+          <div class="row mt-4">
+            <div class="col-md-3 col-xs-12 col-sm-12">
+              <label>N° FAC : </label>
+              <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
+              placeholder="Rechercher ..."  />
+            </div>
+           <!--   <div class="col-md-3 col-xs-12 col-sm-12">
+              <label>Date : </label>
+              <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
+              placeholder="Rechercher ..."  />
+            </div>
+ 
+           <div class="col-md-3 col-xs-12 col-sm-12">
+              <label>Date de declaration : </label>
+              <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
+                placeholder="Rechercher ..."  />
+            </div> -->
+          </div>
+        </th>
+      </tr> 
+      
+      <tr class="custom-table-head">
+        <th class="txt-align-center-counter-row">
+          <a (click)="currentPage = 1; getSinistre()" title="Actualiser">
+            <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+        </th>
+        <th>N° FAC</th>
+        <th> Assuré(e)</th>
+        <th>Montant Sinistre</th>
+        <th>Montant Honoraire</th>
+        <th>Montant Total Sinistre</th>
+        <th>Date Survenance</th>
+        <th>Date Declaration</th>
+        <th class="txt-align-center">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of items; let indice = index">
+        <td class="txt-align-center">
+          {{ getExactlyNumberRow(this.currentPage, indice) }}
+        </td>
+        <td>{{ item?.affCode }}</td> 
+        <td>{{ item?.affAssure}}</td> 
+        <td>{{ item?.sinMontant100 }}</td>
+        <td>{{ item?.sinMontantHonoraire }}</td>
+        <td>{{ item?.totalMontant }}</td> 
+        <td>{{ item?.sinDateSurvenance }}</td>
+        <td>{{ item?.sinDateDeclaration }}</td>
+        <!--<td>
+            <span class="statLibelle {{item?.staCode}}" >{{item?.staLibelle}} </span>  <span *ngIf="item?.staCode === 'RET'" (click)="openModalMessage(templateMessage,item.sinId)">&nbsp;<i class="fa fa-envelope fa-sm btn" ></i></span>
+        </td> -->
+        <!-- <td>{{ item?.affActivite }}</td> -->
+        <td class="custom-width-td-action">
+          <div class="custom-td-action">
+            <div ngbDropdown class="d-inline-block">
+              <button type="button" class="btn btn-custom-action-dropdown" id="action" ngbDropdownToggle>
+                Actions
+              </button>
+                <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
+                  <button ngbDropdownItem (click)="openModalDetail(templateDetailSinistre,item,true)">
+                    <i class="fa fa-list"></i>&nbsp;Détails sinistre
+                  </button>
+                  
+                  <button
+                  ngbDropdownItem
+                  (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
+                >
+                  <i class="fa fa-money-bill"></i>&nbsp;Paiement
+                </button>
+
+                <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
+                  <i class="fa fa-redo-alt"></i>&nbsp; Reversement
+                </button>
+
+              </div>
+            </div>
+          </div> 
+        </td>
+      </tr>
+    </tbody>
+
+    <tfoot>
+      <tr *ngIf="items && items.length > 0">
+        <td colspan="14">
+          <div class="row pagination-part">
+            <div class="col-md-9" style="text-align: center">
+              <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage" [totalItems]="totalItems"
+                [(ngModel)]="currentPage" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;"
+                firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)"></pagination>
+            </div>
+
+            <div class="col-md-3">
+              <div class="paginator-per-page">
+                <app-element-by-page-paginator (paginationChange)="changePaginationSize($event)"
+                  [defaultItemPerPage]="itemsPerPage"></app-element-by-page-paginator>
+
+                <span class="span_total_entree pull-right">Total : {{ totalItems }}</span>
+              </div>
+            </div> 
+          </div>
+        </td>
+      </tr>
+
+      <tr *ngIf="!items || items.length == 0">
+        <td colspan="14">
+          <div class="col-md-12 txt-align-center">
+            Aucune donnée disponible
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table> 
+</div>
+
+<!-- datail sinistre template -->
+<ng-template #templateDetailSinistre>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">
+            Detail du sinistre
+        </h4>
+
+        <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="modal-body p-4">
+        <app-form-sinistre [itemSinistre]="itemsinistre" [isActive]="isActiveInput"></app-form-sinistre>
+    </div>
+</ng-template>
+
+<!-- paiement sinistre -->
+<ng-template #templatePaiement>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">
+          {{isOngletPaiement ? 'Paiement':'Reversement' }} sinistre
+
+      </h4> 
+      <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+      </button>
+  </div>
+  <div class="modal-body p-4">
+      <app-form-paiement-sinistre [itemSinistre]="idSiniOfListe"  [isPaiement]="isOngletPaiement" (closeModal)="closeFormModal($event)"></app-form-paiement-sinistre>
+  </div>
+</ng-template>
+

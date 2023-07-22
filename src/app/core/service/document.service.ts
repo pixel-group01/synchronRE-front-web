@@ -14,6 +14,10 @@ export class DocumentService {
     return this.restClient.get('documents/sinistre/'+`${body}`)
   } 
 
+  fileBase64 = (body:any) =>{
+    return this.restClient.get('documents/get-base64-url/'+`${body}`)
+  }
+
   typeDocument = () => {
     return this.restClient.get('documents/doc_sin/types');
   }

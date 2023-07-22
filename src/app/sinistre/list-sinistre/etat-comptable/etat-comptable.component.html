@@ -1,0 +1,157 @@
+<div>
+
+    <fieldset class="mb-4 p-3">
+        <legend > Information sur l'affaire</legend>
+        <div class="row mt-1">
+            <div class="col-md-3">
+                <div class="row">
+                    <label for="code" class="col-sm-4 col-form-label">Code :</label>
+                    <div class="col-sm-8">
+                      <input type="text" readonly class="form-control-plaintext text-info" name="code" id="code" value="{{etatComp?.affCode}}">
+                    </div>
+                  </div>
+            </div>
+           
+             <div class="col-md-3">
+                <div class="row ">
+                    <label for="assur" class="col-sm-4 col-form-label">Assuré :</label>
+                    <div class="col-sm-8">
+                      <input type="text" readonly class="form-control-plaintext" name="assur" id="assur" value="{{etatComp?.affAssure}}">
+                    </div>
+                  </div>
+             </div>
+            
+             <div class="col-md-3">
+                <div class="row">
+                    <label for="activit" class="col-sm-4 col-form-label">Activité :</label>
+                    <div class="col-sm-8">
+                      <input type="text" readonly class="form-control-plaintext" name="activit" id="activit" value="{{etatComp?.affActivite}}">
+                    </div>
+                  </div>
+             </div>
+    
+             <div class="col-md-3">
+                <div class="row">
+                    <label for="capitaux" class="col-sm-6 col-form-label">Capitaux à 100 :</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control-plaintext text-success"
+                             name="capitaux" id="capitaux" value="{{ etatComp?.affCapitalInitial | moneyFormat}}">
+                    </div>
+                  </div>
+             </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="mb-4 p-3">
+        <legend > Information sur sinistre</legend>
+      
+        <div class="row mt-1">
+            <div class="col-md-6">
+                <div class="row">
+                    <label for="codeSinis" class="col-sm-6 col-form-label">Code</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control-plaintext text-info" name="codeSinis" id="codeSinis" value="{{etatComp?.sinCode}}">
+                    </div>
+                  </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <label for="affActivite" class="col-sm-6 col-form-label">Montant déjà réglé</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control-plaintext" name="affActivite" id="affActivite" value="{{etatComp?.dejaRegle}}">
+                    </div>
+                  </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <label for="dateSu" class="col-sm-6 col-form-label">Date de survenance</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control-plaintext" name="dateSu" id="dateSu" value="{{etatComp?.sinDateSurvenance}}">
+                    </div>
+                  </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <label for="regleRest" class="col-sm-6 col-form-label">Reste à régler</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control-plaintext" name="regleRest" id="regleRest" value="{{etatComp?.resteARegler}}">
+                    </div>
+                  </div>
+            </div>
+          
+            <div class="col-md-6">
+                <div class="row">
+                    <label for="staticEmail" class="col-sm-6 col-form-label">Date de déclaration</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{etatComp?.sinDateDeclaration}}">
+                    </div>
+                  </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <label for="montRever" class="col-sm-6 col-form-label">Montant à réverser</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control-plaintext" name="montRever" id="montRever" value="{{etatComp?.sinMontantHonoraire}}">
+                    </div>
+                  </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <label for="montSini" class="col-sm-6 col-form-label">Montant</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control-plaintext text-success" name="montSini" id="montSini" value="{{etatComp?.sinMontant100}}">
+                    </div>
+                  </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <label for="mtEnAttenteDeReversement" class="col-sm-6 col-form-label">En attente de réversement</label>
+                    <div class="col-sm-6">
+                      <input type="text" readonly class="form-control-plaintext" name="mtEnAttenteDeReversement" id="mtEnAttenteDeReversement" value="{{etatComp?.mtEnAttenteDeReversement}}">
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="p-3 pb-3">
+        <legend > Cessionnaires</legend>
+        <table class="table table-condensed table-striped table-hover mt-2">
+          <thead>
+      
+            <tr class="custom-table-head">
+              <th class="txt-align-center-counter-row">
+                  &nbsp;&nbsp; #
+              </th>
+              <th>Cessionnaire</th>
+              <th>Montant à regler</th>
+              <th>Montant déjà regler</th>
+              <th>Reste à régler</th>
+              <th>Taux</th>
+            </tr>
+          </thead>
+      
+          <tbody>
+            <tr *ngFor = "let item of etatComp?.detailsEtatComptableSinistres; let indice = index">
+              <td class="txt-align-center">
+                {{ getExactlyNumberRow(this.currentPage, indice) }}
+              </td>
+              <td>{{item?.cesNom}}</td>
+              <td>{{item?.mtTotalARegler}}</td>
+              <td> {{item?.mtDejaRegle}} </td>
+              <td> {{item?.mtResteARegler}} </td>
+              <td> {{item?.tauxDeReglement}} </td>     
+            </tr>
+          </tbody>
+        </table> 
+    </fieldset>
+
+</div>
+<hr class="fw-bold">
+<button type="button" class="btn btn-md btn-cancel pull-right" (click)="fermer()">Fermer</button>

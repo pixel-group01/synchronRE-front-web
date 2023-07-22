@@ -3,6 +3,7 @@
   <aside id="leftsidebar" class="sidebar" (mouseenter)="mouseHover($event)" (mouseleave)="mouseOut($event)">
     <!-- Menu -->
     <div class="menu">
+
       <ul class="list"
         [ngStyle]="{'position' : 'relative', 'max-height' : listMaxHeight+'px', 'max-width' : listMaxWidth+'px'}"
         [perfectScrollbar]>
@@ -21,7 +22,7 @@
         <li [class.active]="level1Menu === sidebarItem.moduleName && sidebarItem.submenu.length != 0"
           *ngFor="let sidebarItem of sidebarItems" [routerLinkActive]="sidebarItem.submenu.length != 0 ? '' : 'active'">
           <div class="header" *ngIf="sidebarItem.groupTitle === true">{{sidebarItem.title }}</div>
-          <a [routerLink]="sidebarItem.class === '' ? [sidebarItem.path] : null" *ngIf="!sidebarItem.groupTitle;" appAppAccess appAccessAdmin="{{sidebarItem?.codeAclAdmin}}"  appAccessCedente="{{sidebarItem?.codeAclCedente}}"
+          <a [routerLink]="sidebarItem.class === '' ? [sidebarItem.path] : null" *ngIf="!sidebarItem.groupTitle;" appAppAccess appAccess="{{sidebarItem?.code}}"
             [ngClass]="[sidebarItem.class]" (click)="callLevel1Toggle($event, sidebarItem.moduleName)" class="menu-top">
             <!-- <i [ngClass]="[sidebarItem.iconType]">{{sidebarItem.icon}}</i> --> 
 

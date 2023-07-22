@@ -9,22 +9,10 @@
         <th colspan="14">
           <div class="row mt-4">
             <div class="col-md-3 col-xs-12 col-sm-12">
-              <label>N° FAC : </label>
-              <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
+              <label>Rechercher par mot clé: </label>
+              <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left" (keyup)="currentPage = 1; getSinistre()" 
               placeholder="Rechercher ..."  />
             </div>
-
-           <!--   <div class="col-md-3 col-xs-12 col-sm-12">
-              <label>Date : </label>
-              <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
-              placeholder="Rechercher ..."  />
-            </div>
- 
-           <div class="col-md-3 col-xs-12 col-sm-12">
-              <label>Date de declaration : </label>
-              <input [(ngModel)]="itemToSearch.libelle" class="form-control custom-input pull-left"
-                placeholder="Rechercher ..."  />
-            </div> -->
           </div>
         </th>
       </tr>
@@ -84,7 +72,7 @@
                   <button ngbDropdownItem (click)="confirmValiderSinistre(item.sinId)">
                     <i class="fa fa-check"></i>&nbsp;Valider sinistre
                   </button>
-                  <button ngbDropdownItem (click)="etatComptable(item.sinId)">
+                  <button ngbDropdownItem (click)="openModalEtatComptable(templateEtatComptable,item.sinId)">
                     <i class="fa fa-square"></i>&nbsp;Etat comptable
                   </button>
                   <button ngbDropdownItem>
@@ -142,7 +130,7 @@
         </button>
     </div>
     <div class="modal-body p-4">
-        <app-form-sinistre [itemSinistre]="itemsinistre" [isActive]="isActiveInput"></app-form-sinistre>
+        <app-form-sinistre [itemSinistre]="itemsinistre" [isActive]="isActiveInput" [isModification]="isActiveModif" (closeModal) ="closeFormModal($event)"></app-form-sinistre>
     </div>
 </ng-template>
 
@@ -173,5 +161,20 @@
   </div>
   <div class="modal-body p-4">
       <app-afficher-message [idSinistre]="idSiniOfListe" (closeModal)="closeFormModal($event)"></app-afficher-message>
+  </div>
+</ng-template>
+
+<!-- detail etat comptable -->
+<ng-template #templateEtatComptable>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">
+          Situation comptable
+      </h4>
+      <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+      </button>
+  </div>
+  <div class="modal-body p-4">
+      <app-etat-comptable [idSinistre]="idSiniOfListe" (closeModal)="closeFormModal($event)"></app-etat-comptable>
   </div>
 </ng-template>

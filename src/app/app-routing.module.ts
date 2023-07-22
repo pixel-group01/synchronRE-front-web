@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       { path: "", redirectTo: "/authentication/signin", pathMatch: "full" },
       {
-        path: "admin",
+        path: "dashbord",
         canActivate: [AuthGuard],
         data: {
           role: Role.Admin,
@@ -95,7 +95,7 @@ const routes: Routes = [
   { path: "**", component: Page404Component },
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: "legacy" })],
+  imports: [RouterModule.forRoot(routes,  {useHash: true})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

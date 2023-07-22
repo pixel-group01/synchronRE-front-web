@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { LOCALE_ID, NgModule } from "@angular/core";
 
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
@@ -43,6 +43,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 import { JwtModule } from "@auth0/angular-jwt";
 import { SinistreComponent } from './sinistre/sinistre.component';
+import { FooterComponent } from "./layout/footer/footer.component";
 
 export function tokenGetter() {
   return localStorage.getItem("accesToken");
@@ -61,6 +62,7 @@ export function createTranslateLoader(http: HttpClient): any {
     RightSidebarComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -91,6 +93,7 @@ export function createTranslateLoader(http: HttpClient): any {
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: LOCALE_ID, useValue: 'fr' },
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,

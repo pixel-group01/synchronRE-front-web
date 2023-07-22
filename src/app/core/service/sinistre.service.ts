@@ -57,6 +57,10 @@ export class SinistreService {
     return this.restClient.get('sinistres/etat-comptable/'+`${body}`);
   }
 
+  listePaiementSinistre = (body:any) => {
+    return this.restClient.get('paiements/sinistre/list/'+`${body}`);
+  }
+
   messageRetour=(body)=>{
     let endPoint :any
     return this.restClient.get(endPoint+`${body}`)

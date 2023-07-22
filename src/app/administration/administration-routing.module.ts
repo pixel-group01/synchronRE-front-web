@@ -5,6 +5,8 @@ import { HistoriqueConnexionComponent } from './historique-connexion/historique-
 import { RolesComponent } from './roles/roles.component';
 import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 import { WorkflowCircuitComponent } from './workflow-circuit/workflow-circuit.component';
+import { LogsComponent } from './logs/logs.component';
+import { LogsSystemComponent } from './logs-system/logs-system.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'utilisateurs', pathMatch: 'full' },
@@ -27,6 +29,14 @@ const routes: Routes = [
   {
     path: 'historique-connexion',
     component: HistoriqueConnexionComponent,
+  },
+  {
+    path: 'logs',
+    component: LogsComponent,
+  },
+  {
+    path: 'logs-system',
+    component: LogsSystemComponent,
   },
 ];
 

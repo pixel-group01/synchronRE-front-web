@@ -39,6 +39,7 @@ import { FormRetournerAffaireComponent } from "../business-manager/affaire-facut
 import { TableauPlacementComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-placement/tableau-placement/tableau-placement.component";
 import { FormHistoriqueTraitementComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-historique-traitement/form-historique-traitement.component";
 import { DateFormatInDateHourPipe } from "../core/pipes/date-format-in-date-hour.pipe";
+import { SelectFonctionComponent } from "./components/select-fonction/select-fonction.component";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { DateFormatInDateHourPipe } from "../core/pipes/date-format-in-date-hour
     FormRetournerAffaireComponent,
     TableauPlacementComponent,
     FormHistoriqueTraitementComponent,
-    DateFormatInDateHourPipe
+    DateFormatInDateHourPipe,
+    SelectFonctionComponent
     // DetailsAffaireFacultativeComponent
     // ProgrammeDialyseComponent,
     // FormCreateProgrammeComponent,
@@ -143,7 +145,8 @@ import { DateFormatInDateHourPipe } from "../core/pipes/date-format-in-date-hour
     FormHistoriqueTraitementComponent,
     AppAccessDirective,
     DateFormatInDateHourPipe,
-    ChartModule 
+    ChartModule,
+    SelectFonctionComponent
   ],
   entryComponents:[TimePickerComponent]
 })

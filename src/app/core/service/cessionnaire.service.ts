@@ -25,6 +25,11 @@ export class CessionnaireService {
     return this.restClient.get(endPointFinal);
   }
 
+  getCessionnaireByAffaire = (idAffaire:number) => {
+    let endPointFinal = "cessionnaires/by-affaire/"+idAffaire;
+    return this.restClient.get(endPointFinal);
+  }
+  
   update = (body:any) => {
     return this.restClient.put('cessionnaires/update',body)
   }

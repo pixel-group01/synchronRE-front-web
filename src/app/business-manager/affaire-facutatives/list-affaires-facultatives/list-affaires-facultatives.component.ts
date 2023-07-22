@@ -250,7 +250,7 @@ export class ListAffairesFacultativesComponent implements OnInit {
   // }
 
   getItems() {
-    let endPointFinal ="sinistres/list?page=0&size=10"
+    let endPointFinal =
       this.endPoint +
       "?page=" +
       (this.currentPage - 1) +

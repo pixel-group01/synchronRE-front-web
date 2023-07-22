@@ -9,7 +9,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 export class ContainerSinistreComponent implements OnInit {
   modalRef: BsModalRef;
   refreshDataTable : string;
-
+  isActiveInput:boolean =false
   constructor(
     private modalService: BsModalService
   ) { }

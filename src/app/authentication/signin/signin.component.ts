@@ -104,7 +104,7 @@ export class SigninComponent
             if(res && res.accessToken) {
               this.userService.setAuthToken(res);
               this.loading = false;
-              this.router.navigate(['/admin']);
+              this.router.navigate(['/dashbord']);
             }
             
             // this.router.navigate(['/admin']);

@@ -5,12 +5,20 @@ import { DashbordSynchroreRoutingModule } from './dashbord-synchrore-routing.mod
 import { DashbordSynchroreComponent } from './dashbord-synchrore.component';
 import { SharedModule } from '../shared/shared.module';
 import { BlockStatistiqueComponent } from './block-statistique/block-statistique.component';
+import { DashbordAffaireTraiteComponent } from './dashbord-affaire-traite/dashbord-affaire-traite.component';
+import { DashbordAffaireFacultativeComponent } from './dashbord-affaire-facultative/dashbord-affaire-facultative.component';
+import { DashbordSinistreTaiteComponent } from './dashbord-sinistre-taite/dashbord-sinistre-taite.component';
+import { DashbordSinistreFacultativeComponent } from './dashbord-sinistre-facultative/dashbord-sinistre-facultative.component';
 
 
 @NgModule({
   declarations: [
     DashbordSynchroreComponent,
-    BlockStatistiqueComponent
+    BlockStatistiqueComponent,
+    DashbordAffaireTraiteComponent,
+    DashbordAffaireFacultativeComponent,
+    DashbordSinistreTaiteComponent,
+    DashbordSinistreFacultativeComponent
   ],
   imports: [
     CommonModule,

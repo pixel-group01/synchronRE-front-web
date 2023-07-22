@@ -130,6 +130,13 @@
                         de passe
                       </a>
                     </li>
+
+                    <li>
+                      <a href="#" onClick="return false;" (click)="openModal({},templateSelectFonction)">
+                        <app-feather-icons [icon]="'check'" [class]="'user-menu-icons'"></app-feather-icons>Changer de fonction
+                      </a>
+                    </li>
+
                     <!-- <li>
                       <a href="#" onClick="return false;">
                         <app-feather-icons [icon]="'mail'" [class]="'user-menu-icons'"></app-feather-icons>Inbox
@@ -159,120 +166,18 @@
 </nav>
 
 <!-- Traiter demande -->
-<ng-template #templateTraiterDossier>
+<ng-template #templateSelectFonction>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Traitement de demande</h4>
-    <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-  <div class="modal-body" [ngBusy]="{
-      busy: busySave,
-      message: 'Veuillez patienter ...',
-      backdrop: false
-    }">
-    <form class="m-1">
-      <div class="row">
-        <app-prise-de-decision-workflow [itemPriseDecisionByOrigine]="itemToSave.itemPriseDecisionByOrigine"
-          [origine]="itemToSave.origine" [listeItemByOrigine]="itemToSave.listeItemByOrigine"
-          [origineOuvertureModal]="'header'" (closeItem)="closeItemTraitement($event)">
-        </app-prise-de-decision-workflow>
-      </div>
-    </form>
-  </div>
-</ng-template>
-
-<ng-template #templateVisualiserResulat>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">
-      {{
-      !isInterpretationRadioOrLabo
-      ? "Résultat examen"
-      : "Interprètation résultat"
-      }}
-    </h4>
+    <h4 class="modal-title pull-left">Changement de fonction</h4>
     <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
       <mat-icon>close</mat-icon>
     </button>
   </div>
   <div class="modal-body">
     <form class="m-1">
-      <!-- <div class="row"> -->
-
       <div class="row">
-        <div class="col-md-4 col-sm-12 mb-3">
-          <fieldset class="custom-fieldset">
-            <legend>Actes / Examens</legend>
-            <div class="row">
-              <div class="col-xl-12 col-lg-3 col-md-3 col-sm-12 mb-3 table-responsive">
-                <table class="table table-bordered table-hover">
-                  <thead>
-                    <tr class="custom-table-head">
-                      <th style="width: 40px">#</th>
-                      <th>N°Resultat</th>
-                      <th>Acte</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr *ngFor="let acte of listeActesExamens; let index = index" style="cursor: pointer"
-                      [class.isActive]="acte?.id == acteSelected?.id" (click)="selectedActe(acte)">
-                      <td class="txt-align-center">{{ index + 1 }}</td>
-                      <td>
-                        {{ acte?.numeroResultat || acte?.numeroPrelevement }}
-                      </td>
-                      <td>{{ acte?.adminActeLibelle || acte?.acteLibelle }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </fieldset>
-        </div>
-
-        <div class="col-md-8 col-sm-12">
-          <div class="row" *ngIf="
-              itemToSave.origine == codeCircuit?.RADIO ||
-              itemToSave.origine == codeCircuit?.RES_RADIO
-            ">
-            <fieldset class="custom-fieldset">
-              <legend>
-                Films de l'acte {{ acteSelected?.adminActeLibelle }}
-              </legend>
-              <div class="row">
-                <div class="col-xl-12 col-lg-3 col-md-3 col-sm-12 mb-3 table-responsive">
-                  <app-add-document-radio (addDocument)="addDocument($event)"
-                    [defaultDocuments]="acteSelected.datasDocument" [isReadOnly]="true"
-                    [isViewNotification]="true"></app-add-document-radio>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-
-          <!-- <div class="col-md-6 col-sm-12"> -->
-          <div class="row" *ngIf="isInterpretationRadioOrLabo">
-            <div class="col-12 mb-2">
-              <label>Compte rendu :</label>
-              <textarea rows="3" disabled class="form-control custom-input" name="cpr_libelle" [(ngModel)]="
-                  acteSelected.libelle ?? acteSelected.interpretation
-                ">
-              </textarea>
-            </div>
-
-            <div class="col-12 mb-2">
-              <label>Conclusion :</label>
-              <textarea rows="3" disabled class="form-control custom-input" name="conclusionAc"
-                [(ngModel)]="acteSelected.conclusion">
-              </textarea>
-            </div>
-
-            <!-- </div> -->
-          </div>
-        </div>
+        <app-select-fonction (closeModal)="closeModalFormSelectForm($event)"></app-select-fonction>
       </div>
-
-      <!-- <app-add-document-radio [isReadOnly]="true" [defaultDocuments]=""></app-add-document-radio> -->
-      <!-- </div> -->
     </form>
   </div>
 </ng-template>

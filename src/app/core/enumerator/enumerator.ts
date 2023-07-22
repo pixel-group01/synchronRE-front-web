@@ -115,3 +115,9 @@ export enum enumOrigineOuvertureModalForNotification {
     validation_screen = 'validation_screen'
 }
 
+export enum enumStatutFonction {
+    courant = 1,
+    actif = 2,
+    revoke = 3
+}
+

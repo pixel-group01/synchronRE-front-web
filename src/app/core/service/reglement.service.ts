@@ -28,6 +28,10 @@ export class ReglementService {
     return this.restClient.get(endPointFinal);
   }
 
+  getReglementDetailsByAffaireAndCessionnaire = (cesId:number,affId:number) => {
+    return this.restClient.get('reglements/details?affId='+affId+'&cesId='+cesId);
+  }
+
   update = (typeReglement:string,body:any) => {
     return this.restClient.put(typeReglement+'/update',body)
   }

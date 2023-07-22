@@ -91,6 +91,10 @@ export class UtilitiesService {
   getMessageOperationSuccessFull() {
     return "Opération effectuée avec succès !"
   }
+
+  getMessageFileError() {
+    return "Veuillez sélectionner une extension valide SVP!"
+  }
   
   formatDateInIsoData(date : string){
     if(!date) return null;
@@ -189,6 +193,31 @@ export class UtilitiesService {
 
   getMessageEndPointNotAvailble() {
     return "Connexion momentanément interrompue, veuillez réessayer ultérieurement !";
+  }
+
+  checkEmailValidity(email : string) {
+       let hasValidEmail : boolean = true;
+       //Verifier si le mail saisi est correcte
+
+       console.log(" email ",email);
+       
+       if (email) {
+        let tabSplitArrobase = email.split("@");
+        if (!tabSplitArrobase || tabSplitArrobase.length < 2) {
+          hasValidEmail = false;
+          return hasValidEmail;
+        }
+        else {
+          //Verifier si il y a un point apres l'arobase
+          let tabSplitPoint = tabSplitArrobase[1].split(".");
+          if (!tabSplitPoint || tabSplitPoint.length < 2) {
+            hasValidEmail = false;
+            return hasValidEmail;
+          }
+        }
+      }
+
+      return hasValidEmail;
   }
 
 }

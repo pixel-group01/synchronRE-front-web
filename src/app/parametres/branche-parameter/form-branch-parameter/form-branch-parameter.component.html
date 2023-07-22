@@ -62,7 +62,7 @@
           class="btn btn-md custom_btn_primary pull-right"
           [disabled]="!paramForm.valid"
         >
-          {{!itemToUpdate ? 'Enregistrer' : 'Modifier'}}
+          {{(!itemToUpdate || !itemToUpdate.branId) ? 'Enregistrer' : 'Modifier'}}
         </button>
 
         <button

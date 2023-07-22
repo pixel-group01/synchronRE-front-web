@@ -9,9 +9,12 @@ import {
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { Country } from "src/app/core/models/country";
+import { Devise } from "src/app/core/models/devise";
 import { CountryService } from "src/app/core/service/country.service";
+import { DeviseService } from "src/app/core/service/devise.service";
 import { UtilitiesService } from "src/app/core/service/utilities.service";
 import Swal from "sweetalert2";
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-form-country',
@@ -23,18 +26,24 @@ export class FormCountryComponent implements OnInit {
   paramForm!: FormGroup;
   @Input() itemToUpdate: Country; // Pour signifier la mofification de l'element
   busySuscription!: Subscription;
+  isUpate : boolean;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
-
+  listeDevises: Array<Devise> = [];
+  
   constructor(
     private formBuilder: FormBuilder,
     private countryService: CountryService,
-    private utilities: UtilitiesService
-  ) {}
+    private utilities: UtilitiesService,
+    private deviseService: DeviseService
+  ) {
+ 
+  }
 
   createForm = () => {
     this.paramForm = this.formBuilder.group({
       paysId: [this.itemToUpdate?.paysId || ""],
       paysCode: [this.itemToUpdate?.paysCode || "", Validators.required],
+      devCode: [this.itemToUpdate?.devCode || "", Validators.required],
       paysNom: [this.itemToUpdate?.paysNom || "", Validators.required],
       paysIndicatif: [
         this.itemToUpdate?.paysIndicatif || "",
@@ -68,14 +77,15 @@ export class FormCountryComponent implements OnInit {
 
   saveItem(item: Country) {
     let itemAEnregistrer = Object.assign({}, item);
-    if (!itemAEnregistrer.paysId) {
+    
+    if (!this.isUpate) {
       // nous sommes au create
-      this.countryService.create(itemAEnregistrer).subscribe((response : any) => {
+      this.busySuscription = this.countryService.create(itemAEnregistrer).subscribe((response : any) => {
         console.log(" response ", response);
         if (response && response.paysId) {
           this.utilities.showNotification(
             "snackbar-success",
-            this.utilities.getMessageOperationSuccessFull,
+            this.utilities.getMessageOperationSuccessFull(),
             "bottom",
             "center"
           );
@@ -84,12 +94,12 @@ export class FormCountryComponent implements OnInit {
       });
     } else {
       // Nous sommes en modification
-      this.countryService.update(itemAEnregistrer).subscribe((response: any) => {
+      this.busySuscription = this.countryService.update(itemAEnregistrer).subscribe((response: any) => {
         console.log(" response ", response);
         if (response && response?.paysId) {
           this.utilities.showNotification(
             "snackbar-success",
-            this.utilities.getMessageOperationSuccessFull,
+            this.utilities.getMessageOperationSuccessFull(),
             "bottom",
             "center"
           );
@@ -99,14 +109,43 @@ export class FormCountryComponent implements OnInit {
     }
   }
 
+  getDevise() {
+    this.deviseService.getAll().subscribe((response: any) => {
+      console.log(" response devise ",response);
+      
+      if (response) {
+        this.listeDevises = response as Devise[];
+
+        this.listeDevises =   _.orderBy( this.listeDevises, ['devLibelle'], ['asc']);
+ 
+        if(this.itemToUpdate && this.itemToUpdate.paysCode) {
+          this.createForm();
+        }
+       
+      } else {
+        this.listeDevises = [];
+      }
+    });
+  }
+  
   ngOnInit(): void {
     // Initialisation du forms group
     this.createForm();
+    this.getDevise();
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log(" this.itemToUpdate ",this.itemToUpdate);
+    
     if (changes["itemToUpdate"] && changes["itemToUpdate"].currentValue) {
-      this.createForm();
+
+      if(changes["itemToUpdate"].currentValue && changes["itemToUpdate"].currentValue.paysCode) {
+        this.isUpate = true;
+        this.createForm();
+      }
+     
+    }else{
+      this.isUpate = false;
     }
   }
 

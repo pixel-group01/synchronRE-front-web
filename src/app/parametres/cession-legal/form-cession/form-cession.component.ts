@@ -87,12 +87,12 @@ export class FormCessionComponent implements OnInit {
     let itemAEnregistrer = Object.assign({}, item);
     if (!itemAEnregistrer.paramCesLegId) {
       // nous sommes au create
-      this.cessionLegaleService.create(itemAEnregistrer).subscribe((response : any) => {
+      this.busySuscription = this.cessionLegaleService.create(itemAEnregistrer).subscribe((response : any) => {
         console.log(" response ", response);
         if (response && response.paramCesLegId) {
           this.utilities.showNotification(
             "snackbar-success",
-            this.utilities.getMessageOperationSuccessFull,
+            this.utilities.getMessageOperationSuccessFull(),
             "bottom",
             "center"
           );
@@ -103,12 +103,12 @@ export class FormCessionComponent implements OnInit {
       });
     } else {
       // Nous sommes en modification
-      this.cessionLegaleService.update(itemAEnregistrer).subscribe((response: any) => {
+      this.busySuscription = this.cessionLegaleService.update(itemAEnregistrer).subscribe((response: any) => {
         console.log(" response ", response);
         if (response && response?.paramCesLegId) {
           this.utilities.showNotification(
             "snackbar-success",
-            this.utilities.getMessageOperationSuccessFull,
+            this.utilities.getMessageOperationSuccessFull(),
             "bottom",
             "center"
           );

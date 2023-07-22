@@ -53,6 +53,22 @@ export class FormCessionaireComponent implements OnInit {
   };
 
   confirmSaveItem() {
+
+    // Verifier si l'email est correcte
+    let currentValueForm = {...this.paramForm.value};
+ 
+    if(currentValueForm.cesEmail) {
+      if(!this.utilities.checkEmailValidity(currentValueForm.cesEmail)){
+        this.utilities.showNotification(
+          "snackbar-danger",
+          "Veuillez renseigner un mail valide !",
+          "bottom",
+          "center"
+        );
+        return
+      }
+    }
+
     Swal.fire({
       title: "Cessionnaire",
       text: (this.itemToUpdate?.cesId && this.itemToUpdate?.cesId > 0)
@@ -75,12 +91,12 @@ export class FormCessionaireComponent implements OnInit {
     let itemAEnregistrer = Object.assign({}, item);
     if (!itemAEnregistrer.cesId) {
       // nous sommes au create
-      this.cessionnaireService.create(itemAEnregistrer).subscribe((response : any) => {
+      this.busySuscription = this.cessionnaireService.create(itemAEnregistrer).subscribe((response : any) => {
         console.log(" response ", response);
-        if (response && response.paramCesLegId) {
+        if (response) {
           this.utilities.showNotification(
             "snackbar-success",
-            this.utilities.getMessageOperationSuccessFull,
+            this.utilities.getMessageOperationSuccessFull(),
             "bottom",
             "center"
           );
@@ -91,12 +107,12 @@ export class FormCessionaireComponent implements OnInit {
       });
     } else {
       // Nous sommes en modification
-      this.cessionnaireService.update(itemAEnregistrer).subscribe((response: any) => {
+      this.busySuscription = this.cessionnaireService.update(itemAEnregistrer).subscribe((response: any) => {
         console.log(" response ", response);
-        if (response && response?.paramCesLegId) {
+        if (response) {
           this.utilities.showNotification(
             "snackbar-success",
-            this.utilities.getMessageOperationSuccessFull,
+            this.utilities.getMessageOperationSuccessFull(),
             "bottom",
             "center"
           );

@@ -15,7 +15,7 @@
                         <table class="table table-condensed table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th colspan="10">
+                                    <th colspan="11">
                                         <div class="row mt-4">
                                             <div class="col-md-4">
                                                 <input [(ngModel)]="itemToSearch.libelle"
@@ -41,6 +41,7 @@
                                     </th>
                                     <th>Libellé</th>
                                     <th>Sigle</th>
+                                    <th>Pays</th>
                                     <th>Tél</th>
                                     <th>Email</th>
                                     <th>Adresse postale</th>
@@ -58,6 +59,7 @@
                                     </td>
                                     <td>{{ item?.cedNomFiliale }}</td>
                                     <td>{{ item?.cedSigleFiliale }}</td>
+                                    <td>{{ item?.paysNom }}</td>
                                     <td>{{ item?.cedTel }}</td>
                                     <td>{{ item?.cedEmail }}</td>
                                     <td>{{ item?.cedAdressePostale }}</td>
@@ -76,7 +78,7 @@
 
                             <tfoot>
                                 <tr *ngIf="items && items.length > 0">
-                                    <td colspan="10">
+                                    <td colspan="11">
                                         <div class="row pagination-part">
                                             <div class="col-md-9" style="text-align: center">
                                                 <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage"
@@ -101,7 +103,7 @@
                                 </tr>
 
                                 <tr *ngIf="!items || items.length == 0">
-                                    <td colspan="10">
+                                    <td colspan="11">
                                         <div class="col-md-12 txt-align-center">
                                             Aucune donnée disponible
                                         </div>

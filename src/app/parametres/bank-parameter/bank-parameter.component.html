@@ -15,7 +15,7 @@
                         <table class="table table-condensed table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th colspan="5">
+                                    <th colspan="6">
                                         <div class="row mt-4">
                                             <div class="col-md-4">
                                                 <input [(ngModel)]="itemToSearch.libelle"
@@ -41,6 +41,7 @@
                                     </th>
                                     <th>Code</th>
                                     <th>Libellé</th>
+                                    <th>N°Compte</th>
                                     <th>Abréviation</th>
                                     <th class="txt-align-center">Actions</th>
                                 </tr>
@@ -53,6 +54,7 @@
                                     </td>
                                     <td>{{ item?.banCode }}</td>
                                     <td>{{ item?.banLibelle }}</td>
+                                    <td>{{ item?.banNumCompte }}</td>
                                     <td>{{ item?.banLibelleAbrege }}</td>
                                     <td class="custom-width-td-action">
                                         <div class="custom-td-action">
@@ -66,7 +68,7 @@
 
                             <tfoot>
                                 <tr *ngIf="items && items.length > 0">
-                                    <td colspan="5">
+                                    <td colspan="6">
                                         <div class="row pagination-part">
                                             <div class="col-md-9" style="text-align: center">
                                                 <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage"
@@ -81,7 +83,7 @@
                                                     <app-element-by-page-paginator
                                                         (paginationChange)="changePaginationSize($event)"
                                                         [defaultItemPerPage]="itemsPerPage"></app-element-by-page-paginator>
-
+ 
                                                     <span class="span_total_entree pull-right">Total : {{ totalItems
                                                         }}</span>
                                                 </div>
@@ -91,7 +93,7 @@
                                 </tr>
 
                                 <tr *ngIf="!items || items.length == 0">
-                                    <td colspan="4">
+                                    <td colspan="6">
                                         <div class="col-md-12 txt-align-center">
                                             Aucune donnée disponible
                                         </div>

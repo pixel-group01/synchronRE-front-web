@@ -5,6 +5,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AuthLayoutComponent } from './app-layout/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './app-layout/main-layout/main-layout.component';
 import { SharedModule } from '../shared/shared.module';
+import { FooterComponent } from './footer/footer.component';
 @NgModule({
   imports: [CommonModule, NgbModule, MatTabsModule],
   declarations: [AuthLayoutComponent, MainLayoutComponent],

@@ -1,0 +1,285 @@
+<div class="paiment-container">
+
+    <form class="paiement-form">
+
+        <div class="row">
+            <div class="col-12 mb-3">
+                <fieldset>
+                    <legend>
+                        Informations sur le sinistre
+                    </legend>
+
+                        <div class="row p-2">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <label for="code" class="col-sm-4 col-form-label">Filiale/cédante :</label>
+                                    <div class="col-sm-8">
+                                      <input type="text" readonly class="form-control-plaintext text-info" name="code" id="code" value="{{etatComp?.affCode}}">
+                                    </div>
+                                  </div>
+                            </div>
+                           
+                             <div class="col-md-6">
+                                <div class="row ">
+                                    <label for="assur" class="col-sm-4 col-form-label">Assuré :</label>
+                                    <div class="col-sm-8">
+                                      <input type="text" readonly class="form-control-plaintext" name="assur" id="assur" value="{{etatComp?.affAssure}}">
+                                    </div>
+                                  </div>
+                             </div>
+                            
+                             <div class="col-md-6">
+                                <div class="row">
+                                    <label for="activit" class="col-sm-4 col-form-label">Activité :</label>
+                                    <div class="col-sm-8">
+                                      <input type="text" readonly class="form-control-plaintext" name="activit" id="activit" value="{{etatComp?.affActivite}}">
+                                    </div>
+                                  </div>
+                             </div>
+
+                             <div class="col-md-6">
+                                <div class="row">
+                                    <label for="capitaux" class="col-sm-4 col-form-label">Branches :</label>
+                                    <div class="col-sm-8">
+                                      <input type="text" readonly class="form-control-plaintext text-success"
+                                             name="capitaux" id="capitaux" value="{{ etatComp?.affCapitalInitial | moneyFormat}}">
+                                    </div>
+                                  </div>
+                             </div>
+                    
+                             <div class="col-md-6">
+                                <div class="row">
+                                    <label for="capitaux" class="col-sm-4 col-form-label">Capitaux à 100 :</label>
+                                    <div class="col-sm-8">
+                                      <input type="text" readonly class="form-control-plaintext text-success"
+                                             name="capitaux" id="capitaux" value="{{ etatComp?.affCapitalInitial | moneyFormat}}">
+                                    </div>
+                                  </div>
+                             </div>
+
+                             <div class="col-md-6">
+                                <div class="row">
+                                    <label for="capitaux" class="col-sm-4 col-form-label">Bésoin fac :</label>
+                                    <div class="col-sm-8">
+                                      <input type="text" readonly class="form-control-plaintext text-success"
+                                             name="capitaux" id="capitaux" value="{{ etatComp?.affCapitalInitial | moneyFormat}}">
+                                    </div>
+                                  </div>
+                             </div>
+
+                         
+                        </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 mt-3 mb-3">
+                <fieldset>
+                    <legend>
+                        Informations sur le paiement
+                    </legend>
+
+                    <div class="info-paiement-container">
+                        <div class="row">
+
+                            <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
+                                <b>A payer : </b>
+                                <span>{{etatComp?.sinMontant100 | moneyFormat}}</span>
+                            </div>
+
+                            <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
+                                <b>Déjà reçu : </b>
+                                <span>{{etatComp?.mtDejaReverse| moneyFormat}}</span>
+                            </div>
+
+                            <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
+                                <b>Reste à payer : </b>
+                                <span>{{etatComp?.resteARegler | moneyFormat}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>
+        </div> 
+
+        <div class="row">
+            <div class="col-12 mt-3">
+
+                <table class="table table-condensed table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th colspan="7">
+                                <div class="row">
+                                    <div class="header-table">
+                                       <span>{{isPaiement ? 'Liste des paiements effectués' : 'Liste des reversements effectués' }} </span>                    
+                                                           <button class="btn btn-xs btn-default btn-add pull-right" type="button"
+                                            (click)="openPanelNewPaiement(true)"> Ajouter </button>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+
+                        <tr class="custom-table-head">
+                            <th>#</th>
+                            <th>Mode</th>
+                            <th>Réf {{isPaiement ? 'paiement':'reversement'}}</th>
+                            <th>Montant (F.CFA)</th>
+                            <th>Date</th>
+                            <th  *ngIf="!isPaiement">Cessionnaire</th>
+                            <th *ngIf="!isPaiement" class="txt-align-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let item of listePaiementDejaEffectue; let i = index">
+                            <td> {{i+1}}</td>
+                            <td>{{item?.regMode}}</td>
+                            <td>{{item?.regReference}}</td>
+                            <td>{{item?.regMontant | moneyFormat}}</td>
+                            <td>{{item?.regDate}}</td>
+                            <td *ngIf="!isPaiement">{{item?.cesNom}}</td>
+                            <td *ngIf="!isPaiement"  class="txt-align-center">
+                                <button type="button" class="btn btn-xs btn-default btn-print" (click)="getNoteCredit(item?.cesId)"> <i class="fa fa-print"></i> Imprimer note crédit</button>
+                            </td>
+                        </tr>
+
+                        <tr *ngIf="!listePaiementDejaEffectue || listePaiementDejaEffectue.length == 0">
+                            <td colspan="7" class="text-align-center"> Aucune donnée disponible</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="new-paiement-bilan" id="new-paiement-bilan">
+            <div class="details-header">
+                <b> {{ isPaiement ? 'Paiement' : 'Reversement' }} </b>
+                <i class="fa fa-times" (click)="openPanelNewPaiement(false)"></i>
+            </div>
+
+            <div class="col-12 details-body">
+                <ng-container>
+                    <div class="row">
+
+                        <form class="form-paiement" enctype="multipart/form-data" [formGroup]="formulaireGroup"
+                            (ngSubmit)="confirmSaveItem()">
+
+                            <div class="row" *ngIf="!isPaiement">
+                                <div class="col-12 mb-3">
+                                    <label>Reste à payer
+                                    </label>
+                                    <input class="form-control custom-input" placeholder="Reste à payer"
+                                        autocomplete="off" [readonly]="true" mask="separator"
+                                        formControlName="resteAPayer" name="resteAPayer" type="text" />
+                                </div>
+                            </div>
+
+                            <div class="row" *ngIf="isPaiement">
+                                <div class="col-12 mb-3">
+                                    <label>Cessionnaire
+                                        <span class="required_champs">*</span>
+                                    </label>
+
+                                    <ng-select formControlName="cesId" id="cesId" (change)="getReglementByCessionnaire()" name="cesId">
+                                        <ng-option *ngFor="let cessionaire of listeCessionnaire"
+                                            [value]="cessionaire?.cesId">{{ cessionaire.cesNom }}</ng-option>
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label>Mode de {{ isPaiement ? 'paiement' : 'reversement' }}
+                                        <span class="required_champs">*</span>
+                                    </label>
+
+                                    <ng-select formControlName="regMode" name="regMode" id="mode" placeholder="Ex: Chèque">
+                                        <ng-option *ngFor="let mode of listeModeReglement" [value]="mode?.libelle">{{
+                                            mode.libelle }}</ng-option>
+                                    </ng-select>
+                                </div>
+
+                                <div class="col-6 mb-3">
+                                    <label>Date de {{ isPaiement ? 'paiement' : 'reversement' }}
+                                        <span class="required_champs">*</span>
+                                    </label>
+                                    <input class="form-control custom-input" placeholder="Date de paiement"
+                                        autocomplete="off" bsDatepicker [maxDate]="dateActuelle" [bsConfig]="{
+                                  dateInputFormat: 'DD/MM/YYYY',
+                                  containerClass: 'theme-dark-blue'
+                                }" formControlName="regDate" name="regDate" 
+                                [class.errorInputForm]="getFormFiledsValue('regDate')?.invalid && getFormFiledsValue('regDate')?.touched" type="text" />
+
+                                    <small class="text-danger"
+                                        *ngIf="(getFormFiledsValue('regDate')?.dirty || getFormFiledsValue('regDate')?.touched) && getFormFiledsValue('regDate')?.invalid && getFormFiledsValue('regDate')?.errors?.['required']">
+                                        Ce champ est obligatoire
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-6 mb-3">
+                                    <label>Réference {{ isPaiement ? 'paiement' : 'reversement' }}
+                                        <span class="required_champs">*</span>
+                                    </label>
+                                    <input class="form-control custom-input" placeholder="Réference" autocomplete="off"
+                                        formControlName="regReference" name="regReference" [class.errorInputForm]="
+                                        getFormFiledsValue('regReference')?.invalid &&
+                                        getFormFiledsValue('regReference')?.touched
+                                      " type="text" />
+                                    <small class="text-danger"
+                                        *ngIf="(getFormFiledsValue('regReference')?.dirty || getFormFiledsValue('regReference')?.touched) && getFormFiledsValue('regReference')?.invalid && getFormFiledsValue('regReference')?.errors?.['required']">
+                                        Ce champ est obligatoire
+                                    </small>
+                                </div>
+
+                                <div class="col-6 mb-3">
+                                    <label>Montant
+                                        <span class="required_champs">*</span>
+                                    </label>
+                                    <input class="form-control custom-input" placeholder="Montant" autocomplete="off"
+                                        [disabled]="true" mask="separator" formControlName="regMontant"
+                                        name="regMontant" type="text" />
+                                    <small class="text-danger"
+                                        *ngIf="(getFormFiledsValue('regMontant')?.dirty || getFormFiledsValue('regMontant')?.touched) && getFormFiledsValue('regMontant')?.invalid && getFormFiledsValue('regMontant')?.errors?.['required']">
+                                        Ce champ est obligatoire
+                                    </small>
+                                </div>
+                            </div>
+
+
+                            <!-- MANIPULATION DE FICHIER -->
+                            <!-- <div class="file-part">
+                                <app-add-file-in-form (emitDocuments)="getDocumentAdd($event)"></app-add-file-in-form>
+                            </div>
+                            -->
+
+                            <!-- FIN MANIPULATION DE FICHIER -->
+
+                            <div class="custom-btn-save-manager">
+                                <button type="submit" class="btn btn-md custom_btn_primary pull-right"
+                                    [disabled]="!formulaireGroup.valid">
+                                    Enregistrer
+                                </button>
+
+                                <button type="button" class="btn btn-md btn-cancel pull-right"
+                                    (click)="openPanelNewPaiement(false)">
+                                    Annuler
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </ng-container>
+            </div>
+        </div>
+    </form>
+</div>

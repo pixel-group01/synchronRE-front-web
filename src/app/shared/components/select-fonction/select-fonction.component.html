@@ -1,0 +1,51 @@
+<div class="row"  [ngBusy]="{
+    busy: busySubscription,
+    message: 'Veuillez patienter ...',
+    backdrop: false
+  }">
+    <div class="col-md-12">
+      <table class="table table-condensed table-border table-striped">
+        <thead>
+          <tr>
+            <th colspan="5" class="txt-align-center">
+              Liste des fonctions actives
+            </th>
+          </tr>
+
+          <tr class="custom-table-head">
+            <th>Libellé</th>
+            <!-- <th>Date début</th> -->
+            <th>Date fin</th>
+            <th class="txt-align-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let fct of listeFonctionsActivesByUser; let indice = index">
+            <td class="key">{{ fct?.name }}</td>
+            <!-- <td class="key">{{ fct?.startsAt }}</td> -->
+            <td class="key">{{ fct?.endsAt || "-" }}</td>
+          
+            <td class="txt-align-center">
+              <button type="button"
+
+                title="Sélectionner"
+                (click)="selectFonction(fct)"
+                class="btn btn-md custom-btn-update"
+                *ngIf="fct.fncStatus != statutFonction.courant"
+              >
+                <i class="fa fa-check"></i
+              >&nbsp;Choisir</button>&nbsp;
+
+            </td>
+          </tr>
+
+          <tr *ngIf="!listeFonctionsActivesByUser || listeFonctionsActivesByUser.length === 0">
+            <td colspan="4" class="txt-align-center">
+                Aucune données disponible
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+    </div>

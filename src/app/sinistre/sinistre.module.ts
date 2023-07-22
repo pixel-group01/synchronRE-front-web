@@ -11,8 +11,9 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CreationSinistreComponent } from './form-sinistre/creation-sinistre/creation-sinistre.component';
 import { CreationDocumentSinistreComponent } from './form-sinistre/creation-document-sinistre/creation-document-sinistre.component';
 import { FormRetournerSinstreComponent } from './list-sinistre/form-retourner-sinstre/form-retourner-sinstre.component';
-import { SharedModule } from '../shared/shared.module';
 import { AfficherMessageComponent } from './list-sinistre/afficher-message/afficher-message.component';
+import { EtatComptableComponent } from './list-sinistre/etat-comptable/etat-comptable.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AfficherMessageComponent } from './list-sinistre/afficher-message/affic
     FormRetournerSinstreComponent,
     CreationSinistreComponent,
     CreationDocumentSinistreComponent,
-    AfficherMessageComponent
+    AfficherMessageComponent,
+    EtatComptableComponent
   ],
   imports: [
     CommonModule,

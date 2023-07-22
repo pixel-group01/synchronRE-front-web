@@ -1,0 +1,61 @@
+<!-- <section class="content">
+    <div class="content-block">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header mb-3">
+                        <h2><strong>Tableau de bord</strong> affaires traitées</h2>
+                    </div>
+
+                    <div class="body">
+                        
+                        <div class="filter-part">
+                            <div class="row">
+                                <div class="col-md-2 col-xs-12 col-sm-12 pull-right">
+                                    <label>Filiale/cédante : </label>
+                      
+                                    <ng-select [(ngModel)]="itemToSearch.cedenteId" (change)="getStatistique()"
+                                      [readonly]="user?.cedId" id="cedenteId">
+                                      <ng-option *ngFor="let cedente of listeCedente" [value]="cedente?.cedId">{{ cedente.cedNomFiliale
+                                        }}</ng-option>
+                                    </ng-select>
+                                  </div>
+                      
+                                  <div class="col-md-2 col-xs-12 col-sm-12 pull-right">
+                                    <label>Exercice : </label>
+                      
+                                    <ng-select [(ngModel)]="itemToSearch.exeCode" (change)="getStatistique()" id="exeCode">
+                                      <ng-option *ngFor="let exercice of listeExercices" [value]="exercice?.exeCode">{{ exercice.exeLibelle
+                                        }}</ng-option>
+                                    </ng-select>
+                                  </div>
+                            </div>
+
+                        </div>
+                        <div class="statistique-part mb-3">
+                            <div class="row">
+                                <div class="col-md-3 col-xs-12 col-sm-12">
+                                    <app-block-statistique [title]="'Nombre total d\'affaire'" [nombre]="itemStatistique.totalAffaires" [cssClass]="'allAffaire'"></app-block-statistique>
+                                </div>
+
+                                <div class="col-md-3 col-xs-12 col-sm-12">
+                                    <app-block-statistique  [title]="'Affaires en cours de placement'" [nombre]="itemStatistique.totalEnCoursPlacement" [cssClass]="'affaireEnAttenteDePlacement'"></app-block-statistique>
+                                </div>
+
+                                <div class="col-md-3 col-xs-12 col-sm-12">
+                                    <app-block-statistique  [title]="'Affaires en règlement'" [nombre]="itemStatistique.totalEnCoursReglement" [cssClass]="'affaireEnReglement'"></app-block-statistique>
+                                </div>
+
+                                <div class="col-md-3 col-xs-12 col-sm-12">
+                                    <app-block-statistique  [title]="'Affaires archivées'" [nombre]="itemStatistique.totalArchive" [cssClass]="'affaireRegle'"></app-block-statistique>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+ -->

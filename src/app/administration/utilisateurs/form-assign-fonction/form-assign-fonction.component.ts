@@ -13,6 +13,8 @@ import { RoleService } from 'src/app/core/service/role.service';
 import { UserService } from 'src/app/core/service/user.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from 'sweetalert2';
+import * as _ from "lodash";
+import { enumStatutFonction } from 'src/app/core/enumerator/enumerator';
 
 @Component({
   selector: 'app-form-assign-fonction',
@@ -31,6 +33,8 @@ export class FormAssignFonctionComponent implements OnInit {
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   dateActuelle = new Date();
   currentFonction : any = {};
+  listeFonctionByUser : any = [];
+  statutFonction : any = {};
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,7 +44,9 @@ export class FormAssignFonctionComponent implements OnInit {
     private privilegeService: PrivilegeService,
     private roleService: RoleService,
     private fonctionService: FonctionService
-  ) {}
+  ) {
+    this.statutFonction = enumStatutFonction;
+  }
 
   createForm = () => {
 
@@ -55,23 +61,78 @@ export class FormAssignFonctionComponent implements OnInit {
       this.currentFonction.startsAt = new Date(tabsDateStart[0],tabsDateStart[1]-1,tabsDateStart[2]);
     }
 
-    this.userForm = this.formBuilder.group({
-      userId: [this.itemToUpdate?.userId || ""],
-      fncId: [this.currentFonction?.id || ""],
-      visibilityId:[this.currentFonction?.visibilityId],
-      libelleFonction : [this.currentFonction?.name],
-      dateDebutFonction : [this.currentFonction?.startsAt],
-      roles : [],
-      privileges : [],
-      dateFinFonction : [this.currentFonction?.endsAt]
-      // visibilityId: [this.itemToUpdate?.visibilityId || "", Validators.required],
-      // cesId: [this.itemToUpdate?.cesId || "", Validators.required]
-    });
+    // Recuperer les roles par defaut à cocher
+    let oldRole = [];
+    if(this.currentFonction.roles){
+      console.log(" this.currentFonction.roles ",this.currentFonction.roles);
+      this.currentFonction.roles.forEach(role => {
+        // Verifier dans la liste de roles et recuperer le item concerner
+        let itemFctSelected = _.find(this.listeRoles, {'roleId': role.roleId});
+        oldRole.push(itemFctSelected.roleId);
+      });
+    }
+
+    let oldPrivilege = [];
+    if(this.currentFonction.privileges){
+      this.currentFonction.privileges.forEach(role => {
+        // Verifier dans la liste de roles et recuperer le item concerner
+        let itemFctSelected = _.find(this.listePrivileges, {'privilegeId': role.privilegeId});
+        oldPrivilege.push(itemFctSelected.privilegeId);
+      });
+    }
+
+      this.userForm = this.formBuilder.group({
+        userId: [this.itemToUpdate?.userId || ""],
+        fncId: [this.currentFonction?.id || ""],
+        visibilityId:[this.currentFonction?.visibilityId],
+        libelleFonction : [this.currentFonction?.name],
+        dateDebutFonction : [this.currentFonction?.startsAt],
+        roles : [oldRole],
+        privileges : [oldPrivilege],
+        dateFinFonction : [this.currentFonction?.endsAt]
+      });
   };
 
   getFormFiledsValue = (field: string) => {
     return this.userForm.get(field);
   };
+
+
+  confirmRevokeFonction(fonction){
+    Swal.fire({
+      title: "Retirer une fonction",
+      text: "Vous êtes sur le point de rétirer cette fonction à l'utilisateur. Voulez-vous poursuivre cette action ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#0665aa",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    }).then((result) => {
+      if (result.value) {
+        this.revokeFocntion(fonction);
+      }
+    });
+  }
+
+  revokeFocntion(item) {
+
+    // nous sommes au create
+    this.busySuscription = this.fonctionService.revoke(item.id).subscribe((response : any) => {
+      console.log(" response ", response);
+      if (response) {
+        this.utilities.showNotification(
+          "snackbar-success",
+          this.utilities.getMessageOperationSuccessFull(),
+          "bottom",
+          "center"
+        );
+      }
+      this.getDetailsFonction();
+    });
+    
+  }
+
 
   confirmSaveItem() {
 
@@ -86,6 +147,30 @@ export class FormAssignFonctionComponent implements OnInit {
       cancelButtonText: "Non",
     }).then((result) => {
       if (result.value) {
+
+        let assignFctValue = this.userForm.value;
+
+        if(assignFctValue) {
+          if(!assignFctValue.roles || assignFctValue.roles.length === 0){
+            this.utilities.showNotification(
+              "snackbar-danger",
+              "Veuillez sélectionner les rôles !",
+              "bottom",
+              "center"
+            );
+            return;
+          }
+
+          if(!assignFctValue.privileges || assignFctValue.privileges.length === 0){
+            this.utilities.showNotification(
+              "snackbar-danger",
+              "Veuillez sélectionner les privilèges !",
+              "bottom",
+              "center"
+            );
+            return;
+          }
+        }
         this.saveItem(this.userForm.value);
       }
     });
@@ -131,6 +216,26 @@ export class FormAssignFonctionComponent implements OnInit {
     });
   }
 
+   // recuperer les privileges d'un role
+   getPrivilegeByRole(){
+    let rolesId = this.userForm.value.roles;
+
+    this.busySuscription = this.privilegeService.getPrivilegeByRoleIds(rolesId).subscribe(
+      (response :any) => {
+        console.log(" response busy ",response);
+        if(response) {
+          // this.checkedPrivilegeDefauft(response);
+          let idsPrivileges = [];
+
+          response.forEach(prv => {
+            idsPrivileges.push(prv.privilegeId);
+          });
+          this.userForm.get("privileges").setValue(idsPrivileges);
+        }
+      }
+    )
+  }
+
   getRoles() {
     this.roleService.getAll().subscribe((response: any) => {
       if (response && response["content"]) {
@@ -141,26 +246,22 @@ export class FormAssignFonctionComponent implements OnInit {
     });
   }
 
-  getDetailsInfo() {
-    this.userService.getInfoUser(this.itemToUpdate.userId).subscribe((response: any) => {
-      
-      if(response) {
-        console.log(" response ",response);
-      }
-
-    });
-  }
-
   getDetailsFonction() {
     this.fonctionService.getDetailsInfoFonctionForUser(this.itemToUpdate?.userId).subscribe((response: any) => {
       if(response) {
-        console.log(" response ",response);
-        this.currentFonction = {...response[0]};
-        this.createForm();
+        this.listeFonctionByUser = response;
       }
     });
   }
 
+  gotoUpdateFonction(currentFonction){
+    this.currentFonction = {...currentFonction};
+    this.createForm();
+
+    // console.log(" currentFonction ",currentFonction);
+    // this.userForm.get("privileges").setValue(currentFonction.privileges);
+    // this.userForm.get("roles").setValue(currentFonction.roles);
+  }
 
   closeModalUser(){
     this.closeModal.emit(true);
@@ -171,7 +272,6 @@ export class FormAssignFonctionComponent implements OnInit {
     this.createForm();
     this.getPrivilege();
     this.getRoles();
-    this.getDetailsInfo();
   }
 
   ngOnChanges(changes: SimpleChanges) {

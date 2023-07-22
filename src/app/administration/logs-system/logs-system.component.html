@@ -1,0 +1,144 @@
+<section class="content">
+    <div class="content-block">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header mb-3">
+                        <h2><strong>Logs</strong> système</h2>
+                    </div>
+
+                    <div class="body table-responsive p-10-important" [ngBusy]="{
+              busy: busyGet,
+              message: 'Veuillez patienter ...',
+              backdrop: false
+            }">
+                        <table class="table table-condensed table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th colspan="11">
+                                        <div class="row mt-4">
+                                            <div class="col-md-4">
+                                                <input [(ngModel)]="itemToSearch.libelle"
+                                                    class="form-control custom-input pull-left"
+                                                    placeholder="Rechercher ..."
+                                                    (keyup)="currentPage = 1; getItems()" />
+                                            </div>
+
+                                            <div class="col-md-2 col-sm-12 mb-2">
+                                                <input class="form-control custom-input" placeholder="Période"
+                                                    autocomplete="off" [(ngModel)]="itemToSearch.dateRecherche"
+                                                    name="dateRecherche" type="text" bsDaterangepicker
+                                                    (bsValueChange)="onValueDateChange($event)" [maxDate]="dateActuelle"
+                                                    [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY' , containerClass: 'theme-dark-blue'}">
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <ng-select [(ngModel)]="itemToSearch.userId" name="userId"
+                                                    (change)="getItems()" id="userId">
+                                                    <ng-option *ngFor="let user of ListeUsers" [value]="user?.userId">{{
+                                                        user.firstName +' '+user?.lastName }}</ng-option>
+                                                </ng-select>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <button
+                                                type="button"
+                                                (click)="confirmDeleteManyLogs()"
+                                                class="btn btn-md custom_btn_primary pull-right"
+                                              >
+                                               Supprimer les logs
+                                              </button>
+                                            </div>
+
+                                        </div>
+                                    </th>
+                                </tr>
+
+                                <tr class="custom-table-head">
+                                    <th></th>
+                                    <th class="txt-align-center-counter-row">
+                                        <a (click)="currentPage = 1; getItems()" title="Actualiser">
+                                            <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                                    </th>
+                                    <th>Utilisateur</th>
+                                    <th>Fonction</th>
+                                    <th>Email</th>
+                                    <th>Structure</th>
+                                    <th>Machine</th>
+                                    <th>IP</th>
+                                    <th>Action</th>
+                                    <th>Date</th>
+                                    <!-- <th>Fonction</th> -->
+
+                                    <th class="txt-align-center">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let item of items; let indice = index">
+                                    <td>
+                                        <input type="checkbox" name="check" [(ngModel)]="item.checked" [ngModelOptions]="{standalone: true}" />
+                                    </td>
+                                    <td class="txt-align-center">
+                                        {{ getExactlyNumberRow(this.currentPage, indice) }}
+                                    </td>
+                                    <td>{{ item?.firstName+' '+item?.lastName }}</td>
+                                    <td>{{ item?.foncName }}</td>
+                                    <td>{{ item?.userEmail }}</td>
+                                    <td>{{ item?.cedName || '-' }}</td>
+                                    <td>{{ item?.hostName }}</td>
+                                    <td>{{ item?.ipAddress }}</td>
+                                    <td>{{ item?.action }}</td>
+                                    <td>{{ item?.actionDateTime | dateFormatInDateHour }}</td>
+
+                                    <td class="custom-width-td-action">
+                                        <div class="custom-td-action">
+                                            <a title="Supprimer" (click)="confirmDeleteSingleLog(item)"
+                                                style="cursor: pointer;color: red;">
+                                                <i class="fa fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tfoot>
+                                <tr *ngIf="items && items.length > 0">
+                                    <td colspan="11">
+                                        <div class="row pagination-part">
+                                            <div class="col-md-9" style="text-align: center">
+                                                <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage"
+                                                    [totalItems]="totalItems" [(ngModel)]="currentPage"
+                                                    class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;"
+                                                    firstText="&laquo;" lastText="&raquo;"
+                                                    (pageChanged)="pageChanged($event)"></pagination>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="paginator-per-page">
+                                                    <app-element-by-page-paginator
+                                                        (paginationChange)="changePaginationSize($event)"
+                                                        [defaultItemPerPage]="itemsPerPage"></app-element-by-page-paginator>
+
+                                                    <span class="span_total_entree pull-right">Total : {{ totalItems
+                                                        }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr *ngIf="!items || items.length == 0">
+                                    <td colspan="11">
+                                        <div class="col-md-12 txt-align-center">
+                                            Aucune données disponible
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

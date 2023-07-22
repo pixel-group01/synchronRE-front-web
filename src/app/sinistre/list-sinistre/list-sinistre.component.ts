@@ -26,9 +26,11 @@ export class ListSinistreComponent implements OnInit {
   busyGet: Subscription; 
   user:  any;
   isActiveInput :boolean = false;
+  isActiveModif :boolean = true;
   @Input() refreshDataTable!: string;
   @Input() endPoint: any ;
-  idSiniOfListe :number
+  idSiniOfListe :number;
+
   constructor(
     private businessOptionalService: BusinessOptionalService,
     private sinistreService: SinistreService,
@@ -45,7 +47,7 @@ export class ListSinistreComponent implements OnInit {
     return num;
   }
 
-  openModal(template: TemplateRef<any>,data?:any,isActive?:any) {
+  openModal(template: TemplateRef<any>,data?:any,isActive?:boolean) {
     this.itemsinistre = {...data}
     this.isActiveInput = isActive || false
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
@@ -66,6 +68,12 @@ export class ListSinistreComponent implements OnInit {
     this.modalRef = this.modalService.show(template,config);
   }
 
+  openModalEtatComptable(template: TemplateRef<any>,item:any) {
+    console.log("idSiniOfListe :",this.idSiniOfListe = item);
+    
+    let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
+    this.modalRef = this.modalService.show(template,config);
+  }
 
   transmettre(data:any){
     this.sinistreService.transmission(data).subscribe((res:any)=>{
@@ -126,17 +134,9 @@ export class ListSinistreComponent implements OnInit {
       }, 100);
     })
   }
-
-
-  etatComptable(item:any){
-    this.sinistreService.etatComptable(item).subscribe((res:any)=>{
-      console.log("res res ::", res);
-    })
-  }
-
   
   closeFormModal($event) {
-    console.log('okok',$event);    
+    // console.log('okok',$event);    
     this.getSinistre();
     this.modalRef.hide();
   }
@@ -147,7 +147,11 @@ export class ListSinistreComponent implements OnInit {
   }
 
   getSinistre(){
-    let  endPoint :any = this.endPoint + '?page=' + `${this.currentPage-1}` + '&size=' + this.itemsPerPage;
+    let  endPoint :any = 
+      this.endPoint +
+     '?page=' + `${this.currentPage-1}`
+      + '&size=' + this.itemsPerPage +
+      (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "");
     this.busyGet =  this.restClient.get(endPoint)
       .subscribe((res: any) => {
         console.log("res sinistre :",res);
