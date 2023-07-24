@@ -35,13 +35,15 @@ export class ErrorInterceptor implements HttpInterceptor {
           // Je stringify en attendant que le backend ne trouve la solution
           if(error) {
             this.utilities.showNotification("snackbar-danger",JSON.stringify(error),"bottom","center");
+            return;
           }else{
             if(err.statusText === 'Unknown Error') {
               error = "Connexion momentanement interronpue !";
-              return throwError(error);
             }
           }
         
+          return throwError(error);
+
         }
        
       })
