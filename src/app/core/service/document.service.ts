@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RestClientService } from './rest-client.service';
 import { typeDocument } from '../models/typeDocument';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,16 @@ export class DocumentService {
     return this.restClient.get('documents/sinistre/'+`${body}`)
   } 
 
+  fileBase64 = (body:any) =>{
+    return this.restClient.get('documents/get-base64-url/'+`${body}`)
+  }
+
   typeDocument = () => {
     return this.restClient.get('documents/doc_sin/types');
+  }
+
+  delete = (body:any) => {
+    return this.restClient.delete('documents/delete/'+`${body}`);
   }
  
   // getByCriteria = (index:number = 0,size:number=10,key?:string) => {

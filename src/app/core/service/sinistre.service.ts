@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { RestClientService } from './rest-client.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SinistreService {
-
-
-  constructor(private restClient:RestClientService) { }
+  currentUser:any
+  constructor(private restClient:RestClientService,
+              private userService: UserService) { 
+  this.currentUser  = this.userService.getCurrentUserInfo();
+  }
 
   create = (body:any) => {
     return this.restClient.post('sinistres/create',body)
@@ -18,21 +21,52 @@ export class SinistreService {
   } 
 
   transmission = (body:any) => {
-    return this.restClient.put('sinistres/transmettre/'+`${body}`);
+    return this.restClient.put('sinistres/transmettre-pour-validation/'+`${body}`);
   }
+
+  retournerCedante = (body:any) => {
+    return this.restClient.put('sinistres/retourner-a-cedante',body);
+  }
+
+  retournerSouscripteur = (body:any) => {
+    return this.restClient.put('sinistres/retourner-au-souscripteur',body);
+  }
+
+  retournerValidateur = (body:any) => {
+    return this.restClient.put('sinistres/retourner-au-validateur',body);
+  }
+
+  messageCedante = (body:any) => {
+    return this.restClient.get('mouvements/sinistre/get-message-retour-souscripteur/'+`${body}`);
+  }
+
+  messageSouscripteur = (body:any) => {
+    return this.restClient.get('mouvements/sinistre/get-message-retour-validateur/'+`${body}`);
+  }
+
+  messageValidateur = (body:any) => {
+    return this.restClient.get('mouvements/sinistre/get-message-retour-comptable/'+`${body}`);
+  }
+
 
   validation = (body:any) => {
-    return this.restClient.put('sinistres/facultatives/valider',body);
+    return this.restClient.put('sinistres/valider/'+`${body}`);
   }
 
-  retourner = (body:any) => {
-    return this.restClient.put('sinistres/facultatives/retourner',body);
+  etatComptable = (body:any) => {
+    return this.restClient.get('sinistres/etat-comptable/'+`${body}`);
   }
+
+  listePaiementSinistre = (body:any) => {
+    return this.restClient.get('paiements/sinistre/list/'+`${body}`);
+  }
+
+  messageRetour=(body)=>{
+    let endPoint :any
+    return this.restClient.get(endPoint+`${body}`)
+  }
+
  
-  // getByCriteria = (index:number = 0,size:number=10,key?:string) => {
-  //   let endPointFinal = "devises/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
-  //   return this.restClient.get(endPointFinal);
-  // }
 
   update = (body:any) => {
     return this.restClient.put('sinistres/update',body)

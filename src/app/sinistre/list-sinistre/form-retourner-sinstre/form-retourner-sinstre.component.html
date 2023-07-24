@@ -1,14 +1,15 @@
 <div>
-    <form>
+    <form  [formGroup]="retourneForm" (ngSubmit)="confirmRetournerSinistre(retourneForm.value)">
         <div class="mb-2">
             <label for=""> Description </label>
             <textarea class="form-control custom-input" name="description" id="description" cols="30" rows="10" 
-            placeholder="Ex : description"></textarea>    
+            placeholder="Ex : description" formControlName="description"></textarea>    
         </div>
    
-        <div>
-            <button type="submit" class="form-control btn btn-success" (click)="confirmRetournerSinistre()"> Valider</button>
+        <div class="pull-right">
+            <button type="button" class="btn btn-md btn-cancel border-0" style="margin-right: 15px;" (click)="annuler()" >Annuler</button>
+            <button type="submit" class="btn btn-md btn-success text-black border-0"  [disabled]="!retourneForm.valid"> Valider</button>
         </div>
     </form>
   
-</div>
+</div> 

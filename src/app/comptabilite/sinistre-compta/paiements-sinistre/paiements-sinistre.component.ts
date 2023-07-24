@@ -8,11 +8,11 @@ import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-list-sinistre',
-  templateUrl: './list-sinistre.component.html',
-  styleUrls: ['./list-sinistre.component.scss']
+  selector: 'app-paiements-sinistre',
+  templateUrl: './paiements-sinistre.component.html',
+  styleUrls: ['./paiements-sinistre.component.scss']
 })
-export class ListSinistreComponent implements OnInit {
+export class PaiementsSinistreComponent implements OnInit {
   items: any =[];
   itemsinistre :any ;
   itemToSave: any = {};
@@ -26,10 +26,11 @@ export class ListSinistreComponent implements OnInit {
   busyGet: Subscription; 
   user:  any;
   isActiveInput :boolean = false;
-  isActiveModif :boolean = true;
   @Input() refreshDataTable!: string;
   @Input() endPoint: any ;
   idSiniOfListe :number;
+  @Input() isOngletPaiement: boolean = false;
+  @Input() isOngletReversement: boolean = false;
 
   constructor(
     private businessOptionalService: BusinessOptionalService,
@@ -47,96 +48,21 @@ export class ListSinistreComponent implements OnInit {
     return num;
   }
 
-  openModal(template: TemplateRef<any>,data?:any,isActive?:boolean) {
+  openModal(template: TemplateRef<any>,data?:any) {
+    console.log("idSiniOfListe :",this.idSiniOfListe = data);
+    let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
+    this.modalRef = this.modalService.show(template,config);
+  }
+
+  openModalDetail(template: TemplateRef<any>,data?:any,isActive?:any) {
     this.itemsinistre = {...data}
     this.isActiveInput = isActive || false
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
     this.modalRef = this.modalService.show(template,config);
   }
 
-  openModalRetourner(template: TemplateRef<any>,item:any) {
-    console.log("idSiniOfListe :",this.idSiniOfListe = item);
-    
-    let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
-    this.modalRef = this.modalService.show(template,config);
-  }
-
-  openModalMessage(template: TemplateRef<any>,item:any) {
-    console.log("idSiniOfListe :",this.idSiniOfListe = item);
-    
-    let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
-    this.modalRef = this.modalService.show(template,config);
-  }
-
-  openModalEtatComptable(template: TemplateRef<any>,item:any) {
-    console.log("idSiniOfListe :",this.idSiniOfListe = item);
-    
-    let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
-    this.modalRef = this.modalService.show(template,config);
-  }
-
-  transmettre(data:any){
-    this.sinistreService.transmission(data).subscribe((res:any)=>{
-          setTimeout(() => {
-            this.getSinistre();
-          }, 100);
-    })
-  }
-
-  confirmTransmettreSinistre(item:any) {
-    // console.log(item ,' info sinistre');
-    Swal.fire({
-      title: "Transmettre le sinistre",
-      text:"Vous êtes sur le point de transmettre un sinistre. Voulez-vous poursuivre cette action ?",
-      icon: "success",
-      showCancelButton: true,
-      confirmButtonColor: "#0665aa",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Oui",
-      cancelButtonText: "Non",
-    }).then((result) => {
-      if (result.value) {
-        // On effectue une transmission de sinistre
-        this.transmettre(item);
-      }
-    });
-  }
-
-  messageDuRetour(data:any){
-    this.sinistreService.messageRetour(data).subscribe((res :any)=>{
-        console.log("message retour :",res);
-        
-    })
-  }
-
-  confirmValiderSinistre(item:any) {
-    Swal.fire({
-      title: "Validation d'un sinistre",
-      text:"Vous êtes sur le point de valider un sinistre. Voulez-vous poursuivre cette action ?",
-      icon: "success",
-      showCancelButton: true,
-      confirmButtonColor: "#0665aa",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Oui",
-      cancelButtonText: "Non",
-    }).then((result) => {
-      if (result.value) {
-        // On effectue une transmission de sinistre
-        this.validerSinistre(item);
-      }
-    });
-  }
-
-  validerSinistre(item: any) {
-    this.sinistreService.validation(item).subscribe((res: any) => {
-      setTimeout(() => {
-        this.getSinistre();
-      }, 100);
-    })
-  }
-  
   closeFormModal($event) {
-    // console.log('okok',$event);    
+    console.log('okok',$event);    
     this.getSinistre();
     this.modalRef.hide();
   }
@@ -147,11 +73,7 @@ export class ListSinistreComponent implements OnInit {
   }
 
   getSinistre(){
-    let  endPoint :any = 
-      this.endPoint +
-     '?page=' + `${this.currentPage-1}`
-      + '&size=' + this.itemsPerPage +
-      (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "");
+    let  endPoint :any = this.endPoint + '?page=' + `${this.currentPage-1}` + '&size=' + this.itemsPerPage;
     this.busyGet =  this.restClient.get(endPoint)
       .subscribe((res: any) => {
         console.log("res sinistre :",res);
@@ -198,8 +120,8 @@ export class ListSinistreComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.getItems();
     console.log("endPoint :", this.endPoint);
     this.getSinistre();
   }
+
 }

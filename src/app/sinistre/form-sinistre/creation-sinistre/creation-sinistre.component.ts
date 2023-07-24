@@ -6,6 +6,7 @@ import { SinistreService } from 'src/app/core/service/sinistre.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-creation-sinistre',
@@ -23,8 +24,10 @@ export class CreationSinistreComponent implements OnInit {
   dataSurvenance:any; 
   dataDeclaration:any;
   affDetail:any;
-  sinistre:FormGroup 
+  sinistre:FormGroup;
+  busySave : Subscription;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  @Output() step2: EventEmitter<any> = new EventEmitter();
   constructor(
     private formBuilder: FormBuilder,
     private utilities: UtilitiesService,
@@ -36,10 +39,15 @@ export class CreationSinistreComponent implements OnInit {
     this.affaireDetail();
     this.getAffaire();
     this.maxDate.setDate(this.maxDate.getDate());
-    this.sinistreForm()
+    this.sinistreForm();  
     if (this.itemCreationSinistre) {
       this.sinistre.patchValue({...this.itemCreationSinistre})
+      // console.log("sinistre 111::", this.sinistre.value);
     }    
+  }
+
+  fermer(){
+    this.closeModal.emit(true)
   }
 
   // createForm = () => {
@@ -87,6 +95,7 @@ export class CreationSinistreComponent implements OnInit {
 
   sinistreForm = () =>{
     this.sinistre = this.formBuilder.group({
+      sinId: [null],
       affId: [null,Validators.required],
       sinMontant100: ["",Validators.required],
       sinDateSurvenance: ["", Validators.required],
@@ -101,8 +110,10 @@ export class CreationSinistreComponent implements OnInit {
 
   confirmSaveItem() {
     Swal.fire({
-      title: "Identification",
-      text:"Vous êtes sur le point d'enregistrer un sinistre. Voulez-vous poursuivre cette action ?",
+      title: this.itemCreationSinistre?.sinId? "Modification" : "Enregistrement",
+      text:this.itemCreationSinistre?.sinId ? 
+      "Vous êtes sur le point de modifier un sinistre. Voulez-vous poursuivre cette action ?" :
+      "Vous êtes sur le point d'enregistrer un sinistre. Voulez-vous poursuivre cette action ?" ,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#0665aa",
@@ -119,7 +130,7 @@ export class CreationSinistreComponent implements OnInit {
 
   getFormFiledsValue = (field: string) => {
     return this.sinistre.get(field);
-  };
+  }
 
   // new FormGroup({
   //   affId : new FormControl(),
@@ -140,7 +151,7 @@ export class CreationSinistreComponent implements OnInit {
     }
     if (this.itemCreationSinistre) {
     data.sinId = this.itemCreationSinistre.sinId;
-      this.sinistreService.update(data).subscribe((res:any)=>{
+    this.busySave = this.sinistreService.update(data).subscribe((res:any)=>{
         if(res && res.sinId){
           this.utilities.showNotification(
             "snackbar-success",
@@ -148,12 +159,12 @@ export class CreationSinistreComponent implements OnInit {
             "top",
             "center"
           );
-          this.closeModal.emit(true)
+          this.step2.emit(res)
         }
       })
-      return
+      return 
     }
-    this.sinistreService.create(data).subscribe((res:any)=>{
+    this.busySave =  this.sinistreService.create(data).subscribe((res:any)=>{
       if(res && res.sinId){
         this.utilities.showNotification(
           "snackbar-success",
@@ -161,7 +172,8 @@ export class CreationSinistreComponent implements OnInit {
           "top",
           "center"
         );
-        this.closeModal.emit(true)
+        // this.closeModal.emit(true)
+        this.step2.emit(res)
       }
     })
   }
@@ -181,7 +193,7 @@ export class CreationSinistreComponent implements OnInit {
   affaireDetail(){
     setTimeout(() => {
     this.affDetail = {...this.listeAffaires.find((elt:any)=>  elt.affId == this.sinistre.value.affId)}
-    }, 500);
+    }, 500);    
   }
 
   closeFormModal($event:boolean){

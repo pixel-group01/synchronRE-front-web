@@ -1,36 +1,37 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import * as moment from "moment";
-import { Subscription } from "rxjs";
-import { BusinessOptional } from "src/app/core/models/businessOptional";
-import { Cessionnaire } from "src/app/core/models/cessionnaire";
-import { Reglement } from "src/app/core/models/reglement";
-import { User } from "src/app/core/models/user";
-import { BusinessOptionalService } from "src/app/core/service/business-optional.service";
-import { CessionnaireService } from "src/app/core/service/cessionnaire.service";
-import { ReglementService } from "src/app/core/service/reglement.service";
-import { UserService } from "src/app/core/service/user.service";
-import { UtilitiesService } from "src/app/core/service/utilities.service";
-import { environment } from "src/environments/environment";
-import Swal from "sweetalert2";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { User } from 'angular-feather/icons';
+import * as moment from 'moment';
+import { Subscription } from 'rxjs';
+import { BusinessOptional } from 'src/app/core/models/businessOptional';
+import { Cessionnaire } from 'src/app/core/models/cessionnaire';
+import { Reglement } from 'src/app/core/models/reglement';
+import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
+import { CessionnaireService } from 'src/app/core/service/cessionnaire.service';
+import { ReglementService } from 'src/app/core/service/reglement.service';
+import { SinistreService } from 'src/app/core/service/sinistre.service';
+import { UserService } from 'src/app/core/service/user.service';
+import { UtilitiesService } from 'src/app/core/service/utilities.service';
+import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: "app-form-paiement",
-  templateUrl: "./form-paiement.component.html",
-  styleUrls: ["./form-paiement.component.scss"],
+  selector: 'app-form-paiement-sinistre',
+  templateUrl: './form-paiement-sinistre.component.html',
+  styleUrls: ['./form-paiement-sinistre.component.scss']
 })
-export class FormPaiementComponent implements OnInit {
+export class FormPaiementSinistreComponent implements OnInit {
   itemInfoCompta: any = {};
   listePaiementDejaEffectue: Reglement[] = [];
   formulaireGroup!: FormGroup;
   busySave: Subscription;
   itemToUpdate: Reglement;
   @Input() currentAffaire: BusinessOptional;
-  @Input() isPaiement: boolean;
+  @Input() isPaiement: boolean ;
 
   listeDocumentsAjoutes: any = {};
   listeCessionnaire: Cessionnaire[];
-  currentUser: User;
+  currentUser: any;
   dateActuelle = new Date();
   listeModeReglement: any = [
     {
@@ -40,7 +41,10 @@ export class FormPaiementComponent implements OnInit {
       libelle: "Virement bancaire",
     },
   ];
+  @Input() itemSinistre : any;
 
+  etatComp :any;
+  paiementSinistre: any=[];
   constructor(
     private reglementService: ReglementService,
     private formBuilder: FormBuilder,
@@ -48,9 +52,12 @@ export class FormPaiementComponent implements OnInit {
     private utilities: UtilitiesService,
     private businessOptionalService: BusinessOptionalService,
     private cessionaireService: CessionnaireService,
+    private sinistreService: SinistreService
   ) {
     this.currentUser = this.userService.getCurrentUserInfo();
-  }
+    console.log('isPaiement :',this.isPaiement);
+    
+  }  
 
   openPanelNewPaiement(isOpen: boolean) {
     //Recuperé la div details
@@ -66,65 +73,21 @@ export class FormPaiementComponent implements OnInit {
 
   createForm = () => {
     this.formulaireGroup = this.formBuilder.group({
-      regId: [this.itemToUpdate?.regId || ""],
-      cesId: ["",(!this.isPaiement) ? Validators.required : ""],
+      // regId: [this.itemToUpdate?.regId || ""],
+      sinId: [this.etatComp?.sinId],
+      cesId: [null,(this.isPaiement) ? Validators.required : ""],
       regReference: [
         this.itemToUpdate?.regReference || "",
         Validators.required,
       ],
       regDate: [this.itemToUpdate?.affAssure || "", Validators.required],
       regMontant: [this.itemToUpdate?.affActivite || "", Validators.required],
-      userId: [this.currentUser.userId],
-      affId: [this.currentAffaire.affId],
-      regMode: ["", Validators.required],
-      resteAPayer: [this.itemInfoCompta?.resteARegler],
+      // userId: [this.currentUser.userId],
+      // affId: [this.itemSinistre.affId],
+      regMode: [null, Validators.required],
+      resteAPayer: [this.etatComp?.sinMontant100],
     });
-
-    if(!this.isPaiement) {
-      // En reversement il faut griser le paiement
-      this.formulaireGroup.get('regMontant').disable()
-    }
   };
-
-  getEtatComptable() {
-    // On verifie si il y a un business déjà crée
-    if (!this.currentAffaire || !this.currentAffaire?.affId) {
-      return;
-    }
-
-    this.businessOptionalService
-      .getAffaireFacultativeEtatComptable(this.currentAffaire.affId)
-      .subscribe((response) => {
-        if (response) {
-          console.log(" response etat comptable ", response);
-          this.itemInfoCompta = response;
-          this.createForm();
-        }
-      });
-  }
-
-  getCessionnaire() { 
-    this.cessionaireService.getCessionnaireByAffaire(this.currentAffaire.affId).subscribe((response : any) => {
-      if (response) {
-        this.listeCessionnaire = response as Cessionnaire[];
-      }
-    });
-  }
-
-  getReglementByCessionnaire() {
- 
-    let cessionnaireId:number = 0;
-    if(this.getFormFiledsValue('cesId')) {
-      cessionnaireId = this.getFormFiledsValue('cesId').value;
-    }
-   
-    this.reglementService.getReglementDetailsByAffaireAndCessionnaire(cessionnaireId,this.currentAffaire.affId).subscribe((response : any) => {
-      if (response) {
-        this.formulaireGroup.get("regMontant").setValue(response?.resteAReverser);
-      }
-    });
-  }
-  
 
   getFormFiledsValue = (field: string) => {
     return this.formulaireGroup.get(field);
@@ -153,7 +116,7 @@ export class FormPaiementComponent implements OnInit {
     itemAEnregistrer.regDate = moment(itemAEnregistrer.regDate).format(
       "YYYY-MM-DD"
     );
-    itemAEnregistrer.regDocReqs = [];
+    // itemAEnregistrer.regDocReqs = [];
 
     let listeDocumentsAEnregistrer = [];
 
@@ -170,7 +133,7 @@ export class FormPaiementComponent implements OnInit {
     // nous sommes au create
     this.busySave = this.reglementService
       .create(
-        (this.isPaiement ? "paiements" : "reversements") + "/affaire",
+        (this.isPaiement ? "paiements" : "reversements") + "/sinistre",
         itemAEnregistrer
       )
       .subscribe((response: any) => {
@@ -185,12 +148,32 @@ export class FormPaiementComponent implements OnInit {
             );
 
             // On actualise la liste des paiements
-            this.getOldPaiement();
-            this.getEtatComptable();
+            // On actualise la liste des paiements
+            // this.getOldPaiement();
+            this.etatComptable();
             this.openPanelNewPaiement(false);
           }
         }
       });
+  } 
+  
+  ngOnInit(): void {
+    this.createForm();
+    // this.getOldPaiement();
+    this.listePaiementOnsinistre();
+    this.etatComptable();
+    if(this.isPaiement){
+      this.getCessionnaire();
+    }
+
+  }
+
+  getCessionnaire() { 
+    this.cessionaireService.getCessionnaireByAffaire(this.itemSinistre.affId).subscribe((response : any) => {      
+      if (response) {
+        this.listeCessionnaire = response as Cessionnaire[];
+      }
+    });
   }
 
   getNoteCredit(idCessionnaire: number){
@@ -199,25 +182,25 @@ export class FormPaiementComponent implements OnInit {
     }
   }
   
-  getCheque(reglementId:number) {
-    if(reglementId) {
-      window.open(environment.apiUrl+'reports/cheque/'+reglementId, '_blank');
+
+  getReglementByCessionnaire() {
+ 
+    let cessionnaireId:number = 0;
+    if(this.getFormFiledsValue('cesId')) {
+      cessionnaireId = this.getFormFiledsValue('cesId').value;
     }
+   
+    this.reglementService.getReglementDetailsByAffaireAndCessionnaire(cessionnaireId,this.itemSinistre.affId).subscribe((response : any) => {
+      if (response) {
+        this.formulaireGroup.get("regMontant").setValue(response?.resteAReverser);
+      }
+    });
   }
   
-  
-  getDocumentAdd($event) {
-    if ($event) {
-      this.listeDocumentsAjoutes = $event;
-
-      console.log(" this.listeDocumentsAjoutes ", this.listeDocumentsAjoutes);
-    }
-  }
-
   getOldPaiement() {
     this.busySave = this.reglementService
       .getReglementByAffaire(
-        (this.isPaiement ? "paiements" : "reversements") + "/affaire",
+        (this.isPaiement ? "paiements" : "reversements") + "/sinistre",
         this.currentAffaire.affId
       )
       .subscribe((response: any) => {
@@ -228,12 +211,18 @@ export class FormPaiementComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {
-    this.createForm();
-    this.getEtatComptable();
-    this.getOldPaiement();
-    if(!this.isPaiement){
-      this.getCessionnaire();
-    }
+  listePaiementOnsinistre(){
+    this.sinistreService.listePaiementSinistre(this.itemSinistre.sinId).subscribe((res:any)=>{
+      console.log('res liste paiement sinitre :',res);
+      this.paiementSinistre = res.content
+    })
+  }
+
+  etatComptable(){
+    this.sinistreService.etatComptable(this.itemSinistre.sinId).subscribe((res:any)=>{
+      console.log("res res ::", res);
+      this.etatComp = res;
+      this.createForm()
+    })
   }
 }

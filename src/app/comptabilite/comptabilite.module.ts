@@ -8,6 +8,9 @@ import { AffairesFacultativeComponent } from './affaires-facultative/affaires-fa
 import { PaiementsAffairesComponent } from './affaires-facultative/paiements-affaires/paiements-affaires.component';
 import { ReversementsAffaireComponent } from './affaires-facultative/reversements-affaire/reversements-affaire.component';
 import { FormPaiementComponent } from './affaires-facultative/paiements-affaires/form-paiement/form-paiement.component';
+import { SinistreComptaComponent } from './sinistre-compta/sinistre-compta.component';
+import { PaiementsSinistreComponent } from './sinistre-compta/paiements-sinistre/paiements-sinistre.component';
+import { FormPaiementSinistreComponent } from './sinistre-compta/paiements-sinistre/form-paiement-sinistre/form-paiement-sinistre.component';
 
 
 @NgModule({
@@ -17,7 +20,10 @@ import { FormPaiementComponent } from './affaires-facultative/paiements-affaires
     AffairesFacultativeComponent, 
     PaiementsAffairesComponent,
     ReversementsAffaireComponent,
-    FormPaiementComponent
+    FormPaiementComponent,
+    SinistreComptaComponent,
+    PaiementsSinistreComponent,
+    FormPaiementSinistreComponent
   ],
   imports: [
     CommonModule,

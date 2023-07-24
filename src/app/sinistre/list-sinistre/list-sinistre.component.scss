@@ -11,11 +11,12 @@
         border: 1px solid gray;
         padding: 3px 7px;
 
-        &.CREP {
+        &.AVAL {
             background-color: orange;
+            color: black;
         }
 
-        &.APLA {
+        &.VAL {
             background-color: yellow;
             color: black;
         }

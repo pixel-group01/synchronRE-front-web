@@ -2,14 +2,14 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
-  selector: 'app-container-sinistre',
-  templateUrl: './container-sinistre.component.html',
-  styleUrls: ['./container-sinistre.component.scss']
+  selector: 'app-sinistre-compta',
+  templateUrl: './sinistre-compta.component.html',
+  styleUrls: ['./sinistre-compta.component.scss']
 })
-export class ContainerSinistreComponent implements OnInit {
+export class SinistreComptaComponent implements OnInit {
   modalRef: BsModalRef;
   refreshDataTable : string;
-  isActiveInput:boolean =false
+
   constructor(
     private modalService: BsModalService
   ) { }
@@ -22,7 +22,6 @@ export class ContainerSinistreComponent implements OnInit {
     this.modalRef = this.modalService.show(template,config);
   }
 
-
   closeFormModal($event:boolean){
     this.modalRef.hide();    
     this.refreshDataTable = new Date().getTime().toString();
@@ -32,5 +31,4 @@ export class ContainerSinistreComponent implements OnInit {
     // }
   }
   
-
 }

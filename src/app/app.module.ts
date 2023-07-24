@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { LOCALE_ID, NgModule } from "@angular/core";
 
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
@@ -93,6 +93,7 @@ export function createTranslateLoader(http: HttpClient): any {
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: LOCALE_ID, useValue: 'fr' },
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,

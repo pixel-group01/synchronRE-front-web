@@ -197,7 +197,7 @@
 </div>
 
 
-<ng-template #templatePaiement>
+<ng-template #templatePaiement> 
     <div class="modal-header">
       <h4 class="modal-title pull-left">
         {{isOngletPaiement ? 'Paiement':'Reversement' }} affaire N° {{itemToSave?.affCode}}
@@ -211,7 +211,6 @@
       <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement>
     </div>
   </ng-template>
-
 
 <ng-template #templateDetailsAffaire>
   <div class="modal-header">

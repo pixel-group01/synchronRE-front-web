@@ -68,8 +68,8 @@ export class FormRetournerAffaireComponent implements OnInit {
             this.closeModal.emit(true);
         });
   } 
-g
-  getMotifRetour() {
+
+  getMotifRetour() { 
     this.businessOptionalService.getMessageRetour(this.currentAffaire.affId).subscribe(
       (response : any) => {
         console.log(" response message de retour ",response);

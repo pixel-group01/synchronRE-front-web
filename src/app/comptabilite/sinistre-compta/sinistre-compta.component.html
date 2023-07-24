@@ -1,0 +1,28 @@
+<section class="content">
+    <div class="content-block">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header mb-3">
+                        <h2><strong>Sinistre</strong></h2>
+                    </div>
+                    <div class="body">
+                        <mat-tab-group>
+                            <mat-tab label="Paiements">
+                                <ng-template matTabContent>
+                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/saisi-by-cedante'" [isOngletPaiement]="true" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
+                                </ng-template>
+                            </mat-tab>
+                            <mat-tab label="Reversements">
+                                <ng-template matTabContent>
+                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/saisi-by-cedante'" [isOngletPaiement]="false" [isOngletReversement]="true" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
+                                </ng-template>
+                            </mat-tab>
+                            
+                        </mat-tab-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

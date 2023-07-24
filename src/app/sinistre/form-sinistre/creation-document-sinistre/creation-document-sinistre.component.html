@@ -1,160 +1,160 @@
- <div>
-<form style="margin-top: 29px;margin-bottom: 29px;" [formGroup]="documentForm" (ngSubmit)="save(documentForm.value)">
-
-    <fieldset >
-        <legend> Ajouter un document</legend>
-
-        <div class="row p-3" style="align-items: center;">
-                  
-            <div class="col-md-6 col-xs-12 mb-3">
-             <label>Type Document</label>
-              <ng-select 
-                  name="typeDocument" 
-                  id="typeDocument"
-                  notFoundText="Aucune donnée"
-                  placeholder="Ex : Reçu de paiement"
-                  [items]="listeTypeDocument"
-                  formControlName="uniqueCode"
-                  bindLabel="name"
-                  bindValue="uniqueCode">
-              </ng-select>
-            
-            </div>
-            <div class="col-md-6 col-xs-12 mb-3">
-               <label class="text-white">Selectionnez un fichier
-                </label>
-               <!--<input
-                class="form-control custom-input"
-                placeholder="C://test.pdf"
-                autocomplete="off"
-                name="fichierName"
-                type="text"
-                mask="separator" thousandSeparator=" " 
-                />-->
-                <input type="file" id="idFileDoc" class="w-100" name="idFileDoc" (change)="uploadFile($event)" multiple="false">
-            </div>
-
-            <div class="col-md-12 col-xs-12 mb-3">
-              <label> Description</label>
-                <textarea class="form-control custom-input" name="descrip" 
-                id="descrip" formControlName="docDescription" cols="30" rows="5" placeholder="une description svp!">
-
-                </textarea>
-            </div>
-       
-            <div class="col-md-2 col-xs-12 d-flex" style="margin-left: auto;">
-                <button type="submit" class="form-control btn btn-light border-0" style="position: relative;top: 3px;margin-right: 10px;"> Annuler </button>
-                <button type="submit" class="form-control btn btn-secondary border-0" style="position: relative;top: 3px;"> Ajouter </button>
-            </div>
+<div 
+class="sinistre-upload-container"
+  [ngBusy]="{
+    busy: busySave,
+    message: 'Veuillez patienter ...',
+    backdrop: false
+  }"
+>
+  <form style="margin-top: 29px;margin-bottom: 29px;" [formGroup]="documentForm" (ngSubmit)="confirmSaveItem(documentForm.value)">
+    <fieldset>
+      <legend> Ajouter un document</legend>
+      <div class="row p-3" style="align-items: center;">
+        <div class="col-md-6 col-xs-12 mb-3">
+          <label>Type Document</label>
+          <ng-select name="typeDocument" id="typeDocument" notFoundText="Aucune donnée" [readonly]="isActiveCreationSinistre"
+            placeholder="Ex : Reçu de paiement" [items]="listeTypeDocument" formControlName="uniqueCode"
+            bindLabel="name" bindValue="uniqueCode">
+          </ng-select>
 
         </div>
-      </fieldset>
-</form>
+        <div class="col-md-6 col-xs-12 mb-3">
+          <label class="text-white">Selectionnez un fichier
+          </label>
+          <input type="file" id="idFileDoc" class="w-100" name="idFileDoc" (change)="uploadFile($event)"
+            multiple="false" [disabled]="isActiveCreationSinistre" #fileInput>
+        </div>
 
-<fieldset>
+        <div class="col-md-12 col-xs-12 mb-3">
+          <label> Description</label>
+          <textarea class="form-control custom-input" name="descrip" id="descrip" formControlName="docDescription"
+            cols="30" rows="5" placeholder="une description svp!" [readonly]="isActiveCreationSinistre">
+                </textarea>
+        </div>
+
+        <div class="col-md-2 col-xs-12 d-flex" style="margin-left: auto;">
+          <button type="button" class="form-control btn btn-light border-0" (click)="clear()"
+            style="position: relative;top: 3px;margin-right: 10px;"> Annuler </button>
+          <button type="submit" class="form-control btn btn-secondary border-0" style="position: relative;top: 3px;"
+          *ngIf="!isActiveCreationSinistre">
+            Ajouter 
+          </button>
+        </div>
+
+      </div>
+    </fieldset>
+  </form>
+
+  <fieldset>
     <legend> Liste des documents</legend>
 
     <div class="row">
-            <div class="col-md-12 col-xs-12">
+      <div class="col-md-12 col-xs-12">
 
-                <table class="table table-condensed table-striped table-hover">
-                    <thead> 
-                        <tr>
-                            <th colspan="5" style="padding: 14px;">
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-12">
-                                        <input class="form-control custom-input pull-left" placeholder="Rechercher ..." />
-                                    </div>
-                                </div>
-                            </th>
-                        </tr>
-                      <tr class="custom-table-head">
-                        <th class="txt-align-center-counter-row">
-                          <a title="Actualiser">
-                            <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
-                        </th>
-                        <th>N° Doc</th>
-                        <th>Type</th>
-                        <th>Libelle</th>
-                        <th class="txt-align-center">Actions</th>
-                      </tr>
-                    </thead>
-                    <!--{{ getExactlyNumberRow(this.currentPage, indice) }} -->
-                    <tbody>
-                      <tr *ngFor="let item of items; let indice = index">
-                        <td class="txt-align-center">
-                            1
-                        </td>
-                        <td> FAC-001</td>
-                        <td>Reçu de paiement</td>
-                        <td>Reçu de paiement</td>
-                        <td class="custom-width-td-action text-center">
-                          <i class="fa fa-edit btn"></i>
-                          <i class="fa fa-trash text-danger"></i>
-                          <!--  <div class="custom-td-action"> 
-                           <div ngbDropdown class="d-inline-block">
-                              <button type="button" class="btn btn-custom-action-dropdown" id="action" ngbDropdownToggle>
-                                Actions
-                              </button>
-                                <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
-                                 
-                                  <button ngbDropdownItem (click)="openModal(templateSinistre,item)">
-                                    <i class="fa fa-edit"></i>&nbsp;Modifier le document
-                                  </button>
-                                  <button
-                                  ngbDropdownItem
-                                >
-                                  <i class="fa fa-list" (click)="openModal(templateSinistre,item)"></i>&nbsp;Voir le document
-                                </button>
-                                <button ngbDropdownItem >
-                                  <i class="fa fa-trash"></i>&nbsp;Supprimer le document
-                                </button>
-                              </div>
-                            </div> 
-                             
-                          </div>-->
-                        </td>
-                      </tr>
-                    </tbody>
-                
-                    <tfoot>
-                      <tr *ngIf="items && items.length > 0">
-                        <td colspan="14">
-                          <div class="row pagination-part">
-                            <div class="col-md-9" style="text-align: center">
-                              <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage" [totalItems]="totalItems"
-                                [(ngModel)]="currentPage" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;"
-                                firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)"></pagination>
-                            </div>
-                
-                            <div class="col-md-3">
-                              <div class="paginator-per-page">
-                                <app-element-by-page-paginator (paginationChange)="changePaginationSize($event)"
-                                  [defaultItemPerPage]="itemsPerPage"></app-element-by-page-paginator>
-                
-                                <span class="span_total_entree pull-right">Total : {{ totalItems }}</span>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                
-                      <tr *ngIf="!items || items.length == 0">
-                        <td colspan="14">
-                          <div class="col-md-12 txt-align-center">
-                            Aucune données disponible
-                          </div>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-              </div>
-     
+        <table class="table table-condensed table-striped table-hover">
+          <thead>
+            <tr>
+              <th colspan="5" style="padding: 14px;">
+                <div class="row">
+                  <div class="col-md-4 col-sm-12">
+                    <input class="form-control custom-input pull-left" [(ngModel)]="itemToSearch.libelle" placeholder="Rechercher ..." />
+                  </div>
+                </div>
+              </th>
+            </tr>
+            <tr class="custom-table-head">
+              <th class="txt-align-center-counter-row">
+                <a title="Actualiser">
+                  <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+              </th>
+              <th>N° Doc</th>
+              <th>Type</th>
+              <th width="428px">Description</th>
+              <th width="120px" class="txt-align-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr  *ngFor="let item of listesDoc; let indice = index">
+              <td class="txt-align-center" >
+               {{ getExactlyNumberRow(this.currentPage, indice) }}
+              </td>
+              <td>{{item.docNum}}</td>
+              <td>{{item.docTypeName}}</td>
+              <td>
+                {{item.docDescription | truncate:['50']}} 
+                <span ngbPopover="{{item.docDescription}}" type="button" class="text-primary cls-td-popover"
+                triggers="mouseenter:mouseleave" *ngIf="item.docDescription.length>50">
+                  Voir plus
+                </span>
+              </td>
+              <td class="custom-width-td-action text-center" style="padding: 5px 0 !important;">
+                <i class="fa fa-eye btn" (click)="openModalDetail(templatEPreview,item)" title="voir"></i>
+                <i class="fa fa-edit btn" *ngIf="!isActiveCreationSinistre" title="modifier" (click)="upItemUpdateDoc(item)"></i>
+                <i class="fa fa-trash text-danger btn" *ngIf="!isActiveCreationSinistre" title="supprimer" (click)="confirmDeleteDoc(item.docId)"></i>
+              </td>
+            </tr>
+          </tbody>
+
+          <tfoot>
+            <tr *ngIf="listesDoc && listesDoc.length > 3">
+              <td colspan="14">
+                <div class="row pagination-part">
+                  <div class="col-md-9" style="text-align: center">
+                    <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage" [totalItems]="totalItems"
+                      [(ngModel)]="currentPage" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;"
+                      firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)"></pagination>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="paginator-per-page">
+                      <app-element-by-page-paginator (paginationChange)="changePaginationSize($event)"
+                        [defaultItemPerPage]="itemsPerPage"></app-element-by-page-paginator>
+
+                      <span class="span_total_entree pull-right">Total : {{ totalItems }}</span>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr *ngIf="!listesDoc || listesDoc.length == 0">
+              <td colspan="14">
+                <div class="col-md-12 txt-align-center">
+                  Aucune données disponible
+                </div>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
   </fieldset>
-    
-<div class="col-md-1 col-xs-4 m-4" style="margin-bottom: 0 !important;">
-    <button class="form-control btn btn-light p-2 border-0" style="border-radius: 3px; " type="button">Fermer</button>
+
+  <div class="row justify-content-between" style="padding: 15px 20px 0px 14px;">
+    <div class="col-md-1">
+      <button class="form-control btn btn-light p-2 border-0" type="button" (click)="fermer()">Fermer</button>
+    </div>
+    <div class="col-md-1 gx-0">
+      <button class="form-control border-0 text-white" (click)="precedent()" type="submit"
+        style="background-color: #003362;border-radius: 3px;">
+        Précédent
+      </button>
+    </div>
+  </div>
 </div>
 
- </div>
+<!--  preview de document-->
+<ng-template #templatEPreview>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">
+          Preview
+      </h4>
+      <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+      </button>
+  </div>
+  <div class="modal-body p-4">
+      <iframe [src]="file64" style="height:600px;width:100%" *ngIf="documentForm.value.mineType =='application/pdf'"> </iframe>
+      <img [src]="file64" style="height:600px;width:100%" *ngIf="documentForm.value.mineType !='application/pdf'">
+  </div>
+</ng-template>

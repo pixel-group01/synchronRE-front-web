@@ -9,8 +9,6 @@ import { FormSinistreComponent } from './form-sinistre.component';
 
 @NgModule({
   declarations: [
-    CreationSinistreComponent,
-    CreationDocumentSinistreComponent
   ],
   imports: [
     CommonModule,

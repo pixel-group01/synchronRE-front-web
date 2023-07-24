@@ -16,36 +16,36 @@
                                             <i class="fa fa-plus"></i>&nbsp; Nouveau sinistre
                                         </button>
                                     </div>
-                                    <app-list-sinistre [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/saisi-by-cedante'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
-
+                            <mat-tab label="Transmis">
+                                <ng-template matTabContent>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/transmis-by-cedante'"  [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                </ng-template>
+                            </mat-tab>
                             <mat-tab label="En cours de validation">
                                 <ng-template matTabContent>
-                                    <app-list-sinistre [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/attente-validation'"  [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
-
                             </mat-tab>
 
                             <mat-tab label="En reglement">
                                 <ng-template matTabContent>
-                                    <app-list-sinistre [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/en-reglement'"   [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
-
                             </mat-tab>
 
                             <mat-tab label="Suivie">
                                 <ng-template matTabContent>
-                                    <app-list-sinistre [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/suivi'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
-
                             </mat-tab>
 
                             <mat-tab label="Archives">
                                 <ng-template matTabContent>
-                                    <app-list-sinistre [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/arch'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
-
                             </mat-tab>
                         </mat-tab-group>
                     </div>
@@ -68,6 +68,6 @@
         </button>
     </div>
     <div class="modal-body p-4">
-        <app-form-sinistre (closeModal)="closeFormModal($event)"></app-form-sinistre>
+        <app-form-sinistre (closeModal)="closeFormModal($event)" [isActive]="isActiveInput"></app-form-sinistre>
     </div>
 </ng-template>

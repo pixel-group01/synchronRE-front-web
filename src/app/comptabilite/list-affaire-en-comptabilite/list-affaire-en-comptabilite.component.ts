@@ -43,7 +43,7 @@ export class ListAffaireEnComptabiliteComponent implements OnInit {
   @Input() isOngletReversement: boolean = false;
   @Input() isOngletPaiement: boolean = false;
   @Input() endPoint: string;
-
+  
   initialEndPoint: string;
   statutAffEnum: any;
 
