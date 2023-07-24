@@ -117,22 +117,23 @@ export class ModalUpdatePasswordComponent implements OnInit {
           this.loading = false;
 
           if(res) {
-            this.utilities.showNotification("snackbar-success",
-            this.utilities.formatMsgServeur(res['status']['message']),
-            "bottom",
-            "center");
-            // this.cancelItem(true);
-            localStorage.setItem('newpw',itemAEnregistrer.newPassword)
+            this.utilities.showNotification(
+              "snackbar-success",
+              this.utilities.getMessageOperationSuccessFull(),
+              "bottom",
+              "center"
+            );
             this.itemToSave = {};
             this.bsModalRef.hide()
           }
 
         },
         err => {
-          this.utilities.showNotification("snackbar-danger", this.utilities.getMessageEndPointNotAvailble(),
-            "bottom",
-            "center");
           this.loading = false;
+          // this.utilities.showNotification("snackbar-danger", this.utilities.getMessageEndPointNotAvailble(),
+          //   "bottom",
+          //   "center");
+          // this.loading = false;
         }
       );
   }

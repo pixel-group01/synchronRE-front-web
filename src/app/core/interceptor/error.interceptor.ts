@@ -32,13 +32,16 @@ export class ErrorInterceptor implements HttpInterceptor {
   
           let error = err?.error || err?.error?.message || err?.statusText;
           
-          if(err.statusText === 'Unknown Error') {
-            error = "Connexion momentanement interronpue !";
-          }
-          
           // Je stringify en attendant que le backend ne trouve la solution
-          this.utilities.showNotification("snackbar-danger",JSON.stringify(error),"bottom","center");
-          return throwError(error);
+          if(error) {
+            this.utilities.showNotification("snackbar-danger",JSON.stringify(error),"bottom","center");
+          }else{
+            if(err.statusText === 'Unknown Error') {
+              error = "Connexion momentanement interronpue !";
+              return throwError(error);
+            }
+          }
+        
         }
        
       })

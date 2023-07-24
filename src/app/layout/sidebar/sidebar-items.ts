@@ -49,7 +49,7 @@ export const ROUTES: RouteInfo[] = [
     submenu: [
       {
         path: "/dashbord/affaire-traite",
-        title: "Traitées",
+        title: "Traités",
         moduleName: "dashbord",
         iconType: "list",
         icon: "plus",
@@ -117,7 +117,7 @@ export const ROUTES: RouteInfo[] = [
     submenu: [
       {
         path: "/business/affaire-traitee",
-        title: "Traitées",
+        title: "Traités",
         moduleName: "business",
         iconType: "list",
         icon: "plus",
