@@ -358,7 +358,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "GET-CES-LEG-LST",
+        code: "GET-CES-LEG-PARAM-LST",
         submenu: [],
       },
       {

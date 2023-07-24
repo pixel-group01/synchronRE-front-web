@@ -97,6 +97,11 @@ export class UserService {
     return this.restClient.put("users/update", body);
   };
 
+
+  changePassword = (body: any) => {
+    return this.restClient.put("users/change-password", body);
+  };
+
   unLockAccount = (idUser: any) => {
     return this.restClient.put("users/unblock/" + idUser, {});
   };
