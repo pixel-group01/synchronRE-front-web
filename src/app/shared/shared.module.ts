@@ -40,10 +40,12 @@ import { TableauPlacementComponent } from "../business-manager/affaire-facutativ
 import { FormHistoriqueTraitementComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-historique-traitement/form-historique-traitement.component";
 import { DateFormatInDateHourPipe } from "../core/pipes/date-format-in-date-hour.pipe";
 import { SelectFonctionComponent } from "./components/select-fonction/select-fonction.component";
+import { TruncatePipe } from "../core/pipes/truncate.pipe";
 
 @NgModule({
   declarations: [
     MoneyFormatPipe,
+    TruncatePipe,
     AddDocumentComponent,
     DetailsDocumentsJointsComponent,
     FormPreviewPdfComponent,
@@ -119,6 +121,7 @@ import { SelectFonctionComponent } from "./components/select-fonction/select-fon
     // PaginationModule.forRoot(),
     // NgxMaskModule,
     MoneyFormatPipe,
+    TruncatePipe,
     BsDatepickerModule,
     AddDocumentComponent,
     DetailsDocumentsJointsComponent,

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DocumentService } from 'src/app/core/service/document.service';
 import * as _ from "lodash";
@@ -15,19 +15,20 @@ import { UtilitiesService } from 'src/app/core/service/utilities.service';
 })
 export class CreationDocumentSinistreComponent implements OnInit {
   listeTypeDocument:any=[]
-  items :any =[{}];
   currentPage: number = 1;
-  itemsPerPage: number = 5;
+  itemsPerPage: number = 3;
   totalItems: number; 
   currentFichier : any ={};
   documentForm:FormGroup ;
   busySave : Subscription;
   @Input() isActiveCreationSinistre :boolean =false;
+  itemToSearch: any = {};
 
   @Output() step1: EventEmitter<number> = new EventEmitter();
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() idSinistreInDoc :number;
   @Input() itemCreationSinistre :any ;
+  @ViewChild('fileInput') fileInput: any;
 
   listesDoc :any = []
   modalRef: any;
@@ -58,7 +59,6 @@ export class CreationDocumentSinistreComponent implements OnInit {
     this.modalRef.hide();
   }
 
-
   fermer(){
     this.closeModal.emit(true)
   }
@@ -69,14 +69,23 @@ export class CreationDocumentSinistreComponent implements OnInit {
       "docUniqueCode":item.uniqueCode,
       "docNum":"001",
       "docDescription":item.docDescription,
-      "objectId": this.idSinistreInDoc,
+      "objectId": this.idSinistreInDoc? this.idSinistreInDoc : this.itemCreationSinistre.sinId ,
       "base64UrlFile":this.currentFichier.fichierBase64,
       "extension": this.currentFichier.extension
     }
     //  console.log(data);
    this.busySave = this.documentService.create(data).subscribe((res:any)=>{
-      // console.log("res file :",res);
-      this.getDocumentOfSinistre()
+      console.log("res file :",res);
+      if (res ===true) {
+          this.utilities.showNotification(
+        "snackbar-success",
+        this.utilities.getMessageOperationSuccessFull(),
+        "top",
+        "center"
+      );
+      this.getDocumentOfSinistre();
+      this.clear()
+      }
   })
   }
 
@@ -98,14 +107,33 @@ export class CreationDocumentSinistreComponent implements OnInit {
     });
   } 
 
+  confirmDeleteDoc(item:any) {
+    Swal.fire({
+      title: "Suppression",
+      text: "Vous êtes sur le point de supprimer un document du sinistre. Voulez-vous poursuivre cette action ?" ,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#0665aa",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    }).then((result) => {
+      if (result.value) {
+        // On effectue un delete document
+        this.deleteDoc(item);
+      }
+    });
+  } 
+
   documForm = () =>{
     this.documentForm = this.formBuilder.group({
       uniqueCode: [null,Validators.required],
       docDescription: ["",Validators.required],
+      mineType: [""],
     })
   }
 
-  openModalRetourner(template: TemplateRef<any>,item:any) {
+  openModalDetail(template: TemplateRef<any>,item:any) {
     this.previewDoc(item)
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
     this.modalRef = this.modalService.show(template,config);
@@ -114,7 +142,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
   previewDoc(item:any){    
     this.documentService.fileBase64(item.docId).subscribe((res:any)=>{
       console.log("res down :",res);
-      
+      this.documentForm.value.mineType = item.mimeTypes;
       // this.file64 = this.sanitizer.bypassSecurityTrustResourceUrl(res.base64UrlString)
        // Récupérer le contenu encodé en base64
        const content = res?.base64UrlString;
@@ -143,7 +171,8 @@ export class CreationDocumentSinistreComponent implements OnInit {
   }
 
   clear(){
-    this.documentForm.reset()
+    this.documentForm.reset();
+    this.fileInput.nativeElement.value = '';
   }
 
   precedent(){
@@ -151,27 +180,48 @@ export class CreationDocumentSinistreComponent implements OnInit {
     this.step1.emit(this.itemCreationSinistre)
   }
 
+  upItemUpdateDoc(item:any){
+    console.log('item :',item);
+    this.documentForm.patchValue({...item})
+  }
+
   getDocumentOfSinistre(){
-    this.documentService.getAllDocOfSinistre(this.idSinistreInDoc?this.idSinistreInDoc :this.itemCreationSinistre.sinId).subscribe((res:any)=>{
-        // console.log("res :",res);
-        this.listesDoc = res.map((item:any)=>{
-          // console.log(item.docPath.split('.')[1].toLowerCase());
-          
-          if (item.docPath.split('.')[1].toLowerCase() == 'pdf') {
-            item.mimeTypes = "application/pdf"
-          }
-          else {
-            if (item.docPath.split('.')[1].toLowerCase() == 'png') {
-              item.mimeTypes = "image/png"
+
+    let endPoint: any =
+        this.idSinistreInDoc ? this.idSinistreInDoc : this.itemCreationSinistre.sinId +
+        '?page=' + `${this.currentPage - 1}`
+        + '&size=' + this.itemsPerPage +
+      (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "");
+    this.documentService.getAllDocOfSinistre(endPoint).subscribe((res:any)=>{
+        console.log("res :",res);
+        if (res.content) {
+          this.listesDoc = res.content.map((item:any)=>{
+            // console.log(item.docPath.split('.')[1].toLowerCase());
+            
+            if (item.docPath.split('.')[1].toLowerCase() == 'pdf') {
+              item.mimeTypes = "application/pdf"
             }
             else {
-              if (item.docPath.split('.')[1].toLowerCase() == 'jpeg') {
-                item.mimeTypes = "image/jpeg"
+              if (item.docPath.split('.')[1].toLowerCase() == 'png') {
+                item.mimeTypes = "image/png"
+              }
+              else {
+                if (item.docPath.split('.')[1].toLowerCase() == 'jpeg') {
+                  item.mimeTypes = "image/jpeg"
+                }
               }
             }
-          }
-          return item
-        })
+            return item
+          })
+        }
+   
+    })
+  }
+
+  deleteDoc(item:any){
+    this.documentService.delete(item).subscribe((res:any)=>{
+      // console.log('res delete ', res);
+      this.getDocumentOfSinistre()
     })
   }
 

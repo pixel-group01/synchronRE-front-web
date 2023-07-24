@@ -31,7 +31,7 @@
         </div> 
         <div class="col-6">
           <label for="inputEmail1" class="col-sm-4 fw-normal">Date d'effet</label>
-          <label for="inputEmail1" class="col-sm-8 w-bold"> {{affDetail?.affDateEffet}}</label>
+          <label for="inputEmail1" class="col-sm-8 w-bold"> {{affDetail?.affDateEffet | dateFormatInDateHour}}</label>
         </div>
         <div class="col-6">      
           <label for="inputEmail1" class="col-sm-2 fw-normal">Activites</label>
@@ -39,7 +39,7 @@
         </div>   
         <div class="col-6">
           <label for="inputEmail1" class="col-sm-4 fw-normal">Date d'échéance</label>
-          <label for="inputEmail1" class="col-sm-8 w-bold"> {{affDetail?.affDateEffet}}</label>
+          <label for="inputEmail1" class="col-sm-8 w-bold"> {{affDetail?.affDateEffet | dateFormatInDateHour}}</label>
         </div>
         
       </div>

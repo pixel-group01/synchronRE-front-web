@@ -42,9 +42,7 @@ export class CreationSinistreComponent implements OnInit {
     this.sinistreForm();  
     if (this.itemCreationSinistre) {
       this.sinistre.patchValue({...this.itemCreationSinistre})
-      
-      console.log("sinistre 111::", this.sinistre.value);
-      
+      // console.log("sinistre 111::", this.sinistre.value);
     }    
   }
 

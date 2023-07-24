@@ -17,7 +17,11 @@ export class DateFormatInDateHourPipe implements PipeTransform {
       let dateSplitSecond:any = dateSplit[0].split("-");
 
       if(dateSplitSecond && dateSplitSecond.length > 0) {
-        dateFormat = moment(new Date(dateSplitSecond[0],dateSplitSecond[1]-1,dateSplitSecond[2])).format("DD/MM/YYYY")+" "+dateSplit[1];
+        if (dateSplit[1]) {
+          dateFormat = moment(new Date(dateSplitSecond[0],dateSplitSecond[1]-1,dateSplitSecond[2])).format("DD/MM/YYYY")+" "+dateSplit[1] 
+        }else{
+          dateFormat = moment(new Date(dateSplitSecond[0],dateSplitSecond[1]-1,dateSplitSecond[2])).format("DD/MM/YYYY")
+        }
       }
     }
 

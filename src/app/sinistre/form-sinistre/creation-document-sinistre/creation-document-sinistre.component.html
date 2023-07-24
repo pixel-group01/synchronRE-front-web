@@ -22,7 +22,7 @@ class="sinistre-upload-container"
           <label class="text-white">Selectionnez un fichier
           </label>
           <input type="file" id="idFileDoc" class="w-100" name="idFileDoc" (change)="uploadFile($event)"
-            multiple="false" [disabled]="isActiveCreationSinistre">
+            multiple="false" [disabled]="isActiveCreationSinistre" #fileInput>
         </div>
 
         <div class="col-md-12 col-xs-12 mb-3">
@@ -37,7 +37,8 @@ class="sinistre-upload-container"
             style="position: relative;top: 3px;margin-right: 10px;"> Annuler </button>
           <button type="submit" class="form-control btn btn-secondary border-0" style="position: relative;top: 3px;"
           *ngIf="!isActiveCreationSinistre">
-            Ajouter </button>
+            Ajouter 
+          </button>
         </div>
 
       </div>
@@ -56,7 +57,7 @@ class="sinistre-upload-container"
               <th colspan="5" style="padding: 14px;">
                 <div class="row">
                   <div class="col-md-4 col-sm-12">
-                    <input class="form-control custom-input pull-left" placeholder="Rechercher ..." />
+                    <input class="form-control custom-input pull-left" [(ngModel)]="itemToSearch.libelle" placeholder="Rechercher ..." />
                   </div>
                 </div>
               </th>
@@ -68,8 +69,8 @@ class="sinistre-upload-container"
               </th>
               <th>N° Doc</th>
               <th>Type</th>
-              <th>Description</th>
-              <th class="txt-align-center">Actions</th>
+              <th width="428px">Description</th>
+              <th width="120px" class="txt-align-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -79,17 +80,23 @@ class="sinistre-upload-container"
               </td>
               <td>{{item.docNum}}</td>
               <td>{{item.docTypeName}}</td>
-              <td>{{item.docDescription}}</td>
+              <td>
+                {{item.docDescription | truncate:['50']}} 
+                <span ngbPopover="{{item.docDescription}}" type="button" class="text-primary cls-td-popover"
+                triggers="mouseenter:mouseleave" *ngIf="item.docDescription.length>50">
+                  Voir plus
+                </span>
+              </td>
               <td class="custom-width-td-action text-center" style="padding: 5px 0 !important;">
-                <i class="fa fa-eye btn" (click)="openModalRetourner(templatEPreview,item)"></i>
-                <i class="fa fa-edit btn" *ngIf="!isActiveCreationSinistre"></i>
-                <i class="fa fa-trash text-danger btn" *ngIf="!isActiveCreationSinistre"></i>
+                <i class="fa fa-eye btn" (click)="openModalDetail(templatEPreview,item)" title="voir"></i>
+                <i class="fa fa-edit btn" *ngIf="!isActiveCreationSinistre" title="modifier" (click)="upItemUpdateDoc(item)"></i>
+                <i class="fa fa-trash text-danger btn" *ngIf="!isActiveCreationSinistre" title="supprimer" (click)="confirmDeleteDoc(item.docId)"></i>
               </td>
             </tr>
           </tbody>
 
           <tfoot>
-            <tr *ngIf="listesDoc && listesDoc.length > 5">
+            <tr *ngIf="listesDoc && listesDoc.length > 3">
               <td colspan="14">
                 <div class="row pagination-part">
                   <div class="col-md-9" style="text-align: center">
@@ -110,7 +117,7 @@ class="sinistre-upload-container"
               </td>
             </tr>
 
-            <tr *ngIf="!items || items.length == 0">
+            <tr *ngIf="!listesDoc || listesDoc.length == 0">
               <td colspan="14">
                 <div class="col-md-12 txt-align-center">
                   Aucune données disponible
@@ -120,11 +127,8 @@ class="sinistre-upload-container"
           </tfoot>
         </table>
       </div>
-
     </div>
   </fieldset>
-
-
 
   <div class="row justify-content-between" style="padding: 15px 20px 0px 14px;">
     <div class="col-md-1">
@@ -137,7 +141,6 @@ class="sinistre-upload-container"
       </button>
     </div>
   </div>
-
 </div>
 
 <!--  preview de document-->
@@ -151,6 +154,7 @@ class="sinistre-upload-container"
       </button>
   </div>
   <div class="modal-body p-4">
-      <iframe [src]="file64" style="height:600px;width:100%"> </iframe>
+      <iframe [src]="file64" style="height:600px;width:100%" *ngIf="documentForm.value.mineType =='application/pdf'"> </iframe>
+      <img [src]="file64" style="height:600px;width:100%" *ngIf="documentForm.value.mineType !='application/pdf'">
   </div>
 </ng-template>

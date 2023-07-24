@@ -21,6 +21,10 @@ export class DocumentService {
   typeDocument = () => {
     return this.restClient.get('documents/doc_sin/types');
   }
+
+  delete = (body:any) => {
+    return this.restClient.delete('documents/delete/'+`${body}`);
+  }
  
   // getByCriteria = (index:number = 0,size:number=10,key?:string) => {
   //   let endPointFinal = "pays/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
