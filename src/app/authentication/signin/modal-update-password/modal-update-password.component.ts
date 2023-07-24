@@ -6,6 +6,7 @@ import { RestClientService } from 'src/app/core/service/rest-client.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from "sweetalert2";
 import * as _ from "lodash";
+import { UserService } from 'src/app/core/service/user.service';
 
 @Component({
   selector: 'app-modal-update-password',
@@ -28,14 +29,16 @@ export class ModalUpdatePasswordComponent implements OnInit {
   title='Modifier mot de passe'
   listAssurances: any;
   confirmnewPassword:any;
-  constructor(public bsModalRef: BsModalRef,private authService: AuthService, private restClient: RestClientService,private modalService: BsModalService,private utilities: UtilitiesService) {
-    this.user = this.authService.currentUserValue;
+  constructor(public bsModalRef: BsModalRef,private authService: AuthService, private restClient: RestClientService,private modalService: BsModalService,private utilities: UtilitiesService,private userService: UserService) {
+    this.user = this.userService.getCurrentUserInfo();
 
+    console.log(" this.user ",this.user);
+    
     setTimeout(() => {
       console.log('here');
       
       if (this.currentData) {
-        this.itemToSave.login = Object.assign({}, this.currentData).login;
+        this.itemToSave.login = Object.assign({}, this.user).email;
         
       }
     }, 300);

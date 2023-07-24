@@ -90,8 +90,6 @@ export class FormIdentificationComponent implements OnInit {
  
   getDevise() {
     this.deviseService.getAll().subscribe((response: any) => {
-      console.log(" response devise ",response);
-      
       if (response) {
         this.listeDevises = response as Devise[];
 
@@ -120,6 +118,9 @@ export class FormIdentificationComponent implements OnInit {
   getExercice() {
     this.exerciceService.getAll().subscribe((response : any) => {
       if (response) {
+
+        console.log(" response exercice ",response);
+        
         this.listeExercices = response as Exercice[];
         // Recuperer l'exercice courante et fixer
         if(!this.currentAffaire.affId) {
@@ -175,7 +176,7 @@ export class FormIdentificationComponent implements OnInit {
       ],
       facSmpLci: [this.itemToUpdate?.facSmpLci || ""],
       facPrime: [this.itemToUpdate?.facPrime || ""],
-      cedId: [ (this.itemToUpdate?.cedId || this.user?.cedId) || "", Validators.required],
+      cedId: [ (this.itemToUpdate?.cedId || this.user?.cedId || this.itemToSave.cedenteId) || "", Validators.required],
       statutCode: [this.itemToUpdate?.statutCode || ""],
       couvertureId: [this.itemToUpdate?.couvertureId || "", Validators.required],
       exeCode: [this.itemToUpdate?.exeCode || "", Validators.required],

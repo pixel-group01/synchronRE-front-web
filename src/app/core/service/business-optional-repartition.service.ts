@@ -114,4 +114,10 @@ export class BusinessOptionalRepartitionService {
     return this.restClient.get('reports/note-cession/'+placementId);
   }
 
+  getOldDataRepartition = (affaireId?:number) => {
+    let endPointFinal = "repartitions/get-update-cedante-legal-dto/"+affaireId;
+    return this.restClient.get(endPointFinal);
+  }
+  
+
 }
