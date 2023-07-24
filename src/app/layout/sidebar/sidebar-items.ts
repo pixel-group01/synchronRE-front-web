@@ -75,7 +75,7 @@ export const ROUTES: RouteInfo[] = [
       },
       {
         path: "/dashbord/sinistre-traite",
-        title: "Sinistre traité",
+        title: "Sinistres traités",
         moduleName: "dashbord",
         iconType: "list",
         icon: "plus",
@@ -88,7 +88,7 @@ export const ROUTES: RouteInfo[] = [
       },
       {
         path: "/dashbord/sinistre-facultatif",
-        title: "Sinistre facultatif",
+        title: "Sinistres facultatifs",
         moduleName: "dashbord",
         iconType: "list",
         icon: "plus",
