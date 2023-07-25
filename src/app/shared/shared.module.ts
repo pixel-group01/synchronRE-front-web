@@ -41,6 +41,7 @@ import { FormHistoriqueTraitementComponent } from "../business-manager/affaire-f
 import { DateFormatInDateHourPipe } from "../core/pipes/date-format-in-date-hour.pipe";
 import { SelectFonctionComponent } from "./components/select-fonction/select-fonction.component";
 import { TruncatePipe } from "../core/pipes/truncate.pipe";
+import { CreationDocumentSinistreComponent } from "../sinistre/form-sinistre/creation-document-sinistre/creation-document-sinistre.component";
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { TruncatePipe } from "../core/pipes/truncate.pipe";
     TableauPlacementComponent,
     FormHistoriqueTraitementComponent,
     DateFormatInDateHourPipe,
-    SelectFonctionComponent
+    SelectFonctionComponent, 
+    CreationDocumentSinistreComponent
     // DetailsAffaireFacultativeComponent
     // ProgrammeDialyseComponent,
     // FormCreateProgrammeComponent,
@@ -149,7 +151,8 @@ import { TruncatePipe } from "../core/pipes/truncate.pipe";
     AppAccessDirective,
     DateFormatInDateHourPipe,
     ChartModule,
-    SelectFonctionComponent
+    SelectFonctionComponent,
+    CreationDocumentSinistreComponent
   ],
   entryComponents:[TimePickerComponent]
 })

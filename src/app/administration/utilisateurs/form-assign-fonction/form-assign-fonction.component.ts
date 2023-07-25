@@ -92,7 +92,6 @@ export class FormAssignFonctionComponent implements OnInit {
         dateFinFonction : [this.currentFonction?.endsAt]
       });
 
-      this.userForm.get('privileges').disable()
   };
 
   getFormFiledsValue = (field: string) => {

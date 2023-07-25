@@ -13,13 +13,13 @@ class="sinistre-upload-container"
         <div class="col-md-6 col-xs-12 mb-3">
           <label>Type Document</label>
           <ng-select name="typeDocument" id="typeDocument" notFoundText="Aucune donnée" [readonly]="isActiveCreationSinistre"
-            placeholder="Ex : Reçu de paiement" [items]="listeTypeDocument" formControlName="uniqueCode"
+            placeholder="Type de document" [items]="listeTypeDocument" formControlName="uniqueCode"
             bindLabel="name" bindValue="uniqueCode">
           </ng-select>
 
         </div>
         <div class="col-md-6 col-xs-12 mb-3">
-          <label class="text-white">Selectionnez un fichier
+          <label class="text-white">Sélectionnez un fichier
           </label>
           <input type="file" id="idFileDoc" class="w-100" name="idFileDoc" (change)="uploadFile($event)"
             multiple="false" [disabled]="isActiveCreationSinistre" #fileInput>
@@ -28,17 +28,31 @@ class="sinistre-upload-container"
         <div class="col-md-12 col-xs-12 mb-3">
           <label> Description</label>
           <textarea class="form-control custom-input" name="descrip" id="descrip" formControlName="docDescription"
-            cols="30" rows="5" placeholder="une description svp!" [readonly]="isActiveCreationSinistre">
+            cols="30" rows="5" placeholder="Description" [readonly]="isActiveCreationSinistre">
                 </textarea>
         </div>
 
         <div class="col-md-2 col-xs-12 d-flex" style="margin-left: auto;">
-          <button type="button" class="form-control btn btn-light border-0" (click)="clear()"
-            style="position: relative;top: 3px;margin-right: 10px;"> Annuler </button>
-          <button type="submit" class="form-control btn btn-secondary border-0" style="position: relative;top: 3px;"
+          <!-- <button type="button"  class="btn btn-md btn-cancel" (click)="clear()"
+            style="position: relative;top: 3px;margin-right: 10px;"> Annuler </button> -->
+
+          <!-- <button type="submit" class="btn btn-xs btn-default btn-add" style="position: relative;top: 3px;"
           *ngIf="!isActiveCreationSinistre">
             Ajouter 
-          </button>
+          </button> -->
+
+          <div class="custom-btn-save-manager">
+
+            <button type="submit" class="btn btn-xs btn-default btn-add" *ngIf="!isActiveCreationSinistre">
+              Ajouter 
+            </button>
+
+            <button type="button" class="btn btn-xs btn-cancel pull-right"
+            (click)="clear()">
+                Annuler
+            </button>
+        </div>
+
         </div>
 
       </div>
@@ -88,9 +102,9 @@ class="sinistre-upload-container"
                 </span>
               </td>
               <td class="custom-width-td-action text-center" style="padding: 5px 0 !important;">
-                <i class="fa fa-eye btn" (click)="openModalDetail(templatEPreview,item)" title="voir"></i>
-                <i class="fa fa-edit btn" *ngIf="!isActiveCreationSinistre" title="modifier" (click)="upItemUpdateDoc(item)"></i>
-                <i class="fa fa-trash text-danger btn" *ngIf="!isActiveCreationSinistre" title="supprimer" (click)="confirmDeleteDoc(item.docId)"></i>
+                <i class="fa fa-eye" (click)="openModalDetail(templatEPreview,item)" title="Voir" style="color: #003362;"></i>
+                <i class="fa fa-edit custom-btn-update" *ngIf="!isActiveCreationSinistre" title="Modifier" (click)="upItemUpdateDoc(item)"></i>
+                <i class="fa fa-trash text-danger btn" *ngIf="!isActiveCreationSinistre" title="Supprimer" (click)="confirmDeleteDoc(item.docId)"></i>
               </td>
             </tr>
           </tbody>
@@ -130,7 +144,7 @@ class="sinistre-upload-container"
     </div>
   </fieldset>
 
-  <div class="row justify-content-between" style="padding: 15px 20px 0px 14px;">
+  <div class="row justify-content-between" style="padding: 15px 20px 0px 14px;" *ngIf="!idAffaire">
     <div class="col-md-1">
       <button class="form-control btn btn-light p-2 border-0" type="button" (click)="fermer()">Fermer</button>
     </div>

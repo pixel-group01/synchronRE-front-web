@@ -68,8 +68,6 @@ export class AddNewFonctionComponent implements OnInit {
       // cesId: [this.itemToUpdate?.cesId || "", Validators.required]
     });
 
-    this.userForm.get('privileges').disable()
-    
   };
 
   getFormFiledsValue = (field: string) => {

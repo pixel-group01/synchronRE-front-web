@@ -42,16 +42,15 @@
     <div class="row">
       <div class="col-md-6 col-xs-12 mb-3">
         <label>Sigle :
-          <span class="required_champs">*</span>
+          <!-- <span class="required_champs">*</span> -->
         </label>
         <input class="form-control custom-input" placeholder="Sigle" autocomplete="off"
           formControlName="cedSigleFiliale" name="cedSigleFiliale"
-          [class.errorInputForm]="getFormFiledsValue('cedSigleFiliale')?.invalid && getFormFiledsValue('cedSigleFiliale')?.touched"
           type="text" />
-        <small class="text-danger"
+        <!-- <small class="text-danger"
           *ngIf="(getFormFiledsValue('cedSigleFiliale')?.dirty || getFormFiledsValue('cedSigleFiliale')?.touched) && getFormFiledsValue('cedSigleFiliale')?.invalid && getFormFiledsValue('cedSigleFiliale')?.errors?.['required']">
           Ce champ est obligatoire
-        </small>
+        </small> -->
       </div>
 
       <div class="col-md-6 col-xs-12 mb-3">
@@ -73,16 +72,15 @@
     <div class="row">
       <div class="col-md-6 col-xs-12 mb-3">
         <label>Fax :
-          <span class="required_champs">*</span>
+          <!-- <span class="required_champs">*</span> -->
         </label>
         <input class="form-control custom-input" placeholder="Fax" autocomplete="off" formControlName="cedFax"
           name="cedFax"
-          [class.errorInputForm]="getFormFiledsValue('cedFax')?.invalid && getFormFiledsValue('cedFax')?.touched"
           type="text" />
-        <small class="text-danger"
+        <!-- <small class="text-danger"
           *ngIf="(getFormFiledsValue('cedFax')?.dirty || getFormFiledsValue('cedFax')?.touched) && getFormFiledsValue('cedFax')?.invalid && getFormFiledsValue('cedFax')?.errors?.['required']">
           Ce champ est obligatoire
-        </small>
+        </small> -->
       </div>
 
       <div class="col-md-6 col-xs-12 mb-3">
@@ -104,30 +102,28 @@
     <div class="row">
       <div class="col-md-6 col-xs-12 mb-3">
         <label>Adresse postale :
-          <span class="required_champs">*</span>
+          <!-- <span class="required_champs">*</span> -->
         </label>
         <input class="form-control custom-input" placeholder="Adresse postale" autocomplete="off"
           formControlName="cedAdressePostale" name="cedAdressePostale"
-          [class.errorInputForm]="getFormFiledsValue('cedAdressePostale')?.invalid && getFormFiledsValue('cedAdressePostale')?.touched"
           type="text" />
-        <small class="text-danger"
+        <!-- <small class="text-danger"
           *ngIf="(getFormFiledsValue('cedAdressePostale')?.dirty || getFormFiledsValue('cedAdressePostale')?.touched) && getFormFiledsValue('cedAdressePostale')?.invalid && getFormFiledsValue('cedAdressePostale')?.errors?.['required']">
           Ce champ est obligatoire
-        </small>
+        </small> -->
       </div>
 
       <div class="col-md-6 col-xs-12 mb-3">
         <label>Situation géographique :
-          <span class="required_champs">*</span>
+          <!-- <span class="required_champs">*</span> -->
         </label>
         <input class="form-control custom-input" placeholder="Situation géographique" autocomplete="off"
           formControlName="cedSituationGeo" name="cedSituationGeo"
-          [class.errorInputForm]="getFormFiledsValue('cedSituationGeo')?.invalid && getFormFiledsValue('cedSituationGeo')?.touched"
           type="text" />
-        <small class="text-danger"
+        <!-- <small class="text-danger"
           *ngIf="(getFormFiledsValue('cedSituationGeo')?.dirty || getFormFiledsValue('cedSituationGeo')?.touched) && getFormFiledsValue('cedSituationGeo')?.invalid && getFormFiledsValue('cedSituationGeo')?.errors?.['required']">
           Ce champ est obligatoire
-        </small>
+        </small> -->
       </div>
 
     </div>

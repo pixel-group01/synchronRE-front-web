@@ -22,6 +22,14 @@ export class DocumentService {
     return this.restClient.get('documents/doc_sin/types');
   }
 
+  typeDocumentAffaire = () => {
+    return this.restClient.get('documents/doc_aff/types');
+  }
+
+  getDocumentByAffaire = (idAffaire : number) => {
+    return this.restClient.get('documents/affaire/'+idAffaire);
+  }
+
   delete = (body:any) => {
     return this.restClient.delete('documents/delete/'+`${body}`);
   }
@@ -34,4 +42,9 @@ export class DocumentService {
   create = (body:any) => {
     return this.restClient.post('documents/doc_sin/upload',body)
   }
+
+  createDocAff = (body:any) => {
+    return this.restClient.post('documents/doc-aff/upload',body)
+  }
+
 }

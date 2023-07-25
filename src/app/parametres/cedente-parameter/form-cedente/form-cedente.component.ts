@@ -37,12 +37,12 @@ export class FormCedenteComponent implements OnInit {
     this.paramForm = this.formBuilder.group({
       cedId: [this.itemToUpdate?.cedId || ""],
       cedNomFiliale: [this.itemToUpdate?.cedNomFiliale || "", Validators.required],
-      cedSigleFiliale: [this.itemToUpdate?.cedSigleFiliale || "", Validators.required],
+      cedSigleFiliale: [this.itemToUpdate?.cedSigleFiliale || ""],
       cedTel: [this.itemToUpdate?.cedTel || "",Validators.required],
       cedEmail: [this.itemToUpdate?.cedEmail || "", Validators.required],
-      cedAdressePostale: [this.itemToUpdate?.cedAdressePostale || "", Validators.required],
-      cedFax: [this.itemToUpdate?.cedFax || "", Validators.required],
-      cedSituationGeo: [this.itemToUpdate?.cedSituationGeo || "", Validators.required],
+      cedAdressePostale: [this.itemToUpdate?.cedAdressePostale || ""],
+      cedFax: [this.itemToUpdate?.cedFax || ""],
+      cedSituationGeo: [this.itemToUpdate?.cedSituationGeo || ""],
       cedStatut: [this.itemToUpdate?.cedStatut || ""],
       paysCode : [this.itemToUpdate?.paysCode || ""],
     });

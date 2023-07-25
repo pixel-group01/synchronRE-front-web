@@ -193,7 +193,7 @@
                                         <span class="required_champs">*</span>
                                     </label>
                                     <input class="form-control custom-input" placeholder="Montant" autocomplete="off"
-                                        [disabled]="true" mask="separator" formControlName="regMontant"
+                                        mask="separator" formControlName="regMontant" [readonly]="!isPaiement"
                                         name="regMontant" type="text" />
                                     <small class="text-danger"
                                         *ngIf="(getFormFiledsValue('regMontant')?.dirty || getFormFiledsValue('regMontant')?.touched) && getFormFiledsValue('regMontant')?.invalid && getFormFiledsValue('regMontant')?.errors?.['required']">

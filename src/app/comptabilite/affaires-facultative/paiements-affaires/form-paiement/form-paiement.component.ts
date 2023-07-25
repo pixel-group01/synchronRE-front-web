@@ -80,10 +80,10 @@ export class FormPaiementComponent implements OnInit {
       resteAPayer: [this.itemInfoCompta?.resteARegler],
     });
 
-    if(!this.isPaiement) {
-      // En reversement il faut griser le paiement
-      this.formulaireGroup.get('regMontant').disable()
-    }
+    // if(!this.isPaiement) {
+    //   // En reversement il faut griser le paiement
+    //   this.formulaireGroup.get('regMontant').disable()
+    // }
   };
 
   getEtatComptable() {

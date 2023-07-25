@@ -98,6 +98,10 @@
                   <i class="fa fa-edit"></i>&nbsp;Modifier l'affaire
                 </button>
 
+                <button ngbDropdownItem (click)="openModal(templateAddDocument,item)" *ngIf="!noPutAction || isEnCoursPlacementNelson">
+                  <i class="fa fa-file"></i>&nbsp;Ajouter des documents
+                </button>
+
                 <button ngbDropdownItem (click)="openModal(templateUpdateRepartition,item)" *ngIf="!noPutAction">
                   <i class="fa fa-edit"></i>&nbsp;Effectuer une répartition
                 </button>
@@ -283,6 +287,23 @@
   </div>
   <div class="modal-body">
     <app-form-historique-traitement></app-form-historique-traitement>
+  </div>
+</ng-template>
+
+
+<!-- Ajouter document -->
+<ng-template #templateAddDocument>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">
+     Ajout de documents à l'affaire {{itemToSave?.affCode}}
+    </h4>
+
+    <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button> 
+  </div>
+  <div class="modal-body">
+    <app-creation-document-sinistre [idAffaire]="itemToSave?.affId"></app-creation-document-sinistre>
   </div>
 </ng-template>
 

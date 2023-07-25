@@ -76,7 +76,7 @@ export class FormCreateUserComponent implements OnInit {
       // cesId: [this.itemToUpdate?.cesId || "", Validators.required]
     });
 
-    this.userForm.get('privileges').disable()
+    // this.userForm.get('privileges').readonly()
 
   };
 
