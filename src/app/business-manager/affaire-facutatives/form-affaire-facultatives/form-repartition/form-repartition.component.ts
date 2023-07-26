@@ -145,6 +145,9 @@ export class FormRepartitionComponent implements OnInit {
 
         // Recupererons les cessions cochés
         let cessionsCoches = _.filter(this.listeParametreCessionsLegale, (o) => { return o.checked; });
+        cessionsCoches.forEach(cession => {
+          cession.repId  = this.itemToSave.repId || null
+        });
 
         let requestRepartition: RepartitionCedanteCessionLegal = {
           cesLegDtos: cessionsCoches || [],
@@ -260,7 +263,7 @@ export class FormRepartitionComponent implements OnInit {
       return;
     }
 
-    let currentTauxSaisi = valueParamCession || this.itemToSave?.repTauxBesoinFac; //this.getFormFiledsValue('repTauxBesoinFac')?.value;
+    let currentTauxSaisi = valueParamCession || this.itemToSave?.repTaux; //this.getFormFiledsValue('repTauxBesoinFac')?.value;
     if (!currentTauxSaisi || !currentTauxSaisi) {
       this.utilities.showNotification(
         "snackbar-danger",
