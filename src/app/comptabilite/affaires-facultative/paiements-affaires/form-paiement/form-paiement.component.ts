@@ -79,6 +79,11 @@ export class FormPaiementComponent implements OnInit {
       regMode: ["", Validators.required],
       resteAPayer: [this.itemInfoCompta?.resteARegler],
     });
+
+    // if(!this.isPaiement) {
+    //   // En reversement il faut griser le paiement
+    //   this.formulaireGroup.get('regMontant').disable()
+    // }
   };
 
   getEtatComptable() {
@@ -191,6 +196,12 @@ export class FormPaiementComponent implements OnInit {
   getNoteCredit(idCessionnaire: number){
     if(idCessionnaire) {
       window.open(environment.apiUrl+'reports/note-de-credit/'+this.currentAffaire.affId+'/'+idCessionnaire, '_blank');
+    }
+  }
+  
+  getCheque(reglementId:number) {
+    if(reglementId) {
+      window.open(environment.apiUrl+'reports/cheque/'+reglementId, '_blank');
     }
   }
   

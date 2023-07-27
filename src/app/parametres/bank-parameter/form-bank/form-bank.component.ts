@@ -36,6 +36,8 @@ export class FormBankComponent implements OnInit {
       banCode: [this.bankToUpdate?.banCode || "", Validators.required],
       banLibelle: [this.bankToUpdate?.banLibelle || "", Validators.required],
       banNumCompte: [this.bankToUpdate?.banNumCompte || "", Validators.required],
+      banIban : [this.bankToUpdate?.banIban || ""],
+      banCodeBic : [this.bankToUpdate?.banCodeBic || ""],
       banLibelleAbrege: [
         this.bankToUpdate?.banLibelleAbrege || "",
         Validators.required,

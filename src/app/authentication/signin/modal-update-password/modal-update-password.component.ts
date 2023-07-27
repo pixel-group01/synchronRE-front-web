@@ -6,6 +6,7 @@ import { RestClientService } from 'src/app/core/service/rest-client.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from "sweetalert2";
 import * as _ from "lodash";
+import { UserService } from 'src/app/core/service/user.service';
 
 @Component({
   selector: 'app-modal-update-password',
@@ -28,14 +29,16 @@ export class ModalUpdatePasswordComponent implements OnInit {
   title='Modifier mot de passe'
   listAssurances: any;
   confirmnewPassword:any;
-  constructor(public bsModalRef: BsModalRef,private authService: AuthService, private restClient: RestClientService,private modalService: BsModalService,private utilities: UtilitiesService) {
-    this.user = this.authService.currentUserValue;
+  constructor(public bsModalRef: BsModalRef,private authService: AuthService, private restClient: RestClientService,private modalService: BsModalService,private utilities: UtilitiesService,private userService: UserService) {
+    this.user = this.userService.getCurrentUserInfo();
 
+    console.log(" this.user ",this.user);
+    
     setTimeout(() => {
       console.log('here');
       
       if (this.currentData) {
-        this.itemToSave.login = Object.assign({}, this.currentData).login;
+        this.itemToSave.login = Object.assign({}, this.user).email;
         
       }
     }, 300);
@@ -50,7 +53,7 @@ export class ModalUpdatePasswordComponent implements OnInit {
 
     let objToSave = Object.assign({}, item);
 
-    if (!item || !item.login) {
+    if (!item || !this.user.email) {
       this.utilities.showNotification("snackbar-danger", "Veuillez renseiger login!",
         "bottom",
         "center");
@@ -87,6 +90,7 @@ export class ModalUpdatePasswordComponent implements OnInit {
       cancelButtonText: 'Non',
     }).then((result) => {
       if (result.value) {
+        objToSave.login = this.user?.email;
         this.saveItem(objToSave);
       }
     });
@@ -99,45 +103,37 @@ export class ModalUpdatePasswordComponent implements OnInit {
     let itemAEnregistrer = Object.assign({}, item);
 
     var request = {
-      // user: this.user.id,
-      data: 
-        itemAEnregistrer
-      
+        "userId": this.user?.userId,
+        "email": this.user?.email,
+        "oldPassword": this.itemToSave.password,
+        "newPassword": this.itemToSave.newPassword,
+        "confirmPassword": this.confirmnewPassword
     }
-    console.log('item to save: ',JSON.stringify(request));
     
-    this.busyGet = this.restClient.post('user/changePassword', request)
+    this.busyGet = this.userService.changePassword(request)
       .subscribe(
         res => {
           console.log("resul", res);
           this.loading = false;
 
-          if (!res['hasError']) {
-            if (res['items'] && res['items'].length > 0) {
-              this.utilities.showNotification("snackbar-success",
-                this.utilities.formatMsgServeur(res['status']['message']),
-                "bottom",
-                "center");
-                // this.cancelItem(true);
-                localStorage.setItem('newpw',itemAEnregistrer.newPassword)
-                this.itemToSave = {};
-                this.bsModalRef.hide()
-
-            }
-          } else {
-            if (res['status'] && res['status']['message']) {
-              this.utilities.showNotification("snackbar-danger",
-                this.utilities.formatMsgServeur(res['status']['message']),
-                "bottom",
-                "center");
-            }
+          if(res) {
+            this.utilities.showNotification(
+              "snackbar-success",
+              this.utilities.getMessageOperationSuccessFull(),
+              "bottom",
+              "center"
+            );
+            this.itemToSave = {};
+            this.bsModalRef.hide()
           }
+
         },
         err => {
-          this.utilities.showNotification("snackbar-danger", this.utilities.getMessageEndPointNotAvailble(),
-            "bottom",
-            "center");
           this.loading = false;
+          // this.utilities.showNotification("snackbar-danger", this.utilities.getMessageEndPointNotAvailble(),
+          //   "bottom",
+          //   "center");
+          // this.loading = false;
         }
       );
   }

@@ -43,15 +43,9 @@
             autocomplete="off"
             formControlName="cesSigle"
             name="cesSigle"
-            [class.errorInputForm]="getFormFiledsValue('cesSigle')?.invalid && getFormFiledsValue('cesSigle')?.touched"
             type="text"
           />
-          <small
-          class="text-danger"
-          *ngIf="(getFormFiledsValue('cesSigle')?.dirty || getFormFiledsValue('cesSigle')?.touched) && getFormFiledsValue('cesSigle')?.invalid && getFormFiledsValue('cesSigle')?.errors?.['required']"
-        >
-          Ce champ est obligatoire
-        </small>
+       
         </div>
 
         <div class="col-md-6 col-xs-12 mb-3">
@@ -82,7 +76,7 @@
         <div class="col-md-6 col-xs-12 mb-3">
           <label
             >Email :
-            <!-- <span class="required_champs">*</span> -->
+            <span class="required_champs">*</span>
           </label>
           <input
             class="form-control custom-input"

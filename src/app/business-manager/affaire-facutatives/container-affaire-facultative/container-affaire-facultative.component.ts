@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { enumStatutAffaire } from 'src/app/core/enumerator/enumerator';
 import { User } from 'src/app/core/models/user';
+import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
 import { UserService } from 'src/app/core/service/user.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class ContainerAffaireFacultativeComponent implements OnInit {
   user : User;
   refreshDataTable : string;
 
-  constructor(private modalService: BsModalService,private userService:UserService) {
+  constructor(private modalService: BsModalService,private userService:UserService,private businessOptionalService : BusinessOptionalService) {
     this.statutAffaire = enumStatutAffaire;
     this.user = this.userService.getCurrentUserInfo();
   }
@@ -24,7 +25,7 @@ export class ContainerAffaireFacultativeComponent implements OnInit {
   openModal(template: TemplateRef<any>) {
  
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
-
+    this.businessOptionalService.setCurrentOptionalBusiness(null);
     this.modalRef = this.modalService.show(template,config);
   }
 

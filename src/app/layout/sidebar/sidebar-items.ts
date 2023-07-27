@@ -49,7 +49,7 @@ export const ROUTES: RouteInfo[] = [
     submenu: [
       {
         path: "/dashbord/affaire-traite",
-        title: "Traitées",
+        title: "Traités",
         moduleName: "dashbord",
         iconType: "list",
         icon: "plus",
@@ -75,7 +75,7 @@ export const ROUTES: RouteInfo[] = [
       },
       {
         path: "/dashbord/sinistre-traite",
-        title: "Sinistre traité",
+        title: "Sinistres traités",
         moduleName: "dashbord",
         iconType: "list",
         icon: "plus",
@@ -88,7 +88,7 @@ export const ROUTES: RouteInfo[] = [
       },
       {
         path: "/dashbord/sinistre-facultatif",
-        title: "Sinistre facultatif",
+        title: "Sinistres facultatifs",
         moduleName: "dashbord",
         iconType: "list",
         icon: "plus",
@@ -117,7 +117,7 @@ export const ROUTES: RouteInfo[] = [
     submenu: [
       {
         path: "/business/affaire-traitee",
-        title: "Traitées",
+        title: "Traités",
         moduleName: "business",
         iconType: "list",
         icon: "plus",
@@ -358,7 +358,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         badge: "",
         badgeClass: "",
-        code: "GET-CES-LEG-LST",
+        code: "GET-CES-LEG-PARAM-LST",
         submenu: [],
       },
       {

@@ -3,5 +3,7 @@ export class Bank {
     banCode?: string;
     banLibelle?: string;
     banLibelleAbrege?: string;
-    banNumCompte?:string 
+    banNumCompte?:string;
+    banCodeBic?:string;
+    banIban?:string
 }

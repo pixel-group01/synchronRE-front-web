@@ -30,10 +30,11 @@ export class FormCessionaireComponent implements OnInit {
     this.paramForm = this.formBuilder.group({
       cesId: [this.itemToUpdate?.cesId || ""],
       cesNom: [this.itemToUpdate?.cesNom || ""],
-      cesSigle: [this.itemToUpdate?.cesSigle || "", Validators.required],
-      cesEmail: [this.itemToUpdate?.cesEmail || ""],
+      cesSigle: [this.itemToUpdate?.cesSigle || ""],
+      cesEmail: [this.itemToUpdate?.cesEmail || "",
+      Validators.required],
       cesTelephone: [this.itemToUpdate?.cesTelephone || "",
-        Validators.required,
+        Validators.required
       ],
       cesSituationGeo: [this.itemToUpdate?.cesSituationGeo || "",
       Validators.required,

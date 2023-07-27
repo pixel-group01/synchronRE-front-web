@@ -7,4 +7,5 @@ export class RepartitionCedanteCessionLegal {
     repSousCommission?: number;
     affId?:number;
     repTaux?:number;
+    repId?:number
 }

@@ -34,6 +34,7 @@ export class FormRepartitionComponent implements OnInit {
   
   listeCouvertures: Array<Couverture> = [];
   listeCessionLegale: Array<CessionLegale> = [];
+  oldDataRepartition : any = {};
   listeParametreCessionsLegale: any = [];
   currentAffaire: BusinessOptional;
   repartitionBesoinFac: RepartitionByTauxOrCapital;
@@ -102,7 +103,26 @@ export class FormRepartitionComponent implements OnInit {
       affId: this.currentAffaire?.affId,
       paramCesLegalId: paramCession.paramCesLegId,
       paramCesLegLibelle: paramCession?.paramCesLegLibelle,
+      checked : !this.isDetails ? true : false
     };
+  }
+
+  getMatchCessionLegaleInUpdate(){
+    console.log(" match ol repartition ");
+    
+    if(this.oldDataRepartition.updateCesLegReqs && this.listeParametreCessionsLegale && this.listeParametreCessionsLegale.length) {
+      this.listeParametreCessionsLegale.forEach(cession => {
+        if(cession.paramCesLegalId){
+          let oldParamCession = _.find(this.oldDataRepartition.updateCesLegReqs, (o) => { return o.paramCesLegalId === cession.paramCesLegalId});
+
+          if(oldParamCession && oldParamCession.repId && oldParamCession.paramCesLegalId) {
+            cession.checked = oldParamCession?.accepte;
+            cession.repCapital = oldParamCession?.repCapital;
+            cession.repTaux = oldParamCession?.repTaux;
+          }
+        }
+     });
+    }
   }
 
   confirmSaveItem() {
@@ -125,12 +145,16 @@ export class FormRepartitionComponent implements OnInit {
 
         // Recupererons les cessions cochés
         let cessionsCoches = _.filter(this.listeParametreCessionsLegale, (o) => { return o.checked; });
+        cessionsCoches.forEach(cession => {
+          cession.repId  = this.itemToSave.repId || null
+        });
 
         let requestRepartition: RepartitionCedanteCessionLegal = {
           cesLegDtos: cessionsCoches || [],
           repCapital: currentValueRepartion.repCapital,
           repTauxBesoinFac: currentValueRepartion.repTauxBesoinFac,
           affId: this.currentAffaire?.affId,
+          repId  :this.itemToSave.repId || null,
           repTaux: currentValueRepartion.repTaux,
           repSousCommission: 0,
         };
@@ -239,7 +263,7 @@ export class FormRepartitionComponent implements OnInit {
       return;
     }
 
-    let currentTauxSaisi = valueParamCession || this.itemToSave?.repTauxBesoinFac; //this.getFormFiledsValue('repTauxBesoinFac')?.value;
+    let currentTauxSaisi = valueParamCession || this.itemToSave?.repTaux; //this.getFormFiledsValue('repTauxBesoinFac')?.value;
     if (!currentTauxSaisi || !currentTauxSaisi) {
       this.utilities.showNotification(
         "snackbar-danger",
@@ -337,15 +361,34 @@ export class FormRepartitionComponent implements OnInit {
             this.getValueFormCessionLegal(cessionLegal)
           );
         });
+
+        this.getMatchCessionLegaleInUpdate();
       });
   }
 
-  getAffaireFacultativeEtatCompta() {
-    this.businessOptionalService
-      .getAffaireFacultativeEtatComptable(this.currentAffaire.affId)
-      .subscribe((response) => {
-        console.log(" response affaire ", response);
+  getOldDataRepartition() {
+    this.businessOptionalRepartitionService
+      .getOldDataRepartition(this.currentAffaire.affId)
+      .subscribe((response : any) => {
+        console.log(" getOldDataRepartition ", response);
 
+        if(response && response?.repId) {
+          this.oldDataRepartition = {...response};
+
+          this.isUpdateRepartition = true;
+
+          // Preselectionner les anciennes valeurs
+          this.itemToSave.besoinFacInitial = response?.besoinFac || null;
+          this.itemToSave.repCapital = response?.repCapital || null;
+          this.itemToSave.repTaux = response?.repTaux || null;
+          this.itemToSave.repTauxBesoinFac = response?.repTauxBesoinFac || response?.repTaux;
+          this.itemToSave.repId = response?.repId;
+
+          this.getMatchCessionLegaleInUpdate()
+          
+        }else{
+          this.isUpdateRepartition = false;
+        }
         // On recupere les elements à modifier ici
       });
   }
@@ -438,6 +481,6 @@ export class FormRepartitionComponent implements OnInit {
     // this.createForm();
     this.getCouverture();
     this.getCessionLegale();
-    this.getAffaireFacultativeEtatCompta();
+    this.getOldDataRepartition();
   }
 }

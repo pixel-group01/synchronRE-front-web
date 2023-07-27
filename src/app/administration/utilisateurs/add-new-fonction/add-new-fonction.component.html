@@ -102,7 +102,7 @@
                           <span class="required_champs">*</span>
                         </label>
 
-                        <ng-select formControlName="privileges" [closeOnSelect]="false" [multiple]="true" id="privileges">
+                        <ng-select formControlName="privileges" [closeOnSelect]="false" [multiple]="true"  [readonly]="true" id="privileges">
                           <ng-option *ngFor="let privilege of listePrivileges" [value]="privilege?.privilegeId">{{
                             privilege.privilegeName
                             }}</ng-option>

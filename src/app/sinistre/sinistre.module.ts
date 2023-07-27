@@ -23,7 +23,7 @@ import { SharedModule } from '../shared/shared.module';
     ListSinistreComponent,
     FormRetournerSinstreComponent,
     CreationSinistreComponent,
-    CreationDocumentSinistreComponent,
+    // CreationDocumentSinistreComponent,
     AfficherMessageComponent,
     EtatComptableComponent
   ],
