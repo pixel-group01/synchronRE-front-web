@@ -55,6 +55,8 @@ export class FormPaiementSinistreComponent implements OnInit {
     private sinistreService: SinistreService
   ) {
     this.currentUser = this.userService.getCurrentUserInfo();
+    console.log("currentUser :",this.currentUser);
+    
     console.log('isPaiement :',this.isPaiement);
     
   }  
