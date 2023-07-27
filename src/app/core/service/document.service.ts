@@ -44,7 +44,7 @@ export class DocumentService {
   }
 
   createDocAff = (body:any) => {
-    return this.restClient.post('documents/doc-aff/upload',body)
+    return this.restClient.post('documents/doc_aff/upload',body)
   }
 
 }
