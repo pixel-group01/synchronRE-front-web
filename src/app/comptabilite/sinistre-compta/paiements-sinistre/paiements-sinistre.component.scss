@@ -1,47 +1,47 @@
 
-// .body {
-//     padding: 10px 0px !important;
-//     min-height: 50vh;
+.body {
+    padding: 10px 0px !important;
+    min-height: 50vh;
 
-//     .statLibelle {
-//         font-size: 0.75rem;
-//         font-weight: bold;
+    .statLibelle {
+        font-size: 0.75rem;
+        font-weight: bold;
       
-//         color: #fff;
-//         border-radius: 10px;
-//         border: 1px solid gray;
-//         padding: 3px 7px;
+        color: #fff;
+        border-radius: 10px;
+        border: 1px solid gray;
+        padding: 3px 7px;
 
-//         &.AVAL {
-//             background-color: orange;
-//             color: black;
-//         }
+        &.AVAL {
+            background-color: orange;
+            color: black;
+        }
 
-//         &.VAL {
-//             background-color: yellow;
-//             color: black;
-//         }
+        &.APAI {
+            background-color: yellow;
+            color: black;
+        }
 
-//         &.RET {
-//             background-color: var(--danger-color);
-//         }
+        &.RET {
+            background-color: var(--danger-color);
+        }
 
-//         &.CPLA {
-//             background-color: orange;
-//             color: black;
-//         }
+        &.CPLA {
+            background-color: orange;
+            color: black;
+        }
 
-//         &.SAI {
-//             background-color: var(--info-color);
-//         }
+        &.SAI {
+            background-color: var(--info-color);
+        }
 
-//         &.CREG {
-//             background-color: rgb(76, 133, 139);
-//             color: #fff;
-//         }
+        &.CREG {
+            background-color: rgb(76, 133, 139);
+            color: #fff;
+        }
 
-//         &.SAI-CRT {
-//             background-color: var(--info-color);
-//         }
-//     }
-// }
+        &.SAI-CRT {
+            background-color: var(--info-color);
+        }
+    }
+}

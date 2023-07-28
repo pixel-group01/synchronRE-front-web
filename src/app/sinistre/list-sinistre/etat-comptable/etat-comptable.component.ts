@@ -32,8 +32,10 @@ export class EtatComptableComponent implements OnInit {
 
   etatComptable(){
     this.sinistreService.etatComptable(this.idSinistre).subscribe((res:any)=>{
+      res.totalMontantSinistre = (res.sinMontant100? res.sinMontant100 : 0 ) + (res.sinMontantHonoraire ? res.sinMontantHonoraire : 0);
+      this.etatComp = res;
       console.log("res res ::", res);
-      this.etatComp = res
+
     })
   }
 

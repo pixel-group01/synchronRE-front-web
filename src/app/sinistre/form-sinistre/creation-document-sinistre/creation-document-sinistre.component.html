@@ -11,7 +11,7 @@ class="sinistre-upload-container"
       <legend> Ajouter un document</legend>
       <div class="row p-3" style="align-items: center;">
         <div class="col-md-6 col-xs-12 mb-3">
-          <label>Type Document</label>
+          <label>Type Document  <span class="text-danger">*</span></label>
           <ng-select name="typeDocument" id="typeDocument" notFoundText="Aucune donnée" [readonly]="isActiveCreationSinistre"
             placeholder="Type de document" [items]="listeTypeDocument" formControlName="uniqueCode"
             bindLabel="name" bindValue="uniqueCode">
@@ -25,7 +25,21 @@ class="sinistre-upload-container"
             multiple="false" [disabled]="isActiveCreationSinistre" #fileInput>
         </div>
 
-        <div class="col-md-12 col-xs-12 mb-3">
+        <div class="col-md-6 col-xs-12 mb-3">
+          <label>Nom du fichier
+          </label>
+          <input type="text" id="nomFichier" class="w-100" name="nomFichier" class="form-control custom-input"
+          placeholder="Ex: cni.png" autocomplete="off" formControlName="docName">
+        </div>
+
+        <div class="col-md-6 col-xs-12 mb-3">
+          <label>Numéro document
+          </label>
+          <input type="text" id="numeroDoc" class="w-100" name="numeroDoc" formControlName="docNum" class="form-control custom-input"
+          placeholder="Ex: C xxx xxx xxx" autocomplete="off">
+        </div>
+
+       <div class="col-md-12 col-xs-12 mb-3">
           <label> Description</label>
           <textarea class="form-control custom-input" name="descrip" id="descrip" formControlName="docDescription"
             cols="30" rows="5" placeholder="Description" [readonly]="isActiveCreationSinistre">
@@ -43,8 +57,12 @@ class="sinistre-upload-container"
 
           <div class="custom-btn-save-manager">
 
-            <button type="submit" class="btn btn-xs btn-default btn-add" *ngIf="!isActiveCreationSinistre">
+            <button type="submit" class="btn btn-xs btn-default btn-add" *ngIf="!isActiveCreationSinistre && !documentForm.value.docId">
               Ajouter 
+            </button>
+
+            <button type="submit" class="btn btn-xs btn-default btn-add" *ngIf="!isActiveCreationSinistre && documentForm.value.docId">
+              Modifier 
             </button>
 
             <button type="button" class="btn btn-xs btn-cancel pull-right"
@@ -60,7 +78,7 @@ class="sinistre-upload-container"
   </form>
 
   <fieldset>
-    <legend> Liste des documents</legend>
+    <legend style="position: relative;top: -7px;"> Liste des documents</legend>
 
     <div class="row">
       <div class="col-md-12 col-xs-12">
@@ -68,10 +86,10 @@ class="sinistre-upload-container"
         <table class="table table-condensed table-striped table-hover">
           <thead>
             <tr>
-              <th colspan="5" style="padding: 14px;">
+              <th colspan="6" style="padding: 14px;">
                 <div class="row">
                   <div class="col-md-4 col-sm-12">
-                    <input class="form-control custom-input pull-left" [(ngModel)]="itemToSearch.libelle" placeholder="Rechercher ..." />
+                    <input class="form-control custom-input pull-left" [(ngModel)]="itemToSearch.libelle" (click)="getDocumentdejaJoint()" placeholder="Rechercher ..." />
                   </div>
                 </div>
               </th>
@@ -81,18 +99,21 @@ class="sinistre-upload-container"
                 <a title="Actualiser">
                   <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
               </th>
-              <th>N° Doc</th>
+              <th>Référence</th>
+              <th>Nom fichier</th>
+
               <th>Type</th>
               <th width="428px">Description</th>
               <th width="120px" class="txt-align-center">Actions</th>
             </tr>
-          </thead>
+          </thead> 
           <tbody>
             <tr  *ngFor="let item of listesDoc; let indice = index">
               <td class="txt-align-center" >
                {{ getExactlyNumberRow(this.currentPage, indice) }}
               </td>
               <td>{{item.docNum}}</td>
+              <td>{{item.docName}}</td>
               <td>{{item.docTypeName}}</td>
               <td>
                 {{item.docDescription | truncate:['50']}} 
@@ -102,8 +123,8 @@ class="sinistre-upload-container"
                 </span>
               </td>
               <td class="custom-width-td-action text-center" style="padding: 5px 0 !important;">
-                <i class="fa fa-eye" (click)="openModalDetail(templatEPreview,item)" title="Voir" style="color: #003362;"></i>
-                <i class="fa fa-edit custom-btn-update" *ngIf="!isActiveCreationSinistre" title="Modifier" (click)="upItemUpdateDoc(item)"></i>
+                <i class="fa fa-eye btn" (click)="openModalDetail(templatEPreview,item)" title="Voir" style="color: #003362;"></i>
+                <i class="fa fa-edit custom-btn-update " style="cursor: pointer;" *ngIf="!isActiveCreationSinistre" title="Modifier" (click)="upItemUpdateDoc(item)"></i>
                 <i class="fa fa-trash text-danger btn" *ngIf="!isActiveCreationSinistre" title="Supprimer" (click)="confirmDeleteDoc(item.docId)"></i>
               </td>
             </tr>
@@ -168,6 +189,46 @@ class="sinistre-upload-container"
       </button>
   </div>
   <div class="modal-body p-4">
+     <fieldset class="mb-3 p-3">
+      <legend>Informations document</legend>
+         <div class="row">
+            <div class="col-md-4 mb-2">
+              <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-4 col-form-label">Type Document : </label>
+                <div class="col-sm-8">
+                  <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="infoDocInPreview.docTypeName">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-4 col-form-label">Nom du fichier : </label>
+                <div class="col-sm-8">
+                  <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="infoDocInPreview.docName">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-5 col-form-label">Numéro document : </label>
+                <div class="col-sm-7">
+                  <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="infoDocInPreview.docNum">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              
+              <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-1 col-form-label">Description </label>
+                <div class="col-sm-11">
+                  <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="infoDocInPreview.docDescription">
+                </div>
+              </div>
+            </div>
+
+         </div>
+     
+     </fieldset>
       <iframe [src]="file64" style="height:600px;width:100%" *ngIf="documentForm.value.mineType =='application/pdf'"> </iframe>
       <img [src]="file64" style="height:600px;width:100%" *ngIf="documentForm.value.mineType !='application/pdf'">
   </div>
