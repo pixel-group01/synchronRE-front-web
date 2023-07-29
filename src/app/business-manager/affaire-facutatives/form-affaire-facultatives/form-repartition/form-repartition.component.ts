@@ -100,6 +100,7 @@ export class FormRepartitionComponent implements OnInit {
       repTaux: paramCession.paramCesLegTaux,
       repTauxBesoinFac: "",
       repSousCommission: 0,
+      repId : paramCession.repId || null,
       affId: this.currentAffaire?.affId,
       paramCesLegalId: paramCession.paramCesLegId,
       paramCesLegLibelle: paramCession?.paramCesLegLibelle,
@@ -146,11 +147,13 @@ export class FormRepartitionComponent implements OnInit {
         // Recupererons les cessions cochés
         let cessionsCoches = _.filter(this.listeParametreCessionsLegale, (o) => { return o.checked; });
         cessionsCoches.forEach(cession => {
-          cession.repId  = this.itemToSave.repId || null
+          // cession.repId  = this.itemToSave.repId || null,
+          cession.accepte = true
         });
 
         let requestRepartition: RepartitionCedanteCessionLegal = {
-          cesLegDtos: cessionsCoches || [],
+          // cesLegDtos: !this.itemToSave.repId ? cessionsCoches : null,
+          updateCesLegReqs :  this.itemToSave.repId ? cessionsCoches : [],
           repCapital: currentValueRepartion.repCapital,
           repTauxBesoinFac: currentValueRepartion.repTauxBesoinFac,
           affId: this.currentAffaire?.affId,
@@ -192,7 +195,7 @@ export class FormRepartitionComponent implements OnInit {
     } else {
       // Nous sommes en modification
       this.busySave = this.businessOptionalRepartitionService
-        .update(itemAEnregistrer)
+        .updateRepartition(itemAEnregistrer)
         .subscribe((response: any) => {
           if (response && response?.repId) {
             this.utilities.showNotification(

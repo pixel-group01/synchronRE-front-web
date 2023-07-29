@@ -263,30 +263,7 @@ export class FormIdentificationComponent implements OnInit {
   ngOnInit(): void {
     // Initialisation du forms group
  
-    // this.currentAffaire = {
-    //     affId: 6,
-    //     affCode: null,
-    //     affAssure: "noglo koffi",
-    //     affActivite: "REASSUREUR",
-    //     affDateEffet: "2023-04-25",
-    //     affDateEcheance: "2023-04-29",
-    //     facNumeroPolice: null,
-    //     affCapitalInitial: 30000000,
-    //     facSmpLci: null,
-    //     facPrime: null,
-    //     cedenteId: 2,
-    //     cedNomFiliale: "NSIA BN",
-    //     cedSigleFiliale: "NSIA BN",
-    //     statutCode: "SAI",
-    //     couvertureId: 1,
-    //     restARepartir: 30000000,
-    //     capitalDejaReparti: 0,
-    //     etatComptable: null,
-    //   };
-
     this.currentAffaire = {...this.businessOptionalService.businessOptionalSubject$.value};
-
-    console.log(" this.currentAffaire ",this.currentAffaire);
     
     if(this.currentAffaire && this.currentAffaire.affId) {
       this.isUpdateForm = true; // Pour signifier que nous sommes en modification

@@ -29,6 +29,10 @@ export class BusinessOptionalRepartitionService {
     return this.restClient.put('repartitions/update',body)
   }
 
+  updateRepartition = (body:any) => {
+    return this.restClient.put('repartitions/update-cedante-legale',body)
+  }
+
   modificationPlacement = (body:any) => {
     return this.restClient.put('repartitions/modifier-placement',body)
   }
