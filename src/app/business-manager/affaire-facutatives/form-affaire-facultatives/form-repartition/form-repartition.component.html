@@ -86,7 +86,7 @@
                                                 <td> 
                                                     <input class="form-control custom-input" 
                                                     [ngModelOptions]="{standalone: true}"
-                                                    [disabled]="!cession.checked || isDetails"
+                                                    [disabled]="true"
                                                     [(ngModel)]="cession.repCapital" (keyup)="getRepartionCessionByCapital(cession)"
                                                     placeholder="Capital" autocomplete="off"
                                                         name="capCessionFormArray" mask="separator"  />
@@ -94,7 +94,7 @@
                                                 <td>
                                                     <input class="form-control custom-input" 
                                                     [(ngModel)]="cession.repTaux"
-                                                    [disabled]="!cession.checked || isDetails"
+                                                    [disabled]="true"
                                                     [ngModelOptions]="{standalone: true}"
                                                         placeholder="Taux" autocomplete="off"
                                                         (keyup)="getRepartionCessionByTaux(cession)"

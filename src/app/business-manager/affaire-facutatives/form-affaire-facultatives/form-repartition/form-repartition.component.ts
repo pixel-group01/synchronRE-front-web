@@ -120,6 +120,7 @@ export class FormRepartitionComponent implements OnInit {
             cession.checked = oldParamCession?.accepte;
             cession.repCapital = oldParamCession?.repCapital;
             cession.repTaux = oldParamCession?.repTaux;
+            cession.repId = oldParamCession?.repId
           }
         }
      });
@@ -145,11 +146,15 @@ export class FormRepartitionComponent implements OnInit {
         let currentValueRepartion = { ...this.itemToSave };
 
         // Recupererons les cessions cochés
-        let cessionsCoches = _.filter(this.listeParametreCessionsLegale, (o) => { return o.checked; });
-        cessionsCoches.forEach(cession => {
-          // cession.repId  = this.itemToSave.repId || null,
-          cession.accepte = true
-        });
+        let cessionsCoches = _.filter(this.listeParametreCessionsLegale, (o) => { return o.checked; }); 
+
+        if(this.itemToSave.repId && this.itemToSave.repId > 0) {
+          cessionsCoches = this.listeParametreCessionsLegale; // _.filter(this.listeParametreCessionsLegale, (o) => { return o.checked; });
+          cessionsCoches.forEach(cession => {
+            // cession.repId  = this.itemToSave.repId || null,
+            cession.accepte = cession.checked
+          });
+        }
 
         let requestRepartition: RepartitionCedanteCessionLegal = {
           // cesLegDtos: !this.itemToSave.repId ? cessionsCoches : null,
