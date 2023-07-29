@@ -53,7 +53,7 @@
         <th>Capitaux</th>
         <th>SMPLCI</th>
         <!-- <th>Prime</th> -->
-        <th>Statut</th>
+        <th style="width: 150px;">Statut</th>
 
         <th class="txt-align-center">Actions</th>
       </tr>
@@ -106,9 +106,9 @@
                   <i class="fa fa-edit"></i>&nbsp;Effectuer une répartition
                 </button>
 
-                <button ngbDropdownItem *ngIf="((!user.cedId && !noPutAction) || isEnCoursPlacementNelson) && !user?.isActeurValideur"
+                <button ngbDropdownItem *ngIf="(((!user.cedId && !noPutAction) || isEnCoursPlacementNelson) && !user?.isActeurValideur) || ( (item.statutCode == 'CREP' || item.statutCode == 'APLA' || item.statutCode == 'CPLA') && !user.cedId) "
                   (click)="openModal(templateUpdatePlacement,item)">
-                  <i class="fa fa-edit"></i>&nbsp;Effectuer un placement
+                  <i class="fa fa-list"></i>&nbsp;Effectuer un placement
                 </button>
 
                 <button ngbDropdownItem (click)="confirmTransmissionOrReturnAffaire(true, item)"

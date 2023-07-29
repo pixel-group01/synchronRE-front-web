@@ -7,6 +7,7 @@ export class BusinessOptional {
     affDateEcheance?: string;
     facNumeroPolice?: string;
     affCapitalInitial?: number;
+    couId?:number;
     cedNomFiliale?:string;
     cedSigleFiliale?:string;
     etatComptable?:string;

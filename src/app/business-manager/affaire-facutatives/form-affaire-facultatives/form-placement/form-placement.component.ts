@@ -86,6 +86,7 @@ export class FormPlacementComponent implements OnInit {
 
     itemAEnregistrer.cesId = this.itemToSave.cessionnaireSelected?.cesId;
     itemAEnregistrer.affId = this.currentAffaire?.affId;
+    itemAEnregistrer.repId = this.itemToSave.repId;
     itemAEnregistrer.cessionnaireSelected = null;
     
     if (itemAEnregistrer)
@@ -156,9 +157,6 @@ export class FormPlacementComponent implements OnInit {
   }
 
   getPlacementSaisieByAff($event? : any) {
-
-    console.log(" Actualisation de la liste des affaires saisies ");
-
 
     if(!this.currentAffaire?.affId) {
       this.utilities.showNotification(
@@ -258,7 +256,7 @@ export class FormPlacementComponent implements OnInit {
     this.businessOptionalRepartition
       .getRepartitionCalculatByCapital(
         this.currentAffaire.affId,
-        currentCapitalSaisi
+        currentCapitalSaisi,this.itemToSave.repId
       )
       .subscribe((response) => {
         if (response) {
@@ -302,7 +300,7 @@ export class FormPlacementComponent implements OnInit {
     }
 
     this.businessOptionalRepartition
-      .getRepartitionCalculatTaux(this.currentAffaire.affId, currentTauxSaisi)
+      .getRepartitionCalculatTaux(this.currentAffaire.affId, currentTauxSaisi,this.itemToSave.repId)
       .subscribe((response) => {
         if (response) {
           let resultRepartitionTaux  = response as RepartitionByTauxOrCapital;

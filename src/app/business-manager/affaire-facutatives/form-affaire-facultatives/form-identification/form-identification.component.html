@@ -186,10 +186,7 @@
       </div>
 
       <div class="col-md-6 col-xs-12 mb-3">
-        <label
-          >N°Police :
-          <span class="required_champs">*</span>
-        </label>
+        <label>N°Police :</label>
         <input
           class="form-control custom-input"
           placeholder="N° Police"
@@ -197,18 +194,8 @@
           [readonly]="isDetails"
           formControlName="facNumeroPolice"
           name="facNumeroPolice"
-          [class.errorInputForm]="
-            getFormFiledsValue('facNumeroPolice')?.invalid &&
-            getFormFiledsValue('facNumeroPolice')?.touched
-          "
           type="text"
         />
-        <small
-          class="text-danger"
-          *ngIf="(getFormFiledsValue('facNumeroPolice')?.dirty || getFormFiledsValue('facNumeroPolice')?.touched) && getFormFiledsValue('facNumeroPolice')?.invalid && getFormFiledsValue('facNumeroPolice')?.errors?.['required']"
-        >
-          Ce champ est obligatoire
-        </small>
       </div>
     </div>
 

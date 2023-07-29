@@ -28,7 +28,7 @@
 
           <div>
             <div class="row">
-              <div class="col-md-3 col-xs-12 mb-3">
+              <div class="col-md-2 col-xs-12 mb-3">
                 <label
                   >Cessionnaire :
                   <span class="required_champs">*</span>
@@ -129,7 +129,10 @@
                 />
               </div>
 
-              <div class="col-md-1 col-xs-12 mb-3">
+              <div class="col-md-2 col-xs-12 mb-3">
+
+              
+
                 <button
                   class="btn btn-xs btn-default btn-add"
                   type="button"
@@ -138,6 +141,14 @@
                 >
                   {{ !itemToSave?.isUpdatePlacement ? "Ajouter" : "Modifier" }}
                 </button>
+
+                <button type="button"
+                class="btn btn-md btn-cancel pull-right" style="margin-top: 20px;"
+                (click)="itemToSave = {repSousCommission : 5}"
+                >
+                Annuler
+              </button>
+
               </div>
             </div>
           </div>

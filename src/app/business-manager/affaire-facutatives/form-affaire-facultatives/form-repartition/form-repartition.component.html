@@ -37,7 +37,7 @@
                                         <span class="required_champs">*</span>
                                     </label>
                                     <input class="form-control custom-input" placeholder="Capitaux" autocomplete="off"
-                                        [(ngModel)]="itemToSave.repCapital" [disabled]="isDetails" name="repCapital" mask="separator" (keyup)="getRepartionByCapital()"
+                                        [(ngModel)]="itemToSave.repCapital" [disabled]="isDetails" name="repCapital" mask="separator" (keyup)="getRepartionByCapital(itemToSave.repCapital)"
                                         type="text" />
                                     <!-- <small class="text-danger"
                                         *ngIf="(getFormFiledsValue('repCapital')?.dirty || getFormFiledsValue('repCapital')?.touched) && getFormFiledsValue('repCapital')?.invalid && getFormFiledsValue('repCapital')?.errors?.['required']">
@@ -49,8 +49,8 @@
                                     <label>Taux (%) :
                                     </label>
                                     <input class="form-control custom-input" placeholder="Taux" autocomplete="off"  [disabled]="isDetails" 
-                                        [(ngModel)]="itemToSave.repTaux" name="repTaux" maxlength="3" (keyup)="getRepartionByTaux()"
-                                        type="text" />
+                                        [(ngModel)]="itemToSave.repTaux" name="repTaux" maxlength="3" (keyup)="getRepartionByTaux(itemToSave.repTaux)"
+                                        type="number" step="0.1" />
                                     <!-- <small class="text-danger"
                                         *ngIf="(getFormFiledsValue('repTaux')?.dirty || getFormFiledsValue('repTaux')?.touched) && getFormFiledsValue('repTaux')?.invalid && getFormFiledsValue('repTaux')?.errors?.['required']">
                                         Ce champs est obligatoire
@@ -104,7 +104,7 @@
                                                     <input type="checkbox"
                                                     [(ngModel)]="cession.checked"
                                                     [disabled]="isDetails"
-                                                    [ngModelOptions]="{standalone: true}" name="checked"/>
+                                                    [ngModelOptions]="{standalone: true}" name="checked" (change)="getRepartitionCalculate($event,cession)"/>
                                                 </td>
                                             </tr>
 
@@ -125,7 +125,7 @@
                             <div class="row">
 
                                 <div class="col-md-6 col-xs-12 mb-3">
-                                    <label>Besoin FAC :
+                                    <label>Besoin FAC initial :
                                         <span class="required_champs">*</span>
                                     </label>
                                     <input class="form-control custom-input" 

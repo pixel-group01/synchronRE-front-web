@@ -40,6 +40,7 @@
         <th>Montant Total Sinistre</th>
         <th>Date Survenance</th>
         <th>Date Declaration</th>
+        <th>Statut</th>
         <th class="txt-align-center">Actions</th>
       </tr>
     </thead>
@@ -56,7 +57,8 @@
         <td>{{ item?.totalMontant }}</td> 
         <td>{{ item?.sinDateSurvenance }}</td>
         <td>{{ item?.sinDateDeclaration }}</td>
-        <!--<td>
+        <td><span class="statLibelle {{item?.staCode}}" >{{item?.staLibelle}} </span></td>
+          <!--<td>
             <span class="statLibelle {{item?.staCode}}" >{{item?.staLibelle}} </span>  <span *ngIf="item?.staCode === 'RET'" (click)="openModalMessage(templateMessage,item.sinId)">&nbsp;<i class="fa fa-envelope fa-sm btn" ></i></span>
         </td> -->
         <!-- <td>{{ item?.affActivite }}</td> -->

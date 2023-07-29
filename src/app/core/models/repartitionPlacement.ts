@@ -8,5 +8,6 @@ export class RepartitionPlacement {
     cesId?: number;
     repTauxComCourt?:number;
     cessionnaireSelected?:any;
-    isUpdatePlacement?:boolean
+    isUpdatePlacement?:boolean;
+    repId?: number
 }

@@ -33,6 +33,7 @@ export class TableauPlacementComponent implements OnInit {
   itemRefusPlacement : any = {};
   busySave : Subscription;
   user : User;
+  fileUrl : any;
   
   constructor( private utilities: UtilitiesService,
     private businessOptionalService: BusinessOptionalService, 
@@ -44,8 +45,21 @@ export class TableauPlacementComponent implements OnInit {
 
   getReportPlacement(idPlacement : number){
     if(idPlacement) {
-      window.open(environment.apiUrl+'reports/note-cession/'+idPlacement, '_blank');
-      }
+      // window.open(environment.apiUrl+'reports/note-cession/'+idPlacement, '_blank');
+
+      this.businessOptionalRepartition.reportNoteCessionPlacement(idPlacement).subscribe(
+        (response : any) => {
+          console.log(" response note cession ",response);
+          
+          this.fileUrl = this.utilities.formatBase64UrlPdfInUrl(response.base64UrlString);
+
+          
+          window.open(this.fileUrl.changingThisBreaksApplicationSecurity, '_blank');
+
+        }
+       )
+       
+    }
   }
   
   gotoUpdatePlacement(placement : RepartitionPlacement) {
@@ -82,7 +96,6 @@ export class TableauPlacementComponent implements OnInit {
         "bottom",
         "center"
       );
-
       this.refreshData.emit(new Date().getTime().toString())
     }
    )

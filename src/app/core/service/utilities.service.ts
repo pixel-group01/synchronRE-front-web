@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import * as _ from "lodash";
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class UtilitiesService {
   private notificationStatutForRefresh = new BehaviorSubject('');
   currentStatutToRefreshNotification = this.notificationStatutForRefresh.asObservable();
 
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(private snackBar: MatSnackBar, public sanitizer: DomSanitizer) { }
 
   getMonth() {
     let listeMois = [
@@ -220,4 +221,21 @@ export class UtilitiesService {
       return hasValidEmail;
   }
 
+
+  formatBase64UrlPdfInUrl(base64UrlString?:string) {
+    const content = base64UrlString;
+    // Convertir le contenu en ArrayBuffer
+    const binary = atob(content);
+    const len = binary.length;
+    const buffer = new ArrayBuffer(len);
+    const view = new Uint8Array(buffer);
+    for (let i = 0; i < len; i++) {
+      view[i] = binary.charCodeAt(i);
+    }
+    // Créer un blob avec le contenu
+    const blob = new Blob([view], { type: 'pdf' });
+    // Créer une URL pour le blob
+    const url = URL.createObjectURL(blob);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 }

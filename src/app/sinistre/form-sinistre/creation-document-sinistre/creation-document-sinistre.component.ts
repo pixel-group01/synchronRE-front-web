@@ -31,7 +31,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
   busySave: Subscription;
   @Input() isActiveCreationSinistre: boolean = false;
   itemToSearch: any = {};
-
+  infoDocInPreview :any;
   @Output() step1: EventEmitter<number> = new EventEmitter();
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() idSinistreInDoc: number;
@@ -83,10 +83,12 @@ export class CreationDocumentSinistreComponent implements OnInit {
   }
 
   save(item: any) {
-
+    
     const data = {
+      docName : item.docName ?  item.docName : this.currentFichier.fileName,
+      docNum :  item.docNum ? item.docNum : "",
+      docId: item.docId ? item.docId : "",
       docUniqueCode: item.uniqueCode,
-      docNum: "001",
       docDescription: item.docDescription,
       objectId: !this.idAffaire
         ? this.idSinistreInDoc
@@ -96,8 +98,9 @@ export class CreationDocumentSinistreComponent implements OnInit {
       base64UrlFile: this.currentFichier.fichierBase64,
       extension: this.currentFichier.extension,
     };
+console.log();
 
-    this.busySave = (!this.idAffaire ? this.documentService.create(data) : this.documentService.createDocAff(data)).subscribe((res: any) => {
+    this.busySave = (this.documentForm.value.docId ? this.documentService.modificationDoc(data) : (!this.idAffaire ? (this.documentService.create(data)) : this.documentService.createDocAff(data))).subscribe((res: any) => {
       console.log("res file :", res);
       if (res === true) {
         this.utilities.showNotification(
@@ -124,7 +127,8 @@ export class CreationDocumentSinistreComponent implements OnInit {
     }
     Swal.fire({
       title: "Enregistrement",
-      text: "Vous êtes sur le point d'enregistrer un document. Voulez-vous poursuivre cette action ?",
+      text: item.docId? "Vous êtes sur le point de modifier un document. Voulez-vous poursuivre cette action ?" :
+              "Vous êtes sur le point d'enregistrer un document. Voulez-vous poursuivre cette action ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#0665aa",
@@ -162,11 +166,15 @@ export class CreationDocumentSinistreComponent implements OnInit {
       uniqueCode: [null, Validators.required],
       docDescription: ["", Validators.required],
       mineType: [""],
+      docId: [""],
+      docName: [""],
+      docNum : [""],
     });
   };
 
   openModalDetail(template: TemplateRef<any>, item: any) {
     this.previewDoc(item);
+    this.infoDocInPreview = item;
     let config = {
       backdrop: true,
       ignoreBackdropClick: true,
@@ -195,6 +203,11 @@ export class CreationDocumentSinistreComponent implements OnInit {
       // Créer une URL pour le blob
       const url = URL.createObjectURL(blob);
       this.file64 = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+
+      window.open(this.file64.changingThisBreaksApplicationSecurity, '_blank');
+
+      console.log(" this.file64 ",this.file64);
+      
     });
   }
 
@@ -217,7 +230,8 @@ export class CreationDocumentSinistreComponent implements OnInit {
   }
 
   upItemUpdateDoc(item: any) {
-    console.log("item :", item);
+    // console.log("item :", item);
+    item.uniqueCode = item.docUniqueCode
     this.documentForm.patchValue({ ...item });
   }
 

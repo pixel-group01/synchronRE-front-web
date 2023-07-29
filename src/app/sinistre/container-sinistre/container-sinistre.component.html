@@ -35,7 +35,11 @@
                                     <app-list-sinistre [endPoint]="'sinistres/facultative/en-reglement'"   [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
-
+                            <mat-tab label="Soldes">
+                                <ng-template matTabContent>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/en-reglement'"   [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                </ng-template>
+                            </mat-tab>
                             <mat-tab label="Suivie">
                                 <ng-template matTabContent>
                                     <app-list-sinistre [endPoint]="'sinistres/facultative/suivi'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>

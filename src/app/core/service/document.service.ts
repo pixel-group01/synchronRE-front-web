@@ -18,6 +18,10 @@ export class DocumentService {
     return this.restClient.get('documents/get-base64-url/'+`${body}`)
   }
 
+  modificationDoc = (body:any)=>{
+    return this.restClient.put('documents/update', body)
+  }
+
   typeDocument = () => {
     return this.restClient.get('documents/doc_sin/types');
   }

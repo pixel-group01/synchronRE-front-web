@@ -57,9 +57,9 @@
 
             <div class="col-md-6">
                 <div class="row">
-                    <label for="affActivite" class="col-sm-6 col-form-label">Montant déjà réglé</label>
+                    <label for="dejaRegle" class="col-sm-6 col-form-label">Montant déjà réglé</label>
                     <div class="col-sm-6">
-                      <input type="text" readonly class="form-control-plaintext" name="affActivite" id="affActivite" value="{{etatComp?.dejaRegle}}">
+                      <input type="text" readonly class="form-control-plaintext" name="dejaRegle" id="dejaRegle" value="{{etatComp?.dejaRegle | moneyFormat}}">
                     </div>
                   </div>
             </div>
@@ -68,7 +68,7 @@
                 <div class="row">
                     <label for="dateSu" class="col-sm-6 col-form-label">Date de survenance</label>
                     <div class="col-sm-6">
-                      <input type="text" readonly class="form-control-plaintext" name="dateSu" id="dateSu" value="{{etatComp?.sinDateSurvenance}}">
+                      <input type="text" readonly class="form-control-plaintext" name="dateSu" id="dateSu" value="{{etatComp?.sinDateSurvenance | dateFormatInDateHour}}">
                     </div>
                   </div>
             </div>
@@ -77,7 +77,7 @@
                 <div class="row">
                     <label for="regleRest" class="col-sm-6 col-form-label">Reste à régler</label>
                     <div class="col-sm-6">
-                      <input type="text" readonly class="form-control-plaintext" name="regleRest" id="regleRest" value="{{etatComp?.resteARegler}}">
+                      <input type="text" readonly class="form-control-plaintext" name="regleRest" id="regleRest" value="{{etatComp?.resteARegler | moneyFormat}}">
                     </div>
                   </div>
             </div>
@@ -86,25 +86,25 @@
                 <div class="row">
                     <label for="staticEmail" class="col-sm-6 col-form-label">Date de déclaration</label>
                     <div class="col-sm-6">
-                      <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{etatComp?.sinDateDeclaration}}">
+                      <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{etatComp?.sinDateDeclaration | dateFormatInDateHour}}">
                     </div>
                   </div>
             </div>
 
-            <div class="col-md-6">
+             <div class="col-md-6">
                 <div class="row">
-                    <label for="montRever" class="col-sm-6 col-form-label">Montant à réverser</label>
+                    <label for="montRever" class="col-sm-6 col-form-label">Montant total cessionnaires</label>
                     <div class="col-sm-6">
-                      <input type="text" readonly class="form-control-plaintext" name="montRever" id="montRever" value="{{etatComp?.sinMontantHonoraire}}">
+                      <input type="text" readonly class="form-control-plaintext" name="montRever" id="montRever" value="{{etatComp?.sinMontantTotalCessionnaires | moneyFormat}}">
                     </div>
                   </div>
-            </div>
+            </div> 
 
             <div class="col-md-6">
                 <div class="row">
-                    <label for="montSini" class="col-sm-6 col-form-label">Montant</label>
+                    <label for="montSini" class="col-sm-6 col-form-label">Montant total sinistre</label>
                     <div class="col-sm-6">
-                      <input type="text" readonly class="form-control-plaintext text-success" name="montSini" id="montSini" value="{{etatComp?.sinMontant100}}">
+                      <input type="text" readonly class="form-control-plaintext text-success" name="montSini" id="montSini" value="{{etatComp?.totalMontantSinistre | moneyFormat}}">
                     </div>
                   </div>
             </div>
@@ -113,7 +113,7 @@
                 <div class="row">
                     <label for="mtEnAttenteDeReversement" class="col-sm-6 col-form-label">En attente de réversement</label>
                     <div class="col-sm-6">
-                      <input type="text" readonly class="form-control-plaintext" name="mtEnAttenteDeReversement" id="mtEnAttenteDeReversement" value="{{etatComp?.mtEnAttenteDeReversement}}">
+                      <input type="text" readonly class="form-control-plaintext" name="mtEnAttenteDeReversement" id="mtEnAttenteDeReversement" value="{{etatComp?.mtEnAttenteDeReversement | moneyFormat}}">
                     </div>
                   </div>
             </div>
@@ -133,7 +133,7 @@
               <th>Montant à regler</th>
               <th>Montant déjà regler</th>
               <th>Reste à régler</th>
-              <th>Taux</th>
+              <th>Taux de règlement</th>
             </tr>
           </thead>
       
@@ -143,10 +143,10 @@
                 {{ getExactlyNumberRow(this.currentPage, indice) }}
               </td>
               <td>{{item?.cesNom}}</td>
-              <td>{{item?.mtTotalARegler}}</td>
-              <td> {{item?.mtDejaRegle}} </td>
-              <td> {{item?.mtResteARegler}} </td>
-              <td> {{item?.tauxDeReglement}} </td>     
+              <td>{{item?.mtTotalARegler | moneyFormat}}</td>
+              <td> {{item?.mtDejaRegle | moneyFormat}} </td>
+              <td> {{item?.mtResteARegler | moneyFormat}} </td>
+              <td> {{item?.tauxDeReglement | moneyFormat}} </td>     
             </tr>
           </tbody>
         </table> 

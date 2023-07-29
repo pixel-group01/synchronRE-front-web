@@ -85,12 +85,12 @@
 
                             <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
                                 <b>A payer : </b>
-                                <span>{{etatComp?.sinMontant100 | moneyFormat}}</span>
+                                <span>{{etatComp?.sinMontantTotalCessionnaires | moneyFormat}}</span>
                             </div>
 
                             <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
-                                <b>Déjà reçu : </b>
-                                <span>{{etatComp?.mtDejaReverse| moneyFormat}}</span>
+                                <b>Déjà réglé : </b>
+                                <span>{{etatComp?.dejaRegle| moneyFormat}}</span>
                             </div>
 
                             <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
