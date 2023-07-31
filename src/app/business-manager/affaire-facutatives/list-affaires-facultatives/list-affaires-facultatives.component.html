@@ -124,9 +124,17 @@
                   <i class="fa fa-share"></i>&nbsp;Transmettre à la comptabilité
                 </button>
 
+                <button ngbDropdownItem (click)="confirmTransmettreNoteDeDebit(item)">
+                  <i class="fa fa-share"></i>&nbsp;Transmettre note de débit
+                </button>
+
                 <button ngbDropdownItem (click)="getReportDebit(item.affId)" *ngIf="item?.placementTermine && !isEnCoursPlacementNelson && user?.cedId">
                   <i class="fa fa-print"></i>&nbsp;Imprimer note débit
                 </button>
+
+                <!-- <button ngbDropdownItem (click)="openModal(templateNoteDebitTest,item)">
+                  <i class="fa fa-print"></i>&nbsp;Test note debit
+                </button> -->
 
                 <button ngbDropdownItem (click)="openModal(templateRetournerAffaire,item)"
                   *ngIf="(!user.cedId && !noPutAction) || isEnCoursPlacementNelson">
@@ -304,6 +312,25 @@
   </div>
   <div class="modal-body">
     <app-creation-document-sinistre [idAffaire]="itemToSave?.affId"></app-creation-document-sinistre>
+  </div>
+</ng-template>
+
+
+<!-- Ajouter document -->
+<ng-template #templateNoteDebitTest>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">
+     Note de débit {{itemToSave?.affCode}}
+    </h4>
+
+    <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button> 
+  </div>
+  <div class="modal-body">
+
+    <iframe src="{{urlIframeMock}}" title="description" *ngIf="urlIframeMock"></iframe>
+
   </div>
 </ng-template>
 

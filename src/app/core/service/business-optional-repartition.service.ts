@@ -44,13 +44,17 @@ export class BusinessOptionalRepartitionService {
   accepterPlacement = (body:any,repartitionId:number) => {
     return this.restClient.put('repartitions/accepter-placement/'+repartitionId,body)
   }
+ 
+  transmissionNoteDeCession = (body:any,repartitionId:number) => {
+    return this.restClient.put('repartitions/envoyer-note-cession-fac/'+repartitionId,body)
+  }
 
   validerPlacement = (body:any,repartitionId:number) => {
     return this.restClient.put('repartitions/valider-placement/'+repartitionId,body)
   }
 
   sendNoteCession = (body:any,repartitionId:number) => {
-    return this.restClient.put('repartitions/envoyer-note-cession/'+repartitionId,body)
+    return this.restClient.put('repartitions/envoyer-note-cession-fac/'+repartitionId,body)
   }
 
   refuserPlacement = (body:any,repartitionId:number) => {

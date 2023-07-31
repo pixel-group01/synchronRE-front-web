@@ -30,9 +30,19 @@ export class DocumentService {
     return this.restClient.get('documents/doc_aff/types');
   }
 
+
+  typeDocumentPaiement = () => {
+    return this.restClient.get('documents/doc_reg/types');
+  }
+
   getDocumentByAffaire = (idAffaire : number) => {
     return this.restClient.get('documents/affaire/'+idAffaire);
   }
+
+  getDocumentByPaiement = (regId : number) => {
+    return this.restClient.get('documents/reglement/'+regId);
+  }
+
 
   delete = (body:any) => {
     return this.restClient.delete('documents/delete/'+`${body}`);
@@ -50,5 +60,11 @@ export class DocumentService {
   createDocAff = (body:any) => {
     return this.restClient.post('documents/doc_aff/upload',body)
   }
+
+  createWithParameter = (body:any,typeEndPoint?:string) => {
+    return this.restClient.post('documents/'+typeEndPoint+'/upload',body)
+  }
+
+  
 
 }

@@ -23,12 +23,12 @@
 .new-paiement-bilan {
     position: absolute;
     z-index: 1000;
-    width: 70%;
+    width: 90%;
     height: 0px;
     background-color: #fff;
     border-radius: 20px 20px 0 0;
     bottom: 0;
-    left: 30%;
+    left: 10%;
     transition: height 500ms ease-in-out;
     animation: rotation 2s;
     overflow: hidden;

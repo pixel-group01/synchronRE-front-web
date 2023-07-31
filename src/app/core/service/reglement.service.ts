@@ -29,7 +29,7 @@ export class ReglementService {
   }
 
   getReglementDetailsByAffaireAndCessionnaire = (cesId:number,affId:number) => {
-    return this.restClient.get('reglements/details?affId='+affId+'&cesId='+cesId);
+    return this.restClient.get('reglements/affaire/details?affId='+affId+'&cesId='+cesId);
   }
 
   update = (typeReglement:string,body:any) => {

@@ -147,6 +147,10 @@ export class BusinessOptionalService {
     return this.restClient.put('affaires/facultative/valider/'+idAffaire,body)
   } 
 
+  envoyerNoteCession = (idAffaire:number,body:any) => {
+    return this.restClient.put('affaires/envoyer-note-debit-fac/'+idAffaire,body)
+  } 
+
   retournerAffaire = (body:any) => {
     return this.restClient.put('affaires/facultative/retourner',body)
   } 

@@ -45,19 +45,19 @@ export class TableauPlacementComponent implements OnInit {
 
   getReportPlacement(idPlacement : number){
     if(idPlacement) {
-      // window.open(environment.apiUrl+'reports/note-cession/'+idPlacement, '_blank');
+       window.open(environment.apiUrl+'reports/display-note-de-cession-fac/'+idPlacement, '_blank');
 
-      this.businessOptionalRepartition.reportNoteCessionPlacement(idPlacement).subscribe(
-        (response : any) => {
-          console.log(" response note cession ",response);
+      // this.businessOptionalRepartition.reportNoteCessionPlacement(idPlacement).subscribe(
+      //   (response : any) => {
+      //     console.log(" response note cession ",response);
           
-          this.fileUrl = this.utilities.formatBase64UrlPdfInUrl(response.base64UrlString);
+      //     this.fileUrl = this.utilities.formatBase64UrlPdfInUrl(response.base64UrlString);
 
           
-          window.open(this.fileUrl.changingThisBreaksApplicationSecurity, '_blank');
+      //     window.open(this.fileUrl.changingThisBreaksApplicationSecurity, '_blank');
 
-        }
-       )
+      //   }
+      //  )
        
     }
   }
@@ -120,6 +120,46 @@ export class TableauPlacementComponent implements OnInit {
       }
     });
   }
+
+  confirmEnvoiNoteCessionnaire(repId:number) {
+    Swal.fire({
+      title: "Transmission de note de cession",
+      text:"Vous êtes sur le point de transmettre la note de cession au cessionnaire. Voulez-vous poursuivre cette action ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#0665aa",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    }).then((result) => {
+      if (result.value) {
+        // On effectue l'enregistrement
+        console.log("transmettreNoteCession ");
+        
+        this.transmettreNoteCession(repId);
+      }
+    });
+  }
+
+  transmettreNoteCession(idRepartition) {
+
+    console.log("idRepartition ",idRepartition);
+
+    this.busySave = this.businessOptionalRepartition.transmissionNoteDeCession({},idRepartition).subscribe(
+     (response) => {
+      if(response) {
+        this.utilities.showNotification(
+          "snackbar-success",
+          this.utilities.getMessageOperationSuccessFull(),
+          "bottom",
+          "center"
+        );
+        this.refreshData.emit(new Date().getTime().toString())
+      }
+      
+     }
+    )
+   }
 
   acceptePlacement(idRepartition) {
    this.busySave = this.businessOptionalRepartition.accepterPlacement({},idRepartition).subscribe(
