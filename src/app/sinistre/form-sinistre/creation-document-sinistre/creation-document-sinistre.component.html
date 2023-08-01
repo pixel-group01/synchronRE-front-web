@@ -29,14 +29,14 @@ class="sinistre-upload-container"
           <label>Nom du fichier
           </label>
           <input type="text" id="nomFichier" class="w-100" name="nomFichier" class="form-control custom-input"
-          placeholder="Ex: cni.png" autocomplete="off" formControlName="docName">
+          placeholder="Ex: cni.png" autocomplete="off" formControlName="docName"  [readonly]="isActiveCreationSinistre">
         </div>
 
         <div class="col-md-6 col-xs-12 mb-3">
           <label>Numéro document
           </label>
           <input type="text" id="numeroDoc" class="w-100" name="numeroDoc" formControlName="docNum" class="form-control custom-input"
-          placeholder="Ex: C xxx xxx xxx" autocomplete="off">
+          placeholder="Ex: C xxx xxx xxx" autocomplete="off"  [readonly]="isActiveCreationSinistre">
         </div>
 
        <div class="col-md-12 col-xs-12 mb-3">
@@ -46,7 +46,7 @@ class="sinistre-upload-container"
                 </textarea>
         </div>
 
-        <div class="col-md-2 col-xs-12 d-flex" style="margin-left: auto;">
+        <div class="col-md-12 col-xs-12 d-flex justify-content-end">
           <!-- <button type="button"  class="btn btn-md btn-cancel" (click)="clear()"
             style="position: relative;top: 3px;margin-right: 10px;"> Annuler </button> -->
 
@@ -65,7 +65,7 @@ class="sinistre-upload-container"
               Modifier 
             </button>
 
-            <button type="button" class="btn btn-xs btn-cancel pull-right"
+            <button type="button" class="btn btn-xs btn-cancel" *ngIf="!isActiveCreationSinistre"
             (click)="clear()">
                 Annuler
             </button>
@@ -78,7 +78,7 @@ class="sinistre-upload-container"
   </form>
 
   <fieldset>
-    <legend style="position: relative;top: -7px;"> Liste des documents</legend>
+    <legend style="position: relative;top: -2px;"> Liste des documents</legend>
 
     <div class="row">
       <div class="col-md-12 col-xs-12">
@@ -103,7 +103,8 @@ class="sinistre-upload-container"
               <th>Nom fichier</th>
 
               <th>Type</th>
-              <th width="428px">Description</th>
+              <!--width="428px"-->
+              <th>Description</th>
               <th width="120px" class="txt-align-center">Actions</th>
             </tr>
           </thead> 
@@ -165,7 +166,7 @@ class="sinistre-upload-container"
     </div>
   </fieldset>
 
-  <div class="row justify-content-between" style="padding: 15px 20px 0px 14px;" *ngIf="!idAffaire">
+  <div class="row justify-content-between" style="padding: 15px 20px 0px 14px;" *ngIf="!idAffaire && !isUploadDocCompta">
     <div class="col-md-1">
       <button class="form-control btn btn-light p-2 border-0" type="button" (click)="fermer()">Fermer</button>
     </div>

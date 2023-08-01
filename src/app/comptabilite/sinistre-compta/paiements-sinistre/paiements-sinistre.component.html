@@ -33,7 +33,7 @@
           <a (click)="currentPage = 1; getSinistre()" title="Actualiser">
             <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
         </th>
-        <th>N° FAC</th>
+        <th>N° FAC</th> 
         <th> Assuré(e)</th>
         <th>Montant Sinistre</th>
         <th>Montant Honoraire</th>
@@ -52,9 +52,9 @@
         </td>
         <td>{{ item?.affCode }}</td> 
         <td>{{ item?.affAssure}}</td> 
-        <td>{{ item?.sinMontant100 }}</td>
-        <td>{{ item?.sinMontantHonoraire }}</td>
-        <td>{{ item?.totalMontant }}</td> 
+        <td>{{ item?.sinMontant100 | moneyFormat}}</td>
+        <td>{{ item?.sinMontantHonoraire | moneyFormat}}</td>
+        <td>{{ item?.totalMontant | moneyFormat}}</td> 
         <td>{{ item?.sinDateSurvenance }}</td>
         <td>{{ item?.sinDateDeclaration }}</td>
         <td><span class="statLibelle {{item?.staCode}}" >{{item?.staLibelle}} </span></td>
@@ -72,17 +72,27 @@
                   <button ngbDropdownItem (click)="openModalDetail(templateDetailSinistre,item,true)">
                     <i class="fa fa-list"></i>&nbsp;Détails sinistre
                   </button>
-                  
+                  <!--*ngIf="isOngletPaiement"-->
                   <button
+                    ngbDropdownItem  *ngIf="item.staCode=='APAI' || item.staCode=='CPAI' || item.staCode=='CPAI-CREV'"
+                    (click)="openModal(templatePaiement,item,isOngletPaiement=true)">
+                    <i class="fa fa-money-bill"></i>&nbsp;Paiement
+                  </button>
+                <button *ngIf="item.staCode=='CPAI-CREV'|| item.staCode=='CREV' || item.staCode=='CPAI'"
+                    ngbDropdownItem (click)="openModal(templatePaiement,item,isOngletPaiement=false)">
+                    <i class="fa fa-redo-alt"></i>&nbsp;Reversement
+                </button>
+                <button
                   ngbDropdownItem
-                  (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
-                >
-                  <i class="fa fa-money-bill"></i>&nbsp;Paiement
+                  >
+                  <i class="fa fa-info-circle"></i>&nbsp;Situation comptable
                 </button>
-
-                <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
+              <button  ngbDropdownItem >
+              <i class="fa fa-list"></i>&nbsp;Historique
+            </button>
+                 <!--<button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
                   <i class="fa fa-redo-alt"></i>&nbsp; Reversement
-                </button>
+                </button> -->
 
               </div>
             </div>
@@ -134,9 +144,9 @@
         <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
             <mat-icon>close</mat-icon>
         </button>
-    </div>
+    </div> 
     <div class="modal-body p-4">
-        <app-form-sinistre [itemSinistre]="itemsinistre" [isActive]="isActiveInput"></app-form-sinistre>
+        <app-form-sinistre [itemSinistre]="itemsinistre" [isActive]="isActiveInput" [isModification]="true" ></app-form-sinistre>
     </div>
 </ng-template>
 
@@ -150,7 +160,7 @@
       <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
           <mat-icon>close</mat-icon>
       </button>
-  </div>
+  </div> 
   <div class="modal-body p-4">
       <app-form-paiement-sinistre [itemSinistre]="idSiniOfListe"  [isPaiement]="isOngletPaiement" (closeModal)="closeFormModal($event)"></app-form-paiement-sinistre>
   </div>

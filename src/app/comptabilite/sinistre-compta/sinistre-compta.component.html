@@ -10,17 +10,17 @@
                         <mat-tab-group>
                             <mat-tab label="Règlements">
                                 <ng-template matTabContent>
-                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/en-reglement'" [isOngletPaiement]="true" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
+                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/en-reglement'" [isOngletPaiement]="isActivePaiement" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
                                 </ng-template>
                             </mat-tab>
-                            <mat-tab label="Solde">
+                            <mat-tab label="Soldés">
                                 <ng-template matTabContent>
-                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/en-reglement'" [isOngletPaiement]="false" [isOngletReversement]="true" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
+                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/en-reglement'" [isOngletPaiement]="isActivePaiement" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
                                 </ng-template>
                             </mat-tab>
                             <mat-tab label="Archives">
                                 <ng-template matTabContent>
-                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/en-reglement'" [isOngletPaiement]="false" [isOngletReversement]="true" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
+                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/en-reglement'" [isOngletPaiement]="isActivePaiement" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
                                 </ng-template>
                             </mat-tab>
                         </mat-tab-group>

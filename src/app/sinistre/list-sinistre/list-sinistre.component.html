@@ -73,7 +73,7 @@
                     <i class="fa fa-check"></i>&nbsp;Valider sinistre
                   </button>
                   <button ngbDropdownItem (click)="openModalEtatComptable(templateEtatComptable,item.sinId)">
-                    <i class="fa fa-square"></i>&nbsp;Etat comptable
+                    <i class="fa fa-info-circle"></i>&nbsp;Situation comptable
                   </button>
                   <button ngbDropdownItem>
                     <i class="fa fa-list" (click)="openModal(templateSinistre,item,false)"></i>&nbsp;Historique sinistre
@@ -164,7 +164,7 @@
   </div>
 </ng-template>
 
-<!-- detail etat comptable -->
+<!-- detail Situation comptable -->
 <ng-template #templateEtatComptable>
   <div class="modal-header">
       <h4 class="modal-title pull-left">
