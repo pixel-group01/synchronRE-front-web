@@ -128,6 +128,28 @@
 
     </div>
 
+    <div class="row">
+      <div class="col-12 mb-2">
+        <label>Banque :
+          <span class="required_champs">*</span>
+        </label>
+
+        <ng-select formControlName="banNumCompte" name="banNumCompte" id="paysCode">
+          <ng-option *ngFor="let country of listeBanques" [value]="country?.banNumCompte">{{country.banLibelle}}</ng-option>
+        </ng-select>
+
+        <small class="text-danger"
+          *ngIf="(getFormFiledsValue('banNumCompte')?.dirty || getFormFiledsValue('banNumCompte')?.touched) && getFormFiledsValue('banNumCompte')?.invalid && getFormFiledsValue('banNumCompte')?.errors?.['required']">
+          Ce champ est obligatoire
+        </small>
+      </div>
+
+      <!-- <div class="col-md-12 mb-3 alert-info">
+         <label>Numéro de compte : {{}} </label>
+      </div> -->
+    </div>
+
+
     <div class="custom-btn-save-manager">
       <button type="submit" class="btn btn-md custom_btn_primary pull-right" [disabled]="!paramForm.valid">
         {{itemToUpdate?.cedId ? 'Modifier' : 'Enregistrer'}}

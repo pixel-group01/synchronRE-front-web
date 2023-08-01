@@ -8,5 +8,6 @@ export class Cedante {
     cedFax?: string;
     cedSituationGeo?:string;
     cedStatut?:string;
-    paysCode?:string
+    paysCode?:string;
+    banNumCompte?:string
 }
