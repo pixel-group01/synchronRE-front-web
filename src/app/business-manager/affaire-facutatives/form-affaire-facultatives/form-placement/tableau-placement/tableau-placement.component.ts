@@ -350,7 +350,7 @@ export class TableauPlacementComponent implements OnInit {
   }
 
   sendNoteCession(idRepartition) {
-   this.busySave = this.businessOptionalRepartition.sendNoteCession({},idRepartition).subscribe(
+   this.busySave = this.businessOptionalRepartition.transmissionNoteDeCession({},idRepartition).subscribe(
     (response) => {
       console.log(" response ",response);
       this.utilities.showNotification(
