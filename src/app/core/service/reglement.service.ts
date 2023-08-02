@@ -22,6 +22,14 @@ export class ReglementService {
   getReglementByAffaire = (typeReglement:string,affId:number) => {
     return this.restClient.get(typeReglement+'/list/'+affId);
   }
+
+  getReportCheque = (affId:number) => {
+    return this.restClient.get('reports/cheque/'+affId);
+  }
+
+  getReportNoteCredit = (affId:number,idCessionnaire:number) => {
+    return this.restClient.get('reports/note-de-credit-fac/'+affId+'/'+idCessionnaire);
+  }
  
   getByCriteria = (index:number = 0,size:number=10,key?:string,typeReglement?:string) => {
     let endPointFinal = typeReglement+"/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");

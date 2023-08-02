@@ -209,12 +209,13 @@
 
   <div class="refus-paiement" id="refus-paiement">
     <div class="details-header">
-      <b> {{!itemRepartitionPlacement.isRetourPlacement ? 'Refus de placement' : 'Retour placement' }} </b>
+      <b *ngIf="!fileUrl"> {{!itemRepartitionPlacement.isRetourPlacement ? 'Refus de placement' : 'Retour placement' }} </b>
+      <b *ngIf="fileUrl"> Note de cession </b>
       <i class="fa fa-times" (click)="openPanelNewPlacement(false)"></i>
     </div>
 
     <div class="col-12 details-body">
-      <ng-container>
+      <ng-container *ngIf="!fileUrl">
         <div class="row">
           <form class="form-refus">
             <div class="row">
@@ -288,9 +289,15 @@
         </div>
       </ng-container>
 
-  
-    
+      <ng-container  *ngIf="fileUrl">
+        <div style="height: 600px;">
+          <iframe [src]="fileUrl" title="description"  style="width: 100%;height: 100%;"></iframe>
+        </div>
+      </ng-container>
 
     </div>
   </div>
+
+
+  
 </ng-container>

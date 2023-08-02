@@ -163,4 +163,8 @@ export class BusinessOptionalService {
     return this.restClient.get('mouvements/affaire/message-retour/'+affId)
   } 
 
+  getReportNoteDebit = (affId:number) => {
+    return this.restClient.get('reports/note-de-debit-fac/'+affId)
+  } 
+
 }

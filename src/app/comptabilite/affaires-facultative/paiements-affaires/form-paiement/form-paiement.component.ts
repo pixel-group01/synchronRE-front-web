@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DomSanitizer } from "@angular/platform-browser";
 import * as moment from "moment";
 import { Subscription } from "rxjs";
 import { BusinessOptional } from "src/app/core/models/businessOptional";
@@ -24,6 +25,7 @@ export class FormPaiementComponent implements OnInit {
   listePaiementDejaEffectue: Reglement[] = [];
   formulaireGroup!: FormGroup;
   busySave: Subscription;
+  fileUrl : any;
   itemToUpdate: Reglement;
   isFondDocumentaire : boolean = false;
   @Input() currentAffaire: BusinessOptional;
@@ -50,6 +52,7 @@ export class FormPaiementComponent implements OnInit {
     private utilities: UtilitiesService,
     private businessOptionalService: BusinessOptionalService,
     private cessionaireService: CessionnaireService,
+    public sanitizer: DomSanitizer
   ) {
     this.currentUser = this.userService.getCurrentUserInfo();
   }
@@ -206,13 +209,33 @@ export class FormPaiementComponent implements OnInit {
 
   getNoteCredit(idCessionnaire: number){
     if(idCessionnaire) {
-      window.open(environment.apiUrl+'reports/note-de-credit/'+this.currentAffaire.affId+'/'+idCessionnaire, '_blank');
+      // window.open(environment.apiUrl+'reports/note-de-credit/'+this.currentAffaire.affId+'/'+idCessionnaire, '_blank');
+
+      this.reglementService.getReportNoteCredit(this.currentAffaire.affId,idCessionnaire).subscribe(
+        (response : any) => {
+         
+          let fileUrlDebitNote = "data:application/pdf;base64,"+response?.base64UrlString;
+
+          this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
+          this.openPanelNewPaiement(true)
+        }
+       )
     }
   }
   
   getCheque(reglementId:number) {
     if(reglementId) {
-      window.open(environment.apiUrl+'reports/cheque/'+reglementId, '_blank');
+      // window.open(environment.apiUrl+'reports/cheque/'+reglementId, '_blank');
+
+      this.reglementService.getReportCheque(reglementId).subscribe(
+        (response : any) => {
+         
+          let fileUrlDebitNote = "data:application/pdf;base64,"+response?.base64UrlString;
+
+          this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
+          this.openPanelNewPaiement(true)
+        }
+       )
     }
   }
   

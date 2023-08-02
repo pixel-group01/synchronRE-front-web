@@ -128,13 +128,13 @@
                   <i class="fa fa-share"></i>&nbsp;Transmettre note de débit
                 </button>
 
-                <button ngbDropdownItem (click)="getReportDebit(item.affId)" *ngIf="item?.placementTermine && !isEnCoursPlacementNelson && user?.cedId">
+                <!-- <button ngbDropdownItem (click)="getReportDebit(item.affId)" *ngIf="item?.placementTermine && !isEnCoursPlacementNelson && user?.cedId">
+                  <i class="fa fa-print"></i>&nbsp;Imprimer note débit
+                </button> -->
+
+                <button ngbDropdownItem (click)="openModal(templateNoteDebit,item);getPrintReportDebit(item?.affId)"  *ngIf="item?.placementTermine && !isEnCoursPlacementNelson && user?.cedId">
                   <i class="fa fa-print"></i>&nbsp;Imprimer note débit
                 </button>
-
-                <!-- <button ngbDropdownItem (click)="openModal(templateNoteDebitTest,item)">
-                  <i class="fa fa-print"></i>&nbsp;Test note debit
-                </button> -->
 
                 <button ngbDropdownItem (click)="openModal(templateRetournerAffaire,item)"
                   *ngIf="(!user.cedId && !noPutAction) || isEnCoursPlacementNelson">
@@ -317,7 +317,7 @@
 
 
 <!-- Ajouter document -->
-<ng-template #templateNoteDebitTest>
+<ng-template #templateNoteDebit>
   <div class="modal-header">
     <h4 class="modal-title pull-left">
      Note de débit {{itemToSave?.affCode}}
@@ -328,9 +328,14 @@
     </button> 
   </div>
   <div class="modal-body">
-
-    <iframe src="{{urlIframeMock}}" title="description" *ngIf="urlIframeMock"></iframe>
-
+    <div [ngBusy]="{
+      busy: busyReport,
+      message: 'Veuillez patienter ...',
+      backdrop: false
+    }" style="height: 400px;">
+      <iframe [src]="fileUrlDebitNote" title="description" *ngIf="fileUrlDebitNote" style="width: 100%;height: 100%;"></iframe>
+    </div>
+   
   </div>
 </ng-template>
 
