@@ -28,7 +28,7 @@ export class FormPaiementSinistreComponent implements OnInit {
   itemToUpdate: Reglement;
   @Input() currentAffaire: BusinessOptional;
   @Input() isPaiement: boolean ;
-
+  itemOfPaiement:any;
   listeDocumentsAjoutes: any = {};
   listeCessionnaire: Cessionnaire[];
   currentUser: any;
@@ -57,8 +57,6 @@ export class FormPaiementSinistreComponent implements OnInit {
     this.currentUser = this.userService.getCurrentUserInfo();
     console.log("currentUser :",this.currentUser);
     
-    console.log('isPaiement :',this.isPaiement);
-    
   }  
 
   openPanelNewPaiement(isOpen: boolean) {
@@ -73,6 +71,17 @@ export class FormPaiementSinistreComponent implements OnInit {
     }
   }
 
+  openPanelUploadDoc(isOpen: boolean,item?:any){
+    let divUploadDoc = document.getElementById("upload-popup");
+    this.itemOfPaiement = item;
+    if (divUploadDoc && isOpen) {
+      divUploadDoc.classList.add("open-details");
+    } else {
+      // Nous fermons notre fenetre de details
+      divUploadDoc.classList.remove("open-details");
+    }
+  }
+
   createForm = () => {
     this.formulaireGroup = this.formBuilder.group({
       // regId: [this.itemToUpdate?.regId || ""],
@@ -83,11 +92,11 @@ export class FormPaiementSinistreComponent implements OnInit {
         Validators.required,
       ],
       regDate: [this.itemToUpdate?.affAssure || "", Validators.required],
-      regMontant: [this.itemToUpdate?.affActivite || "", Validators.required],
+      regMontant: [this.etatComp?.mtEnAttenteDeReversement || "", Validators.required],
       // userId: [this.currentUser.userId],
       // affId: [this.itemSinistre.affId],
       regMode: [null, Validators.required],
-      resteAPayer: [this.etatComp?.sinMontant100],
+      resteAPayer: [this.etatComp?.resteARegler],
     });
   };
 
@@ -151,8 +160,8 @@ export class FormPaiementSinistreComponent implements OnInit {
 
             // On actualise la liste des paiements
             // On actualise la liste des paiements
-            // this.getOldPaiement();
             this.etatComptable();
+            this.getOldPaiement();
             this.openPanelNewPaiement(false);
           }
         }
@@ -161,13 +170,10 @@ export class FormPaiementSinistreComponent implements OnInit {
   
   ngOnInit(): void {
     this.createForm();
-    // this.getOldPaiement();
-    this.listePaiementOnsinistre();
     this.etatComptable();
     if(this.isPaiement){
       this.getCessionnaire();
     }
-
   }
 
   getCessionnaire() { 
@@ -192,39 +198,38 @@ export class FormPaiementSinistreComponent implements OnInit {
       cessionnaireId = this.getFormFiledsValue('cesId').value;
     }
    
-    this.reglementService.getReglementDetailsByAffaireAndCessionnaire(cessionnaireId,this.itemSinistre.affId).subscribe((response : any) => {
+    this.sinistreService.getReglementDetailsBySinistreAndCessionnaire(cessionnaireId,this.itemSinistre.sinId).subscribe((response : any) => {
       if (response) {
-        this.formulaireGroup.get("regMontant").setValue(response?.resteAReverser);
+        this.formulaireGroup.get("regMontant").setValue(response?.mtResteARegler);
       }
     });
   }
   
-  getOldPaiement() {
-    this.busySave = this.reglementService
-      .getReglementByAffaire(
-        (this.isPaiement ? "paiements" : "reversements") + "/sinistre",
-        this.currentAffaire.affId
-      )
-      .subscribe((response: any) => {
-
-        if (response && response['content']) {
-          this.listePaiementDejaEffectue = response['content'] as Reglement[];
+  getOldPaiement() {    
+    this.busySave = this.sinistreService.getReglementBySinitres(this.etatComp?.sinId) .subscribe((response: any) => {
+        if (response) {
+          this.listePaiementDejaEffectue = response.content;
         }
       });
   }
 
   listePaiementOnsinistre(){
-    this.sinistreService.listePaiementSinistre(this.itemSinistre.sinId).subscribe((res:any)=>{
+    let endPoint :any= this.isPaiement? 'paiements/sinistre/list/' : 'reversements/sinistre/list/'
+    this.sinistreService.listePaiemenOrReglementSinistre(endPoint+this.itemSinistre.sinId).subscribe((res:any)=>{
       console.log('res liste paiement sinitre :',res);
       this.paiementSinistre = res.content
     })
   }
 
   etatComptable(){
+    console.log('isPaiement :',this.isPaiement);
+
     this.sinistreService.etatComptable(this.itemSinistre.sinId).subscribe((res:any)=>{
-      console.log("res res ::", res);
+      console.log("res res etat comptable ::", res);
       this.etatComp = res;
-      this.createForm()
+      this.createForm();
+      this.getOldPaiement();
+      this.listePaiementOnsinistre();
     })
   }
 }

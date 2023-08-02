@@ -107,7 +107,7 @@ export class FormPaiementComponent implements OnInit {
       .getAffaireFacultativeEtatComptable(this.currentAffaire.affId)
       .subscribe((response) => {
         if (response) {
-          console.log(" response etat comptable ", response);
+          console.log(" response Situation comptable ", response);
           this.itemInfoCompta = response;
           this.createForm();
         }

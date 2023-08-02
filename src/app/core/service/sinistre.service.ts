@@ -57,8 +57,16 @@ export class SinistreService {
     return this.restClient.get('sinistres/etat-comptable/'+`${body}`);
   }
 
-  listePaiementSinistre = (body:any) => {
-    return this.restClient.get('paiements/sinistre/list/'+`${body}`);
+  getReglementDetailsBySinistreAndCessionnaire = (cesId:number,sinistreId:number) => {
+    return this.restClient.get('paiements/sinistre/details?sinId='+sinistreId+'&cesId='+cesId);
+  }
+
+  getReglementBySinitres = (idSinistre:any) => {
+    return this.restClient.get("paiements/sinistre/list/"+idSinistre);
+  }
+
+  listePaiemenOrReglementSinistre = (body:any) => {
+    return this.restClient.get(body);
   }
 
   messageRetour=(body)=>{

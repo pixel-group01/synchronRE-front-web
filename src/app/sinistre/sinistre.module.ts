@@ -19,10 +19,10 @@ import { SharedModule } from '../shared/shared.module';
   declarations: [
     SinistreComponent,
     ContainerSinistreComponent,
-    FormSinistreComponent,
+    // FormSinistreComponent,
     ListSinistreComponent,
     FormRetournerSinstreComponent,
-    CreationSinistreComponent,
+    // CreationSinistreComponent,
     // CreationDocumentSinistreComponent,
     AfficherMessageComponent,
     EtatComptableComponent

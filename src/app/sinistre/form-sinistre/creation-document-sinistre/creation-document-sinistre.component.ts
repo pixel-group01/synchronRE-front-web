@@ -41,6 +41,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
   @Input() idOrigine:number;
   @Input() origine:string;
   @Input() itemCreationSinistre: any;
+  @Input() itemPaiement: any;
   @Input() isPaiement: boolean;
   @ViewChild("fileInput") fileInput: any;
 
@@ -55,7 +56,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
     public sanitizer: DomSanitizer
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.getTypeDocument();
     this.documForm();
     if (this.itemCreationSinistre || this.idAffaire || this.isPaiement) {
@@ -79,7 +80,9 @@ export class CreationDocumentSinistreComponent implements OnInit {
     if (this.idSinistreInDoc > 0 || this.itemCreationSinistre?.sinId > 0) {
       // En ce moment il s'afgit d'un sinistre on recupere les documents lié au fond documentaire
       // Du sinistre
+      
       this.documentService.typeDocument().subscribe((res: any) => {
+      console.log("doc sin :",res);
         this.listeTypeDocument = res;
       });
     }
@@ -94,7 +97,9 @@ export class CreationDocumentSinistreComponent implements OnInit {
   }
 
   save(item: any) {
-    
+    if (this.itemPaiement) {
+      this.idSinistreInDoc = this.itemPaiement.regId
+    }
     const data = {
       docName : item.docName ?  item.docName : this.currentFichier.fileName,
       docNum :  item.docNum ? item.docNum : "",
@@ -145,7 +150,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
     
   }
 
-  confirmSaveItem(item: any) {
+  confirmSaveItem(item: any) {    
     if(!this.currentFichier || !this.currentFichier.fichierBase64) {
       this.utilities.showNotification(
         "snackbar-danger",
@@ -264,7 +269,6 @@ export class CreationDocumentSinistreComponent implements OnInit {
   }
 
   getDocumentdejaJoint() {
-   
     if (this.idAffaire) {
       this.documentService
         .getDocumentByAffaire(this.idAffaire)
@@ -277,7 +281,6 @@ export class CreationDocumentSinistreComponent implements OnInit {
           }
         });
     } else {
-
       if(this.isPaiement) {
         this.documentService
         .getDocumentByPaiement(this.idOrigine)
@@ -305,20 +308,6 @@ export class CreationDocumentSinistreComponent implements OnInit {
           console.log("res :", res);
           if (res.content) {
             this.listesDoc = res.content.map((item: any) => {
-              // console.log(item.docPath.split('.')[1].toLowerCase());
-
-              // if (item.docPath.split(".")[1].toLowerCase() == "pdf") {
-              //   item.mimeTypes = "application/pdf";
-              // } else {
-              //   if (item.docPath.split(".")[1].toLowerCase() == "png") {
-              //     item.mimeTypes = "image/png";
-              //   } else {
-              //     if (item.docPath.split(".")[1].toLowerCase() == "jpeg") {
-              //       item.mimeTypes = "image/jpeg";
-              //     }
-              //   }
-              // }
-
               item.mimeTypes = this.getTypeFile(item);
               return item;
             });

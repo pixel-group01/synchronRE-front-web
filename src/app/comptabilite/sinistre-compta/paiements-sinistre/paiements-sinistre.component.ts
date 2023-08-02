@@ -48,8 +48,9 @@ export class PaiementsSinistreComponent implements OnInit {
     return num;
   }
 
-  openModal(template: TemplateRef<any>,data?:any) {
+  openModal(template: TemplateRef<any>,data?:any,option?:boolean) {
     console.log("idSiniOfListe :",this.idSiniOfListe = data);
+
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
     this.modalRef = this.modalService.show(template,config);
   }

@@ -83,20 +83,26 @@
                     <div class="info-paiement-container">
                         <div class="row">
 
-                            <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
+                            <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
                                 <b>A payer : </b>
                                 <span>{{etatComp?.sinMontantTotalCessionnaires | moneyFormat}}</span>
                             </div>
 
-                            <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
+                            <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
                                 <b>Déjà réglé : </b>
                                 <span>{{etatComp?.dejaRegle| moneyFormat}}</span>
                             </div>
 
-                            <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
+                            <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
                                 <b>Reste à payer : </b>
                                 <span>{{etatComp?.resteARegler | moneyFormat}}</span>
                             </div>
+
+                            <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
+                                <b>En attente de reversement : </b>
+                                <span>{{etatComp?.mtEnAttenteDeReversement | moneyFormat}}</span>
+                            </div>
+
                         </div>
                     </div>
 
@@ -127,21 +133,23 @@
                             <th>Réf {{isPaiement ? 'paiement':'reversement'}}</th>
                             <th>Montant (F.CFA)</th>
                             <th>Date</th>
-                            <th  *ngIf="!isPaiement">Cessionnaire</th>
-                            <th *ngIf="!isPaiement" class="txt-align-center">Action</th>
+                            <th  *ngIf="isPaiement">Cessionnaire</th>
+                            <th  class="txt-align-center">Action</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr *ngFor="let item of listePaiementDejaEffectue; let i = index">
+                        <tr *ngFor="let item of paiementSinistre; let i = index">
                             <td> {{i+1}}</td>
                             <td>{{item?.regMode}}</td>
                             <td>{{item?.regReference}}</td>
                             <td>{{item?.regMontant | moneyFormat}}</td>
                             <td>{{item?.regDate}}</td>
-                            <td *ngIf="!isPaiement">{{item?.cesNom}}</td>
-                            <td *ngIf="!isPaiement"  class="txt-align-center">
-                                <button type="button" class="btn btn-xs btn-default btn-print" (click)="getNoteCredit(item?.cesId)"> <i class="fa fa-print"></i> Imprimer note crédit</button>
+                            <td *ngIf="isPaiement">{{item?.cesNom}}</td>
+                            <td class="txt-align-center">
+                                <button type="button" class="btn btn-xs btn-default btn-print"> Editon de chèque</button>
+                                <i class="fa fa-upload btn" title="Joindre un document" aria-hidden="true" (click)="openPanelUploadDoc(true,item)"></i>
+                                <!--<button type="button" class="btn btn-xs btn-default btn-print" (click)="getNoteCredit(item?.cesId)"> <i class="fa fa-print"></i> Imprimer note crédit</button>-->
                             </td>
                         </tr>
 
@@ -188,7 +196,7 @@
                                             [value]="cessionaire?.cesId">{{ cessionaire.cesNom }}</ng-option>
                                     </ng-select>
 
-                                </div>
+                                </div> 
                             </div>
                             <div class="row">
                                 <div class="col-6 mb-3">
@@ -278,6 +286,20 @@
 
                     </div>
 
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="new-paiement-bilan" id="upload-popup">
+            <div class="details-header">
+                <b> {{ isPaiement ? 'Uploadé un document de paiement' : 'Uploadé un document de reversement' }} </b>
+                <i class="fa fa-times" (click)="openPanelUploadDoc(false)"></i>
+            </div>
+            <div class="col-12 details-body-doc"> 
+                <ng-container>
+                    <div class="row">
+                        <app-creation-document-sinistre [notNeedBtnFooter]="true" [itemPaiement]="itemOfPaiement"></app-creation-document-sinistre>
+                    </div>
                 </ng-container>
             </div>
         </div>

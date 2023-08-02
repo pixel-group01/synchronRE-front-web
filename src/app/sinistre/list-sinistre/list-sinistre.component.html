@@ -57,25 +57,25 @@
                 Actions
               </button>
                 <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
-                  <button ngbDropdownItem (click)="openModal(templateSinistre,item,true)">
+                  <button ngbDropdownItem (click)="openModal(templateSinistre,item,true)" appAppAccess appAccess="GET-SIN-DET">
                     <i class="fa fa-list"></i>&nbsp;Détails sinistre
                   </button>
-                  <button ngbDropdownItem (click)="openModal(templateSinistre,item,false)">
+                  <button ngbDropdownItem (click)="openModal(templateSinistre,item,false)" appAppAccess appAccess="UPD-SIN">
                     <i class="fa fa-edit"></i>&nbsp;Modifier sinistre
                   </button>
-                  <button ngbDropdownItem (click)="confirmTransmettreSinistre(item.sinId)">
+                  <button ngbDropdownItem (click)="confirmTransmettreSinistre(item.sinId)" appAppAccess appAccess="TRANS-SIN">
                     <i class="fa fa-share"></i>&nbsp;Transmettre sinistre
                   </button>
-                  <button ngbDropdownItem (click)="openModalRetourner(templateRetournerSinistre,item.sinId)">
+                  <button ngbDropdownItem (click)="openModalRetourner(templateRetournerSinistre,item.sinId)" appAppAccess appAccess="UPD-SIN">
                     <i class="fa fa-share" style="rotate: 180deg;"></i>&nbsp;Retourner sinistre
                   </button>
-                  <button ngbDropdownItem (click)="confirmValiderSinistre(item.sinId)">
+                  <button ngbDropdownItem (click)="confirmValiderSinistre(item.sinId)" appAppAccess appAccess="VAL-SIN">
                     <i class="fa fa-check"></i>&nbsp;Valider sinistre
                   </button>
-                  <button ngbDropdownItem (click)="openModalEtatComptable(templateEtatComptable,item.sinId)">
-                    <i class="fa fa-square"></i>&nbsp;Etat comptable
+                  <button ngbDropdownItem (click)="openModalEtatComptable(templateEtatComptable,item.sinId)" appAppAccess appAccess="GET-ETA-COMPT-SIN  ">
+                    <i class="fa fa-info-circle"></i>&nbsp;Situation comptable
                   </button>
-                  <button ngbDropdownItem>
+                  <button ngbDropdownItem appAppAccess appAccess="GET-SIN-HISTO">
                     <i class="fa fa-list" (click)="openModal(templateSinistre,item,false)"></i>&nbsp;Historique sinistre
                   </button>
               </div>
@@ -164,7 +164,7 @@
   </div>
 </ng-template>
 
-<!-- detail etat comptable -->
+<!-- detail Situation comptable -->
 <ng-template #templateEtatComptable>
   <div class="modal-header">
       <h4 class="modal-title pull-left">
