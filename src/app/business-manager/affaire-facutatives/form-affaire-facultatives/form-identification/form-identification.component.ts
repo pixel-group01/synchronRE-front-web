@@ -159,8 +159,7 @@ export class FormIdentificationComponent implements OnInit {
         Validators.required,
       ],
       facNumeroPolice: [
-        this.itemToUpdate?.facNumeroPolice || "",
-        Validators.required,
+        this.itemToUpdate?.facNumeroPolice || ""
       ],
       affCapitalInitial: [
         this.itemToUpdate?.affCapitalInitial || "",
@@ -178,7 +177,7 @@ export class FormIdentificationComponent implements OnInit {
       facPrime: [this.itemToUpdate?.facPrime || ""],
       cedId: [ (this.itemToUpdate?.cedId || this.user?.cedId || this.itemToSave.cedenteId) || "", Validators.required],
       statutCode: [this.itemToUpdate?.statutCode || ""],
-      couvertureId: [this.itemToUpdate?.couvertureId || "", Validators.required],
+      couvertureId: [ (this.itemToUpdate?.couvertureId || this.itemToUpdate?.couId) || "", Validators.required],
       exeCode: [this.itemToUpdate?.exeCode || "", Validators.required],
       restARepartir: [""],
       capitalDejaReparti: [
@@ -227,6 +226,9 @@ export class FormIdentificationComponent implements OnInit {
               "center"
             );
 
+            console.log(" response ",response);
+            
+
             // On souscrit à l'observable
             this.businessOptionalService.setCurrentOptionalBusiness(
               response as BusinessOptional
@@ -237,6 +239,7 @@ export class FormIdentificationComponent implements OnInit {
         });
     } else {
       // Nous sommes en modification
+      itemAEnregistrer.facCapitaux = itemAEnregistrer.affCapitalInitial;
       this.busySave = this.businessOptionalService
         .update(itemAEnregistrer)
         .subscribe((response: any) => {
@@ -253,6 +256,10 @@ export class FormIdentificationComponent implements OnInit {
             this.closeModal.emit(true);
           } else {
             // Nous sommes toujours sur le wizard
+             // On souscrit à l'observable
+             this.businessOptionalService.setCurrentOptionalBusiness(
+              response as BusinessOptional
+            );
             this.stepperInice.emit(2);
           }
         });
@@ -263,36 +270,13 @@ export class FormIdentificationComponent implements OnInit {
   ngOnInit(): void {
     // Initialisation du forms group
  
-    // this.currentAffaire = {
-    //     affId: 6,
-    //     affCode: null,
-    //     affAssure: "noglo koffi",
-    //     affActivite: "REASSUREUR",
-    //     affDateEffet: "2023-04-25",
-    //     affDateEcheance: "2023-04-29",
-    //     facNumeroPolice: null,
-    //     affCapitalInitial: 30000000,
-    //     facSmpLci: null,
-    //     facPrime: null,
-    //     cedenteId: 2,
-    //     cedNomFiliale: "NSIA BN",
-    //     cedSigleFiliale: "NSIA BN",
-    //     statutCode: "SAI",
-    //     couvertureId: 1,
-    //     restARepartir: 30000000,
-    //     capitalDejaReparti: 0,
-    //     etatComptable: null,
-    //   };
-
     this.currentAffaire = {...this.businessOptionalService.businessOptionalSubject$.value};
-
-    console.log(" this.currentAffaire ",this.currentAffaire);
     
     if(this.currentAffaire && this.currentAffaire.affId) {
       this.isUpdateForm = true; // Pour signifier que nous sommes en modification
       this.itemToUpdate = {...this.currentAffaire};
-      this.itemToUpdate.cedId = this.itemToUpdate.cedanteId || this.itemToUpdate.cedId;
-      this.itemToUpdate.affCapitalInitial = this.itemToUpdate.facCapitaux;
+      this.itemToUpdate.cedId = this.itemToUpdate.cedanteId || this.itemToUpdate.cedId  || this.itemToUpdate.cedenteId ;
+      this.itemToUpdate.affCapitalInitial = this.itemToUpdate.affCapitalInitial || this.itemToUpdate.facCapitaux;
       // Nous allons formater la date pour eviter invalid date
       if(this.itemToUpdate && this.itemToUpdate.affDateEffet) {
         this.itemToUpdate.affDateEffet = this.utilities.formatDateInIsoData(this.itemToUpdate.affDateEffet);

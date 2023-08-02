@@ -295,10 +295,10 @@
                 <b> {{ isPaiement ? 'Uploadé un document de paiement' : 'Uploadé un document de reversement' }} </b>
                 <i class="fa fa-times" (click)="openPanelUploadDoc(false)"></i>
             </div>
-            <div class="col-12 details-body-doc">
+            <div class="col-12 details-body-doc"> 
                 <ng-container>
                     <div class="row">
-                        <app-creation-document-sinistre [isUploadDocCompta]="true" [itemPaiement]="itemOfPaiement"></app-creation-document-sinistre>
+                        <app-creation-document-sinistre [notNeedBtnFooter]="true" [itemPaiement]="itemOfPaiement"></app-creation-document-sinistre>
                     </div>
                 </ng-container>
             </div>

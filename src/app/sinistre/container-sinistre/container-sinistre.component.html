@@ -8,10 +8,11 @@
                     </div>
                     <div class="body">
                         <mat-tab-group>
-                            <mat-tab label="En cours de saisie">
-                                <ng-template matTabContent>
+                            <!--*ngIf="CRT-SIN"-->
+                            <mat-tab label="En cours de saisie" *ngIf="checkFonction('GET-SIN-SAI-LST')">
+                                <ng-template matTabContent >
                                     <div class="header-btn-new-affaire">
-                                        <button type="button" class="btn btn-md custom_btn_primary pull-right"
+                                        <button type="button" class="btn btn-md custom_btn_primary pull-right" *ngIf="checkFonction('CRT-SIN')"
                                             (click)="openModal(templateSinistre)">
                                             <i class="fa fa-plus"></i>&nbsp; Nouveau sinistre
                                         </button>
@@ -19,34 +20,34 @@
                                     <app-list-sinistre [endPoint]="'sinistres/facultative/saisi-by-cedante'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
-                            <mat-tab label="Transmis">
+                            <mat-tab label="Transmis" *ngIf="checkFonction('GET-SIN-TRANS-LST')">
                                 <ng-template matTabContent>
                                     <app-list-sinistre [endPoint]="'sinistres/facultative/transmis-by-cedante'"  [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
-                            <mat-tab label="En cours de validation">
+                            <mat-tab label="En cours de validation" *ngIf="checkFonction('GET-SIN-AVAL-LST')">
                                 <ng-template matTabContent>
                                     <app-list-sinistre [endPoint]="'sinistres/facultative/attente-validation'"  [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
 
-                            <mat-tab label="En reglement">
+                            <mat-tab label="En reglement" *ngIf="checkFonction('GET-SIN-REG-LST')">
                                 <ng-template matTabContent>
                                     <app-list-sinistre [endPoint]="'sinistres/facultative/en-reglement'"   [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
-                            <mat-tab label="Soldes">
+                            <mat-tab label="Soldes" *ngIf="checkFonction('GET-SIN-SOLD-LST')">
                                 <ng-template matTabContent>
                                     <app-list-sinistre [endPoint]="'sinistres/facultative/en-reglement'"   [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
-                            <mat-tab label="Suivie">
+                            <mat-tab label="Suivie" *ngIf="checkFonction('GET-SIN-SUIV-LST')">
                                 <ng-template matTabContent>
                                     <app-list-sinistre [endPoint]="'sinistres/facultative/suivi'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
 
-                            <mat-tab label="Archives">
+                            <mat-tab label="Archives" *ngIf="checkFonction('GET-SIN-ARCH-LST')">
                                 <ng-template matTabContent>
                                     <app-list-sinistre [endPoint]="'sinistres/facultative/arch'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>

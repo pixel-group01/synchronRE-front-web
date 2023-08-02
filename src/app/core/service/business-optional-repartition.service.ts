@@ -12,6 +12,10 @@ export class BusinessOptionalRepartitionService {
     return this.restClient.post('repartitions/create',body)
   } 
 
+  getCalculRepartition = (body:any) => {
+    return this.restClient.post('repartitions/calculate',body)
+  } 
+
   createPlacement = (body:any) => {
     return this.restClient.post('repartitions/create-placement',body)
   } 
@@ -29,6 +33,10 @@ export class BusinessOptionalRepartitionService {
     return this.restClient.put('repartitions/update',body)
   }
 
+  updateRepartition = (body:any) => {
+    return this.restClient.put('repartitions/update-cedante-legale',body)
+  }
+
   modificationPlacement = (body:any) => {
     return this.restClient.put('repartitions/modifier-placement',body)
   }
@@ -36,13 +44,17 @@ export class BusinessOptionalRepartitionService {
   accepterPlacement = (body:any,repartitionId:number) => {
     return this.restClient.put('repartitions/accepter-placement/'+repartitionId,body)
   }
+ 
+  transmissionNoteDeCession = (body:any,repartitionId:number) => {
+    return this.restClient.put('repartitions/envoyer-note-cession-fac/'+repartitionId,body)
+  }
 
   validerPlacement = (body:any,repartitionId:number) => {
     return this.restClient.put('repartitions/valider-placement/'+repartitionId,body)
   }
 
   sendNoteCession = (body:any,repartitionId:number) => {
-    return this.restClient.put('repartitions/envoyer-note-cession/'+repartitionId,body)
+    return this.restClient.put('repartitions/envoyer-note-cession-fac/'+repartitionId,body)
   }
 
   refuserPlacement = (body:any,repartitionId:number) => {
@@ -62,18 +74,18 @@ export class BusinessOptionalRepartitionService {
     return this.restClient.get(endPointFinal);
   }
 
-  getRepartitionCalculatTaux = (affaireId?:number,taux?:number) => {
-    let endPointFinal = "repartitions/calculate/by-taux/"+affaireId+"/"+taux;
+  getRepartitionCalculatTaux = (affaireId?:number,taux?:number,repIdToUpdate?:number) => {
+    let endPointFinal = "repartitions/calculate/by-taux/"+affaireId+"/"+taux+(repIdToUpdate ? "?repIdToUpdate="+repIdToUpdate : '');
     return this.restClient.get(endPointFinal);
   }
 
-  getRepartitionCalculatByTauxBesoin = (affaireId?:number,tauxBesoin?:number) => {
-    let endPointFinal = "repartitions/calculate/by-taux-besoin/"+affaireId+"/"+tauxBesoin;
+  getRepartitionCalculatByTauxBesoin = (affaireId?:number,tauxBesoin?:number,repIdToUpdate?:number) => {
+    let endPointFinal = "repartitions/calculate/by-taux-besoin/"+affaireId+"/"+tauxBesoin+(repIdToUpdate ? "?repIdToUpdate="+repIdToUpdate : '');
     return this.restClient.get(endPointFinal);
   }
 
-  getRepartitionCalculatByCapital = (affaireId?:number,capital?:number) => {
-    let endPointFinal = "repartitions/calculate/by-capital/"+affaireId+"/"+capital;
+  getRepartitionCalculatByCapital = (affaireId?:number,capital?:number,repIdToUpdate?:number) => {
+    let endPointFinal = "repartitions/calculate/by-capital/"+affaireId+"/"+capital+(repIdToUpdate ? "?repIdToUpdate="+repIdToUpdate : '');
     return this.restClient.get(endPointFinal);
   }
 
@@ -111,7 +123,7 @@ export class BusinessOptionalRepartitionService {
   }
 
   reportNoteCessionPlacement(placementId:number){
-    return this.restClient.get('reports/note-cession/'+placementId);
+    return this.restClient.get('reports/note-cession-fac/'+placementId);
   }
 
   getOldDataRepartition = (affaireId?:number) => {

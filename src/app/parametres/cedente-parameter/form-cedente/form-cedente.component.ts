@@ -8,8 +8,10 @@ import {
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
+import { Bank } from "src/app/core/models/bank";
 import { Cedante } from "src/app/core/models/cedante";
 import { Country } from "src/app/core/models/country";
+import { BankService } from "src/app/core/service/bank.service";
 import { CedanteService } from "src/app/core/service/cedante.service";
 import { CountryService } from "src/app/core/service/country.service";
 import { UtilitiesService } from "src/app/core/service/utilities.service";
@@ -24,13 +26,15 @@ export class FormCedenteComponent implements OnInit {
   @Input() itemToUpdate: Cedante; // Pour signifier la mofification de l'element
   busySuscription!: Subscription;
   listeCountry : Country[] = [];
+  listeBanques : Bank[] = [];
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
     private formBuilder: FormBuilder,
     private cedanteServcie: CedanteService,
     private utilities: UtilitiesService,
-    private countryService : CountryService
+    private countryService : CountryService,
+    private bankService:BankService
   ) {}
 
   createForm = () => {
@@ -45,8 +49,27 @@ export class FormCedenteComponent implements OnInit {
       cedSituationGeo: [this.itemToUpdate?.cedSituationGeo || ""],
       cedStatut: [this.itemToUpdate?.cedStatut || ""],
       paysCode : [this.itemToUpdate?.paysCode || ""],
+      banNumCompte : [this.itemToUpdate?.banNumCompte || "", Validators.required],
     });
   };
+
+
+  getBanque() {
+    this.busySuscription = this.bankService.getByCriteria(0,10000)
+      .subscribe(
+        res => {
+          if (res && res['content']) {
+            this.listeBanques = res['content'] as Bank[];
+          }
+          else {
+            this.listeBanques = [];
+          }
+        },
+        err => {
+        }
+      );
+  }
+
 
   getFormFiledsValue = (field: string) => {
     return this.paramForm.get(field);
@@ -136,6 +159,7 @@ export class FormCedenteComponent implements OnInit {
     // Initialisation du forms group
     this.createForm();
     this.getCountry();
+    this.getBanque();
   }
 
   ngOnChanges(changes: SimpleChanges) {

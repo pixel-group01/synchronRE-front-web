@@ -20,6 +20,7 @@ import { ExerciceService } from "src/app/core/service/exercice.service";
 import { enumStatutAffaire } from "src/app/core/enumerator/enumerator";
 import { RestClientService } from "src/app/core/service/rest-client.service";
 import { environment } from "src/environments/environment";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: "app-list-affaires-facultatives",
@@ -45,6 +46,7 @@ export class ListAffairesFacultativesComponent implements OnInit {
   @Input() isEnCoursPlacementNelson: boolean = false;
   initialEndPoint: string;
   statutAffEnum: any;
+  urlIframeMock: any;
 
   constructor(
     private businessOptionalService: BusinessOptionalService,
@@ -53,7 +55,8 @@ export class ListAffairesFacultativesComponent implements OnInit {
     private userService: UserService,
     private utilities: UtilitiesService,
     private modalService: BsModalService,
-    private restClient: RestClientService
+    private restClient: RestClientService,
+    public sanitizer: DomSanitizer
   ) {
     this.user = this.userService.getCurrentUserInfo();
     this.statutAffEnum = enumStatutAffaire;
@@ -71,6 +74,13 @@ export class ListAffairesFacultativesComponent implements OnInit {
     };
     if (itemAffaire) {
       this.itemToSave = { ...itemAffaire };
+
+      // this.itemToSave.urlFormat = environment.apiUrl+'reports/display-note-de-debit/'+itemAffaire.affId;
+
+      // this.urlIframeMock =  this.sanitizer.bypassSecurityTrustResourceUrl(this.itemToSave.urlFormat);
+
+      // console.log(" this.itemToSave.urlFormat ",this.itemToSave.urlFormat);
+      
 
       if (this.itemToSave.statutCode?.toLowerCase() === "ret") {
         this.itemToSave.isSeeMotifRetour = true;
@@ -181,9 +191,48 @@ export class ListAffairesFacultativesComponent implements OnInit {
       });
   }
 
+
+  confirmTransmettreNoteDeDebit(affaire: BusinessOptional) {
+    /** Faire les controls */
+    let itemAEnregistrer = Object.assign({}, affaire);
+
+    if (itemAEnregistrer)
+      Swal.fire({
+        title: "Transmission note de débit",
+        text: "Vous êtes sur le point de transmettre une note de débit. Voulez-vous poursuivre cette action ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0665aa",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Oui",
+        cancelButtonText: "Non",
+      }).then((result) => {
+        if (result.value) {
+          this.transmissionNoteDebit(itemAEnregistrer);
+        }
+      });
+  }
+
+
   transmissionPourReglementAffaire(itemAEnregistrer: BusinessOptional) {
     this.busyGet = this.businessOptionalService
       .validerAffaire(itemAEnregistrer.affId, itemAEnregistrer)
+      .subscribe((response: any) => {
+        if (response) {
+          this.utilities.showNotification(
+            "snackbar-success",
+            this.utilities.getMessageOperationSuccessFull(),
+            "bottom",
+            "center"
+          );
+          this.getItems();
+        }
+      });
+  }
+
+  transmissionNoteDebit(itemAEnregistrer: BusinessOptional) {
+    this.busyGet = this.businessOptionalService
+      .envoyerNoteCession(itemAEnregistrer.affId, itemAEnregistrer)
       .subscribe((response: any) => {
         if (response) {
           this.utilities.showNotification(
@@ -309,7 +358,7 @@ export class ListAffairesFacultativesComponent implements OnInit {
   getReportDebit(idAffaire: number) {
     if (idAffaire) {
       window.open(
-        environment.apiUrl + "reports/note-de-debit/" + idAffaire,
+        environment.apiUrl + "reports/display-note-de-debit-fac/" + idAffaire,
         "_blank"
       );
     }

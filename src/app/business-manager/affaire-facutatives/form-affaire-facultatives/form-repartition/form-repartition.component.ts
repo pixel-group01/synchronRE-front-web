@@ -9,7 +9,7 @@ import {
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { BusinessOptional } from "src/app/core/models/businessOptional";
-import { BusinessOptionalRepartition } from "src/app/core/models/businessOptionalRepartition";
+import { BusinessOptionalRepartition, CalculateRelartitionRequest, CalculateRelartitionResponse } from "src/app/core/models/businessOptionalRepartition";
 import { CessionLegale } from "src/app/core/models/cessionLegale";
 import { Couverture } from "src/app/core/models/couverture";
 import { RepartitionByTauxOrCapital } from "src/app/core/models/repartitionByTauxOrCapital";
@@ -69,6 +69,54 @@ export class FormRepartitionComponent implements OnInit {
     });
   }
 
+  getRepartitionCalculate($event:any,currentCession ? : any) {
+
+    
+    if(!this.itemToSave.repCapital && !this.itemToSave.repTaux) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Veuillez renseigner le capital !",
+        "bottom",
+        "center"
+      );
+      return
+    }
+
+    let req : CalculateRelartitionRequest;
+
+    let paramsCessionLegals = [];
+
+    this.listeParametreCessionsLegale.forEach(parametre => {
+        if(parametre.checked) {
+          paramsCessionLegals.push(parametre.paramCesLegalId)
+        }
+    });
+
+    req = {
+      affId : this.currentAffaire.affId,
+      repCapital : !this.itemToSave.repTaux ? this.itemToSave.repCapital : null,
+      repTaux : this.itemToSave.repTaux,
+      repId : this.itemToSave.repId,
+      repIdToBeModified : currentCession?.repId || null,
+      pclIds : paramsCessionLegals
+    }
+    this.businessOptionalRepartitionService.getCalculRepartition(req).subscribe((response : any) => {
+
+      if(response && response?.affId) {
+        this.oldDataRepartition.updateCesLegReqs = response?.paramCesLegs;
+        this.itemToSave.repCapital = response?.repCapital;
+        this.itemToSave.repTaux = response?.repTaux;
+        this.itemToSave.besoinFacInitial = response?.besoinFac;
+        this.itemToSave.repTauxBesoinFac = response?.repTaux;
+        
+        // Mise a jour de la banière des d"tails
+        this.repartitionBesoinFac.besoinFacRestant = response?.besoinFacRestant;
+
+        this.getMatchCessionLegaleInUpdate(true);
+      }
+    });
+  }
+
   // createForm = () => {
   //   this.formulaireGroup = this.formBuilder.group({
   //     repId: [this.itemToUpdate?.affId || ""],
@@ -100,6 +148,7 @@ export class FormRepartitionComponent implements OnInit {
       repTaux: paramCession.paramCesLegTaux,
       repTauxBesoinFac: "",
       repSousCommission: 0,
+      repId : paramCession.repId || null,
       affId: this.currentAffaire?.affId,
       paramCesLegalId: paramCession.paramCesLegId,
       paramCesLegLibelle: paramCession?.paramCesLegLibelle,
@@ -107,11 +156,16 @@ export class FormRepartitionComponent implements OnInit {
     };
   }
 
-  getMatchCessionLegaleInUpdate(){
-    console.log(" match ol repartition ");
+  getMatchCessionLegaleInUpdate(canResetCheckBox : boolean = false){
+
     
     if(this.oldDataRepartition.updateCesLegReqs && this.listeParametreCessionsLegale && this.listeParametreCessionsLegale.length) {
       this.listeParametreCessionsLegale.forEach(cession => {
+
+        if(!canResetCheckBox) {
+          cession.checked = false;
+        }
+       
         if(cession.paramCesLegalId){
           let oldParamCession = _.find(this.oldDataRepartition.updateCesLegReqs, (o) => { return o.paramCesLegalId === cession.paramCesLegalId});
 
@@ -119,6 +173,7 @@ export class FormRepartitionComponent implements OnInit {
             cession.checked = oldParamCession?.accepte;
             cession.repCapital = oldParamCession?.repCapital;
             cession.repTaux = oldParamCession?.repTaux;
+            cession.repId = oldParamCession?.repId
           }
         }
      });
@@ -144,13 +199,19 @@ export class FormRepartitionComponent implements OnInit {
         let currentValueRepartion = { ...this.itemToSave };
 
         // Recupererons les cessions cochés
-        let cessionsCoches = _.filter(this.listeParametreCessionsLegale, (o) => { return o.checked; });
-        cessionsCoches.forEach(cession => {
-          cession.repId  = this.itemToSave.repId || null
-        });
+        let cessionsCoches = _.filter(this.listeParametreCessionsLegale, (o) => { return o.checked; }); 
+
+        if(this.itemToSave.repId && this.itemToSave.repId > 0) {
+          cessionsCoches = this.listeParametreCessionsLegale; // _.filter(this.listeParametreCessionsLegale, (o) => { return o.checked; });
+          cessionsCoches.forEach(cession => {
+            // cession.repId  = this.itemToSave.repId || null,
+            cession.accepte = cession.checked
+          });
+        }
 
         let requestRepartition: RepartitionCedanteCessionLegal = {
-          cesLegDtos: cessionsCoches || [],
+          cesLegDtos: !this.itemToSave.repId ? cessionsCoches : null,
+          updateCesLegReqs :  this.itemToSave.repId ? cessionsCoches : [],
           repCapital: currentValueRepartion.repCapital,
           repTauxBesoinFac: currentValueRepartion.repTauxBesoinFac,
           affId: this.currentAffaire?.affId,
@@ -170,8 +231,7 @@ export class FormRepartitionComponent implements OnInit {
       this.busySave = this.businessOptionalRepartitionService
         .createCedanteLegaleRepartition(itemAEnregistrer)
         .subscribe((response: any) => {
-          console.log(" response businessOptionalRepartitionService", response);
-
+       
           if (response && response.repId) {
             this.utilities.showNotification(
               "snackbar-success",
@@ -192,7 +252,7 @@ export class FormRepartitionComponent implements OnInit {
     } else {
       // Nous sommes en modification
       this.busySave = this.businessOptionalRepartitionService
-        .update(itemAEnregistrer)
+        .updateRepartition(itemAEnregistrer)
         .subscribe((response: any) => {
           if (response && response?.repId) {
             this.utilities.showNotification(
@@ -217,6 +277,7 @@ export class FormRepartitionComponent implements OnInit {
   }
 
   getRepartionByCapital(valueParamCession?:number) {
+
     if (!this.currentAffaire || !this.currentAffaire.affId) {
       this.utilities.showNotification(
         "snackbar-danger",
@@ -228,7 +289,7 @@ export class FormRepartitionComponent implements OnInit {
     }
 
     let currentCapitalSaisi = valueParamCession || this.itemToSave?.repCapital; //this.getFormFiledsValue('repCapital')?.value;
-    if (!currentCapitalSaisi || !currentCapitalSaisi) {
+    if (!currentCapitalSaisi) {
       this.utilities.showNotification(
         "snackbar-danger",
         "Aucun capital defini !",
@@ -241,7 +302,8 @@ export class FormRepartitionComponent implements OnInit {
     this.businessOptionalRepartitionService
       .getRepartitionCalculatByCapital(
         this.currentAffaire.affId,
-        currentCapitalSaisi
+        currentCapitalSaisi,
+        this.itemToSave.repId
       )
       .subscribe((response) => {
         if (response) {
@@ -285,7 +347,7 @@ export class FormRepartitionComponent implements OnInit {
     }
 
     this.businessOptionalRepartitionService
-      .getRepartitionCalculatTaux(this.currentAffaire.affId, currentTauxSaisi)
+      .getRepartitionCalculatTaux(this.currentAffaire.affId, currentTauxSaisi,this.itemToSave.repId)
       .subscribe((response) => {
         if (response) {
           this.repartitionBesoinFac = response as RepartitionByTauxOrCapital;
@@ -346,6 +408,7 @@ export class FormRepartitionComponent implements OnInit {
     this.itemToSave.repCapital = itemRepartitionTaux.capital;
     this.itemToSave.repTaux = itemRepartitionTaux.taux;
     this.itemToSave.repTauxBesoinFac = itemRepartitionTaux.tauxBesoinFac;
+    this.getRepartitionCalculate(null,null);
   }
 
   //Recuperer les cession legale
@@ -406,7 +469,7 @@ export class FormRepartitionComponent implements OnInit {
     }
 
     let currentCapitalSaisi = itemRepartition?.repCapital; //this.getFormFiledsValue('repCapital')?.value;
-    if (!currentCapitalSaisi || !currentCapitalSaisi) {
+    if (!currentCapitalSaisi) {
       this.utilities.showNotification(
         "snackbar-danger",
         "Aucun capital defini !",
@@ -419,7 +482,8 @@ export class FormRepartitionComponent implements OnInit {
     this.businessOptionalRepartitionService
       .getRepartitionCalculatByCapital(
         this.currentAffaire.affId,
-        currentCapitalSaisi
+        currentCapitalSaisi,
+        this.itemToSave.repId
       )
       .subscribe((response) => {
         if (response) {

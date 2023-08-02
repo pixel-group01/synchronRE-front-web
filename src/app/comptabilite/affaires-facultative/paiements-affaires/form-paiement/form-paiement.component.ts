@@ -25,8 +25,10 @@ export class FormPaiementComponent implements OnInit {
   formulaireGroup!: FormGroup;
   busySave: Subscription;
   itemToUpdate: Reglement;
+  isFondDocumentaire : boolean = false;
   @Input() currentAffaire: BusinessOptional;
   @Input() isPaiement: boolean;
+  currentRowPaiement : any;
 
   listeDocumentsAjoutes: any = {};
   listeCessionnaire: Cessionnaire[];
@@ -52,10 +54,19 @@ export class FormPaiementComponent implements OnInit {
     this.currentUser = this.userService.getCurrentUserInfo();
   }
 
-  openPanelNewPaiement(isOpen: boolean) {
+  openPanelNewPaiement(isOpen: boolean,isFondDoc?:boolean,currentRowPaiement?:any) {
     //Recuperé la div details
     let divDetails = document.getElementById("new-paiement-bilan");
 
+    this.isFondDocumentaire = isFondDoc;
+
+    if(currentRowPaiement) {
+      this.currentRowPaiement = {...currentRowPaiement};
+
+      console.log(" this.currentRowPaiement ",this.currentRowPaiement);
+      
+    }
+  
     if (divDetails && isOpen) {
       divDetails.classList.add("open-details");
     } else {

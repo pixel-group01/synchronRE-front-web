@@ -123,9 +123,6 @@ export class BusinessOptionalService {
 
   getAffaireFacultativeByReassureurEnReglement = (index:number = 0,size:number=10,key?:string,cedId?:number,exeCode?:any) => {
     let endPointFinal = "affaires/facultative/by-reassureur-en-reglement?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
-   
-    console.log(" exeCode ",exeCode);
-    
     if(endPointFinal && cedId) {
       endPointFinal = endPointFinal+"&cedId="+cedId;
     }
@@ -148,6 +145,10 @@ export class BusinessOptionalService {
 
   validerAffaire = (idAffaire:number,body:any) => {
     return this.restClient.put('affaires/facultative/valider/'+idAffaire,body)
+  } 
+
+  envoyerNoteCession = (idAffaire:number,body:any) => {
+    return this.restClient.put('affaires/envoyer-note-debit-fac/'+idAffaire,body)
   } 
 
   retournerAffaire = (body:any) => {

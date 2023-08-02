@@ -30,15 +30,19 @@ export class CreationDocumentSinistreComponent implements OnInit {
   documentForm: FormGroup;
   busySave: Subscription;
   @Input() isActiveCreationSinistre: boolean = false;
+  @Input() notNeedBtnFooter: boolean = false;
   itemToSearch: any = {};
+  
   infoDocInPreview :any;
   @Output() step1: EventEmitter<number> = new EventEmitter();
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() idSinistreInDoc: number;
   @Input() idAffaire: number;
+  @Input() idOrigine:number;
+  @Input() origine:string;
   @Input() itemCreationSinistre: any;
-  @Input() isUploadDocCompta: boolean;
   @Input() itemPaiement: any;
+  @Input() isPaiement: boolean;
   @ViewChild("fileInput") fileInput: any;
 
   listesDoc: any = [];
@@ -55,7 +59,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
   ngOnInit(): void {    
     this.getTypeDocument();
     this.documForm();
-    if (this.itemCreationSinistre || this.idAffaire) {
+    if (this.itemCreationSinistre || this.idAffaire || this.isPaiement) {
       this.getDocumentdejaJoint();
     }
   }
@@ -67,10 +71,18 @@ export class CreationDocumentSinistreComponent implements OnInit {
       });
     }
 
+    if(this.isPaiement) {
+      this.documentService.typeDocumentPaiement().subscribe((res: any) => {
+        this.listeTypeDocument = res;
+      });
+    }
+
     if (this.idSinistreInDoc > 0 || this.itemCreationSinistre?.sinId > 0) {
       // En ce moment il s'afgit d'un sinistre on recupere les documents lié au fond documentaire
       // Du sinistre
+      
       this.documentService.typeDocument().subscribe((res: any) => {
+      console.log("doc sin :",res);
         this.listeTypeDocument = res;
       });
     }
@@ -94,28 +106,48 @@ export class CreationDocumentSinistreComponent implements OnInit {
       docId: item.docId ? item.docId : "",
       docUniqueCode: item.uniqueCode,
       docDescription: item.docDescription,
-      objectId: !this.idAffaire
+      objectId: this.idOrigine || ( !this.idAffaire
         ? this.idSinistreInDoc
           ? this.idSinistreInDoc
           : this.itemCreationSinistre.sinId
-        : this.idAffaire,
+        : this.idAffaire),
       base64UrlFile: this.currentFichier.fichierBase64,
       extension: this.currentFichier.extension,
     };
 
-    this.busySave = (!this.idAffaire ? (this.documentForm.value.docId? this.documentService.modificationDoc(data) :this.documentService.create(data)) : this.documentService.createDocAff(data)).subscribe((res: any) => {
-      console.log("res file :", res);
-      if (res === true) {
-        this.utilities.showNotification(
-          "snackbar-success",
-          this.utilities.getMessageOperationSuccessFull(),
-          "top",
-          "center"
-        );
-        this.getDocumentdejaJoint();
-        this.clear();
-      }
-    });
+    if(!this.isPaiement) {
+      this.busySave = (this.documentForm.value.docId ? this.documentService.modificationDoc(data) : (!this.idAffaire ? (this.documentService.create(data)) : this.documentService.createDocAff(data))).subscribe((res: any) => {
+        console.log("res file :", res);
+        if (res === true) {
+          this.utilities.showNotification(
+            "snackbar-success",
+            this.utilities.getMessageOperationSuccessFull(),
+            "top",
+            "center"
+          );
+          this.getDocumentdejaJoint();
+          this.clear();
+        }
+      });
+    }else{
+
+      this.busySave = (this.documentForm.value.docId ? this.documentService.modificationDoc(data) : this.documentService.createWithParameter(data,this.origine)).subscribe((res: any) => {
+  
+        if (res === true) {
+          this.utilities.showNotification(
+            "snackbar-success",
+            this.utilities.getMessageOperationSuccessFull(),
+            "top",
+            "center"
+          );
+          this.getDocumentdejaJoint();
+          this.clear();
+        }
+      });
+    
+    }
+
+    
   }
 
   confirmSaveItem(item: any) {    
@@ -206,6 +238,9 @@ export class CreationDocumentSinistreComponent implements OnInit {
       // Créer une URL pour le blob
       const url = URL.createObjectURL(blob);
       this.file64 = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+
+      // window.open(this.file64.changingThisBreaksApplicationSecurity, '_blank');
+      
     });
   }
 
@@ -234,7 +269,6 @@ export class CreationDocumentSinistreComponent implements OnInit {
   }
 
   getDocumentdejaJoint() {
-   
     if (this.idAffaire) {
       this.documentService
         .getDocumentByAffaire(this.idAffaire)
@@ -247,7 +281,19 @@ export class CreationDocumentSinistreComponent implements OnInit {
           }
         });
     } else {
-      let endPoint: any = this.idSinistreInDoc
+      if(this.isPaiement) {
+        this.documentService
+        .getDocumentByPaiement(this.idOrigine)
+        .subscribe((res: any) => {
+          if (res.content) {
+            this.listesDoc = res.content.map((item: any) => {
+              item.mimeTypes = this.getTypeFile(item);
+              return item;
+            });
+          }
+        });
+      }else{
+        let endPoint: any = this.idSinistreInDoc
       ? this.idSinistreInDoc
       : this.itemCreationSinistre.sinId +
         "?page=" +
@@ -267,7 +313,9 @@ export class CreationDocumentSinistreComponent implements OnInit {
             });
           }
         });
-    }
+       }
+      }
+      
   }
 
   getTypeFile(item: any) {
@@ -287,7 +335,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
   }
 
   deleteDoc(item: any) {
-    this.documentService.delete(item).subscribe((res: any) => {
+    this.busySave = this.documentService.delete(item).subscribe((res: any) => {
       // console.log('res delete ', res);
       this.getDocumentdejaJoint();
     });
