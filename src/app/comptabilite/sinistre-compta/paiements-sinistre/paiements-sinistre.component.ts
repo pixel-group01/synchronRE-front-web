@@ -31,6 +31,7 @@ export class PaiementsSinistreComponent implements OnInit {
   idSiniOfListe :number;
   @Input() isOngletPaiement: boolean = false;
   @Input() isOngletReversement: boolean = false;
+  endPointRetourne :string;
 
   constructor(
     private businessOptionalService: BusinessOptionalService,
@@ -46,6 +47,13 @@ export class PaiementsSinistreComponent implements OnInit {
       num = (page - 1) * 10 + (index + 1);
     }
     return num;
+  }
+
+  openModalRetourner(template: TemplateRef<any>,item:any,endPoint?:string) {
+    this.idSiniOfListe = item;
+    this.endPointRetourne =endPoint;
+    let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
+    this.modalRef = this.modalService.show(template,config);
   }
 
   openModal(template: TemplateRef<any>,data?:any,option?:boolean) {

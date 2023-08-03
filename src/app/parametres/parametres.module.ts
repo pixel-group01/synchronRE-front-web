@@ -47,7 +47,7 @@ import { FormCessionaireComponent } from './cessionnaire/form-cessionaire/form-c
     CedenteParameterComponent,
     FormCedenteComponent,
     CessionnaireComponent,
-    FormCessionaireComponent,
+    FormCessionaireComponent, 
   ],
   imports: [
     CommonModule,

@@ -25,7 +25,7 @@ import { SharedModule } from '../shared/shared.module';
     // CreationSinistreComponent,
     // CreationDocumentSinistreComponent,
     AfficherMessageComponent,
-    EtatComptableComponent
+    // EtatComptableComponent
   ],
   imports: [
     CommonModule,

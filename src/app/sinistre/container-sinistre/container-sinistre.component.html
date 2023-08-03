@@ -17,39 +17,45 @@
                                             <i class="fa fa-plus"></i>&nbsp; Nouveau sinistre
                                         </button>
                                     </div>
-                                    <app-list-sinistre [endPoint]="'sinistres/facultative/saisi-by-cedante'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/saisi-by-cedante'" [code]="'GET-SIN-SAI-LST'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
                             <mat-tab label="Transmis" *ngIf="checkFonction('GET-SIN-TRANS-LST')">
                                 <ng-template matTabContent>
-                                    <app-list-sinistre [endPoint]="'sinistres/facultative/transmis-by-cedante'"  [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                    <div class="header-btn-new-affaire">
+                                        <button type="button" class="btn btn-md custom_btn_primary pull-right" *ngIf="checkFonction('CRT-SIN')"
+                                            (click)="openModal(templateSinistre)">
+                                            <i class="fa fa-plus"></i>&nbsp; Nouveau sinistre
+                                        </button>
+                                    </div>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/transmis-by-cedante'"  [code]="'GET-SIN-TRANS-LST'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
                             <mat-tab label="En cours de validation" *ngIf="checkFonction('GET-SIN-AVAL-LST')">
                                 <ng-template matTabContent>
-                                    <app-list-sinistre [endPoint]="'sinistres/facultative/attente-validation'"  [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/attente-validation'" [code]="'GET-SIN-AVAL-LST'"  [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
-                            </mat-tab>
+                            </mat-tab> 
 
                             <mat-tab label="En reglement" *ngIf="checkFonction('GET-SIN-REG-LST')">
                                 <ng-template matTabContent>
-                                    <app-list-sinistre [endPoint]="'sinistres/facultative/en-reglement'"   [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/en-reglement'"  [code]="'GET-SIN-REG-LST'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
                             <mat-tab label="Soldes" *ngIf="checkFonction('GET-SIN-SOLD-LST')">
                                 <ng-template matTabContent>
-                                    <app-list-sinistre [endPoint]="'sinistres/facultative/en-reglement'"   [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/solde'" [code]="'GET-SIN-SOLD-LST'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
                             <mat-tab label="Suivie" *ngIf="checkFonction('GET-SIN-SUIV-LST')">
                                 <ng-template matTabContent>
-                                    <app-list-sinistre [endPoint]="'sinistres/facultative/suivi'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/suivi'" [code]="'GET-SIN-SUIV-LST'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
 
                             <mat-tab label="Archives" *ngIf="checkFonction('GET-SIN-ARCH-LST')">
                                 <ng-template matTabContent>
-                                    <app-list-sinistre [endPoint]="'sinistres/facultative/arch'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/arch'" [code]="'GET-SIN-ARCH-LST'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
                         </mat-tab-group>

@@ -15,47 +15,49 @@ export class AfficherMessageComponent implements OnInit {
   // currentUser:any;
   description:any
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
-
+  @Input()   endPointMessage : string;
 
   constructor(
     private userService: UserService,
     private sinistreService: SinistreService) { }
 
   ngOnInit(): void {
-    this.messageCedante()
+    this.messageDesActeurs()
+    console.log('endPointMessage :',this.endPointMessage);
+    
     // this.currentUser  = this.userService.getCurrentUserInfo();
   }
 
-  messageCedante() {
-    console.log("idSinistre :",this.idSinistre);
-    this.sinistreService.messageCedante(this.idSinistre).subscribe((res: any) => {
+  messageDesActeurs() {
+    // console.log("idSinistre :",this.idSinistre);
+    this.sinistreService.messageCedante(this.endPointMessage,this.idSinistre).subscribe((res: any) => {
         if(res){
           this.description = res.message;
-          console.log('message res ::',res.message,this.description);
+          // console.log('message res ::',res.message,this.description);
         }
     })
   }
 
   fermer(){
         this.closeModal.emit(true);
-  }
+  } 
 
-  messageSouscripteur() {
-    console.log("idSinistre :",this.idSinistre);
-    this.sinistreService.messageSouscripteur(this.idSinistre).subscribe((res: any) => {
-      if(res){
-        console.log('message res ::',res);
-      }
-   })
-  }
+  // messageSouscripteur() {
+  //   console.log("idSinistre :",this.idSinistre);
+  //   this.sinistreService.messageCedante(this.idSinistre).subscribe((res: any) => {
+  //     if(res){
+  //       console.log('message res ::',res);
+  //     }
+  //  })
+  // }
 
-  messageValidateur() {
-    console.log("idSinistre :",this.idSinistre);
-    this.sinistreService.messageValidateur(this.idSinistre).subscribe((res: any) => {
-      if(res){
-        console.log('message res ::',res);
-      }
-    })
-  }
+  // messageValidateur() {
+  //   console.log("idSinistre :",this.idSinistre);
+  //   this.sinistreService.messageCedante(this.idSinistre).subscribe((res: any) => {
+  //     if(res){
+  //       console.log('message res ::',res);
+  //     }
+  //   })
+  // }
 
 }

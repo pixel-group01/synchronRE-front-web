@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
 import { RestClientService } from 'src/app/core/service/rest-client.service';
 import { SinistreService } from 'src/app/core/service/sinistre.service';
+import { UserService } from 'src/app/core/service/user.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from 'sweetalert2';
 
@@ -29,12 +30,16 @@ export class ListSinistreComponent implements OnInit {
   isActiveModif :boolean = true;
   @Input() refreshDataTable!: string;
   @Input() endPoint: any ;
+  @Input() code: any ;
   idSiniOfListe :number;
-
+  endPointRetourne :string;
+  endPointMessage : string;
+  currentUser:any
   constructor(
     private businessOptionalService: BusinessOptionalService,
     private sinistreService: SinistreService,
     private utilities: UtilitiesService,
+    private userService : UserService,
     private modalService: BsModalService,
     private restClient: RestClientService
   ) {}
@@ -54,16 +59,16 @@ export class ListSinistreComponent implements OnInit {
     this.modalRef = this.modalService.show(template,config);
   }
 
-  openModalRetourner(template: TemplateRef<any>,item:any) {
-    console.log("idSiniOfListe :",this.idSiniOfListe = item);
-    
+  openModalRetourner(template: TemplateRef<any>,item:any,endPoint?:string) {
+    this.idSiniOfListe = item;
+    this.endPointRetourne =endPoint;
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
     this.modalRef = this.modalService.show(template,config);
   }
 
-  openModalMessage(template: TemplateRef<any>,item:any) {
-    console.log("idSiniOfListe :",this.idSiniOfListe = item);
-    
+  openModalMessage(template: TemplateRef<any>,item:any,endPoint?:string) {
+    this.idSiniOfListe = item;
+    this.endPointMessage = endPoint;
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
     this.modalRef = this.modalService.show(template,config);
   }
@@ -75,19 +80,28 @@ export class ListSinistreComponent implements OnInit {
     this.modalRef = this.modalService.show(template,config);
   }
 
-  transmettre(data:any){
-    this.sinistreService.transmission(data).subscribe((res:any)=>{
+
+  transmettreSouscripteur(data:any){
+    this.sinistreService.transmissionAuSouscripteur(data).subscribe((res:any)=>{
           setTimeout(() => {
             this.getSinistre();
           }, 100);
     })
   }
 
-  confirmTransmettreSinistre(item:any) {
+  transmettreValidateur(data:any){
+    this.sinistreService.transmissionAuValidateur(data).subscribe((res:any)=>{
+          setTimeout(() => {
+            this.getSinistre();
+          }, 100);
+    })
+  }
+
+  confirmTransmettreSouscripteur(item:any) {
     // console.log(item ,' info sinistre');
     Swal.fire({
       title: "Transmettre le sinistre",
-      text:"Vous êtes sur le point de transmettre un sinistre. Voulez-vous poursuivre cette action ?",
+      text:"Vous êtes sur le point de transmettre un sinistre au souscripteur. Voulez-vous poursuivre cette action ?",
       icon: "success",
       showCancelButton: true,
       confirmButtonColor: "#0665aa",
@@ -97,10 +111,30 @@ export class ListSinistreComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         // On effectue une transmission de sinistre
-        this.transmettre(item);
+        this.transmettreSouscripteur(item);
       }
     });
   }
+
+  confirmTransmettreValidation(item:any) {
+    // console.log(item ,' info sinistre');
+    Swal.fire({
+      title: "Transmettre le sinistre",
+      text:"Vous êtes sur le point de transmettre un sinistre à la validation. Voulez-vous poursuivre cette action ?",
+      icon: "success",
+      showCancelButton: true,
+      confirmButtonColor: "#0665aa",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    }).then((result) => {
+      if (result.value) {
+        // On effectue une transmission de sinistre
+        this.transmettreValidateur(item);
+      }
+    });
+  }
+
 
   messageDuRetour(data:any){
     this.sinistreService.messageRetour(data).subscribe((res :any)=>{
@@ -199,7 +233,11 @@ export class ListSinistreComponent implements OnInit {
 
   ngOnInit() {
     // this.getItems();
+    this.currentUser  = this.userService.getCurrentUserInfo();     
+    console.log("this.currentUser ::",this.currentUser);
     console.log("endPoint :", this.endPoint);
+    console.log("code :", this.code);
     this.getSinistre();
+    
   }
 }
