@@ -44,7 +44,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
   @Input() itemPaiement: any;
   @Input() isPaiement: boolean;
   @ViewChild("fileInput") fileInput: any;
-
+ 
   listesDoc: any = [];
   modalRef: any;
   file64: any;

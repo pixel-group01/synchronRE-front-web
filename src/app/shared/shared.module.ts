@@ -44,6 +44,8 @@ import { TruncatePipe } from "../core/pipes/truncate.pipe";
 import { CreationDocumentSinistreComponent } from "../sinistre/form-sinistre/creation-document-sinistre/creation-document-sinistre.component";
 import { FormSinistreComponent } from "../sinistre/form-sinistre/form-sinistre.component";
 import { CreationSinistreComponent } from "../sinistre/form-sinistre/creation-sinistre/creation-sinistre.component";
+import { EtatComptableComponent } from "../sinistre/list-sinistre/etat-comptable/etat-comptable.component";
+import { FormRetournerSinstreComponent } from "../sinistre/list-sinistre/form-retourner-sinstre/form-retourner-sinstre.component";
 
 @NgModule({
   declarations: [
@@ -74,9 +76,8 @@ import { CreationSinistreComponent } from "../sinistre/form-sinistre/creation-si
     CreationDocumentSinistreComponent,
     FormSinistreComponent,
     CreationSinistreComponent,
-  
-
-    // EtatComptableComponent
+    EtatComptableComponent,
+    FormRetournerSinstreComponent,
     
     // DetailsAffaireFacultativeComponent
     // ProgrammeDialyseComponent,
@@ -163,10 +164,9 @@ import { CreationSinistreComponent } from "../sinistre/form-sinistre/creation-si
     CreationDocumentSinistreComponent,
     FormSinistreComponent,
     CreationSinistreComponent,
+    EtatComptableComponent,
+    FormRetournerSinstreComponent,
 
-
-
-    // EtatComptableComponent
   ],
   entryComponents:[TimePickerComponent]
 })

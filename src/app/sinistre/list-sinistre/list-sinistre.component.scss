@@ -15,10 +15,19 @@
             background-color: orange;
             color: black;
         }
+
+        &.RET-COMPTA{
+            background-color:  orange;;
+            color: black;
+        }
         
         &.APAI {
             background-color: yellow;
             color: black;
+        }
+
+        &.SAI{
+            background-color: rgb(76, 91, 139);
         }
 
         &.RET {
@@ -44,3 +53,4 @@
         }
     }
 }
+

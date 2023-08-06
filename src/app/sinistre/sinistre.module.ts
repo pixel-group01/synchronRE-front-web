@@ -21,7 +21,6 @@ import { SharedModule } from '../shared/shared.module';
     ContainerSinistreComponent,
     // FormSinistreComponent,
     ListSinistreComponent,
-    FormRetournerSinstreComponent,
     // CreationSinistreComponent,
     // CreationDocumentSinistreComponent,
     AfficherMessageComponent,

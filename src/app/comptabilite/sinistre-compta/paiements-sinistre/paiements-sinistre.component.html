@@ -86,9 +86,7 @@
                 appAppAccess appAccess="RET-SIN-VAL">
                  <i class="fa fa-share" style="rotate: 180deg;"></i>&nbsp;Retourner au validateur
                </button>
-                <button appAppAccess appAccess="GET-ETA-COMPT-SIN"
-                  ngbDropdownItem
-                  >
+                <button appAppAccess appAccess="GET-ETA-COMPT-SIN" ngbDropdownItem (click)="openModalEtatComptable(templateEtatComptable,item.sinId)">
                   <i class="fa fa-info-circle"></i>&nbsp;Situation comptable
                 </button>
               <button  ngbDropdownItem>
@@ -138,7 +136,7 @@
   </table> 
 </div>
 
-<!-- datail sinistre template -->
+<!-- detail sinistre template -->
 <ng-template #templateDetailSinistre>
     <div class="modal-header">
         <h4 class="modal-title pull-left">
@@ -152,6 +150,21 @@
     <div class="modal-body p-4">
         <app-form-sinistre [itemSinistre]="itemsinistre" [isActive]="isActiveInput" [isModification]="true" ></app-form-sinistre>
     </div>
+</ng-template>
+
+<!-- etat comptable sinistre -->
+<ng-template #templateEtatComptable>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">
+          Situation comptable
+      </h4>
+      <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+      </button>
+  </div>
+  <div class="modal-body p-4">
+      <app-etat-comptable [idSinistre]="idSiniOfListe" (closeModal)="closeFormModal($event)"></app-etat-comptable>
+  </div>
 </ng-template>
 
 <!-- paiement sinistre -->

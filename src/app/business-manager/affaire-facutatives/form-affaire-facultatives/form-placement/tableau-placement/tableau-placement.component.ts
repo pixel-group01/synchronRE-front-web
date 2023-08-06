@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { RepartitionPlacement } from 'src/app/core/models/repartitionPlacement';
 import { User } from 'src/app/core/models/user';
@@ -38,26 +39,25 @@ export class TableauPlacementComponent implements OnInit {
   constructor( private utilities: UtilitiesService,
     private businessOptionalService: BusinessOptionalService, 
     private userService: UserService,
-    private businessOptionalRepartition: BusinessOptionalRepartitionService,) { 
+    private businessOptionalRepartition: BusinessOptionalRepartitionService,
+    public sanitizer: DomSanitizer) { 
       this.user = this.userService.getCurrentUserInfo();
     }
 
 
   getReportPlacement(idPlacement : number){
     if(idPlacement) {
-       window.open(environment.apiUrl+'reports/display-note-de-cession-fac/'+idPlacement, '_blank');
+      //  window.open(environment.apiUrl+'reports/display-note-de-cession-fac/'+idPlacement, '_blank');
 
-      // this.businessOptionalRepartition.reportNoteCessionPlacement(idPlacement).subscribe(
-      //   (response : any) => {
-      //     console.log(" response note cession ",response);
-          
-      //     this.fileUrl = this.utilities.formatBase64UrlPdfInUrl(response.base64UrlString);
+      this.businessOptionalRepartition.reportNoteCessionPlacement(idPlacement).subscribe(
+        (response : any) => {
+         
+          let fileUrlDebitNote = "data:application/pdf;base64,"+response?.base64UrlString;
 
-          
-      //     window.open(this.fileUrl.changingThisBreaksApplicationSecurity, '_blank');
-
-      //   }
-      //  )
+          this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
+          this.openPanelNewPlacement(true)
+        }
+       )
        
     }
   }
@@ -350,7 +350,7 @@ export class TableauPlacementComponent implements OnInit {
   }
 
   sendNoteCession(idRepartition) {
-   this.busySave = this.businessOptionalRepartition.sendNoteCession({},idRepartition).subscribe(
+   this.busySave = this.businessOptionalRepartition.transmissionNoteDeCession({},idRepartition).subscribe(
     (response) => {
       console.log(" response ",response);
       this.utilities.showNotification(

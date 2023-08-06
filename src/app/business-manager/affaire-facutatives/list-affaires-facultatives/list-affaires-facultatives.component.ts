@@ -37,6 +37,8 @@ export class ListAffairesFacultativesComponent implements OnInit {
   itemsPerPage: number = 10;
   totalItems: number;
   busyGet: Subscription;
+  fileUrlDebitNote : any;
+  busyReport : Subscription;
   user: User;
   listeExercices: Array<Exercice> = [];
   @Input() statutAffaire!: string;
@@ -361,6 +363,25 @@ export class ListAffairesFacultativesComponent implements OnInit {
         environment.apiUrl + "reports/display-note-de-debit-fac/" + idAffaire,
         "_blank"
       );
+    }
+  }
+
+  getPrintReportDebit(idAffaire: number) {
+    if (idAffaire) {
+      // window.open(
+      //   environment.apiUrl + "reports/display-note-de-debit-fac/" + idAffaire,
+      //   "_blank"
+      // );
+      this.busyReport = this.businessOptionalService.getReportNoteDebit(idAffaire).subscribe(
+        (response : any) => {
+          console.log(" response ",response);
+          let fileUrlDebitNote = "data:application/pdf;base64,"+response?.base64UrlString;
+
+          this.fileUrlDebitNote = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
+          // window.open(this.fileUrlDebitNote,"_blank");
+        }
+      )
+
     }
   }
 

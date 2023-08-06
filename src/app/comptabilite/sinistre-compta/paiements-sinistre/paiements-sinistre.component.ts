@@ -49,6 +49,12 @@ export class PaiementsSinistreComponent implements OnInit {
     return num;
   }
 
+  openModalEtatComptable(template: TemplateRef<any>,item:any) {
+    this.idSiniOfListe = item;
+    let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
+    this.modalRef = this.modalService.show(template,config);
+  }
+
   openModalRetourner(template: TemplateRef<any>,item:any,endPoint?:string) {
     this.idSiniOfListe = item;
     this.endPointRetourne =endPoint;

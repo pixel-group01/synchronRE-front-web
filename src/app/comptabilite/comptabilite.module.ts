@@ -25,7 +25,7 @@ import { EtatComptableComponent } from '../sinistre/list-sinistre/etat-comptable
     SinistreComptaComponent,
     PaiementsSinistreComponent,
     FormPaiementSinistreComponent,
-    EtatComptableComponent
+    // EtatComptableComponent
   ],
   imports: [
     CommonModule,
