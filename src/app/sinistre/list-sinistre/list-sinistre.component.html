@@ -60,7 +60,7 @@
                   <button ngbDropdownItem (click)="openModal(templateSinistre,item,true)" appAppAccess appAccess="GET-SIN-DET">
                     <i class="fa fa-list"></i>&nbsp;Détails sinistre
                   </button>
-                  <button ngbDropdownItem (click)="openModal(templateSinistre,item,false)" appAppAccess appAccess="UPD-SIN">
+                  <button ngbDropdownItem (click)="openModal(templateSinistre,item,false)" appAppAccess appAccess="UPD-SIN" *ngIf="!noPutAction">
                     <i class="fa fa-edit"></i>&nbsp;Modifier sinistre
                   </button>
                   <button ngbDropdownItem (click)="confirmTransmettreSinistre(item.sinId)" appAppAccess appAccess="TRANS-SIN">
@@ -72,7 +72,7 @@
                   <button ngbDropdownItem (click)="confirmValiderSinistre(item.sinId)" appAppAccess appAccess="VAL-SIN">
                     <i class="fa fa-check"></i>&nbsp;Valider sinistre
                   </button>
-                  <button ngbDropdownItem (click)="openModalEtatComptable(templateEtatComptable,item.sinId)" appAppAccess appAccess="GET-ETA-COMPT-SIN  ">
+                  <button ngbDropdownItem (click)="openModalEtatComptable(templateEtatComptable,item.sinId)">
                     <i class="fa fa-info-circle"></i>&nbsp;Situation comptable
                   </button>
                   <button ngbDropdownItem appAppAccess appAccess="GET-SIN-HISTO">

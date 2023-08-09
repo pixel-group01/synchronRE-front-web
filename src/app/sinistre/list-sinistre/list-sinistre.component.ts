@@ -27,6 +27,7 @@ export class ListSinistreComponent implements OnInit {
   user:  any;
   isActiveInput :boolean = false;
   isActiveModif :boolean = true;
+  @Input() noPutAction: boolean = false;
   @Input() refreshDataTable!: string;
   @Input() endPoint: any ;
   idSiniOfListe :number;
