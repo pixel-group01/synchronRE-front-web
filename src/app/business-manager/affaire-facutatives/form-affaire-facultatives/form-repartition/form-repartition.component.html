@@ -1,241 +1,526 @@
-<div class="repartition-container" [ngBusy]="{
+<div
+  class="repartition-container"
+  [ngBusy]="{
     busy: busySave,
     message: 'Veuillez patienter ...',
     backdrop: false
-  }">
-    <form name="form-repartition" (ngSubmit)="confirmSaveItem()">
+  }"
+>
+  <form name="form-repartition" (ngSubmit)="confirmSaveItem()">
+    <div class="row">
+      <div class="col-12">
+        <fieldset>
+          <legend>Informations sur l'affaire</legend>
 
-        <div class="row">
-            <div class="col-12">
-                <fieldset>
-                    <legend>
-                        Informations sur l'affaire
-                    </legend>
+          <div>
+            <app-details-information-identification
+              [currentRepartitionTaux]="repartitionBesoinFac"
+            ></app-details-information-identification>
+          </div>
+        </fieldset>
+      </div>
+    </div>
 
-                    <div>
-                        <app-details-information-identification [currentRepartitionTaux]="repartitionBesoinFac"></app-details-information-identification>
-                    </div>
-                </fieldset>
-            </div>
-        </div>
+    <div class="form-repartition">
+      <div class="row mt-3 mb-3">
+        <div class="col-md-12 col-xs-12">
+          <div class="row">
+            <div class="col-12 mt-3 mb-3">
+              <fieldset>
+                <legend>Part filiale</legend>
 
-        <div class="row mt-3 mb-3">
-
-            <div class="col-md-6 col-xs-12">
                 <div class="row">
+                  <div class="col-md-4 col-xs-12 mb-3">
+                    <label
+                      >Capitaux :
+                      <span class="required_champs">*</span>
+                    </label>
+                    <input
+                      class="form-control custom-input"
+                      placeholder="Capitaux"
+                      autocomplete="off"
+                      [(ngModel)]="repartitionTraiteItem.mtPartCedante"
+                      [disabled]="isDetails"
+                      name="mtPartCedante"
+                      mask="separator"
+                      (keyup)="getLastValueOfRepartition()"
+                      type="text"
+                    />
+                  </div>
 
-                    <div class="col-12 mt-3 mb-3">
-                        <fieldset>
-                            <legend>
-                                Part filiale
-                            </legend>
+                  <div class="col-md-4 col-xs-12 mb-3">
+                    <label>Taux (%) : </label>
+                    <input
+                      class="form-control custom-input"
+                      placeholder="Taux"
+                      autocomplete="off"
+                      [readonly]="true"
+                      [(ngModel)]="repartitionTraiteItem.tauxPartCedante"
+                      name="tauxPartCedante"
+                      maxlength="3"
+                      type="text"
+                      mask="separator"
+                    />
+                  </div>
 
-                            <div class="row">
+                  <div class="col-md-4 col-xs-12 mb-3">
+                    <label>Prime : </label>
+                    <input
+                      class="form-control custom-input"
+                      placeholder="Prime"
+                      autocomplete="off"
+                      [readonly]="true"
+                      [(ngModel)]="repartitionTraiteItem.primePartCedante"
+                      name="repTaux"
+                      maxlength="3"
+                      type="text"
+                      mask="separator"
+                    />
+                  </div>
+                </div>
+              </fieldset>
+            </div>
 
-                                <div class="col-md-6 col-xs-12 mb-3">
-                                    <label>Capitaux :
-                                        <span class="required_champs">*</span>
-                                    </label>
-                                    <input class="form-control custom-input" placeholder="Capitaux" autocomplete="off"
-                                        [(ngModel)]="itemToSave.repCapital" [disabled]="isDetails" name="repCapital" mask="separator" (keyup)="getRepartionByCapital(itemToSave.repCapital)"
-                                        type="text" />
-                                    <!-- <small class="text-danger"
-                                        *ngIf="(getFormFiledsValue('repCapital')?.dirty || getFormFiledsValue('repCapital')?.touched) && getFormFiledsValue('repCapital')?.invalid && getFormFiledsValue('repCapital')?.errors?.['required']">
-                                        Ce champs est obligatoire
-                                    </small> -->
-                                </div>
+            <div class="col-12 mt-3 mb-3">
+              <fieldset>
+                <legend>Cession légale 1er franc</legend>
 
-                                <div class="col-md-6 col-xs-12 mb-3">
-                                    <label>Taux (%) :
-                                    </label>
-                                    <input class="form-control custom-input" placeholder="Taux" autocomplete="off"  [disabled]="isDetails" 
-                                        [(ngModel)]="itemToSave.repTaux" name="repTaux" maxlength="3" (keyup)="getRepartionByTaux(itemToSave.repTaux)"
-                                        type="number" step="0.1" />
-                                    <!-- <small class="text-danger"
-                                        *ngIf="(getFormFiledsValue('repTaux')?.dirty || getFormFiledsValue('repTaux')?.touched) && getFormFiledsValue('repTaux')?.invalid && getFormFiledsValue('repTaux')?.errors?.['required']">
-                                        Ce champs est obligatoire
-                                    </small> -->
-                                </div>
+                <div class="row">
+                  <div class="col-12 table-responsive">
+                    <table
+                      class="table table-condensed table-striped table-hover"
+                    >
+                      <thead>
+                        <tr class="custom-table-head">
+                          <th></th>
+                          <th>Capitaux</th>
+                          <th>Taux (%)</th>
+                          <th>Prime</th>
+                          <th></th>
+                        </tr>
+                      </thead>
 
-                            </div>
-                        </fieldset>
-                    </div>
-
-                    <div class="col-12 mt-3 mb-3">
-                        <fieldset>
-                            <legend>
-                                Informations cessions legales
-                            </legend>
-
-                            <div class="row">
-
-                                <div class="col-12 table-responsive">
-                                    <table class="table table-condensed table-bordered">
-                                        <thead>
-                                            <tr class="custom-table-head">
-                                                <th>Libellé</th>
-                                                <th>Capitaux</th>
-                                                <th>Part (%)</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
- 
-                                        <tbody>
-                                            <tr *ngFor="let cession of listeParametreCessionsLegale; let idx=index" [class.inactif]="!cession.checked">
-                                                <td>{{cession?.paramCesLegLibelle}}</td>
-                                                <td> 
-                                                    <input class="form-control custom-input" 
-                                                    [ngModelOptions]="{standalone: true}"
-                                                    [disabled]="true"
-                                                    [(ngModel)]="cession.repCapital" (keyup)="getRepartionCessionByCapital(cession)"
-                                                    placeholder="Capital" autocomplete="off"
-                                                        name="capCessionFormArray" mask="separator"  />
-                                                </td>
-                                                <td>
-                                                    <input class="form-control custom-input" 
-                                                    [(ngModel)]="cession.repTaux"
-                                                    [disabled]="true"
-                                                    [ngModelOptions]="{standalone: true}"
-                                                        placeholder="Taux" autocomplete="off"
-                                                        (keyup)="getRepartionCessionByTaux(cession)"
-                                                            name="tauxFrmArray" mask="separator"/>
-                                                </td>
-                                                <td>
-                                                    <input type="checkbox"
-                                                    [(ngModel)]="cession.checked"
-                                                    [disabled]="isDetails"
-                                                    [ngModelOptions]="{standalone: true}" name="checked" (change)="getRepartitionCalculate($event,cession)"/>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div>
-                        </fieldset>
-                    </div>
-
-                    <div class="col-12 mt-3">
-                        <fieldset>
-                            <legend>
-                                Cession FAC
-                            </legend>
-
-                            <div class="row">
-
-                                <div class="col-md-6 col-xs-12 mb-3">
-                                    <label>Besoin FAC initial :
-                                        <span class="required_champs">*</span>
-                                    </label>
-                                    <input class="form-control custom-input" 
-                                    [(ngModel)]="itemToSave.besoinFacInitial"
-                                    placeholder="Besoin FAC" autocomplete="off"
-                                        name="besoinFacRes" mask="separator" [disabled]="true" [readonly]="true" />
-                                </div>
-
-                                <div class="col-md-6 col-xs-12 mb-3">
-                                    <label>Taux (%) :
-                                    </label>
-                                    <input class="form-control custom-input" placeholder="Taux" autocomplete="off"
-                                    [(ngModel)]="itemToSave.repTauxBesoinFac"  [disabled]="isDetails" 
-                                         name="repTauxBesoinFacCessionLegal" (keyup)="getRepartionByTauxBesoinFac()"
-                                        type="text" />
-                                    <!-- <small class="text-danger"
-                                        *ngIf="(getFormFiledsValue('repTauxBesoinFac')?.dirty || getFormFiledsValue('repTauxBesoinFac')?.touched) && getFormFiledsValue('repTauxBesoinFac')?.invalid && getFormFiledsValue('repTauxBesoinFac')?.errors?.['required']">
-                                        Ce champs est obligatoire
-                                    </small> -->
-                                </div>
-
-                            </div>
-                        </fieldset>
-                    </div>
-
-
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let cession of listeCessionLegalePremierFranc;
+                            let idx = index
+                          "
+                          [class.inactif]="!cession.checked"
+                        >
+                          <td>{{ cession?.paramCesLegLibelle }}</td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              [ngModelOptions]="{ standalone: true }"
+                              [readonly]="true"
+                              [(ngModel)]="cession.repCapital"
+                              (keyup)="getRepartionCessionByCapital(cession)"
+                              placeholder="Capital"
+                              autocomplete="off"
+                              name="capCessionFormArray"
+                              mask="separator"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              [(ngModel)]="cession.repTaux"
+                              [readonly]="true"
+                              [ngModelOptions]="{ standalone: true }"
+                              placeholder="Taux"
+                              autocomplete="off"
+                              (keyup)="getRepartionCessionByTaux(cession)"
+                              name="tauxFrmArray"
+                              mask="separator"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              [(ngModel)]="cession.prime"
+                              [disabled]="true"
+                              [ngModelOptions]="{ standalone: true }"
+                              placeholder="Prime"
+                              autocomplete="off"
+                              name="prime"
+                              mask="separator"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              [(ngModel)]="cession.accepte"
+                              [disabled]="isDetails"
+                              [ngModelOptions]="{ standalone: true }"
+                              name="checked"
+                              (change)="getLastValueOfRepartition()"
+                            />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
 
-            </div>
-
-            <div class="col-md-6 col-xs-12 mt-3">
-                <fieldset>
-                    <legend>
-                        Repartition traitée
-                    </legend>
-
-                    <div class="row">
-                        <div class="col-12 table-responsive">
-                            <table class="table table-condensed table-striped table-hover">
-                                <thead>
-                                    <tr class="custom-table-head">
-                                        <th></th>
-                                        <th>Capitaux</th>
-                                        <th>Part (%)</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    <tr>
-                                        <td>Retention</td>
-                                        <td>
-                                            <input class="form-control custom-input" placeholder="Capital"
-                                                autocomplete="off" mask="separator" type="text" />
-                                        </td>
-                                        <td>
-                                            <input class="form-control custom-input" placeholder="Part (%)"
-                                                autocomplete="off" mask="separator" type="text" />
-                                        </td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <td>Traité XL</td>
-                                        <td>
-                                            <input class="form-control custom-input" placeholder="Capital"
-                                                autocomplete="off" mask="separator" type="text" />
-                                        </td>
-                                        <td>
-                                            <input class="form-control custom-input" placeholder="Part (%)"
-                                                autocomplete="off" mask="separator" type="text" />
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Traité Facob</td>
-                                        <td>
-                                            <input class="form-control custom-input" placeholder="Capital"
-                                                autocomplete="off" mask="separator" type="text" />
-                                        </td>
-                                        <td>
-                                            <input class="form-control custom-input" placeholder="Part (%)"
-                                                autocomplete="off" mask="separator" type="text" />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="row">
+                    <div class="col-md-4 col-xs-12 mb-3 mt-3">
+                      <label
+                        >Capitaux net cession légale :
+                        <span class="required_champs">*</span>
+                      </label>
+                      <input
+                        class="form-control custom-input"
+                        placeholder="Capitaux"
+                        autocomplete="off"
+                        [(ngModel)]="repartitionTraiteItem.capitauxNetCL"
+                        [readonly]="true"
+                        name="capitauxNetCL"
+                        mask="separator"
+                        type="text"
+                      />
                     </div>
-                </fieldset>
+                  </div>
+
+              </fieldset>
             </div>
-        </div>
 
+            <div class="col-md-12 col-xs-12 mt-3 mb-3">
+              <fieldset>
+                <legend>Repartition traités</legend>
 
-        <div class="custom-btn-save-manager" *ngIf="!isDetails">
-            <button
-              type="submit"
-              class="btn btn-md custom_btn_primary pull-right"
-              
-            >
-              {{ (itemToUpdate?.affId || isUpdateRepartition) ? 'Modifier' : 'Enregistrer et continuer'}}
-            </button>
-      
-            <button
-              type="button"
-              class="btn btn-md btn-cancel pull-right"
-              (click)="gotoPreviousStep()" *ngIf="isWizardProcess"
-            >
-              Précedent
-            </button>
+                <div class="row">
+                  <div class="col-12 table-responsive">
+                    <table
+                      class="table table-condensed table-striped table-hover"
+                    >
+                      <thead>
+                        <tr class="custom-table-head">
+                          <th></th>
+                          <th>Capitaux</th>
+                          <th>Taux (%)</th>
+                          <th>Prime</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <td>Retention</td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Capital"
+                              autocomplete="off"
+                              mask="separator"
+                              name="conservationCapital"
+                              (keyup)="getLastValueOfRepartition()"
+                              [(ngModel)]="
+                                repartitionTraiteItem.conservationCapital
+                              "
+                              type="text"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Taux (%)"
+                              autocomplete="off"
+                              name="conservationTaux"
+                              [readonly]="true"
+                              mask="separator"
+                              [(ngModel)]="
+                                repartitionTraiteItem.conservationTaux
+                              "
+                              type="text"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Prime"
+                              [readonly]="true"
+                              autocomplete="off"
+                              mask="separator"
+                              name="conservationPrime"
+                              [(ngModel)]="repartitionTraiteItem.conservationPrime"
+                              type="text"
+                            />
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>Traité XL</td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Capital"
+                              autocomplete="off"
+                              mask="separator"
+                              name="xlCapital"
+                              (keyup)="getLastValueOfRepartition()"
+                              [(ngModel)]="repartitionTraiteItem.xlCapital"
+                              type="text"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Taux (%)"
+                              autocomplete="off"
+                              mask="separator"
+                              [readonly]="true"
+                              name="xlTaux"
+                              [(ngModel)]="repartitionTraiteItem.xlTaux"
+                              type="text"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Prime"
+                              autocomplete="off"
+                              mask="separator"
+                              [readonly]="true"
+                              name="xlPrime"
+                              [(ngModel)]="repartitionTraiteItem.xlPrime"
+                              type="text"
+                            />
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>Traité Facob</td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Capital"
+                              (keyup)="getLastValueOfRepartition()"
+                              autocomplete="off"
+                              mask="separator"
+                              name="facobCapital"
+                              [(ngModel)]="repartitionTraiteItem.facobCapital"
+                              type="text"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Taux (%)"
+                              autocomplete="off"
+                              name="facobTaux"
+                              [readonly]="true"
+                              mask="separator"
+                              [(ngModel)]="repartitionTraiteItem.facobTaux"
+                              type="text"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Prime "
+                              autocomplete="off"
+                              name="facobPrime"
+                              [readonly]="true"
+                              mask="separator"
+                              [(ngModel)]="repartitionTraiteItem.facobPrime"
+                              type="text"
+                            />
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td> Besoin fac brut</td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Capital"
+                              autocomplete="off"
+                              name="bruteBesoinFac"
+                              [readonly]="true"
+                              mask="separator"
+                              [(ngModel)]="repartitionTraiteItem.bruteBesoinFac"
+                              type="text"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Taux (%)"
+                              name="bruteBesoinFacTaux"
+                              [readonly]="true"
+                              autocomplete="off"
+                              [(ngModel)]="repartitionTraiteItem.bruteBesoinFacTaux"
+                              mask="separator"
+                              type="text"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Prime"
+                              [readonly]="true"
+                              autocomplete="off"
+                              name="bruteBesoinFacPrime"
+                              mask="separator"
+                              [(ngModel)]="repartitionTraiteItem.bruteBesoinFacPrime"
+                              type="text"
+                            />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="col-12 mt-3 mb-3">
+              <fieldset>
+                <legend>Informations cessions legales</legend>
+
+                <div class="row">
+                  <div class="col-12 table-responsive">
+                    <table class="table table-condensed table-bordered">
+                      <thead>
+                        <tr class="custom-table-head">
+                          <th>Libellé</th>
+                          <th>Capitaux</th>
+                          <th>Taux (%)</th>
+                          <th>Prime</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let cession of listeParametreCessionsLegale;
+                            let idx = index
+                          "
+                          [class.inactif]="!cession.checked"
+                        >
+                          <td>{{ cession?.paramCesLegLibelle }}</td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              [ngModelOptions]="{ standalone: true }"
+                              [disabled]="true"
+                              [(ngModel)]="cession.repCapital"
+                              (keyup)="getRepartionCessionByCapital(cession)"
+                              placeholder="Capital"
+                              autocomplete="off"
+                              name="capCessionFormArray"
+                              mask="separator"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              [(ngModel)]="cession.repTaux"
+                              [readonly]="true"
+                              [ngModelOptions]="{ standalone: true }"
+                              placeholder="Taux"
+                              autocomplete="off"
+                              name="tauxFrmArray"
+                              mask="separator"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              [(ngModel)]="cession.prime"
+                              [readonly]="true"
+                              [ngModelOptions]="{ standalone: true }"
+                              placeholder="Prime"
+                              autocomplete="off"
+                              name="prime"
+                              mask="separator"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="checkbox"
+                              [(ngModel)]="cession.accepte"
+                              [disabled]="isDetails"
+                              [ngModelOptions]="{ standalone: true }"
+                              name="checked"
+                              (change)="getLastValueOfRepartition()"
+                            />
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>Besoin fac net cession légale</td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Capital"
+                              autocomplete="off"
+                              name="besoinFacNetCL"
+                              [readonly]="true"
+                              mask="separator"
+                              [(ngModel)]="
+                                repartitionTraiteItem.besoinFacNetCL
+                              "
+                              type="text"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Taux (%)"
+                              autocomplete="off"
+                              name="besoinFacNetCLTaux"
+                              [readonly]="true"
+                              mask="separator"
+                              [(ngModel)]="
+                                repartitionTraiteItem.besoinFacNetCLTaux
+                              "
+                              type="text"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              class="form-control custom-input"
+                              placeholder="Prime"
+                              autocomplete="off"
+                              name="besoinFacNetCLPrime"
+                              mask="separator"
+                              [readonly]="true"
+                              [(ngModel)]="repartitionTraiteItem.besoinFacNetCLPrime"
+                              type="text"
+                            />
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+
           </div>
+        </div>
+      </div>
+    </div>
 
-    </form>
+    <div class="custom-btn-save-manager" *ngIf="!isDetails">
+      <button type="submit" class="btn btn-md custom_btn_primary pull-right">
+        {{
+          itemToUpdate?.affId || isUpdateRepartition
+            ? "Modifier"
+            : "Enregistrer"
+        }}
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-md btn-cancel pull-right"
+        (click)="gotoPreviousStep()"
+        *ngIf="isWizardProcess"
+      >
+        Précedent
+      </button>
+    </div>
+  </form>
 </div>

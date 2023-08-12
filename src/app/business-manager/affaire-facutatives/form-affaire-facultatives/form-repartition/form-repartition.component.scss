@@ -6,6 +6,12 @@
 
   .repartition-container {
     margin-top: 15px;
+
+    .form-repartition {
+      height: 500px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
   }
 
   .inactif {
