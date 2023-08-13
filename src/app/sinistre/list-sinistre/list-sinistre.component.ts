@@ -38,7 +38,7 @@ export class ListSinistreComponent implements OnInit {
   @Input() noPutAction1: boolean = false;
   @Input() noPutAction2: boolean = false;
   @Input() noPutAction3: boolean = false;
-  
+  @Input() isModifier : boolean =false
   constructor(
     private businessOptionalService: BusinessOptionalService,
     private sinistreService: SinistreService,
@@ -221,6 +221,14 @@ export class ListSinistreComponent implements OnInit {
       this.itemsPerPage = parseInt($event);
     }
     this.getSinistre();
+  }
+
+  historique(item:any){
+    this.sinistreService.histoSinist(item).subscribe((res:any)=>{
+
+      console.log("res histo",res);
+      
+    })
   }
 
   ngOnChanges(changes: SimpleChanges) {

@@ -25,6 +25,10 @@ export class SinistreService {
     return this.restClient.post('sinistres/delete',body)
   } 
 
+  histoSinist = (body:any)=>{
+    return this.restClient.get('mouvements/sinistre/get-histo/'+`${body}`)
+  }
+
   transmissionAuSouscripteur= (body:any) => {
     return this.restClient.put('sinistres/sinistres/transmettre-au-courtier/'+`${body}`);
   }

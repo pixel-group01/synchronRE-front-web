@@ -14,6 +14,7 @@ import { FormRetournerSinstreComponent } from './list-sinistre/form-retourner-si
 import { AfficherMessageComponent } from './list-sinistre/afficher-message/afficher-message.component';
 import { EtatComptableComponent } from './list-sinistre/etat-comptable/etat-comptable.component';
 import { SharedModule } from '../shared/shared.module';
+import { HistoriqueSinistreComponent } from './list-sinistre/historique-sinistre/historique-sinistre.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SharedModule } from '../shared/shared.module';
     // CreationSinistreComponent,
     // CreationDocumentSinistreComponent,
     AfficherMessageComponent,
+    HistoriqueSinistreComponent,
     // EtatComptableComponent
   ],
   imports: [
