@@ -37,7 +37,7 @@ export const ROUTES: RouteInfo[] = [
    // Statistique
    {
     path: "",
-    title: "Statistique",
+    title: "Statistiques",
     moduleName: "dashbord",
     iconType: "home",
     icon: "monetization_on",

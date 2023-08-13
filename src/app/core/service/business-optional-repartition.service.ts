@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RestClientService } from './rest-client.service';
+import { RepartitionTraiteeBesoinFac } from '../models/businessOptionalRepartition';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,10 @@ export class BusinessOptionalRepartitionService {
 
   create = (body:any) => {
     return this.restClient.post('repartitions/create',body)
+  } 
+
+  saveRepartition = (body:any) => {
+    return this.restClient.post('repartitions/save',body)
   } 
 
   getCalculRepartition = (body:any) => {
@@ -131,5 +136,13 @@ export class BusinessOptionalRepartitionService {
     return this.restClient.get(endPointFinal);
   }
   
-
+  getRepartitionCalculateNew = (affaireId?:number) => {
+    let endPointFinal = "repartitions/calculate/"+affaireId;
+    return this.restClient.get(endPointFinal);
+  }
+  
+  getLastValueOfRepartition = (data:RepartitionTraiteeBesoinFac) => {
+    return this.restClient.post("repartitions/calculate",data);
+  }
+  
 }
