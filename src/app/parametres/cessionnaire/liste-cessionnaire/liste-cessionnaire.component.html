@@ -1,0 +1,143 @@
+<section class="content">
+    <div class="content-block">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header mb-3">
+                        <h2><strong>Paramétrage</strong> cessionnaire</h2>
+                    </div>
+
+                    <div class="body table-responsive p-10-important" [ngBusy]="{
+              busy: busyGet,
+              message: 'Veuillez patienter ...',
+              backdrop: false
+            }">
+                        <table class="table table-condensed table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th colspan="10">
+                                        <div class="row mt-4">
+                                            <div class="col-md-4">
+                                                <input [(ngModel)]="itemToSearch.libelle"
+                                                    class="form-control custom-input pull-left"
+                                                    placeholder="Rechercher ..."
+                                                    (keyup)="currentPage = 1; getItems()" />
+                                            </div>
+
+                                            <div class="col-md-8">
+                                                <button type="button" class="btn btn-md custom_btn_primary pull-right"
+                                                    (click)="openModal(null, templateCrud)">
+                                                    <i class="fa fa-plus"></i>&nbsp; Ajouter un cessionnaire
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+
+                                <tr class="custom-table-head">
+                                    <th class="txt-align-center-counter-row">
+                                        <a (click)="currentPage = 1; getItems()" title="Actualiser">
+                                            <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                                    </th>
+                                    <th>Libellé</th>
+                                    <th>Sigle</th>
+                                    <th>Tél</th>
+                                    <th>Email</th>
+                                    <th>Adresse postale</th>
+                                    <th>Situation géographique</th>
+                                    <th>Interlocuteur</th>
+                                    <th>Statut</th>
+                                    <th class="txt-align-center">Actions</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let item of items; let indice = index">
+                                    <td class="txt-align-center">
+                                        {{ getExactlyNumberRow(this.currentPage, indice) }}
+                                    </td>
+                                    <td>{{ item?.cesNom }}</td>
+                                    <td>{{ item?.cesSigle }}</td>
+                                    <td>{{ item?.cesTelephone }}</td>
+                                    <td>{{ item?.cesEmail }}</td>
+
+                                    <td>{{ item?.cedAdressePostale }}</td>
+                                    <td>{{ item?.cesSituationGeo }}</td>
+                                    <td>{{ item?.cesInterlocuteur }}</td>
+                                    <td>{{ item?.staLibelle }}</td>
+                                    <td class="custom-width-td-action">
+                                        <div class="custom-td-action">
+                                            <a title="Modifier" (click)="openModal(item, templateCrud)"
+                                                class="custom-btn-update">
+                                                <i class="fa fa-edit"></i></a>
+
+                                                <a title="Ajouter un interlocuteur" class="custom-btn-ajout" (click)="goInterlocuteur(item)">
+                                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+
+                                                </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                            <tfoot>
+                                <tr *ngIf="items && items.length > 0">
+                                    <td colspan="10">
+                                        <div class="row pagination-part">
+                                            <div class="col-md-9" style="text-align: center">
+                                                <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage"
+                                                    [totalItems]="totalItems" [(ngModel)]="currentPage"
+                                                    class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;"
+                                                    firstText="&laquo;" lastText="&raquo;"
+                                                    (pageChanged)="pageChanged($event)"></pagination>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="paginator-per-page">
+                                                    <app-element-by-page-paginator
+                                                        (paginationChange)="changePaginationSize($event)"
+                                                        [defaultItemPerPage]="itemsPerPage"></app-element-by-page-paginator>
+
+                                                    <span class="span_total_entree pull-right">Total : {{ totalItems
+                                                        }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr *ngIf="!items || items.length == 0">
+                                    <td colspan="10">
+                                        <div class="col-md-12 txt-align-center">
+                                            Aucune donnée disponible
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enregistrement template -->
+<ng-template #templateCrud>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">
+            {{
+            itemToSave?.cesId
+            ? "Modification d'un cessionnaire"
+            : "Enregistrement d'un cessionnaire"
+            }}
+        </h4>
+
+        <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-form-cessionaire (closeModal)="closeModal($event)" [itemToUpdate]="itemToSave"></app-form-cessionaire>
+    </div>
+</ng-template>

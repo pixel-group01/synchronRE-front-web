@@ -1,1 +1,30 @@
-<p>historique-sinistre works!</p>
+<div class="hitorique-container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-condensed table-striped table-hover">
+                <thead>
+                    <tr  class="custom-table-head">
+                        <th>#</th>
+                        <th>Statut</th>
+                        <th>Date opération</th>
+                        <th>Enregistré par</th>
+                        <th>Observation</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let histo of listeHistoriqueSinistre; let i = index">
+                        <td> {{i+1}} </td>
+                        <td>{{histo?.staLibelle}}</td>
+                        <td>{{histo?.mvtDate | dateFormatInDateHour}}</td>
+                        <td>{{histo?.userFullNom | uppercase}} <br> <small style="color: rgb(231, 158, 158);">{{histo?.functionName}}</small></td>
+                        <td>{{histo?.mvtObservation}}</td>
+                    </tr>
+                    <tr *ngIf="!listeHistoriqueSinistre || listeHistoriqueSinistre.length === 0">
+                        <td colspan="5" class="txt-align-center">Aucune données disponible</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

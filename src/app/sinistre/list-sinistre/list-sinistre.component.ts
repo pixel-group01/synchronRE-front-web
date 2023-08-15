@@ -38,7 +38,6 @@ export class ListSinistreComponent implements OnInit {
   @Input() noPutAction1: boolean = false;
   @Input() noPutAction2: boolean = false;
   @Input() noPutAction3: boolean = false;
-  @Input() isModifier : boolean =false
   constructor(
     private businessOptionalService: BusinessOptionalService,
     private sinistreService: SinistreService,
@@ -48,10 +47,33 @@ export class ListSinistreComponent implements OnInit {
     private restClient: RestClientService
   ) {}
 
+
+  ngOnInit() {
+    // this.getItems();
+    this.currentUser  = this.userService.getCurrentUserInfo();     
+    console.log("this.currentUser ::",this.currentUser);
+    console.log("endPoint :", this.endPoint);
+    console.log("code :", this.code);
+    this.getSinistre();
+    
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log("change :",changes);
+    if (
+      changes["refreshDataTable"] &&
+      changes["refreshDataTable"].currentValue
+    ) {
+      /** On reinitialise la pagination  */
+      this.currentPage = 1;
+      this.getSinistre();
+    }
+  }
+
   getExactlyNumberRow(page, index) {
     let num = index + 1;
     if (page > 1) {
-      num = (page - 1) * 10 + (index + 1);
+      num = (page - 1) * this.itemsPerPage + (index + 1);
     }
     return num;
   }
@@ -231,25 +253,5 @@ export class ListSinistreComponent implements OnInit {
     })
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    console.log("change :",changes);
-    if (
-      changes["refreshDataTable"] &&
-      changes["refreshDataTable"].currentValue
-    ) {
-      /** On reinitialise la pagination  */
-      this.currentPage = 1;
-      this.getSinistre();
-    }
-  }
 
-  ngOnInit() {
-    // this.getItems();
-    this.currentUser  = this.userService.getCurrentUserInfo();     
-    console.log("this.currentUser ::",this.currentUser);
-    console.log("endPoint :", this.endPoint);
-    console.log("code :", this.code);
-    this.getSinistre();
-    
-  }
 }

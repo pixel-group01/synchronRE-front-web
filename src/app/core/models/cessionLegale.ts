@@ -5,5 +5,9 @@ export class CessionLegale {
     paramCesLegTaux?: number;
     paysCode?:string;
     accepte?:boolean;
-    repId?:number
+    repId?:number;
+    prime?:number;
+    repTaux?:number;
+    repCapital?:number;
+    paramCesLegalId?:number
 }

@@ -28,6 +28,9 @@ import { CedenteParameterComponent } from './cedente-parameter/cedente-parameter
 import { FormCedenteComponent } from './cedente-parameter/form-cedente/form-cedente.component';
 import { CessionnaireComponent } from './cessionnaire/cessionnaire.component';
 import { FormCessionaireComponent } from './cessionnaire/form-cessionaire/form-cessionaire.component';
+import { ListeCessionnaireComponent } from './cessionnaire/liste-cessionnaire/liste-cessionnaire.component';
+import { InterlocuteursComponent } from "./cessionnaire/interlocuteurs/interlocuteurs.component";
+import { FormInterlocuteurComponent } from "./cessionnaire/form-interlocuteur/form-interlocuteur.component";
 
 @NgModule({
   declarations: [
@@ -46,8 +49,12 @@ import { FormCessionaireComponent } from './cessionnaire/form-cessionaire/form-c
     FormCessionComponent,
     CedenteParameterComponent,
     FormCedenteComponent,
+    FormCessionaireComponent,
     CessionnaireComponent,
-    FormCessionaireComponent, 
+    ListeCessionnaireComponent, 
+    InterlocuteursComponent,
+    FormInterlocuteurComponent
+
   ],
   imports: [
     CommonModule,

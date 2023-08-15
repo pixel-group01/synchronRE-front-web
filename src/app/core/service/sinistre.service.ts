@@ -86,4 +86,8 @@ export class SinistreService {
     return this.restClient.put('sinistres/update',body)
   }
 
+  getHistorique = (body:any)=>{
+    return this.restClient.get('mouvements/sinistre/get-histo/'+body)
+  }
+
 }

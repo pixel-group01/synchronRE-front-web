@@ -65,7 +65,7 @@
                   </button>
 
                   <button ngbDropdownItem (click)="openModal(templateSinistre,item,false)" appAppAccess appAccess="UPD-SIN" 
-                  *ngIf="noPutAction1 && !noPutAction2">
+                  *ngIf="(!noPutAction1 && noPutAction2) && currentUser.isCourtier">
                   <!--item.staCode !='SAI-CRT'-->
                     <i class="fa fa-edit"></i>&nbsp;Modifier sinistre
                   </button>
@@ -80,12 +80,12 @@
                   </button>
 
                   <button ngbDropdownItem (click)="openModalRetourner(templateRetournerSinistre,item.sinId,'sinistres/retourner-a-cedante')"
-                         appAppAccess appAccess="RET-SIN-CED" *ngIf="currentUser.isCourtier">
+                         appAppAccess appAccess="RET-SIN-CED" *ngIf="currentUser.isCourtier && noPutAction2">
                     <i class="fa fa-share" style="rotate: 180deg;"></i>&nbsp;Retourner à la cédante
                   </button>
 
                   <button ngbDropdownItem (click)="openModalRetourner(templateRetournerSinistre,item.sinId,'sinistres/retourner-au-souscripteur')" 
-                  appAppAccess appAccess="RET-SIN-SOUS" > 
+                  appAppAccess appAccess="RET-SIN-SOUS" *ngIf="noPutAction3"> 
                     <i class="fa fa-share" style="rotate: 180deg;"></i>&nbsp;Retourner au souscripteur
                   </button>
 
@@ -94,7 +94,7 @@
                     <i class="fa fa-share" style="rotate: 180deg;" ></i>&nbsp;Retourner au validateur
                   </button>
 
-                  <button ngbDropdownItem (click)="confirmValiderSinistre(item.sinId)" appAppAccess appAccess="VAL-SIN">
+                  <button ngbDropdownItem (click)="confirmValiderSinistre(item.sinId)" appAppAccess appAccess="VAL-SIN" *ngIf="noPutAction3">
                     <i class="fa fa-check"></i>&nbsp;Valider
                   </button>
 
@@ -218,6 +218,6 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-form-historique-traitement></app-form-historique-traitement>
+    <app-historique-sinistre [idSinistre]="itemsinistre" ></app-historique-sinistre>
   </div>
 </ng-template>

@@ -29,7 +29,7 @@
                                             <i class="fa fa-plus"></i>&nbsp; Nouveau sinistre
                                         </button> 
                                     </div>
-                                    <app-list-sinistre [endPoint]="'sinistres/facultative/transmis-by-cedante'" [noPutAction1]="false" [noPutAction2]="true" [isModifier]="true"
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/transmis-by-cedante'" [noPutAction1]="false" [noPutAction2]="true"
                                      [code]="'GET-SIN-TRANS-LST'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
@@ -42,7 +42,7 @@
 
                             <mat-tab label="En reglement" *ngIf="checkFonction('GET-SIN-REG-LST')">
                                 <ng-template matTabContent>
-                                    <app-list-sinistre [endPoint]="'sinistres/facultative/en-reglement'"  [noPutAction1]="false"  [noPutAction1]="false" [noPutAction3]="false"
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/en-reglement'" 
                                       [code]="'GET-SIN-REG-LST'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
