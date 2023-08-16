@@ -7,7 +7,7 @@
       }"
     >
       <div class="row">
-        <div class="col-12 mb-3">
+        <div class="col-md-6 col-xs-12 mb-3">
           <label
             >Nom cessionnaire :
             <span class="required_champs">*</span>
@@ -29,9 +29,7 @@
             Ce champ est obligatoire
           </small>
         </div>
-      </div>
 
-      <div class="row">
         <div class="col-md-6 col-xs-12 mb-3">
           <label
             >Sigle :
@@ -46,6 +44,30 @@
             type="text"
           />
        
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 col-xs-12 mb-3">
+          <label
+            >Email :
+            <span class="required_champs">*</span>
+          </label>
+          <input
+            class="form-control custom-input"
+            placeholder="Email"
+            autocomplete="off"
+            formControlName="cesEmail"
+            name="cesEmail"
+            [class.errorInputForm]="getFormFiledsValue('cesEmail')?.invalid && getFormFiledsValue('cesEmail')?.touched"
+            type="text"
+          />
+          <small
+          class="text-danger"
+          *ngIf="(getFormFiledsValue('cesEmail')?.dirty || getFormFiledsValue('cesEmail')?.touched) && getFormFiledsValue('cesEmail')?.invalid && getFormFiledsValue('cesEmail')?.errors?.['required']"
+        >
+          Ce champ est obligatoire
+        </small>
         </div>
 
         <div class="col-md-6 col-xs-12 mb-3">
@@ -73,23 +95,24 @@
       </div>
 
       <div class="row">
+      
         <div class="col-md-6 col-xs-12 mb-3">
           <label
-            >Email :
+            >Situation géographique :
             <span class="required_champs">*</span>
           </label>
           <input
             class="form-control custom-input"
-            placeholder="Email"
+            placeholder="Situation géographique"
             autocomplete="off"
-            formControlName="cesEmail"
-            name="cesEmail"
-            [class.errorInputForm]="getFormFiledsValue('cesEmail')?.invalid && getFormFiledsValue('cesEmail')?.touched"
+            formControlName="cesSituationGeo"
+            name="cesSituationGeo"
+            [class.errorInputForm]="getFormFiledsValue('cesSituationGeo')?.invalid && getFormFiledsValue('cesSituationGeo')?.touched"
             type="text"
           />
           <small
           class="text-danger"
-          *ngIf="(getFormFiledsValue('cesEmail')?.dirty || getFormFiledsValue('cesEmail')?.touched) && getFormFiledsValue('cesEmail')?.invalid && getFormFiledsValue('cesEmail')?.errors?.['required']"
+          *ngIf="(getFormFiledsValue('cesSituationGeo')?.dirty || getFormFiledsValue('cesSituationGeo')?.touched) && getFormFiledsValue('cesSituationGeo')?.invalid && getFormFiledsValue('cesSituationGeo')?.errors?.['required']"
         >
           Ce champ est obligatoire
         </small>
@@ -119,32 +142,8 @@
 
       </div>
 
-      <div class="row">
-
-
-        <div class="col-md-6 col-xs-12 mb-3">
-            <label
-              >Situation géographique :
-              <span class="required_champs">*</span>
-            </label>
-            <input
-              class="form-control custom-input"
-              placeholder="Situation géographique"
-              autocomplete="off"
-              formControlName="cesSituationGeo"
-              name="cesSituationGeo"
-              [class.errorInputForm]="getFormFiledsValue('cesSituationGeo')?.invalid && getFormFiledsValue('cesSituationGeo')?.touched"
-              type="text"
-            />
-            <small
-            class="text-danger"
-            *ngIf="(getFormFiledsValue('cesSituationGeo')?.dirty || getFormFiledsValue('cesSituationGeo')?.touched) && getFormFiledsValue('cesSituationGeo')?.invalid && getFormFiledsValue('cesSituationGeo')?.errors?.['required']"
-          >
-            Ce champ est obligatoire
-          </small>
-          </div>
-
-          <div class="col-md-6 col-xs-12 mb-3">
+   <!--    <div class="row">
+         <div class="col-md-6 col-xs-12 mb-3">
             <label
               >Interlocuteur :
               <span class="required_champs">*</span>
@@ -165,8 +164,7 @@
             Ce champ est obligatoire
           </small>
           </div>
-
-      </div>
+      </div>-->
 
       <div class="custom-btn-save-manager">
         <button
