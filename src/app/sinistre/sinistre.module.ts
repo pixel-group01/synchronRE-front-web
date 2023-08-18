@@ -25,7 +25,6 @@ import { HistoriqueSinistreComponent } from './list-sinistre/historique-sinistre
     // CreationSinistreComponent,
     // CreationDocumentSinistreComponent,
     AfficherMessageComponent,
-    HistoriqueSinistreComponent,
     // EtatComptableComponent
   ],
   imports: [

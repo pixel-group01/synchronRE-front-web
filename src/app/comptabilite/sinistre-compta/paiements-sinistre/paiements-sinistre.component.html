@@ -73,23 +73,23 @@
                     <i class="fa fa-list"></i>&nbsp;Détails sinistre
                   </button>
                   <!--*ngIf="isOngletPaiement"-->
-                  <button
-                    ngbDropdownItem  *ngIf="item.staCode=='APAI' || item.staCode=='CPAI' || item.staCode=='CPAI-CREV'"
+                  <button 
+                    ngbDropdownItem  *ngIf="(item.staCode=='APAI' || item.staCode=='CPAI' || item.staCode=='CPAI-CREV') && !noPutAction"
                     (click)="openModal(templatePaiement,item,isOngletPaiement=true)" appAppAccess appAccess="CRT-PAI-SIN">
                     <i class="fa fa-money-bill"></i>&nbsp;Paiement
                   </button>
-                <button *ngIf="item.staCode=='CPAI-CREV'|| item.staCode=='CREV' || item.staCode=='CPAI'"
+                <button *ngIf="(item.staCode=='CPAI-CREV'|| item.staCode=='CREV' || item.staCode=='CPAI') && !noPutAction"
                     ngbDropdownItem (click)="openModal(templatePaiement,item,isOngletPaiement=false)" appAppAccess appAccess="CRT-REV-SIN">
                     <i class="fa fa-redo-alt"></i>&nbsp;Reversement
                 </button>
                 <button ngbDropdownItem (click)="openModalRetourner(templateRetournerSinistre,item.sinId,'sinistres/retourner-au-validateur')"
-                appAppAccess appAccess="RET-SIN-VAL">
+                appAppAccess appAccess="RET-SIN-VAL" *ngIf="!noPutAction">
                  <i class="fa fa-share" style="rotate: 180deg;"></i>&nbsp;Retourner au validateur
                </button>
                 <button appAppAccess appAccess="GET-ETA-COMPT-SIN" ngbDropdownItem (click)="openModalEtatComptable(templateEtatComptable,item.sinId)">
                   <i class="fa fa-info-circle"></i>&nbsp;Situation comptable
                 </button>
-              <button  ngbDropdownItem>
+              <button  ngbDropdownItem (click)="openModal(templateHistoriqueTraitement,item)">
               <i class="fa fa-list"></i>&nbsp;Historique
             </button>
                  <!--<button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
@@ -195,5 +195,21 @@
   </div>
   <div class="modal-body p-4">
       <app-form-retourner-sinstre [idSinistre]="idSiniOfListe" [endPointRetourner]="endPointRetourne" (closeModal)="closeFormModal($event)"></app-form-retourner-sinstre>
+  </div>
+</ng-template>
+
+<!-- historique template -->
+<ng-template #templateHistoriqueTraitement>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">
+     Historique du sinistre
+    </h4>
+
+    <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-historique-sinistre [idSinistre]="itemsinistre" ></app-historique-sinistre>
   </div>
 </ng-template>

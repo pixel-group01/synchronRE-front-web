@@ -23,12 +23,12 @@
                             </mat-tab>
                             <mat-tab label="Transmis" *ngIf="checkFonction('GET-SIN-TRANS-LST')">
                                 <ng-template matTabContent>
-                                    <div class="header-btn-new-affaire">
+                                    <!--<div class="header-btn-new-affaire">
                                         <button type="button" class="btn btn-md custom_btn_primary pull-right" *ngIf="checkFonction('CRT-SIN')"
                                             (click)="openModal(templateSinistre)">
                                             <i class="fa fa-plus"></i>&nbsp; Nouveau sinistre
                                         </button> 
-                                    </div>
+                                    </div> -->
                                     <app-list-sinistre [endPoint]="'sinistres/facultative/transmis-by-cedante'" [noPutAction1]="false" [noPutAction2]="true"
                                      [code]="'GET-SIN-TRANS-LST'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
@@ -53,7 +53,7 @@
                             </mat-tab>
                             <mat-tab label="Suivie" *ngIf="checkFonction('GET-SIN-SUIV-LST')">
                                 <ng-template matTabContent>
-                                    <app-list-sinistre [endPoint]="'sinistres/facultative/suivi'" [code]="'GET-SIN-SUIV-LST'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
+                                    <app-list-sinistre [endPoint]="'sinistres/facultative/suivi'" [noPutAction4]="true" [code]="'GET-SIN-SUIV-LST'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
                                 </ng-template>
                             </mat-tab>
 

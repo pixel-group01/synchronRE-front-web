@@ -15,17 +15,17 @@
                             </mat-tab>
                             <mat-tab label="Soldés" *ngIf="checkFonction('GET-SIN-SOLD-LST-COMPTA')">
                                 <ng-template matTabContent>
-                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/solde'" [isOngletPaiement]="isActivePaiement" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
+                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/solde'" [noPutAction]="true" [isOngletPaiement]="isActivePaiement" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
                                 </ng-template>
                             </mat-tab>
                             <mat-tab label="Suivi" *ngIf="checkFonction('GET-SIN-SUIV-LST-COMPTA')">
                                 <ng-template matTabContent>
-                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/suivi'" [isOngletPaiement]="isActivePaiement" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
+                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/suivi'" [isOngletPaiement]="isActivePaiement" [noPutAction]="true" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
                                 </ng-template>
                             </mat-tab>
                             <mat-tab label="Archives" *ngIf="checkFonction('GET-SIN-ARCH-LST-COMPTA')">
                                 <ng-template matTabContent>
-                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/arch'" [isOngletPaiement]="isActivePaiement" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
+                                    <app-paiements-sinistre [endPoint]="'sinistres/facultative/arch'" [noPutAction]="true" [isOngletPaiement]="isActivePaiement" [refreshDataTable]="refreshDataTable"></app-paiements-sinistre>
                                 </ng-template>
                             </mat-tab>
                         </mat-tab-group>

@@ -39,9 +39,9 @@ export class FormCessionaireComponent implements OnInit {
       cesSituationGeo: [this.itemToUpdate?.cesSituationGeo || "",
       Validators.required,
     ],
-    cesInterlocuteur: [this.itemToUpdate?.cesInterlocuteur || "",
-    Validators.required,
-  ],
+  //   cesInterlocuteur: [this.itemToUpdate?.cesInterlocuteur || "",
+  //   Validators.required,
+  // ],
       cesAdressePostale: [
         this.itemToUpdate?.cesAdressePostale || "",
         Validators.required,

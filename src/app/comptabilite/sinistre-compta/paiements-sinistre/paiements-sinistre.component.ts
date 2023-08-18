@@ -32,6 +32,7 @@ export class PaiementsSinistreComponent implements OnInit {
   @Input() isOngletPaiement: boolean = false;
   @Input() isOngletReversement: boolean = false;
   endPointRetourne :string;
+  @Input() noPutAction: boolean = false;
 
   constructor(
     private businessOptionalService: BusinessOptionalService,
@@ -48,6 +49,7 @@ export class PaiementsSinistreComponent implements OnInit {
     }
     return num;
   }
+
 
   openModalEtatComptable(template: TemplateRef<any>,item:any) {
     this.idSiniOfListe = item;

@@ -38,6 +38,7 @@ export class ListSinistreComponent implements OnInit {
   @Input() noPutAction1: boolean = false;
   @Input() noPutAction2: boolean = false;
   @Input() noPutAction3: boolean = false;
+  @Input() noPutAction4: boolean = false;
   constructor(
     private businessOptionalService: BusinessOptionalService,
     private sinistreService: SinistreService,

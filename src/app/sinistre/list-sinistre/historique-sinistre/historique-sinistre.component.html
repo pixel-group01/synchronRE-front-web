@@ -20,10 +20,44 @@
                         <td>{{histo?.userFullNom | uppercase}} <br> <small style="color: rgb(231, 158, 158);">{{histo?.functionName}}</small></td>
                         <td>{{histo?.mvtObservation}}</td>
                     </tr>
-                    <tr *ngIf="!listeHistoriqueSinistre || listeHistoriqueSinistre.length === 0">
+                    <!--<tr *ngIf="listeHistoriqueSinistre && listeHistoriqueSinistre.length === 0">
                         <td colspan="5" class="txt-align-center">Aucune données disponible</td>
-                    </tr>
+                    </tr> -->
                 </tbody>
+                <tfoot>
+                    <tr *ngIf="listeHistoriqueSinistre && listeHistoriqueSinistre.length > 0">
+                      <td colspan="12">
+                        <div class="row pagination-part">
+                          <div class="col-md-9" style="text-align: center">
+                            <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage"
+                              [totalItems]="totalItems" [(ngModel)]="currentPage" class="pagination-sm"
+                              previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
+                              (pageChanged)="pageChanged($event)">
+                            </pagination>
+                          </div>
+
+                          <div class="col-md-3">
+                            <div class="paginator-per-page">
+                              <app-element-by-page-paginator (paginationChange)="
+                                  changePaginationSize($event)
+                                " [defaultItemPerPage]="itemsPerPage">
+                              </app-element-by-page-paginator>
+
+                              <span class="span_total_entree pull-right">Total : {{ totalItems }}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr *ngIf="!listeHistoriqueSinistre || listeHistoriqueSinistre.lengthlength == 0">
+                      <td colspan="9">
+                        <div class="col-md-12 txt-align-center">
+                          Aucune donnée disponible
+                        </div>
+                      </td>
+                    </tr>
+                  </tfoot>
             </table>
         </div>
     </div>

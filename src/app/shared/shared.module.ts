@@ -46,6 +46,7 @@ import { FormSinistreComponent } from "../sinistre/form-sinistre/form-sinistre.c
 import { CreationSinistreComponent } from "../sinistre/form-sinistre/creation-sinistre/creation-sinistre.component";
 import { EtatComptableComponent } from "../sinistre/list-sinistre/etat-comptable/etat-comptable.component";
 import { FormRetournerSinstreComponent } from "../sinistre/list-sinistre/form-retourner-sinstre/form-retourner-sinstre.component";
+import { HistoriqueSinistreComponent } from "../sinistre/list-sinistre/historique-sinistre/historique-sinistre.component";
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { FormRetournerSinstreComponent } from "../sinistre/list-sinistre/form-re
     CreationSinistreComponent,
     EtatComptableComponent,
     FormRetournerSinstreComponent,
+    HistoriqueSinistreComponent,
     
     // DetailsAffaireFacultativeComponent
     // ProgrammeDialyseComponent,
@@ -166,6 +168,7 @@ import { FormRetournerSinstreComponent } from "../sinistre/list-sinistre/form-re
     CreationSinistreComponent,
     EtatComptableComponent,
     FormRetournerSinstreComponent,
+    HistoriqueSinistreComponent,
 
   ],
   entryComponents:[TimePickerComponent]
