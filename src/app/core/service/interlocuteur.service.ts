@@ -17,7 +17,7 @@ export class InterlocuteurService {
   }
 
   getInterlocuteurByCesId = (cesId:number) => {
-    return this.restClient.get('interlocuteurs/getInterlocuteur?cesId='+cesId);
+    return this.restClient.get('interlocuteurs/list/'+cesId);
   }
  
   getByCriteria = (index:number = 0,size:number=10,key?:string,cesId?:number) => {

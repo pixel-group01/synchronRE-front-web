@@ -27,48 +27,46 @@
           <legend>Nouveau placement</legend>
 
           <div>
-            <div class="row">
-              <div class="col-md-2 col-xs-12 mb-3">
-                <label
-                  >Cessionnaire :
-                  <span class="required_champs">*</span>
-                </label>
+            <!-- <div class="row">
+              <div class="col-md-12 col-xs-12 mb-3">
 
-                <ng-select
-                  [(ngModel)]="itemToSave.cessionnaireSelected"
-                  id="cesId"
-                  name="cesId"
+                <div class="row">
                 
-                >
-                  <ng-option
-                    *ngFor="let cessionaire of listeCessionnaire"
-                    [value]="cessionaire"
-                    >{{ cessionaire.cesNom }}</ng-option
-                  >
-                </ng-select>
 
-                <!-- <input class="form-control custom-input" [(ngModel)]="itemToSavePlacement" placeholder="Filiale" autocomplete="off"
-                                    name="repCapital" mask="separator" type="text" /> -->
-                                 
+                </div>
               </div>
 
-              <div class="col-md-3 col-xs-12 mb-3">
-                <!-- <label
-                  >Interlocuteur:<span class="required_champs">*</span>
-                </label>
-                <input
-                  class="form-control custom-input"
-                  placeholder="Interlocuteur"
-                  autocomplete="off"
-                  name="repInterlocuteur"
-                  [disabled]="isDetails"
-                  name="interlocuteur"
-                  [(ngModel)]="itemToSave.repInterlocuteur"
-                  type="text"
-                /> -->
- 
+            </div> -->
+
+            <div class="row mb-3">
+
+              <!-- <div class="col-md-3 col-xs-12 mb-3">
                 <app-search-interlocuteur [idCessionnaire]="itemToSave.cessionnaireSelected?.cesId"></app-search-interlocuteur>
-              </div>
+              </div> -->
+
+              <div class="col-md-3">
+                <label
+                >Cessionnaire :
+                <span class="required_champs">*</span>
+              </label>
+
+              <ng-select
+                [(ngModel)]="itemToSave.cessionnaireSelected"
+                id="cesId"
+                name="cesId"
+              
+              >
+                <ng-option
+                  *ngFor="let cessionaire of listeCessionnaire"
+                  [value]="cessionaire"
+                  >{{ cessionaire.cesNom }}</ng-option
+                >
+              </ng-select>
+
+              <!-- <input class="form-control custom-input" [(ngModel)]="itemToSavePlacement" placeholder="Filiale" autocomplete="off"
+                                  name="repCapital" mask="separator" type="text" /> -->
+                               
+            </div>
 
               <div class="col-md-2 col-xs-12 mb-3">
                 <label>Capital:<span class="required_champs">*</span> </label>
@@ -86,7 +84,7 @@
                 />
               </div>
 
-              <div class="col-md-1 col-xs-12 mb-3">
+              <div class="col-md-2 col-xs-12 mb-3">
                 <label>Part:<span class="required_champs">*</span> </label>
                 <input
                   class="form-control custom-input"
@@ -102,7 +100,7 @@
                 />
               </div>
 
-              <div class="col-md-1 col-xs-12 mb-3">
+              <div class="col-md-2 col-xs-12 mb-3">
                 <label>SC/C:<span class="required_champs">*</span> </label>
                 <input
                   class="form-control custom-input"
@@ -154,6 +152,17 @@
 
               </div>
             </div>
+
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <fieldset>
+                  <legend> Liste des interlocuteurs </legend>
+                  <app-search-interlocuteur [idCessionnaire]="itemToSave.cessionnaireSelected?.cesId"></app-search-interlocuteur>
+                </fieldset>
+              </div>  
+            </div>
+           
+
           </div>
         </fieldset>
       </div>
