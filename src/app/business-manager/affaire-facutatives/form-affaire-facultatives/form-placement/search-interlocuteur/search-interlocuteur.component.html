@@ -1,0 +1,66 @@
+<div class="col-md-12 no-padding" [ngBusy]="{busy: busyGetSearch, message: 'Veuillez patienter ...', backdrop: false}">
+
+    <div class="form-group col-md-7" >
+     
+  
+      <div class="col-md-12" [class.tableScroll]="ListeItems && ListeItems.length>10" style="padding-left: 0px">
+  
+        <table class="table table-condensed table-striped table-hover search-input" *ngIf='itemToSearch.isDisplayTable' style="position: absolute;
+        z-index: 100;
+        background: #fff; 
+        border: 1px solid #58595b;
+        box-shadow: 2px 3px 3px 1px #a7a0a0;">
+  
+          <thead>
+  
+            <tr class="custom-table-head">
+              <th style="width: 40px">#</th>
+              <th>Nom</th>
+              <th>Prénoms</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Choisir</th>
+              <th>
+                Principal
+                <a (click)="itemToSearch.isDisplayTable = !itemToSearch.isDisplayTable; " class="pull-right">
+                  <i class="fa fa-times" style="color: #fff"></i>
+                </a>
+              </th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr *ngFor="let prest of ListeItems; let i = index" style="cursor: pointer;">
+              <!-- <td class="vertical-align" style="text-align: center"> {{i + 1}} </td>
+              <td class="vertical-align"> {{ prest.compteContribuable }} </td>
+              <td class="vertical-align"> 
+                <span> {{prest?.raisonSociale | preview:30}} </span>
+              </td> -->
+            </tr>
+  
+           <tr *ngIf='!ListeItems || ListeItems.length == 0'>
+              <td colspan="3" style="text-align: center;background-color: #fff"> Aucune donnée disponible </td>
+            </tr>
+  
+          </tbody>
+        </table>
+  
+      </div>
+  
+    </div>
+  
+    <div class="form-group col-md-5">
+        <label>N° CC : </label>
+        <input class="form-control custom_input" placeholder="Modèle" autocomplete="off"
+          [(ngModel)]="itemToSearch.ncc" name="numeroMarche" [disabled]="true"  type="text">
+      </div>
+  
+      <!-- <div class="form-group col-md-2">
+          <label>Montant Red. : </label>
+          <input class="form-control aling-center custom_input" placeholder="Modèle" autocomplete="off"
+            [(ngModel)]="itemToSearch.montantRedevance" name="montantRedevance" mask="separator" [disabled]="true"  type="text">
+        </div> -->
+  
+        
+  </div>
+  

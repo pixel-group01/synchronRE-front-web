@@ -38,7 +38,7 @@
                   [(ngModel)]="itemToSave.cessionnaireSelected"
                   id="cesId"
                   name="cesId"
-                  (change)="getInterlocuteur()"
+                
                 >
                   <ng-option
                     *ngFor="let cessionaire of listeCessionnaire"
@@ -49,10 +49,11 @@
 
                 <!-- <input class="form-control custom-input" [(ngModel)]="itemToSavePlacement" placeholder="Filiale" autocomplete="off"
                                     name="repCapital" mask="separator" type="text" /> -->
+                                 
               </div>
 
               <div class="col-md-3 col-xs-12 mb-3">
-                <label
+                <!-- <label
                   >Interlocuteur:<span class="required_champs">*</span>
                 </label>
                 <input
@@ -64,7 +65,9 @@
                   name="interlocuteur"
                   [(ngModel)]="itemToSave.repInterlocuteur"
                   type="text"
-                />
+                /> -->
+ 
+                <app-search-interlocuteur [idCessionnaire]="itemToSave.cessionnaireSelected?.cesId"></app-search-interlocuteur>
               </div>
 
               <div class="col-md-2 col-xs-12 mb-3">

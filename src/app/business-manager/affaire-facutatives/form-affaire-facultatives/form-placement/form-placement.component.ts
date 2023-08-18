@@ -111,9 +111,9 @@ export class FormPlacementComponent implements OnInit {
       });
   }
 
-  getInterlocuteur() {
-    this.itemToSave.repInterlocuteur = this.itemToSave.cessionnaireSelected?.cesInterlocuteur;
-  }
+  // getInterlocuteur() {
+  //   this.itemToSave.repInterlocuteur = this.itemToSave.cessionnaireSelected?.cesInterlocuteur;
+  // }
 
   saveItem(itemAEnregistrer: RepartitionPlacement) {
     if (!itemAEnregistrer.isUpdatePlacement) {

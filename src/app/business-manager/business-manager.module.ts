@@ -10,7 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ContainerAffaireTraiteeComponent } from './traites/container-affaire-traitee/container-affaire-traitee.component';
 import { DemandePlacementComponent } from './traites/demande-placement/demande-placement.component';
 import { DeclarationsSinistreComponent } from './traites/declarations-sinistre/declarations-sinistre.component';
-import { TableauPlacementComponent } from './affaire-facutatives/form-affaire-facultatives/form-placement/tableau-placement/tableau-placement.component';
+import { SearchInterlocuteurComponent } from './affaire-facutatives/form-affaire-facultatives/form-placement/search-interlocuteur/search-interlocuteur.component';
 // import { FormHistoriqueTraitementComponent } from './affaire-facutatives/form-affaire-facultatives/form-historique-traitement/form-historique-traitement.component';
 // import { FormRetournerAffaireComponent } from './affaire-facutatives/form-affaire-facultatives/form-retourner-affaire/form-retourner-affaire.component';
 
@@ -27,6 +27,7 @@ import { TableauPlacementComponent } from './affaire-facutatives/form-affaire-fa
     ContainerAffaireTraiteeComponent,
     DemandePlacementComponent,
     DeclarationsSinistreComponent,
+    SearchInterlocuteurComponent,
     // FormHistoriqueTraitementComponent,
   ],
   imports: [
