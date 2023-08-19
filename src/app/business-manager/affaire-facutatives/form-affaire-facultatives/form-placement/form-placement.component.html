@@ -131,9 +131,6 @@
               </div>
 
               <div class="col-md-2 col-xs-12 mb-3">
-
-              
-
                 <button
                   class="btn btn-xs btn-default btn-add"
                   type="button"
@@ -157,7 +154,7 @@
               <div class="col-md-12">
                 <fieldset>
                   <legend> Liste des interlocuteurs </legend>
-                  <app-search-interlocuteur [idCessionnaire]="itemToSave.cessionnaireSelected?.cesId"></app-search-interlocuteur>
+                  <app-search-interlocuteur [idCessionnaire]="itemToSave.cessionnaireSelected?.cesId" [resetData]="refreshData" (emitInterlocuteur)="getInterlocuteurSelected($event)"></app-search-interlocuteur>
                 </fieldset>
               </div>  
             </div>

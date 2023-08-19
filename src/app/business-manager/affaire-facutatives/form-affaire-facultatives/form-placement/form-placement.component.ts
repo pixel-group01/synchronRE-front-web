@@ -30,6 +30,9 @@ export class FormPlacementComponent implements OnInit {
   currentAffaire: BusinessOptional;
   busySave: Subscription;
   refreshData:string;
+  refreshDataInterlocuteur : string;
+  idsInterlocuteurs : any = [];
+  idInterlocuteurPrincipale : any [];
 
   @Input() isWizardProcess:boolean = false;
   @Input() isDetails:boolean = false;
@@ -62,13 +65,23 @@ export class FormPlacementComponent implements OnInit {
     });
   }
 
+  getInterlocuteurSelected($event) {
+    console.log(" $event ",$event);
+    $event.forEach(element => {
+      if(element && element.checked && element.isPrincipal){
+        this.idInterlocuteurPrincipale = element.intId;
+      }else{
+        this.idsInterlocuteurs.push(element.intId);
+      }
+    });
+  }
+
   confirmSaveItem() {
     /** Faire les controls */
     let itemAEnregistrer = Object.assign({}, this.itemToSave);
 
     if (
       !itemAEnregistrer ||
-      !itemAEnregistrer?.repInterlocuteur ||
       !itemAEnregistrer?.repCapital ||
       !itemAEnregistrer?.repTaux ||
       !itemAEnregistrer?.repSousCommission || 
@@ -84,10 +97,27 @@ export class FormPlacementComponent implements OnInit {
       return;
     }
 
+    if (
+      !this.idsInterlocuteurs || this.idsInterlocuteurs.length === 0
+    ) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Veuillez cocher les interlocuteurs !",
+        "bottom",
+        "center"
+      );
+
+      return;
+    }
+
     itemAEnregistrer.cesId = this.itemToSave.cessionnaireSelected?.cesId;
     itemAEnregistrer.affId = this.currentAffaire?.affId;
     itemAEnregistrer.repId = this.itemToSave.repId;
     itemAEnregistrer.cessionnaireSelected = null;
+
+    itemAEnregistrer.interlocuteurPrincipalId = 2; // this.idsInterlocuteurs[0]; // this.idInterlocuteurPrincipale;
+    itemAEnregistrer.autreInterlocuteurIds = this.idsInterlocuteurs;
+
     
     if (itemAEnregistrer)
       Swal.fire({

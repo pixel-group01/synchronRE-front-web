@@ -29,10 +29,14 @@
               <td>{{ item?.intTel }}</td>
               <td>{{ item?.intEmail }}</td>
                 <td style="text-align:center">
-                    <input type="checkbox" name="choose" [(ngModel)]="item.checked" />
+                    <input type="checkbox" name="choose"  [ngModelOptions]="{
+                        standalone: true
+                      }" [(ngModel)]="item.checked" (change)="checkedInterlocuteur()" />
                 </td>
                 <td style="text-align:center">
-                    <input type="radio" name="hasPrincipal" [(ngModel)]="item.isPrincipal" />
+                    <input type="radio" name="hasPrincipal"  [ngModelOptions]="{
+                        standalone: true
+                      }" [(ngModel)]="item.isPrincipal" />
                 </td>
             </tr>
           </tbody>

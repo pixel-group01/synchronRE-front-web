@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Interlocuteur } from 'src/app/core/models/interlocuteur';
 import { InterlocuteurService } from 'src/app/core/service/interlocuteur.service';
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-search-interlocuteur',
@@ -13,7 +14,9 @@ export class SearchInterlocuteurComponent implements OnInit {
   busyGetSearch : Subscription;
   itemToSearch : any = {};
   ListeItems : Interlocuteur[];
+  @Input() resetData : string;
   @Input() idCessionnaire : number;
+  @Output() emitInterlocuteur: EventEmitter<any> = new EventEmitter();
   
   constructor( private interlocuteurService: InterlocuteurService) { }
 
@@ -31,6 +34,18 @@ export class SearchInterlocuteurComponent implements OnInit {
     });
   }
 
+  checkedInterlocuteur() {
+    // Cette fonction sera en charge de recuperer les utilisateurs cochés et de les transferer au parent
+    // let interlocuteursCheckeds = _.filter(this.ListeItems, function(o) { return (o.checked && o.isPrincipal) });
+    let interlocuteursCheckeds = _.filter(this.ListeItems, function(o) { return (o.checked) });
+
+    console.log(" checked ");
+    
+    if(interlocuteursCheckeds && interlocuteursCheckeds.length > 0) {
+      this.emitInterlocuteur.emit(interlocuteursCheckeds);
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if (
       changes["idCessionnaire"] &&
@@ -39,6 +54,15 @@ export class SearchInterlocuteurComponent implements OnInit {
       /** On reinitialise la pagination  */
       this.getInterlocuteurByCessionnaire();
     }
+
+    if (
+      changes["resetData"] &&
+      changes["resetData"].currentValue
+    ) {
+      /** On reinitialise la pagination  */
+      this.ListeItems = [];
+    }
+
   }
   
   ngOnInit(): void {
