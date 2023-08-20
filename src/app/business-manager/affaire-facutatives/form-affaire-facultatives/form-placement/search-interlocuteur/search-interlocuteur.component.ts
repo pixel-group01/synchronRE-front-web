@@ -35,15 +35,37 @@ export class SearchInterlocuteurComponent implements OnInit {
   }
 
   checkedInterlocuteur() {
-    // Cette fonction sera en charge de recuperer les utilisateurs cochés et de les transferer au parent
-    // let interlocuteursCheckeds = _.filter(this.ListeItems, function(o) { return (o.checked && o.isPrincipal) });
-    let interlocuteursCheckeds = _.filter(this.ListeItems, function(o) { return (o.checked) });
+   this.emitValue();
+  }
+
+  emitValue() {
+    let interlocuteursCheckeds = _.filter(this.ListeItems, function(o) { return (o.checked || o.isPrincipal) });
+    // let interlocuteursCheckeds = _.filter(this.ListeItems, function(o) { return (o.checked) });
 
     console.log(" checked ");
     
     if(interlocuteursCheckeds && interlocuteursCheckeds.length > 0) {
       this.emitInterlocuteur.emit(interlocuteursCheckeds);
     }
+  }
+
+  checkStatus($event:any,item:Interlocuteur) {
+    console.log(" $event ",$event);
+    console.log(" item ",item);
+
+    this.ListeItems.forEach((element : any) => {
+      element.hasPrincipal = false;
+    });
+    
+    if(event.target['checked'] == true){
+      
+      // // Get checked radio button's value
+      // let radioValue = event.target['value'];
+      item['hasPrincipal'] = true;
+      this.emitValue();
+    }
+
+    
   }
 
   ngOnChanges(changes: SimpleChanges) {

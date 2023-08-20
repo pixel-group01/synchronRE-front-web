@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from "@angular/core";
 import { Subscription } from "rxjs";
 import { BusinessOptional } from "src/app/core/models/businessOptional";
 import { Cessionnaire } from "src/app/core/models/cessionnaire";
@@ -32,7 +32,7 @@ export class FormPlacementComponent implements OnInit {
   refreshData:string;
   refreshDataInterlocuteur : string;
   idsInterlocuteurs : any = [];
-  idInterlocuteurPrincipale : any [];
+  idInterlocuteurPrincipale : number
 
   @Input() isWizardProcess:boolean = false;
   @Input() isDetails:boolean = false;
@@ -65,10 +65,14 @@ export class FormPlacementComponent implements OnInit {
     });
   }
 
-  getInterlocuteurSelected($event) {
+  getInterlocuteurSelected($event) { 
     console.log(" $event ",$event);
+
+    this.idInterlocuteurPrincipale = 0;
+    this.idsInterlocuteurs = [];
+
     $event.forEach(element => {
-      if(element && element.checked && element.isPrincipal){
+      if(element.hasPrincipal){
         this.idInterlocuteurPrincipale = element.intId;
       }else{
         this.idsInterlocuteurs.push(element.intId);
@@ -110,12 +114,26 @@ export class FormPlacementComponent implements OnInit {
       return;
     }
 
+    if (
+      !this.idInterlocuteurPrincipale
+    ) {
+      this.utilities.showNotification(
+        "snackbar-danger",
+        "Veuillez sélectionner l'interlocuteur principale !",
+        "bottom",
+        "center"
+      );
+
+      return;
+    }
+    
+
     itemAEnregistrer.cesId = this.itemToSave.cessionnaireSelected?.cesId;
     itemAEnregistrer.affId = this.currentAffaire?.affId;
     itemAEnregistrer.repId = this.itemToSave.repId;
     itemAEnregistrer.cessionnaireSelected = null;
 
-    itemAEnregistrer.interlocuteurPrincipalId = 2; // this.idsInterlocuteurs[0]; // this.idInterlocuteurPrincipale;
+    itemAEnregistrer.interlocuteurPrincipalId = this.idInterlocuteurPrincipale; // 2; // this.idsInterlocuteurs[0]; // this.idInterlocuteurPrincipale;
     itemAEnregistrer.autreInterlocuteurIds = this.idsInterlocuteurs;
 
     

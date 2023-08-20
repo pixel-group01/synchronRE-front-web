@@ -10,8 +10,10 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { CessionLegale } from "src/app/core/models/cessionLegale";
 import { Country } from "src/app/core/models/country";
+import { Type } from "src/app/core/models/type";
 import { CessionLegaleService } from "src/app/core/service/cession-legale.service";
 import { CountryService } from "src/app/core/service/country.service";
+import { TypeParamCessService } from "src/app/core/service/typeParamCess.service";
 import { UtilitiesService } from "src/app/core/service/utilities.service";
 import Swal from "sweetalert2";
 @Component({
@@ -26,12 +28,14 @@ export class FormCessionComponent implements OnInit {
   busySuscription!: Subscription;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   listeCountry : Country[] = [];
+  listeTypeParam : Type[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private cessionLegaleService: CessionLegaleService,
     private countryService: CountryService,
-    private utilities: UtilitiesService
+    private utilities: UtilitiesService,
+    private typeParamCessService:TypeParamCessService
   ) {}
 
   createForm = () => {
@@ -42,6 +46,7 @@ export class FormCessionComponent implements OnInit {
       paramCesLegTaux: [this.itemToUpdate?.paramCesLegTaux || "",
         Validators.required,
       ],
+      typeId: [this.itemToUpdate?.typeId || "", Validators.required],
       paysCode: [
         this.itemToUpdate?.paysCode || "",
         Validators.required,
@@ -54,6 +59,17 @@ export class FormCessionComponent implements OnInit {
       (response : any) => {
         if(response && response.content) {
           this.listeCountry = response.content as Country[];
+          this.createForm();
+        }
+      }
+    )
+  }
+
+  getType() {
+    this.typeParamCessService.getAll().subscribe(
+      (response : any) => {
+        if(response) {
+          this.listeTypeParam = response as Type[];
           this.createForm();
         }
       }
@@ -124,6 +140,7 @@ export class FormCessionComponent implements OnInit {
     // Initialisation du forms group
     this.createForm();
     this.getCountry();
+    this.getType();
   }
 
   ngOnChanges(changes: SimpleChanges) {

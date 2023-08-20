@@ -34,9 +34,7 @@
                       }" [(ngModel)]="item.checked" (change)="checkedInterlocuteur()" />
                 </td>
                 <td style="text-align:center">
-                    <input type="radio" name="hasPrincipal"  [ngModelOptions]="{
-                        standalone: true
-                      }" [(ngModel)]="item.isPrincipal" />
+                    <input type="radio" name="hasPrincipal" [checked]="item.radioChecked" (change)="checkStatus($event,item);" [ngModelOptions]="{ standalone: true }" />
                 </td>
             </tr>
           </tbody>
