@@ -66,11 +66,41 @@
                                     <td>{{ item?.cesInterlocuteur }}</td>
                                     <td>{{ item?.staLibelle }}</td>
                                     <td class="custom-width-td-action">
-                                        <div class="custom-td-action">
-                                            <a title="Modifier" (click)="openModal(item, templateCrud)"
+                                           <!-- <a title="Modifier" (click)="openModal(item, templateCrud)"
                                                 class="custom-btn-update">
-                                                <i class="fa fa-edit"></i></a>
-                                        </div>
+                                                <i class="fa fa-edit"></i></a> -->
+
+                                                <div class="custom-td-action">
+                                                    <div ngbDropdown class="d-inline-block">
+                                                      <button
+                                                        type="button"
+                                                        class="btn btn-custom-action-dropdown"
+                                                        id="action"
+                                                        ngbDropdownToggle
+                                                      >
+                                                        Actions
+                                                      </button>
+                                                      <div
+                                                        ngbDropdownMenu
+                                                        aria-labelledby="action"
+                                                        class="dropdown-validation-plainte"
+                                                      >
+                                                        <button
+                                                          type="button"
+                                                          ngbDropdownItem
+                                                          (click)="openModal(item, templateCrud)"
+                                                        >
+                                                          <i class="fa fa-redo-alt"></i>&nbsp;Modifier
+                                                        </button>
+                                    
+                                                        <button ngbDropdownItem (click)="openModal(item, templateInterlocuteurCrud,true)">
+                                                          <i class="fa fa-user"></i>&nbsp;Interlocuteurs
+                                                        </button>
+                                    
+                                                      </div>
+                                                    </div>
+                                                  </div>
+
                                     </td>
                                 </tr>
                             </tbody>
@@ -136,3 +166,22 @@
         <app-form-cessionaire (closeModal)="closeModal($event)" [itemToUpdate]="itemToSave"></app-form-cessionaire>
     </div>
 </ng-template>
+
+<!-- Enregistrement template -->
+<ng-template #templateInterlocuteurCrud>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">
+            Gestion des Interlocuteurs ({{
+            itemToSave?.cesNom
+            }})
+        </h4>
+
+        <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-form-add-interlocuteur [idCessionnaire]="itemToSave?.cesId"></app-form-add-interlocuteur>
+    </div>
+</ng-template>
+

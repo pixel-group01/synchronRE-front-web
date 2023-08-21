@@ -9,5 +9,7 @@ export class RepartitionPlacement {
     repTauxComCourt?:number;
     cessionnaireSelected?:any;
     isUpdatePlacement?:boolean;
-    repId?: number
+    repId?: number;
+    interlocuteurPrincipalId?:number;
+    autreInterlocuteurIds?:number
 }

@@ -1,0 +1,265 @@
+<ng-container>
+
+    <fieldset class="mb-3">
+        <legend>  {{ itemToUpdate?.intId ? "Modifier un interlocuteur" : "Enregistrer un interlocuteur" }}</legend>
+
+        <div class="row">
+            <div
+              [ngBusy]="{
+                busy: busySuscription,
+                message: 'Veuillez patienter ...',
+                backdrop: false
+              }"
+            >
+              <form class="m-1" [formGroup]="paramForm" (ngSubmit)="confirmSaveItem()">
+                <div class="row">
+                  <div class="col-3 mb-3">
+                    <label
+                      >Nom :
+                      <span class="required_champs">*</span>
+                    </label>
+                    <input
+                      class="form-control custom-input"
+                      placeholder="Nom du cessionnaire"
+                      autocomplete="off"
+                      formControlName="intNom"
+                      name="intNom"
+                      [class.errorInputForm]="
+                        getFormFiledsValue('intNom')?.invalid &&
+                        getFormFiledsValue('intNom')?.touched
+                      "
+                      type="text"
+                    />
+        
+                    <small
+                      class="text-danger"
+                      *ngIf="(getFormFiledsValue('intNom')?.dirty || getFormFiledsValue('intNom')?.touched) && getFormFiledsValue('intNom')?.invalid && getFormFiledsValue('intNom')?.errors?.['required']"
+                    >
+                      Ce champ est obligatoire
+                    </small>
+                  </div>
+        
+                  <div class="col-md-3 col-xs-12 mb-3">
+                    <label
+                      >Prénoms :
+                      <span class="required_champs">*</span>
+                    </label>
+                    <input
+                      class="form-control custom-input"
+                      placeholder="Prénoms"
+                      autocomplete="off"
+                      formControlName="intPrenom"
+                      name="intPrenom"
+                      [class.errorInputForm]="
+                        getFormFiledsValue('intPrenom')?.invalid &&
+                        getFormFiledsValue('intPrenom')?.touched
+                      "
+                      type="text"
+                    />
+                    <small
+                      class="text-danger"
+                      *ngIf="(getFormFiledsValue('intPrenom')?.dirty || getFormFiledsValue('intPrenom')?.touched) && getFormFiledsValue('intPrenom')?.invalid && getFormFiledsValue('intPrenom')?.errors?.['required']"
+                    >
+                      Ce champ est obligatoire
+                    </small>
+                  </div>
+        
+                  <div class="col-md-3 col-xs-12 mb-3">
+                    <label
+                      >Télephone :
+                      <span class="required_champs">*</span>
+                    </label>
+                    <input
+                      class="form-control custom-input"
+                      placeholder="Télephone"
+                      autocomplete="off"
+                      formControlName="intTel"
+                      name="intTel"
+                      [class.errorInputForm]="
+                        getFormFiledsValue('intTel')?.invalid &&
+                        getFormFiledsValue('intTel')?.touched
+                      "
+                      type="text"
+                    />
+                    <small
+                      class="text-danger"
+                      *ngIf="(getFormFiledsValue('cesTelephone')?.dirty || getFormFiledsValue('cesTelephone')?.touched) && getFormFiledsValue('cesTelephone')?.invalid && getFormFiledsValue('cesTelephone')?.errors?.['required']"
+                    >
+                      Ce champ est obligatoire
+                    </small>
+                  </div>
+        
+                  <div class="col-md-3 col-xs-12 mb-3">
+                    <label
+                      >Email :
+                      <span class="required_champs">*</span>
+                    </label>
+                    <input
+                      class="form-control custom-input"
+                      placeholder="Email"
+                      autocomplete="off"
+                      formControlName="intEmail"
+                      name="intEmail"
+                      [class.errorInputForm]="
+                        getFormFiledsValue('intEmail')?.invalid &&
+                        getFormFiledsValue('intEmail')?.touched
+                      "
+                      type="text"
+                    />
+                    <small
+                      class="text-danger"
+                      *ngIf="(getFormFiledsValue('intEmail')?.dirty || getFormFiledsValue('intEmail')?.touched) && getFormFiledsValue('intEmail')?.invalid && getFormFiledsValue('intEmail')?.errors?.['required']"
+                    >
+                      Ce champ est obligatoire
+                    </small>
+                  </div>
+                </div>
+        
+                <div class="custom-btn-save-manager">
+                  <button
+                    type="submit"
+                    class="btn btn-md custom_btn_primary pull-right"
+                    [disabled]="!paramForm.valid"
+                  >
+                    {{ itemToUpdate?.intId ? "Modifier" : "Enregistrer" }}
+                  </button>
+        
+                  <button
+                    type="button"
+                    class="btn btn-md btn-cancel pull-right"
+                    (click)="cancelSave()"
+                  >
+                    Annuler
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+    </fieldset>
+ 
+
+    <fieldset>
+        <legend> Liste des interlocuteurs </legend>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-condensed table-striped table-hover mt-3 mb-3">
+                    <thead>
+                      <tr class="custom-table-head">
+                        <th class="txt-align-center-counter-row">
+                          <a (click)="currentPage = 1; getItems()" title="Actualiser">
+                            <i class="fa fa-redo-alt"></i></a
+                          >&nbsp;&nbsp; #
+                        </th>
+                        <th>Nom</th>
+                        <th>Prénoms</th>
+                        <th>Tél</th>
+                        <th>Email</th>
+                        <!-- <th>Statut</th> -->
+                        <th class="txt-align-center">Actions</th>
+                      </tr>
+                    </thead>
+              
+                    <tbody>
+                      <tr *ngFor="let item of items; let indice = index">
+                        <td class="txt-align-center">
+                            {{indice+1}}
+                        </td>
+                        <td>{{ item?.intNom }}</td>
+                        <td>{{ item?.intPrenom }}</td>
+                        <td>{{ item?.intTel }}</td>
+                        <td>{{ item?.intEmail }}</td>
+                        <!-- <td>{{ item?.intNom }}</td> -->
+              
+                        <td class="custom-width-td-action">
+                          <!-- <a title="Modifier" (click)="openModal(item, templateCrud)"
+                                          class="custom-btn-update">
+                                          <i class="fa fa-edit"></i></a> -->
+              
+                          <div class="custom-td-action">
+                            <div ngbDropdown class="d-inline-block">
+                              <button
+                                type="button"
+                                class="btn btn-custom-action-dropdown"
+                                id="action"
+                                ngbDropdownToggle
+                              >
+                                Actions
+                              </button>
+                              <div
+                                ngbDropdownMenu
+                                aria-labelledby="action"
+                                class="dropdown-validation-plainte"
+                              >
+                                <button
+                                  type="button"
+                                  ngbDropdownItem
+                                  (click)="itemToUpdate = item; createForm()"
+                                >
+                                  <i class="fa fa-redo-alt"></i>&nbsp;Modifier
+                                </button>
+              
+                                <button
+                                  ngbDropdownItem
+                                  (click)="itemToUpdate = item; confirmDeleteInterlocuteur()"
+                                >
+                                  <i class="fa fa-user"></i>&nbsp;Supprimer
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+              
+                    <tfoot>
+                      <tr *ngIf="items && items.length > 0">
+                        <td colspan="10">
+                          <div class="row pagination-part">
+                            <div class="col-md-9" style="text-align: center">
+                              <pagination
+                                [boundaryLinks]="true"
+                                [itemsPerPage]="itemsPerPage"
+                                [totalItems]="totalItems"
+                                [(ngModel)]="currentPage"
+                                class="pagination-sm"
+                                previousText="&lsaquo;"
+                                nextText="&rsaquo;"
+                                firstText="&laquo;"
+                                lastText="&raquo;"
+                                (pageChanged)="pageChanged($event)"
+                              ></pagination>
+                            </div>
+              
+                            <div class="col-md-3">
+                              <div class="paginator-per-page">
+                                <app-element-by-page-paginator
+                                  (paginationChange)="changePaginationSize($event)"
+                                  [defaultItemPerPage]="itemsPerPage"
+                                ></app-element-by-page-paginator>
+              
+                                <span class="span_total_entree pull-right"
+                                  >Total : {{ totalItems }}</span
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+              
+                      <tr *ngIf="!items || items.length == 0">
+                        <td colspan="10">
+                          <div class="col-md-12 txt-align-center">
+                            Aucune donnée disponible
+                          </div>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+            </div>
+          
+          </div>
+
+    </fieldset>
+
+</ng-container>

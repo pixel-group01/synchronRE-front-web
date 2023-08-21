@@ -29,9 +29,9 @@ export class CessionnaireComponent implements OnInit {
     this.getItems();
   }
 
-  openModal(data: any, template: TemplateRef<any>) {
+  openModal(data: any, template: TemplateRef<any>,isGestionInterlocuteur?:boolean) {
 
-    let config = {backdrop: true, ignoreBackdropClick: true};
+    let config = {backdrop: true, ignoreBackdropClick: true, class: isGestionInterlocuteur ? 'modal-width-65' : ''};
 
     this.itemToSave = {};
     if (data) {

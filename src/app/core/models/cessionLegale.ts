@@ -9,5 +9,6 @@ export class CessionLegale {
     prime?:number;
     repTaux?:number;
     repCapital?:number;
-    paramCesLegalId?:number
+    paramCesLegalId?:number;
+    typeId?:number;
 }
