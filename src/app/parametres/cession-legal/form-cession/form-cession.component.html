@@ -85,6 +85,27 @@
       <div class="row">
         <div class="col-12 mb-3">
           <label
+            >Type :
+            <span class="required_champs">*</span>
+          </label>
+
+          <ng-select formControlName="typeId" name="typeId"
+                  id="typeId">
+                  <ng-option *ngFor="let country of listeTypeParam" [value]="country?.typeId">{{country.name}}</ng-option>
+          </ng-select>
+
+          <small
+            class="text-danger"
+            *ngIf="(getFormFiledsValue('typeId')?.dirty || getFormFiledsValue('typeId')?.touched) && getFormFiledsValue('typeId')?.invalid && getFormFiledsValue('typeId')?.errors?.['required']"
+          >
+            Ce champ est obligatoire
+          </small>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 mb-3">
+          <label
             >Pays :
             <span class="required_champs">*</span>
           </label>

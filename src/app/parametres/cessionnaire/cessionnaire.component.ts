@@ -11,8 +11,6 @@ export class CessionnaireComponent implements OnInit {
   constructor() {
   }
 
-
-
   ngOnInit() {
   }
 

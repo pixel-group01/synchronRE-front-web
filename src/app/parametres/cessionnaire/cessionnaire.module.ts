@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { CessionnaireRoutingModule } from './cessionnaire-routing.module';
 import { Routes } from '@angular/router';
 import { CessionnaireComponent } from './cessionnaire.component';

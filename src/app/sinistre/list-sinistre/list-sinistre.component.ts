@@ -24,7 +24,7 @@ export class ListSinistreComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number; 
-  busyGet: Subscription; 
+  busyGet: Subscription;
   user:  any;
   isActiveInput :boolean = false;
   isActiveModif :boolean = true;

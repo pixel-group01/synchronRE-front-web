@@ -1,0 +1,50 @@
+<div class="col-md-12 no-padding" [ngBusy]="{busy: busyGetSearch, message: 'Veuillez patienter ...', backdrop: false}">
+
+    <div class="form-group col-md-7" >
+     
+  
+      <div class="col-md-12 mt-3">
+  
+        <table class="table table-condensed table-striped table-hover">
+  
+          <thead>
+            <tr class="custom-table-head">
+              <th style="width: 40px">#</th>
+              <th>Nom</th>
+              <th>Prénoms</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Choisir</th>
+              <th> Principal </th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr *ngFor="let item of ListeItems; let indice = index">
+              <td class="txt-align-center">
+                  {{indice+1}}
+              </td>
+              <td>{{ item?.intNom }}</td>
+              <td>{{ item?.intPrenom }}</td>
+              <td>{{ item?.intTel }}</td>
+              <td>{{ item?.intEmail }}</td>
+                <td style="text-align:center">
+                    <input type="checkbox" name="choose"  [ngModelOptions]="{
+                        standalone: true
+                      }" [(ngModel)]="item.checked" (change)="checkedInterlocuteur()" />
+                </td>
+                <td style="text-align:center">
+                    <input type="radio" name="hasPrincipal" [checked]="item.radioChecked" (change)="checkStatus($event,item);" [ngModelOptions]="{ standalone: true }" />
+                </td>
+            </tr>
+          </tbody>
+
+        </table>
+  
+      </div>
+  
+    </div>
+
+        
+  </div>
+  

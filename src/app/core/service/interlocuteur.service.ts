@@ -6,7 +6,6 @@ import { RestClientService } from './rest-client.service';
 })
 export class InterlocuteurService {
 
-
   constructor(private restClient:RestClientService) { }
 
   create = (body:any) => {
