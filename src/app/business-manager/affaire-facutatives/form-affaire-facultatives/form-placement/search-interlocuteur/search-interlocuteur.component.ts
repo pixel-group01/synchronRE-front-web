@@ -39,10 +39,10 @@ export class SearchInterlocuteurComponent implements OnInit {
   }
 
   emitValue() {
-    let interlocuteursCheckeds = _.filter(this.ListeItems, function(o) { return (o.checked || o.isPrincipal) });
+    let interlocuteursCheckeds = _.filter(this.ListeItems, function(o) { return (o.checked || o.hasPrincipal) });
     // let interlocuteursCheckeds = _.filter(this.ListeItems, function(o) { return (o.checked) });
 
-    console.log(" checked ");
+    console.log(" checked ",interlocuteursCheckeds);
     
     if(interlocuteursCheckeds && interlocuteursCheckeds.length > 0) {
       this.emitInterlocuteur.emit(interlocuteursCheckeds);

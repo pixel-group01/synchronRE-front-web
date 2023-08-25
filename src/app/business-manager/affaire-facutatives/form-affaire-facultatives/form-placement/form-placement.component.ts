@@ -359,7 +359,7 @@ export class FormPlacementComponent implements OnInit {
 
   /** Taraitement de la modificatioon */
   getCurrentPlacementToUpdate(placement : RepartitionPlacement){
-    console.log(' placement ',placement);
+    console.log(' placement current ',placement);
 
     placement.isUpdatePlacement = true;
     this.itemToSave = {...placement};
