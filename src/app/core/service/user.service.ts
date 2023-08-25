@@ -121,6 +121,14 @@ export class UserService {
     );
   };
 
+
+  sendActivationEmail = (email: any, option?: any): Observable<any> => {
+    return this.restClient.put(
+      "users/open/send-acitivation-email/" + email,
+      {}
+    );
+  };
+
   reinitPassword = (body: any, option?: any): Observable<any> => {
     return this.restClient.put("users/open/reinit-password", body, option);
   };
