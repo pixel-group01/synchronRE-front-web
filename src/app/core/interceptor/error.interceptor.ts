@@ -32,6 +32,8 @@ export class ErrorInterceptor implements HttpInterceptor {
   
           let error = err?.error || err?.error?.message || err?.statusText;
           
+          console.log(error);
+          
           // Je stringify en attendant que le backend ne trouve la solution
           if(error) {
             this.utilities.showNotification("snackbar-danger",JSON.stringify(error),"bottom","center");

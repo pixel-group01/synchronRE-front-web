@@ -160,12 +160,60 @@ export class UtilisateursComponent implements OnInit {
         },
         (err) => {
           console.log("Error occured", err);
-          this.utilities.showNotification(
-            "snackbar-danger",
-            this.utilities.getMessageEndPointNotAvailble(),
-            "bottom",
-            "center"
-          );
+          // this.utilities.showNotification(
+          //   "snackbar-danger",
+          //   this.utilities.getMessageEndPointNotAvailble(),
+          //   "bottom",
+          //   "center"
+          // );
+          this.getItems();
+        }
+      );
+  }
+
+
+
+  confirmResendMailActivation(email) {
+    Swal.fire({
+      title: "Mail d'activation de compte d'un utilisateur",
+      text: "Vous êtes sur le point d'envoyer un mail d'activation. Voulez-vous poursuivre cette action ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3f51b5",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    }).then((result) => {
+      if (result.value) {
+        this.sendMailActivation(email);
+      }
+    });
+  }
+
+  sendMailActivation(email:any) {
+
+    this.busyGet = this.userService.sendActivationEmail(email)
+      .subscribe(
+        (response) => {
+          console.log(response);
+          if (response) {
+            this.utilities.showNotification(
+              "snackbar-success",
+              this.utilities.getMessageOperationSuccessFull(),
+              "bottom",
+              "center"
+            );
+            this.getItems();
+          }
+        },
+        (err) => {
+          console.log("Error occured", err);
+          // this.utilities.showNotification(
+          //   "snackbar-danger",
+          //   this.utilities.getMessageEndPointNotAvailble(),
+          //   "bottom",
+          //   "center"
+          // );
           this.getItems();
         }
       );
@@ -188,12 +236,12 @@ export class UtilisateursComponent implements OnInit {
         },
         (err) => {
           console.log("Error occured", err);
-          this.utilities.showNotification(
-            "snackbar-danger",
-            this.utilities.getMessageEndPointNotAvailble(),
-            "bottom",
-            "center"
-          );
+          // this.utilities.showNotification(
+          //   "snackbar-danger",
+          //   this.utilities.getMessageEndPointNotAvailble(),
+          //   "bottom",
+          //   "center"
+          // );
         }
       );
   }

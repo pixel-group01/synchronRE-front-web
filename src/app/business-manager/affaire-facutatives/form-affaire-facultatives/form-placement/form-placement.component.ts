@@ -101,18 +101,18 @@ export class FormPlacementComponent implements OnInit {
       return;
     }
 
-    if (
-      !this.idsInterlocuteurs || this.idsInterlocuteurs.length === 0
-    ) {
-      this.utilities.showNotification(
-        "snackbar-danger",
-        "Veuillez cocher les interlocuteurs !",
-        "bottom",
-        "center"
-      );
+    // if (
+    //   !this.idsInterlocuteurs || this.idsInterlocuteurs.length === 0
+    // ) {
+    //   this.utilities.showNotification(
+    //     "snackbar-danger",
+    //     "Veuillez cocher les interlocuteurs !",
+    //     "bottom",
+    //     "center"
+    //   );
 
-      return;
-    }
+    //   return;
+    // }
 
     if (
       !this.idInterlocuteurPrincipale
@@ -359,7 +359,7 @@ export class FormPlacementComponent implements OnInit {
 
   /** Taraitement de la modificatioon */
   getCurrentPlacementToUpdate(placement : RepartitionPlacement){
-    console.log(' placement ',placement);
+    console.log(' placement current ',placement);
 
     placement.isUpdatePlacement = true;
     this.itemToSave = {...placement};
