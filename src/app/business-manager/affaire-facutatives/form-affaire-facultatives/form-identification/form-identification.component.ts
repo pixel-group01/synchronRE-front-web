@@ -151,12 +151,10 @@ export class FormIdentificationComponent implements OnInit {
       affAssure: [this.itemToUpdate?.affAssure || "", Validators.required],
       affActivite: [this.itemToUpdate?.affActivite || "", Validators.required],
       affDateEffet: [
-        this.itemToUpdate?.affDateEffet || "",
-        Validators.required,
+        this.itemToUpdate?.affDateEffet || ""
       ],
       affDateEcheance: [
-        this.itemToUpdate?.affDateEcheance || "",
-        Validators.required,
+        this.itemToUpdate?.affDateEcheance || ""
       ],
       facNumeroPolice: [
         this.itemToUpdate?.facNumeroPolice || ""
