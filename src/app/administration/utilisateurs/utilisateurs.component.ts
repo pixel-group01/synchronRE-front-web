@@ -67,7 +67,7 @@ export class UtilisateursComponent implements OnInit {
 
   pageChanged(event: any): void {
     this.currentPage = event.page;
-    this.getItems();
+    this.getItems(); 
   }
 
   openModal(data: any, template: TemplateRef<any>,isDetails?:boolean) {

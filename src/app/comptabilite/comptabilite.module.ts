@@ -11,6 +11,7 @@ import { FormPaiementComponent } from './affaires-facultative/paiements-affaires
 import { SinistreComptaComponent } from './sinistre-compta/sinistre-compta.component';
 import { PaiementsSinistreComponent } from './sinistre-compta/paiements-sinistre/paiements-sinistre.component';
 import { FormPaiementSinistreComponent } from './sinistre-compta/paiements-sinistre/form-paiement-sinistre/form-paiement-sinistre.component';
+import { EtatComptableComponent } from '../sinistre/list-sinistre/etat-comptable/etat-comptable.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { FormPaiementSinistreComponent } from './sinistre-compta/paiements-sinis
     FormPaiementComponent,
     SinistreComptaComponent,
     PaiementsSinistreComponent,
-    FormPaiementSinistreComponent
+    FormPaiementSinistreComponent,
+    // EtatComptableComponent
   ],
   imports: [
     CommonModule,

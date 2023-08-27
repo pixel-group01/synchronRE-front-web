@@ -4,13 +4,18 @@ import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
-})
+}) 
 export class SinistreService {
   currentUser:any
   constructor(private restClient:RestClientService,
               private userService: UserService) { 
   this.currentUser  = this.userService.getCurrentUserInfo();
   }
+
+  checkFonction(code):any{
+    return this.currentUser.authorities.find((item:any)=> item == code);
+  }
+
 
   create = (body:any) => {
     return this.restClient.post('sinistres/create',body)
@@ -20,34 +25,37 @@ export class SinistreService {
     return this.restClient.post('sinistres/delete',body)
   } 
 
-  transmission = (body:any) => {
+  histoSinist = (body:any)=>{
+    return this.restClient.get('mouvements/sinistre/get-histo/'+`${body}`)
+  }
+
+  transmissionAuSouscripteur= (body:any) => {
+    return this.restClient.put('sinistres/sinistres/transmettre-au-courtier/'+`${body}`);
+  }
+
+  transmissionAuValidateur= (body:any) => {
     return this.restClient.put('sinistres/transmettre-pour-validation/'+`${body}`);
   }
 
-  retournerCedante = (body:any) => {
-    return this.restClient.put('sinistres/retourner-a-cedante',body);
+  retournerSinistre = (endPointRetourner?:string,body?:any) => {
+    // let endPoint : any;
+    // if (this.checkFonction('TRANS-SIN-VAL')) {
+    //     endPoint = 'sinistres/retourner-au-souscripteur'
+    // }else{
+    //   if (this.checkFonction('TRANS-SIN-COMPTA')) {
+    //     endPoint = 'sinistres/retourner-au-validateur'
+    //   }else{
+    //     if (this.checkFonction('SIN-TRAN')) {
+    //       endPoint ='sinistres/retourner-a-cedante'
+    //     }
+    //   }
+    // }
+    return this.restClient.put(endPointRetourner,body);
   }
 
-  retournerSouscripteur = (body:any) => {
-    return this.restClient.put('sinistres/retourner-au-souscripteur',body);
+  messageCedante = (endPoint,body:any) => {
+    return this.restClient.get(endPoint+`${body}`);
   }
-
-  retournerValidateur = (body:any) => {
-    return this.restClient.put('sinistres/retourner-au-validateur',body);
-  }
-
-  messageCedante = (body:any) => {
-    return this.restClient.get('mouvements/sinistre/get-message-retour-souscripteur/'+`${body}`);
-  }
-
-  messageSouscripteur = (body:any) => {
-    return this.restClient.get('mouvements/sinistre/get-message-retour-validateur/'+`${body}`);
-  }
-
-  messageValidateur = (body:any) => {
-    return this.restClient.get('mouvements/sinistre/get-message-retour-comptable/'+`${body}`);
-  }
-
 
   validation = (body:any) => {
     return this.restClient.put('sinistres/valider/'+`${body}`);
@@ -74,10 +82,12 @@ export class SinistreService {
     return this.restClient.get(endPoint+`${body}`)
   }
 
- 
-
   update = (body:any) => {
     return this.restClient.put('sinistres/update',body)
+  }
+
+  getHistorique = (body:any)=>{
+    return this.restClient.get('mouvements/sinistre/get-histo/'+body)
   }
 
 }

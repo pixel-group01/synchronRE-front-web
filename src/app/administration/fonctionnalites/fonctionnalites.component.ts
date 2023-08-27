@@ -26,15 +26,20 @@ export class FonctionnalitesComponent implements OnInit {
   busyGet: Subscription;
   busySave: Subscription;
   loading: boolean = false;
-  endPoint : string = 'fonctionnalite/';
+  endPoint : string = 'privileges/';
   itemsRole: any;
   itemsSpecialites: any;
   dateNais: any;
   bsValue: Date;
   ListNoParentFonctionnalites: any[];
 
-  constructor(private authService: AuthService, private restClient: RestClientService, private modalService: BsModalService, private utilities: UtilitiesService) {
+  constructor(private authService: AuthService, 
+              private restClient: RestClientService,
+              private modalService: BsModalService,
+              private utilities: UtilitiesService) {
     this.user = this.authService.currentUserValue;
+    // console.log("user conneected  :",this.user);
+    
   }
 
   pageChanged(event: any): void {
@@ -182,7 +187,7 @@ export class FonctionnalitesComponent implements OnInit {
 
   getItems() {
     let request = {
-      user: this.user.id,
+      user: this.user?.id,
       data: {
         libelle: this.itemToSearch.libelle ? this.itemToSearch.libelle : null
       },
@@ -190,9 +195,11 @@ export class FonctionnalitesComponent implements OnInit {
       size: this.itemsPerPage
     }
 
-    this.busyGet = this.restClient.post(this.endPoint+'/getByCriteria', request)
+    this.busyGet = this.restClient.post(this.endPoint+'search', request)
       .subscribe(
-        res => {
+        (res:any) => {
+          console.log("res log admin ::",res);
+          
           if (res && res['items']) {
             this.items = res['items'];
             console.log('all fonct',this.items);
@@ -213,7 +220,7 @@ export class FonctionnalitesComponent implements OnInit {
   getItemsRoles() {
     console.log('getting data');
     let request = {
-      user: this.user.id,
+      user: this.user?.id,
       data: {
 
       },

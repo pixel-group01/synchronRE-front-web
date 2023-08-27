@@ -46,6 +46,7 @@ export class FormAddInterlocuteurComponent implements OnInit {
   };
 
   confirmDeleteInterlocuteur(interlocuteur : Interlocuteur) {
+    this.itemToUpdate?  interlocuteur = this.itemToUpdate : interlocuteur = {} ;
     Swal.fire({
       title: "Suppression",
       text:"Vous êtes sur le point de supprimer un interlocuteur ?",
@@ -65,7 +66,7 @@ export class FormAddInterlocuteurComponent implements OnInit {
   deleteItem(intCesId:number) {
    this.busySuscription = this.interlocuteurService.deleteItem(intCesId).subscribe(
     (response) => {
-      console.log(" response ",response);
+      console.log(" response  delete cesId",response);
       this.utilities.showNotification(
         "snackbar-success",
         this.utilities.getMessageOperationSuccessFull(),
@@ -156,7 +157,7 @@ export class FormAddInterlocuteurComponent implements OnInit {
   }
 
   cancelSave() {
-    this.itemToUpdate = {};
+    this.itemToUpdate ={} ;
     this.createForm();
   }
 

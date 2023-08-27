@@ -69,7 +69,7 @@ export class HeaderComponent
   requestRefreshNotifications?: Subscription;
   itemToSave: any = {};
   isOpen: boolean;
-
+  totalNotifications :any
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
@@ -156,18 +156,20 @@ export class HeaderComponent
   }
 
   getNotificationCedenteAffaireRetourner(){
-    this.restClient.get('affaires/facultative/by-cedante').subscribe(
+    this.restClient.get('notifications').subscribe(
       (response : any) => {
-        console.log(" Retour du service ",response);
+        console.log(" Retour du service0 ",response);
         this.listeNotifications = [];
-        if(response['content'] && response['content'].length > 0) {
-          let results =  _.filter(response['content'], (o)=> { return o.statutCode?.toLowerCase() === enumStatutAffaire?.RETOURNER?.toLowerCase() });
-
-          if(results && results.length > 0){
-            this.listeNotifications.push({
-              message : "Vous avez "+(results.length)+ " affaire(s) retournée(s) par NELSONRE",
-            })
-          }
+        if(response) {
+          // let results =  _.filter(response['content'], (o)=> { return o.statutCode?.toLowerCase() === enumStatutAffaire?.RETOURNER?.toLowerCase() });
+        console.log(" Retour du service 1",response);
+        this.listeNotifications = response.detailsNotifications;
+        this.totalNotifications = response.totalNotifications
+          // if(results && results.length > 0){
+            // this.listeNotifications.push({
+            //   message : "Vous avez "+(results.length)+ " affaire(s) retournée(s) par NELSONRE",
+            // })
+          // }
         }
 
       }

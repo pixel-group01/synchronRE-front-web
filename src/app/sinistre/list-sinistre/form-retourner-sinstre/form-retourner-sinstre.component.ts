@@ -15,7 +15,7 @@ export class FormRetournerSinstreComponent implements OnInit {
   retourneForm:FormGroup;
   currentUser:any;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
-
+  @Input() endPointRetourner : string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,8 +25,9 @@ export class FormRetournerSinstreComponent implements OnInit {
   ngOnInit(): void {
     this.retourForm();
     this.currentUser  = this.userService.getCurrentUserInfo();
+    console.log("endPointRetourner :",this.endPointRetourner);
   }
-  
+
   retourForm = () =>{
     this.retourneForm = this.formBuilder.group({
       description: ["",Validators.required],
@@ -34,7 +35,7 @@ export class FormRetournerSinstreComponent implements OnInit {
   }
 
   confirmRetournerSinistre(item:any) {
-    console.log("idSinistre :",this.idSinistre);
+    // console.log("idSinistre :",this.idSinistre);
     Swal.fire({
       title: "Retourner un sinistre",
       text:"Vous êtes sur le point de retourner un sinistre. Voulez-vous poursuivre cette action ?",
@@ -47,9 +48,7 @@ export class FormRetournerSinstreComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         // On effectue une transmission de sinistre
-        this.retournerSinistre(item);
-        // this.retournerSinistreSouscripteur(item);
-        // this.retournerSinistreValidateur(item)
+        this.retournerSinis(item)
       }
     });
   }
@@ -58,38 +57,16 @@ export class FormRetournerSinstreComponent implements OnInit {
       this.retourneForm.reset()
   }
 
-  retournerSinistre(item?: any) {
+  retournerSinis(item?: any) {
     const data = {
       objectId: this.idSinistre,
       mvtObservation: item.description
     } 
-    this.sinistreService.retournerCedante(data).subscribe((res: any) => {
-        console.log('ok pour mon form de retouner');
+    this.sinistreService.retournerSinistre(this.endPointRetourner,data).subscribe((res: any) => {
+        // console.log('ok pour mon form de retouner');
         this.closeModal.emit(true);
     })
   }
 
-  retournerSinistreSouscripteur(item?: any) {
-    const data = {
-      objectId: this.idSinistre,
-      mvtObservation: item.description
-    } 
-    this.sinistreService.retournerSouscripteur(data).subscribe((res: any) => {
-        console.log('ok pour mon form de retouner');
-        this.closeModal.emit(true);
-    })
-  }
-
-  retournerSinistreValidateur(item?: any) {
-    const data = {
-      objectId: this.idSinistre,
-      mvtObservation: item.description
-    } 
-    this.sinistreService.retournerValidateur(data).subscribe((res: any) => {
-        console.log('ok pour mon form de retouner');
-        this.closeModal.emit(true);
-
-    })
-  }
 
 }

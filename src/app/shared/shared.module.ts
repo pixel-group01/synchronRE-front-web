@@ -45,7 +45,8 @@ import { CreationDocumentSinistreComponent } from "../sinistre/form-sinistre/cre
 import { FormSinistreComponent } from "../sinistre/form-sinistre/form-sinistre.component";
 import { CreationSinistreComponent } from "../sinistre/form-sinistre/creation-sinistre/creation-sinistre.component";
 import { EtatComptableComponent } from "../sinistre/list-sinistre/etat-comptable/etat-comptable.component";
-import { SearchInterlocuteurComponent } from "../business-manager/affaire-facutatives/form-affaire-facultatives/form-placement/search-interlocuteur/search-interlocuteur.component";
+import { FormRetournerSinstreComponent } from "../sinistre/list-sinistre/form-retourner-sinstre/form-retourner-sinstre.component";
+import { HistoriqueSinistreComponent } from "../sinistre/list-sinistre/historique-sinistre/historique-sinistre.component";
 
 @NgModule({
   declarations: [
@@ -76,8 +77,9 @@ import { SearchInterlocuteurComponent } from "../business-manager/affaire-facuta
     CreationDocumentSinistreComponent,
     FormSinistreComponent,
     CreationSinistreComponent,
-    SearchInterlocuteurComponent
-    // EtatComptableComponent
+    EtatComptableComponent,
+    FormRetournerSinstreComponent,
+    HistoriqueSinistreComponent,
     
     // DetailsAffaireFacultativeComponent
     // ProgrammeDialyseComponent,
@@ -164,8 +166,10 @@ import { SearchInterlocuteurComponent } from "../business-manager/affaire-facuta
     CreationDocumentSinistreComponent,
     FormSinistreComponent,
     CreationSinistreComponent,
-    SearchInterlocuteurComponent 
-    // EtatComptableComponent
+    EtatComptableComponent,
+    FormRetournerSinstreComponent,
+    HistoriqueSinistreComponent,
+
   ],
   entryComponents:[TimePickerComponent]
 })
