@@ -16,6 +16,7 @@ export class SearchInterlocuteurComponent implements OnInit {
   ListeItems : Interlocuteur[];
   @Input() resetData : string;
   @Input() idCessionnaire : number;
+  @Input() oldInterlocuteur : Interlocuteur[];
   @Output() emitInterlocuteur: EventEmitter<any> = new EventEmitter();
   
   constructor( private interlocuteurService: InterlocuteurService) { }
@@ -64,8 +65,20 @@ export class SearchInterlocuteurComponent implements OnInit {
       item['hasPrincipal'] = true;
       this.emitValue();
     }
+  }
 
+  crossOldInterlocuteur(listInterlocuteur?:Interlocuteur[]) {
+    console.log(" listInterlocuteur ",listInterlocuteur);
     
+    this.ListeItems.forEach((item : Interlocuteur) => {
+      let oldItem = _.find(this.oldInterlocuteur, (o : Interlocuteur) => { return o.intId === item.intId });
+
+      console.log(" oldItem ",oldItem);
+      if(oldItem) {
+        item.checked = oldItem.selected;
+        item.hasPrincipal = oldItem.principal;
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -85,6 +98,11 @@ export class SearchInterlocuteurComponent implements OnInit {
       this.ListeItems = [];
     }
 
+    if(  changes["oldInterlocuteur"] &&
+    changes["oldInterlocuteur"].currentValue && changes["oldInterlocuteur"].currentValue.length > 0) {
+      // On doit faire un croisement pour recuperer les ancien intem
+      this.crossOldInterlocuteur(changes["oldInterlocuteur"].currentValue);
+    }
   }
   
   ngOnInit(): void {

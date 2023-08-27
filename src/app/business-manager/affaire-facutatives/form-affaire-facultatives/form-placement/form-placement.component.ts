@@ -13,6 +13,7 @@ import * as _ from "lodash";
 import { User } from "src/app/core/models/user";
 import { UserService } from "src/app/core/service/user.service";
 import { InterlocuteurService } from "src/app/core/service/interlocuteur.service";
+import { Interlocuteur } from "src/app/core/models/interlocuteur";
 
 @Component({
   selector: "app-form-placement",
@@ -34,7 +35,7 @@ export class FormPlacementComponent implements OnInit {
   refreshDataInterlocuteur : string;
   idsInterlocuteurs : any = [];
   idInterlocuteurPrincipale : number;
-  listeInterlocuteursPlacements : any = [];
+  listeInterlocuteursPlacements : Interlocuteur[] = [];
 
   @Input() isWizardProcess:boolean = false;
   @Input() isDetails:boolean = false;
@@ -70,8 +71,10 @@ export class FormPlacementComponent implements OnInit {
 
   getInterlocuteurByPlacement(idPlacement) {
     this.interlocuteurServices.getInterlocuteurByPlacement(idPlacement).subscribe((response : any) => {
-      if (response) {
-        this.listeInterlocuteursPlacements = response as Cessionnaire[];
+      console.log(" response ",response);
+      
+      if (response && response['content']) {
+        this.listeInterlocuteursPlacements = response['content'] as Interlocuteur[];
       }
     });
   }
@@ -197,7 +200,7 @@ export class FormPlacementComponent implements OnInit {
     } else {
       // Nous sommes en modification
       this.busySave = this.businessOptionalRepartition
-        .modificationPlacement(itemAEnregistrer)
+        .createPlacement(itemAEnregistrer)
         .subscribe((response: any) => {
           if (response && response?.affId) {
             this.itemToSave = {};
@@ -374,7 +377,7 @@ export class FormPlacementComponent implements OnInit {
 
     placement.isUpdatePlacement = true;
     this.itemToSave = {...placement};
-    // this.getInterlocuteurByPlacement(this.itemToSave.);
+    this.getInterlocuteurByPlacement(this.itemToSave.repId);
     // Preseledctionner le cessionnnaire selectionné
     this.itemToSave.cessionnaireSelected = _.find(this.listeCessionnaire, (o) => { return o.cesId === placement.cesId });
   }
