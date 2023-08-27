@@ -13,29 +13,32 @@ export class InterlocuteurService {
   } 
 
   getAll = () => {
-    return this.restClient.get('cessionnaires/list');
+    return this.restClient.get('interlocuteurs/list');
   }
 
-  // getInterlocuteur = (cesId:number) => {
-  //   return this.restClient.get('cessionnaires/getInterlocuteur?cesId='+cesId);
-  // }
+  getInterlocuteurByCesId = (cesId:number) => {
+    return this.restClient.get('interlocuteurs/list/'+cesId);
+  }
  
-  getByCriteria = (index:number = 0,size:number=10,key?:string,intId?:number) => {
-    let endPointFinal = "interlocuteurs/list/"+intId+"?page="+index+"&size="+size+""+(key ? "&key="+key : "");
-  
+  getByCriteria = (index:number = 0,size:number=10,key?:string,cesId?:number) => {
+    let endPointFinal = "interlocuteurs/list/"+cesId+"?page="+index+"&size="+size+""+(key ? "&key="+key : "");
     return this.restClient.get(endPointFinal);
   }
-
-  // getCessionnaireByAffaire = (idAffaire:number) => {
-  //   let endPointFinal = "cessionnaires/by-affaire/"+idAffaire;
-  //   return this.restClient.get(endPointFinal);
-  // }
   
   update = (body:any) => {
     return this.restClient.put('interlocuteurs/update',body)
   }
 
-  delete = (body:any) => {
-    return this.restClient.delete('interlocuteurs/delete-interlocuteur/'+body)
+  getInterlocuteurByPlacement = (plaId:number) => {
+    return this.restClient.get('/interlocuteurs/for-placement',plaId)
   }
+
+  addInterlocuteurByCessionnaire = (body:any) => {
+    return this.restClient.put('interlocuteurs/update',body)
+  }
+
+  deleteItem = (id:number) => {
+    return this.restClient.delete('interlocuteurs/delete-interlocuteur/'+id)
+  }
+
 }

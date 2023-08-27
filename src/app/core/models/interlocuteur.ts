@@ -1,8 +1,10 @@
-export interface Interlocuteur {
-        intId?:number,
-        intCesId?: number,
-        intNom: string,
-        intPrenom: string,
-        intTel: string,
-        intEmail: string,
-}
+
+export class Interlocuteur {
+        intId?: number;
+        intCesId?: number;
+        intEmail?: string;
+        intTel?: string;
+        intNom?: string;
+        intPrenom?: string;
+      
+      }

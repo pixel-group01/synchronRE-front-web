@@ -44,9 +44,7 @@ const routes: Routes = [
   },
   {
     path: 'cessionnaire',
-    // component: CessionnaireComponent, 
-    loadChildren: () => import('../parametres/cessionnaire/cessionnaire.module').then((m) => m.CessionnaireModule)
-
+    component: CessionnaireComponent, 
   },
 
 ];

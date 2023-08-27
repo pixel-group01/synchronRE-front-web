@@ -31,8 +31,8 @@
             <i class="material-icons-outlined icon-color">
               notifications_active
             </i>
-            <sup *ngIf="listeNotifications && listeNotifications.length > 0">{{
-              listeNotifications?.length | moneyFormat
+            <sup *ngIf="totalNotifications && totalNotifications > 0">{{
+              totalNotifications | moneyFormat
               }}</sup>
           </button>
           <div ngbDropdownMenu class="notification-dropdown pullDown">
@@ -53,14 +53,15 @@
                       <i class="fa fa-plus" [ngClass]="{'nfc-green' : notification.typeNotificationId == 1}"></i>
                     </span> -->
                     <span class="menu-info">
-                      <span class="menu-title">{{ notification?.message }}
+                      <span class="menu-title d-flex justify-content-between align-items-center"> <span>{{ notification?.label }} </span>
+                      <span class="badge badge-warning"> {{notification.value}}</span>
                       </span>
                       <!-- <span class="menu-desc mt-2">
                         <i class="material-icons">access_time</i>
                         {{ getDuree(notification.createdAt) }}
                       </span> -->
                     </span>
-                    <span class="nfc-close">
+                  <!--  <span class="nfc-close">
                       <b *ngIf="notification?.hasValidation" class="badge badge-success pull-right" (click)="
                           openModal(notification, templateTraiterDossier)
                         ">
@@ -84,9 +85,9 @@
                           openModal(notification, templateVisualiserResulat)
                         ">
                         Résultat
-                      </b>
+                      </b>-->
                       <!-- <app-feather-icons [icon]="'x'" [class]="'user-menu-icons'"></app-feather-icons> -->
-                    </span>
+                    <!--</span>-->
                   </a>
                 </li>
               </ul>
