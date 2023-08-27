@@ -41,18 +41,13 @@ export class SearchInterlocuteurComponent implements OnInit {
 
   emitValue() {
     let interlocuteursCheckeds = _.filter(this.ListeItems, function(o) { return (o.checked || o.hasPrincipal) });
-    // let interlocuteursCheckeds = _.filter(this.ListeItems, function(o) { return (o.checked) });
 
-    console.log(" checked ",interlocuteursCheckeds);
-    
     if(interlocuteursCheckeds && interlocuteursCheckeds.length > 0) {
       this.emitInterlocuteur.emit(interlocuteursCheckeds);
     }
   }
 
   checkStatus($event:any,item:Interlocuteur) {
-    console.log(" $event ",$event);
-    console.log(" item ",item);
 
     this.ListeItems.forEach((element : any) => {
       element.hasPrincipal = false;
@@ -68,12 +63,9 @@ export class SearchInterlocuteurComponent implements OnInit {
   }
 
   crossOldInterlocuteur(listInterlocuteur?:Interlocuteur[]) {
-    console.log(" listInterlocuteur ",listInterlocuteur);
     
     this.ListeItems.forEach((item : Interlocuteur) => {
       let oldItem = _.find(this.oldInterlocuteur, (o : Interlocuteur) => { return o.intId === item.intId });
-
-      console.log(" oldItem ",oldItem);
       if(oldItem) {
         item.checked = oldItem.selected;
         item.hasPrincipal = oldItem.principal;
