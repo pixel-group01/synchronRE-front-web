@@ -78,7 +78,10 @@
         <td>{{ item?.facSmpLci | moneyFormat }}</td>
         <!-- <td>{{ item?.facPrime | moneyFormat }}</td> -->
         <td>
-          <span class="statLibelle {{item?.statutCode}}" >{{item?.staLibelle}} </span>  <span *ngIf="item?.statutCode === 'RET'" (click)="openModal(templateRetournerAffaire,item)">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope"></i></span>
+          <span class="statLibelle {{item?.statutCode}}" >{{item?.staLibelle}} </span> 
+           <span *ngIf="item?.statutCode === 'RET'" appAppAccess appAccess="GET-FAC-MSG-SOUS" (click)="openModal(templateRetournerAffaire,item)">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope"></i></span>
+           <span *ngIf="item?.statutCode === 'RET'" appAppAccess appAccess="GET-FAC-MSG-COMPTA" (click)="openModal(templateRetournerAffaire,item)">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope"></i></span>
+           <span *ngIf="item?.statutCode === 'RET'" appAppAccess appAccess="GET-FAC-MSG-VAL" (click)="openModal(templateRetournerAffaire,item)">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope"></i></span>
         </td>
         <td class="custom-width-td-action">
           <div class="custom-td-action">
@@ -87,23 +90,23 @@
                 Actions
               </button>
               <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
-                <button appAppAccess appAccess="GET-FAC"
+                <button appAppAccess appAccess="GET-FAC-DET"
                 ngbDropdownItem
                 (click)="openModal(templateDetailsAffaire,item)">
                 <i class="fa fa-list"></i>&nbsp;Détails de l'affaire
               </button>
 
-                <button ngbDropdownItem (click)="openModal(templateUpdateAffaire,item)"  appAppAccess appAccess="UDP"
+                <button ngbDropdownItem (click)="openModal(templateUpdateAffaire,item)"  appAppAccess appAccess="UPD-FAC"
                 *ngIf="!noPutAction">
                   <i class="fa fa-edit"></i>&nbsp;Modifier l'affaire
                 </button>
 
-                <button ngbDropdownItem (click)="openModal(templateAddDocument,item)" appAppAccess appAccess="ADD-DOC"
+                <button ngbDropdownItem (click)="openModal(templateAddDocument,item)" appAppAccess appAccess="ADD-DOC-FAC"
                  *ngIf="!noPutAction || isEnCoursPlacementNelson">
                   <i class="fa fa-file"></i>&nbsp;Ajouter des documents
                 </button>
 
-                <button ngbDropdownItem (click)="openModal(templateUpdateRepartition,item)" appAppAccess appAccess="FAC"
+                <button ngbDropdownItem (click)="openModal(templateUpdateRepartition,item)" appAppAccess appAccess="CRT-CED-LEG-REP"
                  *ngIf="!noPutAction">
                   <i class="fa fa-edit"></i>&nbsp;Effectuer une répartition
                 </button>
@@ -114,22 +117,22 @@
                   <i class="fa fa-list"></i>&nbsp;Effectuer un placement
                 </button>
 
-                <button ngbDropdownItem (click)="confirmTransmissionOrReturnAffaire(true, item)" appAppAccess appAccess="TRANS-FAC"
+                <button ngbDropdownItem (click)="confirmTransmissionOrReturnAffaire(true, item)" appAppAccess appAccess="TRANS-FAC-SOUS"
                   *ngIf="(user.cedId && !noPutAction)">
                   <i class="fa fa-share"></i>&nbsp;Transmettre une affaire
                 </button>
 
-                <button ngbDropdownItem (click)="openModal(templateValidationPlacement,item)"  appAppAccess appAccess=""
+                <button ngbDropdownItem (click)="openModal(templateValidationPlacement,item)"  appAppAccess appAccess="VAL-FAC"
                 *ngIf="!user.cedId && user?.isActeurValideur">
                   <i class="fa fa-check"></i>&nbsp;Valider l'affaire
                 </button>
 
-                <button ngbDropdownItem (click)="confirmTransmissionPourReglement(item)" appAppAccess appAccess=""
+                <button ngbDropdownItem (click)="confirmTransmissionPourReglement(item)" appAppAccess appAccess="TRAN-FAC-COMPTA"
                 *ngIf="item?.placementTermine && isEnCoursPlacementNelson">
                   <i class="fa fa-share"></i>&nbsp;Transmettre à la comptabilité
                 </button>
 
-                <button ngbDropdownItem (click)="confirmTransmettreNoteDeDebit(item)" appAppAccess appAccess="TRANS-NOT-DE">
+                <button ngbDropdownItem (click)="confirmTransmettreNoteDeDebit(item)" appAppAccess appAccess="SEND-NOT-DEB-FAC">
                   <i class="fa fa-share"></i>&nbsp;Transmettre note de débit
                 </button>
 
@@ -137,17 +140,17 @@
                   <i class="fa fa-print"></i>&nbsp;Imprimer note débit
                 </button> -->
 
-                <button ngbDropdownItem (click)="openModal(templateNoteDebit,item);getPrintReportDebit(item?.affId)"  appAppAccess appAccess=""
+                <button ngbDropdownItem (click)="openModal(templateNoteDebit,item);getPrintReportDebit(item?.affId)"  appAppAccess appAccess="EDIT-NOT-DEB-FAC"
                 *ngIf="item?.placementTermine && !isEnCoursPlacementNelson && user?.cedId"> 
                   <i class="fa fa-print"></i>&nbsp;Imprimer note débit
                 </button>
 
-                <button ngbDropdownItem (click)="openModal(templateRetournerAffaire,item)" appAppAccess appAccess=""
+                <button ngbDropdownItem (click)="openModal(templateRetournerAffaire,item)" appAppAccess appAccess="RET-FAC-CED"
                   *ngIf="(!user.cedId && !noPutAction) || isEnCoursPlacementNelson">
                   <i class="fa fa-redo-alt"></i>&nbsp;Retourner l'affaire
                 </button>
 
-                <button ngbDropdownItem (click)="openModal(templateHistoriqueTraitement,item)" appAppAccess appAccess="GET-FAC">
+                <button ngbDropdownItem (click)="openModal(templateHistoriqueTraitement,item)" appAppAccess appAccess="GET-FAC-HIST">
                 <i class="fa fa-list"></i>&nbsp;Historique traitement
               </button>
 

@@ -15,7 +15,7 @@
                                             (click)="openModal(templateNewBusiness)">
                                             <i class="fa fa-plus"></i>&nbsp; Nouvelle affaire
                                         </button>
-                                    </div>
+                                    </div> 
                                     <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante':'affaires/facultative/by-reassureur-en-traitement' "
                                         [refreshDataTable]="refreshDataTable"></app-list-affaires-facultatives>
                                 </ng-template>
