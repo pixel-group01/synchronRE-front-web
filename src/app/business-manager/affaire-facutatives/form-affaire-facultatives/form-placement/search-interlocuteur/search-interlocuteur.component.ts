@@ -16,6 +16,7 @@ export class SearchInterlocuteurComponent implements OnInit {
   ListeItems : Interlocuteur[];
   @Input() resetData : string;
   @Input() idCessionnaire : number;
+  @Input() oldInterlocuteur : Interlocuteur[];
   @Output() emitInterlocuteur: EventEmitter<any> = new EventEmitter();
   
   constructor( private interlocuteurService: InterlocuteurService) { }
@@ -40,18 +41,13 @@ export class SearchInterlocuteurComponent implements OnInit {
 
   emitValue() {
     let interlocuteursCheckeds = _.filter(this.ListeItems, function(o) { return (o.checked || o.hasPrincipal) });
-    // let interlocuteursCheckeds = _.filter(this.ListeItems, function(o) { return (o.checked) });
 
-    console.log(" checked ",interlocuteursCheckeds);
-    
     if(interlocuteursCheckeds && interlocuteursCheckeds.length > 0) {
       this.emitInterlocuteur.emit(interlocuteursCheckeds);
     }
   }
 
   checkStatus($event:any,item:Interlocuteur) {
-    console.log(" $event ",$event);
-    console.log(" item ",item);
 
     this.ListeItems.forEach((element : any) => {
       element.hasPrincipal = false;
@@ -64,8 +60,17 @@ export class SearchInterlocuteurComponent implements OnInit {
       item['hasPrincipal'] = true;
       this.emitValue();
     }
+  }
 
+  crossOldInterlocuteur(listInterlocuteur?:Interlocuteur[]) {
     
+    this.ListeItems.forEach((item : Interlocuteur) => {
+      let oldItem = _.find(this.oldInterlocuteur, (o : Interlocuteur) => { return o.intId === item.intId });
+      if(oldItem) {
+        item.checked = oldItem.selected;
+        item.hasPrincipal = oldItem.principal;
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -85,6 +90,11 @@ export class SearchInterlocuteurComponent implements OnInit {
       this.ListeItems = [];
     }
 
+    if(  changes["oldInterlocuteur"] &&
+    changes["oldInterlocuteur"].currentValue && changes["oldInterlocuteur"].currentValue.length > 0) {
+      // On doit faire un croisement pour recuperer les ancien intem
+      this.crossOldInterlocuteur(changes["oldInterlocuteur"].currentValue);
+    }
   }
   
   ngOnInit(): void {

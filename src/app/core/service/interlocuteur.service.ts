@@ -30,7 +30,7 @@ export class InterlocuteurService {
   }
 
   getInterlocuteurByPlacement = (plaId:number) => {
-    return this.restClient.get('/interlocuteurs/for-placement',plaId)
+    return this.restClient.get('interlocuteurs/for-placement/'+plaId)
   }
 
   addInterlocuteurByCessionnaire = (body:any) => {
