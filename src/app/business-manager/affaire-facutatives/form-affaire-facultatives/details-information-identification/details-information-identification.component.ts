@@ -56,6 +56,8 @@ export class DetailsInformationIdentificationComponent implements OnInit {
     this.busyGet = this.businessOptionalService
       .getAffaireFacultativeEtatComptable(this.currentAffaireFacultative.affId)
       .subscribe((response) => {
+        console.log(" this.detailsPlacement ",response);
+        
         if (response) {
           this.detailsPlacement = response;
         }

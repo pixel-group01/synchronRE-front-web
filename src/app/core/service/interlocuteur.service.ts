@@ -29,6 +29,10 @@ export class InterlocuteurService {
     return this.restClient.put('interlocuteurs/update',body)
   }
 
+  getInterlocuteurByPlacement = (plaId:number) => {
+    return this.restClient.get('interlocuteurs/for-placement/'+plaId)
+  }
+
   addInterlocuteurByCessionnaire = (body:any) => {
     return this.restClient.put('interlocuteurs/update',body)
   }

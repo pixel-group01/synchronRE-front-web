@@ -455,19 +455,19 @@ export const ROUTES: RouteInfo[] = [
         code: "GET-ROL-LST",
         submenu: [],
       },
-      // {
-      //   path: "/administration/fonctionnalites",
-      //   title: "Fonctionnalites",
-      //   moduleName: "administration",
-      //   iconType: "",
-      //   icon: "",
-      //   class: "ml-menu",
-      //   groupTitle: false,
-      //   badge: "",
-      //   badgeClass: "",
-      //   // code: "73166694",
-      //   submenu: [],
-      // },
+      {
+        path: "/administration/fonctionnalites",
+        title: "Fonctionnalites",
+        moduleName: "administration",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        badge: "",
+        badgeClass: "",
+        code: "GET-USER-LST",
+        submenu: [],
+      },
       // {
       //   path: "/administration/logs",
       //   title: "Logs",
@@ -507,7 +507,6 @@ export const ROUTES: RouteInfo[] = [
         code: "GET-USER-LST",
         submenu: [],
       }
-      
     ],
   },
 ];

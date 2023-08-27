@@ -41,13 +41,16 @@
         </td>
         <td>{{ item?.affCode }}</td> 
         <td>{{ item?.affAssure}}</td> 
-        <td>{{ item?.sinMontant100 }}</td>
-        <td>{{ item?.sinMontantHonoraire }}</td>
-        <td>{{ item?.totalMontant }}</td> 
+        <td>{{ item?.sinMontant100 | moneyFormat}}</td>
+        <td>{{ item?.sinMontantHonoraire | moneyFormat}}</td>
+        <td>{{ item?.totalMontant | moneyFormat}}</td> 
         <td>{{ item?.sinDateSurvenance }}</td>
         <td>{{ item?.sinDateDeclaration }}</td>
         <td>
-            <span class="statLibelle {{item?.staCode}}" >{{item?.staLibelle}} </span>  <span *ngIf="item?.staCode === 'RET'" (click)="openModalMessage(templateMessage,item.sinId)">&nbsp;<i class="fa fa-envelope fa-sm btn" ></i></span>
+            <span class="statLibelle {{item?.staCode}}"  *ngIf="code=='GET-SIN-AVAL-LST'">{{item?.staLibelle}} </span>  <span appAppAccess appAccess="GET-SIN-MSG-COMPTA" *ngIf="item?.staCode === 'RET-COMPTA' && code=='GET-SIN-AVAL-LST'" (click)="openModalMessage(templateMessage,item.sinId,'mouvements/sinistre/get-message-retour-comptable/')">&nbsp;<i class="fa fa-envelope fa-sm btn" ></i></span>
+            <span class="statLibelle {{item?.staCode}}" *ngIf="code=='GET-SIN-TRANS-LST'">{{item?.staLibelle}} </span>  <span  appAppAccess appAccess="GET-SIN-MSG-VAL && code=='GET-SIN-TRANS-LST'" *ngIf="item?.staCode === 'RET'" (click)="openModalMessage(templateMessage,item.sinId,'mouvements/sinistre/get-message-retour-validateur/')">&nbsp;<i class="fa fa-envelope fa-sm btn" ></i></span>
+            <span class="statLibelle {{item?.staCode}}" *ngIf="code=='GET-SIN-SAI-LST'">{{item?.staLibelle}} </span>  <span appAppAccess appAccess="GET-SIN-MSG-SOUS" *ngIf="item?.staCode === 'RET' && code=='GET-SIN-SAI-LST'" (click)="openModalMessage(templateMessage,item.sinId,'mouvements/sinistre/get-message-retour-souscripteur/')">&nbsp;<i class="fa fa-envelope fa-sm btn" ></i></span>
+            <span class="statLibelle {{item?.staCode}}" *ngIf="item.staCode=='APAI'">{{item?.staLibelle}} </span>
         </td>
         <!-- <td>{{ item?.affActivite }}</td> -->
         <td class="custom-width-td-action">
@@ -60,23 +63,47 @@
                   <button ngbDropdownItem (click)="openModal(templateSinistre,item,true)" appAppAccess appAccess="GET-SIN-DET">
                     <i class="fa fa-list"></i>&nbsp;Détails sinistre
                   </button>
-                  <button ngbDropdownItem (click)="openModal(templateSinistre,item,false)" appAppAccess appAccess="UPD-SIN" *ngIf="!noPutAction">
+
+                  <button ngbDropdownItem (click)="openModal(templateSinistre,item,false)" appAppAccess appAccess="UPD-SIN" 
+                  *ngIf="(!noPutAction1 && noPutAction2) && currentUser.isCourtier">
+                  <!--item.staCode !='SAI-CRT'-->
                     <i class="fa fa-edit"></i>&nbsp;Modifier sinistre
                   </button>
-                  <button ngbDropdownItem (click)="confirmTransmettreSinistre(item.sinId)" appAppAccess appAccess="TRANS-SIN">
-                    <i class="fa fa-share"></i>&nbsp;Transmettre sinistre
+               
+                  <button ngbDropdownItem (click)="confirmTransmettreSouscripteur(item.sinId)" appAppAccess appAccess="TRANS-SIN" *ngIf="!currentUser.isCourtier && noPutAction1">
+                    <i class="fa fa-share"></i>&nbsp;Transmettre au souscripteur
                   </button>
-                  <button ngbDropdownItem (click)="openModalRetourner(templateRetournerSinistre,item.sinId)" appAppAccess appAccess="UPD-SIN">
-                    <i class="fa fa-share" style="rotate: 180deg;"></i>&nbsp;Retourner sinistre
+
+                  <button ngbDropdownItem (click)="confirmTransmettreValidation(item.sinId)" appAppAccess appAccess="TRANS-SIN-VAL"
+                  *ngIf="currentUser.isCourtier && noPutAction2">
+                    <i class="fa fa-share"></i>&nbsp;Transmettre au validateur
                   </button>
-                  <button ngbDropdownItem (click)="confirmValiderSinistre(item.sinId)" appAppAccess appAccess="VAL-SIN">
-                    <i class="fa fa-check"></i>&nbsp;Valider sinistre
+
+                  <button ngbDropdownItem (click)="openModalRetourner(templateRetournerSinistre,item.sinId,'sinistres/retourner-a-cedante')"
+                         appAppAccess appAccess="RET-SIN-CED" *ngIf="currentUser.isCourtier && noPutAction2">
+                    <i class="fa fa-share" style="rotate: 180deg;"></i>&nbsp;Retourner à la cédante
                   </button>
+
+                  <button ngbDropdownItem (click)="openModalRetourner(templateRetournerSinistre,item.sinId,'sinistres/retourner-au-souscripteur')" 
+                  appAppAccess appAccess="RET-SIN-SOUS" *ngIf="noPutAction3"> 
+                    <i class="fa fa-share" style="rotate: 180deg;"></i>&nbsp;Retourner au souscripteur
+                  </button>
+
+                  <button ngbDropdownItem (click)="openModalRetourner(templateRetournerSinistre,item.sinId,'sinistres/retourner-au-validateur')"
+                   appAppAccess appAccess="RET-SIN-VAL">
+                    <i class="fa fa-share" style="rotate: 180deg;" ></i>&nbsp;Retourner au validateur
+                  </button>
+
+                  <button ngbDropdownItem (click)="confirmValiderSinistre(item.sinId)" appAppAccess appAccess="VAL-SIN" *ngIf="noPutAction3">
+                    <i class="fa fa-check"></i>&nbsp;Valider
+                  </button>
+
                   <button ngbDropdownItem (click)="openModalEtatComptable(templateEtatComptable,item.sinId)">
                     <i class="fa fa-info-circle"></i>&nbsp;Situation comptable
                   </button>
-                  <button ngbDropdownItem appAppAccess appAccess="GET-SIN-HISTO">
-                    <i class="fa fa-list" (click)="openModal(templateSinistre,item,false)"></i>&nbsp;Historique sinistre
+
+                  <button ngbDropdownItem appAppAccess appAccess="GET-SIN-HISTO"  (click)="openModal(templateHistoriqueTraitement,item)">
+                    <i class="fa fa-list"></i>&nbsp;Historique sinistre
                   </button>
               </div>
             </div>
@@ -145,7 +172,7 @@
       </button>
   </div>
   <div class="modal-body p-4">
-      <app-form-retourner-sinstre [idSinistre]="idSiniOfListe" (closeModal)="closeFormModal($event)"></app-form-retourner-sinstre>
+      <app-form-retourner-sinstre [idSinistre]="idSiniOfListe" [endPointRetourner]="endPointRetourne" (closeModal)="closeFormModal($event)"></app-form-retourner-sinstre>
   </div>
 </ng-template>
 
@@ -160,7 +187,7 @@
       </button>
   </div>
   <div class="modal-body p-4">
-      <app-afficher-message [idSinistre]="idSiniOfListe" (closeModal)="closeFormModal($event)"></app-afficher-message>
+      <app-afficher-message [idSinistre]="idSiniOfListe" [endPointMessage]="endPointMessage" (closeModal)="closeFormModal($event)"></app-afficher-message>
   </div>
 </ng-template>
 
@@ -176,5 +203,21 @@
   </div>
   <div class="modal-body p-4">
       <app-etat-comptable [idSinistre]="idSiniOfListe" (closeModal)="closeFormModal($event)"></app-etat-comptable>
+  </div>
+</ng-template>
+
+<!-- historique template -->
+<ng-template #templateHistoriqueTraitement>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">
+     Historique du sinistre
+    </h4>
+
+    <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-historique-sinistre [idSinistre]="itemsinistre" ></app-historique-sinistre>
   </div>
 </ng-template>

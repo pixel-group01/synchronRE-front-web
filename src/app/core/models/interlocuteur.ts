@@ -5,5 +5,9 @@ export class Interlocuteur {
   intTel?: string;
   intNom?: string;
   intPrenom?: string;
-
+  principal?: boolean;
+  selected?:boolean;
+  checked?:boolean;
+  hasPrincipal?:boolean;
+  radioChecked?:boolean
 }

@@ -225,7 +225,10 @@ export class FormIdentificationComponent implements OnInit {
             );
 
             console.log(" response ",response);
-            
+            if(!itemAEnregistrer.facSmpLci) {
+              this.closeModal.emit(true);
+              return
+            }
 
             // On souscrit à l'observable
             this.businessOptionalService.setCurrentOptionalBusiness(

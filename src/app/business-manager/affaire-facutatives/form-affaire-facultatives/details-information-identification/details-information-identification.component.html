@@ -46,23 +46,30 @@
     </div>
 
     <div class="row" *ngIf="isPlacement">
-        <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
+        <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
             <b>Capitaux à 100% :
             </b>
             <span>{{detailsPlacement?.affCapitalInitial | moneyFormat}}</span>
         </div>
 
-        <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
+        <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
             <b>Total placement :
             </b>
             <span>{{detailsPlacement?.capitalDejaReparti | moneyFormat}}</span>
         </div>
 
-        <div class="col-md-4 col-xs-12 col-sm-12 mb-2">
+        <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
             <b>Bésoin fac  :
             </b>
             <span>{{detailsPlacement?.restARepartir | moneyFormat}}</span>
         </div>
+
+        <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
+            <b>SMP/LCI  :
+            </b>
+            <span>{{detailsPlacement?.facSmpLci | moneyFormat}}</span>
+        </div>
+
     </div>
 
 </div>
