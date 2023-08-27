@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import * as _ from "lodash";
 import { User } from "src/app/core/models/user";
 import { UserService } from "src/app/core/service/user.service";
+import { InterlocuteurService } from "src/app/core/service/interlocuteur.service";
 
 @Component({
   selector: "app-form-placement",
@@ -32,7 +33,8 @@ export class FormPlacementComponent implements OnInit {
   refreshData:string;
   refreshDataInterlocuteur : string;
   idsInterlocuteurs : any = [];
-  idInterlocuteurPrincipale : number
+  idInterlocuteurPrincipale : number;
+  listeInterlocuteursPlacements : any = [];
 
   @Input() isWizardProcess:boolean = false;
   @Input() isDetails:boolean = false;
@@ -47,6 +49,7 @@ export class FormPlacementComponent implements OnInit {
     private businessOptionalRepartition: BusinessOptionalRepartitionService,
     private utilities: UtilitiesService,
     private businessOptionalService: BusinessOptionalService,
+    private interlocuteurServices: InterlocuteurService,
     private userService: UserService
   ) {
     this.currentUser = this.userService.getCurrentUserInfo();
@@ -65,12 +68,20 @@ export class FormPlacementComponent implements OnInit {
     });
   }
 
+  getInterlocuteurByPlacement(idPlacement) {
+    this.interlocuteurServices.getInterlocuteurByPlacement(idPlacement).subscribe((response : any) => {
+      if (response) {
+        this.listeInterlocuteursPlacements = response as Cessionnaire[];
+      }
+    });
+  }
+
   getInterlocuteurSelected($event) { 
     console.log(" $event ",$event);
 
     this.idInterlocuteurPrincipale = 0;
     this.idsInterlocuteurs = [];
-
+ 
     $event.forEach(element => {
       if(element.hasPrincipal){
         this.idInterlocuteurPrincipale = element.intId;
@@ -363,7 +374,7 @@ export class FormPlacementComponent implements OnInit {
 
     placement.isUpdatePlacement = true;
     this.itemToSave = {...placement};
-
+    // this.getInterlocuteurByPlacement(this.itemToSave.);
     // Preseledctionner le cessionnnaire selectionné
     this.itemToSave.cessionnaireSelected = _.find(this.listeCessionnaire, (o) => { return o.cesId === placement.cesId });
   }
