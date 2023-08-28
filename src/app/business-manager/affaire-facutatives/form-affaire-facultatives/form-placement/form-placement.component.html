@@ -54,7 +54,7 @@
                 [(ngModel)]="itemToSave.cessionnaireSelected"
                 id="cesId"
                 name="cesId"
-              
+                (change)="changeSession()"
               >
                 <ng-option
                   *ngFor="let cessionaire of listeCessionnaire"
