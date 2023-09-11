@@ -101,7 +101,7 @@
       display: inline-block;
       position: relative;
       top: 3px;
-      left: 10px;
+      left: 5px;
       float: left;
       width: calc(100% - 75px);
 
@@ -135,6 +135,47 @@
         }
       }
     }
+
+
+    .menu-infoNoti {
+      // display: inline-block;
+      position: relative;
+      top: 3px;
+      // right:25px;
+      // float: left;
+      // width: calc(100% - 75px);
+
+      h4,
+      .menu-title {
+        margin: 0;
+        font-size: 14px;
+        color: #121212;
+        float: left;
+        width: 100%;
+        line-height: 1;
+      }
+
+      p,
+      .menu-desc {
+        margin: 0;
+        font-size: 11px;
+        color: rgba(0, 0, 0, 0.54);
+        float: left;
+        width: 100%;
+        line-height: 20px;
+
+        .material-icons {
+          font-size: 13px;
+          color: rgba(0, 0, 0, 0.54);
+          position: relative;
+          top: 3px;
+          float: left;
+          margin-right: 3px;
+          height: 20px;
+        }
+      }
+    }
+
     .nfc-close {
       display: flex;
       height: 40px;

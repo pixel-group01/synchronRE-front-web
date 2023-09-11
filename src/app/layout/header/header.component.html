@@ -41,20 +41,21 @@
                 <li class="nfc-header">
                   <h5 class="mb-0">Notifications</h5>
                 </li>
-
+                <!--|| totalNotifications == 0   *ngIf="totalNotifications>0"-->
                 <li *ngIf="!listeNotifications || listeNotifications?.length == 0" style="text-align: center">
                   Aucune notification disponible
                 </li>
-
+  
                 <li>
                   <a href="#" *ngFor="let notification of listeNotifications" onClick="return false;"
                     style="border-top: 1px solid #eceeee">
+                  
                     <!-- <span class="table-img msg-user">
                       <i class="fa fa-plus" [ngClass]="{'nfc-green' : notification.typeNotificationId == 1}"></i>
                     </span> -->
-                    <span class="menu-info">
+                    <span class="menu-infoNoti" >
                       <span class="menu-title d-flex justify-content-between align-items-center"> <span>{{ notification?.label }} </span>
-                      <span class="badge badge-warning"> {{notification.value}}</span>
+                      <span class="badge badge-warning" > {{notification?.value}}</span>
                       </span>
                       <!-- <span class="menu-desc mt-2">
                         <i class="material-icons">access_time</i>

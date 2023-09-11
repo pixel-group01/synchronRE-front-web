@@ -148,11 +148,11 @@ export class HeaderComponent
 
   ngOnInit() {
     this.currentUser = this.userService.getCurrentUserInfo();
-
+    
     console.log(" this.currentUser ",this.currentUser);
-    if(this.currentUser && this.currentUser?.cedId) {
-      this.refreshDataNotification();
-    }
+    // if(this.currentUser && this.currentUser?.cedId) {
+      this.refreshDataNotification();      
+    // }
   }
 
   getNotificationCedenteAffaireRetourner(){
@@ -163,7 +163,13 @@ export class HeaderComponent
         if(response) {
           // let results =  _.filter(response['content'], (o)=> { return o.statutCode?.toLowerCase() === enumStatutAffaire?.RETOURNER?.toLowerCase() });
         console.log(" Retour du service 1",response);
-        this.listeNotifications = response.detailsNotifications;
+        this.listeNotifications = this.listeNotifications = response.detailsNotifications.filter((item:any)=>{
+            if (this.codeFind(item?.tyfCodes, this.currentUser.tyfCode)) {
+                  return item
+            }
+        });
+        // console.log(" Retour du listeNotifications 1", this.listeNotifications);
+
         this.totalNotifications = response.totalNotifications
           // if(results && results.length > 0){
             // this.listeNotifications.push({
@@ -175,6 +181,12 @@ export class HeaderComponent
       }
     )
   }
+
+
+  codeFind(code:any, textCode:string):any{
+    return code.find((item:any)=> item == textCode)
+  }
+
 
   refreshDataNotification() {
     this.getNotificationCedenteAffaireRetourner();
@@ -222,7 +234,6 @@ export class HeaderComponent
     //   }, 2000);
     // }
   }
-
 
 
   ngAfterViewInit() {

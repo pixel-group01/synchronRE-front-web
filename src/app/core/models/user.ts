@@ -16,5 +16,6 @@ export class User {
   uniteFoncActiveId?:string;
   adminUniteFonctionnelleCode?:string;
   userId?:number;
-  functionName?:string
+  functionName?:string;
+  tyfCode?: string
 }

@@ -49,7 +49,10 @@ export class ListAffairesFacultativesComponent implements OnInit {
   initialEndPoint: string;
   statutAffEnum: any;
   urlIframeMock: any;
-
+  @Input() noPutAction1: boolean = false;
+  // @Input() noPutAction2: boolean = false;
+  // @Input() noPutAction3: boolean = false;
+  // @Input() noPutAction4: boolean = false;
   constructor(
     private businessOptionalService: BusinessOptionalService,
     private cedenteService: CedanteService,
