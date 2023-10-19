@@ -103,18 +103,18 @@
 
                 <button ngbDropdownItem (click)="openModal(templateAddDocument,item)" appAppAccess appAccess="ADD-DOC-FAC"
                  *ngIf="!noPutAction || isEnCoursPlacementNelson">
-                  <i class="fa fa-file"></i>&nbsp;Ajouter des documents
+                  <i class="fa fa-file"></i>&nbsp;Ajouter/consulter des documents
                 </button>
 
                 <button ngbDropdownItem (click)="openModal(templateUpdateRepartition,item)" appAppAccess appAccess="CRT-CED-LEG-REP"
                  *ngIf="!noPutAction">
-                  <i class="fa fa-edit"></i>&nbsp;Effectuer une répartition
+                  <i class="fa fa-edit"></i>&nbsp;Effectuer/consulter la répartition
                 </button>
 
                 <button ngbDropdownItem appAppAccess appAccess="CRT-PLA"
                  *ngIf="(((!user.cedId && !noPutAction) || isEnCoursPlacementNelson) && !user?.isActeurValideur) || ( (item.statutCode == 'CREP' || item.statutCode == 'APLA' || item.statutCode == 'CPLA') && !user.cedId) "
                   (click)="openModal(templateUpdatePlacement,item)">
-                  <i class="fa fa-list"></i>&nbsp;Effectuer un placement
+                  <i class="fa fa-list"></i>&nbsp;Effectuer/Consulter placement(s)
                 </button>
 
                 <button ngbDropdownItem (click)="confirmTransmissionOrReturnAffaire(true, item)" appAppAccess appAccess="TRANS-FAC-SOUS"
