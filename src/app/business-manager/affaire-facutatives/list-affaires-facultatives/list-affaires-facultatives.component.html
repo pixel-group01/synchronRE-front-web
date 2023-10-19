@@ -78,7 +78,7 @@
         <td>{{ item?.facSmpLci | moneyFormat }}</td>
         <!-- <td>{{ item?.facPrime | moneyFormat }}</td> -->
         <td>
-          <span class="statLibelle {{item?.statutCode}}" >{{item?.staLibelle}} </span> 
+          <span class="statLibelle {{item?.statutCode}}" >{{item?.staLibelle}} </span>
            <span *ngIf="item?.statutCode === 'RET'" appAppAccess appAccess="GET-FAC-MSG-SOUS" (click)="openModal(templateRetournerAffaire,item)">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope"></i></span>
            <span *ngIf="item?.statutCode === 'RET'" appAppAccess appAccess="GET-FAC-MSG-COMPTA" (click)="openModal(templateRetournerAffaire,item)">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope"></i></span>
            <span *ngIf="item?.statutCode === 'RET'" appAppAccess appAccess="GET-FAC-MSG-VAL" (click)="openModal(templateRetournerAffaire,item)">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope"></i></span>
@@ -136,12 +136,12 @@
                   <i class="fa fa-share"></i>&nbsp;Transmettre note de débit
                 </button>
 
-                <!-- <button ngbDropdownItem (click)="getReportDebit(item.affId)" *ngIf="item?.placementTermine && !isEnCoursPlacementNelson && user?.cedId">
+                <button ngbDropdownItem (click)="getReportDebit(item.affId)" *ngIf="item?.placementTermine" appAppAccess appAccess="EDIT-NOT-DEB-FAC">
                   <i class="fa fa-print"></i>&nbsp;Imprimer note débit
-                </button> -->
+                </button>
 
                 <button ngbDropdownItem (click)="openModal(templateNoteDebit,item);getPrintReportDebit(item?.affId)"  appAppAccess appAccess="EDIT-NOT-DEB-FAC"
-                *ngIf="item?.placementTermine && !isEnCoursPlacementNelson && user?.cedId"> 
+                *ngIf="item?.placementTermine && !isEnCoursPlacementNelson && user?.cedId">
                   <i class="fa fa-print"></i>&nbsp;Imprimer note débit
                 </button>
 
@@ -203,7 +203,7 @@
 
     <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
       <mat-icon>close</mat-icon>
-    </button> 
+    </button>
   </div>
   <div class="modal-body">
     <app-form-identification (closeModal)="closeFormModal($event)"></app-form-identification>
@@ -219,7 +219,7 @@
 
     <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
       <mat-icon>close</mat-icon>
-    </button> 
+    </button>
   </div>
   <div class="modal-body">
     <app-form-repartition (closeModal)="closeFormModal($event)" [isUpdateRepartition]="true"></app-form-repartition>
@@ -314,7 +314,7 @@
 
     <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
       <mat-icon>close</mat-icon>
-    </button> 
+    </button>
   </div>
   <div class="modal-body">
     <app-creation-document-sinistre [idAffaire]="itemToSave?.affId"></app-creation-document-sinistre>
@@ -330,7 +330,7 @@
 
     <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
       <mat-icon>close</mat-icon>
-    </button> 
+    </button>
   </div>
   <div class="modal-body">
     <div [ngBusy]="{
@@ -340,7 +340,7 @@
     }" style="height: 400px;">
       <iframe [src]="fileUrlDebitNote" title="description" *ngIf="fileUrlDebitNote" style="width: 100%;height: 100%;"></iframe>
     </div>
-   
+
   </div>
 </ng-template>
 
