@@ -10,12 +10,12 @@ export class AffaireService {
 
   // create = (body:any) => {
   //   return this.restClient.post('devises/create',body)
-  // } 
+  // }
 
   getAll = () => {
-    return this.restClient.get('affaires/facultative/all');
+    return this.restClient.get('affaires/facultative/all?withMaxSize=true');
   }
- 
+
   // getByCriteria = (index:number = 0,size:number=10,key?:string) => {
   //   let endPointFinal = "devises/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
   //   return this.restClient.get(endPointFinal);
