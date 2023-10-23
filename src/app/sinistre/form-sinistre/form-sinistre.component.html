@@ -7,7 +7,7 @@
     </button>
     <!--{{isActive}}-->
 </div>
-
+ 
 <div  *ngIf="staticTabs == 1">
     <app-creation-sinistre [itemCreationSinistre]="itemSinistre" (closeModal) ="closeFormModal($event)"
        (step2)="receiveStep1($event)"  [isActiveCreationSinistre]="isActive"></app-creation-sinistre>

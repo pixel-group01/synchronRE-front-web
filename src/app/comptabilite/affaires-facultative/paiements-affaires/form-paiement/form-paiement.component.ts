@@ -138,7 +138,6 @@ export class FormPaiementComponent implements OnInit {
       }
     });
   }
-  
 
   getFormFiledsValue = (field: string) => {
     return this.formulaireGroup.get(field);
