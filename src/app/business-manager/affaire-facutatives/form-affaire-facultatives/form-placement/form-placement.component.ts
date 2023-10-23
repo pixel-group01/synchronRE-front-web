@@ -94,6 +94,10 @@ export class FormPlacementComponent implements OnInit {
     });
   }
 
+  changeSession() {
+    console.log(" itemToSave.cessionnaireSelected ",this.itemToSave.cessionnaireSelected);
+    
+  }
   confirmSaveItem() {
     /** Faire les controls */
     let itemAEnregistrer = Object.assign({}, this.itemToSave);
