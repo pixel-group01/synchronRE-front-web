@@ -22,6 +22,9 @@ export class SearchInterlocuteurComponent implements OnInit {
   constructor( private interlocuteurService: InterlocuteurService) { }
 
   getInterlocuteurByCessionnaire() {
+
+    console.log(" this.idCessionnaire ",this.idCessionnaire);
+    
     if(!this.idCessionnaire) return;
 
     this.busyGetSearch = this.interlocuteurService
@@ -74,6 +77,9 @@ export class SearchInterlocuteurComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+
+    console.log(" idCessionnaire ",changes); 
+    
     if (
       changes["idCessionnaire"] &&
       changes["idCessionnaire"].currentValue
@@ -98,6 +104,8 @@ export class SearchInterlocuteurComponent implements OnInit {
   }
   
   ngOnInit(): void {
+    console.log(" je suis dans le oninit");
+    
     this.getInterlocuteurByCessionnaire();
   }
 
