@@ -136,7 +136,7 @@
                   <i class="fa fa-share"></i>&nbsp;Transmettre note de débit
                 </button>
 
-                <button ngbDropdownItem (click)="getReportDebit(item.affId)" *ngIf="item?.placementTermine" appAppAccess appAccess="EDIT-NOT-DEB-FAC">
+                <button ngbDropdownItem (click)="openModalNoteDebit(templateNoteDebitIframe,item)" *ngIf="item?.placementTermine" appAppAccess appAccess="EDIT-NOT-DEB-FAC">
                   <i class="fa fa-print"></i>&nbsp;Imprimer note débit
                 </button>
 
@@ -344,3 +344,26 @@
   </div>
 </ng-template>
 
+
+<!-- Ajouter document -->
+<ng-template #templateNoteDebitIframe>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">
+     Note de débit {{itemToSave?.affCode}}
+    </h4>
+
+    <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div [ngBusy]="{
+      busy: busyReport,
+      message: 'Veuillez patienter ...',
+      backdrop: false
+    }" style="height: 400px;">
+      <iframe [src]="fileUrlDebitNote" title="description" *ngIf="fileUrlDebitNote" style="width: 100%;height: 680px;"></iframe>
+    </div>
+
+  </div>
+</ng-template>

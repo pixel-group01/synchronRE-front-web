@@ -141,6 +141,14 @@
                       <i class="fa fa-share"></i>&nbsp;Transmettre
                     </button>
 
+                    <button 
+                    type="button"
+                    ngbDropdownItem
+                    (click)="getReportPlacement(repart.repId)"
+                  >
+                    <i class="fa fa-print"></i>&nbsp;Imprimer note de cession
+                  </button>
+
                     <button
                       type="button"
                       ngbDropdownItem
@@ -156,6 +164,7 @@
                     >
                       <i class="fa fa-trash"></i>&nbsp;Supprimer
                     </button>
+                    
                   </div>
                 </div>
               </div>

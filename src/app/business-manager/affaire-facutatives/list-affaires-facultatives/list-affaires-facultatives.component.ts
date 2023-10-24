@@ -6,7 +6,7 @@ import {
   TemplateRef,
 } from "@angular/core";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { Subscription } from "rxjs";
+import { Subscription, retry } from "rxjs";
 import { BusinessOptional } from "src/app/core/models/businessOptional";
 import { BusinessOptionalService } from "src/app/core/service/business-optional.service";
 import { Cedante } from "src/app/core/models/cedante";
@@ -96,6 +96,18 @@ export class ListAffairesFacultativesComponent implements OnInit {
     }
     this.modalRef = this.modalService.show(template, config);
   }
+
+  openModalNoteDebit(template: TemplateRef<any>, itemAffaire: BusinessOptional) {
+    let config = {
+      backdrop: true,
+      ignoreBackdropClick: true,
+      class: "modal-width-65",
+    };
+    this.getPrintReportDebit(itemAffaire.affId)
+    this.modalRef = this.modalService.show(template, config);
+  }
+
+  
 
   closeFormModal($event) {
     this.modalRef.hide();
@@ -360,14 +372,14 @@ export class ListAffairesFacultativesComponent implements OnInit {
     this.getItems();
   }
 
-  getReportDebit(idAffaire: number) {
-    if (idAffaire) {
-      window.open(
-        environment.apiUrl + "reports/display-note-de-debit-fac/" + idAffaire,
-        "_blank"
-      );
-    }
-  }
+  // getReportDebit(idAffaire: number) {
+  //   if (idAffaire) {
+  //     window.open(
+  //       environment.apiUrl + "reports/display-note-de-debit-fac/" + idAffaire,
+  //       "_blank"
+  //     );
+  //   }
+  // }
 
   getPrintReportDebit(idAffaire: number) {
     if (idAffaire) {

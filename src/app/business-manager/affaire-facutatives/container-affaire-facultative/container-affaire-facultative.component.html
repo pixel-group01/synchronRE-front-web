@@ -19,7 +19,7 @@
                                     <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante':'affaires/facultative/by-reassureur-en-traitement' "
                                         [refreshDataTable]="refreshDataTable"></app-list-affaires-facultatives>
                                 </ng-template>
-                            </mat-tab>
+                            </mat-tab> 
                             <mat-tab label="En cours de placement">
                                 <ng-template matTabContent>
                                     <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante-transmis':'affaires/facultative/by-reassureur-en-placement' "

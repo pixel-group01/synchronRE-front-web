@@ -47,3 +47,7 @@
         }
     }
 }
+
+::ng-deep .modal .modal-content .modal-body{
+        height: 720px !important;
+}
