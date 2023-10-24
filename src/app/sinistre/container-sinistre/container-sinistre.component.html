@@ -15,7 +15,7 @@
                                         <button type="button" class="btn btn-md custom_btn_primary pull-right" *ngIf="checkFonction('CRT-SIN')"
                                             (click)="openModal(templateSinistre)">
                                             <i class="fa fa-plus"></i>&nbsp; Nouveau sinistre
-                                        </button>
+                                        </button> 
                                     </div>
                                     <app-list-sinistre [endPoint]="'sinistres/facultative/saisi-by-cedante'"  [noPutAction1]="true"
                                     [code]="'GET-SIN-SAI-LST'" [refreshDataTable]="refreshDataTable"></app-list-sinistre>
