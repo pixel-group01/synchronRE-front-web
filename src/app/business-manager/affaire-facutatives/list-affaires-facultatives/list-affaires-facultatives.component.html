@@ -344,7 +344,7 @@
   </div>
 </ng-template>
 
-
+ 
 <!-- Ajouter document -->
 <ng-template #templateNoteDebitIframe>
   <div class="modal-header">
@@ -361,8 +361,8 @@
       busy: busyReport,
       message: 'Veuillez patienter ...',
       backdrop: false
-    }" style="height: 400px;">
-      <iframe [src]="fileUrlDebitNote" title="description" *ngIf="fileUrlDebitNote" style="width: 100%;height: 680px;"></iframe>
+    }" style="height: 680px;" >
+      <iframe [src]="fileUrlDebitNote" title="description" *ngIf="fileUrlDebitNote" style="width: 100%;height: 100%;"></iframe>
     </div>
 
   </div>

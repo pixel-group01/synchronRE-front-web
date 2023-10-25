@@ -48,6 +48,12 @@
     }
 }
 
-::ng-deep .modal .modal-content .modal-body{
-        height: 720px !important;
-}
+// ::ng-deep .modal .modal-content .modal-body{
+        // height: 720px !important;
+// }
+
+.eltDetailCom{
+    height: calc(100vh - 255px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
