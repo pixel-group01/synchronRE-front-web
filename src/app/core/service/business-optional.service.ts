@@ -16,19 +16,19 @@ export class BusinessOptionalService {
 
   create = (body:any) => {
     return this.restClient.post('affaires/facultative/create',body)
-  } 
+  }
 
   getAll = () => {
     return this.restClient.get('affaires/facultative/list');
   }
- 
+
   // getAffaireForStatistique = () => {
   //   return this.restClient.get('affaires/facultative/all');
   // }
 
   getAffaireForStatistique = (index:number = 0,size:number=10000,key?:string,cedId?:number,exeCode?:any) => {
     let endPointFinal = "affaires/facultative/all?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
-   
+
     if(endPointFinal && cedId) {
       endPointFinal = endPointFinal+"&cedId="+cedId;
     }
@@ -51,7 +51,7 @@ export class BusinessOptionalService {
 
   getAffaireFacultativeByReassureurEnTraitement = (index:number = 0,size:number=10,key?:string,cedId?:number,exeCode?:any) => {
     let endPointFinal = "affaires/facultative/by-reassureur-en-traitement?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
-   
+
     if(endPointFinal && cedId) {
       endPointFinal = endPointFinal+"&cedId="+cedId;
     }
@@ -60,16 +60,16 @@ export class BusinessOptionalService {
 
   getAffaireFacultativeByReassureurEnPlacement = (index:number = 0,size:number=10,key?:string,cedId?:number,exeCode?:any) => {
     let endPointFinal = "affaires/facultative/by-reassureur-en-placement?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
-   
+
     if(endPointFinal && cedId) {
       endPointFinal = endPointFinal+"&cedId="+cedId;
     }
     return this.restClient.get(endPointFinal);
   }
-  
+
   getAffaireFacultativeByReassureurValide = (index:number = 0,size:number=10,key?:string,cedId?:number) => {
     let endPointFinal = "affaires/facultative/by-reassureur-valide?page="+index+"&size="+size+""+(key ? "&key="+key : "");
-   
+
     if(endPointFinal && cedId) {
       endPointFinal = endPointFinal+"&cedId="+cedId;
     }
@@ -141,30 +141,30 @@ export class BusinessOptionalService {
 
   transmissionAffaire = (idAffaire:number,body:any) => {
     return this.restClient.put('affaires/facultative/transmettre/'+idAffaire,body)
-  } 
+  }
 
   validerAffaire = (idAffaire:number,body:any) => {
     return this.restClient.put('affaires/facultative/valider/'+idAffaire,body)
-  } 
+  }
 
   envoyerNoteCession = (idAffaire:number,body:any) => {
     return this.restClient.put('affaires/envoyer-note-debit-fac/'+idAffaire,body)
-  } 
+  }
 
   retournerAffaire = (body:any) => {
     return this.restClient.put('affaires/facultative/retourner',body)
-  } 
+  }
 
   archiverAffaire = (idAffaire:number,body:any) => {
     return this.restClient.put('affaires/facultative/archiver/'+idAffaire,body)
-  } 
+  }
 
   getMessageRetour = (affId:number) => {
     return this.restClient.get('mouvements/affaire/message-retour/'+affId)
-  } 
+  }
 
   getReportNoteDebit = (affId:number) => {
     return this.restClient.get('reports/note-de-debit-fac/'+affId)
-  } 
+  }
 
 }

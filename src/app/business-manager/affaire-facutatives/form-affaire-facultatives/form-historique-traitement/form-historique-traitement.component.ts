@@ -12,14 +12,14 @@ export class FormHistoriqueTraitementComponent implements OnInit {
 
   currentAffaire : BusinessOptional;
   listeHistoriqueTraitement : HistoriqueTraitement[] = [];
-  
+
   constructor(private businessOptional:BusinessOptionalService) { }
 
   getHistoriqueTraitement() {
     this.businessOptional.getMouvementAffaire(this.currentAffaire?.affId).subscribe(
       (response : any) => {
         console.log(" response ",response);
-        this.listeHistoriqueTraitement = response as HistoriqueTraitement[];
+        this.listeHistoriqueTraitement = response.content as HistoriqueTraitement[];
       }
     )
   }
