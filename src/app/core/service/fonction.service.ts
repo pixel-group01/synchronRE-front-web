@@ -30,6 +30,10 @@ export class FonctionService {
     return this.restClient.get(endPointFinal);
   }
 
+  getTypeFonctions = ()=>{
+    return this.restClient.get("functions/types")
+  }
+
   update = (body:any) => {
     return this.restClient.put('functions/update',body) 
   }

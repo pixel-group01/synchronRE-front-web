@@ -76,7 +76,7 @@ export class UtilisateursComponent implements OnInit {
       ignoreBackdropClick: true,
       id: 1,
       // class: "modal-lg",
-      class: isDetails ? "gray modal-md" : "gray modal-lg modal-width-65",
+      class: isDetails ? "gray modal-width-50" : "gray modal-lg modal-width-65",
     };
     this.itemToSave = {};
     if (data) {

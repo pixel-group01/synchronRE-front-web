@@ -18,7 +18,7 @@
 
                     <div class="p-1">
                       <div class="row">
-                        <div class="col-md-12 col-xs-12 mb-3">
+                        <div class="col-md-6 col-xs-6 mb-3">
                           <label>Libellé :
                             <span class="required_champs">*</span>
                           </label>
@@ -32,7 +32,25 @@
                             Ce champ est obligatoire
                           </small>
                         </div>
+                        <div class="col-6 col-xs-12 mb-3">
+                          <label>Type de fonction :
+                            <span class="required_champs">*</span>
+                          </label>
+  {{userForm.value.typeFunctionId}}
+                          <ng-select formControlName="typeFunctionId" [multiple]="false" placeholder="Choisir le type de fonction" 
+                          [closeOnSelect]="true" id="fonction"   [class.errorInputForm]="
+                          getFormFiledsValue('typeFunctionId')?.invalid &&
+                          getFormFiledsValue('typeFunctionId')?.touched
+                        " >
+                            <ng-option *ngFor="let fonction of listesTypeFonctions" [value]="fonction?.typeId">{{ fonction.name
+                              }}</ng-option>
+                          </ng-select>
 
+                          <small class="text-danger"
+                          *ngIf="(getFormFiledsValue('typeFunctionId')?.dirty || getFormFiledsValue('typeFunctionId')?.touched) && getFormFiledsValue('typeFunctionId')?.invalid && getFormFiledsValue('typeFunctionId')?.errors?.['required']">
+                          Ce champ est obligatoire
+                        </small>
+                        </div> 
                         <div class="col-md-6 col-xs-12 mb-3">
                           <label>Date de début
                             <span class="required_champs">*</span>
@@ -89,10 +107,19 @@
                           <span class="required_champs">*</span>
                         </label>
 
-                        <ng-select formControlName="roles" [multiple]="true" [closeOnSelect]="false" id="roles" (change)="getPrivilegeByRole()">
+                        <ng-select formControlName="roles" [multiple]="true" [closeOnSelect]="false" 
+                        placeholder="choisir des rôles" id="roles" (change)="getPrivilegeByRole()" 
+                        [class.errorInputForm]="
+                        getFormFiledsValue('roles')?.invalid &&
+                        getFormFiledsValue('roles')?.touched
+                      ">
                           <ng-option *ngFor="let role of listeRoles" [value]="role?.roleId">{{ role.roleName
                             }}</ng-option>
                         </ng-select>
+                        <small class="text-danger"
+                        *ngIf="(getFormFiledsValue('roles')?.dirty || getFormFiledsValue('roles')?.touched) && getFormFiledsValue('roles')?.invalid && getFormFiledsValue('roles')?.errors?.['required']">
+                        Ce champ est obligatoire
+                      </small>
                       </div>
 
                       <div class="col-12 mb-3">
@@ -102,7 +129,7 @@
                           <span class="required_champs">*</span>
                         </label>
 
-                        <ng-select formControlName="privileges" [closeOnSelect]="false" [multiple]="true"  [readonly]="true" id="privileges">
+                        <ng-select formControlName="privileges" [closeOnSelect]="false" placeholder="choisir des privilèges" [multiple]="true"  [readonly]="true" id="privileges">
                           <ng-option *ngFor="let privilege of listePrivileges" [value]="privilege?.privilegeId">{{
                             privilege.privilegeName
                             }}</ng-option>

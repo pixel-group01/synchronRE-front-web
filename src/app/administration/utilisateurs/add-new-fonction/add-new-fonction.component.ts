@@ -31,7 +31,7 @@ export class AddNewFonctionComponent implements OnInit {
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   dateActuelle = new Date();
   currentFonction : any = {};
-
+  listesTypeFonctions:any =[]
   constructor(
     private formBuilder: FormBuilder,
     private cedenteService: CedanteService,
@@ -54,16 +54,17 @@ export class AddNewFonctionComponent implements OnInit {
       let tabsDateStart = this.currentFonction.startsAt.split("-");
       this.currentFonction.startsAt = new Date(tabsDateStart[0],tabsDateStart[1]-1,tabsDateStart[2]);
     }
-
+ 
     this.userForm = this.formBuilder.group({
       userId: [this.itemToUpdate?.userId || ""],
       fncId: [this.currentFonction?.id || ""],
       visibilityId:[this.currentFonction?.visibilityId],
-      libelleFonction : [this.currentFonction?.name],
-      dateDebutFonction : [this.currentFonction?.startsAt],
-      roles : [],
+      typeFunctionId:[this.currentFonction?.typeFunctionId, Validators.required],
+      libelleFonction : [this.currentFonction?.name, Validators.required],
+      dateDebutFonction : [this.currentFonction?.startsAt, Validators.required],
+      roles : [[],Validators.required],
       privileges : [],
-      dateFinFonction : [this.currentFonction?.endsAt]
+      dateFinFonction : [this.currentFonction?.endsAt, Validators.required]
       // visibilityId: [this.itemToUpdate?.visibilityId || "", Validators.required],
       // cesId: [this.itemToUpdate?.cesId || "", Validators.required]
     });
@@ -75,6 +76,7 @@ export class AddNewFonctionComponent implements OnInit {
   };
 
   confirmSaveItem() {
+console.log('userForm :' , this.userForm.value);
 
     Swal.fire({
       title: "Utilisateur",
@@ -92,6 +94,14 @@ export class AddNewFonctionComponent implements OnInit {
     });
   }
 
+  getTypeFonction(){
+    this.fonctionService.getTypeFonctions().subscribe((res:any)=>{
+      this.listesTypeFonctions = res;
+      console.log(res , "res type fonc");
+      
+    })
+  }
+
   saveItem(item: UserSynchroRE) {
 
     let itemAEnregistrer = Object.assign({}, item);
@@ -102,7 +112,8 @@ export class AddNewFonctionComponent implements OnInit {
       startsAt: moment(itemAEnregistrer.dateDebutFonction).format("YYYY-MM-DD"),
       endsAt: moment(itemAEnregistrer.dateFinFonction).format("YYYY-MM-DD"),
       roleIds: itemAEnregistrer.roles,
-      prvIds: itemAEnregistrer.privileges
+      prvIds: itemAEnregistrer.privileges,
+      typeFunctionId : itemAEnregistrer.typeFunctionId
     };
 
     // nous sommes au create
@@ -167,6 +178,7 @@ getPrivilegeByRole(){
 
   ngOnInit(): void {
     // Initialisation du forms group
+    this.getTypeFonction();
     this.createForm();
     this.getPrivilege();
     this.getRoles();
