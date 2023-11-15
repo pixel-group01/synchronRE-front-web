@@ -43,4 +43,9 @@ export class ReglementService {
   update = (typeReglement:string,body:any) => {
     return this.restClient.put(typeReglement+'/update',body)
   }
+
+
+  deletePayment = (idPayment:any)=>{
+    return this.restClient.get(`reglements/delete/${idPayment}`)
+  }
 }

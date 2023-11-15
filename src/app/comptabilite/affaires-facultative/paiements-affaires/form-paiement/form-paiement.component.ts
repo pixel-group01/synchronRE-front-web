@@ -78,6 +78,8 @@ export class FormPaiementComponent implements OnInit {
     }
   }
 
+
+
   createForm = () => {
     this.formulaireGroup = this.formBuilder.group({
       regId: [this.itemToUpdate?.regId || ""],
@@ -259,6 +261,12 @@ export class FormPaiementComponent implements OnInit {
           this.listePaiementDejaEffectue = response['content'] as Reglement[];
         }
       });
+  }
+
+  deleteTheLinePayment(item:any){
+    this.busySave = this.reglementService.deletePayment(item.regId).subscribe((res:any)=>{
+      this.getOldPaiement()
+    })
   }
 
   ngOnInit(): void {

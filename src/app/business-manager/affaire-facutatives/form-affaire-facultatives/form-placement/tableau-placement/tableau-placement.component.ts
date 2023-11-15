@@ -42,7 +42,7 @@ export class TableauPlacementComponent implements OnInit {
     private businessOptionalRepartition: BusinessOptionalRepartitionService,
     public sanitizer: DomSanitizer) { 
       this.user = this.userService.getCurrentUserInfo();
-    }
+    } 
 
 
   getReportPlacement(idPlacement : number){

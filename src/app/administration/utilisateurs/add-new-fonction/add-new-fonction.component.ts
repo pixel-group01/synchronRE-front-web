@@ -76,8 +76,6 @@ export class AddNewFonctionComponent implements OnInit {
   };
 
   confirmSaveItem() {
-console.log('userForm :' , this.userForm.value);
-
     Swal.fire({
       title: "Utilisateur",
       text: "Vous êtes sur le point d'ajouter une fonction à l'utilisateur. Voulez-vous poursuivre cette action ?",

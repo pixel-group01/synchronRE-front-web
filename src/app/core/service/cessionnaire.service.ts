@@ -33,4 +33,5 @@ export class CessionnaireService {
   update = (body:any) => {
     return this.restClient.put('cessionnaires/update',body)
   }
+  
 }
