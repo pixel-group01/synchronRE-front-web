@@ -9,6 +9,8 @@ import { DashbordAffaireTraiteComponent } from './dashbord-affaire-traite/dashbo
 import { DashbordAffaireFacultativeComponent } from './dashbord-affaire-facultative/dashbord-affaire-facultative.component';
 import { DashbordSinistreTaiteComponent } from './dashbord-sinistre-taite/dashbord-sinistre-taite.component';
 import { DashbordSinistreFacultativeComponent } from './dashbord-sinistre-facultative/dashbord-sinistre-facultative.component';
+import { DataSinistreFacultativeComponent } from './dashbord-sinistre-facultative/data-sinistre-facultative/data-sinistre-facultative.component';
+import { ChartModule } from 'angular-highcharts';
 
 
 @NgModule({
@@ -18,10 +20,12 @@ import { DashbordSinistreFacultativeComponent } from './dashbord-sinistre-facult
     DashbordAffaireTraiteComponent,
     DashbordAffaireFacultativeComponent,
     DashbordSinistreTaiteComponent,
-    DashbordSinistreFacultativeComponent
+    DashbordSinistreFacultativeComponent,
+    DataSinistreFacultativeComponent
   ],
   imports: [
     CommonModule,
+    ChartModule,
     SharedModule,
     DashbordSynchroreRoutingModule
   ]

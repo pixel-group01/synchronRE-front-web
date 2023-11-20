@@ -1,0 +1,411 @@
+<fieldset class="mb-4">
+    <legend > Critère de recherche</legend>
+      <div class="row gy-2 p-3">
+        <div class="col-2">
+            <label>Exercices :</label>
+            <ng-select 
+            name="affaireName" 
+            id="affaireId"
+            notFoundText="Aucune donnée"
+            placeholder="Ex : Affaire N° XX XX"
+            [items]="listes"
+            bindLabel="affCode"
+            bindValue="affId"
+            >
+        </ng-select>
+        </div>
+        <div class="col-2">  
+            <label>cedante :</label>
+            <ng-select 
+            name="affaireName" 
+            id="affaireId"
+            notFoundText="Aucune donnée"
+            placeholder="Ex : Affaire N° XX XX"
+            [items]="listes"
+            bindLabel="affCode"
+            bindValue="affId"
+            >
+        </ng-select>
+        </div>
+        <div class="col-2">
+            <label>Cessionnaire:</label>
+            <ng-select 
+            name="affaireName" 
+            id="affaireId"
+            notFoundText="Aucune donnée"
+            placeholder="Ex : Affaire N° XX XX"
+            [items]="listes"
+            bindLabel="affCode"
+            bindValue="affId"
+            >
+        </ng-select>
+        </div>
+        <div class="col-1">
+            <label>Etat :</label>
+            <ng-select 
+            name="affaireName" 
+            id="affaireId"
+            notFoundText="Aucune donnée"
+            placeholder="Ex : Affaire N° XX XX"
+            [items]="listes"
+            bindLabel="affCode"
+            bindValue="affId"
+            >
+        </ng-select>
+        </div>
+        <div class="col-1">
+            <label>Statut :</label>
+            <ng-select 
+            name="affaireName" 
+            id="affaireId"
+            notFoundText="Aucune donnée"
+            placeholder="Ex : Affaire N° XX XX"
+            [items]="listes"
+            bindLabel="affCode"
+            bindValue="affId"
+            >
+        </ng-select>
+        </div> 
+        <div class="col-1">
+            <label>Couverture :</label>
+            <ng-select 
+            name="affaireName" 
+            id="affaireId"
+            notFoundText="Aucune donnée"
+            placeholder="Ex : Affaire N° XX XX"
+            [items]="listes"
+            bindLabel="affCode"
+            bindValue="affId"
+            >
+        </ng-select>
+        </div>
+        <div class="col-1">      
+            <label>Devise :</label>
+            <ng-select 
+            name="affaireName" 
+            id="affaireId"
+            notFoundText="Aucune donnée"
+            placeholder="Ex : Affaire N° XX XX"
+            [items]="listes"
+            bindLabel="affCode"
+            bindValue="affId"
+            >
+        </ng-select>
+        </div>   
+        <div class="col-1">
+            <label>Effet :</label>
+            <input
+            class="form-control custom-input"
+            placeholder="10/01/2023"
+            autocomplete="off"
+            [bsConfig]="{ isAnimated: true ,dateInputFormat: 'DD/MM/YYYY',containerClass: 'theme-dark-blue'}"
+            [maxDate]="maxDate"
+            bsDatepicker
+            name="honoraire"
+            type="text"
+            />
+        </div>
+        <div class="col-1">
+            <label>Echéance :</label>
+            <input
+            class="form-control custom-input"
+            placeholder="10/01/2023"
+            autocomplete="off"
+            [bsConfig]="{ isAnimated: true ,dateInputFormat: 'DD/MM/YYYY',containerClass: 'theme-dark-blue'}"
+            [maxDate]="maxDate"
+            bsDatepicker
+            name="honoraire"
+            type="text"
+            />
+        </div>
+      </div>
+  </fieldset>
+
+  <fieldset class="mb-4">
+    <legend >Par cédantes </legend>
+    
+    <fieldset class="mt-4">
+        <legend >Affaires facultatives </legend>   
+            <div class="row">
+                <div class="col-md-8 col-xs-8">
+                  <table class="table table-condensed table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th colspan="6" style="padding: 14px;">
+                          <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                              <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
+                            </div>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr class="custom-table-head">
+                        <th class="txt-align-center-counter-row">
+                          <a title="Actualiser">
+                            <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                        </th>
+                        <th>Cédante</th>
+                        <th>Nombre affaires </th>
+          
+                        <th>SMP/LCI</th>
+                        <!--width="428px"-->
+                        <th width="120px" class="txt-align-center">Actions</th>
+                      </tr>
+                    </thead> 
+                    <tbody>
+                      <tr></tr>
+                    </tbody>
+          
+                    <tfoot>
+             
+                    </tfoot>
+                  </table>
+                </div>
+
+                <div class="col-md-4 col-xs-4">
+                    <div class="bg-card w-100 shadow">
+                        <div [chart]="segments"></div>
+                    </div>
+                </div>
+              </div>
+        
+    </fieldset>
+
+    <fieldset class="mt-4">
+        <legend >Commissions </legend>    
+        <div class="row">
+            <div class="col-md-8 col-xs-8">
+              <table class="table table-condensed table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th colspan="7" style="padding: 14px;">
+                      <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                          <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr class="custom-table-head">
+                    <th class="txt-align-center-counter-row">
+                      <a title="Actualiser">
+                        <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                    </th>
+                    <th>Cédante</th>
+                    <th>Encaissé par le courtier </th>
+      
+                    <th>Reste à payer au courtier</th>
+                    <th>Encaissé par la cédante</th>
+                    <th>Reste encaissé par la cédante</th>
+                    <!--width="428px"-->
+                    <th width="120px" class="txt-align-center">Actions</th>
+                  </tr>
+                </thead> 
+                <tbody>
+                  <tr></tr>
+                </tbody>
+      
+                <tfoot>
+         
+                </tfoot>
+              </table>
+            </div>
+
+            <div class="col-md-4 col-xs-4">
+                <div class="bg-card w-100 shadow">
+                    <div [chart]="segments1"></div>
+                </div>
+            </div>
+          </div>
+    </fieldset>
+    <fieldset class="mt-4">
+        <legend >Primes </legend>    
+        <div class="row">
+            <div class="col-md-8 col-xs-8">
+              <table class="table table-condensed table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th colspan="6" style="padding: 14px;">
+                      <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                          <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr class="custom-table-head">
+                    <th class="txt-align-center-counter-row">
+                      <a title="Actualiser">
+                        <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                    </th>
+                    <th>Cédante</th>
+                    <th>Primes</th>
+      
+                    <th>Encaissées</th>
+                    <th>Reste à encaisser</th>
+                    <!--width="428px"-->
+                    <th width="120px" class="txt-align-center">Actions</th>
+                  </tr>
+                </thead> 
+                <tbody>
+                  <tr></tr>
+                </tbody>
+      
+                <tfoot>
+         
+                </tfoot>
+              </table>
+            </div>
+
+            <div class="col-md-4 col-xs-4">
+                <div class="bg-card w-100 shadow">
+                    <div [chart]="segments2"></div>
+                </div>
+            </div>
+          </div>
+    </fieldset>
+
+</fieldset>
+
+<fieldset class="mb-4">
+    <legend >Par cessionnaires </legend>
+    <fieldset class="mt-4">
+        <legend >Affaires facultatives </legend>   
+            <div class="row">
+                <div class="col-md-8 col-xs-8">
+                  <table class="table table-condensed table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th colspan="6" style="padding: 14px;">
+                          <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                              <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
+                            </div>
+                          </div>
+                        </th>
+                      </tr>
+                      <tr class="custom-table-head">
+                        <th class="txt-align-center-counter-row">
+                          <a title="Actualiser">
+                            <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                        </th>
+                        <th>cessionnaires</th>
+                        <th>Nombre affaires </th>
+          
+                        <th>SMP/LCI</th>
+                        <!--width="428px"-->
+                        <th width="120px" class="txt-align-center">Actions</th>
+                      </tr>
+                    </thead> 
+                    <tbody>
+                      <tr></tr>
+                    </tbody>
+          
+                    <tfoot>
+             
+                    </tfoot>
+                  </table>
+                </div>
+
+                <div class="col-md-4 col-xs-4">
+                    <div class="bg-card w-100 shadow">
+                        <div [chart]="segments3"></div>
+                    </div>
+                </div>
+              </div>
+        
+    </fieldset>
+    <fieldset class="mt-4">
+        <legend >Commissions </legend>    
+        <div class="row">
+            <div class="col-md-8 col-xs-8">
+              <table class="table table-condensed table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th colspan="7" style="padding: 14px;">
+                      <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                          <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr class="custom-table-head">
+                    <th class="txt-align-center-counter-row">
+                      <a title="Actualiser">
+                        <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                    </th>
+                    <th>cessionnaires/th>
+                    <th>Encaissé par le courtier </th>
+      
+                    <th>Reste à payer au courtier</th>
+                   
+                    <!--width="428px"-->
+                    <th width="120px" class="txt-align-center">Actions</th>
+                  </tr>
+                </thead> 
+                <tbody>
+                  <tr></tr>
+                </tbody>
+      
+                <tfoot>
+         
+                </tfoot>
+              </table>
+            </div>
+
+            <div class="col-md-4 col-xs-4">
+                <div class="bg-card w-100 shadow">
+                    <div [chart]="segments4"></div>
+                </div>
+            </div>
+          </div>
+    </fieldset>
+    <fieldset class="mt-4">
+        <legend >Primes </legend>    
+        <div class="row">
+            <div class="col-md-8 col-xs-8">
+              <table class="table table-condensed table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th colspan="6" style="padding: 14px;">
+                      <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                          <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
+                        </div>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr class="custom-table-head">
+                    <th class="txt-align-center-counter-row">
+                      <a title="Actualiser">
+                        <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                    </th>
+                    <th>Cédante</th>
+                    <th>Primes</th>
+      
+                    <th>Reversée</th>
+                    <th>Reste à reverser</th>
+                    <!--width="428px"-->
+                    <th width="120px" class="txt-align-center">Actions</th>
+                  </tr>
+                </thead> 
+                <tbody>
+                  <tr></tr>
+                </tbody>
+      
+                <tfoot>
+         
+                </tfoot>
+              </table>
+            </div>
+
+            <div class="col-md-4 col-xs-4">
+                <div class="bg-card w-100 shadow">
+                    <div [chart]="segments5"></div>
+                </div>
+            </div>
+          </div>
+    </fieldset>
+
+</fieldset> 

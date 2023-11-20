@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from "@angular/core";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { User } from "src/app/core/models/user";
 import { UserService } from "src/app/core/service/user.service";
@@ -11,6 +11,7 @@ import { ExerciceService } from "../../core/service/exercice.service";
 var Highcharts = require("highcharts");
 import * as _ from "lodash";
 import { enumStatutAffaire } from "../../core/enumerator/enumerator";
+import { AuthService } from "src/app/core/service/auth.service";
 
 @Component({
   selector: 'app-dashbord-sinistre-facultative',
@@ -26,6 +27,14 @@ export class DashbordSinistreFacultativeComponent implements OnInit {
   listeCedente: Array<Cedante> = [];
   itemToSearch: any = {};
   itemStatistique : any = {};
+
+
+  @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  @Input() itemSinistre :any ;
+  @Input() isActive :boolean ;
+  @Input() isModification :boolean ;
+  idSinistre :number;
+  staticTabs :number;
 
   constructor(
     private modalService: BsModalService,
@@ -258,8 +267,116 @@ export class DashbordSinistreFacultativeComponent implements OnInit {
     this.getStatistique();
     this.getExercice();
     this.getCedente();
+    const clsButton1 = document.querySelector<HTMLElement>(".cls-indent-sinis1")
+    if(clsButton1){
+      clsButton1.style.backgroundColor = "#ffc20f";
+      clsButton1.style.color = "#fff";
+      clsButton1.style.borderColor = "#ffc20f";
+    }
+    this.staticTabs = 1;  
+    this.fonctionButton();
+    console.log('isActive ::::',this.isActive);
+    
     // this.getPieChartValue();
     // this.getLineChartValue();
   }
 
+  fonctionButton(){
+    const clsButton1 = document.querySelector<HTMLElement>(".cls-indent-sinis1")
+    const clsButton2 = document.querySelector<HTMLElement>(".cls-indent-sinis2")
+    const clsButton3 = document.querySelector<HTMLElement>(".cls-indent-sinis3")
+    if (this.itemSinistre) {
+      if(clsButton1 && clsButton2){
+        clsButton1.style.cursor = "pointer";
+        clsButton2.style.cursor = "pointer";
+      }
+    }else{
+      clsButton1.style.cursor = "initial";
+      clsButton2.style.cursor = "initial";
+    }
+  }
+
+  closeFormModal(event:any) {    
+    // console.log('ok ok ',event);
+    this.closeModal.emit(event); 
+  }
+
+  receiveStep1(evt:any){
+    // console.log("evt 11:",evt);
+    this.itemSinistre = {...evt}
+    this.idSinistre = evt.sinId;
+    setTimeout(() => {
+       this.selectTab(2,true)
+    }, 300);
+  }
+
+  precedent(evt:any){
+    // console.log(" :",evt);
+    // this.itemSinistre = evt;
+    this.selectTab(1,true)
+  }
+ 
+
+
+  selectTab(tabId: number,isUpdate?:boolean) {
+    if (isUpdate) {
+      this.staticTabs = tabId
+      
+      const clsButton1 = document.querySelector<HTMLElement>(".cls-indent-sinis1")
+      const clsButton2 = document.querySelector<HTMLElement>(".cls-indent-sinis2")
+      const clsButton3 = document.querySelector<HTMLElement>(".cls-indent-sinis3")
+      if(tabId == 1){
+        if(clsButton1){
+          clsButton1.style.backgroundColor = "#ffc20f";
+          clsButton1.style.color = "#fff";
+          clsButton1.style.borderColor = "#ffc20f";
+          clsButton1.style.transition = "0.3s";
+
+          clsButton2.style.backgroundColor = "#f9fafb";
+          clsButton2.style.color = "#000";
+          clsButton2.style.borderColor = "#fff";
+          clsButton2.style.transition = "0.3s";
+
+          clsButton3.style.backgroundColor = "#f9fafb";
+          clsButton3.style.color = "#000";
+          clsButton3.style.borderColor = "#fff";
+          clsButton3.style.transition = "0.3s";
+        }
+      }else{
+        if(tabId == 2){
+          if(clsButton2){
+            clsButton2.style.backgroundColor = "#ffc20f";
+            clsButton2.style.color = "#fff";
+            clsButton2.style.borderColor = "#ffc20f";
+            clsButton2.style.transition = "0.3s";
+
+            clsButton1.style.backgroundColor = "#f9fafb";
+            clsButton1.style.color = "#000";
+            clsButton1.style.borderColor = "#fff";
+            clsButton1.style.transition = "0.5s";
+
+          }
+      }else{
+        if(tabId == 3){
+          if(clsButton3){
+            clsButton3.style.backgroundColor = "#ffc20f";
+            clsButton3.style.color = "#fff";
+            clsButton3.style.borderColor = "#ffc20f";
+           clsButton3.style.transition = "0.3s";
+
+          clsButton1.style.backgroundColor = "#f9fafb";
+          clsButton1.style.color = "#000";
+          clsButton1.style.borderColor = "#fff";
+          clsButton1.style.transition = "0.5s";
+
+          }
+      }
+      }
+  }
+    }
+      
 }
+}
+ 
+
+
