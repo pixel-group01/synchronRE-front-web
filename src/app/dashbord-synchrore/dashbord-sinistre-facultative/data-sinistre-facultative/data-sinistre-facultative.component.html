@@ -124,18 +124,39 @@
   <fieldset class="mb-4">
     <legend >Par cédantes </legend>
     
-    <fieldset class="mt-4">
+    <fieldset class="mt-4">index
         <legend >Affaires facultatives </legend>   
             <div class="row">
-                <div class="col-md-8 col-xs-8">
+                <div class="col-md-8 col-xs-8 scrolleur">
                   <table class="table table-condensed table-striped table-hover">
                     <thead>
                       <tr>
                         <th colspan="6" style="padding: 14px;">
                           <div class="row">
-                            <div class="col-md-4 col-sm-12">
+                            <!--<div class="col-md-3 col-sm-12">
                               <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
+                            </div>-->
+                            <div class="col-md-2 col-sm-12">
+                              <button type="button" class="btn btn-primary fw-bold">
+                                nombre Affaires <br> <span class="fw-bold">{{items.nbrAffaires}}</span>
+                              </button>
                             </div>
+                            <div class="col-md-2 col-sm-12">
+                              <button type="button" class="btn btn-primary fw-bold">
+                                Total Smp/Lci <br> <span class="fw-bold">{{items.mtTotalSmpLci || 0}}</span>
+                              </button>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                              <button type="button" class="btn btn-primary fw-bold">
+                                Capital Initial <br><span class="fw-bold">{{items.mtTotalCapitalInitial || 0}}</span>
+                              </button>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                              <button type="button" class="btn btn-primary fw-bold">
+                                Total Smp/Lci Accepté <br><span class="fw-bold">{{items.mtTotalSmpLciAccpte || 0}}</span>
+                              </button>
+                            </div>
+                            
                           </div>
                         </th>
                       </tr>
@@ -146,14 +167,32 @@
                         </th>
                         <th>Cédante</th>
                         <th>Nombre affaires </th>
-          
                         <th>SMP/LCI</th>
                         <!--width="428px"-->
                         <th width="120px" class="txt-align-center">Actions</th>
                       </tr>
                     </thead> 
                     <tbody>
-                      <tr></tr>
+                      <tr *ngFor="let destailCedante of detailsAffaireParCedantes ; let indice = index">
+                            <td>{{indice + 1 }}</td>
+                            <td>{{destailCedante.libelle}}</td>
+                            <td>{{destailCedante.nbrAffaires}}</td>
+                            <td>{{destailCedante.mtSmpLci}}</td>
+                            <td class="custom-width-td-action">
+                              <div class="custom-td-action">
+                                <div ngbDropdown class="d-inline-block">
+                                  <button type="button" class="btn btn-custom-action-dropdown" id="action" ngbDropdownToggle>
+                                    Actions
+                                  </button>
+                                    <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
+                                      <button ngbDropdownItem>
+                                        <i class="fa fa-list"></i>&nbsp;Détails
+                                      </button>
+                                    </div>
+                                </div>
+                              </div> 
+                            </td>
+                      </tr>
                     </tbody>
           
                     <tfoot>
@@ -272,7 +311,7 @@
     <fieldset class="mt-4">
         <legend >Affaires facultatives </legend>   
             <div class="row">
-                <div class="col-md-8 col-xs-8">
+                <div class="col-md-8 col-xs-8 scrolleur">
                   <table class="table table-condensed table-striped table-hover">
                     <thead>
                       <tr>
@@ -298,7 +337,27 @@
                       </tr>
                     </thead> 
                     <tbody>
-                      <tr></tr>
+                      <tr *ngFor="let detailCession of detailsAffaireParCessionnaires; let indice = index">
+                            <td>{{indice + 1}}</td>
+                            <td>{{detailCession.libelle}}</td>
+                            <td>{{detailCession.nbrAffaires}}</td>
+                            <td>{{detailCession.mtSmpLciAccepte}}</td>
+                            <td class="custom-width-td-action">
+                              <div class="custom-td-action">
+                                <div ngbDropdown class="d-inline-block">
+                                  <button type="button" class="btn btn-custom-action-dropdown" id="action" ngbDropdownToggle>
+                                    Actions
+                                  </button>
+                                    <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
+                                      <button ngbDropdownItem>
+                                        <i class="fa fa-list"></i>&nbsp;Détails
+                                      </button>
+                                    </div>
+                                </div>
+                              </div> 
+                            </td>
+
+                      </tr>
                     </tbody>
           
                     <tfoot>
@@ -408,4 +467,4 @@
           </div>
     </fieldset>
 
-</fieldset> 
+</fieldset>   

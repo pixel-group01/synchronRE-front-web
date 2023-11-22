@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Chart } from 'angular-highcharts';
 import * as Highcharts from 'highcharts';
+import { AffaireService } from 'src/app/core/service/affaire.service';
 @Component({
   selector: 'app-data-sinistre-facultative',
   templateUrl: './data-sinistre-facultative.component.html',
@@ -15,10 +16,13 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
   segments3: any;
   segments4: any;
   segments5: any;
-
-  constructor() { }
+  detailsAffaireParCedantes :any =[];
+  detailsAffaireParCessionnaires :any =[];
+  items :any = {}
+  constructor(private statiqueAffaireFacultatif : AffaireService) { }
 
   ngOnInit(): void {
+    this.getAffaireFacultatifStatistique()
   }
 
   ngAfterViewInit() {
@@ -28,8 +32,23 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
     this.testGraph3();
     this.testGraph4();
     this.testGraph5();
-
   }
+
+  getAffaireFacultatifStatistique(){
+    const data = {
+        data :{}
+    }
+    this.statiqueAffaireFacultatif.getAffaireFacultatifStatistique(data).subscribe((res:any)=>{
+        console.log("res statistique ::", res);
+        if (res) {
+            this.items = res
+            this.detailsAffaireParCedantes = res.detailsAffaireParCedantes
+            this.detailsAffaireParCessionnaires = res.detailsAffaireParCessionnaires 
+        }
+    })
+  }
+
+
   testGraph(){
     const options: any = {
       chart: {
@@ -278,7 +297,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
       }]
     }
     setTimeout(() => {
-      this.segments2 = new Chart(options);
+      this.segments3 = new Chart(options);
     },);
   }
 
@@ -533,4 +552,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
       this.segments5 = new Chart(options);
     },);
   }
+
+
+
 }
