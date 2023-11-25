@@ -1,16 +1,16 @@
 <fieldset class="mb-4">
     <legend > Critère de recherche</legend>
       <div class="row gy-2 p-3">
-        <div class="col-2">
+        <div class="col-1">
             <label>Exercices :</label>
             <ng-select 
-            name="affaireName" 
-            id="affaireId"
+            name="exerName" 
+            id="exercId"
             notFoundText="Aucune donnée"
             placeholder="Ex : Affaire N° XX XX"
-            [items]="listes"
-            bindLabel="affCode"
-            bindValue="affId"
+            [items]="exercices"
+            bindLabel="exeLibelle"
+            bindValue="exeCode"
             >
         </ng-select>
         </div>
@@ -21,9 +21,9 @@
             id="affaireId"
             notFoundText="Aucune donnée"
             placeholder="Ex : Affaire N° XX XX"
-            [items]="listes"
-            bindLabel="affCode"
-            bindValue="affId"
+            [items]="cedantes"
+            bindLabel="cedNomFiliale"
+            bindValue="cedId"
             >
         </ng-select>
         </div>
@@ -40,16 +40,29 @@
             >
         </ng-select>
         </div>
+        <div class="col-2">
+          <label>Couverture :</label>
+          <ng-select 
+          name="couvName" 
+          id="couvId"
+          notFoundText="Aucune donnée"
+          placeholder="Ex : Multirisques professionnelle"
+          [items]="couvertures"
+          bindLabel="couLibelle"
+          bindValue="couId"
+          >
+      </ng-select>
+      </div>
         <div class="col-1">
             <label>Etat :</label>
             <ng-select 
-            name="affaireName" 
-            id="affaireId"
+            name="etatName" 
+            id="etatId"
             notFoundText="Aucune donnée"
-            placeholder="Ex : Affaire N° XX XX"
-            [items]="listes"
-            bindLabel="affCode"
-            bindValue="affId"
+            placeholder="Ex : Réaliser"
+            [items]="etat"
+            bindLabel="libelle"
+            bindValue="libelle"
             >
         </ng-select>
         </div>
@@ -66,19 +79,7 @@
             >
         </ng-select>
         </div> 
-        <div class="col-1">
-            <label>Couverture :</label>
-            <ng-select 
-            name="affaireName" 
-            id="affaireId"
-            notFoundText="Aucune donnée"
-            placeholder="Ex : Affaire N° XX XX"
-            [items]="listes"
-            bindLabel="affCode"
-            bindValue="affId"
-            >
-        </ng-select>
-        </div>
+  
         <div class="col-1">      
             <label>Devise :</label>
             <ng-select 
@@ -86,9 +87,9 @@
             id="affaireId"
             notFoundText="Aucune donnée"
             placeholder="Ex : Affaire N° XX XX"
-            [items]="listes"
-            bindLabel="affCode"
-            bindValue="affId"
+            [items]="devises"
+            bindLabel="devCode"
+            bindValue="devCode"
             >
         </ng-select>
         </div>   
@@ -124,7 +125,7 @@
   <fieldset class="mb-4">
     <legend >Par cédantes </legend>
     
-    <fieldset class="mt-4">index
+    <fieldset class="mt-4">
         <legend >Affaires facultatives </legend>   
             <div class="row">
                 <div class="col-md-8 col-xs-8 scrolleur">
@@ -132,13 +133,13 @@
                     <thead>
                       <tr>
                         <th colspan="6" style="padding: 14px;">
-                          <div class="row">
+                          <div class="row d-flex align-items-center">
                             <!--<div class="col-md-3 col-sm-12">
                               <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
                             </div>-->
                             <div class="col-md-2 col-sm-12">
                               <button type="button" class="btn btn-primary fw-bold">
-                                nombre Affaires <br> <span class="fw-bold">{{items.nbrAffaires}}</span>
+                                nombre Affaires <br> <span class="fw-bold">{{items.nbrAffaires || 0}}</span>
                               </button>
                             </div>
                             <div class="col-md-2 col-sm-12">
@@ -155,6 +156,17 @@
                               <button type="button" class="btn btn-primary fw-bold">
                                 Total Smp/Lci Accepté <br><span class="fw-bold">{{items.mtTotalSmpLciAccpte || 0}}</span>
                               </button>
+                            </div>
+                            <div class="col-md-3 col-sm-12 d-flex justify-content-center h-100 p-0">
+                                <button type="button" class="btn btn-outline-secondary " (click)="downloadExcel()">
+                                  <i class="fa fa-file-excel" aria-hidden="true"></i>
+                                  Export Excel</button>
+                                <button type="button" class="btn btn-outline-secondary ms-2" (click)="downloadPdf()">
+                                  <i class="fa fa-file-pdf" aria-hidden="true"></i>
+                                  Export Pdf
+                                </button>
+
+
                             </div>
                             
                           </div>
