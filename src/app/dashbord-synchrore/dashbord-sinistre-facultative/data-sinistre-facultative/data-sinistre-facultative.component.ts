@@ -34,9 +34,20 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
     this.testGraph5();
   }
 
-  getAffaireFacultatifStatistique(){
+  getAffaireFacultatifStatistique(exercices?:any,cedIds?:any,cesIds?:any,affIds?:any,statutCreation?:string,couIds?:any,devCodes?:any,dateEffet?:any,dateEcheance?:any){
     const data = {
-        data :{}
+        data :{
+            "exercices": exercices,
+              "cedIds": cedIds,
+              "cesIds":  cesIds,
+              "affIds": affIds,
+              "statutCreation": statutCreation,
+            //   "staCodes": ,
+              "couIds": couIds,
+              "devCodes": devCodes,
+              "dateEffet": dateEffet,
+              "dateEcheance": dateEcheance
+        }
     }
     this.statiqueAffaireFacultatif.getAffaireFacultatifStatistique(data).subscribe((res:any)=>{
         console.log("res statistique ::", res);
