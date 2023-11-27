@@ -38,7 +38,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
     itemsAffId: any = [];
     itemsDevCode: any = [];
     itemsEffet: any ;
-    itemsEcheance: any
+    itemsEcheance: any ;
 
   etat : any= [{libelle : "REALISEE"},{libelle :"INSTANCE" },{libelle : "NON_REALISEE"}]
   constructor(private statiqueAffaireFacultatif : AffaireService) { }
