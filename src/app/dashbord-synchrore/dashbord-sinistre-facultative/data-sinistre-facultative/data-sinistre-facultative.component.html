@@ -7,10 +7,13 @@
             name="exerName" 
             id="exercId"
             notFoundText="Aucune donnée"
-            placeholder="Ex : Affaire N° XX XX"
+            placeholder="Ex : N° XX XX"
             [items]="exercices"
             bindLabel="exeLibelle"
+            [multiple]="true"
             bindValue="exeCode"
+            [(ngModel)]="itemsExercices"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
             >
         </ng-select>
         </div>
@@ -20,10 +23,13 @@
             name="affaireName" 
             id="affaireId"
             notFoundText="Aucune donnée"
-            placeholder="Ex : Affaire N° XX XX"
+            placeholder="Ex : N° XX XX"
             [items]="cedantes"
+            [multiple]="true"
             bindLabel="cedNomFiliale"
             bindValue="cedId"
+            [(ngModel)]="itemsCedId"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
             >
         </ng-select>
         </div>
@@ -33,10 +39,14 @@
             name="affaireName" 
             id="affaireId"
             notFoundText="Aucune donnée"
-            placeholder="Ex : Affaire N° XX XX"
+            placeholder="Ex : N° XX XX"
             [items]="listes"
-            bindLabel="affCode"
-            bindValue="affId"
+            [multiple]="true"
+            bindLabel="cesIds"
+            bindValue="cesIds"
+            [(ngModel)]="itemscesIds"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
+
             >
         </ng-select>
         </div>
@@ -48,8 +58,11 @@
           notFoundText="Aucune donnée"
           placeholder="Ex : Multirisques professionnelle"
           [items]="couvertures"
+          [multiple]="true"
           bindLabel="couLibelle"
           bindValue="couId"
+          [(ngModel)]="itemsCouId"
+          (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
           >
       </ng-select>
       </div>
@@ -58,11 +71,14 @@
             <ng-select 
             name="etatName" 
             id="etatId"
+            [multiple]="true"
             notFoundText="Aucune donnée"
-            placeholder="Ex : Réaliser"
+            placeholder="Ex: Réaliser"
             [items]="etat"
             bindLabel="libelle"
             bindValue="libelle"
+            [(ngModel)]="itemsEtatName"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
             >
         </ng-select>
         </div>
@@ -72,10 +88,11 @@
             name="affaireName" 
             id="affaireId"
             notFoundText="Aucune donnée"
-            placeholder="Ex : Affaire N° XX XX"
+            placeholder="Ex: Affaire N° XX XX"
             [items]="listes"
             bindLabel="affCode"
             bindValue="affId"
+            [(ngModel)]="itemsAffId"
             >
         </ng-select>
         </div> 
@@ -86,10 +103,13 @@
             name="affaireName" 
             id="affaireId"
             notFoundText="Aucune donnée"
-            placeholder="Ex : Affaire N° XX XX"
+            placeholder="Ex: N° XX XX"
             [items]="devises"
+            [multiple]="true"
             bindLabel="devCode"
             bindValue="devCode"
+            [(ngModel)]="itemsDevCode"
+          (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
             >
         </ng-select>
         </div>   
@@ -104,6 +124,8 @@
             bsDatepicker
             name="honoraire"
             type="text"
+            [(ngModel)]="itemsEffet"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
             />
         </div>
         <div class="col-1">
@@ -117,6 +139,8 @@
             bsDatepicker
             name="honoraire"
             type="text"
+            [(ngModel)]="itemsEcheance"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
             />
         </div>
       </div>
@@ -138,22 +162,22 @@
                               <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
                             </div>-->
                             <div class="col-md-2 col-sm-12">
-                              <button type="button" class="btn btn-primary fw-bold">
+                              <button type="button" class="btn btn-success w-100 cls-card">
                                 nombre Affaires <br> <span class="fw-bold">{{items.nbrAffaires || 0}}</span>
                               </button>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                              <button type="button" class="btn btn-primary fw-bold">
+                              <button type="button" class="btn btn-success w-100 cls-card">
                                 Total Smp/Lci <br> <span class="fw-bold">{{items.mtTotalSmpLci || 0}}</span>
                               </button>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                              <button type="button" class="btn btn-primary fw-bold">
+                              <button type="button" class="btn btn-success w-100 cls-card">
                                 Capital Initial <br><span class="fw-bold">{{items.mtTotalCapitalInitial || 0}}</span>
                               </button>
                             </div>
                             <div class="col-md-3 col-sm-12">
-                              <button type="button" class="btn btn-primary fw-bold">
+                              <button type="button" class="btn btn-success w-100 cls-card">
                                 Total Smp/Lci Accepté <br><span class="fw-bold">{{items.mtTotalSmpLciAccpte || 0}}</span>
                               </button>
                             </div>
@@ -380,7 +404,7 @@
 
                 <div class="col-md-4 col-xs-4">
                     <div class="bg-card w-100 shadow">
-                        <div [chart]="segments3"></div>
+                        <div [chart]="segments4"></div>
                     </div>
                 </div>
               </div>
@@ -427,7 +451,7 @@
 
             <div class="col-md-4 col-xs-4">
                 <div class="bg-card w-100 shadow">
-                    <div [chart]="segments4"></div>
+                    <div [chart]="segments3"></div>
                 </div>
             </div>
           </div>

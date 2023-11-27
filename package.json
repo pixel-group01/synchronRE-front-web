@@ -58,6 +58,8 @@
     "highcharts": "10.1.0",
     "highcharts-angular": "3.0.0",
     "jquery": "3.6.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.7.1",
     "lodash": "4.17.21",
     "mask": "0.2.2",
     "moment": "2.29.1",
