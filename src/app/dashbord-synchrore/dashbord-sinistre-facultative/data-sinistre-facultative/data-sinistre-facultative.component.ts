@@ -30,15 +30,15 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
   couvertures :any =[];
   devises :any = [];
 
-    itemsExercices: any = []
-    itemsCedId: any = []
-    itemscesIds: any = []
-    itemsCouId: any = []
-    itemsEtatName: any = []
-    itemsAffId: any = []
-    itemsDevCode: any = []
-    itemsEffet: any = []
-    itemsEcheance: any = []
+    itemsExercices: any = [];
+    itemsCedId: any = [];
+    itemscesIds: any = [];
+    itemsCouId: any = [];
+    itemsEtatName: any = [];
+    itemsAffId: any = [];
+    itemsDevCode: any = [];
+    itemsEffet: any ;
+    itemsEcheance: any
 
   etat : any= [{libelle : "REALISEE"},{libelle :"INSTANCE" },{libelle : "NON_REALISEE"}]
   constructor(private statiqueAffaireFacultatif : AffaireService) { }
