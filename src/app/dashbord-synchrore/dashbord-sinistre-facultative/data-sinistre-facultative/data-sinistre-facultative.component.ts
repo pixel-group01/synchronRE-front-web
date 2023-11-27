@@ -297,7 +297,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
     
             // Dessiner les bordures autour de chaque cellule (sauf la première ligne)
             if (cell.section === 'body' && cell.row && cell.row.index !== undefined && cell.row.index > 0) {
-                pdf.setLineWidth(0.1);
+                pdf.setLineWidth(0.5);
                 pdf.setDrawColor(0);
                 pdf.rect(cell.x, cell.y, cell.width, cell.height);
             }
