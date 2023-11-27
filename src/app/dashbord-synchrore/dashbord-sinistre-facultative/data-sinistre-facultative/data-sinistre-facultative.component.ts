@@ -285,26 +285,17 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
     pdf.text(texte, positionX, positionY);
 
     // pdf.text('STATISTIQUE DES AFFAIRES PAR CEDANTE',30,30);
-
+    const styles = { lineWidth: 0.5, lineColor: [0, 0, 0] }; 
     (pdf as any).autoTable({
         head: header,
         body : tableData,
         theme : 'plain',
-        startY: 40,
-        didDrawCell: (data: { column: { index: any; }; cell: { section: string; row?: { index: number; }; x: number; y: number; width: number; height: number; }; }) => {
-            const cell = data.cell;
-            const colIndex = data.column.index;
-    
-            // Dessiner les bordures autour de chaque cellule (sauf la première ligne)
-            if (cell.section === 'body' && cell.row && cell.row.index !== undefined && cell.row.index > 0) {
-                pdf.setLineWidth(0.5);
-                pdf.setDrawColor(0);
-                pdf.rect(cell.x, cell.y, cell.width, cell.height);
-            }
-        }
+        startY: 40,// Ajoutez la marge supérieure ici
+        styles: styles,// Ajustez la valeur pour changer l'épaisseur de la bordure
+        
     })
     pdf.output('dataurlnewwindow'),
-    pdf.save('table.pdf')
+    pdf.save('affaire-par-cedantes.pdf')
   }
 
   calculerSomme(tableau) {
@@ -333,17 +324,16 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
         xAxis: {
             categories: this.detailsAffaireParCedantes.map((res:any)=> {
                 res.libel =  res.libelle;
-
                 if (res.libelle == "NSIA Assurances Guinée Bissau") {
                     res.libel =  "NSIA GB"
                 }
               return res.libel
-            }),
-            title: {
-                text: null
-            },
-            gridLineWidth: 1,
-            lineWidth: 0.5
+                }),
+                title: {
+                    text: null
+                },
+                gridLineWidth: 1,
+                lineWidth: 0.5
         },
         yAxis: {
             min: 0,
@@ -361,10 +351,11 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
         },
         plotOptions: {
             bar: {
-                borderRadius: '5px',
+                pointWidth: 18,
+                borderRadius: '0px',
                 // pointPadding: 0.1,
                 // borderWidth: 5,
-                width: 30 ,
+                width: 30,
                 dataLabels: {
                     enabled: true
                 },
@@ -381,18 +372,23 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
             borderWidth: 1,
             backgroundColor:
                 Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-            shadow: true
+            shadow: true,
+            enabled:false,
         },
         credits: {
             enabled: false
         },
         series: [{
             name: `Nombre d'affaires : ${this.calculerSomme(this.detailsAffaireParCedantes.map((res:any)=> res.nbrAffaires))}`,
-            data: this.detailsAffaireParCedantes.map((res:any)=> res.nbrAffaires)
+            data: [1058625000,15]
+            // data: this.detailsAffaireParCedantes.map((res:any)=> res.nbrAffaires)
         }, {
             name: `SMP/LCI : ${this.calculerSomme(this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci))}`,
-            data: this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci)
-        }]
+            // data: this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci)
+            data: [6,1457852222]
+        },
+        
+    ]
     }
     setTimeout(() => {
       this.segments = new Chart(options);
@@ -625,6 +621,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
             verticalAlign: 'top',
             x: 2,
             y: 40,
+            enabled:false,
             floating: true,
             borderWidth: 1,
             backgroundColor:

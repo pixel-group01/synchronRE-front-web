@@ -8,3 +8,10 @@
     color: #ffffff !important;
     border-color: #d3d9d9 !important;
 }
+
+.graph-card-body {
+    padding: 1rem;
+    width: 100%;
+    height: inherit;
+    overflow: auto;
+}
