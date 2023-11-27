@@ -162,23 +162,23 @@
                               <input class="form-control custom-input pull-left"  placeholder="Rechercher ..." />
                             </div>-->
                             <div class="col-md-2 col-sm-12">
-                              <button type="button" class="btn btn-success w-100 cls-card">
-                                Nombre Affaires <br> <span class="fw-bold">{{items.nbrAffaires || 0}}</span>
+                              <button type="button" class="btn btn-success w-100 cls-card" style="font-weight: 500;">
+                                Nombre Affaires <br> <span class="fw-bold">{{items.nbrAffaires || 0 | moneyFormat}}</span>
                               </button>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                              <button type="button" class="btn btn-success w-100 cls-card">
-                                Total Smp/Lci <br> <span class="fw-bold">{{items.mtTotalSmpLci || 0}}</span>
+                              <button type="button" class="btn btn-success w-100 cls-card" style="font-weight: 500;">
+                                Total Smp/Lci <br> <span class="fw-bold">{{items.mtTotalSmpLci || 0 | moneyFormat}}</span>
                               </button>
                             </div>
                             <div class="col-md-2 col-sm-12">
-                              <button type="button" class="btn btn-success w-100 cls-card">
-                                Capital Initial <br><span class="fw-bold">{{items.mtTotalCapitalInitial || 0}}</span>
+                              <button type="button" class="btn btn-success w-100 cls-card" style="font-weight: 500;">
+                                Capital Initial <br><span class="fw-bold">{{items.mtTotalCapitalInitial || 0 | moneyFormat}}</span>
                               </button>
                             </div>
                             <div class="col-md-3 col-sm-12">
-                              <button type="button" class="btn btn-success w-100 cls-card">
-                                Total Smp/Lci Accepté <br><span class="fw-bold">{{items.mtTotalSmpLciAccpte || 0}}</span>
+                              <button type="button" class="btn btn-success w-100 cls-card" style="font-weight: 500;">
+                                Total Smp/Lci Accepté <br><span class="fw-bold">{{items.mtTotalSmpLciAccpte || 0 | moneyFormat}}</span>
                               </button>
                             </div>
                             <div class="col-md-3 col-sm-12 d-flex justify-content-center h-100 p-0">
@@ -212,8 +212,8 @@
                       <tr *ngFor="let destailCedante of detailsAffaireParCedantes ; let indice = index">
                             <td>{{indice + 1 }}</td>
                             <td>{{destailCedante.libelle}}</td>
-                            <td>{{destailCedante.nbrAffaires}}</td>
-                            <td>{{destailCedante.mtSmpLci}}</td>
+                            <td>{{destailCedante.nbrAffaires | moneyFormat}}</td>
+                            <td>{{destailCedante.mtSmpLci | moneyFormat}}</td>
                             <td class="custom-width-td-action">
                               <div class="custom-td-action">
                                 <div ngbDropdown class="d-inline-block">
@@ -238,9 +238,11 @@
                 </div>
 
                 <div class="col-md-4 col-xs-4">
-                    <div class="bg-card w-100 shadow">
-                        <div [chart]="segments"></div>
-                    </div>
+                  <ng-container>
+                    <div class="bg-card w-100 shadow graph-card-body">
+                      <div [chart]="segments"></div>
+                  </div>
+                  </ng-container>
                 </div>
               </div>
         
@@ -376,8 +378,8 @@
                       <tr *ngFor="let detailCession of detailsAffaireParCessionnaires; let indice = index">
                             <td>{{indice + 1}}</td>
                             <td>{{detailCession.libelle}}</td>
-                            <td>{{detailCession.nbrAffaires}}</td>
-                            <td>{{detailCession.mtSmpLciAccepte}}</td>
+                            <td>{{detailCession.nbrAffaires | moneyFormat}}</td>
+                            <td>{{detailCession.mtSmpLciAccepte | moneyFormat}}</td>
                             <td class="custom-width-td-action">
                               <div class="custom-td-action">
                                 <div ngbDropdown class="d-inline-block">
