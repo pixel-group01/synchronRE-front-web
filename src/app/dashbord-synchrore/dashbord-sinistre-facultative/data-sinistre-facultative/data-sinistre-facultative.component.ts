@@ -258,15 +258,39 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
     
     var pdf = new jspdf;
     pdf.setFontSize(12);
-    const imageUrl = 'https://example.com/image.jpg';
+    const imageUrl = 'assets/images/nelson-Re.jpeg';
     
-    pdf.addImage(imageUrl, 'JPEG', 10, 10, 100, 80);
-    pdf.text('STATISTIQUE DES AFFAIRES PAR CEDANTE',30,8);
+    pdf.addImage(imageUrl, 'JPEG', 10, 10, 30, 10);
+    
+    // Texte à centrer
+    const texte = 'STATISTIQUE DES AFFAIRES PAR CEDANTE';
+
+    // Taille de la police (facultatif)
+    const taillePolice = 12;
+    pdf.setFontSize(taillePolice);
+
+    // Largeur de la page
+    const largeurPage = pdf.internal.pageSize.width;
+
+    // Largeur du texte
+    const largeurTexte = pdf.getStringUnitWidth(texte) * taillePolice / pdf.internal.scaleFactor;
+
+    // Calcul de la position x pour centrer le texte
+    const positionX = (largeurPage - largeurTexte) / 2;
+
+    // Position y (vous pouvez ajuster cette valeur selon votre mise en page)
+    const positionY = 30;
+
+    // Ajout du texte centré
+    pdf.text(texte, positionX, positionY);
+
+    // pdf.text('STATISTIQUE DES AFFAIRES PAR CEDANTE',30,30);
 
     (pdf as any).autoTable({
         head: header,
         body : tableData,
         theme : 'plain',
+        startY: 40,
         didDrowCell: (data : {column:{index:any;};})=>{
             console.log(console.log(data.column.index))
         }
