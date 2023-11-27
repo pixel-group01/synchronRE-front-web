@@ -291,8 +291,16 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
         body : tableData,
         theme : 'plain',
         startY: 40,
-        didDrowCell: (data : {column:{index:any;};})=>{
-            console.log(console.log(data.column.index))
+        didDrawCell: (data: { column: { index: any; }; cell: { section: string; row?: { index: number; }; x: number; y: number; width: number; height: number; }; }) => {
+            const cell = data.cell;
+            const colIndex = data.column.index;
+    
+            // Dessiner les bordures autour de chaque cellule (sauf la première ligne)
+            if (cell.section === 'body' && cell.row && cell.row.index !== undefined && cell.row.index > 0) {
+                pdf.setLineWidth(0.1);
+                pdf.setDrawColor(0);
+                pdf.rect(cell.x, cell.y, cell.width, cell.height);
+            }
         }
     })
     pdf.output('dataurlnewwindow'),
