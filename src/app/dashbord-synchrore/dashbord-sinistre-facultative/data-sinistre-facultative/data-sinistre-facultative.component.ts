@@ -380,12 +380,12 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
         },
         series: [{
             name: `Nombre d'affaires : ${this.calculerSomme(this.detailsAffaireParCedantes.map((res:any)=> res.nbrAffaires))}`,
-            data: [1058625000,15]
-            // data: this.detailsAffaireParCedantes.map((res:any)=> res.nbrAffaires)
+            // data: [1058625000,15]
+            data: this.detailsAffaireParCedantes.map((res:any)=> res.nbrAffaires)
         }, {
             name: `SMP/LCI : ${this.calculerSomme(this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci))}`,
-            // data: this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci)
-            data: [6,1457852222]
+            data: this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci)
+            // data: [6,1457852222]
         },
         
     ]
