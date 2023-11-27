@@ -352,7 +352,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
         plotOptions: {
             bar: {
                 pointWidth: 18,
-                borderRadius: '0px',
+                borderRadius: '2px',
                 // pointPadding: 0.1,
                 // borderWidth: 5,
                 width: 30,
@@ -607,7 +607,8 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
         },
         plotOptions: {
             bar: {
-                borderRadius: '5px',
+                pointWidth: 18,
+                borderRadius: '2px',
                 width: 30 ,
                 dataLabels: {
                     enabled: true
