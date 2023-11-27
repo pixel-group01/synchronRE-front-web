@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { DashbordSynchroreRoutingModule } from './dashbord-synchrore-routing.module';
 import { DashbordSynchroreComponent } from './dashbord-synchrore.component';
@@ -28,6 +28,6 @@ import { ChartModule } from 'angular-highcharts';
     ChartModule,
     SharedModule,
     DashbordSynchroreRoutingModule
-  ]
+  ],
 })
 export class DashbordSynchroreModule { }

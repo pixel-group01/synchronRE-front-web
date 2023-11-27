@@ -7,6 +7,7 @@ import { Workbook } from 'exceljs';
 import * as moment from 'moment';
 import jspdf from 'jspdf'
 import 'jspdf-autotable'
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-data-sinistre-facultative',
@@ -39,7 +40,6 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
     itemsDevCode: any = [];
     itemsEffet: string ;
     itemsEcheance: string;
-
   etat : any= [{libelle : "REALISEE"},{libelle :"INSTANCE" },{libelle : "NON_REALISEE"}]
   constructor(private statiqueAffaireFacultatif : AffaireService) { }
 
@@ -254,20 +254,33 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
     })
 
     tableData.unshift(["",this.items.nbrAffaires,this.items.mtTotalCapitalInitial || 0 , this.items.mtTotalSmpLci || 0])
-    console.log('tableData :',tableData);
+    // console.log('tableData :',tableData);
     
     var pdf = new jspdf;
     pdf.setFontSize(12);
     const imageUrl = 'assets/images/nelson-Re.jpeg';
-    
+
+     // Obtention de la date d'aujourd'hui
+     const aujourdHui = new Date();
+
+    // Utilisation du service DatePipe pour formater la date
+    const optionsDate = 'dd/MM/yyyy'; // ajustez le format selon vos besoins
+    const texteDate = 'Date : '+ moment(aujourdHui).format("DD/MM/YYYY"); 
+
     pdf.addImage(imageUrl, 'JPEG', 10, 10, 30, 10);
-    
+    // Texte à aligner avec l'image
+
     // Texte à centrer
     const texte = 'STATISTIQUE DES AFFAIRES PAR CEDANTE';
+    const texte2 = this.itemsExercices.length >0 ? `Exercice(s) : ${this.itemsExercices.join(', ')}` : "";
+
+    // Couleur de fond pour le texte1 (par exemple, couleur jaune)
+    const couleurFondTexte1 = [255, 255, 0];
 
     // Taille de la police (facultatif)
     const taillePolice = 12;
     pdf.setFontSize(taillePolice);
+   
 
     // Largeur de la page
     const largeurPage = pdf.internal.pageSize.width;
@@ -275,23 +288,55 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
     // Largeur du texte
     const largeurTexte = pdf.getStringUnitWidth(texte) * taillePolice / pdf.internal.scaleFactor;
 
+    // Largeur du texte2
+    const largeurTexte2 = pdf.getStringUnitWidth(texte2) * taillePolice / pdf.internal.scaleFactor;
+
+    // Largeur du texte
+    const largeurTexteDate = pdf.getStringUnitWidth(texteDate) * taillePolice / pdf.internal.scaleFactor;
+
     // Calcul de la position x pour centrer le texte
     const positionX = (largeurPage - largeurTexte) / 2;
+    const positionX2 = 14;
 
     // Position y (vous pouvez ajuster cette valeur selon votre mise en page)
     const positionY = 30;
 
+    const positionY2 = positionY + 10; // Augmentez la valeur pour décaler le texte vers le bas
+
+    // Position x pour centrer le texte avec l'image
+    const positionXDate = 167; // Ajustez la valeur en fonction de la position de votre image
+
+    // Position y (vous pouvez ajuster cette valeur selon votre mise en page)
+    const positionYDate = 18; // Ajustez la valeur en fonction de la position de votre image
+
+
     // Ajout du texte centré
     pdf.text(texte, positionX, positionY);
+    const taillePoliceTexte2 = 10;
+    // const policeBold = 'Helvetica-Bold';
+    // pdf.setFont(policeBold);
+    pdf.setFontSize(taillePoliceTexte2);
+    pdf.text(texte2, positionX2, positionY2);  // Ajout du nouveau texte à la ligne suivante
+    // Ajout du texte aligné avec l'image
+    pdf.text(texteDate, positionXDate, positionYDate);
 
     // pdf.text('STATISTIQUE DES AFFAIRES PAR CEDANTE',30,30);
-    const styles = { lineWidth: 0.5, lineColor: [0, 0, 0] }; 
+    const styles = { lineWidth: 0.1, lineColor: [0, 0, 0] }; 
+
+    // Configuration spécifique à l'en-tête
+    const headerStyles = {
+        fillColor: [0, 0, 128], // Couleur bleu en RVB
+        textColor: [255, 255, 255], // Couleur de texte blanc en RVB
+    };
+
+
     (pdf as any).autoTable({
         head: header,
         body : tableData,
         theme : 'plain',
-        startY: 40,// Ajoutez la marge supérieure ici
+        startY: 50,// Ajoutez la marge supérieure ici
         styles: styles,// Ajustez la valeur pour changer l'épaisseur de la bordure
+        headStyles: headerStyles, // Utilisation de headStyles pour spécifier les styles de l'en-tête
         
     })
     pdf.output('dataurlnewwindow'),
@@ -397,6 +442,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
 
   testGraph1(){
     const options: any = {
+        
       chart: {
           type: 'column'
       },
