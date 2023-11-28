@@ -107,6 +107,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
         }
       })
   }
+
   getAffCouverture(){
     this.statiqueAffaireFacultatif.affaireStatistiquesCouvertures().subscribe((res:any)=>{
         if (res) {
@@ -114,6 +115,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
         }
       })
   }
+
   getAffDevises(){
     this.statiqueAffaireFacultatif.affaireStatistiquesDevises().subscribe((res:any)=>{
         if (res) {
@@ -438,7 +440,11 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
 
     const options:any = {
         chart: {
-            zoomType: 'xy'
+            zoomType: 'xy',
+            type: 'bar',
+            height: 1200,
+            // width: 500,
+           
         },
         title: {
             text: 'Affaires facultatives',
@@ -455,7 +461,13 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
                     res.libel = "NSIA GB"
                 }
                 return res.libel
-            })
+            }),
+        // categories: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Septembre Septembre Septembre Septembre','OctobreOctobre','DecembreDecembre',
+        // 'Janvier','Février','Mars','Avril','Mai','Juin','Juillet','SeptembreSeptembre','OctobreOctobre','DecembreDecembre'],
+        gridLineWidth: 1, // Épaisseur de la grille
+        gridLineColor: '#e0e0e0', // Couleur de la grille (en RVB ou nom de couleur)
+        crosshair: true,
+
         }],
         yAxis: [{ // Primary yAxis
             labels: {
@@ -469,6 +481,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
                     color: Highcharts.getOptions().colors[0]
                 }
             }
+            
         }, { // Secondary yAxis
             title: {
                 text: 'Affaires',
@@ -482,30 +495,35 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
                 }
             },
             
-            opposite: true
+            opposite: false,
+           
         }],
         tooltip: {
             shared: true
         },
         legend: {
-            align: 'center',
-            x: 0,
+            align: 'left',
+            x: 250,
             verticalAlign: 'top',
-            y: 30,
+            y:-4,
             floating: true,
             backgroundColor:
                 Highcharts.defaultOptions.legend.backgroundColor || // theme
-                'rgba(255,255,150)'
+                'rgba(255,255,150)',
+                
         },
         series: [{
             name: 'Smp/Lci',
             type: 'column',
             yAxis: 0,
-            // data:this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci),
-            data:[1500005,10245220],
+            data:this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci),
+            // data:[150000005,10245220,102312420,10220000,10212520,109568420,10277220,102420,100041236,10245000,
+            //     150000005,10245220,102312420,10220000,10212520,109568420,10277220,102420,10004510036,10245000],
             tooltip: {
                 valueSuffix: ''
             },
+            
+            pointWidth: 20,
             dataLabels: {
                 enabled: true,
                 format: '{point.y:,.0f}', // Ajoute un séparateur de milliers aux valeurs sur les barres
@@ -514,23 +532,24 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
                     textOutline: false // Désactive la bordure du texte pour éviter les problèmes d'alignement
 
             },
-            rotation: -90, // Rotation à -90 degrés (verticale)
-            align: 'left', // Alignement à gauche de la barre
+            rotation: 0, // Rotation à -90 degrés (verticale)
+            align: 'center', // Alignement à gauche de la barre
             verticalAlign: 'middle', // Alignement au milieu de la barre
-            inside: false // Afficher à l'extérieur de la barre
+            inside: true // Afficher à l'extérieur de la barre
             },
             
-    
         }, 
         
         {
             name: 'Affaires',
-            type: 'spline',
+            type: 'column',
             yAxis: 1,
             data: this.detailsAffaireParCedantes.map((res:any)=> res.nbrAffaires),
+            // data: [7,8,10,35,10,1,3,12,5,89,7,8,10,35,10,1,3,12,5,89],
             tooltip: {
                 valueSuffix: ''
-            }
+            },
+            
         }]
     }
     setTimeout(() => {
@@ -787,8 +806,9 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
 
     const options:any = {
         chart: {
-            zoomType: 'xy'
-        },
+            zoomType: 'xy',
+            type: 'bar',
+            height: 1200,        },
         title: {
             text: 'Affaires facultatives',
             align: 'left'
@@ -804,7 +824,10 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
                     res.libel = "SCA INTER"
                 }
                 return res.libel
-            })
+            }),
+            gridLineWidth: 1, // Épaisseur de la grille
+            gridLineColor: '#e0e0e0', // Couleur de la grille (en RVB ou nom de couleur)
+            crosshair: true,
         }],
         yAxis: [{ // Primary yAxis
             labels: {
@@ -830,16 +853,16 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
                     color: Highcharts.getOptions().colors[1]
                 }
             },
-            opposite: true
+            opposite: false
         }],
         tooltip: {
             shared: true
         },
         legend: {
-            align: 'center',
-            x: 0,
+            align: 'left',
+            x: 250,
             verticalAlign: 'top',
-            y: 30,
+            y: -4,
             floating: true,
             backgroundColor:
                 Highcharts.defaultOptions.legend.backgroundColor || // theme
@@ -861,15 +884,17 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
                     textOutline: false // Désactive la bordure du texte pour éviter les problèmes d'alignement
 
             },
-            rotation: -90, // Rotation à -90 degrés (verticale)
-            align: 'left', // Alignement à gauche de la barre
+
+            pointWidth: 20,
+            rotation: 0, // Rotation à -90 degrés (verticale)
+            align: 'center', // Alignement à gauche de la barre
             verticalAlign: 'middle', // Alignement au milieu de la barre
-            inside: false // Afficher à l'extérieur de la barre
+            inside: true // Afficher à l'extérieur de la barre
             },
     
         }, {
             name: 'Affaires',
-            type: 'spline',
+            type: 'column',
             yAxis: 1,
             data: this.detailsAffaireParCessionnaires.map((res:any)=> res.nbrAffaires),
             tooltip: {
