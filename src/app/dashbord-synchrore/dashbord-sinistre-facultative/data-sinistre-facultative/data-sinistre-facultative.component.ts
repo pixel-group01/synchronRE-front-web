@@ -549,7 +549,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
             dataLabels: {
                 enabled: true,
                 format: '{point.y:,.0f}', // Ajoute un séparateur de milliers aux valeurs sur les barres
-                // color: '#FFFFFF',  // Couleur du texte des étiquettes
+                color: '#FFFFFF',  // Couleur du texte des étiquettes
                 style: {
                     textOutline: '1px contrast'  // Contour du texte pour le rendre plus lisible
                 }
@@ -816,7 +816,8 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
         chart: {
             zoomType: 'xy',
             type: 'bar',
-            height: 1200,        },
+            height: 1500,       
+         },
         title: {
             text: 'Affaires facultatives',
             align: 'left'
@@ -905,6 +906,14 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
             type: 'column',
             yAxis: 1,
             data: this.detailsAffaireParCessionnaires.map((res:any)=> res.nbrAffaires),
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:,.0f}', // Ajoute un séparateur de milliers aux valeurs sur les barres
+                color: '#FFFFFF',  // Couleur du texte des étiquettes
+                style: {
+                    textOutline: '1px contrast'  // Contour du texte pour le rendre plus lisible
+                }
+            },
             tooltip: {
                 valueSuffix: ''
             }
