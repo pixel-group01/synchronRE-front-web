@@ -354,86 +354,185 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
 }
 
   testGraph(){
-    const options: any = {
+    // const options: any = {
+    //     chart: {
+    //         type: 'bar'
+    //     },
+    //     title: {
+    //         text: 'Affaires facultatives',
+    //         align: 'center'
+    //     },
+    //     subtitle: {
+    //         text: '',
+    //         align: ''
+    //     },
+    //     xAxis: {
+    //         categories: this.detailsAffaireParCedantes.map((res:any)=> {
+    //             res.libel =  res.libelle;
+    //             if (res.libelle == "NSIA Assurances Guinée Bissau") {
+    //                 res.libel =  "NSIA GB"
+    //             }
+    //           return res.libel
+    //             }),
+    //             title: {
+    //                 text: null
+    //             },
+    //             gridLineWidth: 1,
+    //             lineWidth: 0.5
+    //     },
+    //     yAxis: {
+    //         min: 0,
+    //         title: {
+    //             text: '',
+    //             align: 'high'
+    //         },
+    //         labels: {
+    //             overflow: 'justify'
+    //         },
+    //         gridLineWidth: 0
+    //     },
+    //     tooltip: {
+    //         valueSuffix: ''
+    //     },
+    //     plotOptions: {
+    //         bar: {
+    //             pointWidth: 18,
+    //             borderRadius: '2px',
+    //             // pointPadding: 0.1,
+    //             // borderWidth: 5,
+    //             width: 30,
+    //             dataLabels: {
+    //                 enabled: true
+    //             },
+    //             groupPadding: 0.1
+    //         }
+    //     },
+    //     legend: {
+    //         layout: 'vertical',
+    //         align: 'right',
+    //         verticalAlign: 'top',
+    //         x: 2,
+    //         y: 40,
+    //         floating: true,
+    //         borderWidth: 1,
+    //         backgroundColor:
+    //             Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+    //         shadow: true,
+    //         enabled:false,
+    //     },
+    //     credits: {
+    //         enabled: false
+    //     },
+    //     series: [{
+    //         name: `Nombre d'affaires : ${this.calculerSomme(this.detailsAffaireParCedantes.map((res:any)=> res.nbrAffaires))}`,
+    //         // data: [1058625000,15]
+    //         data: this.detailsAffaireParCedantes.map((res:any)=> res.nbrAffaires)
+    //     }, {
+    //         name: `SMP/LCI : ${this.calculerSomme(this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci))}`,
+    //         data: this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci)
+    //         // data: [6,1457852222]
+    //     },
+        
+    // ]
+    // }
+
+    const options:any = {
         chart: {
-            type: 'bar'
+            zoomType: 'xy'
         },
         title: {
             text: 'Affaires facultatives',
-            align: 'center'
+            align: 'left'
         },
         subtitle: {
             text: '',
             align: ''
         },
-        xAxis: {
-            categories: this.detailsAffaireParCedantes.map((res:any)=> {
-                res.libel =  res.libelle;
+        xAxis: [{
+            categories: this.detailsAffaireParCedantes.map((res: any) => {
+                res.libel = res.libelle;
                 if (res.libelle == "NSIA Assurances Guinée Bissau") {
-                    res.libel =  "NSIA GB"
+                    res.libel = "NSIA GB"
                 }
-              return res.libel
-                }),
-                title: {
-                    text: null
-                },
-                gridLineWidth: 1,
-                lineWidth: 0.5
-        },
-        yAxis: {
-            min: 0,
+                return res.libel
+            })
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
             title: {
-                text: '',
-                align: 'high'
+                text: 'Smp/Lci',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            }
+        }, { // Secondary yAxis
+            title: {
+                text: 'Affaires',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
             },
             labels: {
-                overflow: 'justify'
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
             },
-            gridLineWidth: 0
-        },
+            
+            opposite: true
+        }],
         tooltip: {
-            valueSuffix: ''
-        },
-        plotOptions: {
-            bar: {
-                pointWidth: 18,
-                borderRadius: '2px',
-                // pointPadding: 0.1,
-                // borderWidth: 5,
-                width: 30,
-                dataLabels: {
-                    enabled: true
-                },
-                groupPadding: 0.1
-            }
+            shared: true
         },
         legend: {
-            layout: 'vertical',
-            align: 'right',
+            align: 'center',
+            x: 0,
             verticalAlign: 'top',
-            x: 2,
-            y: 40,
+            y: 30,
             floating: true,
-            borderWidth: 1,
             backgroundColor:
-                Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-            shadow: true,
-            enabled:false,
-        },
-        credits: {
-            enabled: false
+                Highcharts.defaultOptions.legend.backgroundColor || // theme
+                'rgba(255,255,150)'
         },
         series: [{
-            name: `Nombre d'affaires : ${this.calculerSomme(this.detailsAffaireParCedantes.map((res:any)=> res.nbrAffaires))}`,
-            // data: [1058625000,15]
-            data: this.detailsAffaireParCedantes.map((res:any)=> res.nbrAffaires)
-        }, {
-            name: `SMP/LCI : ${this.calculerSomme(this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci))}`,
-            data: this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci)
-            // data: [6,1457852222]
-        },
+            name: 'Smp/Lci',
+            type: 'column',
+            yAxis: 0,
+            data:this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci),
+            tooltip: {
+                valueSuffix: ''
+            },
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:,.0f}', // Ajoute un séparateur de milliers aux valeurs sur les barres
+                style: {
+                    fontWeight: 'bold',
+                    textOutline: false // Désactive la bordure du texte pour éviter les problèmes d'alignement
+
+            },
+            rotation: -90, // Rotation à -90 degrés (verticale)
+            align: 'left', // Alignement à gauche de la barre
+            verticalAlign: 'middle', // Alignement au milieu de la barre
+            inside: false // Afficher à l'extérieur de la barre
+            },
+            
+    
+        }, 
         
-    ]
+        {
+            name: 'Affaires',
+            type: 'spline',
+            yAxis: 1,
+            data: this.detailsAffaireParCedantes.map((res:any)=> res.nbrAffaires),
+            tooltip: {
+                valueSuffix: ''
+            }
+        }]
     }
     setTimeout(() => {
       this.segments = new Chart(options);
@@ -610,80 +709,175 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
   }
 
   testGraph3(){
-    const options: any = {
+    // const options: any = {
+    //     chart: {
+    //         type: 'bar'
+    //     },
+    //     title: {
+    //         text: 'Affaires facultatives',
+    //         align: 'center'
+    //     },
+    //     subtitle: {
+    //         text: '',
+    //         align: ''
+    //     },
+    //     xAxis: {
+    //         categories: this.detailsAffaireParCessionnaires.map((res:any)=> {
+    //             res.libel =  res.libelle;
+
+    //             if (res.libelle == "SCA INTER A RE SOLUTION RE") {
+    //                 res.libel =  "SCA INTER"
+    //             }
+    //           return res.libel
+    //         }),
+    //         title: {
+    //             text: null
+    //         },
+    //         gridLineWidth: 1,
+    //         lineWidth: 0.5
+    //     },
+    //     yAxis: {
+    //         min: 0,
+    //         title: {
+    //             text: '',
+    //             align: 'high'
+    //         },
+    //         labels: {
+    //             overflow: 'justify'
+    //         },
+    //         gridLineWidth: 0
+    //     },
+    //     tooltip: {
+    //         valueSuffix: ''
+    //     },
+    //     plotOptions: {
+    //         bar: {
+    //             pointWidth: 18,
+    //             borderRadius: '2px',
+    //             width: 30 ,
+    //             dataLabels: {
+    //                 enabled: true
+    //             },
+    //             groupPadding: 0.1
+    //         }
+    //     },
+    //     legend: {
+    //         layout: 'vertical',
+    //         align: 'right',
+    //         verticalAlign: 'top',
+    //         x: 2,
+    //         y: 40,
+    //         enabled:false,
+    //         floating: true,
+    //         borderWidth: 1,
+    //         backgroundColor:
+    //             Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+    //         shadow: true
+    //     },
+    //     credits: {
+    //         enabled: false
+    //     },
+    //     series: [{
+    //         name: `Nombre d'affaires : ${this.calculerSomme(this.detailsAffaireParCessionnaires.map((res:any)=> res.nbrAffaires))}`,
+    //         data: this.detailsAffaireParCessionnaires.map((res:any)=> res.nbrAffaires)
+    //     }, {
+    //         name: `SMP/LCI : ${this.calculerSomme(this.detailsAffaireParCessionnaires.map((res:any)=> res.mtSmpLciAccepte))}`,
+    //         data: this.detailsAffaireParCessionnaires.map((res:any)=> res.mtSmpLciAccepte)
+    //     }]
+    // }
+
+    const options:any = {
         chart: {
-            type: 'bar'
+            zoomType: 'xy'
         },
         title: {
             text: 'Affaires facultatives',
-            align: 'center'
+            align: 'left'
         },
         subtitle: {
             text: '',
             align: ''
         },
-        xAxis: {
-            categories: this.detailsAffaireParCessionnaires.map((res:any)=> {
-                res.libel =  res.libelle;
-
+        xAxis: [{
+            categories: this.detailsAffaireParCessionnaires.map((res: any) => {
+                res.libel = res.libelle;
                 if (res.libelle == "SCA INTER A RE SOLUTION RE") {
-                    res.libel =  "SCA INTER"
+                    res.libel = "SCA INTER"
                 }
-              return res.libel
-            }),
-            title: {
-                text: null
+                return res.libel
+            })
+        }],
+        yAxis: [{ // Primary yAxis
+            labels: {
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
             },
-            gridLineWidth: 1,
-            lineWidth: 0.5
-        },
-        yAxis: {
-            min: 0,
             title: {
-                text: '',
-                align: 'high'
+                text: 'SMP/LCI',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            }
+        }, { // Secondary yAxis
+            title: {
+                text: 'Affaires',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
             },
             labels: {
-                overflow: 'justify'
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[1]
+                }
             },
-            gridLineWidth: 0
-        },
+            opposite: true
+        }],
         tooltip: {
-            valueSuffix: ''
-        },
-        plotOptions: {
-            bar: {
-                pointWidth: 18,
-                borderRadius: '2px',
-                width: 30 ,
-                dataLabels: {
-                    enabled: true
-                },
-                groupPadding: 0.1
-            }
+            shared: true
         },
         legend: {
-            layout: 'vertical',
-            align: 'right',
+            align: 'center',
+            x: 0,
             verticalAlign: 'top',
-            x: 2,
-            y: 40,
-            enabled:false,
+            y: 30,
             floating: true,
-            borderWidth: 1,
             backgroundColor:
-                Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
-            shadow: true
-        },
-        credits: {
-            enabled: false
+                Highcharts.defaultOptions.legend.backgroundColor || // theme
+                'rgba(255,255,150)'
         },
         series: [{
-            name: `Nombre d'affaires : ${this.calculerSomme(this.detailsAffaireParCessionnaires.map((res:any)=> res.nbrAffaires))}`,
-            data: this.detailsAffaireParCessionnaires.map((res:any)=> res.nbrAffaires)
+            name: 'Smp/Lci',
+            type: 'column',
+            yAxis: 0,
+            data:this.detailsAffaireParCessionnaires.map((res:any)=> res.mtSmpLciAccepte),
+            tooltip: {
+                valueSuffix: ''
+            },
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:,.0f}', // Ajoute un séparateur de milliers aux valeurs sur les barres
+                style: {
+                    fontWeight: 'bold',
+                    textOutline: false // Désactive la bordure du texte pour éviter les problèmes d'alignement
+
+            },
+            rotation: -90, // Rotation à -90 degrés (verticale)
+            align: 'left', // Alignement à gauche de la barre
+            verticalAlign: 'middle', // Alignement au milieu de la barre
+            inside: false // Afficher à l'extérieur de la barre
+            },
+    
         }, {
-            name: `SMP/LCI : ${this.calculerSomme(this.detailsAffaireParCessionnaires.map((res:any)=> res.mtSmpLciAccepte))}`,
-            data: this.detailsAffaireParCessionnaires.map((res:any)=> res.mtSmpLciAccepte)
+            name: 'Affaires',
+            type: 'spline',
+            yAxis: 1,
+            data: this.detailsAffaireParCessionnaires.map((res:any)=> res.nbrAffaires),
+            tooltip: {
+                valueSuffix: ''
+            }
         }]
     }
     setTimeout(() => {
@@ -858,7 +1052,6 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
       this.segments5 = new Chart(options);
     },);
   }
-
-
+    
 
 }
