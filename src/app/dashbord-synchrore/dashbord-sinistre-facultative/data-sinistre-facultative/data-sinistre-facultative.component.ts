@@ -459,7 +459,6 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
         }],
         yAxis: [{ // Primary yAxis
             labels: {
-                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }
@@ -478,7 +477,6 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
                 }
             },
             labels: {
-                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[1]
                 }
@@ -503,7 +501,8 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
             name: 'Smp/Lci',
             type: 'column',
             yAxis: 0,
-            data:this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci),
+            // data:this.detailsAffaireParCedantes.map((res:any)=> res.mtSmpLci),
+            data:[1500005,10245220],
             tooltip: {
                 valueSuffix: ''
             },
@@ -809,7 +808,6 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
         }],
         yAxis: [{ // Primary yAxis
             labels: {
-                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }
@@ -828,7 +826,6 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
                 }
             },
             labels: {
-                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[1]
                 }
