@@ -546,6 +546,14 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
             yAxis: 1,
             data: this.detailsAffaireParCedantes.map((res:any)=> res.nbrAffaires),
             // data: [7,8,10,35,10,1,3,12,5,89,7,8,10,35,10,1,3,12,5,89],
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:,.0f}', // Ajoute un séparateur de milliers aux valeurs sur les barres
+                // color: '#FFFFFF',  // Couleur du texte des étiquettes
+                style: {
+                    textOutline: '1px contrast'  // Contour du texte pour le rendre plus lisible
+                }
+            },
             tooltip: {
                 valueSuffix: ''
             },
