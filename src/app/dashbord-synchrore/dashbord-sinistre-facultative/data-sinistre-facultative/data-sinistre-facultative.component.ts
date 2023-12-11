@@ -64,7 +64,6 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
 
   getAffaireFacultatifStatistique(exercices?:any,cedIds?:any,cesIds?:any,affIds?:any,statutCreation?:string,couIds?:any,devCodes?:any,dateEffet?:any,dateEcheance?:any){
     const data = {
-        data :{
             "exercices": exercices,
               "cedIds": cedIds,
               "cesIds":  cesIds,
@@ -75,7 +74,6 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
               "devCodes": devCodes,
               "dateEffet": dateEffet,
               "dateEcheance": dateEcheance
-        }
     }
     this.statiqueAffaireFacultatif.getAffaireFacultatifStatistique(data).subscribe((res:any)=>{
         // console.log("res statistique ::", res);
@@ -119,6 +117,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
   getAffDevises(){
     this.statiqueAffaireFacultatif.affaireStatistiquesDevises().subscribe((res:any)=>{
         if (res) {
+
             this.devises = res
         }
       })
@@ -509,8 +508,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
             floating: true,
             backgroundColor:
                 Highcharts.defaultOptions.legend.backgroundColor || // theme
-                'rgba(255,255,150)',
-                
+                'rgba(255,255,150)',   
         },
         series: [{
             name: 'Smp/Lci',
@@ -549,7 +547,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
             dataLabels: {
                 enabled: true,
                 format: '{point.y:,.0f}', // Ajoute un séparateur de milliers aux valeurs sur les barres
-                color: '#FFFFFF',  // Couleur du texte des étiquettes
+                // color: '#FFFFFF',  // Couleur du texte des étiquettes
                 style: {
                     textOutline: '1px contrast'  // Contour du texte pour le rendre plus lisible
                 }
@@ -909,7 +907,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
             dataLabels: {
                 enabled: true,
                 format: '{point.y:,.0f}', // Ajoute un séparateur de milliers aux valeurs sur les barres
-                color: '#FFFFFF',  // Couleur du texte des étiquettes
+                // color: '#FFFFFF',  // Couleur du texte des étiquettes
                 style: {
                     textOutline: '1px contrast'  // Contour du texte pour le rendre plus lisible
                 }

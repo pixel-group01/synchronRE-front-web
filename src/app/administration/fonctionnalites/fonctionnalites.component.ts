@@ -318,7 +318,7 @@ export class FonctionnalitesComponent implements OnInit {
                 "center");
             }
           }
-
+ 
         },
         err => {
           console.log("Error occured", err);

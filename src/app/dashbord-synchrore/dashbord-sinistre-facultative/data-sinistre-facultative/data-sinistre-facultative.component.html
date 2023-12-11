@@ -13,7 +13,7 @@
             [multiple]="true"
             bindValue="exeCode"
             [(ngModel)]="itemsExercices"
-            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
             >
         </ng-select>
         </div>
@@ -29,7 +29,7 @@
             bindLabel="cedNomFiliale"
             bindValue="cedId"
             [(ngModel)]="itemsCedId"
-            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
             >
         </ng-select>
         </div>
@@ -45,7 +45,7 @@
             bindLabel="cesIds"
             bindValue="cesIds"
             [(ngModel)]="itemscesIds"
-            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
 
             >
         </ng-select>
@@ -62,7 +62,7 @@
           bindLabel="couLibelle"
           bindValue="couId"
           [(ngModel)]="itemsCouId"
-          (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
+          (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
           >
       </ng-select>
       </div>
@@ -78,7 +78,7 @@
             bindLabel="libelle"
             bindValue="libelle"
             [(ngModel)]="itemsEtatName"
-            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
             >
         </ng-select>
         </div>
@@ -100,8 +100,8 @@
         <div class="col-1">      
             <label>Devise :</label>
             <ng-select 
-            name="affaireName" 
-            id="affaireId"
+            name="affaireDevise" 
+            id="affaireDevise"
             notFoundText="Aucune donnée"
             placeholder="Ex: N° XX XX"
             [items]="devises"
@@ -109,7 +109,7 @@
             bindLabel="devCode"
             bindValue="devCode"
             [(ngModel)]="itemsDevCode"
-          (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
+          (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
             >
         </ng-select>
         </div>   
@@ -125,7 +125,7 @@
             name="honoraire"
             type="text"
             [(ngModel)]="itemsEffet"
-            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
             />
         </div>
         <div class="col-1">
@@ -140,7 +140,7 @@
             name="honoraire"
             type="text"
             [(ngModel)]="itemsEcheance"
-            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsCouId,itemsEffet,itemsEcheance)"
+            (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
             />
         </div>
       </div>
