@@ -3,8 +3,8 @@
       <div class="row gy-2 p-3">
         <div class="col-1">
             <label>Exercices :</label>
-            <ng-select 
-            name="exerName" 
+            <ng-select
+            name="exerName"
             id="exercId"
             notFoundText="Aucune donnée"
             placeholder="Ex : N° XX XX"
@@ -17,10 +17,10 @@
             >
         </ng-select>
         </div>
-        <div class="col-2">  
+        <div class="col-2">
             <label>cedante :</label>
-            <ng-select 
-            name="affaireName" 
+            <ng-select
+            name="affaireName"
             id="affaireId"
             notFoundText="Aucune donnée"
             placeholder="Ex : N° XX XX"
@@ -35,8 +35,8 @@
         </div>
         <div class="col-2">
             <label>Cessionnaire:</label>
-            <ng-select 
-            name="affaireName" 
+            <ng-select
+            name="affaireName"
             id="affaireId"
             notFoundText="Aucune donnée"
             placeholder="Ex : N° XX XX"
@@ -52,8 +52,8 @@
         </div>
         <div class="col-2">
           <label>Couverture :</label>
-          <ng-select 
-          name="couvName" 
+          <ng-select
+          name="couvName"
           id="couvId"
           notFoundText="Aucune donnée"
           placeholder="Ex : Multirisques professionnelle"
@@ -68,8 +68,8 @@
       </div>
         <div class="col-1">
             <label>Etat :</label>
-            <ng-select 
-            name="etatName" 
+            <ng-select
+            name="etatName"
             id="etatId"
             [multiple]="true"
             notFoundText="Aucune donnée"
@@ -84,8 +84,8 @@
         </div>
         <div class="col-1">
             <label>Statut :</label>
-            <ng-select 
-            name="affaireName" 
+            <ng-select
+            name="affaireName"
             id="affaireId"
             notFoundText="Aucune donnée"
             placeholder="Ex: Affaire N° XX XX"
@@ -95,9 +95,9 @@
             [(ngModel)]="itemsAffId"
             >
         </ng-select>
-        </div> 
-  
-        <div class="col-1">      
+        </div>
+
+        <div class="col-1">
             <label>Devise :</label>
             <ng-select 
             name="affaireDevise" 
@@ -112,7 +112,7 @@
           (change)="getAffaireFacultatifStatistique(itemsExercices,itemsCedId,itemscesIds,[],itemsEtatName,itemsDevCode,itemsEffet,itemsEcheance)"
             >
         </ng-select>
-        </div>   
+        </div>
         <div class="col-1">
             <label>Effet :</label>
             <input
@@ -148,9 +148,9 @@
 
   <fieldset class="mb-4">
     <legend >Par cédantes </legend>
-    
+
     <fieldset class="mt-4">
-        <legend >Affaires facultatives </legend>   
+        <legend >Affaires facultatives </legend>
             <div class="row">
                 <div class="col-md-8 col-xs-8 scrolleur">
                   <table class="table table-condensed table-striped table-hover">
@@ -173,7 +173,7 @@
                             </div>
                             <div class="col-md-2 col-sm-12">
                               <button type="button" class="btn btn-success w-100 cls-card" style="font-weight: 500;">
-                                Capital Initial <br><span class="fw-bold">{{items.mtTotalCapitalInitial || 0 | moneyFormat}}</span>
+                                Capitaux à 100% <br><span class="fw-bold">{{items.mtTotalCapitalInitial || 0 | moneyFormat}}</span>
                               </button>
                             </div>
                             <div class="col-md-3 col-sm-12">
@@ -192,7 +192,7 @@
 
 
                             </div>
-                            
+
                           </div>
                         </th>
                       </tr>
@@ -207,13 +207,13 @@
                         <!--width="428px"-->
                         <th width="120px" class="txt-align-center">Actions</th>
                       </tr>
-                    </thead> 
+                    </thead>
                     <tbody>
                       <tr *ngFor="let destailCedante of detailsAffaireParCedantes ; let indice = index">
                             <td>{{indice + 1 }}</td>
                             <td>{{destailCedante.libelle}}</td>
-                            <td>{{destailCedante.nbrAffaires | moneyFormat}}</td>
-                            <td>{{destailCedante.mtSmpLci | moneyFormat}}</td>
+                            <td>{{destailCedante.nbrAffaires | moneyFormat}} ({{destailCedante.tauxAffaires}} %)</td>
+                            <td>{{destailCedante.mtSmpLci | moneyFormat}} ({{destailCedante.tauxSmpLci}} %)</td>
                             <td class="custom-width-td-action">
                               <div class="custom-td-action">
                                 <div ngbDropdown class="d-inline-block">
@@ -226,13 +226,13 @@
                                       </button>
                                     </div>
                                 </div>
-                              </div> 
+                              </div>
                             </td>
                       </tr>
                     </tbody>
-          
+
                     <tfoot>
-             
+
                     </tfoot>
                   </table>
                 </div>
@@ -241,14 +241,14 @@
                     <div class="bg-card w-100 shadow">
                       <div [chart]="segments"></div>
                   </div>
-                
+
                 </div>
               </div>
-        
+
     </fieldset>
 
     <fieldset class="mt-4">
-        <legend >Commissions </legend>    
+        <legend >Commissions </legend>
         <div class="row">
             <div class="col-md-8 col-xs-8">
               <table class="table table-condensed table-striped table-hover">
@@ -269,20 +269,20 @@
                     </th>
                     <th>Cédante</th>
                     <th>Encaissé par le courtier </th>
-      
+
                     <th>Reste à payer au courtier</th>
                     <th>Encaissé par la cédante</th>
                     <th>Reste encaissé par la cédante</th>
                     <!--width="428px"-->
                     <th width="120px" class="txt-align-center">Actions</th>
                   </tr>
-                </thead> 
+                </thead>
                 <tbody>
                   <tr></tr>
                 </tbody>
-      
+
                 <tfoot>
-         
+
                 </tfoot>
               </table>
             </div>
@@ -295,7 +295,7 @@
           </div>
     </fieldset>
     <fieldset class="mt-4">
-        <legend >Primes </legend>    
+        <legend >Primes </legend>
         <div class="row">
             <div class="col-md-8 col-xs-8">
               <table class="table table-condensed table-striped table-hover">
@@ -316,19 +316,19 @@
                     </th>
                     <th>Cédante</th>
                     <th>Primes</th>
-      
+
                     <th>Encaissées</th>
                     <th>Reste à encaisser</th>
                     <!--width="428px"-->
                     <th width="120px" class="txt-align-center">Actions</th>
                   </tr>
-                </thead> 
+                </thead>
                 <tbody>
                   <tr></tr>
                 </tbody>
-      
+
                 <tfoot>
-         
+
                 </tfoot>
               </table>
             </div>
@@ -346,7 +346,7 @@
 <fieldset class="mb-4">
     <legend >Par cessionnaires </legend>
     <fieldset class="mt-4">
-        <legend >Affaires facultatives </legend>   
+        <legend >Affaires facultatives </legend>
             <div class="row">
                 <div class="col-md-8 col-xs-8 scrolleur">
                   <table class="table table-condensed table-striped table-hover">
@@ -367,18 +367,18 @@
                         </th>
                         <th>cessionnaires</th>
                         <th>Nombre affaires </th>
-          
+
                         <th>SMP/LCI</th>
                         <!--width="428px"-->
                         <th width="120px" class="txt-align-center">Actions</th>
                       </tr>
-                    </thead> 
+                    </thead>
                     <tbody>
                       <tr *ngFor="let detailCession of detailsAffaireParCessionnaires; let indice = index">
                             <td>{{indice + 1}}</td>
                             <td>{{detailCession.libelle}}</td>
                             <td>{{detailCession.nbrAffaires | moneyFormat}}</td>
-                            <td>{{detailCession.mtSmpLciAccepte | moneyFormat}}</td>
+                            <td>{{detailCession.mtSmpLciAccepte | moneyFormat}} ({{detailCession.tauxSmpLciAccepte}} %)</td>
                             <td class="custom-width-td-action">
                               <div class="custom-td-action">
                                 <div ngbDropdown class="d-inline-block">
@@ -391,14 +391,14 @@
                                       </button>
                                     </div>
                                 </div>
-                              </div> 
+                              </div>
                             </td>
 
                       </tr>
                     </tbody>
-          
+
                     <tfoot>
-             
+
                     </tfoot>
                   </table>
                 </div>
@@ -409,10 +409,10 @@
                     </div>
                 </div>
               </div>
-        
+
     </fieldset>
     <fieldset class="mt-4">
-        <legend >Commissions </legend>    
+        <legend >Commissions </legend>
         <div class="row">
             <div class="col-md-8 col-xs-8">
               <table class="table table-condensed table-striped table-hover">
@@ -433,19 +433,19 @@
                     </th>
                     <th>cessionnaires/th>
                     <th>Encaissé par le courtier </th>
-      
+
                     <th>Reste à payer au courtier</th>
-                   
+
                     <!--width="428px"-->
                     <th width="120px" class="txt-align-center">Actions</th>
                   </tr>
-                </thead> 
+                </thead>
                 <tbody>
                   <tr></tr>
                 </tbody>
-      
+
                 <tfoot>
-         
+
                 </tfoot>
               </table>
             </div>
@@ -458,7 +458,7 @@
           </div>
     </fieldset>
     <fieldset class="mt-4">
-        <legend >Primes </legend>    
+        <legend >Primes </legend>
         <div class="row">
             <div class="col-md-8 col-xs-8">
               <table class="table table-condensed table-striped table-hover">
@@ -479,19 +479,19 @@
                     </th>
                     <th>Cédante</th>
                     <th>Primes</th>
-      
+
                     <th>Reversée</th>
                     <th>Reste à reverser</th>
                     <!--width="428px"-->
                     <th width="120px" class="txt-align-center">Actions</th>
                   </tr>
-                </thead> 
+                </thead>
                 <tbody>
                   <tr></tr>
                 </tbody>
-      
+
                 <tfoot>
-         
+
                 </tfoot>
               </table>
             </div>
@@ -504,4 +504,4 @@
           </div>
     </fieldset>
 
-</fieldset>   
+</fieldset>
