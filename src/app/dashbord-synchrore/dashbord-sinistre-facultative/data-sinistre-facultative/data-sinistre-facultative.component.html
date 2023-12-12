@@ -17,11 +17,19 @@
             >
         </ng-select>
         </div>
+<<<<<<< HEAD
         <div class="col-2">
             <label>cedante :</label>
             <ng-select
             name="affaireName"
             id="affaireId"
+=======
+        <div class="col-2">  
+            <label>Cedante :</label>
+            <ng-select 
+            name="affaireCedante" 
+            id="affaireCedante"
+>>>>>>> 4b1619d49cf3030fe0368eeff98e217b8180ac6c
             notFoundText="Aucune donnée"
             placeholder="Ex : N° XX XX"
             [items]="cedantes"
@@ -35,9 +43,15 @@
         </div>
         <div class="col-2">
             <label>Cessionnaire:</label>
+<<<<<<< HEAD
             <ng-select
             name="affaireName"
             id="affaireId"
+=======
+            <ng-select 
+            name="affaireCessionnaire" 
+            id="affaireCessionnaire"
+>>>>>>> 4b1619d49cf3030fe0368eeff98e217b8180ac6c
             notFoundText="Aucune donnée"
             placeholder="Ex : N° XX XX"
             [items]="listes"
@@ -71,7 +85,7 @@
             <ng-select
             name="etatName"
             id="etatId"
-            [multiple]="true"
+            [multiple]="false"
             notFoundText="Aucune donnée"
             placeholder="Ex: Réaliser"
             [items]="etat"
@@ -84,10 +98,11 @@
         </div>
         <div class="col-1">
             <label>Statut :</label>
-            <ng-select
-            name="affaireName"
-            id="affaireId"
+            <ng-select 
+            name="affaireStatut" 
+            id="affaireStatut"
             notFoundText="Aucune donnée"
+            [multiple]="true"
             placeholder="Ex: Affaire N° XX XX"
             [items]="listes"
             bindLabel="affCode"
