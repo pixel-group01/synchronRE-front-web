@@ -35,7 +35,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
     itemsCedId: any = [];
     itemscesIds: any = [];
     itemsCouId: any = [];
-    itemsEtatName: any = [];
+    itemsEtatName: any;
     itemsAffId: any = [];
     itemsDevCode: any = [];
     itemsEffet: string ;
@@ -62,7 +62,7 @@ export class DataSinistreFacultativeComponent implements OnInit,AfterViewInit {
     this.testGraph5();
   }
 
-  getAffaireFacultatifStatistique(exercices?:any,cedIds?:any,cesIds?:any,affIds?:any,statutCreation?:string,couIds?:any,devCodes?:any,dateEffet?:any,dateEcheance?:any){
+  getAffaireFacultatifStatistique(exercices?:any,cedIds?:any,cesIds?:any,affIds?:any,statutCreation?:any,couIds?:any,devCodes?:any,dateEffet?:any,dateEcheance?:any){
     const data = {
             "exercices": exercices,
               "cedIds": cedIds,
