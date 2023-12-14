@@ -56,8 +56,8 @@ export class FormPaiementSinistreComponent implements OnInit {
   ) {
     this.currentUser = this.userService.getCurrentUserInfo();
     console.log("currentUser :",this.currentUser);
-    
-  }  
+
+  }
 
   openPanelNewPaiement(isOpen: boolean) {
     //Recuperé la div details
@@ -166,8 +166,8 @@ export class FormPaiementSinistreComponent implements OnInit {
           }
         }
       });
-  } 
-  
+  }
+
   ngOnInit(): void {
     this.createForm();
     this.etatComptable();
@@ -176,8 +176,8 @@ export class FormPaiementSinistreComponent implements OnInit {
     }
   }
 
-  getCessionnaire() { 
-    this.cessionaireService.getCessionnaireByAffaire(this.itemSinistre.affId).subscribe((response : any) => {      
+  getCessionnaire() {
+    this.cessionaireService.getCessionnaireBySinistre(this.itemSinistre.sinId).subscribe((response : any) => {
       if (response) {
         this.listeCessionnaire = response as Cessionnaire[];
       }
@@ -189,23 +189,23 @@ export class FormPaiementSinistreComponent implements OnInit {
       window.open(environment.apiUrl+'reports/note-de-credit/'+this.currentAffaire.affId+'/'+idCessionnaire, '_blank');
     }
   }
-  
+
 
   getReglementByCessionnaire() {
- 
+
     let cessionnaireId:number = 0;
     if(this.getFormFiledsValue('cesId')) {
       cessionnaireId = this.getFormFiledsValue('cesId').value;
     }
-   
+
     this.sinistreService.getReglementDetailsBySinistreAndCessionnaire(cessionnaireId,this.itemSinistre.sinId).subscribe((response : any) => {
       if (response) {
         this.formulaireGroup.get("regMontant").setValue(response?.mtResteARegler);
       }
     });
   }
-  
-  getOldPaiement() {    
+
+  getOldPaiement() {
     this.busySave = this.sinistreService.getReglementBySinitres(this.etatComp?.sinId) .subscribe((response: any) => {
         if (response) {
           this.listePaiementDejaEffectue = response.content;
