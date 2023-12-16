@@ -16,6 +16,10 @@ export class AffaireService {
     return this.restClient.get('affaires/facultative/all?withMaxSize=true');
   }
 
+  getAffaireSinistre = () => {
+    return this.restClient.get('affaires/facultative/by-sinistre');
+  }
+
   getAffaireFacultatifStatistique = (data:any) => {
     return this.restClient.post('statistiques/affaires',data);
   }

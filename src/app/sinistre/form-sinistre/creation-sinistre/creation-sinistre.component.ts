@@ -21,7 +21,7 @@ export class CreationSinistreComponent implements OnInit {
   @Input() isActiveCreationSinistre :boolean =false;
   maxDate = new Date();
   minDate = new Date();
-  dataSurvenance:any; 
+  dataSurvenance:any;
   dataDeclaration:any;
   affDetail:any;
   sinistre:FormGroup;
@@ -35,15 +35,15 @@ export class CreationSinistreComponent implements OnInit {
     private sinistreService: SinistreService
   ) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.affaireDetail();
     this.getAffaire();
     this.maxDate.setDate(this.maxDate.getDate());
-    this.sinistreForm();  
+    this.sinistreForm();
     if (this.itemCreationSinistre) {
       this.sinistre.patchValue({...this.itemCreationSinistre})
       // console.log("sinistre 111::", this.sinistre.value);
-    }    
+    }
   }
 
   fermer(){
@@ -111,7 +111,7 @@ export class CreationSinistreComponent implements OnInit {
   confirmSaveItem() {
     Swal.fire({
       title: this.itemCreationSinistre?.sinId? "Modification" : "Enregistrement",
-      text:this.itemCreationSinistre?.sinId ? 
+      text:this.itemCreationSinistre?.sinId ?
       "Vous êtes sur le point de modifier un sinistre. Voulez-vous poursuivre cette action ?" :
       "Vous êtes sur le point d'enregistrer un sinistre. Voulez-vous poursuivre cette action ?" ,
       icon: "warning",
@@ -126,7 +126,7 @@ export class CreationSinistreComponent implements OnInit {
         this.save(this.sinistre.value);
       }
     });
-  } 
+  }
 
   getFormFiledsValue = (field: string) => {
     return this.sinistre.get(field);
@@ -162,7 +162,7 @@ export class CreationSinistreComponent implements OnInit {
           this.step2.emit(res)
         }
       })
-      return 
+      return
     }
     this.busySave =  this.sinistreService.create(data).subscribe((res:any)=>{
       if(res && res.sinId){
@@ -193,7 +193,7 @@ export class CreationSinistreComponent implements OnInit {
   affaireDetail(){
     setTimeout(() => {
     this.affDetail = {...this.listeAffaires.find((elt:any)=>  elt.affId == this.sinistre.value.affId)}
-    }, 500);    
+    }, 500);
   }
 
   closeFormModal($event:boolean){
@@ -201,12 +201,12 @@ export class CreationSinistreComponent implements OnInit {
   }
 
   getAffaire() {
-    this.affaireService.getAll().subscribe((res : any) => {
+    this.affaireService.getAffaireSinistre().subscribe((res : any) => {
       if (res) {
         console.log("liste affaire :",res.content);
         this.listeAffaires = res.content || [];
-        
-      } 
+
+      }
     });
   }
 
