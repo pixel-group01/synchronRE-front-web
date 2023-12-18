@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { User } from 'angular-feather/icons';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
@@ -24,7 +25,7 @@ export class FormPaiementSinistreComponent implements OnInit {
   itemInfoCompta: any = {};
   listePaiementDejaEffectue: Reglement[] = [];
   formulaireGroup!: FormGroup;
-  busySave: Subscription;
+  busySave: Subscription; 
   itemToUpdate: Reglement;
   @Input() currentAffaire: BusinessOptional;
   @Input() isPaiement: boolean ;
@@ -45,10 +46,13 @@ export class FormPaiementSinistreComponent implements OnInit {
 
   etatComp :any;
   paiementSinistre: any=[];
+  fileUrl : any;
+
   constructor(
     private reglementService: ReglementService,
     private formBuilder: FormBuilder,
     private userService: UserService,
+    public sanitizer: DomSanitizer,
     private utilities: UtilitiesService,
     private businessOptionalService: BusinessOptionalService,
     private cessionaireService: CessionnaireService,
@@ -163,6 +167,8 @@ export class FormPaiementSinistreComponent implements OnInit {
             this.etatComptable();
             this.getOldPaiement();
             this.openPanelNewPaiement(false);
+            this.getCessionnaire();
+
           }
         }
       });
@@ -188,6 +194,29 @@ export class FormPaiementSinistreComponent implements OnInit {
     if(idCessionnaire) {
       window.open(environment.apiUrl+'reports/note-de-credit/'+this.currentAffaire.affId+'/'+idCessionnaire, '_blank');
     }
+  }
+
+  getCheque(reglementId:number) {
+    if(reglementId) {
+      // window.open(environment.apiUrl+'reports/cheque/'+reglementId, '_blank');
+
+      this.reglementService.getReportCheque(reglementId).subscribe(
+        (response : any) => {
+         
+          let fileUrlDebitNote = "data:application/pdf;base64,"+response?.base64UrlString;
+
+          this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
+          this.openPanelNewPaiement(true)
+        }
+       )
+    }
+  }
+  deleteTheLinePayment(item:any){
+    this.busySave = this.reglementService.deletePayment(item.regId).subscribe((res:any)=>{
+      // this.getOldPaiement()
+      this.etatComptable();
+      
+    })
   }
   
 

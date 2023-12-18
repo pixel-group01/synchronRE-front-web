@@ -31,6 +31,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
   busySave: Subscription;
   @Input() isActiveCreationSinistre: boolean = false;
   @Input() notNeedBtnFooter: boolean = false;
+  @Input() isSinistre: boolean = false;
   itemToSearch: any = {};
   
   infoDocInPreview :any;
@@ -62,9 +63,14 @@ export class CreationDocumentSinistreComponent implements OnInit {
     if (this.itemCreationSinistre || this.idAffaire || this.isPaiement) {
       this.getDocumentdejaJoint();
     }
-  }
+  } 
 
   getTypeDocument() {
+    if (this.isSinistre) {
+      this.documentService.typeDocumentSinistre().subscribe((res: any) => {        
+        this.listeTypeDocument = res;
+      }); 
+    }
     if (this.idAffaire) {
       this.documentService.typeDocumentAffaire().subscribe((res: any) => {
         this.listeTypeDocument = res;
