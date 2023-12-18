@@ -10,7 +10,7 @@ class="sinistre-upload-container"
     <fieldset>
       <legend> Ajouter un document</legend>
       <div class="row p-3" style="align-items: center;">
-        <div class="col-md-6 col-xs-12 mb-3">
+        <div class="col-md-6 col-xs-12 mb-3"> 
           <label>Type Document  <span class="text-danger">*</span></label>
           <ng-select name="typeDocument" id="typeDocument" notFoundText="Aucune donnée" [readonly]="isActiveCreationSinistre"
             placeholder="Type de document" [items]="listeTypeDocument" formControlName="uniqueCode"
@@ -24,7 +24,7 @@ class="sinistre-upload-container"
           <input type="file" id="idFileDoc" class="w-100" name="idFileDoc" (change)="uploadFile($event)"
             multiple="false" [disabled]="isActiveCreationSinistre" #fileInput>
         </div>
-
+ 
         <div class="col-md-6 col-xs-12 mb-3">
           <label>Nom du fichier
           </label>

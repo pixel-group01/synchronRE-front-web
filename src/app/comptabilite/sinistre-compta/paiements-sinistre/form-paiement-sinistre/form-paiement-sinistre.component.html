@@ -121,7 +121,7 @@
                                     <div class="header-table">
                                        <span>{{isPaiement ? 'Liste des paiements effectués' : 'Liste des reversements effectués' }} </span>                    
                                                            <button class="btn btn-xs btn-default btn-add pull-right" type="button"
-                                            (click)="openPanelNewPaiement(true)"> Ajouter </button>
+                                            (click)="openPanelNewPaiement(true,false)"> Ajouter </button>
                                     </div>
                                 </div>
                             </th>
@@ -148,37 +148,53 @@
                             <td *ngIf="isPaiement">{{item?.cesNom}}</td>
                             <td class="txt-align-center">
                                 <div ngbDropdown class="d-inline-block">
-                                    <button type="button" class="btn btn-custom-action-dropdown" id="action" ngbDropdownToggle>
-                                      Actions 
+                                    <button
+                                      type="button"
+                                      class="btn btn-custom-action-dropdown"
+                                      id="action"
+                                      ngbDropdownToggle
+                                    >
+                                      Actions
                                     </button>
-                                      <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
-                                        <button ngbDropdownItem (click)="openModalDetail(templateDetailSinistre,item,true)">
-                                          <i class="fa fa-list"></i>&nbsp;Détails sinistre
-                                        </button>
-                                        <!--*ngIf="isOngletPaiement"-->
-                                        <button 
-                                          ngbDropdownItem  *ngIf="(item.staCode=='APAI' || item.staCode=='CPAI' || item.staCode=='CPAI-CREV') && !noPutAction"
-                                          (click)="openModal(templatePaiement,item,isOngletPaiement=true)" appAppAccess appAccess="CRT-PAI-SIN">
-                                          <i class="fa fa-money-bill"></i>&nbsp;Paiement
-                                        </button>
-                                      <button *ngIf="(item.staCode=='CPAI-CREV'|| item.staCode=='CREV' || item.staCode=='CPAI') && !noPutAction"
-                                          ngbDropdownItem (click)="openModal(templatePaiement,item,isOngletPaiement=false)" appAppAccess appAccess="CRT-REV-SIN">
-                                          <i class="fa fa-redo-alt"></i>&nbsp;Reversement
-                                      </button>
-                                      <button ngbDropdownItem (click)="openModalRetourner(templateRetournerSinistre,item.sinId,'sinistres/retourner-au-validateur')"
-                                      appAppAccess appAccess="RET-SIN-VAL" *ngIf="!noPutAction">
-                                       <i class="fa fa-share" style="rotate: 180deg;"></i>&nbsp;Retourner au validateur
-                                     </button>
-                                      <button appAppAccess appAccess="GET-ETA-COMPT-SIN" ngbDropdownItem (click)="openModalEtatComptable(templateEtatComptable,item.sinId)">
-                                        <i class="fa fa-info-circle"></i>&nbsp;Situation comptable
-                                      </button>
-                                    <button  ngbDropdownItem (click)="openModal(templateHistoriqueTraitement,item)">
-                                    <i class="fa fa-list"></i>&nbsp;Historique
-                                  </button>
-                                       <!--<button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
-                                        <i class="fa fa-redo-alt"></i>&nbsp; Reversement
+                                    <div
+                                      ngbDropdownMenu
+                                      aria-labelledby="action"
+                                      class="dropdown-validation-plainte"
+                                    >
+
+                                      <!-- <button
+                                        type="button"
+                                        ngbDropdownItem
+                                        (click)="getNoteCredit(item?.cesId)" *ngIf="!isPaiement"
+                                      >
+                                        <i class="fa fa-print"></i>&nbsp;Imprimer note de crédit
                                       </button> -->
-                      
+
+                                      <button
+                                      type="button"
+                                      ngbDropdownItem
+                                      (click)="getCheque(item?.regId)" *ngIf="!isPaiement"
+                                    >
+                                      <i class="fa fa-print"></i>&nbsp;Imprimer le chèque
+                                    </button>
+
+                                    <button
+                                    type="button"
+                                    ngbDropdownItem
+                                    (click)="openPanelUploadDoc(true,item)"
+                                  >
+                                  <!-- (click)="openPanelNewPaiement(true,true,item)" -->
+                                    <i class="fa fa-file"></i>&nbsp;Ajout de documents
+                                  </button>
+
+                                  <button
+                                  type="button"
+                                  ngbDropdownItem
+                                  (click)="deleteTheLinePayment(item)"
+                                >
+                                  <i class="fa fa-trash text-danger"></i>&nbsp;Supprimer
+                                 </button>
+
                                     </div>
                                   </div>
                                 <!-- <button type="button" class="btn btn-xs btn-default btn-print"> Editon de chèque</button> -->
@@ -202,16 +218,16 @@
                 <i class="fa fa-times" (click)="openPanelNewPaiement(false)"></i>
             </div>
 
-            <div class="col-12 details-body">
-                <ng-container>
-                    <div class="row">
+            <div class="col-12 details-body"> 
+                <ng-container *ngIf="!isFondDocumentaire && !isFichier">
+                    <div class="row"> 
 
                         <form class="form-paiement" enctype="multipart/form-data" [formGroup]="formulaireGroup"
                             (ngSubmit)="confirmSaveItem()">
 
                             <div class="row" *ngIf="!isPaiement">
                                 <div class="col-12 mb-3">
-                                    <label>Reste à payer
+                                    <label>Reste à payer 
                                     </label>
                                     <input class="form-control custom-input" placeholder="Reste à payer"
                                         autocomplete="off" [readonly]="true" mask="separator"
@@ -322,7 +338,15 @@
 
                 </ng-container>
             </div>
+            <ng-container  *ngIf="isFichier && fileUrl">
+                <div style="height: 600px;">
+                  <iframe [src]="fileUrl" title="description"  style="width: 100%;height: 100%;"></iframe>
+                </div>
+              </ng-container>
         </div>
+
+      
+
 
         <div class="new-paiement-bilan" id="upload-popup">
             <div class="details-header">
@@ -331,7 +355,7 @@
             </div>
             <div class="col-12 details-body-doc"> 
                 <ng-container>
-                    <div class="row">
+                    <div class="row"> 
                         <app-creation-document-sinistre [isSinistre]="true" [notNeedBtnFooter]="true" [itemPaiement]="itemOfPaiement">
                         </app-creation-document-sinistre>
                     </div>

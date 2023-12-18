@@ -34,6 +34,8 @@ export class FormPaiementSinistreComponent implements OnInit {
   listeCessionnaire: Cessionnaire[];
   currentUser: any;
   dateActuelle = new Date();
+  isFichier :boolean = false;
+  isFondDocumentaire : boolean = false
   listeModeReglement: any = [
     {
       libelle: "Chèque",
@@ -63,10 +65,11 @@ export class FormPaiementSinistreComponent implements OnInit {
     
   }  
 
-  openPanelNewPaiement(isOpen: boolean) {
+  openPanelNewPaiement(isOpen: boolean, isFond? :boolean) {
     //Recuperé la div details
     let divDetails = document.getElementById("new-paiement-bilan");
-
+    this.isFondDocumentaire = isFond;
+    this.isFichier = isFond;
     if (divDetails && isOpen) {
       divDetails.classList.add("open-details");
     } else {
@@ -179,7 +182,7 @@ export class FormPaiementSinistreComponent implements OnInit {
     this.etatComptable();
     if(this.isPaiement){
       this.getCessionnaire();
-    }
+    } 
   }
 
   getCessionnaire() { 
@@ -197,16 +200,16 @@ export class FormPaiementSinistreComponent implements OnInit {
   }
 
   getCheque(reglementId:number) {
+    this.isFichier = true
     if(reglementId) {
       // window.open(environment.apiUrl+'reports/cheque/'+reglementId, '_blank');
 
       this.reglementService.getReportCheque(reglementId).subscribe(
-        (response : any) => {
-         
+        (response : any) => {          
           let fileUrlDebitNote = "data:application/pdf;base64,"+response?.base64UrlString;
 
           this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
-          this.openPanelNewPaiement(true)
+          this.openPanelNewPaiement(true,true)
         }
        )
     }

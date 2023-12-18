@@ -18,7 +18,7 @@
 
         <div class="row">
             <div class="col-12 mt-3 mb-3">
-                <fieldset>
+                <fieldset>  
                     <legend>
                         Informations sur le paiement
                     </legend>
@@ -59,7 +59,7 @@
                                         <span>{{isPaiement ? 'Liste des paiements effectués' : 'Liste des reversements
                                             effectués' }} </span>
                                         <button class="btn btn-xs btn-default btn-add pull-right" type="button"
-                                            (click)="openPanelNewPaiement(true,false)"> Ajouter </button>
+                                            (click)="isNoteDebit=false;openPanelNewPaiement(true,false)"> Ajouter </button>
                                     </div>
                                 </div>
                             </th>
@@ -145,17 +145,17 @@
                 </table>
 
             </div>
-        </div>
+        </div> 
 
         <div class="new-paiement-bilan" id="new-paiement-bilan">
             <div class="details-header">
                 <b> {{ isPaiement ? 'Paiement' : 'Reversement' }} {{(currentRowPaiement && currentRowPaiement?.regReference) ? ('réference : '+currentRowPaiement?.regReference) : '' }} </b>
-                <i class="fa fa-times" (click)="openPanelNewPaiement(false)"></i>
+                <i class="fa fa-times" (click)="openPanelNewPaiement(false, false)"></i>
             </div>
 
             <div class="col-12 details-body">
 
-                <ng-container *ngIf="!isFondDocumentaire && !fileUrl">
+                <ng-container *ngIf="!isFondDocumentaire && !isNoteDebit">
                     <div class="row">
 
                         <form class="form-paiement" enctype="multipart/form-data" [formGroup]="formulaireGroup"
@@ -273,8 +273,8 @@
                         </form>
 
                     </div>
-
-                </ng-container>
+ 
+                </ng-container> 
 
                 <ng-container *ngIf="isFondDocumentaire">
                     <div class="">
@@ -282,7 +282,7 @@
                     </div>
                 </ng-container>
 
-                <ng-container  *ngIf="fileUrl">
+                <ng-container  *ngIf="isNoteDebit && fileUrl">
                     <div style="height: 600px;">
                       <iframe [src]="fileUrl" title="description"  style="width: 100%;height: 100%;"></iframe>
                     </div>
