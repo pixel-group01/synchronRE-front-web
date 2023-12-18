@@ -11,9 +11,9 @@ export class ReglementService {
 
   create = (typeReglement:string,body:any,option?:any): Observable<any> => {
     console.log(" body ",body);
-    
+
     return this.restClient.post(typeReglement+'/create',body,option)
-  } 
+  }
 
   getAll = (typeReglement:string) => {
     return this.restClient.get(typeReglement+'/list');
@@ -27,10 +27,14 @@ export class ReglementService {
     return this.restClient.get('reports/cheque/'+affId);
   }
 
+  getReportChequeSinistre = (regId:number) => {
+    return this.restClient.get('reports/cheque-sinistre/'+regId);
+  }
+
   getReportNoteCredit = (affId:number,idCessionnaire:number) => {
     return this.restClient.get('reports/note-de-credit-fac/'+affId+'/'+idCessionnaire);
   }
- 
+
   getByCriteria = (index:number = 0,size:number=10,key?:string,typeReglement?:string) => {
     let endPointFinal = typeReglement+"/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
     return this.restClient.get(endPointFinal);

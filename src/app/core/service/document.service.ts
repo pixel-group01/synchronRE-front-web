@@ -12,7 +12,7 @@ export class DocumentService {
 
   getAllDocOfSinistre = (body:any) => {
     return this.restClient.get('documents/sinistre/'+`${body}`)
-  } 
+  }
 
   fileBase64 = (body:any) =>{
     return this.restClient.get('documents/get-base64-url/'+`${body}`)
@@ -30,7 +30,6 @@ export class DocumentService {
     return this.restClient.get('documents/doc_aff/types');
   }
 
-
   typeDocumentPaiement = () => {
     return this.restClient.get('documents/doc_reg/types');
   }
@@ -47,7 +46,7 @@ export class DocumentService {
   delete = (body:any) => {
     return this.restClient.delete('documents/delete/'+`${body}`);
   }
- 
+
   // getByCriteria = (index:number = 0,size:number=10,key?:string) => {
   //   let endPointFinal = "pays/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
   //   return this.restClient.get(endPointFinal);
@@ -65,6 +64,6 @@ export class DocumentService {
     return this.restClient.post('documents/'+typeEndPoint+'/upload',body)
   }
 
-  
+
 
 }

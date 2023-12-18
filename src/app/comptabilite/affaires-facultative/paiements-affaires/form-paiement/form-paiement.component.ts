@@ -22,6 +22,7 @@ import Swal from "sweetalert2";
 })
 export class FormPaiementComponent implements OnInit {
   itemInfoCompta: any = {};
+  isNoteDebit :boolean = false;
   listePaiementDejaEffectue: Reglement[] = [];
   formulaireGroup!: FormGroup;
   busySave: Subscription;
@@ -67,9 +68,9 @@ export class FormPaiementComponent implements OnInit {
       this.currentRowPaiement = {...currentRowPaiement};
 
       console.log(" this.currentRowPaiement ",this.currentRowPaiement);
-      
+
     }
-  
+
     if (divDetails && isOpen) {
       divDetails.classList.add("open-details");
     } else {
@@ -119,7 +120,7 @@ export class FormPaiementComponent implements OnInit {
       });
   }
 
-  getCessionnaire() { 
+  getCessionnaire() {
     this.cessionaireService.getCessionnaireByAffaire(this.currentAffaire.affId).subscribe((response : any) => {
       if (response) {
         this.listeCessionnaire = response as Cessionnaire[];
@@ -128,12 +129,12 @@ export class FormPaiementComponent implements OnInit {
   }
 
   getReglementByCessionnaire() {
- 
+
     let cessionnaireId:number = 0;
     if(this.getFormFiledsValue('cesId')) {
       cessionnaireId = this.getFormFiledsValue('cesId').value;
     }
-   
+
     this.reglementService.getReglementDetailsByAffaireAndCessionnaire(cessionnaireId,this.currentAffaire.affId).subscribe((response : any) => {
       if (response) {
         this.formulaireGroup.get("regMontant").setValue(response?.resteAReverser);
@@ -209,12 +210,13 @@ export class FormPaiementComponent implements OnInit {
   }
 
   getNoteCredit(idCessionnaire: number){
+    this.isNoteDebit = true;
     if(idCessionnaire) {
       // window.open(environment.apiUrl+'reports/note-de-credit/'+this.currentAffaire.affId+'/'+idCessionnaire, '_blank');
 
       this.reglementService.getReportNoteCredit(this.currentAffaire.affId,idCessionnaire).subscribe(
         (response : any) => {
-         
+
           let fileUrlDebitNote = "data:application/pdf;base64,"+response?.base64UrlString;
 
           this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
@@ -223,14 +225,15 @@ export class FormPaiementComponent implements OnInit {
        )
     }
   }
-  
+
   getCheque(reglementId:number) {
+    this.isNoteDebit = true;
     if(reglementId) {
       // window.open(environment.apiUrl+'reports/cheque/'+reglementId, '_blank');
 
       this.reglementService.getReportCheque(reglementId).subscribe(
         (response : any) => {
-         
+
           let fileUrlDebitNote = "data:application/pdf;base64,"+response?.base64UrlString;
 
           this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
@@ -239,8 +242,8 @@ export class FormPaiementComponent implements OnInit {
        )
     }
   }
-  
-  
+
+
   getDocumentAdd($event) {
     if ($event) {
       this.listeDocumentsAjoutes = $event;
