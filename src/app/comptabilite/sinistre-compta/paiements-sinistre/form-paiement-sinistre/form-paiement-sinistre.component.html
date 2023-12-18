@@ -18,7 +18,7 @@
                                     </div>
                                   </div>
                             </div>
-                           
+
                              <div class="col-md-6">
                                 <div class="row ">
                                     <label for="assur" class="col-sm-4 col-form-label">Assuré :</label>
@@ -27,7 +27,7 @@
                                     </div>
                                   </div>
                              </div>
-                            
+
                              <div class="col-md-6">
                                 <div class="row">
                                     <label for="activit" class="col-sm-4 col-form-label">Activité :</label>
@@ -46,7 +46,7 @@
                                     </div>
                                   </div>
                              </div>
-                    
+
                              <div class="col-md-6">
                                 <div class="row">
                                     <label for="capitaux" class="col-sm-4 col-form-label">Capitaux à 100 :</label>
@@ -67,7 +67,7 @@
                                   </div>
                              </div>
 
-                         
+
                         </div>
                 </fieldset>
             </div>
@@ -108,7 +108,7 @@
 
                 </fieldset>
             </div>
-        </div> 
+        </div>
 
         <div class="row">
             <div class="col-12 mt-3">
@@ -119,7 +119,7 @@
                             <th colspan="7">
                                 <div class="row">
                                     <div class="header-table">
-                                       <span>{{isPaiement ? 'Liste des paiements effectués' : 'Liste des reversements effectués' }} </span>                    
+                                       <span>{{isPaiement ? 'Liste des paiements effectués' : 'Liste des reversements effectués' }} </span>
                                                            <button class="btn btn-xs btn-default btn-add pull-right" type="button"
                                             (click)="openPanelNewPaiement(true)"> Ajouter </button>
                                     </div>
@@ -147,8 +147,58 @@
                             <td>{{item?.regDate}}</td>
                             <td *ngIf="isPaiement">{{item?.cesNom}}</td>
                             <td class="txt-align-center">
-                                <button type="button" class="btn btn-xs btn-default btn-print"> Editon de chèque</button>
-                                <i class="fa fa-upload btn" title="Joindre un document" aria-hidden="true" (click)="openPanelUploadDoc(true,item)"></i>
+                              <div ngbDropdown class="d-inline-block">
+                                <button
+                                  type="button"
+                                  class="btn btn-custom-action-dropdown"
+                                  id="action"
+                                  ngbDropdownToggle
+                                >
+                                  Actions
+                                </button>
+                                <div
+                                  ngbDropdownMenu
+                                  aria-labelledby="action"
+                                  class="dropdown-validation-plainte"
+                                >
+
+                                  <button
+                                    type="button"
+                                    ngbDropdownItem
+                                    (click)="getNoteCredit(item?.cesId)" *ngIf="!isPaiement"
+                                  >
+                                    <i class="fa fa-print"></i>&nbsp;Imprimer note de crédit
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    ngbDropdownItem
+                                    (click)="getCheque(item?.regId)" *ngIf="!isPaiement"
+                                  >
+                                    <i class="fa fa-print"></i>&nbsp;Imprimer le chèque
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    ngbDropdownItem
+                                    (click)="openPanelUploadDoc(true,item)"
+                                  >
+                                    <!-- (click)="openPanelNewPaiement(true,true,item)" -->
+                                    <i class="fa fa-file"></i>&nbsp;Ajout de documents
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    ngbDropdownItem
+                                    (click)="deleteTheLinePayment(item)"
+                                  >
+                                    <i class="fa fa-trash text-danger"></i>&nbsp;Supprimer
+                                  </button>
+
+                                </div>
+                              </div>
+<!--                                <button type="button" class="btn btn-xs btn-default btn-print"> Editon de chèque</button>-->
+<!--                                <i class="fa fa-upload btn" title="Joindre un document" aria-hidden="true" (click)="openPanelUploadDoc(true,item)"></i>-->
                                 <!--<button type="button" class="btn btn-xs btn-default btn-print" (click)="getNoteCredit(item?.cesId)"> <i class="fa fa-print"></i> Imprimer note crédit</button>-->
                             </td>
                         </tr>
@@ -196,7 +246,7 @@
                                             [value]="cessionaire?.cesId">{{ cessionaire.cesNom }}</ng-option>
                                     </ng-select>
 
-                                </div> 
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-6 mb-3">
@@ -218,7 +268,7 @@
                                         autocomplete="off" bsDatepicker [maxDate]="dateActuelle" [bsConfig]="{
                                   dateInputFormat: 'DD/MM/YYYY',
                                   containerClass: 'theme-dark-blue'
-                                }" formControlName="regDate" name="regDate" 
+                                }" formControlName="regDate" name="regDate"
                                 [class.errorInputForm]="getFormFiledsValue('regDate')?.invalid && getFormFiledsValue('regDate')?.touched" type="text" />
 
                                     <small class="text-danger"
@@ -295,7 +345,7 @@
                 <b> {{ isPaiement ? 'Uploadé un document de paiement' : 'Uploadé un document de reversement' }} </b>
                 <i class="fa fa-times" (click)="openPanelUploadDoc(false)"></i>
             </div>
-            <div class="col-12 details-body-doc"> 
+            <div class="col-12 details-body-doc">
                 <ng-container>
                     <div class="row">
                         <app-creation-document-sinistre [notNeedBtnFooter]="true" [itemPaiement]="itemOfPaiement"></app-creation-document-sinistre>

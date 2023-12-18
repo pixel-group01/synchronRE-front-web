@@ -14,6 +14,7 @@ import { UserService } from 'src/app/core/service/user.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-form-paiement-sinistre',
@@ -42,6 +43,7 @@ export class FormPaiementSinistreComponent implements OnInit {
     },
   ];
   @Input() itemSinistre : any;
+  fileUrl : any;
 
   etatComp :any;
   paiementSinistre: any=[];
@@ -52,7 +54,8 @@ export class FormPaiementSinistreComponent implements OnInit {
     private utilities: UtilitiesService,
     private businessOptionalService: BusinessOptionalService,
     private cessionaireService: CessionnaireService,
-    private sinistreService: SinistreService
+    private sinistreService: SinistreService,
+    public sanitizer: DomSanitizer,
   ) {
     this.currentUser = this.userService.getCurrentUserInfo();
     console.log("currentUser :",this.currentUser);
@@ -163,6 +166,9 @@ export class FormPaiementSinistreComponent implements OnInit {
             this.etatComptable();
             this.getOldPaiement();
             this.openPanelNewPaiement(false);
+            if (this.isPaiement){
+              this.getCessionnaire();
+            }
           }
         }
       });
@@ -174,6 +180,27 @@ export class FormPaiementSinistreComponent implements OnInit {
     if(this.isPaiement){
       this.getCessionnaire();
     }
+  }
+
+  getCheque(reglementId:number) {
+    if(reglementId) {
+      // window.open(environment.apiUrl+'reports/cheque/'+reglementId, '_blank');
+
+      this.reglementService.getReportCheque(reglementId).subscribe(
+        (response : any) => {
+
+          let fileUrlDebitNote = "data:application/pdf;base64,"+response?.base64UrlString;
+
+          this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
+          this.openPanelNewPaiement(true)
+        }
+      )
+    }
+  }
+  deleteTheLinePayment(item:any){
+    this.busySave = this.reglementService.deletePayment(item.regId).subscribe((res:any)=>{
+      this.getOldPaiement()
+    })
   }
 
   getCessionnaire() {
