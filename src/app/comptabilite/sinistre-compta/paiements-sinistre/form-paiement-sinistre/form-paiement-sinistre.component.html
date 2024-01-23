@@ -121,7 +121,7 @@
                                     <div class="header-table">
                                        <span>{{isPaiement ? 'Liste des paiements effectués' : 'Liste des reversements effectués' }} </span>
                                                            <button class="btn btn-xs btn-default btn-add pull-right" type="button"
-                                            (click)="openPanelNewPaiement(true)"> Ajouter </button>
+                                            (click)="openPanelNewPaiement(true,false)"> Ajouter </button>
                                     </div>
                                 </div>
                             </th>
@@ -162,18 +162,18 @@
                                   class="dropdown-validation-plainte"
                                 >
 
-                                  <button
-                                    type="button"
-                                    ngbDropdownItem
-                                    (click)="getNoteCredit(item?.cesId)" *ngIf="!isPaiement"
-                                  >
-                                    <i class="fa fa-print"></i>&nbsp;Imprimer note de crédit
-                                  </button>
+<!--                                  <button-->
+<!--                                    type="button"-->
+<!--                                    ngbDropdownItem-->
+<!--                                    (click)="getNoteCredit(item?.cesId)" *ngIf="!isPaiement"-->
+<!--                                  >-->
+<!--                                    <i class="fa fa-print"></i>&nbsp;Imprimer note de crédit-->
+<!--                                  </button>-->
 
                                   <button
                                     type="button"
                                     ngbDropdownItem
-                                    (click)="getCheque(item?.regId)" *ngIf="!isPaiement"
+                                    (click)="getChequeSinstre(item?.regId)" *ngIf="!isPaiement"
                                   >
                                     <i class="fa fa-print"></i>&nbsp;Imprimer le chèque
                                   </button>
@@ -219,7 +219,7 @@
             </div>
 
             <div class="col-12 details-body">
-                <ng-container>
+                <ng-container *ngIf="!isFondDocumentaire && !isFichier">
                     <div class="row">
 
                         <form class="form-paiement" enctype="multipart/form-data" [formGroup]="formulaireGroup"
@@ -337,6 +337,11 @@
                     </div>
 
                 </ng-container>
+              <ng-container  *ngIf="isFichier && fileUrl">
+                <div style="height: 600px;">
+                  <iframe [src]="fileUrl" title="description"  style="width: 100%;height: 100%;"></iframe>
+                </div>
+              </ng-container>
             </div>
         </div>
 
@@ -348,7 +353,7 @@
             <div class="col-12 details-body-doc">
                 <ng-container>
                     <div class="row">
-                        <app-creation-document-sinistre [notNeedBtnFooter]="true" [itemPaiement]="itemOfPaiement"></app-creation-document-sinistre>
+                        <app-creation-document-sinistre [isSinistre]="true" [notNeedBtnFooter]="true" [itemPaiement]="itemOfPaiement"></app-creation-document-sinistre>
                     </div>
                 </ng-container>
             </div>

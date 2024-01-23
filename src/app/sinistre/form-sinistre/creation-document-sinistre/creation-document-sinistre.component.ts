@@ -31,8 +31,9 @@ export class CreationDocumentSinistreComponent implements OnInit {
   busySave: Subscription;
   @Input() isActiveCreationSinistre: boolean = false;
   @Input() notNeedBtnFooter: boolean = false;
+  @Input() isSinistre: boolean = false;
   itemToSearch: any = {};
-  
+
   infoDocInPreview :any;
   @Output() step1: EventEmitter<number> = new EventEmitter();
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
@@ -44,7 +45,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
   @Input() itemPaiement: any;
   @Input() isPaiement: boolean;
   @ViewChild("fileInput") fileInput: any;
- 
+
   listesDoc: any = [];
   modalRef: any;
   file64: any;
@@ -56,7 +57,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
     public sanitizer: DomSanitizer
   ) {}
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.getTypeDocument();
     this.documForm();
     if (this.itemCreationSinistre || this.idAffaire || this.isPaiement) {
@@ -65,6 +66,11 @@ export class CreationDocumentSinistreComponent implements OnInit {
   }
 
   getTypeDocument() {
+    if (this.isSinistre) {
+      this.documentService.typeDocument().subscribe((res: any) => {
+        this.listeTypeDocument = res;
+      });
+    }
     if (this.idAffaire) {
       this.documentService.typeDocumentAffaire().subscribe((res: any) => {
         this.listeTypeDocument = res;
@@ -80,7 +86,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
     if (this.idSinistreInDoc > 0 || this.itemCreationSinistre?.sinId > 0) {
       // En ce moment il s'afgit d'un sinistre on recupere les documents lié au fond documentaire
       // Du sinistre
-      
+
       this.documentService.typeDocument().subscribe((res: any) => {
       console.log("doc sin :",res);
         this.listeTypeDocument = res;
@@ -132,7 +138,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
     }else{
 
       this.busySave = (this.documentForm.value.docId ? this.documentService.modificationDoc(data) : this.documentService.createWithParameter(data,this.origine)).subscribe((res: any) => {
-  
+
         if (res === true) {
           this.utilities.showNotification(
             "snackbar-success",
@@ -144,13 +150,13 @@ export class CreationDocumentSinistreComponent implements OnInit {
           this.clear();
         }
       });
-    
+
     }
 
-    
+
   }
 
-  confirmSaveItem(item: any) {    
+  confirmSaveItem(item: any) {
     if(!this.currentFichier || !this.currentFichier.fichierBase64) {
       this.utilities.showNotification(
         "snackbar-danger",
@@ -240,7 +246,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
       this.file64 = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
       // window.open(this.file64.changingThisBreaksApplicationSecurity, '_blank');
-      
+
     });
   }
 
@@ -315,7 +321,7 @@ export class CreationDocumentSinistreComponent implements OnInit {
         });
        }
       }
-      
+
   }
 
   getTypeFile(item: any) {

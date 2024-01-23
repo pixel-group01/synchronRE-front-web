@@ -47,6 +47,8 @@ export class FormPaiementSinistreComponent implements OnInit {
 
   etatComp :any;
   paiementSinistre: any=[];
+  isFichier :boolean = false;
+  isFondDocumentaire : boolean = false
   constructor(
     private reglementService: ReglementService,
     private formBuilder: FormBuilder,
@@ -62,10 +64,11 @@ export class FormPaiementSinistreComponent implements OnInit {
 
   }
 
-  openPanelNewPaiement(isOpen: boolean) {
+  openPanelNewPaiement(isOpen: boolean, isFond? :boolean) {
     //Recuperé la div details
     let divDetails = document.getElementById("new-paiement-bilan");
-
+    this.isFondDocumentaire = isFond;
+    this.isFichier = isFond;
     if (divDetails && isOpen) {
       divDetails.classList.add("open-details");
     } else {
@@ -183,6 +186,7 @@ export class FormPaiementSinistreComponent implements OnInit {
   }
 
   getCheque(reglementId:number) {
+    this.isFichier = true
     if(reglementId) {
       // window.open(environment.apiUrl+'reports/cheque/'+reglementId, '_blank');
 
@@ -192,14 +196,31 @@ export class FormPaiementSinistreComponent implements OnInit {
           let fileUrlDebitNote = "data:application/pdf;base64,"+response?.base64UrlString;
 
           this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
-          this.openPanelNewPaiement(true)
+          this.openPanelNewPaiement(true,true)
+        }
+      )
+    }
+  }
+  getChequeSinstre(reglementId:number) {
+    this.isFichier = true
+    if(reglementId) {
+      // window.open(environment.apiUrl+'reports/cheque/'+reglementId, '_blank');
+
+      this.reglementService.getReportChequeSinistre(reglementId).subscribe(
+        (response : any) => {
+
+          let fileUrlDebitNote = "data:application/pdf;base64,"+response?.base64UrlString;
+
+          this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
+          this.openPanelNewPaiement(true,true)
         }
       )
     }
   }
   deleteTheLinePayment(item:any){
     this.busySave = this.reglementService.deletePayment(item.regId).subscribe((res:any)=>{
-      this.getOldPaiement()
+      //this.getOldPaiement()
+      this.etatComptable();
     })
   }
 
