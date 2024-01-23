@@ -10,13 +10,13 @@ export class ExerciceService {
 
   create = (body:any) => {
     return this.restClient.post('exercices/create',body)
-  } 
+  }
 
   getAll = () => {
     return this.restClient.get('exercices/list');
   }
- 
-  getByCriteria = (index:number = 0,size:number=10,key?:string) => {
+
+    getByCriteria = (index:number = 0,size:number=10,key?:string) => {
     let endPointFinal = "exercices/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
     return this.restClient.get(endPointFinal);
   }

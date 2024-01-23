@@ -130,7 +130,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       }
     })
     // console.log('before filter: ',ROUTES);
-    
+
     let mainMenuFilter = ROUTES.filter((sidebarItem) => sidebarItem.isVisible);
 
     if(mainMenuFilter && mainMenuFilter.length){
@@ -145,7 +145,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.initLeftSidebar();
     this.bodyTag = this.document.body;
   }
-  
+
   checkMenu(code: string): Boolean {
       // return !!(this.listFonctionnalites.filter(funct=>funct.code == code).length)
       return true

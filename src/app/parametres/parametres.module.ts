@@ -29,6 +29,7 @@ import { FormCedenteComponent } from './cedente-parameter/form-cedente/form-cede
 import { CessionnaireComponent } from './cessionnaire/cessionnaire.component';
 import { FormCessionaireComponent } from './cessionnaire/form-cessionaire/form-cessionaire.component';
 import { FormAddInterlocuteurComponent } from './cessionnaire/form-add-interlocuteur/form-add-interlocuteur.component';
+import { ExerciceComponent } from './exercice-parameter/exercice/exercice.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { FormAddInterlocuteurComponent } from './cessionnaire/form-add-interlocu
     CessionnaireComponent,
     FormCessionaireComponent,
     FormAddInterlocuteurComponent,
+    ExerciceComponent,
   ],
   imports: [
     CommonModule,

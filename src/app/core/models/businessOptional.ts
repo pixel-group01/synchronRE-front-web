@@ -2,6 +2,7 @@ export class BusinessOptional {
     affId?: number;
     affCode?: string;
     affAssure?: string;
+    affCoursDevise?:number;
     affActivite?: string;
     affDateEffet?: string;
     affDateEcheance?: string;

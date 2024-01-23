@@ -30,7 +30,7 @@ import * as _ from "lodash";
 })
 export class FormIdentificationComponent implements OnInit {
   itemToSave: BusinessOptional = {};
-  formulaireGroup!: FormGroup; 
+  formulaireGroup!: FormGroup;
   listeCedente: Array<Cedante> = [];
   listeCouvertures: Array<Couverture> = [];
   listeDevises: Array<Devise> = [];
@@ -81,24 +81,24 @@ export class FormIdentificationComponent implements OnInit {
         if(this.user.cedId) {
           this.createForm();
         }
-       
+
       } else {
         this.listeCedente = [];
       }
     });
   }
- 
+
   getDevise() {
     this.deviseService.getAll().subscribe((response: any) => {
       if (response) {
         this.listeDevises = response as Devise[];
 
         this.listeDevises =   _.orderBy( this.listeDevises, ['devLibelle'], ['asc']);
- 
+
         if(this.itemToUpdate && this.itemToUpdate.affId) {
           this.createForm();
         }
-       
+
       } else {
         this.listeDevises = [];
       }
@@ -120,21 +120,21 @@ export class FormIdentificationComponent implements OnInit {
       if (response) {
 
         console.log(" response exercice ",response);
-        
+
         this.listeExercices = response as Exercice[];
         // Recuperer l'exercice courante et fixer
         if(!this.currentAffaire.affId) {
           let currentExercice = _.find(this.listeExercices, (o) => { return o.exeCourant });
           console.log(" currentExercice ",currentExercice);
-          
+
           if(currentExercice && currentExercice.exeCode) {
             setTimeout(() => {
               this.formulaireGroup.patchValue({'exeCode':currentExercice?.exeCode})
             }, 1000);
-          
+
           }
         }
-        
+
       } else {
         this.listeExercices = [];
       }
@@ -144,7 +144,7 @@ export class FormIdentificationComponent implements OnInit {
   createForm = () => {
 
     console.log(" this.itemToUpdate ",this.itemToUpdate);
-    
+
     this.formulaireGroup = this.formBuilder.group({
       affId: [this.itemToUpdate?.affId || ""],
       affCode: [this.itemToUpdate?.affCode || ""],
@@ -172,6 +172,7 @@ export class FormIdentificationComponent implements OnInit {
         Validators.required,
       ],
       facSmpLci: [this.itemToUpdate?.facSmpLci || ""],
+      affCoursDevise: [this.itemToUpdate?.affCoursDevise || ""],
       facPrime: [this.itemToUpdate?.facPrime || ""],
       cedId: [ (this.itemToUpdate?.cedId || this.user?.cedId || this.itemToSave.cedenteId) || "", Validators.required],
       statutCode: [this.itemToUpdate?.statutCode || ""],
@@ -270,9 +271,9 @@ export class FormIdentificationComponent implements OnInit {
 
   ngOnInit(): void {
     // Initialisation du forms group
- 
+
     this.currentAffaire = {...this.businessOptionalService.businessOptionalSubject$.value};
-    
+
     if(this.currentAffaire && this.currentAffaire.affId) {
       this.isUpdateForm = true; // Pour signifier que nous sommes en modification
       this.itemToUpdate = {...this.currentAffaire};

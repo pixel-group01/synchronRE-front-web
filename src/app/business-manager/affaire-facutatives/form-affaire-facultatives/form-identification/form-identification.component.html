@@ -77,6 +77,37 @@
         </small>
       </div>
 
+
+
+      <div class="col-md-1 col-xs-12 mb-3">
+        <label
+        >Cour dévise :
+<!--          <span class="required_champs">*</span>-->
+        </label>
+        <input
+          class="form-control custom-input"
+          placeholder="cour"
+          autocomplete="off"
+          formControlName="affCoursDevise"
+          name="affCoursDevise"
+          [readonly]="isDetails"
+          [class.errorInputForm]="
+            getFormFiledsValue('affCoursDevise')?.invalid &&
+            getFormFiledsValue('affCoursDevise')?.touched
+          "
+          type="text"
+        />
+<!--        <small-->
+<!--          class="text-danger"-->
+<!--          *ngIf="(getFormFiledsValue('affCoursDevise')?.dirty || getFormFiledsValue('affCoursDevise')?.touched) && getFormFiledsValue('affCoursDevise')?.invalid && getFormFiledsValue('affCoursDevise')?.errors?.['required']"-->
+<!--        >-->
+<!--          Ce champ est obligatoire-->
+<!--        </small>-->
+      </div>
+
+
+
+
       <div class="col-md-2 col-xs-12 col-sm-12 mb-2">
         <label>Statut : <span class="required_champs">*</span> </label>
 
@@ -100,7 +131,7 @@
         </small>
       </div>
 
-      <div class="col-md-4 col-xs-12 mb-3">
+      <div class="col-md-3 col-xs-12 mb-3">
         <label
           >Assuré :
           <span class="required_champs">*</span>
