@@ -166,7 +166,6 @@ export class UtilisateursComponent implements OnInit {
           //   "bottom",
           //   "center"
           // );
-          this.getItems();
         }
       );
   }
@@ -232,6 +231,7 @@ export class UtilisateursComponent implements OnInit {
               "bottom",
               "center"
             );
+            this.getItems();
           }
         },
         (err) => {

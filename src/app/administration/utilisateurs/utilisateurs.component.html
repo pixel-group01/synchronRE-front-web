@@ -64,7 +64,7 @@
                               <td>
                                 {{ item?.tel }}
                               </td>
-
+ 
                               <td>
                                 <span *ngIf="item?.notBlocked" style="background-color: green;color: #fff;"
                                   class="badge badge-success">Actif</span>
@@ -82,7 +82,7 @@
                                     <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
                                       <button ngbDropdownItem (click)="openModal(item,templateDetailsUser,true)">
                                         <i class="fa fa-list"></i>&nbsp;Détails utilisateur
-                                      </button>
+                                      </button> 
 
                                       <button ngbDropdownItem (click)="openModal(item,templateAddFonction,true)">
                                         <i class="fa fa-plus"></i>&nbsp;Ajouter une fonction
@@ -99,7 +99,7 @@
                                       <button ngbDropdownItem (click)="confirmUnLockAccount(item?.userId)"
                                         *ngIf="!item?.notBlocked">
                                         <i class="fa fa-unlock"></i>&nbsp;Activer le compte
-                                      </button>
+                                      </button> 
 
                                       <button ngbDropdownItem (click)="confirmLockAccount(item?.userId)"
                                         *ngIf="item?.notBlocked">
@@ -166,7 +166,7 @@
                           ? "Modification d'utilisateur"
                           : "Enregistrement d'utilisateur"
                           }}
-                        </h4>
+                        </h4> 
 
                         <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
                           <mat-icon>close</mat-icon>
@@ -259,8 +259,6 @@
                     </ng-template>
                     <!-- Fin details utilisateur-->
 
-
-
                     <ng-template #templateAssignFonction>
                       <div class="modal-header">
                         <h4 class="modal-title pull-left"> Modification de fonction </h4>
@@ -317,8 +315,9 @@
               </div>
             </section>
           </div>
-        </div>
+        </div> 
       </div>
     </div>
   </div>
 </section>
+

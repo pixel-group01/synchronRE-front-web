@@ -23,7 +23,7 @@ import { enumStatutFonction } from 'src/app/core/enumerator/enumerator';
 })
 export class FormAssignFonctionComponent implements OnInit {
 
- 
+  listesTypeFonctions :any =[];
   userForm!: FormGroup;
   @Input() itemToUpdate: UserSynchroRE; // Pour signifier la mofification de l'element
   busySuscription!: Subscription;
@@ -86,10 +86,11 @@ export class FormAssignFonctionComponent implements OnInit {
         fncId: [this.currentFonction?.id || ""],
         visibilityId:[this.currentFonction?.visibilityId],
         libelleFonction : [this.currentFonction?.name],
-        dateDebutFonction : [this.currentFonction?.startsAt],
+        typeFunctionId : [this.currentFonction?.typeFunctionId],
+        // dateDebutFonction : [this.currentFonction?.startsAt],
         roles : [oldRole],
         privileges : [oldPrivilege],
-        dateFinFonction : [this.currentFonction?.endsAt]
+        // dateFinFonction : [this.currentFonction?.endsAt]
       });
 
   };
@@ -97,6 +98,13 @@ export class FormAssignFonctionComponent implements OnInit {
   getFormFiledsValue = (field: string) => {
     return this.userForm.get(field);
   };
+
+  getTypeFonction(){
+    this.fonctionService.getTypeFonctions().subscribe((res:any)=>{
+      this.listesTypeFonctions = res;
+      // console.log(res , "res type fonc");
+    })
+  }
 
 
   confirmRevokeFonction(fonction){
@@ -133,7 +141,6 @@ export class FormAssignFonctionComponent implements OnInit {
     });
     
   }
-
 
   confirmSaveItem() {
 
@@ -185,8 +192,8 @@ export class FormAssignFonctionComponent implements OnInit {
       name: itemAEnregistrer.libelleFonction,
       fncId: this.currentFonction?.id,
       userId: this.itemToUpdate.userId,
-      startsAt: moment(itemAEnregistrer.dateDebutFonction).format("YYYY-MM-DD"),
-      endsAt: moment(itemAEnregistrer.dateFinFonction).format("YYYY-MM-DD"),
+      // startsAt: moment(itemAEnregistrer.dateDebutFonction).format("YYYY-MM-DD"),
+      // endsAt: moment(itemAEnregistrer.dateFinFonction).format("YYYY-MM-DD"),
       roleIds: itemAEnregistrer.roles,
       prvIds: itemAEnregistrer.privileges
     };
@@ -271,6 +278,7 @@ export class FormAssignFonctionComponent implements OnInit {
   ngOnInit(): void {
     // Initialisation du forms group
     this.createForm();
+    this.getTypeFonction();
     this.getPrivilege();
     this.getRoles();
   }

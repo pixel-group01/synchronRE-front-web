@@ -7,6 +7,7 @@ import { privilegeSynchroRE } from 'src/app/core/models/privilegeSynscroRE';
 import { RoleSynchroRE } from 'src/app/core/models/roleSynscroRE';
 import { UserSynchroRE } from 'src/app/core/models/userSynscroRE';
 import { CedanteService } from 'src/app/core/service/cedante.service';
+import { FonctionService } from 'src/app/core/service/fonction.service';
 import { PrivilegeService } from 'src/app/core/service/privilege.service';
 import { RoleService } from 'src/app/core/service/role.service';
 import { UserService } from 'src/app/core/service/user.service';
@@ -17,7 +18,7 @@ import Swal from 'sweetalert2';
   selector: 'app-form-create-user',
   templateUrl: './form-create-user.component.html',
   styleUrls: ['./form-create-user.component.scss']
-})
+}) 
 export class FormCreateUserComponent implements OnInit {
 
   userForm!: FormGroup;
@@ -29,7 +30,7 @@ export class FormCreateUserComponent implements OnInit {
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   dateActuelle = new Date();
   listeFonctions : any = [];
-
+  listesTypeFonctions :any =[];
   typeUserForm : any = {
     createUserDTO: {
       email: null,
@@ -42,6 +43,7 @@ export class FormCreateUserComponent implements OnInit {
     createInitialFncDTO: {
       name: "",
       startsAt: "",
+      typeFunctionId :"",
       endsAt: "",
       roleIds: [],
       prvIds: []
@@ -54,11 +56,13 @@ export class FormCreateUserComponent implements OnInit {
     private userService: UserService,
     private utilities: UtilitiesService,
     private privilegeService: PrivilegeService,
-    private roleService: RoleService
+    private roleService: RoleService,
+    private fonctionService: FonctionService
+
   ) {}
 
   createForm = () => {
-
+    
     this.userForm = this.formBuilder.group({
       userId: [this.itemToUpdate?.userId || ""],
       email: [this.itemToUpdate?.email || "", Validators.required],
@@ -68,6 +72,7 @@ export class FormCreateUserComponent implements OnInit {
       cedId: [this.itemToUpdate?.cedId || ""],
       typeUser: [this.itemToUpdate?.typeUser || ""],
       libelleFonction : [""],
+      typeFunctionId:[null],
       dateDebutFonction : [""],
       roles : [""],
       privileges : [""],
@@ -115,15 +120,23 @@ export class FormCreateUserComponent implements OnInit {
     });
   }
 
+  getTypeFonction(){
+    this.fonctionService.getTypeFonctions().subscribe((res:any)=>{
+      this.listesTypeFonctions = res;
+      // console.log(res , "res type fonc");
+    })
+  }
+
   saveItem(item: UserSynchroRE) {
 
-    let itemAEnregistrer = Object.assign({}, item);
+    let itemAEnregistrer = {...item};
 
     let createUserDTO = {
       email: itemAEnregistrer.email,
       tel: itemAEnregistrer.tel,
       firstName: itemAEnregistrer.firstName,
       lastName: itemAEnregistrer.lastName,
+      // typeFunctionId :itemAEnregistrer.typeFunctionId,
       visibilityId: itemAEnregistrer.cedId,
       cesId: itemAEnregistrer.cesId,
       cedId : itemAEnregistrer.cedId
@@ -146,7 +159,7 @@ export class FormCreateUserComponent implements OnInit {
      
       // nous sommes au create
       this.busySuscription = this.userService.createUserWithFonction(requestUser).subscribe((response : any) => {
-        console.log(" response ", response);
+        // console.log(" response ", response);
         if (response) {
           this.utilities.showNotification(
             "snackbar-success",
@@ -242,6 +255,7 @@ export class FormCreateUserComponent implements OnInit {
 
     let initialFonctionDTO = {
       name: itemFonction.libelleFonction,
+      typeFunctionId : itemFonction.typeFunctionId,
       startsAt: itemFonction.dateDebutFonction ? moment(itemFonction.dateDebutFonction).format("YYYY-MM-DD") : null,
       endsAt: itemFonction.dateFinFonction ? moment(itemFonction.dateFinFonction).format("YYYY-MM-DD") : null,
       roleIds: itemFonction.roles,
@@ -251,6 +265,7 @@ export class FormCreateUserComponent implements OnInit {
     this.listeFonctions.push(initialFonctionDTO);
 
     this.userForm.get("libelleFonction").setValue("");
+    this.userForm.get("typeFunctionId").setValue(null);
     this.userForm.get("dateDebutFonction").setValue(null);
     this.userForm.get("dateFinFonction").setValue(null);
     this.userForm.get("roles").setValue([]);
@@ -282,6 +297,7 @@ export class FormCreateUserComponent implements OnInit {
     // Initialisation du forms group
     this.createForm();
     this.getCedente();
+    this.getTypeFonction();
     this.getPrivilege();
     this.getRoles();
   }

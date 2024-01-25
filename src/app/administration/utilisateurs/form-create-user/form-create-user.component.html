@@ -199,12 +199,11 @@
                         </small>
                       </div>
 
-                      <div class="col-md-3 col-xs-12 mb-3">
+                      <!-- <div class="col-md-3 col-xs-12 mb-3">
                         <label
                           >Date de début
-                          <!-- <span class="required_champs">*</span> -->
                         </label>
-                        <input
+                        <input 
                           class="form-control custom-input"
                           placeholder="Date de début"
                           autocomplete="off"
@@ -228,12 +227,11 @@
                         >
                           Ce champ est obligatoire
                         </small>
-                      </div>
+                      </div> -->
 
-                      <div class="col-md-3 col-xs-12 mb-3">
+                      <!-- <div class="col-md-3 col-xs-12 mb-3">
                         <label
                           >Date de fin
-                          <!-- <span class="required_champs">*</span> -->
                         </label>
                         <input
                           class="form-control custom-input"
@@ -261,7 +259,26 @@
                         >
                           Ce champ est obligatoire
                         </small>
-                      </div>
+                      </div> -->
+                      <div class="col-md-6 col-xs-12 mb-3">
+                        <label>Type de fonction :
+                          <span class="required_champs">*</span>
+                        </label>
+                            <!-- {{userForm.value.typeFunctionId}} -->
+                        <ng-select formControlName="typeFunctionId" [multiple]="false" placeholder="Choisir le type de fonction" 
+                        [closeOnSelect]="true" id="fonction"   [class.errorInputForm]="
+                        getFormFiledsValue('typeFunctionId')?.invalid &&
+                        getFormFiledsValue('typeFunctionId')?.touched
+                        ">
+                          <ng-option *ngFor="let fonction of listesTypeFonctions" [value]="fonction?.typeId">{{ fonction.name
+                            }}</ng-option>
+                        </ng-select>
+
+                        <small class="text-danger"
+                        *ngIf="(getFormFiledsValue('typeFunctionId')?.dirty || getFormFiledsValue('typeFunctionId')?.touched) && getFormFiledsValue('typeFunctionId')?.invalid && getFormFiledsValue('typeFunctionId')?.errors?.['required']">
+                        Ce champ est obligatoire
+                      </small>
+                      </div> 
                     </div>
                   </div>
                 </fieldset>
