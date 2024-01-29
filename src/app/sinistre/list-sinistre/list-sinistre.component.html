@@ -105,9 +105,21 @@
                   <button ngbDropdownItem appAppAccess appAccess="GET-SIN-HISTO"  (click)="openModal(templateHistoriqueTraitement,item)">
                     <i class="fa fa-list"></i>&nbsp;Historique sinistre
                   </button>
-              </div>
+
+                  <button ngbDropdownItem (click)="openModal(templateNoteDebit,item,false,true)">
+                    <i class="fa fa-print"></i>&nbsp;Imprimer note débit
+                  </button>
+
+                  <button ngbDropdownItem (click)="confirmEnvoieCedante(item)">
+                    <i class="fa fa-paper-plane"></i>&nbsp;Envoyer à la cédante
+                  </button>
+                   
+                  <button ngbDropdownItem (click)="openModal(templateListeCessionnaireSinistre,item)">
+                        <i class="fa fa-share"></i>&nbsp;Note de cession 
+                  </button>
+              </div> 
             </div>
-          </div> 
+          </div>  
         </td>
       </tr>
     </tbody>
@@ -220,4 +232,39 @@
   <div class="modal-body">
     <app-historique-sinistre [idSinistre]="itemsinistre" ></app-historique-sinistre>
   </div>
+</ng-template>
+
+<!-- note de débit -->
+<ng-template #templateNoteDebit>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">
+      Note de debit
+    </h4>
+
+    <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div style="height: 700px;">
+
+      <iframe [src]="fileUrl" title="description"  style="width: 100%;height: 100%;" *ngIf="fileUrl"></iframe>
+    </div>
+  </div>
+</ng-template>
+
+<!-- note de débit -->
+<ng-template #templateListeCessionnaireSinistre>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">
+      Liste des cessionnaires du sinistre&nbsp;{{itemsinistre.affCode}}
+    </h4>
+
+    <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-cessionnaire-sinsitre [sinistre]="itemsinistre" (closeModal)="closeFormModal($event)"></app-cessionnaire-sinsitre>
+  </div> 
 </ng-template>

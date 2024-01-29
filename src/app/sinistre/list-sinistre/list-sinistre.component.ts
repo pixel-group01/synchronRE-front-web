@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
@@ -40,28 +41,28 @@ export class ListSinistreComponent implements OnInit {
   @Input() noPutAction2: boolean = false;
   @Input() noPutAction3: boolean = false;
   @Input() noPutAction4: boolean = false;
+  fileUrl : any;
   constructor(
-    private businessOptionalService: BusinessOptionalService,
     private sinistreService: SinistreService,
-    private utilities: UtilitiesService,
     private userService : UserService,
     private modalService: BsModalService,
-    private restClient: RestClientService
+    private restClient: RestClientService,
+    public sanitizer: DomSanitizer
   ) {}
 
 
   ngOnInit() {
     // this.getItems();
     this.currentUser  = this.userService.getCurrentUserInfo();     
-    console.log("this.currentUser ::",this.currentUser);
-    console.log("endPoint :", this.endPoint);
-    console.log("code :", this.code);
+    // console.log("this.currentUser ::",this.currentUser);
+    // console.log("endPoint :", this.endPoint);
+    // console.log("code :", this.code);
     this.getSinistre();
     
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log("change :",changes);
+    // console.log("change :",changes);
     if (
       changes["refreshDataTable"] &&
       changes["refreshDataTable"].currentValue
@@ -80,9 +81,12 @@ export class ListSinistreComponent implements OnInit {
     return num;
   }
 
-  openModal(template: TemplateRef<any>,data?:any,isActive?:boolean) {
-    this.itemsinistre = {...data}
-    this.isActiveInput = isActive || false
+  openModal(template: TemplateRef<any>,data?:any,isActive?:boolean,isFile?:boolean) {
+    this.itemsinistre = {...data};
+    this.isActiveInput = isActive || false;
+    if (data && isFile) {
+      this.imprimerNoteDebit(data);
+    }
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
     this.modalRef = this.modalService.show(template,config);
   }
@@ -108,6 +112,22 @@ export class ListSinistreComponent implements OnInit {
     this.modalRef = this.modalService.show(template,config);
   }
 
+  envoyerCedante(item:any){
+    this.sinistreService.transmissionAlaCedante(item).subscribe((res:any)=>{
+      setTimeout(() => {
+        this.getSinistre();
+      }, 100);
+    })
+  }
+
+  imprimerNoteDebit(item :any){
+    this.sinistreService.noteDeDebit(item).subscribe((res:any)=>{
+        if (res.base64UrlString && res.bytes) {
+          let fileUrlDebitNote = "data:application/pdf;base64,"+res?.base64UrlString;
+          this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
+        }
+    })
+  }
 
   transmettreSouscripteur(data:any){
     this.sinistreService.transmissionAuSouscripteur(data).subscribe((res:any)=>{
@@ -163,10 +183,28 @@ export class ListSinistreComponent implements OnInit {
     });
   }
 
+  confirmEnvoieCedante(item:any){
+    Swal.fire({
+      title: "Transmettre à la cédante",
+      text:"Vous êtes sur le point de transmettre à la cédante. Voulez-vous poursuivre cette action ?",
+      icon: "success",
+      showCancelButton: true,
+      confirmButtonColor: "#0665aa",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    }).then((result) => {
+      if (result.value) {
+        // On effectue une transmission a la cedante
+        console.log(item);
+        this.envoyerCedante(item)
+      }
+    });
+  }
 
   messageDuRetour(data:any){
     this.sinistreService.messageRetour(data).subscribe((res :any)=>{
-        console.log("message retour :",res);
+        // console.log("message retour :",res);
         
     })
   }
@@ -216,7 +254,7 @@ export class ListSinistreComponent implements OnInit {
       (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "");
     this.busyGet =  this.restClient.get(endPoint)
       .subscribe((res: any) => {
-        console.log("res sinistre :",res);
+        // console.log("res sinistre :",res);
         this.items = res.content.map((elt:any)=>{
           let dateDecl = elt.sinDateDeclaration?.split('-');
           let dateSur =  elt.sinDateSurvenance?.split('-');
@@ -249,8 +287,7 @@ export class ListSinistreComponent implements OnInit {
 
   historique(item:any){
     this.sinistreService.histoSinist(item).subscribe((res:any)=>{
-
-      console.log("res histo",res);
+      // console.log("res histo",res);
       
     })
   }

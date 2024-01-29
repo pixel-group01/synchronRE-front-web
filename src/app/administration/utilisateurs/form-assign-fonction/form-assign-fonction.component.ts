@@ -84,12 +84,12 @@ export class FormAssignFonctionComponent implements OnInit {
       this.userForm = this.formBuilder.group({
         userId: [this.itemToUpdate?.userId || ""],
         fncId: [this.currentFonction?.id || ""],
-        visibilityId:[this.currentFonction?.visibilityId],
-        libelleFonction : [this.currentFonction?.name],
-        typeFunctionId : [this.currentFonction?.typeFunctionId],
+        visibilityId:[this.currentFonction?.visibilityId,], 
+        libelleFonction : [this.currentFonction?.name || "",Validators.required],
+        typeFunctionId : [this.currentFonction?.typeFunctionId || null,Validators.required],
         // dateDebutFonction : [this.currentFonction?.startsAt],
-        roles : [oldRole],
-        privileges : [oldPrivilege],
+        roles : [oldRole || null,Validators.required],
+        privileges : [oldPrivilege || null,Validators.required],
         // dateFinFonction : [this.currentFonction?.endsAt]
       });
 
@@ -200,7 +200,7 @@ export class FormAssignFonctionComponent implements OnInit {
 
     // nous sommes au create
     this.busySuscription = this.fonctionService.update(initialFonctionDTO).subscribe((response : any) => {
-      console.log(" response ", response);
+      // console.log(" response ", response);
       if (response) {
         this.utilities.showNotification(
           "snackbar-success",
