@@ -15,6 +15,7 @@ import { AfficherMessageComponent } from './list-sinistre/afficher-message/affic
 import { EtatComptableComponent } from './list-sinistre/etat-comptable/etat-comptable.component';
 import { SharedModule } from '../shared/shared.module';
 import { HistoriqueSinistreComponent } from './list-sinistre/historique-sinistre/historique-sinistre.component';
+import { CessionnaireSinsitreComponent } from './list-sinistre/cessionnaire-sinsitre/cessionnaire-sinsitre.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { HistoriqueSinistreComponent } from './list-sinistre/historique-sinistre
     // CreationSinistreComponent,
     // CreationDocumentSinistreComponent,
     AfficherMessageComponent,
+    CessionnaireSinsitreComponent,
     // EtatComptableComponent
   ],
   imports: [

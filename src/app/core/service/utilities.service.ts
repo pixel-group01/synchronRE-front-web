@@ -200,7 +200,7 @@ export class UtilitiesService {
        let hasValidEmail : boolean = true;
        //Verifier si le mail saisi est correcte
 
-       console.log(" email ",email);
+      //  console.log(" email ",email);
        
        if (email) {
         let tabSplitArrobase = email.split("@");

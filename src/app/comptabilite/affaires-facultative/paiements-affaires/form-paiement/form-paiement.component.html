@@ -18,7 +18,7 @@
 
         <div class="row">
             <div class="col-12 mt-3 mb-3">
-                <fieldset>
+                <fieldset>  
                     <legend>
                         Informations sur le paiement
                     </legend>
@@ -59,8 +59,12 @@
                                         <span>{{isPaiement ? 'Liste des paiements effectués' : 'Liste des reversements
                                             effectués' }} </span>
                                         <button class="btn btn-xs btn-default btn-add pull-right" type="button"
+<<<<<<< HEAD
                                             (click)="isNoteDebit=false;
                                             openPanelNewPaiement(true,false)"> Ajouter </button>
+=======
+                                            (click)="isNoteDebit=false;openPanelNewPaiement(true,false)"> Ajouter </button>
+>>>>>>> d3d9a90108f23c4eedc974ba2194dea0ba8779c2
                                     </div>
                                 </div>
                             </th>
@@ -146,12 +150,12 @@
                 </table>
 
             </div>
-        </div>
+        </div> 
 
         <div class="new-paiement-bilan" id="new-paiement-bilan">
             <div class="details-header">
                 <b> {{ isPaiement ? 'Paiement' : 'Reversement' }} {{(currentRowPaiement && currentRowPaiement?.regReference) ? ('réference : '+currentRowPaiement?.regReference) : '' }} </b>
-                <i class="fa fa-times" (click)="openPanelNewPaiement(false)"></i>
+                <i class="fa fa-times" (click)="openPanelNewPaiement(false, false)"></i>
             </div>
 
             <div class="col-12 details-body">
@@ -274,8 +278,8 @@
                         </form>
 
                     </div>
-
-                </ng-container>
+ 
+                </ng-container> 
 
                 <ng-container *ngIf="isFondDocumentaire">
                     <div class="">

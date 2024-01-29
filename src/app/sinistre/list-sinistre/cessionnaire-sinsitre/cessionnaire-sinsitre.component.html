@@ -1,0 +1,112 @@
+<section class="body table-responsive" [ngBusy]="{
+    busy: busyGet,
+    message: 'Veuillez patienter ...',
+    backdrop: false
+  }">
+    <fieldset class="mb-4 mt-2">
+        <legend class="mb-2">Information sur le sinistre</legend>
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-12 col-sm-12 mt-2 mb-2">
+                        Numéro sinistre :  <b>{{sinistre.affCode}}</b> 
+                    </div>
+                    <div class="col-md-6 col-sm-12 mb-2">
+                        Montant sinistre : <b>{{sinistre.sinMontant100}}</b> 
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        Survenance : <b>{{sinistre.sinDateSurvenance}}</b> 
+                    </div>
+                    <div class="col-md-6 col-sm-12 mb-2">
+                        Montant honoraire : <b>{{sinistre.sinMontantHonoraire}}</b> 
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        Déclaration : <b>{{sinistre.sinDateDeclaration}}</b>
+                    </div>
+            </div>
+        </div>
+    </fieldset>
+     
+    <fieldset>
+        <legend>Information sur le cessionnaire</legend>
+        <table class="table table-condensed table-striped table-hover">
+            <thead>
+              <tr class="custom-table-head">
+                <th class="txt-align-center-counter-row">
+                  <a (click)="currentPage = 1; getCessionnaireOfSinistre()" title="Actualiser">
+                    <i class="fa fa-redo-alt"></i></a>&nbsp;&nbsp; #
+                </th>
+                <th>Cessionnaires</th>
+                <th> Adresse email</th>            
+                <th class="txt-align-center">Actions</th>
+              </tr>
+            </thead>
+        
+            <tbody>
+              <tr *ngFor="let item of items; let indice = index">
+                <td class="txt-align-center">
+                  {{ getExactlyNumberRow(this.currentPage, indice) }}
+                </td>
+                <td>{{ item?.cesNom }}</td> 
+                <td>{{ item?.cesEmail}}</td> 
+              
+                <!-- <td>{{ item?.affActivite }}</td> -->
+                <td class="custom-width-td-action">
+                  <div class="custom-td-action">
+                    <div ngbDropdown class="d-inline-block">
+                      <button type="button" class="btn btn-custom-action-dropdown" id="action" ngbDropdownToggle>
+                        Actions
+                      </button>
+                        <div ngbDropdownMenu aria-labelledby="action" class="dropdown-validation-plainte">
+                          <button ngbDropdownItem (click)="openModal(templateNoteDebit,sinistre,item)">
+                            <i class="fa fa-print"></i>&nbsp;Imprimer
+                          </button>
+        
+                          <button ngbDropdownItem (click)="envoyer(sinistre,item)">
+                            <i class="fa fa-paper-plane"></i>&nbsp;Envoyer
+                          </button>
+                      </div> 
+                    </div>
+                  </div>  
+                </td>
+              </tr>
+            </tbody>
+        
+            <tfoot>        
+              <tr *ngIf="!items || items.length == 0">
+                <td colspan="14">
+                  <div class="col-md-12 txt-align-center">
+                    Aucune donnée disponible
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table> 
+    </fieldset>
+
+    <div class=" mt-2">
+        <button
+        type="button"
+        class="btn btn-md btn-cancel pull-right" (click)="closeModalCessionaireBySinistre()"
+      >
+        Fermer
+      </button>
+    </div>
+</section>
+
+<!-- note de débit -->
+<ng-template #templateNoteDebit>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">
+        Note de debit de cessionnaire
+      </h4>
+  
+      <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div style="height: 700px;">
+        <iframe [src]="fileNoteCessionnaire" title="description"  style="width: 100%;height: 100%;" *ngIf="fileNoteCessionnaire"></iframe>
+      </div>
+    </div>
+  </ng-template>

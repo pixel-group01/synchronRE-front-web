@@ -13,7 +13,7 @@ import { RoleService } from 'src/app/core/service/role.service';
 import { UserService } from 'src/app/core/service/user.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from 'sweetalert2';
-
+  
 @Component({
   selector: 'app-add-new-fonction',
   templateUrl: './add-new-fonction.component.html',
@@ -21,7 +21,6 @@ import Swal from 'sweetalert2';
 })
 export class AddNewFonctionComponent implements OnInit {
 
- 
   userForm!: FormGroup;
   @Input() itemToUpdate: UserSynchroRE; // Pour signifier la mofification de l'element
   busySuscription!: Subscription;
@@ -54,7 +53,7 @@ export class AddNewFonctionComponent implements OnInit {
       let tabsDateStart = this.currentFonction.startsAt.split("-");
       this.currentFonction.startsAt = new Date(tabsDateStart[0],tabsDateStart[1]-1,tabsDateStart[2]);
     }
- 
+    
     this.userForm = this.formBuilder.group({
       userId: [this.itemToUpdate?.userId || ""],
       fncId: [this.currentFonction?.id || ""],
@@ -95,8 +94,7 @@ export class AddNewFonctionComponent implements OnInit {
   getTypeFonction(){
     this.fonctionService.getTypeFonctions().subscribe((res:any)=>{
       this.listesTypeFonctions = res;
-      console.log(res , "res type fonc");
-      
+      // console.log(res , "res type fonc");
     })
   }
 
@@ -116,7 +114,7 @@ export class AddNewFonctionComponent implements OnInit {
 
     // nous sommes au create
     this.busySuscription = this.fonctionService.create(initialFonctionDTO).subscribe((response : any) => {
-      console.log(" response ", response);
+      // console.log(" response ", response);
       if (response) {
         this.utilities.showNotification(
           "snackbar-success",
@@ -150,25 +148,24 @@ export class AddNewFonctionComponent implements OnInit {
     });
   }
 // recuperer les privileges d'un role
-getPrivilegeByRole(){
-  let rolesId = this.userForm.value.roles;
+  getPrivilegeByRole(){
+    let rolesId = this.userForm.value.roles;
 
-  this.busySuscription = this.privilegeService.getPrivilegeByRoleIds(rolesId).subscribe(
-    (response :any) => {
-      console.log(" response busy ",response);
-      if(response) { 
-        // this.checkedPrivilegeDefauft(response);
-        let idsPrivileges = [];
+    this.busySuscription = this.privilegeService.getPrivilegeByRoleIds(rolesId).subscribe(
+      (response :any) => {
+        console.log(" response busy ",response);
+        if(response) { 
+          // this.checkedPrivilegeDefauft(response);
+          let idsPrivileges = [];
 
-        response.forEach(prv => {
-          idsPrivileges.push(prv.privilegeId);
-        });
-        this.userForm.get("privileges").setValue(idsPrivileges);
+          response.forEach(prv => {
+            idsPrivileges.push(prv.privilegeId);
+          });
+          this.userForm.get("privileges").setValue(idsPrivileges);
+        }
       }
-    }
-  )
-}
-
+    )
+  }
 
   closeModalUser(){
     this.closeModal.emit(true);

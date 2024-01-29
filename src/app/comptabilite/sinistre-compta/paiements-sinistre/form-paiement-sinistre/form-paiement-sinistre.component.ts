@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { User } from 'angular-feather/icons';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
@@ -14,7 +15,6 @@ import { UserService } from 'src/app/core/service/user.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
-import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-form-paiement-sinistre',
@@ -25,7 +25,7 @@ export class FormPaiementSinistreComponent implements OnInit {
   itemInfoCompta: any = {};
   listePaiementDejaEffectue: Reglement[] = [];
   formulaireGroup!: FormGroup;
-  busySave: Subscription;
+  busySave: Subscription; 
   itemToUpdate: Reglement;
   @Input() currentAffaire: BusinessOptional;
   @Input() isPaiement: boolean ;
@@ -34,6 +34,8 @@ export class FormPaiementSinistreComponent implements OnInit {
   listeCessionnaire: Cessionnaire[];
   currentUser: any;
   dateActuelle = new Date();
+  isFichier :boolean = false;
+  isFondDocumentaire : boolean = false
   listeModeReglement: any = [
     {
       libelle: "Chèque",
@@ -47,8 +49,6 @@ export class FormPaiementSinistreComponent implements OnInit {
 
   etatComp :any;
   paiementSinistre: any=[];
-  isFichier :boolean = false;
-  isFondDocumentaire : boolean = false
   constructor(
     private reglementService: ReglementService,
     private formBuilder: FormBuilder,
@@ -182,7 +182,7 @@ export class FormPaiementSinistreComponent implements OnInit {
     this.etatComptable();
     if(this.isPaiement){
       this.getCessionnaire();
-    }
+    } 
   }
 
   getCheque(reglementId:number) {

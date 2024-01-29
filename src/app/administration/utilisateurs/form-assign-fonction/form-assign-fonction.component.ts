@@ -23,7 +23,7 @@ import { enumStatutFonction } from 'src/app/core/enumerator/enumerator';
 })
 export class FormAssignFonctionComponent implements OnInit {
 
- 
+  listesTypeFonctions :any =[];
   userForm!: FormGroup;
   @Input() itemToUpdate: UserSynchroRE; // Pour signifier la mofification de l'element
   busySuscription!: Subscription;
@@ -84,12 +84,13 @@ export class FormAssignFonctionComponent implements OnInit {
       this.userForm = this.formBuilder.group({
         userId: [this.itemToUpdate?.userId || ""],
         fncId: [this.currentFonction?.id || ""],
-        visibilityId:[this.currentFonction?.visibilityId],
-        libelleFonction : [this.currentFonction?.name],
-        dateDebutFonction : [this.currentFonction?.startsAt],
-        roles : [oldRole],
-        privileges : [oldPrivilege],
-        dateFinFonction : [this.currentFonction?.endsAt]
+        visibilityId:[this.currentFonction?.visibilityId,], 
+        libelleFonction : [this.currentFonction?.name || "",Validators.required],
+        typeFunctionId : [this.currentFonction?.typeFunctionId || null,Validators.required],
+        // dateDebutFonction : [this.currentFonction?.startsAt],
+        roles : [oldRole || null,Validators.required],
+        privileges : [oldPrivilege || null,Validators.required],
+        // dateFinFonction : [this.currentFonction?.endsAt]
       });
 
   };
@@ -97,6 +98,13 @@ export class FormAssignFonctionComponent implements OnInit {
   getFormFiledsValue = (field: string) => {
     return this.userForm.get(field);
   };
+
+  getTypeFonction(){
+    this.fonctionService.getTypeFonctions().subscribe((res:any)=>{
+      this.listesTypeFonctions = res;
+      // console.log(res , "res type fonc");
+    })
+  }
 
 
   confirmRevokeFonction(fonction){
@@ -133,7 +141,6 @@ export class FormAssignFonctionComponent implements OnInit {
     });
     
   }
-
 
   confirmSaveItem() {
 
@@ -185,15 +192,15 @@ export class FormAssignFonctionComponent implements OnInit {
       name: itemAEnregistrer.libelleFonction,
       fncId: this.currentFonction?.id,
       userId: this.itemToUpdate.userId,
-      startsAt: moment(itemAEnregistrer.dateDebutFonction).format("YYYY-MM-DD"),
-      endsAt: moment(itemAEnregistrer.dateFinFonction).format("YYYY-MM-DD"),
+      // startsAt: moment(itemAEnregistrer.dateDebutFonction).format("YYYY-MM-DD"),
+      // endsAt: moment(itemAEnregistrer.dateFinFonction).format("YYYY-MM-DD"),
       roleIds: itemAEnregistrer.roles,
       prvIds: itemAEnregistrer.privileges
     };
 
     // nous sommes au create
     this.busySuscription = this.fonctionService.update(initialFonctionDTO).subscribe((response : any) => {
-      console.log(" response ", response);
+      // console.log(" response ", response);
       if (response) {
         this.utilities.showNotification(
           "snackbar-success",
@@ -271,6 +278,7 @@ export class FormAssignFonctionComponent implements OnInit {
   ngOnInit(): void {
     // Initialisation du forms group
     this.createForm();
+    this.getTypeFonction();
     this.getPrivilege();
     this.getRoles();
   }

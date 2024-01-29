@@ -37,6 +37,28 @@ export class SinistreService {
     return this.restClient.put('sinistres/transmettre-pour-validation/'+`${body}`);
   }
 
+  noteDeDebit= (body:any) => {
+    return this.restClient.get('reports/note-debit-sinistre/'+`${body.sinId}`);
+  }
+
+  // /cessionnaires/by-sinistre/52
+
+  cessionnaireBySinistre = (body:any)=>{
+    return this.restClient.get('cessionnaires/by-sinistre/' + `${body.sinId}`)
+  }
+
+  cessionnaireCedImprimer= (body:any,itemCes:any) => {
+    return this.restClient.get('reports/note-cession-sinistre/'+`${body.sinId}/${itemCes.cesId}`);
+  }
+  
+  cessionnaireCedEnvoyer= (body:any,itemCes:any) => {
+    return this.restClient.get('sinistres/envoyer-note-cession-sinistre/'+`${body.sinId}/${itemCes.cesId}`);
+  }
+
+  transmissionAlaCedante= (body:any) => {
+    return this.restClient.get('sinistres/envoyer-note-debit-sinistre/'+`${body.sinId}`);
+  }
+
   retournerSinistre = (endPointRetourner?:string,body?:any) => {
     // let endPoint : any;
     // if (this.checkFonction('TRANS-SIN-VAL')) {

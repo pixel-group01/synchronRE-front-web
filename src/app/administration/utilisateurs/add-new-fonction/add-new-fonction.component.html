@@ -36,12 +36,12 @@
                           <label>Type de fonction :
                             <span class="required_champs">*</span>
                           </label>
-  {{userForm.value.typeFunctionId}}
+                              <!-- {{userForm.value.typeFunctionId}} -->
                           <ng-select formControlName="typeFunctionId" [multiple]="false" placeholder="Choisir le type de fonction" 
                           [closeOnSelect]="true" id="fonction"   [class.errorInputForm]="
                           getFormFiledsValue('typeFunctionId')?.invalid &&
                           getFormFiledsValue('typeFunctionId')?.touched
-                        " >
+                          ">
                             <ng-option *ngFor="let fonction of listesTypeFonctions" [value]="fonction?.typeId">{{ fonction.name
                               }}</ng-option>
                           </ng-select>
@@ -161,5 +161,4 @@
 
 
     </ng-container>
-
   </div>

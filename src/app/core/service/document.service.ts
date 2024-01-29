@@ -30,6 +30,10 @@ export class DocumentService {
     return this.restClient.get('documents/doc_aff/types');
   }
 
+  // typeDocumentSinistre = () => {
+  //   return this.restClient.get('documents/DOC_SIN/types');
+  // }
+
   typeDocumentPaiement = () => {
     return this.restClient.get('documents/doc_reg/types');
   }

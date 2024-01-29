@@ -32,7 +32,7 @@ export class FormPaiementComponent implements OnInit {
   @Input() currentAffaire: BusinessOptional;
   @Input() isPaiement: boolean;
   currentRowPaiement : any;
-
+  isNoteDebit :boolean = false;
   listeDocumentsAjoutes: any = {};
   listeCessionnaire: Cessionnaire[];
   currentUser: User;
@@ -63,12 +63,20 @@ export class FormPaiementComponent implements OnInit {
     let divDetails = document.getElementById("new-paiement-bilan");
 
     this.isFondDocumentaire = isFondDoc;
+  
+    console.log("isFondDocumentaire :" ,this.isFondDocumentaire , this.fileUrl);
+    
 
     if(currentRowPaiement) {
       this.currentRowPaiement = {...currentRowPaiement};
 
+<<<<<<< HEAD
       console.log(" this.currentRowPaiement ",this.currentRowPaiement);
 
+=======
+      // console.log(" this.currentRowPaiement ",this.currentRowPaiement);
+      
+>>>>>>> d3d9a90108f23c4eedc974ba2194dea0ba8779c2
     }
 
     if (divDetails && isOpen) {
@@ -204,6 +212,10 @@ export class FormPaiementComponent implements OnInit {
             this.getOldPaiement();
             this.getEtatComptable();
             this.openPanelNewPaiement(false);
+            if(!this.isPaiement){
+              this.getCessionnaire();
+            }
+
           }
         }
       });
@@ -220,6 +232,7 @@ export class FormPaiementComponent implements OnInit {
           let fileUrlDebitNote = "data:application/pdf;base64,"+response?.base64UrlString;
 
           this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
+          // note de debit
           this.openPanelNewPaiement(true)
         }
        )
@@ -227,7 +240,11 @@ export class FormPaiementComponent implements OnInit {
   }
 
   getCheque(reglementId:number) {
+<<<<<<< HEAD
     this.isNoteDebit = true;
+=======
+    this.isNoteDebit = true
+>>>>>>> d3d9a90108f23c4eedc974ba2194dea0ba8779c2
     if(reglementId) {
       // window.open(environment.apiUrl+'reports/cheque/'+reglementId, '_blank');
 

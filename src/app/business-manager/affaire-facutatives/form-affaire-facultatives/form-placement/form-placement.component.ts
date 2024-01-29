@@ -80,7 +80,7 @@ export class FormPlacementComponent implements OnInit {
   }
 
   getInterlocuteurSelected($event) { 
-    console.log(" $event ",$event);
+    // console.log(" $event ",$event);
 
     this.idInterlocuteurPrincipale = 0;
     this.idsInterlocuteurs = [];

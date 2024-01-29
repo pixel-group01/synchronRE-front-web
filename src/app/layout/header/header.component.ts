@@ -158,11 +158,11 @@ export class HeaderComponent
   getNotificationCedenteAffaireRetourner(){
     this.restClient.get('notifications').subscribe(
       (response : any) => {
-        console.log(" Retour du service0 ",response);
+        // console.log(" Retour du service0 ",response);
         this.listeNotifications = [];
         if(response) {
           // let results =  _.filter(response['content'], (o)=> { return o.statutCode?.toLowerCase() === enumStatutAffaire?.RETOURNER?.toLowerCase() });
-        console.log(" Retour du service 1",response);
+        // console.log(" Retour du service 1",response);
         this.listeNotifications = this.listeNotifications = response.detailsNotifications.filter((item:any)=>{
             if (this.codeFind(item?.tyfCodes, this.currentUser.tyfCode)) {
                   return item
