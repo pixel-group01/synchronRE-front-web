@@ -57,7 +57,7 @@ export class CessionnaireSinsitreComponent implements OnInit {
       if (res) {
         this.utilities.showNotification(
           "snackbar-success",
-          "Votre mail a été envoyé avec success",
+          "Votre mail a été envoyé avec succès",
           "top",
           "center"
         );
