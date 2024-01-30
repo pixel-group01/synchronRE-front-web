@@ -27,6 +27,7 @@ export class FormStatutComponent implements OnInit {
   @Input() itemToUpdate: Statut; // Pour signifier la mofification de l'element
   busySuscription!: Subscription;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  busySave: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,

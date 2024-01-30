@@ -61,8 +61,14 @@ export class CessionnaireSinsitreComponent implements OnInit {
           "top",
           "center"
         );
+      }else{
+        this.utilities.showNotification(
+          "snackbar-danger",
+          "Echec de l'envoie du mail, veuillez reessayer plus tard svp!",
+          "top",
+          "center"
+        );
       }
-      
     })
   }
 

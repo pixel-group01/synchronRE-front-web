@@ -67,15 +67,9 @@ export class CreationDocumentSinistreComponent implements OnInit {
 
   getTypeDocument() {
     if (this.isSinistre) {
-<<<<<<< HEAD
       this.documentService.typeDocument().subscribe((res: any) => {
         this.listeTypeDocument = res;
       });
-=======
-      this.documentService.typeDocument().subscribe((res: any) => {        
-        this.listeTypeDocument = res;
-      }); 
->>>>>>> d3d9a90108f23c4eedc974ba2194dea0ba8779c2
     }
     if (this.idAffaire) {
       this.documentService.typeDocumentAffaire().subscribe((res: any) => {
