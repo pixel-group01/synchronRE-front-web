@@ -9,6 +9,7 @@ import { BrancheParameterComponent } from './branche-parameter/branche-parameter
 import { CouvertureParameterComponent } from './couverture-parameter/couverture-parameter.component';
 import { CedenteParameterComponent } from './cedente-parameter/cedente-parameter.component';
 import { CessionnaireComponent } from './cessionnaire/cessionnaire.component';
+// import {ExerciceComponent} from "./exercice-parameter/exercice/exercice.component";
 const routes: Routes = [
   {
     path: 'sample',
@@ -18,6 +19,10 @@ const routes: Routes = [
     path: 'bank',
     component: BankParameterComponent,
   },
+  // {
+  //   path: 'exercice',
+  //   component: ExerciceComponent,
+  // },
   {
     path: 'country',
     component: CountryParameterComponent,
@@ -40,11 +45,11 @@ const routes: Routes = [
   },
   {
     path: 'cedante',
-    component: CedenteParameterComponent, 
+    component: CedenteParameterComponent,
   },
   {
     path: 'cessionnaire',
-    component: CessionnaireComponent, 
+    component: CessionnaireComponent,
   },
 
 ];
