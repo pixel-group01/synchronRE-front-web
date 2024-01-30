@@ -140,7 +140,7 @@ export class CreationSinistreComponent implements OnInit {
   //   sinDateDeclaration: new FormControl(),
   //   sinCommentaire: new FormControl()
   // });
-
+ 
   save(data:any){
     // console.log('les données 0:',data ,this.itemCreationSinistre);
     if(this.dataDeclaration){
