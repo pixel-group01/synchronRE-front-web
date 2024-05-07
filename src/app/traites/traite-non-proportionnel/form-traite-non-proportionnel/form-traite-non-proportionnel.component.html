@@ -1,0 +1,64 @@
+<div class="container-affaire-facultative">
+
+    <div class="step-evolution">
+        <div
+          class="step-item"
+          [class.active-stepper]="stepWizard == 1"
+          [class.good-stepper]="stepWizard > 1"
+        >
+          <div class="title-stepper">
+            <b>1</b>
+            <span>Identification</span>
+          </div>
+          <i class="fa fa-circle"></i>
+        </div>
+
+        <div
+          class="step-item"
+          [class.active-stepper]="stepWizard == 2"
+          [class.good-stepper]="stepWizard > 2"
+        >
+          <div class="title-stepper">
+            <b>2</b>
+            <span>Condition du traité</span>
+          </div>
+          <i class="fa fa-circle"></i>
+        </div>
+
+        <div
+          class="step-item"
+          [class.active-stepper]="stepWizard == 3"
+          [class.good-stepper]="stepWizard > 3"
+          *ngIf="!user?.cedId"
+        >
+          <div class="title-stepper">
+            <b>3</b>
+            <span>Répartition</span>
+          </div>
+          <i class="fa fa-circle"></i>
+        </div>
+
+        <div class="divider-evolution"></div>
+      </div>
+
+      <div class="stepper-body">
+        <div class="stepper-form">
+            <ng-container *ngIf="stepWizard == 1">
+                <!-- <app-form-identification (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" [isWizardProcess]="true"></app-form-identification> -->
+                <app-information-general-traite-non-proportion  (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" [isWizardProcess]="true"></app-information-general-traite-non-proportion>
+            </ng-container>
+ 
+            <ng-container *ngIf="stepWizard == 2">
+                <!-- <app-form-repartition  (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" [isWizardProcess]="true" ></app-form-repartition> -->
+                <app-condition-traite-non-proportion (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" [isWizardProcess]="true" ></app-condition-traite-non-proportion>
+            </ng-container>
+
+            <ng-container *ngIf="stepWizard == 3">
+                <!-- <app-form-placement  (stepperInice)="gotoStepper($event)"  [isWizardProcess]="true" [isPlacement]="true"></app-form-placement> -->
+                <app-repartition-traite-non-proportion (stepperInice)="gotoStepper($event)"  [isWizardProcess]="true" [isPlacement]="true"></app-repartition-traite-non-proportion>
+            </ng-container>
+
+        </div>
+      </div>
+
+</div> 

@@ -1,0 +1,169 @@
+<div
+  class="body table-responsive clsOverflow"
+  [ngBusy]="{busy: busyGet, message: 'Veuillez patienter ...', backdrop: false}"
+>
+ <fieldset class="mb-3 mt-3">
+    <legend>Ajouter une répartition</legend>
+    <div class="row d-flex align-items-end">
+        <div class="col-md-5 col-xs-12 col-sm-12">
+          <label>Réassureur : </label>
+          <ng-select 
+            name="affaireDevise" 
+            id="affaireDevise"
+            notFoundText="Aucune donnée"
+            placeholder="Ex: Aveni Re"
+            [items]=""
+            [multiple]="true"
+            bindLabel="devCode"
+            bindValue="devCode"
+            >
+        </ng-select>
+        </div>
+        <div class="col-md-2 col-xs-12 col-sm-12">
+            <label>Part(%): </label>
+            <input
+              [(ngModel)]="itemToSearch.libelle"
+              class="form-control custom-input pull-left"
+              placeholder="15"
+            />
+          </div>
+        <div class="col-md-2 col-xs-12 col-sm-12">
+            <button type="button" class="btn btn-md custom_btn_primary">Ajouter</button>
+        </div>
+      </div>
+ </fieldset>
+          
+ 
+  <table class="table table-condensed table-striped table-hover">
+    <thead>
+      <tr>
+        <th colspan="5">
+          <div class="row">
+            <div class="col-md-5 col-xs-12 col-sm-12">
+              <!-- <label>Rechercher par mot clé : </label> -->
+              <input
+                [(ngModel)]="itemToSearch.libelle"
+                class="form-control custom-input pull-left"
+                placeholder="Rechercher ..."
+                (keyup)="currentPage = 1; getItems()"
+              />
+            </div>
+          </div>
+        </th>
+      </tr>
+
+      <tr class="custom-table-head">
+        <th>Réassureurs</th>
+        <th>Part(%)</th>
+        <th class="txt-align-center">Actions</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of items; let indice = index">
+        <td>{{ item?.exeCode }}</td>
+        <td>{{ item?.affCode }}</td>
+        <td class="custom-width-td-action">
+            <div class="custom-td-action">
+              <div ngbDropdown class="d-inline-block">
+                <button
+                  type="button"
+                  class="btn btn-custom-action-dropdown"
+                  id="action"
+                  ngbDropdownToggle
+                >
+                  Actions
+                </button>
+                <div
+                  ngbDropdownMenu
+                  aria-labelledby="action"
+                  class="dropdown-validation-plainte"
+                >
+               
+                  <button
+                  ngbDropdownItem
+                  (click)="openModal(templateDetailsAffaire,item)"
+                >
+                  <i class="fa fa-list"></i>&nbsp;Détails l'affaire
+                </button>
+  
+                  <button
+                    ngbDropdownItem
+                    (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
+                  >
+                    <i class="fa fa-money-bill"></i>&nbsp;Paiement
+                  </button>
+  
+                  <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
+                    <i class="fa fa-redo-alt"></i>&nbsp; Reversement
+                  </button>                 
+                  
+                </div>
+              </div>
+            </div>
+          </td>
+      </tr>
+    </tbody>
+
+    <tfoot>
+      <tr *ngIf="items && items.length > 0">
+        <td colspan="14">
+          <div class="row pagination-part">
+            <div class="col-md-9" style="text-align: center">
+              <pagination
+                [boundaryLinks]="true"
+                [itemsPerPage]="itemsPerPage"
+                [totalItems]="totalItems"
+                [(ngModel)]="currentPage"
+                class="pagination-sm"
+                previousText="&lsaquo;"
+                nextText="&rsaquo;"
+                firstText="&laquo;"
+                lastText="&raquo;"
+                (pageChanged)="pageChanged($event)"
+              ></pagination>
+            </div>
+
+            <div class="col-md-3">
+              <div class="paginator-per-page">
+                <app-element-by-page-paginator
+                  (paginationChange)="changePaginationSize($event)"
+                  [defaultItemPerPage]="itemsPerPage"
+                ></app-element-by-page-paginator>
+
+                <span class="span_total_entree pull-right"
+                  >Total : {{ totalItems }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+
+      <tr *ngIf="!items || items.length == 0">
+        <td colspan="14">
+          <div class="col-md-12 txt-align-center">
+            Aucune donnée disponible
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+
+<ng-template #templatePaiement> 
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">
+        {{isOngletPaiement ? 'Paiement':'Reversement' }} affaire N° {{itemToSave?.affCode}}
+      </h4>
+
+      <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="modal-body">
+      <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement>
+    </div>
+  </ng-template>

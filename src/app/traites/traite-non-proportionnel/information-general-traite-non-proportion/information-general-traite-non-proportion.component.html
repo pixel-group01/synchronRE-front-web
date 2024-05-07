@@ -1,0 +1,230 @@
+<div
+  class="form-indentification-container"
+  [ngBusy]="{
+    busy: busySave,
+    message: 'Veuillez patienter ...',
+    backdrop: false
+  }"
+>
+  <form [formGroup]="formulaireGroup" (ngSubmit)="confirmSaveItem()">
+    <fieldset class="mt-3">
+        <legend>Identification du traité</legend>
+        <div class="row">
+        <div class="col-md-1 col-xs-12 col-sm-12 mb-1">
+            <label>Exercice : <span class="required_champs">*</span> </label>
+    
+            <ng-select
+              formControlName="exeCode"
+              name="exeCode"
+              id="exeCode"
+              [readonly]="true"
+            >
+              <ng-option
+                *ngFor="let exercice of listeExercices"
+                [value]="exercice?.exeCode"
+                >{{ exercice.exeLibelle }}</ng-option
+              >
+            </ng-select>
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('exeCode')?.dirty || getFormFiledsValue('exeCode')?.touched) && getFormFiledsValue('exeCode')?.invalid && getFormFiledsValue('exeCode')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+    
+          <div class="col-md-3 col-xs-12 col-sm-12 mb-3">
+            <label>Filiale/cédante : <span class="required_champs">*</span> </label>
+    
+            <ng-select
+              formControlName="cedId"
+              name="cedenteId"
+              id="cedenteId"
+              [readonly]="user?.cedId || isDetails"
+            >
+              <ng-option
+                *ngFor="let cedente of listeCedente"
+                [value]="cedente?.cedId"
+                >{{ cedente.cedNomFiliale }}</ng-option
+              >
+            </ng-select>
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('cedId')?.dirty || getFormFiledsValue('cedId')?.touched) && getFormFiledsValue('cedId')?.invalid && getFormFiledsValue('cedId')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+    
+          <div class="col-md-2 col-xs-12 col-sm-12 mb-2">
+            <label>Devise : <span class="required_champs">*</span> </label>
+    
+            <ng-select
+              formControlName="devCode"
+              name="devCode"
+              [readonly]="isDetails"
+              id="devCode"
+            >
+              <ng-option
+                *ngFor="let devise of listeDevises"
+                [value]="devise?.devCode"
+                >{{ devise.devLibelle }}</ng-option
+              >
+            </ng-select>
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('devCode')?.dirty || getFormFiledsValue('devCode')?.touched) && getFormFiledsValue('devCode')?.invalid && getFormFiledsValue('devCode')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+    
+          <div class="col-md-2 col-xs-12 col-sm-12 mb-2">
+            <label>Statut : <span class="required_champs">*</span> </label>
+    
+            <ng-select
+              formControlName="affStatutCreation"
+              name="affStatutCreation"
+              id="affStatutCreation"
+              [readonly]="isDetails"
+            >
+              <ng-option
+                *ngFor="let affaires of listeStatus"
+                [value]="affaires?.code"
+                >{{ affaires.libelle }}</ng-option
+              >
+            </ng-select>
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('affStatutCreation')?.dirty || getFormFiledsValue('affStatutCreation')?.touched) && getFormFiledsValue('affStatutCreation')?.invalid && getFormFiledsValue('affStatutCreation')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+    
+          <div class="col-md-4 col-xs-12 mb-3">
+            <label
+              >Assuré :
+              <span class="required_champs">*</span>
+            </label>
+            <input
+              class="form-control custom-input"
+              placeholder="Assuré"
+              autocomplete="off"
+              formControlName="affAssure"
+              name="affAssure"
+              [readonly]="isDetails"
+              [class.errorInputForm]="
+                getFormFiledsValue('affAssure')?.invalid &&
+                getFormFiledsValue('affAssure')?.touched
+              "
+              type="text"
+            />
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+        </div>
+    </fieldset>
+    
+    <fieldset class="mt-4">
+        <legend>Comptabilisation</legend>
+        <div class="row">
+            <div class="col-12 mb-3">
+              <label
+                >Activité :
+                <span class="required_champs">*</span>
+              </label>
+      
+              <textarea
+                class="form-control custom-input"
+                formControlName="affActivite"
+                name="affActivite"
+                [readonly]="isDetails"
+                [class.errorInputForm]="
+                  getFormFiledsValue('affActivite')?.invalid &&
+                  getFormFiledsValue('affActivite')?.touched
+                "
+                type="text"
+                id="affActivite"
+                rows="2"
+                placeholder="Activité"
+                autocomplete="off"
+              ></textarea>
+      
+              <!-- <input
+                        class="form-control custom-input"
+                        placeholder="Activité"
+                        autocomplete="off"
+                        formControlName="affActivite"
+                        name="affActivite"
+                        [class.errorInputForm]="getFormFiledsValue('affActivite')?.invalid && getFormFiledsValue('affActivite')?.touched"
+                        type="text"
+                      />  -->
+              <small
+                class="text-danger"
+                *ngIf="(getFormFiledsValue('affActivite')?.dirty || getFormFiledsValue('affActivite')?.touched) && getFormFiledsValue('affActivite')?.invalid && getFormFiledsValue('affActivite')?.errors?.['required']"
+              >
+                Ce champ est obligatoire
+              </small>
+            </div>
+          </div>
+    </fieldset>
+ 
+    <fieldset class="mt-4">
+        <legend>Rénumeration du courtier</legend>
+        <div class="row">
+            <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+              <label>Branche : <span class="required_champs">*</span> </label>
+              <ng-select
+                formControlName="couvertureId"
+                [readonly]="isDetails"
+                name="couvertureId"
+                id="couvertureId"
+              >
+                <ng-option
+                  *ngFor="let couverture of listeCouvertures"
+                  [value]="couverture?.couId"
+                  >{{ couverture.couLibelle }}</ng-option
+                >
+              </ng-select>
+            </div>
+      
+            <div class="col-md-6 col-xs-12 mb-3">
+              <label>N°Police :</label>
+              <input
+                class="form-control custom-input"
+                placeholder="N° Police"
+                autocomplete="off"
+                [readonly]="isDetails"
+                formControlName="facNumeroPolice"
+                name="facNumeroPolice"
+                type="text"
+              />
+            </div>
+          </div>
+    </fieldset>
+
+    <div class="custom-btn-save-manager" *ngIf="!isDetails">
+      <button
+        type="submit"
+        class="btn btn-md custom_btn_primary pull-right"
+        
+      >
+        {{ itemToUpdate?.affId ? "Modifier" : "Enregistrer et continuer" }}
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-md btn-cancel pull-right"
+        (click)="closeModal.emit(false)"
+        *ngIf="isWizardProcess"
+      >
+        Annuler
+      </button>
+    </div>
+  </form>
+</div>

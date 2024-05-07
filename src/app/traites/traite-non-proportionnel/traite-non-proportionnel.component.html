@@ -1,0 +1,64 @@
+<section class="content">
+    <div class="content-block">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header mb-3">
+                        <h2><strong>Traitée</strong> non proportionnel</h2>
+                    </div> 
+                    <div class="body">
+                        <mat-tab-group>
+                            <mat-tab label="En cours de saisie"> 
+                                <ng-template matTabContent>
+                                    <div class="header-btn-new-affaire">
+                                        <button type="button" class="btn btn-md custom_btn_primary pull-right" appAppAccess appAccess="CRT-FAC"
+                                            (click)="openModal(templateNewBusiness)">
+                                            <i class="fa fa-plus"></i>&nbsp; Nouveau traité
+                                        </button>
+                                    </div> 
+                                    <app-liste-traites-non-proportionnel [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante':'affaires/facultative/by-reassureur-en-traitement' "
+                                    [refreshDataTable]="refreshDataTable">
+                                    </app-liste-traites-non-proportionnel>
+
+                                </ng-template>
+                            </mat-tab> 
+                            <mat-tab label="En attente de validation">
+                                <ng-template matTabContent>
+                                    <app-liste-traites-non-proportionnel [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante':'affaires/facultative/by-reassureur-en-traitement' "
+                                    [refreshDataTable]="refreshDataTable">
+                                    </app-liste-traites-non-proportionnel>
+                                </ng-template>
+                            </mat-tab> 
+                            <mat-tab label="Validé">
+                                <ng-template matTabContent>
+                                    <app-liste-traites-non-proportionnel [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante':'affaires/facultative/by-reassureur-en-traitement' "
+                                    [refreshDataTable]="refreshDataTable">
+                                    </app-liste-traites-non-proportionnel>
+                                </ng-template>
+                            </mat-tab>
+                           
+
+                        </mat-tab-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Enregistrement template -->
+<ng-template #templateNewBusiness>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">
+            Création d'un nouveau traité non proportionnel
+        </h4>
+
+        <button mat-icon-button class="pull-right" (click)="closeFormModal()" aria-label="Close dialog">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="modal-body p-4">
+        <app-form-traite-non-proportionnel (closeModal)="closeFormModal($event)"></app-form-traite-non-proportionnel>
+    </div>
+</ng-template>

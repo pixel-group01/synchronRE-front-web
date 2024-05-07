@@ -65,7 +65,6 @@ export class FormPaiementComponent implements OnInit {
   
     console.log("isFondDocumentaire :" ,this.isFondDocumentaire , this.fileUrl);
     
-
     if(currentRowPaiement) {
       this.currentRowPaiement = {...currentRowPaiement};
 

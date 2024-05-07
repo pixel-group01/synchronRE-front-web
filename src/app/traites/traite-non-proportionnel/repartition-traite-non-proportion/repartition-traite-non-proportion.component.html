@@ -1,0 +1,42 @@
+<div class="placement-container">
+    <form
+      name="placement"
+      [ngBusy]="{
+        busy: busySave,
+        message: 'Veuillez patienter ...',
+        backdrop: false
+      }"
+    >
+      <div class="row">
+        <div class="col-12 mb-3">
+          <!-- <fieldset>
+            <div>
+              <app-details-information-identification
+                [isPlacement]="true"
+                [refreshData]="refreshData"
+              ></app-details-information-identification>
+
+            </div>
+          </fieldset> -->
+          <div>
+            <app-form-traite-non-proportion-step3></app-form-traite-non-proportion-step3>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- FIN EFFECTUER PLACEMENT EN TABSET-->
+  
+      <div class="custom-btn-save-manager">
+        <button
+          type="button"
+          class="btn btn-md btn-cancel pull-right"
+          (click)="gotoPreviousStep()"
+          *ngIf="isWizardProcess && !isDetails"
+        >
+          Précedent
+        </button>
+      </div>
+    </form>
+  </div>
+  

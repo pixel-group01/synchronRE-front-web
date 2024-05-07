@@ -4,8 +4,3 @@
     border-radius: 5px;
     margin-top: 15px;
 }
-
-::ng-deep .cdk-overlay-container {
-    position: fixed;
-    z-index: 10000;
-}

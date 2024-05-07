@@ -1,0 +1,19 @@
+
+::ng-deep .cdk-overlay-container {
+    position: fixed;
+    z-index: 10000;
+  }
+
+  .repartition-container {
+    margin-top: 15px;
+
+    .form-repartition {
+      height: 500px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+
+  .inactif {
+    background-color: #f4f4f4 !important;
+  }
