@@ -84,7 +84,7 @@ export class FormAssignFonctionComponent implements OnInit {
       this.userForm = this.formBuilder.group({
         userId: [this.itemToUpdate?.userId || ""],
         fncId: [this.currentFonction?.id || ""],
-        visibilityId:[this.currentFonction?.visibilityId,], 
+        visibilityId:[this.currentFonction?.visibilityId,],
         libelleFonction : [this.currentFonction?.name || "",Validators.required],
         typeFunctionId : [this.currentFonction?.typeFunctionId || null,Validators.required],
         // dateDebutFonction : [this.currentFonction?.startsAt],
@@ -139,7 +139,7 @@ export class FormAssignFonctionComponent implements OnInit {
       }
       this.getDetailsFonction();
     });
-    
+
   }
 
   confirmSaveItem() {
@@ -185,13 +185,13 @@ export class FormAssignFonctionComponent implements OnInit {
   }
 
   saveItem(item: UserSynchroRE) {
-
     let itemAEnregistrer = Object.assign({}, item);
 
     let initialFonctionDTO = {
       name: itemAEnregistrer.libelleFonction,
       fncId: this.currentFonction?.id,
       userId: this.itemToUpdate.userId,
+      typeFunctionId: item.typeFunctionId,
       // startsAt: moment(itemAEnregistrer.dateDebutFonction).format("YYYY-MM-DD"),
       // endsAt: moment(itemAEnregistrer.dateFinFonction).format("YYYY-MM-DD"),
       roleIds: itemAEnregistrer.roles,
@@ -211,7 +211,7 @@ export class FormAssignFonctionComponent implements OnInit {
       }
       this.closeModal.emit(true);
     });
-    
+
   }
 
   getPrivilege() {
