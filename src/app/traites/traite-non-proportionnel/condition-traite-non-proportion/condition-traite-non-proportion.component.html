@@ -1,0 +1,106 @@
+<div
+  class="repartition-container"
+  [ngBusy]="{
+    busy: busySave,
+    message: 'Veuillez patienter ...',
+    backdrop: false
+  }"
+>
+  <form name="form-repartition" (ngSubmit)="confirmSaveItem()">
+    <div class="row">
+      <div class="col-4">
+        <fieldset>
+          <legend>Téritorrilité</legend>
+
+          <div>
+            <app-teritorrilite></app-teritorrilite>
+          </div>
+        </fieldset>
+      </div>
+      <div class="col-4">
+        <fieldset>
+          <legend>Risque couverts</legend>
+
+          <div>
+            <app-risque-couverts></app-risque-couverts>
+          </div>
+        </fieldset>
+      </div>
+      <div class="col-4">
+        <fieldset>
+          <legend>Catégorie</legend>
+
+          <div>
+            <app-categorie></app-categorie>
+          </div>
+        </fieldset>
+      </div>
+      <div class="col-6 mt-4">
+        <fieldset>
+          <legend>Assiète de prime</legend>
+
+          <div>
+            <app-assiete-prime></app-assiete-prime>
+          </div>
+        </fieldset>
+      </div>
+      <div class="col-6 mt-4">
+        <fieldset>
+          <legend>Tranche</legend>
+
+          <div>
+            <app-tranche></app-tranche>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="col-6 mt-4">
+        <fieldset>
+          <legend>Limite de souscription</legend>
+
+          <div>
+            <app-limite-souscription></app-limite-souscription>
+          </div>
+        </fieldset>
+      </div>
+      <div class="col-6 mt-4">
+        <fieldset>
+          <legend>Sous Limite</legend>
+
+          <div>
+            <app-sous-limite></app-sous-limite>
+          </div>
+        </fieldset>
+      </div>
+      <div class="col-6 mt-4">
+        <fieldset>
+          <legend>Réconstitution</legend>
+
+          <div>
+            <app-reconstitution></app-reconstitution>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+  
+    <div class="custom-btn-save-manager" *ngIf="!isDetails">
+      <button type="submit" class="btn btn-md custom_btn_primary pull-right">
+        {{
+          itemToUpdate?.affId || isUpdateRepartition
+            ? "Modifier"
+            : "Enregistrer"
+        }}
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-md btn-cancel pull-right"
+        (click)="gotoPreviousStep()"
+        *ngIf="isWizardProcess"
+      >
+        Précedent
+      </button>
+    </div>
+  </form>
+</div>

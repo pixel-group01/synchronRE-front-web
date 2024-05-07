@@ -66,6 +66,16 @@ const routes: Routes = [
             (m) => m.ComptabiliteModule
           ),
       },
+
+      {
+        path: "traites",
+        canActivate: [AuthGuard],
+        loadChildren: () =>
+          import("./traites/traite.module").then(
+            (m) => m.TraiteModule
+          ),
+      },
+
       {
         path: "parametres",
         canActivate: [AuthGuard],
