@@ -12,12 +12,12 @@
         <div class="row">
         <div class="col-md-3 col-xs-12 col-sm-12 mb-1">
             <label>Exercice : <span class="required_champs">*</span> </label>
-    
+
             <ng-select
               formControlName="exeCode"
               name="exeCode"
               id="exeCode"
-              [readonly]="true"
+              [readonly]="false"
             >
               <ng-option
                 *ngFor="let exercice of listeExercices"
@@ -32,10 +32,10 @@
               Ce champ est obligatoire
             </small>
           </div>
-    
+
           <!-- <div class="col-md-3 col-xs-12 col-sm-12 mb-3">
             <label>Filiale/cédante : <span class="required_champs">*</span> </label>
-    
+
             <ng-select
               formControlName="cedId"
               name="cedenteId"
@@ -55,7 +55,7 @@
               Ce champ est obligatoire
             </small>
           </div> -->
-    
+
           <div class="col-md-3 col-xs-12 mb-1">
             <label
               >Numéro de police :
@@ -63,7 +63,7 @@
             </label>
             <input
               class="form-control custom-input"
-              placeholder="Assuré"
+              placeholder="Numéro de police"
               autocomplete="off"
               formControlName="affAssure"
               name="affAssure"
@@ -89,7 +89,7 @@
             </label>
             <input
               class="form-control custom-input"
-              placeholder="Assuré"
+              placeholder="Référence "
               autocomplete="off"
               formControlName="affAssure"
               name="affAssure"
@@ -115,7 +115,7 @@
             </label>
             <input
               class="form-control custom-input"
-              placeholder="Assuré"
+              placeholder="Source"
               autocomplete="off"
               formControlName="affAssure"
               name="affAssure"
@@ -136,17 +136,18 @@
 
           <div class="col-md-6 col-xs-12 col-sm-12 mb-1">
             <label>Nature : <span class="required_champs">*</span> </label>
-    
+
             <ng-select
-              formControlName="exeCode"
-              name="exeCode"
-              id="exeCode"
-              
+              formControlName="natLibelle"
+              name="natLibelle"
+              id="natLibelle"
+
             >
               <ng-option
-                *ngFor="let exercice of listeExercices"
-                [value]="exercice?.exeCode"
-                >{{ exercice.exeLibelle }}</ng-option
+                *ngFor="let nature of natureListe"
+                [value]="nature"
+                >{{ nature.natLibelle }}
+              </ng-option
               >
             </ng-select>
             <small
@@ -159,16 +160,16 @@
 
           <div class="col-md-6 col-xs-12 col-sm-12 mb-1">
             <label>Exercice de rattachement : <span class="required_champs">*</span> </label>
-    
+
             <ng-select
-              formControlName="exeCode"
-              name="exeCode"
-              id="exeCode"
-              
+              formControlName="exeLibelle"
+              name="exeLibelle"
+              id="exeLibelle"
+
             >
               <ng-option
-                *ngFor="let exercice of listeExercices"
-                [value]="exercice?.exeCode"
+                *ngFor="let exercice of exoRattachement"
+                [value]="exercice"
                 >{{ exercice.exeLibelle }}</ng-option
               >
             </ng-select>
@@ -185,18 +186,19 @@
               >Date d'effet :
               <span class="required_champs">*</span>
             </label>
+
             <input
               class="form-control custom-input"
-              placeholder="Assuré"
+              placeholder="02/01/2024"
               autocomplete="off"
-              formControlName="affAssure"
-              name="affAssure"
-              [readonly]="isDetails"
-              [class.errorInputForm]="
-                getFormFiledsValue('affAssure')?.invalid &&
-                getFormFiledsValue('affAssure')?.touched
-              "
+              formControlName="sinDateSurvenance"
+              [bsConfig]="{ isAnimated: true ,dateInputFormat: 'DD/MM/YYYY',containerClass: 'theme-dark-blue'}"
+              bsDatepicker
+              name="sinDateSurvenance"
               type="text"
+              [class.errorInputForm]="
+                      getFormFiledsValue('sinDateSurvenance')?.invalid &&
+                      getFormFiledsValue('sinDateSurvenance')?.touched"
             />
             <small
               class="text-danger"
@@ -212,16 +214,16 @@
             </label>
             <input
               class="form-control custom-input"
-              placeholder="Assuré"
+              placeholder="02/01/2024"
               autocomplete="off"
-              formControlName="affAssure"
-              name="affAssure"
-              [readonly]="isDetails"
-              [class.errorInputForm]="
-                getFormFiledsValue('affAssure')?.invalid &&
-                getFormFiledsValue('affAssure')?.touched
-              "
+              formControlName="sinDateSurvenance"
+              [bsConfig]="{ isAnimated: true ,dateInputFormat: 'DD/MM/YYYY',containerClass: 'theme-dark-blue'}"
+              bsDatepicker
+              name="sinDateSurvenance"
               type="text"
+              [class.errorInputForm]="
+                      getFormFiledsValue('sinDateSurvenance')?.invalid &&
+                      getFormFiledsValue('sinDateSurvenance')?.touched"
             />
             <small
               class="text-danger"
@@ -232,17 +234,17 @@
           </div>
           <div class="col-md-3 col-xs-12 col-sm-12 mb-1">
             <label>Devise : <span class="required_champs">*</span> </label>
-    
+
             <ng-select
-              formControlName="exeCode"
-              name="exeCode"
-              id="exeCode"
-              
+              formControlName="devLibelle"
+              name="devLibelle"
+              id="devLibelle"
+
             >
               <ng-option
-                *ngFor="let exercice of listeExercices"
-                [value]="exercice?.exeCode"
-                >{{ exercice.exeLibelle }}</ng-option
+                *ngFor="let devise of deviseListe"
+                [value]="devise?.devLibelle"
+                >{{ devise.devLibelle }}</ng-option
               >
             </ng-select>
             <small
@@ -254,12 +256,12 @@
           </div>
           <div class="col-md-3 col-xs-12 mb-1">
             <label
-              >Coûts :
+              >Cours :
               <span class="required_champs">*</span>
             </label>
             <input
               class="form-control custom-input"
-              placeholder="Assuré"
+              placeholder="Cours"
               autocomplete="off"
               formControlName="affAssure"
               name="affAssure"
@@ -285,7 +287,7 @@
             </label>
             <input
               class="form-control custom-input"
-              placeholder="Assuré"
+              placeholder="Placé par"
               autocomplete="off"
               formControlName="affAssure"
               name="affAssure"
@@ -305,37 +307,34 @@
           </div>
         </div>
     </fieldset>
-    
+
     <fieldset class="mt-4">
         <legend>Comptabilisation</legend>
         <div class="row">
-      
-            <div class="col-md-3 col-xs-12 mb-1">
-              <label
-                >Périodicité :
-                <span class="required_champs">*</span>
-              </label>
-              <input
-                class="form-control custom-input"
-                placeholder="Assuré"
-                autocomplete="off"
-                formControlName="affAssure"
-                name="affAssure"
-                [readonly]="isDetails"
-                [class.errorInputForm]="
-                  getFormFiledsValue('affAssure')?.invalid &&
-                  getFormFiledsValue('affAssure')?.touched
-                "
-                type="text"
-              />
-              <small
-                class="text-danger"
-                *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"
+          <div class="col-md-3 col-xs-12 col-sm-12 mb-1">
+            <label>Periodicité : <span class="required_champs">*</span> </label>
+
+            <ng-select
+              formControlName="perLibelle"
+              name="perLibelle"
+              id="perLibelle"
+
+            >
+              <ng-option
+                *ngFor="let periodicite of PeriodiciteListe"
+                [value]="PeriodiciteListe.devLibelle"
+              >{{ periodicite.perLibelle }}</ng-option
               >
-                Ce champ est obligatoire
-              </small>
-            </div>
-  
+            </ng-select>
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('exeCode')?.dirty || getFormFiledsValue('exeCode')?.touched) && getFormFiledsValue('exeCode')?.invalid && getFormFiledsValue('exeCode')?.errors?.['required']"
+            >
+              Ce champ est obligatoire
+            </small>
+          </div>
+
+
             <div class="col-md-3 col-xs-12 mb-1">
               <label
                 >Delai d'envoi (jours) :
@@ -343,7 +342,7 @@
               </label>
               <input
                 class="form-control custom-input"
-                placeholder="Assuré"
+                placeholder="Delai d'envoi"
                 autocomplete="off"
                 formControlName="affAssure"
                 name="affAssure"
@@ -369,7 +368,7 @@
               </label>
               <input
                 class="form-control custom-input"
-                placeholder="Assuré"
+                placeholder="Délai de confirmation"
                 autocomplete="off"
                 formControlName="affAssure"
                 name="affAssure"
@@ -388,135 +387,132 @@
               </small>
             </div>
 
-           <div class="col-md-3 col-xs-12 mb-1">
-              <label
-                >Dévise :
-                <span class="required_champs">*</span>
-              </label>
-              <input
-              class="form-control custom-input"
-              placeholder="Assuré"
-              autocomplete="off"
-              formControlName="affAssure"
-              name="affAssure"
-              [readonly]="isDetails"
-              [class.errorInputForm]="
-                getFormFiledsValue('affAssure')?.invalid &&
-                getFormFiledsValue('affAssure')?.touched
-              "
-              type="text"
-            />
-              <small
-                class="text-danger"
-                *ngIf="(getFormFiledsValue('affActivite')?.dirty || getFormFiledsValue('affActivite')?.touched) && getFormFiledsValue('affActivite')?.invalid && getFormFiledsValue('affActivite')?.errors?.['required']"
+          <div class="col-md-3 col-xs-12 col-sm-12 mb-1">
+            <label>Devise : <span class="required_champs">*</span> </label>
+
+            <ng-select
+              formControlName="devLibelle"
+              name="devLibelle"
+              id="devLibelle"
+
+            >
+              <ng-option
+                *ngFor="let devise of deviseListe"
+                [value]="devise?.devLibelle"
+              >{{ devise.devLibelle }}</ng-option
               >
-                Ce champ est obligatoire
-              </small>
-           </div>
-         
-           <div class="col-md-3 col-xs-12 mb-1">
-            <label
-              >Test :
-              <span class="required_champs">*</span>
-            </label>
-            <input
-              class="form-control custom-input"
-              placeholder="Assuré"
-              autocomplete="off"
-              formControlName="affAssure"
-              name="affAssure"
-              [readonly]="isDetails"
-              [class.errorInputForm]="
-                getFormFiledsValue('affAssure')?.invalid &&
-                getFormFiledsValue('affAssure')?.touched
-              "
-              type="text"
-            />
+            </ng-select>
             <small
               class="text-danger"
-              *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"
+              *ngIf="(getFormFiledsValue('exeCode')?.dirty || getFormFiledsValue('exeCode')?.touched) && getFormFiledsValue('exeCode')?.invalid && getFormFiledsValue('exeCode')?.errors?.['required']"
             >
               Ce champ est obligatoire
             </small>
           </div>
-          <div class="col-md-3 col-xs-12 mb-1">
-            <label
-              >Test :
-              <span class="required_champs">*</span>
-            </label>
-            <input
-              class="form-control custom-input"
-              placeholder="Assuré"
-              autocomplete="off"
-              formControlName="affAssure"
-              name="affAssure"
-              [readonly]="isDetails"
-              [class.errorInputForm]="
-                getFormFiledsValue('affAssure')?.invalid &&
-                getFormFiledsValue('affAssure')?.touched
-              "
-              type="text"
-            />
-            <small
-              class="text-danger"
-              *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"
-            >
-              Ce champ est obligatoire
-            </small>
-          </div>
-          <div class="col-md-3 col-xs-12 mb-1">
-            <label
-              >Test :
-              <span class="required_champs">*</span>
-            </label>
-            <input
-              class="form-control custom-input"
-              placeholder="Assuré"
-              autocomplete="off"
-              formControlName="affAssure"
-              name="affAssure"
-              [readonly]="isDetails"
-              [class.errorInputForm]="
-                getFormFiledsValue('affAssure')?.invalid &&
-                getFormFiledsValue('affAssure')?.touched
-              "
-              type="text"
-            />
-            <small
-              class="text-danger"
-              *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"
-            >
-              Ce champ est obligatoire
-            </small>
-          </div>
-          <div class="col-md-3 col-xs-12 mb-1">
-            <label
-              >Test :
-              <span class="required_champs">*</span>
-            </label>
-            <input
-              class="form-control custom-input"
-              placeholder="Assuré"
-              autocomplete="off"
-              formControlName="affAssure"
-              name="affAssure"
-              [readonly]="isDetails"
-              [class.errorInputForm]="
-                getFormFiledsValue('affAssure')?.invalid &&
-                getFormFiledsValue('affAssure')?.touched
-              "
-              type="text"
-            />
-            <small
-              class="text-danger"
-              *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"
-            >
-              Ce champ est obligatoire
-            </small>
-          </div>
-          </div>
+
+<!--           <div class="col-md-3 col-xs-12 mb-1">-->
+<!--            <label-->
+<!--              >Test :-->
+<!--              <span class="required_champs">*</span>-->
+<!--            </label>-->
+<!--            <input-->
+<!--              class="form-control custom-input"-->
+<!--              placeholder="Assuré"-->
+<!--              autocomplete="off"-->
+<!--              formControlName="affAssure"-->
+<!--              name="affAssure"-->
+<!--              [readonly]="isDetails"-->
+<!--              [class.errorInputForm]="-->
+<!--                getFormFiledsValue('affAssure')?.invalid &&-->
+<!--                getFormFiledsValue('affAssure')?.touched-->
+<!--              "-->
+<!--              type="text"-->
+<!--            />-->
+<!--            <small-->
+<!--              class="text-danger"-->
+<!--              *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"-->
+<!--            >-->
+<!--              Ce champ est obligatoire-->
+<!--            </small>-->
+<!--          </div>-->
+<!--          <div class="col-md-3 col-xs-12 mb-1">-->
+<!--            <label-->
+<!--              >Test :-->
+<!--              <span class="required_champs">*</span>-->
+<!--            </label>-->
+<!--            <input-->
+<!--              class="form-control custom-input"-->
+<!--              placeholder="Assuré"-->
+<!--              autocomplete="off"-->
+<!--              formControlName="affAssure"-->
+<!--              name="affAssure"-->
+<!--              [readonly]="isDetails"-->
+<!--              [class.errorInputForm]="-->
+<!--                getFormFiledsValue('affAssure')?.invalid &&-->
+<!--                getFormFiledsValue('affAssure')?.touched-->
+<!--              "-->
+<!--              type="text"-->
+<!--            />-->
+<!--            <small-->
+<!--              class="text-danger"-->
+<!--              *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"-->
+<!--            >-->
+<!--              Ce champ est obligatoire-->
+<!--            </small>-->
+<!--          </div>-->
+<!--          <div class="col-md-3 col-xs-12 mb-1">-->
+<!--            <label-->
+<!--              >Test :-->
+<!--              <span class="required_champs">*</span>-->
+<!--            </label>-->
+<!--            <input-->
+<!--              class="form-control custom-input"-->
+<!--              placeholder="Assuré"-->
+<!--              autocomplete="off"-->
+<!--              formControlName="affAssure"-->
+<!--              name="affAssure"-->
+<!--              [readonly]="isDetails"-->
+<!--              [class.errorInputForm]="-->
+<!--                getFormFiledsValue('affAssure')?.invalid &&-->
+<!--                getFormFiledsValue('affAssure')?.touched-->
+<!--              "-->
+<!--              type="text"-->
+<!--            />-->
+<!--            <small-->
+<!--              class="text-danger"-->
+<!--              *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"-->
+<!--            >-->
+<!--              Ce champ est obligatoire-->
+<!--            </small>-->
+<!--          </div>-->
+<!--          <div class="col-md-3 col-xs-12 mb-1">-->
+<!--            <label-->
+<!--              >Test :-->
+<!--              <span class="required_champs">*</span>-->
+<!--            </label>-->
+<!--            <input-->
+<!--              class="form-control custom-input"-->
+<!--              placeholder="Assuré"-->
+<!--              autocomplete="off"-->
+<!--              formControlName="affAssure"-->
+<!--              name="affAssure"-->
+<!--              [readonly]="isDetails"-->
+<!--              [class.errorInputForm]="-->
+<!--                getFormFiledsValue('affAssure')?.invalid &&-->
+<!--                getFormFiledsValue('affAssure')?.touched-->
+<!--              "-->
+<!--              type="text"-->
+<!--            />-->
+<!--            <small-->
+<!--              class="text-danger"-->
+<!--              *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"-->
+<!--            >-->
+<!--              Ce champ est obligatoire-->
+<!--            </small>-->
+<!--          </div>-->
+         </div>-->
     </fieldset>
- 
+
     <fieldset class="mt-4">
         <legend>Rénumeration du courtier</legend>
         <div class="row">
@@ -527,7 +523,7 @@
             </label>
             <input
               class="form-control custom-input"
-              placeholder="Assuré"
+              placeholder="Taux courtier"
               autocomplete="off"
               formControlName="affAssure"
               name="affAssure"
@@ -553,7 +549,7 @@
             </label>
             <input
               class="form-control custom-input"
-              placeholder="Assuré"
+              placeholder="Surcommission"
               autocomplete="off"
               formControlName="affAssure"
               name="affAssure"
@@ -572,59 +568,59 @@
             </small>
           </div>
 
-          <div class="col-md-3 col-xs-12 mb-1">
-            <label
-              >Test :
-              <span class="required_champs">*</span>
-            </label>
-            <input
-              class="form-control custom-input"
-              placeholder="Assuré"
-              autocomplete="off"
-              formControlName="affAssure"
-              name="affAssure"
-              [readonly]="isDetails"
-              [class.errorInputForm]="
-                getFormFiledsValue('affAssure')?.invalid &&
-                getFormFiledsValue('affAssure')?.touched
-              "
-              type="text"
-            />
-            <small
-              class="text-danger"
-              *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"
-            >
-              Ce champ est obligatoire
-            </small>
-          </div>
+<!--          <div class="col-md-3 col-xs-12 mb-1">-->
+<!--            <label-->
+<!--              >Test :-->
+<!--              <span class="required_champs">*</span>-->
+<!--            </label>-->
+<!--            <input-->
+<!--              class="form-control custom-input"-->
+<!--              placeholder="Assuré"-->
+<!--              autocomplete="off"-->
+<!--              formControlName="affAssure"-->
+<!--              name="affAssure"-->
+<!--              [readonly]="isDetails"-->
+<!--              [class.errorInputForm]="-->
+<!--                getFormFiledsValue('affAssure')?.invalid &&-->
+<!--                getFormFiledsValue('affAssure')?.touched-->
+<!--              "-->
+<!--              type="text"-->
+<!--            />-->
+<!--            <small-->
+<!--              class="text-danger"-->
+<!--              *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"-->
+<!--            >-->
+<!--              Ce champ est obligatoire-->
+<!--            </small>-->
+<!--          </div>-->
 
 
-          <div class="col-md-3 col-xs-12 mb-1">
-            <label
-              >Test :
-              <span class="required_champs">*</span>
-            </label>
-            <input
-              class="form-control custom-input"
-              placeholder="Assuré"
-              autocomplete="off"
-              formControlName="affAssure"
-              name="affAssure"
-              [readonly]="isDetails"
-              [class.errorInputForm]="
-                getFormFiledsValue('affAssure')?.invalid &&
-                getFormFiledsValue('affAssure')?.touched
-              "
-              type="text"
-            />
-            <small
-              class="text-danger"
-              *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"
-            >
-              Ce champ est obligatoire
-            </small>
-          </div>
-          
+<!--          <div class="col-md-3 col-xs-12 mb-1">-->
+<!--            <label-->
+<!--              >Test :-->
+<!--              <span class="required_champs">*</span>-->
+<!--            </label>-->
+<!--            <input-->
+<!--              class="form-control custom-input"-->
+<!--              placeholder="Assuré"-->
+<!--              autocomplete="off"-->
+<!--              formControlName="affAssure"-->
+<!--              name="affAssure"-->
+<!--              [readonly]="isDetails"-->
+<!--              [class.errorInputForm]="-->
+<!--                getFormFiledsValue('affAssure')?.invalid &&-->
+<!--                getFormFiledsValue('affAssure')?.touched-->
+<!--              "-->
+<!--              type="text"-->
+<!--            />-->
+<!--            <small-->
+<!--              class="text-danger"-->
+<!--              *ngIf="(getFormFiledsValue('affAssure')?.dirty || getFormFiledsValue('affAssure')?.touched) && getFormFiledsValue('affAssure')?.invalid && getFormFiledsValue('affAssure')?.errors?.['required']"-->
+<!--            >-->
+<!--              Ce champ est obligatoire-->
+<!--            </small>-->
+<!--          </div>-->
+
           </div>
     </fieldset>
 
@@ -632,7 +628,7 @@
       <button
         type="submit"
         class="btn btn-md custom_btn_primary pull-right"
-        
+
       >
         {{ itemToUpdate?.affId ? "Modifier" : "Enregistrer et continuer" }}
       </button>

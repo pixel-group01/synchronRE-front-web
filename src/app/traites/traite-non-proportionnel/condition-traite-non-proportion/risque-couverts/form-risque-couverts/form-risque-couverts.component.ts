@@ -6,8 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./form-risque-couverts.component.scss']
 })
 export class FormRisqueCouvertsComponent implements OnInit {
-
-  listeExercices :any =[{}]
+  listeExercices :any =[{}];
+  risqueListe : any = [
+    {risqueLibelle  : 'Centre commerciaux'},
+    { orgLibelle  : 'CEDEAO'}
+  ];
+  activiteListe : any = [
+    {actLibelle  : 'Centre commerciaux A'},
+    { orgLibelle  : 'CEDEAO'}
+  ];
   itemToSave :any
   constructor() { }
 

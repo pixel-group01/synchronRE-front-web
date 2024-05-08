@@ -3,19 +3,30 @@
         <label>Branche : <span class="required_champs">*</span> </label>
 
         <ng-select
-          
-          name="exeCode"
-          id="exeCode"
-         
+          name="risqueLibelle"
+          id="risqueLibelle"
         >
           <ng-option
-            *ngFor="let exercice of listeExercices"
-            [value]="exercice?.exeCode"
-            >{{ exercice.exeLibelle }}</ng-option
+            *ngFor="let risque of risqueListe"
+            [value]="risque"
+            >{{ risque.risqueLibelle }}</ng-option
           >
         </ng-select>
-      
       </div>
+  <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
+    <label>Activité : <span class="required_champs">*</span> </label>
+
+    <ng-select
+      name="risqueLibelle"
+      id="risqueLibelle"
+    >
+      <ng-option
+        *ngFor="let risque of risqueListe"
+        [value]="risque"
+      >{{ risque.risqueLibelle }}</ng-option
+      >
+    </ng-select>
+  </div>
 
       <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
         <label>Description : <span class="required_champs">*</span> </label>

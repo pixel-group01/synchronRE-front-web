@@ -25,7 +25,7 @@ import * as _ from "lodash";
 export class InformationGeneralTraiteNonProportionComponent implements OnInit {
 
   itemToSave: BusinessOptional = {};
-  formulaireGroup!: FormGroup; 
+  formulaireGroup!: FormGroup;
   listeCedente: Array<Cedante> = [];
   listeCouvertures: Array<Couverture> = [];
   listeDevises: Array<Devise> = [];
@@ -35,6 +35,31 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
   currentAffaire: BusinessOptional;
   user : User;
   listeExercices: Array<Exercice> = [];
+   natureListe : any = [
+     {natLibelle  : 'Excédent de sinistres incendie et ADAB'},
+     { natLibelle  : 'XL Catastr 1è T'},
+     { natLibelle  : 'XL Catastr 2è T'},
+     { natLibelle  : 'XL Catastr 3è T'},
+     { natLibelle  : 'XL Catastr 4è T'},
+     { natLibelle  : 'XL Catastr 5è T'}
+   ];
+  exoRattachement : any = [
+    {exeLibelle  : 'Exercice de souscription '},
+    { exeLibelle  : 'Exercice de survenance'}
+  ];
+
+  deviseListe : any = [
+    {devLibelle  : 'XOF'},
+    { devLibelle  : 'EURO'},
+    { devLibelle  : 'DOLLAR'}
+  ];
+
+  PeriodiciteListe : any = [
+    {perLibelle  : 'Annuelle'},
+    { perLibelle  : 'Semestrielle'},
+    { perLibelle  : 'Trismestrielle'},
+    { perLibelle  : 'Mensuelle'}
+  ];
   listeStatus : any = [
     {
       libelle: "Réalisée",
@@ -76,24 +101,24 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
         if(this.user.cedId) {
           this.createForm();
         }
-       
+
       } else {
         this.listeCedente = [];
       }
     });
   }
- 
+
   getDevise() {
     this.deviseService.getAll().subscribe((response: any) => {
       if (response) {
         this.listeDevises = response as Devise[];
 
         this.listeDevises =   _.orderBy( this.listeDevises, ['devLibelle'], ['asc']);
- 
+
         if(this.itemToUpdate && this.itemToUpdate.affId) {
           this.createForm();
         }
-       
+
       } else {
         this.listeDevises = [];
       }
@@ -115,21 +140,21 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
       if (response) {
 
         console.log(" response exercice ",response);
-        
+
         this.listeExercices = response as Exercice[];
         // Recuperer l'exercice courante et fixer
         if(!this.currentAffaire.affId) {
           let currentExercice = _.find(this.listeExercices, (o) => { return o.exeCourant });
           console.log(" currentExercice ",currentExercice);
-          
+
           if(currentExercice && currentExercice.exeCode) {
             setTimeout(() => {
               this.formulaireGroup.patchValue({'exeCode':currentExercice?.exeCode})
             }, 1000);
-          
+
           }
         }
-        
+
       } else {
         this.listeExercices = [];
       }
@@ -139,7 +164,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
   createForm = () => {
 
     console.log(" this.itemToUpdate ",this.itemToUpdate);
-    
+
     this.formulaireGroup = this.formBuilder.group({
       affId: [this.itemToUpdate?.affId || ""],
       affCode: [this.itemToUpdate?.affCode || ""],
@@ -267,9 +292,9 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
 
   ngOnInit(): void {
     // Initialisation du forms group
- 
+
     this.currentAffaire = {...this.businessOptionalService.businessOptionalSubject$.value};
-    
+
     if(this.currentAffaire && this.currentAffaire.affId) {
       this.isUpdateForm = true; // Pour signifier que nous sommes en modification
       this.itemToUpdate = {...this.currentAffaire};

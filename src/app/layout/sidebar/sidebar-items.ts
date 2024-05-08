@@ -84,12 +84,54 @@ export const ROUTES: RouteInfo[] = [
   //   code: "GET-REG-TRAI-LST",
   // }
 
-   // traité 
-   {
+   // traité
+  //  {
+  //   path: "",
+  //   title: "Traités",
+  //   moduleName: "rdv",
+  //   iconType: "list",
+  //   icon: "monetization_on",
+  //   class: "menu-toggle",
+  //   groupTitle: false,
+  //   badge: "",
+  //   badgeClass: "",
+  //   code: "MENU_PROD",
+  //   submenu: [
+  //     {
+  //       path: "/traites/traites-non-proportionnel",
+  //       title: "Traites non proportionnel",
+  //       moduleName: "traites",
+  //       iconType: "list",
+  //       icon: "plus",
+  //       class: "ml-menu",
+  //       groupTitle: false,
+  //       badge: "",
+  //       badgeClass: "",
+  //       code: "GET-FAC-LST",
+  //       submenu: [],
+  //     },
+  //     {
+  //       path: "/traites/traites-proportionnel",
+  //       title: "Traités proportionnel",
+  //       moduleName: "traites",
+  //       iconType: "",
+  //       icon: "plus",
+  //       class: "ml-menu",
+  //       groupTitle: false,
+  //       badge: "",
+  //       badgeClass: "",
+  //       code: "GET-FAC-LST",
+  //       submenu: [],
+  //     }
+  //   ],
+  // },
+
+  // Affaire mise en commentaire
+  {
     path: "",
-    title: "Traités",
-    moduleName: "rdv",
-    iconType: "list",
+    title: "Production",
+    moduleName: "business",
+    iconType: "clock",
     icon: "monetization_on",
     class: "menu-toggle",
     groupTitle: false,
@@ -121,35 +163,6 @@ export const ROUTES: RouteInfo[] = [
         badge: "",
         badgeClass: "",
         code: "GET-FAC-LST",
-        submenu: [],
-      }
-    ],
-  },
-
-  // Affaire mise en commentaire 
-  {
-    path: "",
-    title: "Production",
-    moduleName: "business",
-    iconType: "clock",
-    icon: "monetization_on",
-    class: "menu-toggle",
-    groupTitle: false,
-    badge: "",
-    badgeClass: "",
-    code: "MENU_PROD",
-    submenu: [
-      {
-        path: "/business/affaire-traitee",
-        title: "Traités",
-        moduleName: "business",
-        iconType: "list",
-        icon: "plus",
-        class: "ml-menu",
-        groupTitle: false,
-        badge: "",
-        badgeClass: "",
-        code: "TRESO-CAISSE-BUREAU-ENTREES",
         submenu: [],
       },
       {

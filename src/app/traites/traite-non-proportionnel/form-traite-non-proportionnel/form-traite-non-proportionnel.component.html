@@ -20,7 +20,7 @@
         >
           <div class="title-stepper">
             <b>2</b>
-            <span>Condition du traité</span>
+            <span>Conditions du traité</span>
           </div>
           <i class="fa fa-circle"></i>
         </div>
@@ -47,7 +47,7 @@
                 <!-- <app-form-identification (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" [isWizardProcess]="true"></app-form-identification> -->
                 <app-information-general-traite-non-proportion  (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" [isWizardProcess]="true"></app-information-general-traite-non-proportion>
             </ng-container>
- 
+
             <ng-container *ngIf="stepWizard == 2">
                 <!-- <app-form-repartition  (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" [isWizardProcess]="true" ></app-form-repartition> -->
                 <app-condition-traite-non-proportion (closeModal)="closeFormModal($event)" (stepperInice)="gotoStepper($event)" [isWizardProcess]="true" ></app-condition-traite-non-proportion>
@@ -61,4 +61,4 @@
         </div>
       </div>
 
-</div> 
+</div>
