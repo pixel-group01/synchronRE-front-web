@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
+        <label>Catégorie : <span class="required_champs">*</span> </label>
+
+        <ng-select
+          
+          name="exeCode"
+          id="exeCode"
+        >
+          <ng-option
+            *ngFor="let exercice of listeExercices"
+            [value]="exercice?.exeCode"
+            >{{ exercice.exeLibelle }}</ng-option
+          >
+        </ng-select>
+      
+      </div>
+
+      <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
+        <label>Pays : <span class="required_champs">*</span> </label>
+
+        <ng-select
+          name="exeCode1"
+          id="exeCode1"
+        >
+          <ng-option
+            *ngFor="let exercice of listeExercices"
+            [value]="exercice?.exeCode"
+            >{{ exercice.exeLibelle }}</ng-option
+          >
+        </ng-select>
+        
+      </div>
+
+      <div class="col-md-12 col-xs-12 mb-1">
+        <label
+          >Capacité :
+          <span class="required_champs">*</span>
+        </label>
+        <input
+          class="form-control custom-input"
+          placeholder=""
+          autocomplete="off"
+          name="affAssure"
+          type="text"
+        />
+      </div>
+    
+      <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
+        <button type="button" (click)="confirmSaveItem(itemToSave)"
+                                        class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
+      </div>
+
+    </div>

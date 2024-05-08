@@ -17,7 +17,7 @@
               />
             </div>
             <div class="col-md-3 col-xs-12 col-sm-12">
-                <button type="button" class="btn btn-md custom_btn_primary pull-right">Ajouter</button>
+                <button type="button" class="btn btn-md custom_btn_primary pull-right" (click)="openModal(templatePaiement)">Ajouter</button>
             </div>
           </div>
         </th>
@@ -144,7 +144,7 @@
 <ng-template #templatePaiement> 
     <div class="modal-header">
       <h4 class="modal-title pull-left">
-        {{isOngletPaiement ? 'Paiement':'Reversement' }} affaire N° {{itemToSave?.affCode}}
+        Nouvelle tranche
       </h4>
 
       <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
@@ -152,6 +152,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement>
+      <!-- <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement> -->
+      <app-form-tranche [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-tranche>
     </div>
   </ng-template>

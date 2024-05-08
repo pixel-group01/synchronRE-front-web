@@ -20,6 +20,13 @@ import { LimiteSouscriptionComponent } from './traite-non-proportionnel/conditio
 import { SousLimiteComponent } from './traite-non-proportionnel/condition-traite-non-proportion/sous-limite/sous-limite.component';
 import { ReconstitutionComponent } from './traite-non-proportionnel/condition-traite-non-proportion/reconstitution/reconstitution.component';
 import { FormTraiteNonProportionStep3Component } from './traite-non-proportionnel/repartition-traite-non-proportion/form-traite-non-proportion-step3/form-traite-non-proportion-step3.component';
+import { FormTeritorialiteComponent } from './traite-non-proportionnel/condition-traite-non-proportion/teritorrilite/form-teritorialite/form-teritorialite.component';
+import { FormRisqueCouvertsComponent } from './traite-non-proportionnel/condition-traite-non-proportion/risque-couverts/form-risque-couverts/form-risque-couverts.component';
+import { FormCategorieComponent } from './traite-non-proportionnel/condition-traite-non-proportion/categorie/form-categorie/form-categorie.component';
+import { FormTrancheComponent } from './traite-non-proportionnel/condition-traite-non-proportion/tranche/form-tranche/form-tranche.component';
+import { FormLimiteSouscriptionComponent } from './traite-non-proportionnel/condition-traite-non-proportion/limite-souscription/form-limite-souscription/form-limite-souscription.component';
+import { FormSousLimiteComponent } from './traite-non-proportionnel/condition-traite-non-proportion/sous-limite/form-sous-limite/form-sous-limite.component';
+import { FormReconstitutionComponent } from './traite-non-proportionnel/condition-traite-non-proportion/reconstitution/form-reconstitution/form-reconstitution.component';
 
 
 @NgModule({
@@ -40,7 +47,14 @@ import { FormTraiteNonProportionStep3Component } from './traite-non-proportionne
     LimiteSouscriptionComponent,
     SousLimiteComponent,
     ReconstitutionComponent,
-    FormTraiteNonProportionStep3Component
+    FormTraiteNonProportionStep3Component,
+    FormTeritorialiteComponent,
+    FormRisqueCouvertsComponent,
+    FormCategorieComponent,
+    FormTrancheComponent,
+    FormLimiteSouscriptionComponent,
+    FormSousLimiteComponent,
+    FormReconstitutionComponent
   ],
   imports: [
     CommonModule,
