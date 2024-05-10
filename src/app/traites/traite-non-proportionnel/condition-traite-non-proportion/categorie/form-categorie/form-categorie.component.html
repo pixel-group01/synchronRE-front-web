@@ -3,7 +3,7 @@
         <label>Catégorie : <span class="required_champs">*</span> </label>
 
         <ng-select
-          
+
           name="exeCode"
           id="exeCode"
         >
@@ -13,11 +13,11 @@
             >{{ exercice.exeLibelle }}</ng-option
           >
         </ng-select>
-      
+
       </div>
 
       <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
-        <label>Pays : <span class="required_champs">*</span> </label>
+        <label>Cédante : <span class="required_champs">*</span> </label>
 
         <ng-select
           name="exeCode1"
@@ -29,7 +29,7 @@
             >{{ exercice.exeLibelle }}</ng-option
           >
         </ng-select>
-        
+
       </div>
 
       <div class="col-md-12 col-xs-12 mb-1">
@@ -45,7 +45,7 @@
           type="text"
         />
       </div>
-    
+
       <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
         <button type="button" (click)="confirmSaveItem(itemToSave)"
                                         class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
