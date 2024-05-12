@@ -27,7 +27,7 @@ import * as _ from "lodash";
   selector: "app-form-repartition",
   templateUrl: "./form-repartition.component.html",
   styleUrls: ["./form-repartition.component.scss"],
-})
+}) 
 export class FormRepartitionComponent implements OnInit {
   itemToSave: BusinessOptionalRepartition = {};
   formulaireGroup!: FormGroup;

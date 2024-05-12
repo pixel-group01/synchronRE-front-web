@@ -25,7 +25,7 @@ export class FormAffaireFacultativesComponent implements OnInit {
   gotoStepper($event : number) {
     this.stepWizard = $event;
   }
-
+ 
   ngOnInit(): void { 
   }
 
