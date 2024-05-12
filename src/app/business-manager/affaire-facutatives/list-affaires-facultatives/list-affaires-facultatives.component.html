@@ -16,7 +16,7 @@
                 <ng-option *ngFor="let cedente of listeCedente" [value]="cedente?.cedId">{{ cedente.cedNomFiliale
                   }}</ng-option>
               </ng-select>
-            </div>
+            </div> 
 
             <div class="col-md-3 col-xs-12 col-sm-12">
               <label>Exercice : </label>
@@ -97,7 +97,8 @@
               </button>
 
                 <button ngbDropdownItem (click)="openModal(templateUpdateAffaire,item)"  appAppAccess appAccess="UPD-FAC"
-                *ngIf="!noPutAction">
+                > 
+                <!-- *ngIf="!noPutAction" -->
                   <i class="fa fa-edit"></i>&nbsp;Modifier l'affaire
                 </button>
 
