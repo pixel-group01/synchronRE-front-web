@@ -16,8 +16,7 @@
                                             <i class="fa fa-plus"></i>&nbsp; Nouveau traité
                                         </button>
                                     </div>
-                                    <app-liste-traites-non-proportionnel [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante':'affaires/facultative/by-reassureur-en-traitement' "
-                                    [refreshDataTable]="refreshDataTable">
+                                    <app-liste-traites-non-proportionnel [endPoint]="'traite-non-proportionnel/search'" [refreshDataTable]="refreshDataTable">
                                     </app-liste-traites-non-proportionnel>
 
                                 </ng-template>

@@ -1,39 +1,62 @@
 <div class="row">
-    <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
+
+  <form [formGroup]="formulaireGroup" (ngSubmit)="confirmSaveItem(formulaireGroup.value)">
+
+    <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
         <label>Organistaions : <span class="required_champs">*</span> </label>
 
         <ng-select
-          name="exeCode"
-          id="exeCode"
+          formControlName="organisationLib"
+          name="organisationLib"
+          id="organisationLib"
+          [class.errorInputForm]="
+                getFormFiledsValue('organisationLib')?.invalid &&
+                getFormFiledsValue('organisationLib')?.touched
+              "
         >
           <ng-option
             *ngFor="let organistaions  of organisationListe"
-            [value]="organistaions"
-            >{{ organistaions.orgLibelle }}</ng-option
+            [value]="organistaions.organisationCode"
+            >{{ organistaions.organisationCode }}</ng-option
           >
         </ng-select>
-
+        <small
+        class="text-danger"
+        *ngIf="(getFormFiledsValue('organisationLib')?.dirty || getFormFiledsValue('organisationLib')?.touched) && getFormFiledsValue('organisationLib')?.invalid && getFormFiledsValue('organisationLib')?.errors?.['required']"
+      >
+        Ce champ est obligatoire
+      </small>
       </div>
-
-      <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
+ 
+      <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
         <label>Pays : <span class="required_champs">*</span> </label>
 
         <ng-select
-          name="exeCode1"
-          id="exeCode1"
+          formControlName="paysLibe"
+          name="paysLibe"
+          id="paysLibe"
+          [class.errorInputForm]="
+                getFormFiledsValue('paysLibe')?.invalid &&
+                getFormFiledsValue('paysLibe')?.touched
+              "
         >
           <ng-option
             *ngFor="let pays of paysListe"
-            [value]="pays"
-            >{{ pays.payLibelle }}</ng-option
+            [value]="pays.content"
+            >{{ pays.paysNom }}</ng-option
           >
         </ng-select>
-
+        <small
+        class="text-danger"
+        *ngIf="(getFormFiledsValue('paysLibe')?.dirty || getFormFiledsValue('paysLibe')?.touched) && getFormFiledsValue('paysLibe')?.invalid && getFormFiledsValue('paysLibe')?.errors?.['required']"
+      >
+        Ce champ est obligatoire
+      </small>
       </div>
 
       <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
-        <button type="button" (click)="confirmSaveItem(itemToSave)"
+        <button type="button"  [disabled]="!formulaireGroup.valid"
                                         class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
       </div>
-
+  </form>
     </div>

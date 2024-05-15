@@ -29,16 +29,17 @@ export class ListeTraitesNonProportionnelComponent implements OnInit {
   totalItems: number;
   busyGet: Subscription;
   user: User;
-  listeExercices: Array<Exercice> = [];
+   
   @Input() statutAffaire!: string;
   @Input() refreshDataTable!: string;
   @Input() noPutAction: boolean = false;
   @Input() isOngletReversement: boolean = false;
   @Input() isOngletPaiement: boolean = false;
+
   @Input() endPoint: string;
-  
+   
   initialEndPoint: string;
-  statutAffEnum: any;
+  // statutAffEnum: any;
 
   constructor(
     private businessOptionalService: BusinessOptionalService,
@@ -50,11 +51,11 @@ export class ListeTraitesNonProportionnelComponent implements OnInit {
     private restClient:RestClientService
   ) {
     this.user = this.userService.getCurrentUserInfo();
-    this.statutAffEnum = enumStatutAffaire;
+    // this.statutAffEnum = enumStatutAffaire;
 
-    if (this.user.cedId) {
-      this.itemToSearch.cedenteId = this.user.cedId;
-    }
+    // if (this.user.cedId) {
+    //   this.itemToSearch.cedenteId = this.user.cedId;
+    // }
   }
 
   openModal(template: TemplateRef<any>, itemAffaire: BusinessOptional) {
@@ -63,10 +64,10 @@ export class ListeTraitesNonProportionnelComponent implements OnInit {
       ignoreBackdropClick: true,
       class: "modal-width-65",
     };
-    if (itemAffaire) {
-      this.itemToSave = { ...itemAffaire };
-      this.businessOptionalService.setCurrentOptionalBusiness(itemAffaire);
-    }
+    // if (itemAffaire) {
+    //   this.itemToSave = { ...itemAffaire };
+    //   this.businessOptionalService.setCurrentOptionalBusiness(itemAffaire);
+    // }
     this.modalRef = this.modalService.show(template, config);
   }
 
@@ -81,62 +82,23 @@ export class ListeTraitesNonProportionnelComponent implements OnInit {
     this.getItems();
   }
 
-  getCedente() {
-    this.cedenteService.getAll().subscribe((response: any) => {
-      if (response && response["content"]) {
-        this.listeCedente = response["content"] as Cedante[];
-      } else {
-        this.listeCedente = [];
-      }
-    });
-  }
-
-  getExercice() {
-    this.exercieService.getAll().subscribe((response: any) => {
-      if (response) {
-        this.listeExercices = response as Exercice[];
-        this.itemToSearch.exeCode = this.listeExercices[0].exeCode;
-
-        this.getItems();
-      } else {
-        this.listeExercices = [];
-      }
-    });
-  }
-
-  // openModal(data: any, template: TemplateRef<any>) {
-
-  //   let config = {backdrop: true, ignoreBackdropClick: true};
-
-  //   this.itemToSave = {};
-  //   if (data) {
-  //     // Lorsque nous sommes en modification
-  //     this.itemToSave = Object.assign({}, data);
-  //   }
-
-  //   this.modalRef = this.modalService.show(template,config);
-  // }
-
   getItems() {
     let endPointFinal =
-      this.endPoint +
+      this.endPoint
+       +
       "?page=" +
       (this.currentPage - 1) +
       "&size=" +
       this.itemsPerPage +
       "" +
-      (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "") +
-      "" +
-      (this.itemToSearch.exeCode
-        ? "&exeCode=" + this.itemToSearch.exeCode
-        : "");
+      (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "")
 
-    if (endPointFinal && this.itemToSearch.cedenteId) {
-      endPointFinal = endPointFinal + "&cedId=" + this.itemToSearch.cedenteId;
-    }
+    // if (endPointFinal && this.itemToSearch.cedenteId) {
+    //   endPointFinal = endPointFinal + "&cedId=" + this.itemToSearch.cedenteId;
+    // }
 
-    this.busyGet = this.restClient.get(endPointFinal).subscribe(
-      (res) => {
+    this.busyGet = this.restClient.get(endPointFinal).subscribe(  
+      (res:any)=>{
         if (res && res["content"]) {
           this.items = res["content"] as BusinessOptional[];
           this.totalItems = res["totalElements"];
@@ -144,8 +106,8 @@ export class ListeTraitesNonProportionnelComponent implements OnInit {
           this.items = [];
           this.totalItems = 0;
         }
-      },
-      (err) => {}
+      }
+     
     );
   }
 
@@ -186,8 +148,6 @@ export class ListeTraitesNonProportionnelComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.getItems();
-    this.getCedente();
-    this.getExercice();
+    this.getItems();
   }
 }

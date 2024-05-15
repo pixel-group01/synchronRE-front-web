@@ -1,17 +1,10 @@
 import { Component, Input, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
-import { enumStatutAffaire } from 'src/app/core/enumerator/enumerator';
 import { BusinessOptional } from 'src/app/core/models/businessOptional';
-import { Cedante } from 'src/app/core/models/cedante';
-import { Exercice } from 'src/app/core/models/exercice';
 import { User } from 'src/app/core/models/user';
 import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
-import { CedanteService } from 'src/app/core/service/cedante.service';
-import { ExerciceService } from 'src/app/core/service/exercice.service';
 import { RestClientService } from 'src/app/core/service/rest-client.service';
-import { UserService } from 'src/app/core/service/user.service';
-import { UtilitiesService } from 'src/app/core/service/utilities.service';
 
 @Component({
   selector: 'app-teritorrilite',
@@ -19,44 +12,21 @@ import { UtilitiesService } from 'src/app/core/service/utilities.service';
   styleUrls: ['./teritorrilite.component.scss']
 })
 export class TeritorriliteComponent implements OnInit {
-
-  items: Array<BusinessOptional> = [];
-  itemToSave: any = {};
+  itemToSearch :any = {}
   modalRef: BsModalRef;
-  listeCedente: Array<Cedante> = [];
-  itemToSearch: any = {};
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalItems: number;
   busyGet: Subscription;
   user: User;
-  listeExercices: Array<Exercice> = [];
-  @Input() statutAffaire!: string;
-  @Input() refreshDataTable!: string;
-  @Input() noPutAction: boolean = false;
-  @Input() isOngletReversement: boolean = false;
-  @Input() isOngletPaiement: boolean = false;
+  items : any;
   @Input() endPoint: string;
   
-  initialEndPoint: string;
-  statutAffEnum: any;
-
   constructor(
     private businessOptionalService: BusinessOptionalService,
-    private cedenteService: CedanteService,
-    private exercieService: ExerciceService,
-    private userService: UserService,
-    private utilities: UtilitiesService,
     private modalService: BsModalService,
     private restClient:RestClientService
-  ) {
-    this.user = this.userService.getCurrentUserInfo();
-    this.statutAffEnum = enumStatutAffaire;
-
-    if (this.user.cedId) {
-      this.itemToSearch.cedenteId = this.user.cedId;
-    }
-  }
+  ) {}
 
   openModal(template: TemplateRef<any>, itemAffaire?: BusinessOptional) {
     let config = {
@@ -64,10 +34,6 @@ export class TeritorriliteComponent implements OnInit {
       ignoreBackdropClick: true,
       class: "modal-width-30",
     };
-    if (itemAffaire) {
-      this.itemToSave = { ...itemAffaire };
-      this.businessOptionalService.setCurrentOptionalBusiness(itemAffaire);
-    }
     this.modalRef = this.modalService.show(template, config);
   }
 
@@ -81,42 +47,6 @@ export class TeritorriliteComponent implements OnInit {
     this.currentPage = event.page;
     this.getItems();
   }
-
-  getCedente() {
-    this.cedenteService.getAll().subscribe((response: any) => {
-      if (response && response["content"]) {
-        this.listeCedente = response["content"] as Cedante[];
-      } else {
-        this.listeCedente = [];
-      }
-    });
-  }
-
-  getExercice() {
-    this.exercieService.getAll().subscribe((response: any) => {
-      if (response) {
-        this.listeExercices = response as Exercice[];
-        this.itemToSearch.exeCode = this.listeExercices[0].exeCode;
-
-        this.getItems();
-      } else {
-        this.listeExercices = [];
-      }
-    });
-  }
-
-  // openModal(data: any, template: TemplateRef<any>) {
-
-  //   let config = {backdrop: true, ignoreBackdropClick: true};
-
-  //   this.itemToSave = {};
-  //   if (data) {
-  //     // Lorsque nous sommes en modification
-  //     this.itemToSave = Object.assign({}, data);
-  //   }
-
-  //   this.modalRef = this.modalService.show(template,config);
-  // }
 
   getItems() {
     let endPointFinal =
@@ -132,14 +62,10 @@ export class TeritorriliteComponent implements OnInit {
         ? "&exeCode=" + this.itemToSearch.exeCode
         : "");
 
-    if (endPointFinal && this.itemToSearch.cedenteId) {
-      endPointFinal = endPointFinal + "&cedId=" + this.itemToSearch.cedenteId;
-    }
-
     this.busyGet = this.restClient.get(endPointFinal).subscribe(
       (res) => {
         if (res && res["content"]) {
-          this.items = res["content"] as BusinessOptional[];
+          this.items = res["content"];
           this.totalItems = res["totalElements"];
         } else {
           this.items = [];
@@ -187,5 +113,6 @@ export class TeritorriliteComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getItems()
   }
 }
