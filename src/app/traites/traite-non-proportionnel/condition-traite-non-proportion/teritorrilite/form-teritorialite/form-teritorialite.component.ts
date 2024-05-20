@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input, EventEmitter, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrganisationService } from 'src/app/core/service/organisation.service';
 import { PaysService } from 'src/app/core/service/pays.service';
 import { TeritorrialiteService } from 'src/app/core/service/teritorrialite.service';
 import Swal from 'sweetalert2';
+import { UtilitiesService } from 'src/app/core/service/utilities.service';
+import { data } from 'jquery';
 
 @Component({
   selector: 'app-form-teritorialite',
@@ -11,53 +13,94 @@ import Swal from 'sweetalert2';
   styleUrls: ['./form-teritorialite.component.scss']
 })
 export class FormTeritorialiteComponent implements OnInit {
-  organisationListe : any = [];
+  organisationListe : any = []; 
   paysListe : any = [];
   formulaireGroup!: FormGroup;
-
+  @Input() idTraitNonProChildrenSed: number;
+  @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  @Input() itemsUpdate :any;
   constructor(
     private formBuilder: FormBuilder,
     private paysService : PaysService,
+    private utilities: UtilitiesService,
     private teritorrialiteService : TeritorrialiteService,
     private organisationService : OrganisationService
   ) { }
-
-  ngOnInit(): void {
+ 
+  ngOnInit(): void { 
     this.createForm();
     this.getPays();
-    this.getOrganisation()
+    this.getOrganisation();
+    console.log('itemsUpdate :', this.itemsUpdate);
+    if (this.itemsUpdate) {
+       this.itemsUpdate = {
+        orgCodes: this.itemsUpdate.organisationList,
+        ...this.itemsUpdate
+      };
+      this.formulaireGroup.patchValue({...this.itemsUpdate})
+    }
+    
   }
-
+ 
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
-      organisationLib: [null,Validators.required],
-      paysLibe: [null, Validators.required],
+      terrId: [""],
+      terrLibelle: ["",Validators.required],
+      terrTaux: [null,Validators.required], 
+      orgCodes: [null,Validators.required],
+      paysCodes: [null, Validators.required],
+      terrDescription: ["", Validators.required],
+      traiteNpId: [this.idTraitNonProChildrenSed, Validators.required],
     });
-  };
+  }; 
 
-  getPays(){
-    this.paysService.getAll().subscribe((res:any)=>{
+  getPays(data?:any){
+    let endPointFinal = data?.length >0 ? `pays/organisations?orgCodes=${data}` : "pays/organisations";
+    this.paysService.getAllFiltre(endPointFinal).subscribe((res:any)=>{
       if (res) {
-          this.paysListe = res["content"]
+          this.paysListe = res;
+          if(data && data.length>0){
+            console.log(this.paysListe , "ok ok");
+            
+            this.formulaireGroup.patchValue({
+              paysCodes:  this.paysListe.map((elt:any)=>{
+                return elt.paysCode
+              })
+            });
+          }else{
+            this.formulaireGroup.get('paysCodes').setValue(['Aucun selectionné'])
+            this.paysListe = res
+          }
       }
     })
   }
-
+ 
   getOrganisation(){
     this.organisationService.getAll().subscribe((res:any)=>{
       if (res) {
-          this.organisationListe = res
+          this.organisationListe = res;
       }
     })
   }
 
-  saveTeritorriliate(item :any){
-    this.teritorrialiteService.create(item).subscribe((res:any)=>{
+  saveTeritorriliate(item: any) {
+    // item.terrId
+    if (item.terrTaux) {
+      item.terrTaux = parseInt(item.terrTaux);
+    }
+     (item.terrId ? this.teritorrialiteService.update(item) : this.teritorrialiteService.create(item)).subscribe((res: any) => {
       if (res) {
-          console.log("ok ter 2",res);
+        this.utilities.showNotification("snackbar-success",
+          this.utilities.formatMsgServeur("Opération réussie."),
+          "bottom",
+          "center");
+        this.closeModal.emit(true)
       }else{
-          console.log("ok ter 2",res);
+        this.utilities.showNotification("snackbar-danger",
+          this.utilities.formatMsgServeur("Échec de l'opération, veuillez réessayer."),
+          "bottom",
+          "center");
       }
     })
   }
@@ -65,7 +108,7 @@ export class FormTeritorialiteComponent implements OnInit {
   getFormFiledsValue = (field: string) => {
     return this.formulaireGroup.get(field);
   };
-
+ 
   confirmSaveItem(item:any){
       Swal.fire({
         title: "Enregistrement",
@@ -83,4 +126,5 @@ export class FormTeritorialiteComponent implements OnInit {
         }
       });
   }
+
 }

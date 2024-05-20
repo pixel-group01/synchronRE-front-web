@@ -25,7 +25,7 @@ export class ListeTraitesNonProportionnelComponent implements OnInit {
   listeCedente: Array<Cedante> = [];
   itemToSearch: any = {};
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 5;
   totalItems: number;
   busyGet: Subscription;
   user: User;
@@ -43,10 +43,7 @@ export class ListeTraitesNonProportionnelComponent implements OnInit {
 
   constructor(
     private businessOptionalService: BusinessOptionalService,
-    private cedenteService: CedanteService,
-    private exercieService: ExerciceService,
     private userService: UserService,
-    private utilities: UtilitiesService,
     private modalService: BsModalService,
     private restClient:RestClientService
   ) {
@@ -123,7 +120,7 @@ export class ListeTraitesNonProportionnelComponent implements OnInit {
   getExactlyNumberRow(page, index) {
     let num = index + 1;
     if (page > 1) {
-      num = (page - 1) * 10 + (index + 1);
+      num = (page - 1) * this.itemsPerPage + (index + 1);
     }
     return num;
   }

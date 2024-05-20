@@ -8,7 +8,7 @@ import { UserService } from 'src/app/core/service/user.service';
   templateUrl: './form-affaire-facultatives.component.html',
   styleUrls: ['./form-affaire-facultatives.component.scss']
 })
-export class FormAffaireFacultativesComponent implements OnInit {
+export class FormAffaireFacultativesComponent implements OnInit { 
 
   stepWizard : number = 1;  
   user : User;

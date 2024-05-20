@@ -12,7 +12,7 @@
                                 <ng-template matTabContent>
                                     <div class="header-btn-new-affaire">
                                         <button type="button" class="btn btn-md custom_btn_primary pull-right" appAppAccess appAccess="CRT-FAC"
-                                            (click)="openModal(templateNewBusiness)">
+                                            (click)="openModal(templateTraiteNonPro)">
                                             <i class="fa fa-plus"></i>&nbsp; Nouveau traité
                                         </button>
                                     </div>
@@ -47,7 +47,7 @@
 
 
 <!-- Enregistrement template -->
-<ng-template #templateNewBusiness>
+<ng-template #templateTraiteNonPro>
     <div class="modal-header">
         <h4 class="modal-title pull-left">
             Création d'un nouveau traité non proportionnel

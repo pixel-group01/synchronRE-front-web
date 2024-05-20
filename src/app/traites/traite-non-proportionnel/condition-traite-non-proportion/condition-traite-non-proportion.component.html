@@ -1,19 +1,12 @@
-<div
-  class="repartition-container"
-  [ngBusy]="{
-    busy: busySave,
-    message: 'Veuillez patienter ...',
-    backdrop: false
-  }"
->
-  <form name="form-repartition" (ngSubmit)="confirmSaveItem()">
+<div>
+  <form>
     <div class="row">
       <div class="col-4">
         <fieldset>
           <legend>Térritorialité</legend>
 
           <div>
-            <app-teritorrilite [endPoint]="'territorialites/search'"></app-teritorrilite>
+            <app-teritorrilite [endPoint]="'territorialites/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-teritorrilite>
           </div>
         </fieldset>
       </div>
@@ -22,7 +15,7 @@
           <legend>Risque couverts</legend>
 
           <div>
-            <app-risque-couverts></app-risque-couverts>
+            <app-risque-couverts [endPoint]="'risques/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-risque-couverts>
           </div>
         </fieldset>
       </div>
@@ -31,16 +24,16 @@
           <legend>Catégorie</legend>
 
           <div>
-            <app-categorie></app-categorie>
+            <app-categorie [endPoint]="'categories/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-categorie>
           </div>
         </fieldset>
       </div>
       <div class="col-6 mt-4">
         <fieldset>
-          <legend>Assiète de prime</legend>
+          <legend>Assiette de prime</legend>
 
           <div>
-            <app-assiete-prime></app-assiete-prime>
+            <app-assiete-prime [endPoint]="'traite/cedantes/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-assiete-prime>
           </div>
         </fieldset>
       </div>
@@ -49,7 +42,7 @@
           <legend>Tranche</legend>
 
           <div>
-            <app-tranche></app-tranche>
+            <app-tranche [endPoint]="'territorialites/search'" [idTraitNonProChildren]="idTraitNonProChild" ></app-tranche>
           </div>
         </fieldset>
       </div>
@@ -59,16 +52,16 @@
           <legend>Limite de souscription</legend>
 
           <div>
-            <app-limite-souscription></app-limite-souscription>
+            <app-limite-souscription [endPoint]="'territorialites/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-limite-souscription>
           </div>
         </fieldset>
       </div>
       <div class="col-6 mt-4">
         <fieldset>
-          <legend>Sous Limite</legend>
+          <legend>Sous Limite</legend> 
 
           <div>
-            <app-sous-limite></app-sous-limite>
+            <app-sous-limite [endPoint]="'territorialites/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-sous-limite>
           </div>
         </fieldset>
       </div>
@@ -77,20 +70,16 @@
           <legend>Réconstitution</legend>
 
           <div>
-            <app-reconstitution></app-reconstitution>
+            <app-reconstitution [endPoint]="'territorialites/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-reconstitution>
           </div>
         </fieldset>
       </div>
     </div>
 
 
-    <div class="custom-btn-save-manager" *ngIf="!isDetails">
+    <div class="custom-btn-save-manager">
       <button type="submit" class="btn btn-md custom_btn_primary pull-right">
-        {{
-          itemToUpdate?.affId || isUpdateRepartition
-            ? "Modifier"
-            : "Enregistrer"
-        }}
+          Enregistrer
       </button>
 
       <button

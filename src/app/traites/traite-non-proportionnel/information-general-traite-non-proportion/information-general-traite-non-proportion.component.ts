@@ -45,6 +45,9 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
   @Input() itemToUpdate: TraiteNonProportionnel;
   @Input() isWizardProcess:boolean = false;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+
+  @Output() sendInfoParent: EventEmitter<number> = new EventEmitter();
+
   @Output() stepperInice: EventEmitter<number> = new EventEmitter();
 
   constructor(
@@ -195,7 +198,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
         this.saveItem(item);
       }
     });
-  }
+  } 
 
   saveItem(item: TraiteNonProportionnel) {
     let itemAEnregistrer = {...item};
@@ -221,6 +224,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
             console.log(" response ",response);
             this.stepperInice.emit(2);
           }
+          this.sendInfoParent.emit(response.traiId)
           // this.closeModal.emit(true);
         });
     } else { 

@@ -17,23 +17,19 @@ export class TraiteNonProportionnelComponent implements OnInit {
   user : User;
   refreshDataTable : string;
 
-  constructor(private modalService: BsModalService,private userService:UserService,private businessOptionalService : BusinessOptionalService) {
+  constructor(private modalService: BsModalService,private userService:UserService) {
     this.statutAffaire = enumStatutAffaire;
     this.user = this.userService.getCurrentUserInfo();
   }
 
   openModal(template: TemplateRef<any>) {
- 
     let config = {backdrop: true, ignoreBackdropClick: true,class:'modal-width-65'};
-    this.businessOptionalService.setCurrentOptionalBusiness(null);
     this.modalRef = this.modalService.show(template,config);
   }
 
   closeFormModal($event:boolean){
     this.modalRef.hide();
-
     this.refreshDataTable = new Date().getTime().toString();
-
     // if($event) {
     //   this.refreshDataTable = new Date().getTime().toString();
     // }

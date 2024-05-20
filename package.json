@@ -82,6 +82,7 @@
     "ngx-perfect-scrollbar": "10.1.1",
     "ngx-ui-switch": "13.0.2",
     "preact": "10.13.2",
+    "primeng": "^12.2.3",
     "rxjs": "7.4.0",
     "subsink": "1.0.2",
     "sweetalert2": "11.3.0",

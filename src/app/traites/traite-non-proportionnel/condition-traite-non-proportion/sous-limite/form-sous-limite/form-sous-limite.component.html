@@ -8,15 +8,14 @@
           id="exeCode"
         >
           <ng-option
-            *ngFor="let exercice of listeExercices"
+            *ngFor="let exercice of couverturesListe"
             [value]="exercice?.exeCode"
             >{{ exercice.exeLibelle }}</ng-option
           >
         </ng-select>
       
       </div>
-
-
+ 
       <div class="col-md-12 col-xs-12 mb-1">
         <label
           >Montant :
@@ -32,7 +31,7 @@
       </div>
     
       <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
-        <button type="button" (click)="confirmSaveItem(itemToSave)"
+        <button type="button" 
                                         class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
       </div>
 

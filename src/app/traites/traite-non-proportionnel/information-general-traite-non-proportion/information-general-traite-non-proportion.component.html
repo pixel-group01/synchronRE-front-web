@@ -4,25 +4,21 @@
     busy: busySave,
     message: 'Veuillez patienter ...',
     backdrop: false
-  }"
->
+  }">
   <form [formGroup]="formulaireGroup" (ngSubmit)="confirmSaveItem(formulaireGroup.value)">
     <fieldset class="mt-3">
         <legend>Identification du traité</legend>
         <div class="row">
         <div class="col-md-3 col-xs-12 col-sm-12 mb-1">
             <label>Exercice : <span class="required_champs">*</span> </label>
-
             <ng-select
               formControlName="exeCode"
               name="exeCode"
-              id="exeCode"
-            >
+              id="exeCode">
               <ng-option
                 *ngFor="let exercice of listeExercices"
                 [value]="exercice?.exeCode"
-                >{{ exercice.exeLibelle }}</ng-option
-              >
+                >{{ exercice.exeLibelle }}</ng-option>
             </ng-select>
             <small
               class="text-danger" 
@@ -45,8 +41,7 @@
               name="traiNumero"
               [class.errorInputForm]="
                 getFormFiledsValue('traiNumero')?.invalid &&
-                getFormFiledsValue('traiNumero')?.touched
-              "
+                getFormFiledsValue('traiNumero')?.touched"
               type="text"
             />
             <small

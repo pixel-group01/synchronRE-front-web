@@ -137,7 +137,7 @@ export class BusinessOptionalService {
 
   setCurrentOptionalBusiness(businessOptional: BusinessOptional) {
     this.businessOptionalSubject$.next(businessOptional);
-  }
+  } 
 
   transmissionAffaire = (idAffaire:number,body:any) => {
     return this.restClient.put('affaires/facultative/transmettre/'+idAffaire,body)

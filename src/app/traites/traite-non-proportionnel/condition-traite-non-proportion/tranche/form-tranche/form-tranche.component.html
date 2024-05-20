@@ -1,51 +1,30 @@
 <div class="row">
     <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
         <label>Tranche : <span class="required_champs">*</span> </label>
-
+        
         <ng-select
-          
           name="exeCode"
           id="exeCode"
         >
           <ng-option
-            *ngFor="let exercice of listeExercices"
+            *ngFor="let exercice of organisationListe"
             [value]="exercice?.exeCode"
             >{{ exercice.exeLibelle }}</ng-option
           >
         </ng-select>
-      
       </div>
-
       <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
         <label>Type de couverture : <span class="required_champs">*</span> </label>
-
         <ng-select
           name="exeCode1"
           id="exeCode1"
         >
-          <ng-option
-            *ngFor="let exercice of listeExercices"
+          <ng-option 
+            *ngFor="let exercice of organisationListe"
             [value]="exercice?.exeCode"
             >{{ exercice.exeLibelle }}</ng-option
           >
         </ng-select>
-        
-      </div>
-
-      <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
-        <label>Pays concernés: <span class="required_champs">*</span> </label>
-
-        <ng-select
-          name="exeCode1"
-          id="exeCode1"
-        >
-          <ng-option
-            *ngFor="let exercice of listeExercices"
-            [value]="exercice?.exeCode"
-            >{{ exercice.exeLibelle }}</ng-option
-          >
-        </ng-select>
-        
       </div>
 
       <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
@@ -56,7 +35,7 @@
           id="exeCode1"
         >
           <ng-option
-            *ngFor="let exercice of listeExercices"
+            *ngFor="let exercice of organisationListe"
             [value]="exercice?.exeCode"
             >{{ exercice.exeLibelle }}</ng-option
           >
@@ -74,7 +53,7 @@
           placeholder=""
           autocomplete="off"
           name="affAssure"
-          type="text"
+          type="text" 
         />
       </div>
 

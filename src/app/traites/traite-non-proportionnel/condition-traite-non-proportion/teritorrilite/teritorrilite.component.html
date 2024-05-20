@@ -42,8 +42,8 @@
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td> -->
 
-        <td>{{ item?.exeCode }}</td>
-        <td>{{ item?.affCode }}</td>
+        <td>{{ item?.terrLibelle }}</td>
+        <td>{{ item?.terrTaux }}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">
@@ -63,20 +63,20 @@
                
                   <button
                   ngbDropdownItem
-                  (click)="openModal(templateDetailsAffaire,item)"
+                  (click)="openModal(templatePaiement,item)"
                 >
                   <i class="fa fa-list"></i>&nbsp;Détails l'affaire
                 </button>
-  
+   
                   <button
                     ngbDropdownItem
-                    (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
+                    (click)="openModal(templatePaiement,item)"
                   >
-                    <i class="fa fa-money-bill"></i>&nbsp;Paiement
+                    <i class="fa fa-money-bill"></i>&nbsp;Modifier
                   </button>
   
-                  <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
-                    <i class="fa fa-redo-alt"></i>&nbsp; Reversement
+                  <button ngbDropdownItem>
+                    <i class="fa fa-redo-alt"></i>&nbsp; Supprimer
                   </button>                 
                   
                 </div>
@@ -87,40 +87,6 @@
     </tbody>
 
     <tfoot>
-      <tr *ngIf="items && items.length > 0">
-        <td colspan="14">
-          <div class="row pagination-part">
-            <div class="col-md-9" style="text-align: center">
-              <pagination
-                [boundaryLinks]="true"
-                [itemsPerPage]="itemsPerPage"
-                [totalItems]="totalItems"
-                [(ngModel)]="currentPage"
-                class="pagination-sm"
-                previousText="&lsaquo;"
-                nextText="&rsaquo;"
-                firstText="&laquo;"
-                lastText="&raquo;"
-                (pageChanged)="pageChanged($event)"
-              ></pagination>
-            </div>
-
-            <div class="col-md-3">
-              <div class="paginator-per-page">
-                <app-element-by-page-paginator
-                  (paginationChange)="changePaginationSize($event)"
-                  [defaultItemPerPage]="itemsPerPage"
-                ></app-element-by-page-paginator>
-
-                <span class="span_total_entree pull-right"
-                  >Total : {{ totalItems }}</span
-                >
-              </div>
-            </div>
-          </div>
-        </td>
-      </tr>
-
       <tr *ngIf="!items || items.length == 0">
         <td colspan="14">
           <div class="col-md-12 txt-align-center">
@@ -132,7 +98,7 @@
   </table>
 </div>
 
-
+ 
 <ng-template #templatePaiement> 
     <div class="modal-header">
       <h4 class="modal-title pull-left">
@@ -141,10 +107,12 @@
 
       <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
         <mat-icon>close</mat-icon>
-      </button>
+      </button> 
     </div>
     <div class="modal-body">
       <!-- <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement> -->
-      <app-form-teritorialite [currentTeritorrialite]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-teritorialite>
+      <app-form-teritorialite [currentTeritorrialite]="itemToSave" [itemsUpdate]="dataCurrent" [idTraitNonProChildrenSed]="idTraitNonProChildren"
+      [isPaiement]="isOngletPaiement" (closeModal)="closeModal($event)"></app-form-teritorialite>
     </div>
   </ng-template>
+   

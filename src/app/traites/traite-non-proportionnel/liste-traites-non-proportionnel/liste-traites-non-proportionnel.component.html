@@ -44,12 +44,12 @@
         </td>
 
         <td>{{ item?.exeCode }}</td>
-        <td>{{ item?.affCode }}</td>
-        <td>{{ item?.cedNomFiliale }}</td>
-        <td>{{ item?.couLibelle }}</td>
-        <td>{{ item?.affAssure }}</td> 
-        <td>{{ item?.affActivite }}</td>
-        <td>{{ item?.affDateEffet }}</td>
+        <td>{{ item?.traiNumero }}</td>
+        <td>{{ item?.traiReference }}</td>
+        <td>{{ item?.traiSourceRef }}</td>
+        <td>{{ item?.traiDateEffet }}</td> 
+        <td>{{ item?.traiDateEcheance }}</td>
+        <td>{{ item?.traiAuteur }}</td>
        
         <!-- <td>{{ item?.facPrime | moneyFormat }}</td> -->
         <!-- <td> <span class="badge">{{item?.staLibelle}} </span> </td> -->
@@ -75,7 +75,7 @@
                 >
                   <i class="fa fa-list"></i>&nbsp;Situation comptable
                 </button> -->
-
+            
                 <button
                 ngbDropdownItem
                 (click)="openModal(templateDetailsAffaire,item)"
@@ -85,21 +85,19 @@
 
                 <button
                   ngbDropdownItem
-                  (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
+                  (click)="openModal(templatePaiement,item)"  
                 >
-                  <i class="fa fa-money-bill"></i>&nbsp;Paiement
+                  <i class="fa fa-edit"></i>&nbsp;Modifier
                 </button>
 
-                <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
-                  <i class="fa fa-redo-alt"></i>&nbsp; Reversement
+                <button ngbDropdownItem (click)="openModal(templatePaiement,item)" >
+                  <i class="fa fa-share"></i>&nbsp; Transmettre
                 </button>
 
                 <!-- <button ngbDropdownItem (click)="openModal(templateUpdatePlacement,item)">
                   <i class="fa fa-print"></i>&nbsp; Imprimer la note
                 </button> -->
 
-                
-                
               </div>
             </div>
           </div>

@@ -35,7 +35,9 @@ export class AssietePrimeComponent implements OnInit {
   @Input() noPutAction: boolean = false;
   @Input() isOngletReversement: boolean = false;
   @Input() isOngletPaiement: boolean = false;
+  
   @Input() endPoint: string;
+  @Input() idTraitNonProChildren: number;
   
   initialEndPoint: string;
   statutAffEnum: any;
@@ -57,11 +59,11 @@ export class AssietePrimeComponent implements OnInit {
     }
   }
 
-  openModal(template: TemplateRef<any>, itemAffaire: BusinessOptional) {
+  openModal(template: TemplateRef<any>, itemAffaire?: BusinessOptional) {
     let config = {
       backdrop: true,
       ignoreBackdropClick: true,
-      class: "modal-width-65",
+      class: "modal-width-30",
     };
     if (itemAffaire) {
       this.itemToSave = { ...itemAffaire };

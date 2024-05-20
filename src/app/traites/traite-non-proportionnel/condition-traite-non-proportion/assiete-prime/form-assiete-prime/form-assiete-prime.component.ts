@@ -1,67 +1,71 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CategorieService } from 'src/app/core/service/categorie.service';
+import { AssiettePrimeService } from 'src/app/core/service/assiette-prime.service';
 import { CedanteService } from 'src/app/core/service/cedante.service';
-import { OrganisationService } from 'src/app/core/service/organisation.service';
 import { TeritorrialiteService } from 'src/app/core/service/teritorrialite.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-form-categorie',
-  templateUrl: './form-categorie.component.html',
-  styleUrls: ['./form-categorie.component.scss']
+  selector: 'app-form-assiete-prime',
+  templateUrl: './form-assiete-prime.component.html',
+  styleUrls: ['./form-assiete-prime.component.scss']
 })
-export class FormCategorieComponent implements OnInit {
-
-  listeCategorie : any = [];
-  cedantesListe : any = [];
+export class FormAssietePrimeComponent implements OnInit {
+  items :any =[];
+  cedanteListe : any = []; 
   formulaireGroup!: FormGroup;
+
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
     private formBuilder: FormBuilder,
-    private cedanteService : CedanteService,
-    private utilities: UtilitiesService, 
-    private categorieService : CategorieService,
+    private utilities: UtilitiesService,
+    private assiettePrimeService : AssiettePrimeService,
+    private cedanteService : CedanteService
   ) { }
  
   ngOnInit(): void { 
     this.createForm();
-    this.getCedante();
-    // this.getCategorie()
+    this.getCedante()
   }
-  
+ 
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
-      categorieLibelle: ["",Validators.required],
-      categorieCapacite: ["",Validators.required], 
-      cedIds: [null,Validators.required],
+      assiettePrime : ["",Validators.required],
+      cedId : [null,Validators.required],
+      tauxPrime: [null,Validators.required], 
       traiteNpId: [this.idTraitNonProChildrenSed],
+      
+      pmd : ["",Validators.required],
+      tauxCesLeg: ["",Validators.required],
+      paramCesLegalLibelle:[""]
     });
   };
+
+  getListCedanteParTraite(idCedante:number){
+      this.cedanteService.getCedanteParTraite(this.idTraitNonProChildrenSed, idCedante).subscribe((res:any)=>{
+        console.log(res , "res de cedande par traite");
+        if (res) {
+
+          this.items = [res]
+          
+        }
+      })
+  }
 
   getCedante(){
     this.cedanteService.getAll().subscribe((res:any)=>{
       if (res) {
-          this.cedantesListe = res["content"]
+          this.cedanteListe = res['content'];
       }
     })
   }
- 
-  // getCategorie(){
-  //   this.organisationService.getAll().subscribe((res:any)=>{
-  //     if (res) {
-  //         this.listeCategorie = res
-  //     }
-  //   })
-  // }
 
-  saveCategorie(item: any) {
-    item.terrTaux = parseInt(item.terrTaux)
-    this.categorieService.create(item).subscribe((res: any) => {
+  save(item: any) {
+    this.assiettePrimeService.save(item).subscribe((res: any) => {
       if (res) {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),
@@ -84,7 +88,7 @@ export class FormCategorieComponent implements OnInit {
   confirmSaveItem(item:any){
       Swal.fire({
         title: "Enregistrement",
-        text: "Vous êtes sur le point d'enregistrer une catégorie. Voulez-vous poursuivre cette action ?",
+        text: "Vous êtes sur le point d'enregistrer une assiette de prime. Voulez-vous poursuivre cette action ?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#0665aa",
@@ -94,7 +98,7 @@ export class FormCategorieComponent implements OnInit {
       }).then((result) => {
         if (result.value) {
           // On effectue l'enregistrement
-          this.saveCategorie(item);
+          this.save(item);
         }
       });
   }

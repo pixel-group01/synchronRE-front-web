@@ -4,17 +4,11 @@ import { RestClientService } from './rest-client.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PaysService {
-
+export class ActiviteService {
   constructor(private restClient:RestClientService) { }
 
-  getAllFiltre = (endPointFinal:string) => {
-    return this.restClient.get(endPointFinal);
-  }
-
-  getAll = () => {
-    return this.restClient.get("pays/list");
+  getAll = (idCouverture:number) => {
+    return this.restClient.get(`couvertures/filles/${idCouverture}`);
   }
  
-
 }

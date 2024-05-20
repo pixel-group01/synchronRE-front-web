@@ -15,6 +15,10 @@ export class CedanteService {
   getAll = () => {
     return this.restClient.get('cedantes/list');
   }
+
+  getCedanteParTraite = (traiteNpId :number ,cedId:number) => {
+    return this.restClient.get(`traite/cedantes/edit?traiteNpId=${traiteNpId}&cedId=${cedId}`);
+  }
  
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {
     let endPointFinal = "cedantes/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");

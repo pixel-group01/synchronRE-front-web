@@ -4,17 +4,12 @@ import { RestClientService } from './rest-client.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PaysService {
+export class AssiettePrimeService {
 
   constructor(private restClient:RestClientService) { }
 
-  getAllFiltre = (endPointFinal:string) => {
-    return this.restClient.get(endPointFinal);
-  }
-
-  getAll = () => {
-    return this.restClient.get("pays/list");
-  }
+  save = (body:any) => {
+    return this.restClient.post('traite/cedantes/save',body)
+  } 
  
-
 }
