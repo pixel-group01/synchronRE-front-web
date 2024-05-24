@@ -19,7 +19,7 @@ import { UtilitiesService } from 'src/app/core/service/utilities.service';
   styleUrls: ['./assiete-prime.component.scss']
 })
 export class AssietePrimeComponent implements OnInit { 
-  items: Array<BusinessOptional> = [];
+  items: any = [];
   itemToSave: any = {};
   modalRef: BsModalRef;
   listeCedente: Array<Cedante> = [];
@@ -109,26 +109,24 @@ export class AssietePrimeComponent implements OnInit {
 
   getItems() {
     let endPointFinal =
-      this.endPoint +
-      "?page=" +
+      this.endPoint + (this.idTraitNonProChildren
+        ? "?traiNpId=" + this.idTraitNonProChildren
+        : "") +
+      "&page=" +
       (this.currentPage - 1) +
       "&size=" +
       this.itemsPerPage +
       "" +
-      (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "") +
-      "" +
-      (this.itemToSearch.exeCode
-        ? "&exeCode=" + this.itemToSearch.exeCode
-        : "");
+      (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "") 
 
-    if (endPointFinal && this.itemToSearch.cedenteId) {
-      endPointFinal = endPointFinal + "&cedId=" + this.itemToSearch.cedenteId;
-    }
+    // if (endPointFinal && this.itemToSearch.cedenteId) {
+    //   endPointFinal = endPointFinal + "&cedId=" + this.itemToSearch.cedenteId;
+    // }
 
     this.busyGet = this.restClient.get(endPointFinal).subscribe(
       (res) => {
         if (res && res["content"]) {
-          this.items = res["content"] as BusinessOptional[];
+          this.items = res["content"];
           this.totalItems = res["totalElements"];
         } else {
           this.items = [];

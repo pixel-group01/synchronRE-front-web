@@ -44,10 +44,10 @@
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td> -->
 
-        <td>{{ item?.exeCode }}</td>
-        <td>{{ item?.affCode }}</td>
-        <td>{{ item?.affCode }}</td>
-        <td>{{ item?.affCode }}</td>
+        <td>{{ item?.cedNomFiliale }}</td>
+        <td>{{ item?.assiettePrime }}</td>
+        <td>{{ item?.tauxPrime }}</td>
+        <td>{{ item?.pmd }}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">
@@ -74,13 +74,13 @@
   
                   <button
                     ngbDropdownItem
-                    (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
+                    (click)="openModal(templatePaiement,item)"
                   >
-                    <i class="fa fa-money-bill"></i>&nbsp;Paiement
+                    <i class="fa fa-money-bill"></i>&nbsp;Modifier
                   </button>
   
-                  <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
-                    <i class="fa fa-redo-alt"></i>&nbsp; Reversement
+                  <button ngbDropdownItem (click)="openModal(templatePaiement,item)" >
+                    <i class="fa fa-redo-alt"></i>&nbsp; Supprimer
                   </button>                 
                   
                 </div>

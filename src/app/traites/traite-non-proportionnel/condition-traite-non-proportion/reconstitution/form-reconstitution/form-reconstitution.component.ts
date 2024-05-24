@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ReconstitutionService } from 'src/app/core/service/reconstitution.service';
+import { TranchesService } from 'src/app/core/service/tranches.service';
+import { UtilitiesService } from 'src/app/core/service/utilities.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form-reconstitution',
@@ -6,14 +11,91 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./form-reconstitution.component.scss']
 })
 export class FormReconstitutionComponent implements OnInit {
-
-  
-  listeExercices :any =[{}]
-  itemToSave :any
-  constructor() { }
-
-  ngOnInit(): void {
+  listeTranche : any = []; 
+  calaculListe : any = [{libelle:"Au proata de la garantie consommée"},{libelle:"Au prorata temporis"}];
+  formulaireGroup!: FormGroup;
+  @Input() idTraitNonProChildrenSed: number;
+  @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  @Input() itemsUpdate :any;
+  constructor(
+    private formBuilder: FormBuilder,
+    private utilities: UtilitiesService,
+    private reconstitutionService : ReconstitutionService,
+    private tranchesService : TranchesService
+  ) { }
+ 
+  ngOnInit(): void { 
+    this.createForm();
+    this.getOrganisation();
+    // console.log('itemsUpdate :', this.itemsUpdate);
+    // if (this.itemsUpdate) {
+    //    this.itemsUpdate = {
+    //     orgCodes: this.itemsUpdate.organisationList,
+    //     ...this.itemsUpdate
+    //   };
+    //   this.formulaireGroup.patchValue({...this.itemsUpdate})
+    // }
+    
+  }
+ 
+    createForm = () => {
+    // console.log(" this.itemToUpdate ",this.itemToUpdate);
+    this.formulaireGroup = this.formBuilder.group({
+      nbrReconstitution: ["",Validators.required],
+      tauxReconstitution: ["",Validators.required], 
+      tauxPrimeReconstitution: ["",Validators.required],
+      modeCalculReconstitution: [null, Validators.required],
+      trancheId: [null, Validators.required],
+      traiteNpId: [this.idTraitNonProChildrenSed],
+    });
+  }; 
+ 
+  getOrganisation(){
+    this.tranchesService.getAll(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
+      if (res) {
+          this.listeTranche = res;
+      }
+    })
   }
 
-  confirmSaveItem(item:any){}
+  save(item: any) {
+     this.reconstitutionService.save(item).subscribe((res: any) => {
+      // if (res) {
+        this.utilities.showNotification("snackbar-success",
+          this.utilities.formatMsgServeur("Opération réussie."),
+          "bottom",
+          "center");
+         this.closeModal.emit(true)
+      // }
+      // else{
+      //   this.utilities.showNotification("snackbar-danger",
+      //     this.utilities.formatMsgServeur("Échec de l'opération, veuillez réessayer."),
+      //     "bottom",
+      //     "center");
+      // }
+    })
+  }
+
+  getFormFiledsValue = (field: string) => {
+    return this.formulaireGroup.get(field);
+  };
+ 
+  confirmSaveItem(item:any){
+      Swal.fire({
+        title: "Enregistrement",
+        text: "Vous êtes sur le point d'enregistrer une reconstitution. Voulez-vous poursuivre cette action ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0665aa",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Oui",
+        cancelButtonText: "Non",
+      }).then((result) => {
+        if (result.value) {
+          // On effectue l'enregistrement
+          this.save(item);
+        }
+      });
+  }
+
 }

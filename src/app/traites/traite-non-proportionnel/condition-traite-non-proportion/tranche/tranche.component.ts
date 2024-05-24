@@ -1,17 +1,8 @@
-import { Component, Input, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
-import { enumStatutAffaire } from 'src/app/core/enumerator/enumerator';
 import { BusinessOptional } from 'src/app/core/models/businessOptional';
-import { Cedante } from 'src/app/core/models/cedante';
-import { Exercice } from 'src/app/core/models/exercice';
-import { User } from 'src/app/core/models/user';
-import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
-import { CedanteService } from 'src/app/core/service/cedante.service';
-import { ExerciceService } from 'src/app/core/service/exercice.service';
 import { RestClientService } from 'src/app/core/service/rest-client.service';
-import { UserService } from 'src/app/core/service/user.service';
-import { UtilitiesService } from 'src/app/core/service/utilities.service';
 
 @Component({
   selector: 'app-tranche',
@@ -31,7 +22,6 @@ export class TrancheComponent implements OnInit {
   busyGet: Subscription;
 
   constructor(
-    private businessOptionalService: BusinessOptionalService,
     private modalService: BsModalService,
     private restClient:RestClientService
   ) {} 

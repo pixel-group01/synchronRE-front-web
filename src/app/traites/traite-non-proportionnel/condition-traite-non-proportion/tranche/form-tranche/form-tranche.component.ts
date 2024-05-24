@@ -5,6 +5,8 @@ import { PaysService } from 'src/app/core/service/pays.service';
 import { TeritorrialiteService } from 'src/app/core/service/teritorrialite.service';
 import Swal from 'sweetalert2';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
+import { RisqueService } from 'src/app/core/service/risque.service';
+import { TranchesService } from 'src/app/core/service/tranches.service';
 
 @Component({
   selector: 'app-form-tranche',
@@ -13,10 +15,10 @@ import { UtilitiesService } from 'src/app/core/service/utilities.service';
 })
 export class FormTrancheComponent implements OnInit {
 
-  organisationListe :any =[]
+  branchesListe :any =[]
+  paysListe :any =[]
   itemToSave :any;
-
-
+  typeCouverture : any =[{libelle:'Par évènements'},{libelle:"Par risque et par évènements"}];
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   formulaireGroup!: FormGroup;
@@ -25,48 +27,53 @@ export class FormTrancheComponent implements OnInit {
     private formBuilder: FormBuilder,
     private utilities: UtilitiesService,
     private teritorrialiteService : TeritorrialiteService,
-    private organisationService : OrganisationService
+    private paysService : PaysService,
+    private tranchesService : TranchesService,
+    private risqueService : RisqueService
   ) { }
 // a personnaliser en tranche
   ngOnInit(): void { 
     this.createForm();
-    this.getOrganisation()
+    this.getBranches();
+    this.getPaysConcerner();
   }
 
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
       trancheLibelle: ["",Validators.required],
+      trancheType: [null,Validators.required], 
       tranchePriorite: [null,Validators.required], 
       tranchePorte: [null,Validators.required],
       risqueId: [null, Validators.required],
-      traiteNpId: [this.idTraitNonProChildrenSed, Validators.required],
-    });
+      categorieCedanteIds : [null, Validators.required],
+      traiteNpId: [this.idTraitNonProChildrenSed],
+    }); 
   };
   
-  getOrganisation(){
-    this.organisationService.getAll().subscribe((res:any)=>{
+  getBranches(){
+    this.risqueService.getAll(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
       if (res) {
-          this.organisationListe = res
+          this.branchesListe = res
       }
     })
   }
 
-  saveTeritorriliate(item: any) {
-    item.terrTaux = parseInt(item.terrTaux)
-    this.teritorrialiteService.create(item).subscribe((res: any) => {
+  getPaysConcerner(){
+    this.paysService.getPaysConcerner(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
       if (res) {
+          this.paysListe = res
+      }
+    })
+  }
+
+  save(item: any) {
+    this.tranchesService.save(item).subscribe((res: any) => {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),
           "bottom",
           "center");
-        this.closeModal.emit(true)
-      }else{
-        this.utilities.showNotification("snackbar-danger",
-          this.utilities.formatMsgServeur("Échec de l'opération, veuillez réessayer."),
-          "bottom",
-          "center");
-      }
+           this.closeModal.emit(true)
     })
   }
 
@@ -77,7 +84,7 @@ export class FormTrancheComponent implements OnInit {
   confirmSaveItem(item:any){
       Swal.fire({
         title: "Enregistrement",
-        text: "Vous êtes sur le point d'enregistrer une Teritottialité. Voulez-vous poursuivre cette action ?",
+        text: "Vous êtes sur le point d'enregistrer une tranche. Voulez-vous poursuivre cette action ?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#0665aa",
@@ -87,7 +94,7 @@ export class FormTrancheComponent implements OnInit {
       }).then((result) => {
         if (result.value) {
           // On effectue l'enregistrement
-          this.saveTeritorriliate(item);
+          this.save(item);
         }
       });
   }

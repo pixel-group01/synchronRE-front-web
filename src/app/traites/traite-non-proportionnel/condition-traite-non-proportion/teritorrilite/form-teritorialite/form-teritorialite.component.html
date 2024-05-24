@@ -5,8 +5,8 @@
       <label
         >Libelle :
         <span class="required_champs">*</span>
-      </label>
-      <input
+      </label>  
+      <input 
         class="form-control custom-input"
         formControlName="terrLibelle"
         placeholder=""
@@ -37,8 +37,7 @@
           [class.errorInputForm]="
                 getFormFiledsValue('orgCodes')?.invalid &&
                 getFormFiledsValue('orgCodes')?.touched
-              "
-        > 
+              "> 
           <ng-option
             *ngFor="let organistaions  of organisationListe"
             [value]="organistaions.organisationCode"

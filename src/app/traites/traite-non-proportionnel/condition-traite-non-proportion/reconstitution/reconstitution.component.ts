@@ -56,7 +56,7 @@ export class ReconstitutionComponent implements OnInit {
       (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "") +
       "" +
       (this.idTraitNonProChildren
-        ? "&traiId=" + this.idTraitNonProChildren
+        ? "&traiteNPId=" + this.idTraitNonProChildren
         : "");
 
     this.busyGet = this.restClient.get(endPointFinal).subscribe(

@@ -1,22 +1,30 @@
+<form [formGroup]="formulaireGroup" (ngSubmit)="confirmSaveItem(formulaireGroup.value)">
 <div class="row">
     <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
         <label>Tranche : <span class="required_champs">*</span> </label>
 
-        <ng-select
-          
+        <ng-select    
+          formControlName="trancheId"
+          [class.errorInputForm]=" 
+                getFormFiledsValue('trancheId')?.invalid &&
+                getFormFiledsValue('trancheId')?.touched
+              "
           name="exeCode"
           id="exeCode"
         >
           <ng-option
-            *ngFor="let exercice of listeExercices"
-            [value]="exercice?.exeCode"
-            >{{ exercice.exeLibelle }}</ng-option
+            *ngFor="let tranche of listeTranche"
+            [value]="tranche?.trancheId"
+            >{{ tranche.trancheLibelle }}</ng-option
           >
         </ng-select>
-      
+        <small 
+        class="text-danger"
+        *ngIf="(getFormFiledsValue('trancheId')?.dirty || getFormFiledsValue('trancheId')?.touched) && getFormFiledsValue('trancheId')?.invalid && getFormFiledsValue('trancheId')?.errors?.['required']"
+          >
+        Ce champ est obligatoire
+      </small>
       </div>
-
-
       <div class="col-md-12 col-xs-12 mb-1">
         <label
           >Nombre de reconstitution :
@@ -26,12 +34,20 @@
           class="form-control custom-input"
           placeholder=""
           autocomplete="off"
-          name="affAssure"
+          name="nbrReconstitution"
           type="text"
+          formControlName="nbrReconstitution"
+          [class.errorInputForm]=" 
+                getFormFiledsValue('nbrReconstitution')?.invalid &&
+                getFormFiledsValue('nbrReconstitution')?.touched"
         />
+       <small 
+       class="text-danger"
+       *ngIf="(getFormFiledsValue('nbrReconstitution')?.dirty || getFormFiledsValue('nbrReconstitution')?.touched) && getFormFiledsValue('nbrReconstitution')?.invalid && getFormFiledsValue('nbrReconstitution')?.errors?.['required']"
+         >
+       Ce champ est obligatoire
+     </small>
       </div>
-
-
       <div class="col-md-12 col-xs-12 mb-1">
         <label
           >Taux de reconstitution :
@@ -41,11 +57,21 @@
           class="form-control custom-input"
           placeholder=""
           autocomplete="off"
-          name="affAssure"
+          name="tauxReconstitution"
           type="text"
+          formControlName="tauxReconstitution"
+          [class.errorInputForm]=" 
+                getFormFiledsValue('tauxReconstitution')?.invalid &&
+                getFormFiledsValue('tauxReconstitution')?.touched
+              "
         />
+          <small 
+          class="text-danger"
+          *ngIf="(getFormFiledsValue('tauxReconstitution')?.dirty || getFormFiledsValue('tauxReconstitution')?.touched) && getFormFiledsValue('tauxReconstitution')?.invalid && getFormFiledsValue('tauxReconstitution')?.errors?.['required']"
+        >
+          Ce champ est obligatoire
+        </small>
       </div>
-
 
       <div class="col-md-12 col-xs-12 mb-1">
         <label
@@ -56,31 +82,52 @@
           class="form-control custom-input"
           placeholder=""
           autocomplete="off"
-          name="affAssure"
+          name="tauxPrimeReconstitution"
           type="text"
+          formControlName="tauxPrimeReconstitution"
+          [class.errorInputForm]=" 
+                getFormFiledsValue('tauxPrimeReconstitution')?.invalid &&
+                getFormFiledsValue('tauxPrimeReconstitution')?.touched
+              "
         />
+          <small 
+          class="text-danger"
+          *ngIf="(getFormFiledsValue('tauxPrimeReconstitution')?.dirty || getFormFiledsValue('tauxPrimeReconstitution')?.touched) && getFormFiledsValue('tauxPrimeReconstitution')?.invalid && getFormFiledsValue('tauxPrimeReconstitution')?.errors?.['required']"
+            >
+          Ce champ est obligatoire
+        </small>                                                 
       </div>
 
       <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
         <label>Mode de calcul : <span class="required_champs">*</span> </label>
 
         <ng-select
-          name="exeCode1"
-          id="exeCode1"
+          name="modeCalculReconstitution"
+          id="modeCalculReconstitution"
+          formControlName="modeCalculReconstitution"
+          [class.errorInputForm]=" 
+                getFormFiledsValue('modeCalculReconstitution')?.invalid &&
+                getFormFiledsValue('modeCalculReconstitution')?.touched
+              "
         >
           <ng-option
-            *ngFor="let exercice of listeExercices"
-            [value]="exercice?.exeCode"
-            >{{ exercice.exeLibelle }}</ng-option
+            *ngFor="let cal of calaculListe"
+            [value]="cal?.libelle"
+            >{{ cal.libelle }}</ng-option
           >
         </ng-select>
-        
+       <small 
+       class="text-danger"
+       *ngIf="(getFormFiledsValue('modeCalculReconstitution')?.dirty || getFormFiledsValue('modeCalculReconstitution')?.touched) && getFormFiledsValue('modeCalculReconstitution')?.invalid && getFormFiledsValue('modeCalculReconstitution')?.errors?.['required']"
+        >
+       Ce champ est obligatoire
+     </small>
       </div>
 
     
       <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
-        <button type="button" (click)="confirmSaveItem(itemToSave)"
-                                        class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
+        <button type="submit" [disabled]="!formulaireGroup.valid" class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
       </div>
 
     </div>
+</form>

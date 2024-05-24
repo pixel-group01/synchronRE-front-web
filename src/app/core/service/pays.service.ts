@@ -15,6 +15,9 @@ export class PaysService {
   getAll = () => {
     return this.restClient.get("pays/list");
   }
- 
 
+  getPaysConcerner = (traiteNpId :Number) => {
+    return this.restClient.get(`categories/list/${traiteNpId}`);
+  }
+ 
 }

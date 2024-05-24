@@ -46,12 +46,12 @@
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td> -->
 
-        <td>{{ item?.exeCode }}</td>
+        <td>{{ item?.trancheLibelle }}</td>
+        <td>{{ item?.trancheType }}</td>
         <td>{{ item?.affCode }}</td>
-        <td>{{ item?.affCode }}</td>
-        <td>{{ item?.affCode }}</td>
-        <td>{{ item?.affCode }}</td>
-        <td>{{ item?.affCode }}</td>
+        <td>{{ item?.couLibelle }}</td>
+        <td>{{ item?.tranchePriorite }}</td>
+        <td>{{ item?.tranchePorte }}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">
@@ -153,6 +153,7 @@
     </div>
     <div class="modal-body">
       <!-- <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement> -->
-      <app-form-tranche [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-tranche>
+      <app-form-tranche [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"
+                        [idTraitNonProChildrenSed]="idTraitNonProChildren" (closeModal)="closeModal($event)"></app-form-tranche>
     </div>
   </ng-template>

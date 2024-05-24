@@ -42,8 +42,8 @@
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td> -->
 
-        <td>{{ item?.exeCode }}</td>
-        <td>{{ item?.affCode }}</td>
+        <td>{{ item?.sslimiteRisqueCouvertLibelle }}</td>
+        <td>{{ item?.sousLimMontant }}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">
@@ -70,13 +70,13 @@
   
                   <button
                     ngbDropdownItem
-                    (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
+                    (click)="openModal(templatePaiement,item)"
                   >
-                    <i class="fa fa-money-bill"></i>&nbsp;Paiement
+                    <i class="fa fa-edit"></i>&nbsp;Modifier
                   </button>
   
-                  <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
-                    <i class="fa fa-redo-alt"></i>&nbsp; Reversement
+                  <button ngbDropdownItem (click)="openModal(templatePaiement,item)">
+                    <i class="fa fa-trash"></i>&nbsp; Supprimer
                   </button>                 
                   
                 </div>
@@ -145,6 +145,7 @@
     </div>
     <div class="modal-body">
       <!-- <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement> -->
-      <app-form-sous-limite [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-sous-limite>
+      <app-form-sous-limite [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"
+                            [idTraitNonProChildrenSed]="idTraitNonProChildren" (closeModal)="closeModal($event)"></app-form-sous-limite>
     </div>
   </ng-template>

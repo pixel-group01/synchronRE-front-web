@@ -16,6 +16,10 @@ export class CedanteService {
     return this.restClient.get('cedantes/list');
   }
 
+  getAllTraite = (traiteNpId:number) => {
+    return this.restClient.get(`traite/cedantes/list/${traiteNpId}`);
+  }
+
   getCedanteParTraite = (traiteNpId :number ,cedId:number) => {
     return this.restClient.get(`traite/cedantes/edit?traiteNpId=${traiteNpId}&cedId=${cedId}`);
   }
