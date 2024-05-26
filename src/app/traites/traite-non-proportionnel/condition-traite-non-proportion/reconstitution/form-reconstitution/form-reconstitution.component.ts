@@ -79,7 +79,8 @@ export class FormReconstitutionComponent implements OnInit {
   confirmSaveItem(item:any){
       Swal.fire({
         title: "Enregistrement",
-        text: "Vous êtes sur le point d'enregistrer une reconstitution. Voulez-vous poursuivre cette action ?",
+        text:  item.reconstitutionId?  "Vous êtes sur le point de modifier une reconstitution. Voulez-vous poursuivre cette action ?" :
+                "Vous êtes sur le point d'enregistrer une reconstitution. Voulez-vous poursuivre cette action ?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#0665aa",

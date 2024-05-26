@@ -43,7 +43,7 @@ export class FormAssietePrimeComponent implements OnInit {
       tauxPrime: [null,Validators.required], 
       traiteNpId: [this.idTraitNonProChildrenSed],
       
-      pmd : ["",Validators.required],
+      pmd : ["",Validators.required], 
       tauxCesLeg: ["",Validators.required],
       paramCesLegalLibelle:[""]
     });
@@ -53,9 +53,7 @@ export class FormAssietePrimeComponent implements OnInit {
       this.cedanteService.getCedanteParTraite(this.idTraitNonProChildrenSed, idCedante).subscribe((res:any)=>{
         console.log(res , "res de cedande par traite");
         if (res) {
-
-          this.items = [res]
-          
+          this.items = [res];
         }
       })
   }
