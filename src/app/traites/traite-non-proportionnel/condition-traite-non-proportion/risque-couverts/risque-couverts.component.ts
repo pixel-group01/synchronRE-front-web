@@ -26,9 +26,10 @@ export class RisqueCouvertsComponent implements OnInit {
   @Input() endPoint: string;
   @Input() idTraitNonProChildren: number;
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 3;
   totalItems: number;
   busyGet: Subscription;
+  dataCurrent : any;
 
   constructor(
     private businessOptionalService: BusinessOptionalService,
@@ -36,15 +37,17 @@ export class RisqueCouvertsComponent implements OnInit {
     private restClient:RestClientService
   ) {} 
 
-  openModal(template: TemplateRef<any>, itemAffaire?: BusinessOptional) {
+  openModal(template: TemplateRef<any>, data?: any) {
     let config = {
       backdrop: true,
       ignoreBackdropClick: true,
       class: "modal-width-30",
     };
+    console.log('item terr ::', data);
+    this.dataCurrent = data;
     this.modalRef = this.modalService.show(template, config);
   }
-
+  
   getItems() {
     let endPointFinal =
       this.endPoint +
@@ -72,6 +75,14 @@ export class RisqueCouvertsComponent implements OnInit {
     );
   }
 
+  changePaginationSize($event) {
+    if($event) {
+      this.currentPage = 1;
+      this.itemsPerPage = parseInt($event);
+    }
+    this.getItems();
+  }
+
   closeModal($event: any) {
     this.modalRef.hide();
 
@@ -82,5 +93,6 @@ export class RisqueCouvertsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getItems();
   }
 }

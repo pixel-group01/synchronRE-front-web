@@ -27,20 +27,16 @@ export class FormReconstitutionComponent implements OnInit {
   ngOnInit(): void { 
     this.createForm();
     this.getOrganisation();
-    // console.log('itemsUpdate :', this.itemsUpdate);
-    // if (this.itemsUpdate) {
-    //    this.itemsUpdate = {
-    //     orgCodes: this.itemsUpdate.organisationList,
-    //     ...this.itemsUpdate
-    //   };
-    //   this.formulaireGroup.patchValue({...this.itemsUpdate})
-    // }
-    
+    console.log('itemsUpdate :', this.itemsUpdate);
+    if (this.itemsUpdate) {
+      this.formulaireGroup.patchValue({...this.itemsUpdate})
+    }
   }
  
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
+      reconstitutionId :[null],
       nbrReconstitution: ["",Validators.required],
       tauxReconstitution: ["",Validators.required], 
       tauxPrimeReconstitution: ["",Validators.required],

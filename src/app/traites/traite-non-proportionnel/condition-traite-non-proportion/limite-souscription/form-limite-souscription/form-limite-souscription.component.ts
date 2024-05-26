@@ -14,7 +14,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./form-limite-souscription.component.scss']
 })
 export class FormLimiteSouscriptionComponent implements OnInit {
-
   listeCouvertures : any = []; 
   listeCedantes : any = [];
   formulaireGroup!: FormGroup;
@@ -22,7 +21,7 @@ export class FormLimiteSouscriptionComponent implements OnInit {
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() itemsUpdate :any;
-
+  
   constructor(
     private formBuilder: FormBuilder,
     private limiteSouscriptionService : LimiteSouscriptionService,
@@ -35,20 +34,16 @@ export class FormLimiteSouscriptionComponent implements OnInit {
     this.createForm();
     this.getRisque();
     this.getCedantes();
-
-    // console.log('itemsUpdate :', this.itemsUpdate);
-    // if (this.itemsUpdate) {
-    //    this.itemsUpdate = {
-    //     orgCodes: this.itemsUpdate.organisationList,
-    //     ...this.itemsUpdate
-    //   };
-    //   this.formulaireGroup.patchValue({...this.itemsUpdate})
-    // }
+    console.log('itemsUpdate :', this.itemsUpdate);
+    if (this.itemsUpdate) {
+      this.formulaireGroup.patchValue({...this.itemsUpdate})
+    }
   }
  
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
+    limiteSouscriptionId:[null],
     risqueId : [null,Validators.required],
     cedanteTraiteId: [null,Validators.required], 
     limSousMontant: ["",Validators.required], 
@@ -56,7 +51,7 @@ export class FormLimiteSouscriptionComponent implements OnInit {
     });
   }; 
 
-  getRisque(data?:any){
+  getRisque(){
     this.risqueService.getAll(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
       if (res) {
           this.listeCouvertures = res;

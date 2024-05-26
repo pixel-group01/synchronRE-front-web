@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
-import { BusinessOptional } from 'src/app/core/models/businessOptional';
-import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
 import { RestClientService } from 'src/app/core/service/rest-client.service';
 
 @Component({
@@ -19,7 +17,7 @@ export class TeritorriliteComponent implements OnInit {
   @Input() endPoint: string;
   @Input() idTraitNonProChildren: number;
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 3;
   totalItems: number;
   busyGet: Subscription;
 
@@ -64,6 +62,14 @@ export class TeritorriliteComponent implements OnInit {
         }
    }
     );
+  } 
+
+  changePaginationSize($event) {
+    if($event) {
+      this.currentPage = 1;
+      this.itemsPerPage = parseInt($event);
+    }
+    this.getItems();
   }
 
   closeModal($event: any) {
@@ -76,5 +82,6 @@ export class TeritorriliteComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getItems();
   }
 }

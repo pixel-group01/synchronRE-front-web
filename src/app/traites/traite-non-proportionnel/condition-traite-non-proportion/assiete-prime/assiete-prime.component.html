@@ -67,23 +67,23 @@
                
                   <button
                   ngbDropdownItem
-                  (click)="openModal(templateDetailsAffaire,item)"
+                  (click)="openModal(templateAssietePrime,item)"
                 >
                   <i class="fa fa-list"></i>&nbsp;Détails l'affaire
                 </button>
   
                   <button
                     ngbDropdownItem
-                    (click)="openModal(templatePaiement,item)"
+                    (click)="openModal(templateAssietePrime,item)"
                   >
                     <i class="fa fa-money-bill"></i>&nbsp;Modifier
                   </button>
   
-                  <button ngbDropdownItem (click)="openModal(templatePaiement,item)" >
+                  <button ngbDropdownItem>
                     <i class="fa fa-redo-alt"></i>&nbsp; Supprimer
                   </button>                 
                   
-                </div>
+                </div> 
               </div>
             </div>
           </td>
@@ -91,7 +91,39 @@
     </tbody>
 
     <tfoot>
-
+      <tr *ngIf="items && items.length > 0">
+        <td colspan="14">
+          <div class="row pagination-part">
+            <div class="col-md-7" style="text-align: center">
+              <pagination
+                [boundaryLinks]="false"
+                [itemsPerPage]="itemsPerPage"
+                [totalItems]="totalItems"
+                [(ngModel)]="currentPage"
+                class="pagination-sm"
+                previousText="&lsaquo;"
+                nextText="&rsaquo;"
+                firstText="&laquo;"
+                lastText="&raquo;"
+                (pageChanged)="pageChanged($event)"
+              ></pagination>
+            </div>
+  
+            <div class="col-md-5">
+              <div class="paginator-per-page">
+                <app-element-by-page-paginator
+                  (paginationChange)="changePaginationSize($event)"
+                  [defaultItemPerPage]="itemsPerPage"
+                ></app-element-by-page-paginator>
+  
+                <span class="span_total_entree pull-right"
+                  >Total :{{ totalItems }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
       <tr *ngIf="!items || items.length == 0">
         <td colspan="14">
           <div class="col-md-12 txt-align-center">
@@ -102,7 +134,6 @@
     </tfoot>
   </table>
 </div>
-
 
 <ng-template #templateAssietePrime> 
     <div class="modal-header">
@@ -116,6 +147,7 @@
     </div>
     <div class="modal-body">
       <app-form-assiete-prime [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement" (closeModal)="closeModal($event)"
-                              [idTraitNonProChildrenSed]="idTraitNonProChildren"></app-form-assiete-prime>
+                              [idTraitNonProChildrenSed]="idTraitNonProChildren"  [itemsUpdate]="dataCurrent"></app-form-assiete-prime>
     </div>
   </ng-template>
+ 

@@ -13,3 +13,7 @@ button{
 .custom-input{
     height: 27px !important;
 }
+
+:host ::ng-deep .element-per-page label{
+    display: none;
+}

@@ -25,7 +25,7 @@ export class AssietePrimeComponent implements OnInit {
   listeCedente: Array<Cedante> = [];
   itemToSearch: any = {};
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 3;
   totalItems: number;
   busyGet: Subscription;
   user: User;
@@ -41,6 +41,7 @@ export class AssietePrimeComponent implements OnInit {
   
   initialEndPoint: string;
   statutAffEnum: any;
+  dataCurrent :any
 
   constructor(
     private businessOptionalService: BusinessOptionalService,
@@ -59,18 +60,17 @@ export class AssietePrimeComponent implements OnInit {
     }
   }
 
-  openModal(template: TemplateRef<any>, itemAffaire?: BusinessOptional) {
+  openModal(template: TemplateRef<any>, data?: any) {
     let config = {
       backdrop: true,
       ignoreBackdropClick: true,
       class: "modal-width-30",
     };
-    if (itemAffaire) {
-      this.itemToSave = { ...itemAffaire };
-      this.businessOptionalService.setCurrentOptionalBusiness(itemAffaire);
-    }
+    console.log('item terr ::', data);
+    this.dataCurrent = data;
     this.modalRef = this.modalService.show(template, config);
   }
+  
 
   closeFormModal($event) {
     this.modalRef.hide();
@@ -174,5 +174,6 @@ export class AssietePrimeComponent implements OnInit {
   }
 
   ngOnInit() {  
+    this.getItems();
   }
 }

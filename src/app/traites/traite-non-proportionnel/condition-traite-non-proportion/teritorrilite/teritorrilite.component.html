@@ -85,8 +85,40 @@
           </td>
       </tr>
     </tbody>
-
     <tfoot>
+      <tr *ngIf="items && items.length > 0">
+        <td colspan="14">
+          <div class="row pagination-part">
+            <div class="col-md-7" style="text-align: center">
+              <pagination
+                [boundaryLinks]="false"
+                [itemsPerPage]="itemsPerPage"
+                [totalItems]="totalItems"
+                [(ngModel)]="currentPage"
+                class="pagination-sm"
+                previousText="&lsaquo;"
+                nextText="&rsaquo;"
+                firstText="&laquo;"
+                lastText="&raquo;"
+                (pageChanged)="pageChanged($event)"
+              ></pagination>
+            </div>
+  
+            <div class="col-md-5">
+              <div class="paginator-per-page">
+                <app-element-by-page-paginator
+                  (paginationChange)="changePaginationSize($event)"
+                  [defaultItemPerPage]="itemsPerPage"
+                ></app-element-by-page-paginator>
+  
+                <span class="span_total_entree pull-right"
+                  >Total :{{ totalItems }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
       <tr *ngIf="!items || items.length == 0">
         <td colspan="14">
           <div class="col-md-12 txt-align-center">
@@ -97,7 +129,7 @@
     </tfoot>
   </table>
 </div>
-
+ 
  
 <ng-template #templatePaiement> 
     <div class="modal-header">
@@ -115,4 +147,4 @@
       [isPaiement]="isOngletPaiement" (closeModal)="closeModal($event)"></app-form-teritorialite>
     </div>
   </ng-template>
-   
+    

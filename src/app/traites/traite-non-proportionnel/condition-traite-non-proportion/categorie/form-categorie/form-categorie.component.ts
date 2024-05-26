@@ -2,8 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CategorieService } from 'src/app/core/service/categorie.service';
 import { CedanteService } from 'src/app/core/service/cedante.service';
-import { OrganisationService } from 'src/app/core/service/organisation.service';
-import { TeritorrialiteService } from 'src/app/core/service/teritorrialite.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from 'sweetalert2';
 
@@ -19,6 +17,7 @@ export class FormCategorieComponent implements OnInit {
   formulaireGroup!: FormGroup;
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  @Input() itemsUpdate :any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,12 +29,19 @@ export class FormCategorieComponent implements OnInit {
   ngOnInit(): void { 
     this.createForm();
     this.getCedante();
-    // this.getCategorie()
+    console.log("itemsUpdate cat :", this.itemsUpdate);
+    if (this.itemsUpdate) {
+      this.formulaireGroup.patchValue({...this.itemsUpdate,  
+        cedIds: this.itemsUpdate.cedantes.map((elt:any)=>{
+        return elt.cedId
+        })})
+  }
   }
   
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
+      categorieId :[null],
       categorieLibelle: ["",Validators.required],
       categorieCapacite: ["",Validators.required], 
       cedIds: [null,Validators.required],

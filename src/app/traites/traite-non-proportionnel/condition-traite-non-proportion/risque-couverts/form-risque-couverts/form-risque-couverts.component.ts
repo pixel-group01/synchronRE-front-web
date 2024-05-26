@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-form-risque-couverts',
   templateUrl: './form-risque-couverts.component.html',
-  styleUrls: ['./form-risque-couverts.component.scss']
+  styleUrls: ['./form-risque-couverts.component.scss'] 
 })
 export class FormRisqueCouvertsComponent implements OnInit {
   couverturesListe : any = [];
@@ -17,7 +17,8 @@ export class FormRisqueCouvertsComponent implements OnInit {
   formulaireGroup!: FormGroup;
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
-
+  @Input() itemsUpdate :any;
+ 
   constructor(
     private formBuilder: FormBuilder,
 
@@ -31,6 +32,9 @@ export class FormRisqueCouvertsComponent implements OnInit {
   ngOnInit(): void { 
     this.createForm();
     this.getCouvertures();
+    if (this.itemsUpdate) {
+      this.formulaireGroup.patchValue({...this.itemsUpdate})
+    }
   }
 
     createForm = () => {
@@ -39,10 +43,10 @@ export class FormRisqueCouvertsComponent implements OnInit {
       couId: [null,Validators.required],
       activiteCode: [null,Validators.required],
       description: [""], 
-      traiteNpId: [this.idTraitNonProChildrenSed,Validators.required],
+      traiteNpId: [this.idTraitNonProChildrenSed],
     });
   };
-
+ 
   clearEnfantsCouverture(){    
     this.formulaireGroup.get('activiteCode').setValue('Aucun selectionné')
   }

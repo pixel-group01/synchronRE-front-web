@@ -70,13 +70,12 @@
   
                   <button
                     ngbDropdownItem
-                    (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
-                  >
-                    <i class="fa fa-money-bill"></i>&nbsp;Paiement
+                    (click)="openModal(templatePaiement,item)">
+                    <i class="fa fa-edit"></i>&nbsp;Modifier
                   </button>
   
-                  <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
-                    <i class="fa fa-redo-alt"></i>&nbsp; Reversement
+                  <button ngbDropdownItem (click)="openModal(templatePaiement,item)">
+                    <i class="fa fa-trash"></i>&nbsp; Supprimer
                   </button>                 
                   
                 </div>
@@ -86,7 +85,39 @@
       </tr>
     </tbody>
 
-    <tfoot>
+    <tfoot> <tr *ngIf="items && items.length > 0">
+      <td colspan="14">
+        <div class="row pagination-part">
+          <div class="col-md-7" style="text-align: center">
+            <pagination
+              [boundaryLinks]="false"
+              [itemsPerPage]="itemsPerPage"
+              [totalItems]="totalItems"
+              [(ngModel)]="currentPage"
+              class="pagination-sm"
+              previousText="&lsaquo;"
+              nextText="&rsaquo;"
+              firstText="&laquo;"
+              lastText="&raquo;"
+              (pageChanged)="pageChanged($event)"
+            ></pagination>
+          </div>
+
+          <div class="col-md-5">
+            <div class="paginator-per-page">
+              <app-element-by-page-paginator
+                (paginationChange)="changePaginationSize($event)"
+                [defaultItemPerPage]="itemsPerPage"
+              ></app-element-by-page-paginator>
+
+              <span class="span_total_entree pull-right"
+                >Total :{{ totalItems }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
       <tr *ngIf="!items || items.length == 0">
         <td colspan="14">
           <div class="col-md-12 txt-align-center">
@@ -111,7 +142,7 @@
     </div>
     <div class="modal-body">
       <!-- <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement> -->
-      <app-form-categorie [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement" 
+      <app-form-categorie [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement" [itemsUpdate]="dataCurrent"
       [idTraitNonProChildrenSed]="idTraitNonProChildren" (closeModal)="closeModal($event)"></app-form-categorie>
     </div>
   </ng-template>

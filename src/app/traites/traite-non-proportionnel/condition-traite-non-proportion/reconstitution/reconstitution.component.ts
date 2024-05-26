@@ -26,23 +26,33 @@ export class ReconstitutionComponent implements OnInit {
   @Input() endPoint: string;
   @Input() idTraitNonProChildren: number;
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 3;
   totalItems: number;
-  busyGet: Subscription;
-
+  busyGet: Subscription; 
+  dataCurrent :any
   constructor(
     private businessOptionalService: BusinessOptionalService,
     private modalService: BsModalService,
     private restClient:RestClientService
   ) {} 
 
-  openModal(template: TemplateRef<any>, itemAffaire?: BusinessOptional) {
+  openModal(template: TemplateRef<any>, data?: any) {
     let config = {
       backdrop: true,
       ignoreBackdropClick: true,
       class: "modal-width-30",
     };
+    console.log('item terr ::', data);
+    this.dataCurrent = data;
     this.modalRef = this.modalService.show(template, config);
+  }
+  
+  changePaginationSize($event) {
+    if($event) {
+      this.currentPage = 1;
+      this.itemsPerPage = parseInt($event);
+    }
+    this.getItems();
   }
 
   getItems() {
@@ -82,5 +92,6 @@ export class ReconstitutionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getItems();
   }
 }

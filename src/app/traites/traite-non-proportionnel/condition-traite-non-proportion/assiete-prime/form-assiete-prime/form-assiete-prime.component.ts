@@ -18,6 +18,7 @@ export class FormAssietePrimeComponent implements OnInit {
 
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  @Input() itemsUpdate :any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,7 +29,10 @@ export class FormAssietePrimeComponent implements OnInit {
  
   ngOnInit(): void { 
     this.createForm();
-    this.getCedante()
+    this.getCedante();
+    if (this.itemsUpdate) {
+      this.formulaireGroup.patchValue({...this.itemsUpdate})
+    }
   }
  
     createForm = () => {

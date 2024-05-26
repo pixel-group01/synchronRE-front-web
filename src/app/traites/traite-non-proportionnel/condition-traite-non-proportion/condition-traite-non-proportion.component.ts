@@ -30,7 +30,14 @@ export class ConditionTraiteNonProportionComponent implements OnInit {
   @Input() isUpdateRepartition: boolean = false;
 
   @Input() idTraitNonProChild: number;
-
+  isCloseOpen :boolean =false;
+  isCloseOpenRisque :boolean =false;
+  isCloseOpenCateg :boolean =false;
+  isCloseOpenAssiettePrime :boolean =false;
+  isCloseOpenTranche :boolean =false;
+  isCloseOpenLimitSous :boolean =false;
+  isCloseOpenSousLim :boolean =false;
+  isCloseOpenRecon :boolean =false;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Output() stepperInice: EventEmitter<number> = new EventEmitter();
 
@@ -39,6 +46,13 @@ export class ConditionTraiteNonProportionComponent implements OnInit {
 
     gotoPreviousStep() {
       this.stepperInice.emit(1);
+    }
+
+    fermerOpenData(ident : boolean){
+      if (ident) {
+        this.isCloseOpen = !ident
+      }
+
     }
 
     ngOnInit(): void {

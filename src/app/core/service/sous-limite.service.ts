@@ -11,7 +11,7 @@ export class SousLimiteService {
     return this.restClient.post('sous-limite/create',body)
   } 
  
-  // update = (body:any) => {
-  //   return this.restClient.put('cedantes/update',body)
-  // }
+  update = (body:any) => {
+    return this.restClient.put('sous-limite/update',body)
+  }
 }

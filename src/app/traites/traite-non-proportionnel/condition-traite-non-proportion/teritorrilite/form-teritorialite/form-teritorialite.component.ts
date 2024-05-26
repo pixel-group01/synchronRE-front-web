@@ -5,7 +5,6 @@ import { PaysService } from 'src/app/core/service/pays.service';
 import { TeritorrialiteService } from 'src/app/core/service/teritorrialite.service';
 import Swal from 'sweetalert2';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
-import { data } from 'jquery';
 
 @Component({
   selector: 'app-form-teritorialite',
@@ -26,20 +25,21 @@ export class FormTeritorialiteComponent implements OnInit {
     private teritorrialiteService : TeritorrialiteService,
     private organisationService : OrganisationService
   ) { }
- 
+   
   ngOnInit(): void { 
     this.createForm();
     this.getPays();
     this.getOrganisation();
     console.log('itemsUpdate :', this.itemsUpdate);
     if (this.itemsUpdate) {
-       this.itemsUpdate = {
-        orgCodes: this.itemsUpdate.organisationList,
-        ...this.itemsUpdate
-      };
-      this.formulaireGroup.patchValue({...this.itemsUpdate})
+      this.formulaireGroup.patchValue({...this.itemsUpdate,
+        paysCodes: this.itemsUpdate.paysList.map((elt:any)=>{
+        return elt.paysCode
+        })
+      ,orgCodes : this.itemsUpdate.organisationList, 
+       traiteNpId : this.idTraitNonProChildrenSed})
     }
-    
+     
   }
  
     createForm = () => {
@@ -48,10 +48,10 @@ export class FormTeritorialiteComponent implements OnInit {
       terrId: [""],
       terrLibelle: ["",Validators.required],
       terrTaux: [null,Validators.required], 
-      orgCodes: [null,Validators.required],
+      orgCodes: [[],Validators.required],
       paysCodes: [null, Validators.required],
       terrDescription: ["", Validators.required],
-      traiteNpId: [this.idTraitNonProChildrenSed, Validators.required],
+      traiteNpId: [this.idTraitNonProChildrenSed],
     });
   }; 
 
@@ -60,16 +60,16 @@ export class FormTeritorialiteComponent implements OnInit {
     this.paysService.getAllFiltre(endPointFinal).subscribe((res:any)=>{
       if (res) {
           this.paysListe = res;
-          if(data && data.length>0){
-            console.log(this.paysListe , "ok ok");
-            
+          if(data && data.length>0){            
             this.formulaireGroup.patchValue({
               paysCodes:  this.paysListe.map((elt:any)=>{
                 return elt.paysCode
               })
             });
           }else{
-            this.formulaireGroup.get('paysCodes').setValue(['Aucun selectionné'])
+            if (!this.itemsUpdate) {
+              this.formulaireGroup.get('paysCodes').setValue(['Aucun selectionné'])
+            }
             this.paysListe = res
           }
       }

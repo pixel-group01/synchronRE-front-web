@@ -18,6 +18,7 @@ export class FormSousLimiteComponent implements OnInit {
   formulaireGroup!: FormGroup;
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  @Input() itemsUpdate :any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,11 +30,15 @@ export class FormSousLimiteComponent implements OnInit {
   ngOnInit(): void { 
     this.createForm();
     this.getCouvertures();
+    if (this.itemsUpdate) {
+      this.formulaireGroup.patchValue({...this.itemsUpdate,risqueCouvertId : this.itemsUpdate.sslimiteRisqueCouvertId})
   }
+}
 
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
+      sslimiteRisqueCouvertId :[null],
       sousLimMontant: ["",Validators.required],
       risqueCouvertId: [null,Validators.required], 
       traiteNpId: [this.idTraitNonProChildrenSed],
@@ -49,7 +54,7 @@ export class FormSousLimiteComponent implements OnInit {
   }
  
   save(item: any) {
-    this.sousLimiteService.create(item).subscribe((res: any) => {
+    (item.sslimiteRisqueCouvertId ? this.sousLimiteService.update : this.sousLimiteService.create)(item).subscribe((res: any) => {
       // if (res) {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),

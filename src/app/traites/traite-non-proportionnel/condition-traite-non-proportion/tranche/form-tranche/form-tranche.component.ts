@@ -22,11 +22,11 @@ export class FormTrancheComponent implements OnInit {
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   formulaireGroup!: FormGroup;
+  @Input() itemsUpdate :any;
 
   constructor(
     private formBuilder: FormBuilder,
     private utilities: UtilitiesService,
-    private teritorrialiteService : TeritorrialiteService,
     private paysService : PaysService,
     private tranchesService : TranchesService,
     private risqueService : RisqueService
@@ -36,11 +36,15 @@ export class FormTrancheComponent implements OnInit {
     this.createForm();
     this.getBranches();
     this.getPaysConcerner();
+    if (this.itemsUpdate) {
+      this.formulaireGroup.patchValue({...this.itemsUpdate})
+  }
   }
 
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
+      trancheId :[null],
       trancheLibelle: ["",Validators.required],
       trancheType: [null,Validators.required], 
       tranchePriorite: [null,Validators.required], 
