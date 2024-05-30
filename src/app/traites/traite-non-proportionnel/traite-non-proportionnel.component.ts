@@ -2,7 +2,6 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { enumStatutAffaire } from 'src/app/core/enumerator/enumerator';
 import { User } from 'src/app/core/models/user';
-import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
 import { UserService } from 'src/app/core/service/user.service';
 
 @Component({

@@ -13,7 +13,8 @@ import Swal from 'sweetalert2';
 })
 export class FormAssietePrimeComponent implements OnInit {
   items :any =[];
-  cedanteListe : any = []; 
+  cedanteListe : any = [];
+  listeCessionLegale :any =[];
   formulaireGroup!: FormGroup;
 
   @Input() idTraitNonProChildrenSed: number;
@@ -38,13 +39,13 @@ export class FormAssietePrimeComponent implements OnInit {
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
-      assiettePrime : ["",Validators.required],
-      cedId : [null,Validators.required],
-      tauxPrime: [null,Validators.required], 
+      assiettePrime : [this.items.assiettePrime ? this.items.assiettePrime : "",Validators.required],
+      cedId : [this.items.cedId ? this.items.cedId : "",Validators.required],
+      tauxPrime: [this.items.tauxPrime ? this.items.tauxPrime : "",Validators.required], 
       traiteNpId: [this.idTraitNonProChildrenSed],
-      
-      pmd : ["",Validators.required], 
-      tauxCesLeg: ["",Validators.required],
+      cessionsLegales : [null],
+      pmd : [this.items.pmd ? this.items.pmd : "",Validators.required], 
+      tauxCesLeg: [""],
       paramCesLegalLibelle:[""]
     });
   };
@@ -53,7 +54,8 @@ export class FormAssietePrimeComponent implements OnInit {
       this.cedanteService.getCedanteParTraite(this.idTraitNonProChildrenSed, idCedante).subscribe((res:any)=>{
         console.log(res , "res de cedande par traite");
         if (res) {
-          this.items = [res];
+          this.items = res;
+          this.listeCessionLegale = this.items.cessionsLegales
         }
       })
   }
@@ -67,6 +69,7 @@ export class FormAssietePrimeComponent implements OnInit {
   }
 
   save(item: any) {
+    item.cessionsLegales = this.listeCessionLegale ;
     this.assiettePrimeService.save(item).subscribe((res: any) => {
       if (res) {
         this.utilities.showNotification("snackbar-success",

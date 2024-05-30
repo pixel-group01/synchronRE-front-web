@@ -1,7 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { User } from 'src/app/core/models/user';
-import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
-import { UserService } from 'src/app/core/service/user.service';
 
 @Component({
   selector: 'app-form-traite-non-proportionnel',
@@ -9,12 +6,12 @@ import { UserService } from 'src/app/core/service/user.service';
   styleUrls: ['./form-traite-non-proportionnel.component.scss']
 })
 export class FormTraiteNonProportionnelComponent implements OnInit {
-  stepWizard : number = 2;  
+  stepWizard : number = 3;  
   idTraitNonPropor :number =2;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
 
   constructor() {
-  }
+  } 
 
   closeFormModal($event:boolean) {
     this.closeModal.emit(true);

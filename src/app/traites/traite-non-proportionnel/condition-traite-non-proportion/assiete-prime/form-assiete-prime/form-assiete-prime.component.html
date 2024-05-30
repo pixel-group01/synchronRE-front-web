@@ -1,5 +1,5 @@
 
-    <form [formGroup]="formulaireGroup" (ngSubmit)="confirmSaveItem(formulaireGroup.value)">
+        <form [formGroup]="formulaireGroup">
       <div class="row">
       <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
         <label>Cédante : <span class="required_champs">*</span> </label>
@@ -93,6 +93,10 @@
           Ce champ est obligatoire
         </small>
         </div>
+      </div> 
+      
+      </form>
+    
         <div class="col-md-12 col-xs-12 col-sm-12 mt-3 mb-3">
           <fieldset>
             <legend>PMD par cession legale</legend>
@@ -102,11 +106,12 @@
                   <th class="text-center" style="width: 150px">Cession legale</th>
                   <th class="text-center">Taux(%)</th>
                   <th class="text-center">PMD</th>
+                  <th class="text-center"></th>
                   </tr>
               </thead>
-          
+           
               <tbody>
-                <tr *ngFor="let item of items; let indice = index">
+                <tr *ngFor="let item of listeCessionLegale; let indice = index">
                   <!-- <td class="txt-align-center">
                     {{ getExactlyNumberRow(this.currentPage, indice) }}
                   </td> -->
@@ -115,23 +120,34 @@
                   </td>
                   <td>
                     <input
-                    class="form-control custom-input"
+                    class="form-control custom-input text-center"
                     placeholder=""
-                    formControlName="tauxCesLeg"
+                    [(ngModel)]="item.tauxCesLeg"
+                    name="tauxCesLeg{{indice}}"
                     autocomplete="off"
                     name="tauxCesLeg"
                     type="text">
                   </td>
                   <td>
                     <input
-                        class="form-control custom-input"
+                        class="form-control custom-input text-center "
                         placeholder=""
-                        formControlName="pmd"
+                        [(ngModel)]="item.pmd"
+                        name="pmd{{indice}}"
                         autocomplete="off"
                         name="pmd"
                         type="text">
                   </td>
-                
+                  <td>
+                    <input
+                        class="text-center"
+                        placeholder=""
+                        [(ngModel)]="item.accepte"
+                        name="accepte{{indice}}"
+                        autocomplete="off"
+                        name="accepte"
+                        type="checkbox">
+                  </td>
                 </tr>
               </tbody>
           
@@ -149,10 +165,8 @@
         </div>       
   
         <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
-          <button type="submit" [disabled]="!formulaireGroup.valid" 
+          <button type="button" [disabled]="!formulaireGroup.valid"  (click)="confirmSaveItem(formulaireGroup.value)"
            class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
         </div>
-      </div> 
 
-    </form>
   
