@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as _ from "lodash";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-condition-traite-non-proportion',
@@ -32,6 +33,28 @@ export class ConditionTraiteNonProportionComponent implements OnInit {
 
     gotoPreviousStep() {
       this.stepperInice.emit(1);
+    }
+
+    confirmSaveItem(){
+      Swal.fire({
+        title: "Enregistrement",
+        text: "Vous êtes sur le point d'aller suivant. Voulez-vous poursuivre cette action ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0665aa",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Oui",
+        cancelButtonText: "Non",
+      }).then((result) => {
+        if (result.value) {
+          // On effectue l'enregistrement
+          this.suivant();
+        }
+      });
+  }
+
+    suivant(){
+      this.stepperInice.emit(3);
     }
 
     fermerOpenData(ident : boolean){

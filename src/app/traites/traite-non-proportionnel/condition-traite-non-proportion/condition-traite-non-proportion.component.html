@@ -11,8 +11,7 @@
                           <mat-tab label="Térritorialité">
                               <ng-template matTabContent>
                                     <app-teritorrilite [endPoint]="'territorialites/search'" 
-                                    [idTraitNonProChildren]="idTraitNonProChild"></app-teritorrilite>
-
+                                    [idTraitNonProChildren]="idTraitNonProChild"></app-teritorrilite> 
                               </ng-template>
                           </mat-tab>
                           <mat-tab label="Risque couverts">
@@ -61,7 +60,7 @@
       <!-- </div> -->
   </div>
   <div class="custom-btn-save-manager">
-    <button type="submit" class="btn btn-md custom_btn_primary pull-right">
+    <button type="submit" class="btn btn-md custom_btn_primary pull-right" (click)="confirmSaveItem()">
         Enregistrer
     </button>
 

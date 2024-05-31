@@ -148,6 +148,7 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
           this.utilities.formatMsgServeur("Opération réussie."),
           "bottom",
           "center");
+          this.getItems();
       }else{
         this.utilities.showNotification("snackbar-danger",
           this.utilities.formatMsgServeur("Échec de l'opération, veuillez réessayer."),

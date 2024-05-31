@@ -221,10 +221,10 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
               "bottom",
               "center"
             );
-            console.log(" response ",response);
+            // console.log(" response ",response);
             this.stepperInice.emit(2);
           }
-          this.sendInfoParent.emit(response.traiId)
+          this.sendInfoParent.emit(response.traiteNpId)
           // this.closeModal.emit(true);
         });
     } else { 
