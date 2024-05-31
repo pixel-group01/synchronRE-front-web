@@ -60,4 +60,27 @@ export class RepartitionTraiteNonProportionComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  closeFormModal(event:any) {    
+    // console.log('ok ok ',event);
+    this.closeModal.emit(event); 
+  }
+
+  confirmSaveItem(){
+    Swal.fire({
+      title: "Quitter",
+      text: "Vous êtes sur le point de quitter. Voulez-vous poursuivre cette action ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#0665aa",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui",
+      cancelButtonText: "Non",
+    }).then((result) => {
+      if (result.value) {
+        // On effectue l'enregistrement
+        this.closeFormModal(true);
+      }
+    });
+  }
+
 }

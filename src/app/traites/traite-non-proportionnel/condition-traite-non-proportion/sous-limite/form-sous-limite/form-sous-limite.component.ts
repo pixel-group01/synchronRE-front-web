@@ -54,6 +54,8 @@ export class FormSousLimiteComponent implements OnInit {
   }
  
   save(item: any) {
+    this.formulaireGroup.removeControl('sslimiteRisqueCouvertId');
+     item = this.formulaireGroup.value;
     (item.sslimiteRisqueCouvertId ? this.sousLimiteService.update : this.sousLimiteService.create)(item).subscribe((res: any) => {
       // if (res) {
         this.utilities.showNotification("snackbar-success",

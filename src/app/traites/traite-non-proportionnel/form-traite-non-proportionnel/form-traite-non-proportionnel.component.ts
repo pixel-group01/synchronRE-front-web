@@ -20,7 +20,7 @@ export class FormTraiteNonProportionnelComponent implements OnInit {
   gotoStepper($event : number) {
     this.stepWizard = $event;
   }
-
+ 
   receiveIdTraitNonPropor($event :number){
       this.idTraitNonPropor = $event 
   }

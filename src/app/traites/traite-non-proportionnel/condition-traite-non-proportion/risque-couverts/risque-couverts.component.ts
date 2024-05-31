@@ -50,7 +50,7 @@ export class RisqueCouvertsComponent implements OnInit {
       (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "") +
       "" +
       (this.idTraitNonProChildren
-        ? "&traiId=" + this.idTraitNonProChildren
+        ? "&traiteNpId=" + this.idTraitNonProChildren
         : "");
 
     this.busyGet = this.restClient.get(endPointFinal).subscribe(

@@ -43,13 +43,13 @@
       <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
         <label>Pays concerné : <span class="required_champs">*</span> </label>
         <ng-select
-        name="categorieCedanteIds"
+        name="categorieIds"
         [multiple]="true"
-        id="categorieCedanteIds"
-        formControlName="categorieCedanteIds"
+        id="categorieIds"
+        formControlName="categorieIds"
         [class.errorInputForm]=" 
-              getFormFiledsValue('categorieCedanteIds')?.invalid &&
-              getFormFiledsValue('categorieCedanteIds')?.touched
+              getFormFiledsValue('categorieIds')?.invalid &&
+              getFormFiledsValue('categorieIds')?.touched
             ">
         <ng-option 
           *ngFor="let pays of paysListe"
@@ -58,7 +58,7 @@
         > 
       </ng-select>
       <small class="text-danger"
-      *ngIf="(getFormFiledsValue('categorieCedanteIds')?.dirty || getFormFiledsValue('categorieCedanteIds')?.touched) && getFormFiledsValue('categorieCedanteIds')?.invalid && getFormFiledsValue('categorieCedanteIds')?.errors?.['required']">
+      *ngIf="(getFormFiledsValue('categorieIds')?.dirty || getFormFiledsValue('categorieIds')?.touched) && getFormFiledsValue('categorieIds')?.invalid && getFormFiledsValue('categorieIds')?.errors?.['required']">
       Ce champ est obligatoire
    </small>
     </div>

@@ -48,7 +48,13 @@
 
         <td>{{ item?.trancheLibelle }}</td>
         <td>{{ item?.trancheType }}</td>
-        <td>{{ item?.affCode }}</td>
+        <td>
+          <span *ngFor="let elt of item.categories ; let i = index; let last = last">
+            <span>
+              {{ elt?.categorieLibelle }}<span *ngIf="!last">;</span>
+            </span>
+          </span>        
+        </td>
         <td>{{ item?.couLibelle }}</td>
         <td>{{ item?.tranchePriorite }}</td>
         <td>{{ item?.tranchePorte }}</td>
