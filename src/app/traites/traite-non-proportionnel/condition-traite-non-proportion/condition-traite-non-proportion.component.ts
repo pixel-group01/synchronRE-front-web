@@ -38,7 +38,7 @@ export class ConditionTraiteNonProportionComponent implements OnInit {
     confirmSaveItem(){
       Swal.fire({
         title: "Enregistrement",
-        text: "Vous êtes sur le point d'aller suivant. Voulez-vous poursuivre cette action ?",
+        text: "Vous êtes sur le point d'aller au suivant. Voulez-vous poursuivre cette action ?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#0665aa",
