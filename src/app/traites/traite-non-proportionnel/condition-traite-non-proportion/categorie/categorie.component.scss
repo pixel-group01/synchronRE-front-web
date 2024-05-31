@@ -6,14 +6,15 @@
     overflow-x: hidden;
 }
 
-button{
-    padding: 1px 8px !important;
-}
-
-.custom-input{
-    height: 27px !important;
-}
 
 :host ::ng-deep .element-per-page label{
     display: none;
+}
+
+button{
+    padding: 5px 8px !important;
+}
+
+.custom-input{
+    height: 30px !important;
 }

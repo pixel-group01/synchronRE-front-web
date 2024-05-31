@@ -6,7 +6,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./form-traite-non-proportionnel.component.scss']
 })
 export class FormTraiteNonProportionnelComponent implements OnInit {
-  stepWizard : number = 3;  
+  stepWizard : number = 1;  
   idTraitNonPropor :number =2;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
 

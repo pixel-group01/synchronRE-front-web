@@ -44,18 +44,15 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
   statutAffEnum: any;
 
   formulaireGroup!: FormGroup;
-  @Input() idTraitNonProChildrenSed: number;
   listeReassureurs: any =[];
-  @Input() idTraitNonProChildren: number = 2;
-
+  @Input() idTraitNonProChildren: number;
+  repartition :any ={}
   constructor(
-    private businessOptionalService: BusinessOptionalService,
     private userService: UserService,
     private utilities : UtilitiesService,
     private reassureurService : ReassureurService ,
 
     private placementTriterNonProService : PlacementTriterNonProService,
-    private modalService: BsModalService,
     private restClient:RestClientService,
     private formBuilder: FormBuilder,
   ) {
@@ -67,34 +64,17 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
     }
   }
 
-  // openModal(template: TemplateRef<any>, itemAffaire: BusinessOptional) {
-  //   let config = {
-  //     backdrop: true,
-  //     ignoreBackdropClick: true,
-  //     class: "modal-width-65",
-  //   };
-  //   if (itemAffaire) {
-  //     this.itemToSave = { ...itemAffaire };
-  //     this.businessOptionalService.setCurrentOptionalBusiness(itemAffaire);
-  //   }
-  //   this.modalRef = this.modalService.show(template, config);
-  // }
-
-  // closeFormModal($event) {
-  //   this.modalRef.hide();
-  //   this.businessOptionalService.setCurrentOptionalBusiness(null);
-  //   this.getItems();
-  // }
-
   pageChanged(event: any): void {
     this.currentPage = event.page;
     this.getItems();
   }
 
   getRepartie(){
-    this.placementTriterNonProService.getRpartepartie(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
+    this.placementTriterNonProService.getRpartepartie(this.idTraitNonProChildren).subscribe((res:any)=>{
       if (res) {
-          console.log('res repartie :', res);
+          // console.log('res repartie :', res);
+          this.formulaireGroup.get('repTauxCourtierPlaceur')?.setValue(res.traiTauxCourtierPlaceur);
+          this.formulaireGroup.get('repTauxCourtier')?.setValue(res.traiTauxDejaPlace);
       }
     })
   }
@@ -110,13 +90,13 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
   createForm = () => {
   // console.log(" this.itemToUpdate ",this.itemToUpdate);
   this.formulaireGroup = this.formBuilder.group({
-    repPrime :[""],
+    // repPrime :[""],
     repTaux: ["",Validators.required],
-    repTauxCourtierPlaceur: [null], 
-    repTauxCourtier: [null],
+    repTauxCourtierPlaceur: [""], 
+    repTauxCourtier: [""],
     cesId: [null,Validators.required],
-    aperiteur: [null,Validators.required],
-    traiteNpId: [this.idTraitNonProChildrenSed],
+    aperiteur: [false,Validators.required],
+    traiteNpId: [this.idTraitNonProChildren],
   });
   };
 
@@ -153,6 +133,11 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
   }
 
   save(item:any){
+    // Remove the controls
+    this.formulaireGroup.removeControl('repTauxCourtierPlaceur');
+    this.formulaireGroup.removeControl('repTauxCourtier');
+    // Now you can pass the form value to the save method
+   item = this.formulaireGroup.value;
     this.placementTriterNonProService.create(item).subscribe((res: any) => {
       if (res) {
         this.utilities.showNotification("snackbar-success",
@@ -184,7 +169,7 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
         this.save(item);
       }
     });
-}
+  }
 
   // closeModal($event: any) {
   //   this.modalRef.hide();
@@ -224,6 +209,7 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
 
   ngOnInit() {  
     this.createForm();
+    console.log("idTraitNonProChildren ::", this.idTraitNonProChildren);
     this.getRepartie();
     this.getReassurreur();
     this.getItems()

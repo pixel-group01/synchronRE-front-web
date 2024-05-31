@@ -24,7 +24,7 @@
             Ce champ est obligatoire
           </small>
       </div>
-
+ 
       <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
         <label>Déjà repartir(%): </label>
         <input
@@ -132,8 +132,8 @@
 
     <tbody>
       <tr *ngFor="let item of items; let indice = index">
-        <td>{{ item?.exeCode }}</td>
-        <td>{{ item?.affCode }}</td>
+        <td>{{ item?.cesNom }}</td>
+        <td>{{ item?.repTauxCourtier }}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">

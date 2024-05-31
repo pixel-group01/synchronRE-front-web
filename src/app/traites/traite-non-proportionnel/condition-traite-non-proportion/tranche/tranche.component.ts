@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
-import { BusinessOptional } from 'src/app/core/models/businessOptional';
 import { RestClientService } from 'src/app/core/service/rest-client.service';
 
 @Component({
@@ -17,7 +16,7 @@ export class TrancheComponent implements OnInit {
   @Input() endPoint: string;
   @Input() idTraitNonProChildren: number;
   currentPage: number = 1;
-  itemsPerPage: number = 3;
+  itemsPerPage: number = 10;
   totalItems: number;
   busyGet: Subscription;
   dataCurrent :any

@@ -25,7 +25,7 @@ export class AssietePrimeComponent implements OnInit {
   listeCedente: Array<Cedante> = [];
   itemToSearch: any = {};
   currentPage: number = 1;
-  itemsPerPage: number = 3;
+  itemsPerPage: number = 10;
   totalItems: number;
   busyGet: Subscription;
   user: User;
@@ -66,7 +66,7 @@ export class AssietePrimeComponent implements OnInit {
       ignoreBackdropClick: true,
       class: "modal-width-30",
     };
-    console.log('item terr ::', data);
+    // console.log('item terr ::', data);
     this.dataCurrent = data;
     this.modalRef = this.modalService.show(template, config);
   }

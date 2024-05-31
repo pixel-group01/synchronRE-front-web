@@ -17,7 +17,7 @@ export class TeritorriliteComponent implements OnInit {
   @Input() endPoint: string;
   @Input() idTraitNonProChildren: number;
   currentPage: number = 1;
-  itemsPerPage: number = 3;
+  itemsPerPage: number = 10;
   totalItems: number;
   busyGet: Subscription;
 

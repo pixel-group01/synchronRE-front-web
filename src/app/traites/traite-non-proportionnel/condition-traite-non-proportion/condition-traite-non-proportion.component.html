@@ -1,5 +1,83 @@
-<div>
-  <form>
+<section >
+  <!-- <div class="content-block"> -->
+      <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <!-- <div class="card"> -->
+                  <!-- <div class="header mb-3">
+                      <h2><strong>Traités</strong> non proportionnel</h2>
+                  </div> -->
+                  <div class="body">
+                      <mat-tab-group>
+                          <mat-tab label="Térritorialité">
+                              <ng-template matTabContent>
+                                    <app-teritorrilite [endPoint]="'territorialites/search'" 
+                                    [idTraitNonProChildren]="idTraitNonProChild"></app-teritorrilite>
+
+                              </ng-template>
+                          </mat-tab>
+                          <mat-tab label="Risque couverts">
+                              <ng-template matTabContent>
+                                <app-risque-couverts [endPoint]="'risques/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-risque-couverts>
+                              </ng-template>
+                          </mat-tab>
+                          <mat-tab label="Catégorie">
+                              <ng-template matTabContent>
+                                <app-categorie [endPoint]="'categories/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-categorie>
+                              </ng-template>
+                          </mat-tab>          
+                          <mat-tab label="Assiette de prime">
+                            <ng-template matTabContent>
+                              <app-assiete-prime [endPoint]="'traite/cedantes/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-assiete-prime>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab label="Tranche">
+                          <ng-template matTabContent>
+                            <app-tranche [endPoint]="'tranches/search'" [idTraitNonProChildren]="idTraitNonProChild" ></app-tranche>
+                          </ng-template>
+                      </mat-tab>
+
+                      <mat-tab label="Limite de souscription">
+                        <ng-template matTabContent>
+                          <app-limite-souscription [endPoint]="'limitesouscription/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-limite-souscription>
+                        </ng-template>
+                       </mat-tab>
+
+                    <mat-tab label="Sous Limite">
+                      <ng-template matTabContent>
+                        <app-sous-limite [endPoint]="'sous-limite/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-sous-limite>
+                      </ng-template>
+                     </mat-tab>
+
+                      <mat-tab label="Réconstitution">
+                        <ng-template matTabContent>
+                          <app-reconstitution [endPoint]="'reconstitutions/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-reconstitution>
+                        </ng-template>
+                      </mat-tab>
+                      </mat-tab-group>
+                  </div>
+              </div>
+          <!-- </div> -->
+      <!-- </div> -->
+  </div>
+  <div class="custom-btn-save-manager">
+    <button type="submit" class="btn btn-md custom_btn_primary pull-right">
+        Enregistrer
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-md btn-cancel pull-right"
+      (click)="gotoPreviousStep()"
+      *ngIf="isWizardProcess"
+    >
+      Précedent
+    </button>
+  </div>
+</section>
+
+
+<!-- <div>
     <div class="row">
       <div class="col-4">
         <fieldset>
@@ -22,7 +100,7 @@
         <fieldset>
           <legend>Catégorie</legend>
 
-          <div>
+          <div> 
             <app-categorie [endPoint]="'categories/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-categorie>
           </div>
         </fieldset>
@@ -90,5 +168,4 @@
         Précedent
       </button>
     </div>
-  </form>
-</div>
+</div> -->
