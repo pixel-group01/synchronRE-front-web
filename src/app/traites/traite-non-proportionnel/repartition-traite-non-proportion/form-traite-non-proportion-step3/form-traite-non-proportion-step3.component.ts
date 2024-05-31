@@ -43,6 +43,8 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
   initialEndPoint: string;
   statutAffEnum: any;
 
+  repTauxCourtierPlaceur : any;
+  repTauxCourtier :any;
   formulaireGroup!: FormGroup;
   listeReassureurs: any =[];
   @Input() idTraitNonProChildren: number;
@@ -73,8 +75,10 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
     this.placementTriterNonProService.getRpartepartie(this.idTraitNonProChildren).subscribe((res:any)=>{
       if (res) {
           // console.log('res repartie :', res);
-          this.formulaireGroup.get('repTauxCourtierPlaceur')?.setValue(res.traiTauxCourtierPlaceur);
-          this.formulaireGroup.get('repTauxCourtier')?.setValue(res.traiTauxDejaPlace);
+         this.repTauxCourtierPlaceur = res.traiTauxCourtierPlaceur;
+         this.repTauxCourtier  =res.traiTauxDejaPlace;
+         this.formulaireGroup.get('repTauxCourtierPlaceur')?.setValue(res.traiTauxCourtierPlaceur);
+         this.formulaireGroup.get('repTauxCourtier')?.setValue(res.traiTauxDejaPlace);
       }
     })
   }

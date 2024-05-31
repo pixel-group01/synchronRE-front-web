@@ -5,42 +5,25 @@
 <form [formGroup]="formulaireGroup"  (submit)="confirmSaveItem(formulaireGroup.value)">
  <fieldset class="mb-3 mt-3">
     <legend>Ajouter un placement</legend>
-    <div class="row d-flex align-items-end">
+    <div class="row d-flex align-items-end p-3">
       <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
-        <label>Reste à repartir (%) </label>
-        <input
-          class="form-control custom-input pull-left text-end"
-          name="repTauxCourtierPlaceur"
-          formControlName="repTauxCourtierPlaceur"
-            [class.errorInputForm]="
-            getFormFiledsValue('repTauxCourtierPlaceur')?.invalid &&
-            getFormFiledsValue('repTauxCourtierPlaceur')?.touched"
-          placeholder="55"
-        />
-        <small 
-          class="text-danger"
-          *ngIf="(getFormFiledsValue('repTauxCourtierPlaceur')?.dirty || getFormFiledsValue('repTauxCourtierPlaceur')?.touched) && getFormFiledsValue('repTauxCourtierPlaceur')?.invalid && getFormFiledsValue('repTauxCourtierPlaceur')?.errors?.['required']"
-          >
-            Ce champ est obligatoire
-          </small>
+        <label class="mb-1">Reste à repartir (%) </label>
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar"  [style.width.%]="repTauxCourtierPlaceur"
+               [attr.aria-valuenow]="repTauxCourtierPlaceur" aria-valuemin="0" aria-valuemax="100">
+            {{repTauxCourtierPlaceur}}%
+          </div>
+        </div>
       </div>
  
       <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
-        <label>Déjà repartir(%): </label>
-        <input
-          class="form-control custom-input pull-left text-end" name="repTauxCourtier"
-          formControlName="repTauxCourtier"
-            [class.errorInputForm]="
-            getFormFiledsValue('repTauxCourtier')?.invalid &&
-            getFormFiledsValue('repTauxCourtier')?.touched"
-          placeholder="45"
-        />
-        <small 
-          class="text-danger"
-          *ngIf="(getFormFiledsValue('repTauxCourtier')?.dirty || getFormFiledsValue('repTauxCourtier')?.touched) && getFormFiledsValue('repTauxCourtier')?.invalid && getFormFiledsValue('repTauxCourtier')?.errors?.['required']"
-          >
-            Ce champ est obligatoire
-          </small>
+        <label class="mb-1">Déjà repartir(%): </label>
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar"  [style.width.%]="repTauxCourtier" [attr.aria-valuenow]="repTauxCourtier"
+               aria-valuemin="0" aria-valuemax="100">
+            {{repTauxCourtier}}%
+          </div>
+        </div>
       </div>
         <div class="col-md-6 col-xs-12 col-sm-12">
           <label>Réassureur :  <span class="required_champs">*</span></label>

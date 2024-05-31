@@ -7,7 +7,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class FormTraiteNonProportionnelComponent implements OnInit {
   stepWizard : number = 1;  
-  idTraitNonPropor :number =2;
+  idTraitNonPropor :number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
 
   constructor() {
