@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
- 
+
       <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
         <label class="mb-1">Déjà repartir(%): </label>
         <div class="progress">
@@ -27,8 +27,8 @@
       </div>
         <div class="col-md-6 col-xs-12 col-sm-12">
           <label>Réassureur :  <span class="required_champs">*</span></label>
-          <ng-select 
-            name="cesId" 
+          <ng-select
+            name="cesId"
             id="cesId"
             notFoundText="Aucune donnée"
             placeholder="Ex: Aveni Re"
@@ -40,14 +40,14 @@
             getFormFiledsValue('cesId')?.invalid &&
             getFormFiledsValue('cesId')?.touched"
             >
-            <small 
+            <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('cesId')?.dirty || getFormFiledsValue('cesId')?.touched) && getFormFiledsValue('cesId')?.invalid && getFormFiledsValue('cesId')?.errors?.['required']"
           >
             Ce champ est obligatoire
           </small>
         </ng-select>
-        </div> 
+        </div>
         <div class="col-md-6 col-xs-12 col-sm-12">
            <div class="row">
             <div class="col-md-6 col-xs-12 col-sm-12">
@@ -60,7 +60,7 @@
               getFormFiledsValue('repTaux')?.touched"
               placeholder="15"
             />
-            <small 
+            <small
               class="text-danger"
               *ngIf="(getFormFiledsValue('repTaux')?.dirty || getFormFiledsValue('repTaux')?.touched) && getFormFiledsValue('repTaux')?.invalid && getFormFiledsValue('repTaux')?.errors?.['required']"
               >
@@ -72,7 +72,7 @@
               formControlName="aperiteur"
               [class.errorInputForm]="
               getFormFiledsValue('aperiteur')?.invalid &&
-              getFormFiledsValue('aperiteur')?.touched" 
+              getFormFiledsValue('aperiteur')?.touched"
               style="margin-bottom: 8px;">
               <label class="" for="aperiteur" style="padding-left: 12px;">
                 Apériteur ?
@@ -116,7 +116,7 @@
     <tbody>
       <tr *ngFor="let item of items; let indice = index">
         <td>{{ item?.cesNom }}</td>
-        <td>{{ item?.repTauxCourtier }}</td>
+        <td>{{ item?.repTaux }}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">
@@ -139,18 +139,18 @@
                 >
                   <i class="fa fa-list"></i>&nbsp;Détails l'affaire
                 </button>
-  
+
                   <button
                     ngbDropdownItem
                     (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
                   >
                     <i class="fa fa-money-bill"></i>&nbsp;Paiement
                   </button>
-  
+
                   <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
                     <i class="fa fa-redo-alt"></i>&nbsp; Reversement
-                  </button>                 
-                  
+                  </button>
+
                 </div>
               </div>
             </div>
@@ -204,7 +204,7 @@
   </table>
 </div>
 
-<ng-template #templatePaiement> 
+<ng-template #templatePaiement>
     <div class="modal-header">
       <h4 class="modal-title pull-left">
         {{isOngletPaiement ? 'Paiement':'Reversement' }} affaire N° {{itemToSave?.affCode}}
