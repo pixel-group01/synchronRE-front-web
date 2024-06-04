@@ -47,10 +47,10 @@
         <td>{{ item?.traiNumero }}</td>
         <td>{{ item?.traiReference }}</td>
         <td>{{ item?.traiSourceRef }}</td>
-        <td>{{ item?.traiDateEffet }}</td> 
+        <td>{{ item?.traiDateEffet }}</td>
         <td>{{ item?.traiDateEcheance }}</td>
-        <td>{{ item?.traiAuteur }}</td>
-       
+        <td>{{ item?.cesNom }}</td>
+
         <!-- <td>{{ item?.facPrime | moneyFormat }}</td> -->
         <!-- <td> <span class="badge">{{item?.staLibelle}} </span> </td> -->
         <td class="custom-width-td-action">
@@ -75,7 +75,7 @@
                 >
                   <i class="fa fa-list"></i>&nbsp;Situation comptable
                 </button> -->
-            
+
                 <button
                 ngbDropdownItem
               >
@@ -83,7 +83,7 @@
               </button>
                 <button
                   ngbDropdownItem
-                  (click)="openModal(templatePaiement,item)"  
+                  (click)="openModal(templatePaiement,item)"
                 >
                   <i class="fa fa-edit"></i>&nbsp;Modifier
                 </button>
@@ -95,7 +95,7 @@
                 </button>
                 <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,2)">
                   <i class="fa fa-share"></i>&nbsp; Conditions du traités
-                </button> 
+                </button>
                 <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,3)">
                   <i class="fa fa-share"></i>&nbsp; Placements
                 </button>
@@ -157,7 +157,7 @@
 </div>
 
 
-<ng-template #templateTraiterNonPropor> 
+<ng-template #templateTraiterNonPropor>
     <div class="modal-header">
       <h4 class="modal-title pull-left">
           Modification du traité non proportionnel

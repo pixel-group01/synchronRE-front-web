@@ -21,7 +21,7 @@
                 >{{ exercice.exeLibelle }}</ng-option>
             </ng-select>
             <small
-              class="text-danger" 
+              class="text-danger"
               *ngIf="(getFormFiledsValue('exeCode')?.dirty || getFormFiledsValue('exeCode')?.touched) && getFormFiledsValue('exeCode')?.invalid && getFormFiledsValue('exeCode')?.errors?.['required']"
             >
               Ce champ est obligatoire
@@ -98,7 +98,7 @@
             <ng-select
               formControlName="natCode"
               name="natCode"
-              id="natCode" 
+              id="natCode"
             >
               <ng-option
                 *ngFor="let nature of natureListe"
@@ -137,7 +137,7 @@
               Ce champ est obligatoire
             </small>
           </div>
-        
+
           <div class="col-md-3 col-xs-12 mb-1">
             <label
               >Date d'effet :
@@ -241,21 +241,21 @@
               >Placé par  :
               <span class="required_champs">*</span>
             </label>
-            <input
-              class="form-control custom-input"
-              placeholder="Placé par"
-              autocomplete="off"
-              formControlName="traiAuteur"
-              name="traiAuteur"
-              [class.errorInputForm]="
-                getFormFiledsValue('traiAuteur')?.invalid &&
-                getFormFiledsValue('traiAuteur')?.touched
-              "
-              type="text"
-            />
+            <ng-select
+              formControlName="courtierPlaceurId"
+              name="courtierPlaceurId"
+              id="courtierPlaceurId"
+            >
+              <ng-option
+                *ngFor="let courtier of courtierPlaceurListe"
+                [value]="courtier.cesId"
+              >{{ courtier.cesNom }}
+              </ng-option
+              >
+            </ng-select>
             <small
               class="text-danger"
-              *ngIf="(getFormFiledsValue('traiAuteur')?.dirty || getFormFiledsValue('traiAuteur')?.touched) && getFormFiledsValue('traiAuteur')?.invalid && getFormFiledsValue('traiAuteur')?.errors?.['required']"
+              *ngIf="(getFormFiledsValue('courtierPlaceurId')?.dirty || getFormFiledsValue('courtierPlaceurId')?.touched) && getFormFiledsValue('courtierPlaceurId')?.invalid && getFormFiledsValue('courtierPlaceurId')?.errors?.['required']"
             >
               Ce champ est obligatoire
             </small>
@@ -307,7 +307,7 @@
                 "
                 type="text"
               />
-              
+
               <small
                 class="text-danger"
                 *ngIf="(getFormFiledsValue('traiDelaiEnvoi')?.dirty || getFormFiledsValue('traiDelaiEnvoi')?.touched) && getFormFiledsValue('traiDelaiEnvoi')?.invalid && getFormFiledsValue('traiDelaiEnvoi')?.errors?.['required']"
@@ -315,7 +315,7 @@
                 Ce champ est obligatoire
               </small>
             </div>
-            
+
             <div class="col-md-3 col-xs-12 mb-1">
               <label
                 >Délai de confirmation :
@@ -363,7 +363,7 @@
             </small>
           </div>
          </div>
-    </fieldset>    
+    </fieldset>
     <fieldset class="mt-4">
         <legend>Rénumeration du courtier</legend>
         <div class="row">
@@ -384,7 +384,7 @@
               "
               type="text"
             />
-            <small 
+            <small
               class="text-danger"
               *ngIf="(getFormFiledsValue('traiTauxCourtierPlaceur')?.dirty || getFormFiledsValue('traiTauxCourtierPlaceur')?.touched) && getFormFiledsValue('traiTauxCourtierPlaceur')?.invalid && getFormFiledsValue('traiTauxCourtierPlaceur')?.errors?.['required']"
             >

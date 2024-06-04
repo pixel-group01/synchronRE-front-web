@@ -16,6 +16,7 @@ import { ExoRattachementService } from 'src/app/core/service/exo-rattachement.se
 import { TraiteNonProportionnel } from 'src/app/core/models/traite-non-proportionnel.model';
 import { TraiteNonProportionnelService } from 'src/app/core/service/traite-non-proportionnel.service';
 import * as moment from 'moment';
+import {CessionnaireService} from "../../../core/service/cessionnaire.service";
 
 @Component({
   selector: 'app-information-general-traite-non-proportion',
@@ -37,6 +38,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
   natureListe : any =[];
   exoRattachement : any = [];
   periodiciteListe : any = [];
+  courtierPlaceurListe : any =[];
   formDate :any={};
   traiDateEffet :string;
   traiDateEcheance :string;
@@ -57,13 +59,14 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
     private exerciceService: ExerciceService,
     private userService:UserService,
     private natureService : NatureService,
+    private cessionnaireService : CessionnaireService,
     private periodiciteListeService : PeriodiciteService,
     private exoRattachemenService : ExoRattachementService,
     private deviseService:DeviseService
   ) {
     this.user = this.userService.getCurrentUserInfo();
   }
- 
+
   getDevise() {
     this.deviseService.getAll().subscribe((response: any) => {
       if (response) {
@@ -96,7 +99,15 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
       }
     });
   }
-
+  getCourtierPlaceurs() {
+    this.cessionnaireService.getCourtiersPlaceurs().subscribe((response) => {
+      if (response) {
+        this.courtierPlaceurListe = response;
+      } else {
+        this.courtierPlaceurListe = [];
+      }
+    });
+  }
   getExoRattachement() {
     this.exoRattachemenService.getAll().subscribe((response) => {
       if (response) {
@@ -105,15 +116,15 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
         this.exoRattachement = [];
       }
     });
-  } 
+  }
 
-  formatDateTraiDateEffet(evt:any){    
+  formatDateTraiDateEffet(evt:any){
     if(evt){
       this.traiDateEffet = moment(evt).format("YYYY-MM-DD");
     }
   }
 
-  formatDateTraiDateEcheance(evt:any){    
+  formatDateTraiDateEcheance(evt:any){
     if(evt){
       this.traiDateEcheance = moment(evt).format("YYYY-MM-DD");
     }
@@ -128,7 +139,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
 
   getPeriodiciteListe() {
     this.periodiciteListeService.getAll().subscribe((response) => {
-      if (response) {        
+      if (response) {
         this.periodiciteListe = response;
 
       } else {
@@ -170,7 +181,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
       traiDateEffet: ["", Validators.required,],
       traiDateEcheance: ["", Validators.required,],
       traiCoursDevise: [ "", Validators.required,],
-      traiAuteur: [ "", Validators.required ],
+      courtierPlaceurId: [ null, Validators.required ],
       traiPeriodicite: [null, Validators.required],
       traiDelaiEnvoi: ["", Validators.required],
       traiDelaiConfirmation: ["", Validators.required],
@@ -178,7 +189,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
       traiCompteDevCode:[null, Validators.required],
       devCode: [null, Validators.required],
       traiSourceRef: [null],
-      traiTauxCourtierPlaceur: ["",Validators.required],   
+      traiTauxCourtierPlaceur: ["",Validators.required],
     });
 
 
@@ -207,7 +218,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
         this.saveItem(item);
       }
     });
-  } 
+  }
 
   saveItem(item: TraiteNonProportionnel) {
     let itemAEnregistrer = {...item};
@@ -219,7 +230,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
     if (this.traiDateEcheance) {
       itemAEnregistrer.traiDateEcheance = this.traiDateEcheance
     }
-   
+
       this.busySave = this.traiteNonPropertionnelService
         .create(itemAEnregistrer)
         .subscribe((response: any) => {
@@ -230,13 +241,13 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
               "bottom",
               "center"
             );
-            // console.log(" response ",response); 
+            // console.log(" response ",response);
             this.stepperInice.emit(2);
           }
           this.sendInfoParent.emit(response.traiteNpId)
           // this.closeModal.emit(true);
         });
-    } else { 
+    } else {
       // Nous sommes en modification
       this.busySave = this.traiteNonPropertionnelService
         .update(itemAEnregistrer)
@@ -253,7 +264,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
 
           // if (!this.isWizardProcess) {
           //   this.closeModal.emit(true);
-          // } 
+          // }
         });
     }
   }
@@ -266,12 +277,13 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
     this.getPeriodiciteListe();
     this.getExercice();
     this.getDevise();
+    this.getCourtierPlaceurs();
     this.getExoRattachement()
     if (this.idTraitNonProChild) {
         this.getEditTraiterNonPropo(this.idTraitNonProChild)
     }
   }
- 
+
   // ngOnChanges(changes: SimpleChanges) {
   //   if (changes["itemToUpdate"] && changes["itemToUpdate"].currentValue) {
   //     this.createForm();
