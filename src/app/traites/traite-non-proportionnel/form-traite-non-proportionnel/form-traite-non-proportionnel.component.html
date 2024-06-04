@@ -45,12 +45,12 @@
             <ng-container *ngIf="stepWizard == 1"> 
                 <app-information-general-traite-non-proportion  (closeModal)="closeFormModal($event)" 
                 (sendInfoParent)="receiveIdTraitNonPropor($event)" (stepperInice)="gotoStepper($event)" 
-                [isWizardProcess]="true"></app-information-general-traite-non-proportion>
-            </ng-container>  
+                [isWizardProcess]="true" [idTraitNonProChild]="idTraitNonPropor"></app-information-general-traite-non-proportion>
+            </ng-container>   
 
             <ng-container *ngIf="stepWizard == 2">
                 <app-condition-traite-non-proportion (closeModal)="closeFormModal($event)"  [idTraitNonProChild]="idTraitNonPropor"
-                (stepperInice)="gotoStepper($event)" [isWizardProcess]="true" ></app-condition-traite-non-proportion>
+                (stepperInice)="gotoStepper($event)" [isWizardProcess]="true" (idTraitNonPropor)="receiveIdTraitNonPropor($event)" ></app-condition-traite-non-proportion>
             </ng-container>
 
             <ng-container *ngIf="stepWizard == 3">

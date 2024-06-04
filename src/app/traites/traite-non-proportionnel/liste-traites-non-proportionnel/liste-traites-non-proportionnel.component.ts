@@ -40,7 +40,7 @@ export class ListeTraitesNonProportionnelComponent implements OnInit {
    
   initialEndPoint: string;
   // statutAffEnum: any;
-
+  NumeroStepParent :  number;
   constructor(
     private businessOptionalService: BusinessOptionalService,
     private userService: UserService,
@@ -55,14 +55,17 @@ export class ListeTraitesNonProportionnelComponent implements OnInit {
     // }
   }
 
-  openModal(template: TemplateRef<any>, itemAffaire: BusinessOptional) {
+  openModal(template: TemplateRef<any>, itemTraiterNonPro: any, numberStep?:number) {
     let config = {
       backdrop: true,
       ignoreBackdropClick: true,
       class: "modal-width-65",
     };
     // if (itemAffaire) {
-    //   this.itemToSave = { ...itemAffaire };
+      this.itemToSave = { ...itemTraiterNonPro };
+      if (numberStep) {
+        this.NumeroStepParent = numberStep  
+      }
     //   this.businessOptionalService.setCurrentOptionalBusiness(itemAffaire);
     // }
     this.modalRef = this.modalService.show(template, config);

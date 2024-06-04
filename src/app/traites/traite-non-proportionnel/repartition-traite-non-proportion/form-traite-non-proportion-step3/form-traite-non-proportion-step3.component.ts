@@ -1,15 +1,11 @@
-import { Component, Input, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { enumStatutAffaire } from 'src/app/core/enumerator/enumerator';
 import { BusinessOptional } from 'src/app/core/models/businessOptional';
-import { Cedante } from 'src/app/core/models/cedante';
 import { Exercice } from 'src/app/core/models/exercice';
 import { User } from 'src/app/core/models/user';
-import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
-import { CedanteService } from 'src/app/core/service/cedante.service';
-import { ExerciceService } from 'src/app/core/service/exercice.service';
 import { PlacementTriterNonProService } from 'src/app/core/service/placement-triter-non-pro.service';
 import { ReassureurService } from 'src/app/core/service/reassureur.service';
 import { RestClientService } from 'src/app/core/service/rest-client.service';
@@ -75,9 +71,9 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
     this.placementTriterNonProService.getRpartepartie(this.idTraitNonProChildren).subscribe((res:any)=>{
       if (res) {
           // console.log('res repartie :', res);
-         this.repTauxCourtierPlaceur = res.traiTauxCourtierPlaceur;
+        //  this.repTauxCourtierPlaceur = res.traiTauxCourtierPlaceur;
          this.repTauxCourtier  =res.traiTauxDejaPlace;
-         this.formulaireGroup.get('repTauxCourtierPlaceur')?.setValue(res.traiTauxCourtierPlaceur);
+        //  this.formulaireGroup.get('repTauxCourtierPlaceur')?.setValue(res.traiTauxCourtierPlaceur);
          this.formulaireGroup.get('repTauxCourtier')?.setValue(res.traiTauxDejaPlace);
       }
     })
@@ -96,11 +92,11 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
   this.formulaireGroup = this.formBuilder.group({
     // repPrime :[""],
     repTaux: ["",Validators.required],
-    repTauxCourtierPlaceur: [""], 
+    // repTauxCourtierPlaceur: [""], 
     repTauxCourtier: [""],
     cesId: [null,Validators.required],
     aperiteur: [false,Validators.required],
-    traiteNpId: [this.idTraitNonProChildren],
+    traiteNpId: [this.idTraitNonProChildren ? this.idTraitNonProChildren : ""],
   });
   };
 
@@ -138,7 +134,7 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
 
   save(item:any){
     // Remove the controls
-    this.formulaireGroup.removeControl('repTauxCourtierPlaceur');
+    // this.formulaireGroup.removeControl('repTauxCourtierPlaceur');
     this.formulaireGroup.removeControl('repTauxCourtier');
     // Now you can pass the form value to the save method
    item = this.formulaireGroup.value;
@@ -149,6 +145,10 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
           "bottom",
           "center");
           this.getItems();
+          this.getRepartie();
+          this.formulaireGroup.get('repTaux')?.reset();
+          this.formulaireGroup.get('aperiteur')?.reset();
+          this.formulaireGroup.get('cesId')?.reset();
       }else{
         this.utilities.showNotification("snackbar-danger",
           this.utilities.formatMsgServeur("Échec de l'opération, veuillez réessayer."),

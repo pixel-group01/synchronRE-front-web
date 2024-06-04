@@ -80,7 +80,6 @@
           <div class="col-md-3 col-xs-12 mb-1">
             <label
               >Source :
-              <span class="required_champs">*</span>
             </label>
             <input
               class="form-control custom-input"
@@ -89,18 +88,8 @@
               formControlName="traiSourceRef"
               id="traiSourceRef"
               name="traiSourceRef"
-              [class.errorInputForm]="
-                getFormFiledsValue('traiSourceRef')?.invalid &&
-                getFormFiledsValue('traiSourceRef')?.touched
-              "
               type="text"
             />
-            <small
-              class="text-danger"
-              *ngIf="(getFormFiledsValue('traiSourceRef')?.dirty || getFormFiledsValue('traiSourceRef')?.touched) && getFormFiledsValue('traiSourceRef')?.invalid && getFormFiledsValue('traiSourceRef')?.errors?.['required']"
-            >
-              Ce champ est obligatoire
-            </small>
           </div>
 
           <div class="col-md-6 col-xs-12 col-sm-12 mb-1">
@@ -204,12 +193,11 @@
           </div>
           <div class="col-md-3 col-xs-12 col-sm-12 mb-1">
             <label>Devise : <span class="required_champs">*</span> </label>
-
             <ng-select
               formControlName="devCode"
               name="devCode"
-              id="devCode"
-            >
+              (change)="clearCours()"
+              id="devCode">
               <ng-option
                 *ngFor="let devise of listeDevises"
                 [value]="devise?.devCode"
@@ -396,7 +384,7 @@
               "
               type="text"
             />
-            <small
+            <small 
               class="text-danger"
               *ngIf="(getFormFiledsValue('traiTauxCourtierPlaceur')?.dirty || getFormFiledsValue('traiTauxCourtierPlaceur')?.touched) && getFormFiledsValue('traiTauxCourtierPlaceur')?.invalid && getFormFiledsValue('traiTauxCourtierPlaceur')?.errors?.['required']"
             >
@@ -437,7 +425,7 @@
         class="btn btn-md custom_btn_primary pull-right"
         [disabled]="!formulaireGroup.valid"
       >
-        {{ itemToUpdate?.affId ? "Modifier" : "Enregistrer et continuer" }}
+        {{ idTraitNonProChild ? "Modifier et continuer" : "Enregistrer et continuer" }}
       </button>
 
       <button

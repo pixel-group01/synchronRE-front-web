@@ -78,22 +78,27 @@
             
                 <button
                 ngbDropdownItem
-                (click)="openModal(templateDetailsAffaire,item)"
               >
                 <i class="fa fa-list"></i>&nbsp;Détails l'affaire
               </button>
-
                 <button
                   ngbDropdownItem
                   (click)="openModal(templatePaiement,item)"  
                 >
                   <i class="fa fa-edit"></i>&nbsp;Modifier
                 </button>
-
-                <button ngbDropdownItem (click)="openModal(templatePaiement,item)" >
+                <button ngbDropdownItem >
                   <i class="fa fa-share"></i>&nbsp; Transmettre
                 </button>
-
+                <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,1)">
+                  <i class="fa fa-share"></i>&nbsp; Identification du traité
+                </button>
+                <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,2)">
+                  <i class="fa fa-share"></i>&nbsp; Conditions du traités
+                </button> 
+                <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,3)">
+                  <i class="fa fa-share"></i>&nbsp; Placements
+                </button>
                 <!-- <button ngbDropdownItem (click)="openModal(templateUpdatePlacement,item)">
                   <i class="fa fa-print"></i>&nbsp; Imprimer la note
                 </button> -->
@@ -152,10 +157,10 @@
 </div>
 
 
-<ng-template #templatePaiement> 
+<ng-template #templateTraiterNonPropor> 
     <div class="modal-header">
       <h4 class="modal-title pull-left">
-        {{isOngletPaiement ? 'Paiement':'Reversement' }} affaire N° {{itemToSave?.affCode}}
+          Modification du traité non proportionnel
       </h4>
 
       <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
@@ -163,21 +168,6 @@
       </button>
     </div>
     <div class="modal-body">
-      <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement>
+      <app-form-traite-non-proportionnel [currentTraiterNonPropo]="itemToSave" [numStep]="NumeroStepParent" ></app-form-traite-non-proportionnel>
     </div>
   </ng-template>
-
-<ng-template #templateDetailsAffaire>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">
-      Détails de l'affaire N° {{itemToSave?.affCode}}
-    </h4>
-
-    <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-  <div class="modal-body">
-    <app-details-affaire-facultative></app-details-affaire-facultative>
-  </div>
-</ng-template>

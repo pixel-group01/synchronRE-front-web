@@ -20,6 +20,10 @@ export class TraiteNonProportionnelService {
     return this.restClient.get('traite-non-proportionnel/search');
   }
 
+  getEdit = (traiteNpId :number) =>{
+    return this.restClient.get(`traite-non-proportionnel/edit/${traiteNpId}`);
+  }
+
   getListeTraiteNonProportionnel = (index:number = 0,size:number=10000,key?:string,cedId?:number,exeCode?:any) => {
     let endPointFinal = "traite-non-proportionnel/search?page="+index+"&size="+size+""+(key ? "&key="+key : "")+""+(exeCode ? "&exeCode="+exeCode : "");
 

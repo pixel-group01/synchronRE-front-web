@@ -44,10 +44,10 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
   @Input() isDetails:boolean = false;
   @Input() itemToUpdate: TraiteNonProportionnel;
   @Input() isWizardProcess:boolean = false;
+  @Input() idTraitNonProChild: number;
+
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
-
   @Output() sendInfoParent: EventEmitter<number> = new EventEmitter();
-
   @Output() stepperInice: EventEmitter<number> = new EventEmitter();
 
   constructor(
@@ -63,21 +63,28 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
   ) {
     this.user = this.userService.getCurrentUserInfo();
   }
-
+ 
   getDevise() {
     this.deviseService.getAll().subscribe((response: any) => {
       if (response) {
         this.listeDevises = response as Devise[];
         this.listeDevises =   _.orderBy( this.listeDevises, ['devCode'], ['asc']);
-
-        // if(this.itemToUpdate && this.itemToUpdate.affId) {
-        //   this.createForm();
-        // }
-
+        this.formulaireGroup.patchValue({'devCode':'XOF','traiCompteDevCode':'XOF' });
+        if(this.formulaireGroup.value.devCode =="XOF"){
+            this.formulaireGroup.patchValue({'traiCoursDevise':1});
+        }
       } else {
         this.listeDevises = [];
       }
     });
+  }
+
+  clearCours(){
+    if(this.formulaireGroup.value.devCode !="XOF" || this.formulaireGroup.value.traiCoursDevise ==1){
+      this.formulaireGroup.patchValue({'traiCoursDevise': ""});
+     }else{
+      this.formulaireGroup.patchValue({'traiCoursDevise':1});
+    }
   }
 
   getNature() {
@@ -112,6 +119,12 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
     }
   }
 
+  getEditTraiterNonPropo(idTraitNonPro :number){
+    this.traiteNonPropertionnelService.getEdit(idTraitNonPro).subscribe((res:any)=>{
+      // console.log("res retour :", res);
+      this.formulaireGroup.patchValue({...res})
+    })
+  }
 
   getPeriodiciteListe() {
     this.periodiciteListeService.getAll().subscribe((response) => {
@@ -150,25 +163,21 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
     this.formulaireGroup = this.formBuilder.group({
       nontraiteProportionnelId : [""],
       natCode: [null, Validators.required],
-
       traiNumero: ["", Validators.required],
-
       exeCode: ["", Validators.required],
       traiReference: ["", Validators.required],
       traiEcerciceRattachement: [null],
       traiDateEffet: ["", Validators.required,],
       traiDateEcheance: ["", Validators.required,],
       traiCoursDevise: [ "", Validators.required,],
-
       traiAuteur: [ "", Validators.required ],
-
       traiPeriodicite: [null, Validators.required],
       traiDelaiEnvoi: ["", Validators.required],
       traiDelaiConfirmation: ["", Validators.required],
       traiTauxCourtier: ["", Validators.required],
       traiCompteDevCode:[null, Validators.required],
       devCode: [null, Validators.required],
-      traiSourceRef: [ null, Validators.required],
+      traiSourceRef: [null],
       traiTauxCourtierPlaceur: ["",Validators.required],   
     });
 
@@ -221,7 +230,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
               "bottom",
               "center"
             );
-            // console.log(" response ",response);
+            // console.log(" response ",response); 
             this.stepperInice.emit(2);
           }
           this.sendInfoParent.emit(response.traiteNpId)
@@ -258,8 +267,11 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
     this.getExercice();
     this.getDevise();
     this.getExoRattachement()
+    if (this.idTraitNonProChild) {
+        this.getEditTraiterNonPropo(this.idTraitNonProChild)
+    }
   }
-
+ 
   // ngOnChanges(changes: SimpleChanges) {
   //   if (changes["itemToUpdate"] && changes["itemToUpdate"].currentValue) {
   //     this.createForm();

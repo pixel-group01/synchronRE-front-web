@@ -27,12 +27,15 @@ export class ConditionTraiteNonProportionComponent implements OnInit {
   isCloseOpenRecon :boolean =false;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Output() stepperInice: EventEmitter<number> = new EventEmitter();
+  @Output() idTraitNonPropor: EventEmitter<number> = new EventEmitter();
 
   constructor() {
     }
 
     gotoPreviousStep() {
       this.stepperInice.emit(1);
+      console.log("idTraitNonProChild ::", this.idTraitNonProChild);
+      this.idTraitNonPropor.emit(this.idTraitNonProChild);
     }
 
     confirmSaveItem(){
