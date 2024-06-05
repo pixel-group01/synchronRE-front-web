@@ -22,7 +22,7 @@
           </div>
         </th>
       </tr>
- 
+
       <tr class="custom-table-head">
         <!-- <th class="txt-align-center-counter-row">
           <a (click)="currentPage = 1; getItems()" title="Actualiser">
@@ -30,6 +30,7 @@
           >&nbsp;&nbsp; #
         </th> -->
         <th>Térritorialité</th>
+        <th>Pays concernés</th>
         <th>Taux(%)</th>
         <th class="txt-align-center">Actions</th>
 
@@ -43,6 +44,13 @@
         </td> -->
 
         <td>{{ item?.terrLibelle }}</td>
+        <td>
+          <span *ngFor="let elt of item.paysList ; let i = index; let last = last">
+            <span>
+              {{ elt?.paysNom }}<span *ngIf="!last">,</span>
+            </span>
+          </span>
+        </td>
         <td>{{ item?.terrTaux }}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
@@ -60,25 +68,25 @@
                   aria-labelledby="action"
                   class="dropdown-validation-plainte"
                 >
-               
+
                   <button
                   ngbDropdownItem
                   (click)="openModal(templatePaiement,item)"
                 >
                   <i class="fa fa-list"></i>&nbsp;Détails l'affaire
                 </button>
-   
+
                   <button
                     ngbDropdownItem
                     (click)="openModal(templatePaiement,item)"
                   >
                     <i class="fa fa-money-bill"></i>&nbsp;Modifier
                   </button>
-  
+
                   <button ngbDropdownItem>
                     <i class="fa fa-redo-alt"></i>&nbsp; Supprimer
-                  </button>                 
-                  
+                  </button>
+
                 </div>
               </div>
             </div>
@@ -103,14 +111,14 @@
                 (pageChanged)="pageChanged($event)"
               ></pagination>
             </div>
-  
+
             <div class="col-md-5">
               <div class="paginator-per-page">
                 <app-element-by-page-paginator
                   (paginationChange)="changePaginationSize($event)"
                   [defaultItemPerPage]="itemsPerPage"
                 ></app-element-by-page-paginator>
-  
+
                 <span class="span_total_entree pull-right"
                   >Total :{{ totalItems }}</span
                 >
@@ -129,9 +137,9 @@
     </tfoot>
   </table>
 </div>
- 
- 
-<ng-template #templatePaiement> 
+
+
+<ng-template #templatePaiement>
     <div class="modal-header">
       <h4 class="modal-title pull-left">
         Nouvelle territorialité
@@ -139,13 +147,12 @@
 
       <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
         <mat-icon>close</mat-icon>
-      </button> 
+      </button>
     </div>
     <div class="modal-body">
       <!-- <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement> -->
-      <app-form-teritorialite [currentTeritorrialite]="itemToSave" [itemsUpdate]="dataCurrent" 
+      <app-form-teritorialite [currentTeritorrialite]="itemToSave" [itemsUpdate]="dataCurrent"
       [idTraitNonProChildrenSed]="idTraitNonProChildren"
       [isPaiement]="isOngletPaiement" (closeModal)="closeModal($event)"></app-form-teritorialite>
     </div>
   </ng-template>
-    
