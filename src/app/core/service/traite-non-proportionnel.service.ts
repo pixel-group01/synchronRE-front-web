@@ -33,4 +33,4 @@ export class TraiteNonProportionnelService {
     return this.restClient.get(endPointFinal);
   }
 
-}
+} 

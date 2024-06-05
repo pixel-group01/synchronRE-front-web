@@ -43,19 +43,22 @@
       <div class="stepper-body">
         <div class="stepper-form">
             <ng-container *ngIf="stepWizard == 1"> 
-                <app-information-general-traite-non-proportion  (closeModal)="closeFormModal($event)" 
+                <app-information-general-traite-non-proportion  (closeModal)="closeFormModal($event)"  [currentTraiterNonPropoChild]="currentTraiterNonPropo"
                 (sendInfoParent)="receiveIdTraitNonPropor($event)" (stepperInice)="gotoStepper($event)" 
                 [isWizardProcess]="true" [idTraitNonProChild]="idTraitNonPropor"></app-information-general-traite-non-proportion>
             </ng-container>   
 
-            <ng-container *ngIf="stepWizard == 2">
-                <app-condition-traite-non-proportion (closeModal)="closeFormModal($event)"  [idTraitNonProChild]="idTraitNonPropor"
-                (stepperInice)="gotoStepper($event)" [isWizardProcess]="true" (idTraitNonPropor)="receiveIdTraitNonPropor($event)" ></app-condition-traite-non-proportion>
+            <ng-container *ngIf="stepWizard == 2"> 
+                <app-condition-traite-non-proportion (closeModal)="closeFormModal($event)"  [idTraitNonProChild]="idTraitNonPropor" 
+                 [currentTraiterNonPropoChild]="currentTraiterNonPropo" (stepperInice)="gotoStepper($event)" 
+                 [isWizardProcess]="true" (idTraitNonPropor)="receiveIdTraitNonPropor($event)" ></app-condition-traite-non-proportion>
             </ng-container>
 
             <ng-container *ngIf="stepWizard == 3">
-                <app-repartition-traite-non-proportion (stepperInice)="gotoStepper($event)"  (closeModal)="closeFormModal($event)"
-                [isWizardProcess]="true" [isPlacement]="true" [idTraitNonProChild]="idTraitNonPropor"></app-repartition-traite-non-proportion>
+                <app-repartition-traite-non-proportion (stepperInice)="gotoStepper($event)" 
+                 (closeModal)="closeFormModal($event)" 
+                [isWizardProcess]="true" [isPlacement]="true" [idTraitNonProChild]="idTraitNonPropor || currentTraiterNonPropo.traiteNpId"
+                [currentTraiterNonPropoChild]="currentTraiterNonPropo"></app-repartition-traite-non-proportion>
             </ng-container>
 
         </div>

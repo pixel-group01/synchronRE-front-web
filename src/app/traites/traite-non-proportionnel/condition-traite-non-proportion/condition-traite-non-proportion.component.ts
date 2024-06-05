@@ -15,6 +15,7 @@ export class ConditionTraiteNonProportionComponent implements OnInit {
 
   @Input() isWizardProcess: boolean = false;
   @Input() isUpdateRepartition: boolean = false;
+  @Input() currentTraiterNonPropoChild: any;
 
   @Input() idTraitNonProChild: number;
   isCloseOpen :boolean =false;
@@ -30,11 +31,11 @@ export class ConditionTraiteNonProportionComponent implements OnInit {
   @Output() idTraitNonPropor: EventEmitter<number> = new EventEmitter();
 
   constructor() {
-    }
+  }
 
     gotoPreviousStep() {
       this.stepperInice.emit(1);
-      console.log("idTraitNonProChild ::", this.idTraitNonProChild);
+      // console.log("idTraitNonProChild ::", this.idTraitNonProChild);
       this.idTraitNonPropor.emit(this.idTraitNonProChild);
     }
 

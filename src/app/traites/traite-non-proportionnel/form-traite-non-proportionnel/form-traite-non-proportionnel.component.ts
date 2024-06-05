@@ -11,7 +11,7 @@ export class FormTraiteNonProportionnelComponent implements OnInit {
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() currentTraiterNonPropo :any;
   @Input() numStep :number
-  constructor() {
+  constructor() {    
   } 
  
   closeFormModal($event:boolean) {
@@ -24,13 +24,13 @@ export class FormTraiteNonProportionnelComponent implements OnInit {
  
   receiveIdTraitNonPropor($event :number){
       this.idTraitNonPropor = $event 
-      console.log("receiveIdTraitNonPropor  ::",this.idTraitNonPropor);
-      
+      console.log("receiveIdTraitNonPropor  ::",this.idTraitNonPropor); 
   }
 
   ngOnInit(): void { 
     if (this.numStep) {
         this.stepWizard = this.numStep;
+        // console.log("currentTraiterNonPropo ::", this.currentTraiterNonPropo);
     }
   }
 

@@ -127,7 +127,7 @@
               <ng-option
                 *ngFor="let exercice of exoRattachement"
                 [value]="exercice.code"
-                >{{ exercice.code }}</ng-option
+                >{{ exercice.libelle }}</ng-option
               >
             </ng-select>
             <small
@@ -425,7 +425,7 @@
         class="btn btn-md custom_btn_primary pull-right"
         [disabled]="!formulaireGroup.valid"
       >
-        {{ idTraitNonProChild ? "Modifier et continuer" : "Enregistrer et continuer" }}
+        {{ idTraitNonProChild || currentTraiterNonPropoChild?.traiteNpId? "Modifier et continuer" : "Enregistrer et continuer" }}
       </button>
 
       <button

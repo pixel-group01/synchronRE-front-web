@@ -42,6 +42,7 @@ export class RepartitionTraiteNonProportionComponent implements OnInit {
   @Input() isUpdatePlacement:boolean = false;
   @Input() isValidationPlacement:boolean = false;
   @Input() idTraitNonProChild: number;
+  @Input() currentTraiterNonPropoChild: any;
 
   currentUser : User;
   listeHistoriquePlacement : any = [];

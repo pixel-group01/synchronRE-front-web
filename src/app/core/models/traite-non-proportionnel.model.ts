@@ -1,9 +1,7 @@
 export class TraiteNonProportionnel {
-    nontraiteProportionnelId: number;
+    traiteNpId: number;
     natCode: string;
-
     traiNumero: string;
-
     exeCode: string;
     traiReference: string;
     traiEcerciceRattachement: string;

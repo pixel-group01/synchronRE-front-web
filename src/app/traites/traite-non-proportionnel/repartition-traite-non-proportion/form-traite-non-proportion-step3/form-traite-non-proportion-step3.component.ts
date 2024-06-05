@@ -35,7 +35,8 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
   @Input() isOngletReversement: boolean = false;
   @Input() isOngletPaiement: boolean = false;
   @Input() endPoint: string;
-  
+  @Input() currentTraiterNonPropoChildSde: any;
+
   initialEndPoint: string;
   statutAffEnum: any;
 
@@ -214,9 +215,13 @@ export class FormTraiteNonProportionStep3Component implements OnInit {
 
   ngOnInit() {  
     this.createForm();
-    console.log("idTraitNonProChildren ::", this.idTraitNonProChildren);
     this.getRepartie();
     this.getReassurreur();
-    this.getItems()
+    this.getItems();
+    if (this.currentTraiterNonPropoChildSde && this.currentTraiterNonPropoChildSde.traiteNpId) {
+        this.formulaireGroup.patchValue({...this.currentTraiterNonPropoChildSde});
+    console.log("currentTraiterNonPropoChildSde ::", this.currentTraiterNonPropoChildSde);
+
+    }
   }
 }

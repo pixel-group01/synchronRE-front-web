@@ -11,46 +11,46 @@
                           <mat-tab label="Térritorialité">
                               <ng-template matTabContent>
                                     <app-teritorrilite [endPoint]="'territorialites/search'" 
-                                    [idTraitNonProChildren]="idTraitNonProChild"></app-teritorrilite> 
+                                              [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-teritorrilite> 
                               </ng-template>
                           </mat-tab>
                           <mat-tab label="Risque couverts">
                               <ng-template matTabContent>
-                                <app-risque-couverts [endPoint]="'risques/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-risque-couverts>
+                                <app-risque-couverts [endPoint]="'risques/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-risque-couverts>
                               </ng-template>
                           </mat-tab>
                           <mat-tab label="Catégorie">
                               <ng-template matTabContent>
-                                <app-categorie [endPoint]="'categories/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-categorie>
+                                <app-categorie [endPoint]="'categories/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-categorie>
                               </ng-template>
                           </mat-tab>          
                           <mat-tab label="Assiette de prime">
                             <ng-template matTabContent>
-                              <app-assiete-prime [endPoint]="'traite/cedantes/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-assiete-prime>
+                              <app-assiete-prime [endPoint]="'traite/cedantes/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-assiete-prime>
                             </ng-template>
                         </mat-tab>
 
                         <mat-tab label="Tranche">
                           <ng-template matTabContent>
-                            <app-tranche [endPoint]="'tranches/search'" [idTraitNonProChildren]="idTraitNonProChild" ></app-tranche>
+                            <app-tranche [endPoint]="'tranches/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId" ></app-tranche>
                           </ng-template>
                       </mat-tab>
 
                       <mat-tab label="Limite de souscription">
                         <ng-template matTabContent>
-                          <app-limite-souscription [endPoint]="'limitesouscription/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-limite-souscription>
+                          <app-limite-souscription [endPoint]="'limitesouscription/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-limite-souscription>
                         </ng-template>
                        </mat-tab>
 
                     <mat-tab label="Sous Limite">
                       <ng-template matTabContent>
-                        <app-sous-limite [endPoint]="'sous-limite/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-sous-limite>
+                        <app-sous-limite [endPoint]="'sous-limite/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-sous-limite>
                       </ng-template>
                      </mat-tab>
 
                       <mat-tab label="Réconstitution">
                         <ng-template matTabContent>
-                          <app-reconstitution [endPoint]="'reconstitutions/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-reconstitution>
+                          <app-reconstitution [endPoint]="'reconstitutions/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-reconstitution>
                         </ng-template>
                       </mat-tab>
                       </mat-tab-group>
