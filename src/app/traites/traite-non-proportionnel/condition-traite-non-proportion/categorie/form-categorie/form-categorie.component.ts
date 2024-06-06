@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { CategorieService } from 'src/app/core/service/categorie.service';
 import { CedanteService } from 'src/app/core/service/cedante.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
@@ -18,6 +19,7 @@ export class FormCategorieComponent implements OnInit {
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() itemsUpdate :any;
+  busyGet: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -67,7 +69,7 @@ export class FormCategorieComponent implements OnInit {
 
   saveCategorie(item: any) {
     item.terrTaux = parseInt(item.terrTaux)
-    this.categorieService.create(item).subscribe((res: any) => {
+    this.busyGet = this.categorieService.create(item).subscribe((res: any) => {
       if (res) {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),

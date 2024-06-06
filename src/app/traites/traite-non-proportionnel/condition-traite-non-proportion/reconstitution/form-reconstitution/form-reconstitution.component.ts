@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { ReconstitutionService } from 'src/app/core/service/reconstitution.service';
 import { TranchesService } from 'src/app/core/service/tranches.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
@@ -16,7 +17,9 @@ export class FormReconstitutionComponent implements OnInit {
   formulaireGroup!: FormGroup;
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
-  @Input() itemsUpdate :any;
+  @Input() itemsUpdate :any;  
+  busyGet: Subscription;
+
   constructor(
     private formBuilder: FormBuilder,
     private utilities: UtilitiesService,
@@ -55,7 +58,7 @@ export class FormReconstitutionComponent implements OnInit {
   }
 
   save(item: any) {
-     this.reconstitutionService.save(item).subscribe((res: any) => {
+    this.busyGet = this.reconstitutionService.save(item).subscribe((res: any) => {
       // if (res) {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),

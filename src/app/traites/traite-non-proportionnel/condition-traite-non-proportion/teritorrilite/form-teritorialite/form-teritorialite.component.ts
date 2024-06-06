@@ -5,6 +5,7 @@ import { PaysService } from 'src/app/core/service/pays.service';
 import { TeritorrialiteService } from 'src/app/core/service/teritorrialite.service';
 import Swal from 'sweetalert2';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-form-teritorialite',
@@ -18,6 +19,8 @@ export class FormTeritorialiteComponent implements OnInit {
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() itemsUpdate :any;
+  busyGet: Subscription;
+
   constructor(
     private formBuilder: FormBuilder,
     private paysService : PaysService,
@@ -89,7 +92,7 @@ export class FormTeritorialiteComponent implements OnInit {
     if (item.terrTaux) {
       item.terrTaux = parseInt(item.terrTaux);
     }
-     (item.terrId ? this.teritorrialiteService.update(item) : this.teritorrialiteService.create(item)).subscribe((res: any) => {
+    this.busyGet = (item.terrId ? this.teritorrialiteService.update(item) : this.teritorrialiteService.create(item)).subscribe((res: any) => {
       if (res) {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),

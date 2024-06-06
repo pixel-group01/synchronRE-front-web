@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActiviteService } from 'src/app/core/service/activite.service';
-import { CouvertureService } from 'src/app/core/service/couverture.service';
-import { RisqueCouvertureService } from 'src/app/core/service/risque-couverture.service';
+import { Subscription } from 'rxjs';
 import { RisqueService } from 'src/app/core/service/risque.service';
 import { SousLimiteService } from 'src/app/core/service/sous-limite.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
@@ -19,6 +17,7 @@ export class FormSousLimiteComponent implements OnInit {
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() itemsUpdate :any;
+  busyGet: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -56,7 +55,7 @@ export class FormSousLimiteComponent implements OnInit {
   save(item: any) {
     this.formulaireGroup.removeControl('sslimiteRisqueCouvertId');
      item = this.formulaireGroup.value;
-    (item.sslimiteRisqueCouvertId ? this.sousLimiteService.update : this.sousLimiteService.create)(item).subscribe((res: any) => {
+     this.busyGet = (item.sslimiteRisqueCouvertId ? this.sousLimiteService.update : this.sousLimiteService.create)(item).subscribe((res: any) => {
       // if (res) {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),

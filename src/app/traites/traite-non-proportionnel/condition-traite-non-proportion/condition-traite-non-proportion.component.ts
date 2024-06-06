@@ -17,7 +17,7 @@ export class ConditionTraiteNonProportionComponent implements OnInit {
   @Input() isUpdateRepartition: boolean = false;
   @Input() currentTraiterNonPropoChild: any;
 
-  @Input() idTraitNonProChild: number;
+  @Input() idTraitNonProChild: number ;
   isCloseOpen :boolean =false;
   isCloseOpenRisque :boolean =false;
   isCloseOpenCateg :boolean =false;

@@ -25,7 +25,7 @@ export class FormTraiteNonProportionnelComponent implements OnInit {
   receiveIdTraitNonPropor($event :number){
       this.idTraitNonPropor = $event 
       console.log("receiveIdTraitNonPropor  ::",this.idTraitNonPropor); 
-  }
+  } 
 
   ngOnInit(): void { 
     if (this.numStep) {

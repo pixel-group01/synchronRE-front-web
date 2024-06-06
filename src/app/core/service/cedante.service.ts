@@ -20,8 +20,8 @@ export class CedanteService {
     return this.restClient.get(`traite/cedantes/list/${traiteNpId}`);
   }
 
-  getCedanteParTraite = (traiteNpId :number ,cedId:number) => {
-    return this.restClient.get(`traite/cedantes/edit?traiteNpId=${traiteNpId}&cedId=${cedId}`);
+  getCedanteParTraite = (body:any) => {
+    return this.restClient.post("traite/cedantes/edit",body);
   }
  
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {

@@ -1,6 +1,6 @@
 <div class="container-affaire-facultative">
 
-    <div class="step-evolution">
+    <div class="step-evolution" *ngIf="!currentTraiterNonPropo">
         <div
           class="step-item"
           [class.active-stepper]="stepWizard == 1"
