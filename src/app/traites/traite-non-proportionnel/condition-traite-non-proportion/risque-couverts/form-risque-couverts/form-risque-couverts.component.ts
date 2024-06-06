@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { ActiviteService } from 'src/app/core/service/activite.service';
 import { CouvertureService } from 'src/app/core/service/couverture.service';
 import { RisqueCouvertureService } from 'src/app/core/service/risque-couverture.service';
@@ -18,7 +19,8 @@ export class FormRisqueCouvertsComponent implements OnInit {
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() itemsUpdate :any;
- 
+  busyGet: Subscription;
+
   constructor(
     private formBuilder: FormBuilder,
 
@@ -70,7 +72,7 @@ export class FormRisqueCouvertsComponent implements OnInit {
   }
 
   saveRisqueCouvertureService(item: any) {
-    this.risqueCouvertureService.create(item).subscribe((res: any) => {
+    this.busyGet = this.risqueCouvertureService.create(item).subscribe((res: any) => {
       if (res) {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),

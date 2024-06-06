@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { CedanteService } from 'src/app/core/service/cedante.service';
 import { LimiteSouscriptionService } from 'src/app/core/service/limite-souscription.service';
 import { OrganisationService } from 'src/app/core/service/organisation.service';
@@ -17,6 +18,7 @@ export class FormLimiteSouscriptionComponent implements OnInit {
   listeCouvertures : any = []; 
   listeCedantes : any = [];
   formulaireGroup!: FormGroup;
+  busyGet: Subscription;
 
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
@@ -68,7 +70,7 @@ export class FormLimiteSouscriptionComponent implements OnInit {
   }
 
   save(item: any) {
-      this.limiteSouscriptionService.save(item).subscribe((res: any) => {
+    this.busyGet = this.limiteSouscriptionService.save(item).subscribe((res: any) => {
       // if (res) {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),

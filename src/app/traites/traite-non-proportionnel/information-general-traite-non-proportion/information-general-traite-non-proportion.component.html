@@ -103,7 +103,7 @@
               <ng-option
                 *ngFor="let nature of natureListe"
                 [value]="nature.natCode"
-                >{{ nature.formeLibelle }}
+                >{{ nature.natLibelle }}
               </ng-option
               >
             </ng-select>
@@ -122,7 +122,6 @@
               formControlName="traiEcerciceRattachement"
               name="traiEcerciceRattachement"
               id="traiEcerciceRattachement"
-
             >
               <ng-option
                 *ngFor="let exercice of exoRattachement"
@@ -149,7 +148,7 @@
               placeholder="02/01/2024"
               autocomplete="off"
               formControlName="traiDateEffet"
-              [bsConfig]="{ isAnimated: true ,dateInputFormat: 'DD/MM/YYYY',containerClass: 'theme-dark-blue'}"
+              [bsConfig]="{ isAnimated: true ,dateInputFormat: 'YYYY-MM-DD',containerClass: 'theme-dark-blue'}"
               bsDatepicker
               (ngModelChange)="formatDateTraiDateEffet($event)"
               name="traiDateEffet"
@@ -176,7 +175,7 @@
               autocomplete="off"
               (ngModelChange)="formatDateTraiDateEcheance($event)"
               formControlName="traiDateEcheance"
-              [bsConfig]="{ isAnimated: true ,dateInputFormat: 'DD/MM/YYYY',containerClass: 'theme-dark-blue'}"
+              [bsConfig]="{ isAnimated: true ,dateInputFormat: 'YYYY-MM-DD',containerClass: 'theme-dark-blue'}"
               bsDatepicker
               name="traiDateEcheance"
               type="text"

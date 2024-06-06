@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import { RisqueService } from 'src/app/core/service/risque.service';
 import { TranchesService } from 'src/app/core/service/tranches.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-form-tranche',
@@ -23,6 +24,7 @@ export class FormTrancheComponent implements OnInit {
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   formulaireGroup!: FormGroup;
   @Input() itemsUpdate :any;
+  busyGet: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -72,7 +74,7 @@ export class FormTrancheComponent implements OnInit {
   }
 
   save(item: any) {
-    this.tranchesService.save(item).subscribe((res: any) => {
+    this.busyGet = this.tranchesService.save(item).subscribe((res: any) => {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),
           "bottom",

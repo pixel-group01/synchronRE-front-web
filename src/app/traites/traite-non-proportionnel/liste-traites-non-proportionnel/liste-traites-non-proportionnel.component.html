@@ -79,25 +79,25 @@
                 <button
                 ngbDropdownItem
               >
-                <i class="fa fa-list"></i>&nbsp;Détails l'affaire
+                <i class="fa fa-list"></i>&nbsp;Détails du traité
               </button>
-                <button
+                <!-- <button
                   ngbDropdownItem
                   (click)="openModal(templatePaiement,item)"
                 >
                   <i class="fa fa-edit"></i>&nbsp;Modifier
+                </button> -->
+                <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,1)">
+                  <i class="fa fa-edit"></i>&nbsp; Modifier le traité
+                </button>
+                <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,2)">
+                  <i class="fa fa-edit"></i>&nbsp; Conditions du traités
+                </button>
+                <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,3)">
+                  <i class="fa fa-edit"></i>&nbsp; Placements
                 </button>
                 <button ngbDropdownItem >
                   <i class="fa fa-share"></i>&nbsp; Transmettre
-                </button>
-                <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,1)">
-                  <i class="fa fa-share"></i>&nbsp; Identification du traité
-                </button>
-                <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,2)">
-                  <i class="fa fa-share"></i>&nbsp; Conditions du traités
-                </button>
-                <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,3)">
-                  <i class="fa fa-share"></i>&nbsp; Placements
                 </button>
                 <!-- <button ngbDropdownItem (click)="openModal(templateUpdatePlacement,item)">
                   <i class="fa fa-print"></i>&nbsp; Imprimer la note
@@ -166,7 +166,8 @@
         <mat-icon>close</mat-icon>
       </button>
     </div>
-    <div class="modal-body">
-      <app-form-traite-non-proportionnel [currentTraiterNonPropo]="itemToSave" [numStep]="NumeroStepParent" ></app-form-traite-non-proportionnel>
+    <div class="modal-body"> 
+      <app-form-traite-non-proportionnel [currentTraiterNonPropo]="itemToSave"  (closeModal)="closeFormModal($event)"
+                                          [numStep]="NumeroStepParent" ></app-form-traite-non-proportionnel>
     </div>
   </ng-template>

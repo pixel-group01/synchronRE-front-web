@@ -64,7 +64,7 @@ export class AssietePrimeComponent implements OnInit {
     let config = {
       backdrop: true,
       ignoreBackdropClick: true,
-      class: "modal-width-30",
+      class: "modal-width-50",
     };
     // console.log('item terr ::', data);
     this.dataCurrent = data;

@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { AssiettePrimeService } from 'src/app/core/service/assiette-prime.service';
 import { CedanteService } from 'src/app/core/service/cedante.service';
-import { TeritorrialiteService } from 'src/app/core/service/teritorrialite.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from 'sweetalert2';
 
@@ -16,6 +16,7 @@ export class FormAssietePrimeComponent implements OnInit {
   cedanteListe : any = [];
   listeCessionLegale :any =[];
   formulaireGroup!: FormGroup;
+  busyGet: Subscription;
 
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
@@ -39,25 +40,35 @@ export class FormAssietePrimeComponent implements OnInit {
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
-      assiettePrime : [this.items.assiettePrime ? this.items.assiettePrime : "",Validators.required],
-      cedId : [this.items.cedId ? this.items.cedId : "",Validators.required],
-      tauxPrime: [this.items.tauxPrime ? this.items.tauxPrime : "",Validators.required], 
+      assiettePrime : [this.items.assiettePrime ? this.items.assiettePrime : null,Validators.required],
+      cedId : [this.items.cedId ? this.items.cedId : null,Validators.required],
+      tauxPrime: [this.items.tauxPrime ? this.items.tauxPrime : null,Validators.required], 
       traiteNpId: [this.idTraitNonProChildrenSed],
       cessionsLegales : [null],
       pmd : [this.items.pmd ? this.items.pmd : "",Validators.required], 
       tauxCesLeg: [""],
-      paramCesLegalLibelle:[""]
+      paramCesLegalLibelle:[""],
+      tauxCourtier: [null],
+      tauxCourtierPlaceur : [null]
     });
   };
 
-  getListCedanteParTraite(idCedante:number){
-      this.cedanteService.getCedanteParTraite(this.idTraitNonProChildrenSed, idCedante).subscribe((res:any)=>{
-        console.log(res , "res de cedande par traite");
+  getListCedanteParTraite(data:any){
+      this.busyGet = this.cedanteService.getCedanteParTraite(data).subscribe((res:any)=>{
+        // console.log(res , "res de cedande par traite");
         if (res) {
           this.items = res;
           this.listeCessionLegale = this.items.cessionsLegales
+          this.formulaireGroup.patchValue({pmd : res.pmd})
         }
       })
+  }
+
+  calculPmd(){ 
+    console.log("this.formulaireGroup.value :", this.formulaireGroup.value);
+    if (this.formulaireGroup.value.assiettePrime && this.formulaireGroup.value.tauxPrime ) {
+        this.getListCedanteParTraite(this.formulaireGroup.value)
+    }
   }
 
   getCedante(){
@@ -67,10 +78,10 @@ export class FormAssietePrimeComponent implements OnInit {
       }
     })
   }
-
+ 
   save(item: any) {
     item.cessionsLegales = this.listeCessionLegale ;
-    this.assiettePrimeService.save(item).subscribe((res: any) => {
+    this.busyGet = this.assiettePrimeService.save(item).subscribe((res: any) => {
       if (res) {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),

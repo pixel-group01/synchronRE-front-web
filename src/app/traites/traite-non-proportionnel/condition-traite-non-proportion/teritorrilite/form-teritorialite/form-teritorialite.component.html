@@ -1,4 +1,7 @@
-<div class="row">
+<div class="row"
+class="body table-responsive clsOverflow"
+  [ngBusy]="{busy: busyGet, message: 'Veuillez patienter ...', backdrop: false}"
+>
 
   <form [formGroup]="formulaireGroup" (ngSubmit)="confirmSaveItem(formulaireGroup.value)">
     <div class="col-md-12 col-xs-12 mb-1">

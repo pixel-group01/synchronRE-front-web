@@ -253,6 +253,12 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
         });
     } else {
       // Nous sommes en modification
+      // if(this.currentTraiterNonPropoChild && this.currentTraiterNonPropoChild.traiteNpId){
+      //     this.formulaireGroup.patchValue({...this.currentTraiterNonPropoChild,
+      //       traiDateEffet: moment(this.currentTraiterNonPropoChild.traiDateEcheance).format("YYYY-MM-DD"),
+      //       traiDateEcheance:moment(this.currentTraiterNonPropoChild.traiDateEffet).format("YYYY-MM-DD"),
+      //     })
+      // }
       this.busySave = this.traiteNonPropertionnelService
         .update(itemAEnregistrer)
         .subscribe((response: any) => {
@@ -263,6 +269,10 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
               "bottom",
               "center"
             );
+            if (this.currentTraiterNonPropoChild) {
+              this.closeModal.emit(true);
+              return
+            }
             this.stepperInice.emit(2);
           }
 
@@ -272,7 +282,6 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
         });
     }
   }
-
 
   ngOnInit(): void {
     this.createForm();
@@ -285,9 +294,10 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
     this.getExoRattachement();
     console.log('currentTraiterNonPropoChild :', this.currentTraiterNonPropoChild);
     if(this.currentTraiterNonPropoChild && this.currentTraiterNonPropoChild.traiteNpId){
+      const item = {...this.currentTraiterNonPropoChild}      
         this.formulaireGroup.patchValue({...this.currentTraiterNonPropoChild,
-          traiDateEffet: moment(this.currentTraiterNonPropoChild.traiDateEffet).format("DD/MM/YYYY"),
-          traiDateEcheance: moment(this.currentTraiterNonPropoChild.traiDateEcheance).format("DD/MM/YYYY")
+          traiDateEffet: moment(item.traiDateEcheance).format("YYYY-MM-DD"),
+          traiDateEcheance:moment(item.traiDateEffet).format("YYYY-MM-DD"),
         })
     }
     if (this.idTraitNonProChild) {

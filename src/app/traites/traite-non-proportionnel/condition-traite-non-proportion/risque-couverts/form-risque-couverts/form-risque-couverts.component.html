@@ -1,4 +1,7 @@
-<div class="row">
+<div class="row" 
+class="body table-responsive clsOverflow"
+  [ngBusy]="{busy: busyGet, message: 'Veuillez patienter ...', backdrop: false}"
+>
     <form [formGroup]="formulaireGroup" (submit)="confirmSaveItem(formulaireGroup.value)">
       <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
         <label>Couverture : <span class="required_champs">*</span> </label>
