@@ -1,19 +1,88 @@
-<div
-  class="repartition-container"
-  [ngBusy]="{
-    busy: busySave,
-    message: 'Veuillez patienter ...',
-    backdrop: false
-  }"
->
-  <form name="form-repartition" (ngSubmit)="confirmSaveItem()">
+<section >
+  <!-- <div class="content-block"> -->
+      <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <!-- <div class="card"> -->
+                  <!-- <div class="header mb-3">
+                      <h2><strong>Traités</strong> non proportionnel</h2>
+                  </div> -->
+                  <div class="body">
+                      <mat-tab-group>
+                          <mat-tab label="Térritorialité">
+                              <ng-template matTabContent>
+                                    <app-teritorrilite [endPoint]="'territorialites/search'" 
+                                              [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-teritorrilite> 
+                              </ng-template>
+                          </mat-tab>
+                          <mat-tab label="Risque couverts">
+                              <ng-template matTabContent>
+                                <app-risque-couverts [endPoint]="'risques/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-risque-couverts>
+                              </ng-template>
+                          </mat-tab>
+                          <mat-tab label="Catégorie">
+                              <ng-template matTabContent>
+                                <app-categorie [endPoint]="'categories/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-categorie>
+                              </ng-template>
+                          </mat-tab>          
+                          <mat-tab label="Assiette de prime">
+                            <ng-template matTabContent>
+                              <app-assiete-prime [endPoint]="'traite/cedantes/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-assiete-prime>
+                            </ng-template>
+                        </mat-tab>
+
+                        <mat-tab label="Tranche">
+                          <ng-template matTabContent>
+                            <app-tranche [endPoint]="'tranches/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId" ></app-tranche>
+                          </ng-template>
+                      </mat-tab>
+
+                      <mat-tab label="Limite de souscription">
+                        <ng-template matTabContent>
+                          <app-limite-souscription [endPoint]="'limitesouscription/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-limite-souscription>
+                        </ng-template>
+                       </mat-tab>
+
+                    <mat-tab label="Sous Limite">
+                      <ng-template matTabContent>
+                        <app-sous-limite [endPoint]="'sous-limite/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-sous-limite>
+                      </ng-template>
+                     </mat-tab>
+
+                      <mat-tab label="Réconstitution">
+                        <ng-template matTabContent>
+                          <app-reconstitution [endPoint]="'reconstitutions/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-reconstitution>
+                        </ng-template>
+                      </mat-tab>
+                      </mat-tab-group>
+                  </div>
+              </div>
+          <!-- </div> -->
+      <!-- </div> -->
+  </div>
+  <div class="custom-btn-save-manager">
+    <button type="submit" class="btn btn-md custom_btn_primary pull-right" (click)="confirmSaveItem()">
+        Enregistrer
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-md btn-cancel pull-right"
+      (click)="gotoPreviousStep()"
+      *ngIf="isWizardProcess"
+    >
+      Précedent
+    </button>
+  </div>
+</section>
+
+
+<!-- <div>
     <div class="row">
       <div class="col-4">
         <fieldset>
           <legend>Térritorialité</legend>
-
           <div>
-            <app-teritorrilite></app-teritorrilite>
+            <app-teritorrilite [endPoint]="'territorialites/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-teritorrilite>
           </div>
         </fieldset>
       </div>
@@ -22,7 +91,7 @@
           <legend>Risque couverts</legend>
 
           <div>
-            <app-risque-couverts></app-risque-couverts>
+            <app-risque-couverts [endPoint]="'risques/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-risque-couverts>
           </div>
         </fieldset>
       </div>
@@ -30,17 +99,17 @@
         <fieldset>
           <legend>Catégorie</legend>
 
-          <div>
-            <app-categorie></app-categorie>
+          <div> 
+            <app-categorie [endPoint]="'categories/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-categorie>
           </div>
         </fieldset>
       </div>
       <div class="col-6 mt-4">
         <fieldset>
-          <legend>Assiète de prime</legend>
+          <legend>Assiette de prime</legend>
 
           <div>
-            <app-assiete-prime></app-assiete-prime>
+            <app-assiete-prime [endPoint]="'traite/cedantes/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-assiete-prime>
           </div>
         </fieldset>
       </div>
@@ -49,7 +118,7 @@
           <legend>Tranche</legend>
 
           <div>
-            <app-tranche></app-tranche>
+            <app-tranche [endPoint]="'tranches/search'" [idTraitNonProChildren]="idTraitNonProChild" ></app-tranche>
           </div>
         </fieldset>
       </div>
@@ -59,16 +128,16 @@
           <legend>Limite de souscription</legend>
 
           <div>
-            <app-limite-souscription></app-limite-souscription>
+            <app-limite-souscription [endPoint]="'limitesouscription/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-limite-souscription>
           </div>
         </fieldset>
       </div>
       <div class="col-6 mt-4">
         <fieldset>
-          <legend>Sous Limite</legend>
+          <legend>Sous Limite</legend> 
 
           <div>
-            <app-sous-limite></app-sous-limite>
+            <app-sous-limite [endPoint]="'sous-limite/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-sous-limite>
           </div>
         </fieldset>
       </div>
@@ -77,20 +146,16 @@
           <legend>Réconstitution</legend>
 
           <div>
-            <app-reconstitution></app-reconstitution>
+            <app-reconstitution [endPoint]="'reconstitutions/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-reconstitution>
           </div>
         </fieldset>
       </div>
     </div>
 
 
-    <div class="custom-btn-save-manager" *ngIf="!isDetails">
+    <div class="custom-btn-save-manager">
       <button type="submit" class="btn btn-md custom_btn_primary pull-right">
-        {{
-          itemToUpdate?.affId || isUpdateRepartition
-            ? "Modifier"
-            : "Enregistrer"
-        }}
+          Enregistrer
       </button>
 
       <button
@@ -102,5 +167,4 @@
         Précedent
       </button>
     </div>
-  </form>
-</div>
+</div> -->

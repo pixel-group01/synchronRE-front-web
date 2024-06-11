@@ -5,7 +5,7 @@
   <table class="table table-condensed table-striped table-hover">
     <thead>
       <tr>
-        <th colspan="5">
+        <th colspan="5" class="specialTh-cls">
           <div class="row d-flex align-items-center">
             <div class="col-md-9 col-xs-12 col-sm-12">
               <!-- <label>Rechercher par mot clé : </label> -->
@@ -17,7 +17,7 @@
               />
             </div>
             <div class="col-md-3 col-xs-12 col-sm-12">
-                <button type="button" class="btn btn-md custom_btn_primary pull-right">Ajouter</button>
+                <button type="button" class="btn btn-md custom_btn_primary pull-right" (click)="openModal(templateAssietePrime)">Ajouter</button>
             </div>
           </div>
         </th>
@@ -44,10 +44,10 @@
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td> -->
 
-        <td>{{ item?.exeCode }}</td>
-        <td>{{ item?.affCode }}</td>
-        <td>{{ item?.affCode }}</td>
-        <td>{{ item?.affCode }}</td>
+        <td>{{ item?.cedNomFiliale }}</td>
+        <td>{{ item?.assiettePrime }}</td>
+        <td>{{ item?.tauxPrime }}</td>
+        <td>{{ item?.pmd }}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">
@@ -67,23 +67,23 @@
                
                   <button
                   ngbDropdownItem
-                  (click)="openModal(templateDetailsAffaire,item)"
+                  (click)="openModal(templateAssietePrime,item)"
                 >
                   <i class="fa fa-list"></i>&nbsp;Détails l'affaire
                 </button>
   
                   <button
                     ngbDropdownItem
-                    (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
+                    (click)="openModal(templateAssietePrime,item)"
                   >
-                    <i class="fa fa-money-bill"></i>&nbsp;Paiement
+                    <i class="fa fa-money-bill"></i>&nbsp;Modifier
                   </button>
   
-                  <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
-                    <i class="fa fa-redo-alt"></i>&nbsp; Reversement
+                  <button ngbDropdownItem>
+                    <i class="fa fa-redo-alt"></i>&nbsp; Supprimer
                   </button>                 
                   
-                </div>
+                </div> 
               </div>
             </div>
           </td>
@@ -94,9 +94,9 @@
       <tr *ngIf="items && items.length > 0">
         <td colspan="14">
           <div class="row pagination-part">
-            <div class="col-md-9" style="text-align: center">
+            <div class="col-md-7" style="text-align: center">
               <pagination
-                [boundaryLinks]="true"
+                [boundaryLinks]="false"
                 [itemsPerPage]="itemsPerPage"
                 [totalItems]="totalItems"
                 [(ngModel)]="currentPage"
@@ -108,23 +108,22 @@
                 (pageChanged)="pageChanged($event)"
               ></pagination>
             </div>
-
-            <div class="col-md-3">
+  
+            <div class="col-md-5">
               <div class="paginator-per-page">
                 <app-element-by-page-paginator
                   (paginationChange)="changePaginationSize($event)"
                   [defaultItemPerPage]="itemsPerPage"
                 ></app-element-by-page-paginator>
-
+  
                 <span class="span_total_entree pull-right"
-                  >Total : {{ totalItems }}</span
+                  >Total :{{ totalItems }}</span
                 >
               </div>
             </div>
           </div>
         </td>
       </tr>
-
       <tr *ngIf="!items || items.length == 0">
         <td colspan="14">
           <div class="col-md-12 txt-align-center">
@@ -136,11 +135,10 @@
   </table>
 </div>
 
-
-<ng-template #templatePaiement> 
+<ng-template #templateAssietePrime> 
     <div class="modal-header">
       <h4 class="modal-title pull-left">
-        {{isOngletPaiement ? 'Paiement':'Reversement' }} affaire N° {{itemToSave?.affCode}}
+        Nouvelle cedante
       </h4>
 
       <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
@@ -148,6 +146,8 @@
       </button>
     </div>
     <div class="modal-body">
-      <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement>
+      <app-form-assiete-prime [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement" (closeModal)="closeModal($event)"
+                              [idTraitNonProChildrenSed]="idTraitNonProChildren"  [itemsUpdate]="dataCurrent"></app-form-assiete-prime>
     </div>
   </ng-template>
+ 

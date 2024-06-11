@@ -1,7 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { User } from 'src/app/core/models/user';
-import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
-import { UserService } from 'src/app/core/service/user.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-form-traite-non-proportionnel',
@@ -9,16 +6,14 @@ import { UserService } from 'src/app/core/service/user.service';
   styleUrls: ['./form-traite-non-proportionnel.component.scss']
 })
 export class FormTraiteNonProportionnelComponent implements OnInit {
-
-
   stepWizard : number = 1;  
-  user : User;
+  idTraitNonPropor :number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
-
-  constructor(private businessOptionalService: BusinessOptionalService, private userService:UserService) {
-    this.user = this.userService.getCurrentUserInfo();
-  }
-
+  @Input() currentTraiterNonPropo :any;
+  @Input() numStep :number
+  constructor() {    
+  } 
+ 
   closeFormModal($event:boolean) {
     this.closeModal.emit(true);
   }
@@ -26,13 +21,20 @@ export class FormTraiteNonProportionnelComponent implements OnInit {
   gotoStepper($event : number) {
     this.stepWizard = $event;
   }
+ 
+  receiveIdTraitNonPropor($event :number){
+      this.idTraitNonPropor = $event 
+      console.log("receiveIdTraitNonPropor  ::",this.idTraitNonPropor); 
+  } 
 
   ngOnInit(): void { 
+    if (this.numStep) {
+        this.stepWizard = this.numStep;
+        // console.log("currentTraiterNonPropo ::", this.currentTraiterNonPropo);
+    }
   }
 
   ngOnDestroy() {
-   // On annule l'observable d'affaire facultative
-   this.businessOptionalService.setCurrentOptionalBusiness(null);
   }
  
 

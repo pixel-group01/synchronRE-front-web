@@ -44,13 +44,13 @@
         </td>
 
         <td>{{ item?.exeCode }}</td>
-        <td>{{ item?.affCode }}</td>
-        <td>{{ item?.cedNomFiliale }}</td>
-        <td>{{ item?.couLibelle }}</td>
-        <td>{{ item?.affAssure }}</td>
-        <td>{{ item?.affActivite }}</td>
-        <td>{{ item?.affDateEffet }}</td>
-       
+        <td>{{ item?.traiNumero }}</td>
+        <td>{{ item?.traiReference }}</td>
+        <td>{{ item?.traiSourceRef }}</td>
+        <td>{{ item?.traiDateEffet }}</td>
+        <td>{{ item?.traiDateEcheance }}</td>
+        <td>{{ item?.cesNom }}</td>
+
         <!-- <td>{{ item?.facPrime | moneyFormat }}</td> -->
         <!-- <td> <span class="badge">{{item?.staLibelle}} </span> </td> -->
         <td class="custom-width-td-action">
@@ -78,28 +78,31 @@
 
                 <button
                 ngbDropdownItem
-                (click)="openModal(templateDetailsAffaire,item)"
               >
-                <i class="fa fa-list"></i>&nbsp;Détails l'affaire
+                <i class="fa fa-list"></i>&nbsp;Détails du traité
               </button>
-
-                <button
+                <!-- <button
                   ngbDropdownItem
-                  (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
+                  (click)="openModal(templatePaiement,item)"
                 >
-                  <i class="fa fa-money-bill"></i>&nbsp;Paiement
+                  <i class="fa fa-edit"></i>&nbsp;Modifier
+                </button> -->
+                <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,1)">
+                  <i class="fa fa-edit"></i>&nbsp; Modifier le traité
                 </button>
-
-                <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
-                  <i class="fa fa-redo-alt"></i>&nbsp; Reversement
+                <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,2)">
+                  <i class="fa fa-edit"></i>&nbsp; Conditions du traités
                 </button>
-
+                <button ngbDropdownItem (click)="openModal(templateTraiterNonPropor,item,3)">
+                  <i class="fa fa-edit"></i>&nbsp; Placements
+                </button>
+                <button ngbDropdownItem >
+                  <i class="fa fa-share"></i>&nbsp; Transmettre
+                </button>
                 <!-- <button ngbDropdownItem (click)="openModal(templateUpdatePlacement,item)">
                   <i class="fa fa-print"></i>&nbsp; Imprimer la note
                 </button> -->
 
-                
-                
               </div>
             </div>
           </div>
@@ -153,33 +156,18 @@
   </table>
 </div>
 
-
-<ng-template #templatePaiement> 
+<ng-template #templateTraiterNonPropor>
     <div class="modal-header">
       <h4 class="modal-title pull-left">
-        {{isOngletPaiement ? 'Paiement':'Reversement' }} affaire N° {{itemToSave?.affCode}}
+          Modification du traité non proportionnel
       </h4>
 
       <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
         <mat-icon>close</mat-icon>
       </button>
     </div>
-    <div class="modal-body">
-      <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement>
+    <div class="modal-body"> 
+      <app-form-traite-non-proportionnel [currentTraiterNonPropo]="itemToSave"  (closeModal)="closeFormModal($event)"
+                                          [numStep]="NumeroStepParent" ></app-form-traite-non-proportionnel>
     </div>
   </ng-template>
-
-<ng-template #templateDetailsAffaire>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">
-      Détails de l'affaire N° {{itemToSave?.affCode}}
-    </h4>
-
-    <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-  <div class="modal-body">
-    <app-details-affaire-facultative></app-details-affaire-facultative>
-  </div>
-</ng-template>

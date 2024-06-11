@@ -24,7 +24,7 @@ export class BusinessOptional {
     devCode?:string;
     affStatutCreation?:string;
     facCapitaux?:number;
-    isSeeMotifRetour?:boolean;
+    isSeeMotifRetour?:boolean; 
     placementTermine?:boolean;
     cedenteId?:number
 }

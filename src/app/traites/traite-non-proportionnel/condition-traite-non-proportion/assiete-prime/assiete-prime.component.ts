@@ -19,7 +19,7 @@ import { UtilitiesService } from 'src/app/core/service/utilities.service';
   styleUrls: ['./assiete-prime.component.scss']
 })
 export class AssietePrimeComponent implements OnInit { 
-  items: Array<BusinessOptional> = [];
+  items: any = [];
   itemToSave: any = {};
   modalRef: BsModalRef;
   listeCedente: Array<Cedante> = [];
@@ -35,10 +35,13 @@ export class AssietePrimeComponent implements OnInit {
   @Input() noPutAction: boolean = false;
   @Input() isOngletReversement: boolean = false;
   @Input() isOngletPaiement: boolean = false;
+  
   @Input() endPoint: string;
+  @Input() idTraitNonProChildren: number;
   
   initialEndPoint: string;
   statutAffEnum: any;
+  dataCurrent :any
 
   constructor(
     private businessOptionalService: BusinessOptionalService,
@@ -57,18 +60,17 @@ export class AssietePrimeComponent implements OnInit {
     }
   }
 
-  openModal(template: TemplateRef<any>, itemAffaire: BusinessOptional) {
+  openModal(template: TemplateRef<any>, data?: any) {
     let config = {
       backdrop: true,
       ignoreBackdropClick: true,
-      class: "modal-width-65",
+      class: "modal-width-50",
     };
-    if (itemAffaire) {
-      this.itemToSave = { ...itemAffaire };
-      this.businessOptionalService.setCurrentOptionalBusiness(itemAffaire);
-    }
+    // console.log('item terr ::', data);
+    this.dataCurrent = data;
     this.modalRef = this.modalService.show(template, config);
   }
+  
 
   closeFormModal($event) {
     this.modalRef.hide();
@@ -107,26 +109,24 @@ export class AssietePrimeComponent implements OnInit {
 
   getItems() {
     let endPointFinal =
-      this.endPoint +
-      "?page=" +
+      this.endPoint + (this.idTraitNonProChildren
+        ? "?traiNpId=" + this.idTraitNonProChildren
+        : "") +
+      "&page=" +
       (this.currentPage - 1) +
       "&size=" +
       this.itemsPerPage +
       "" +
-      (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "") +
-      "" +
-      (this.itemToSearch.exeCode
-        ? "&exeCode=" + this.itemToSearch.exeCode
-        : "");
+      (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "") 
 
-    if (endPointFinal && this.itemToSearch.cedenteId) {
-      endPointFinal = endPointFinal + "&cedId=" + this.itemToSearch.cedenteId;
-    }
+    // if (endPointFinal && this.itemToSearch.cedenteId) {
+    //   endPointFinal = endPointFinal + "&cedId=" + this.itemToSearch.cedenteId;
+    // }
 
     this.busyGet = this.restClient.get(endPointFinal).subscribe(
       (res) => {
         if (res && res["content"]) {
-          this.items = res["content"] as BusinessOptional[];
+          this.items = res["content"];
           this.totalItems = res["totalElements"];
         } else {
           this.items = [];
@@ -174,5 +174,6 @@ export class AssietePrimeComponent implements OnInit {
   }
 
   ngOnInit() {  
+    this.getItems();
   }
 }

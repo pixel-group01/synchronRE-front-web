@@ -35,6 +35,10 @@ export class CessionnaireService {
     return this.restClient.get(endPointFinal);
   }
 
+  getCourtiersPlaceurs = () => {
+    return this.restClient.get('cessionnaires/courtiers-placeurs');
+  }
+
   update = (body:any) => {
     return this.restClient.put('cessionnaires/update',body)
   }

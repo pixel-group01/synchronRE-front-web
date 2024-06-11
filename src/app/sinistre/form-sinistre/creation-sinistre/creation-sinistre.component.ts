@@ -50,48 +50,6 @@ export class CreationSinistreComponent implements OnInit {
     this.closeModal.emit(true)
   }
 
-  // createForm = () => {
-  //   this.formulaireGroup = this.formBuilder.group({
-  //     affId: [this.itemToUpdate?.affId || ""],
-  //     affCode: [this.itemToUpdate?.affCode || ""],
-  //     affAssure: [this.itemToUpdate?.affAssure || "", Validators.required],
-  //     affActivite: [this.itemToUpdate?.affActivite || "", Validators.required],
-  //     affDateEffet: [
-  //       this.itemToUpdate?.affDateEffet || "",
-  //       Validators.required,
-  //     ],
-  //     affDateEcheance: [
-  //       this.itemToUpdate?.affDateEcheance || "",
-  //       Validators.required,
-  //     ],
-  //     facNumeroPolice: [
-  //       this.itemToUpdate?.facNumeroPolice || "",
-  //       Validators.required,
-  //     ],
-  //     affCapitalInitial: [
-  //       this.itemToUpdate?.affCapitalInitial || "",
-  //       Validators.required,
-  //     ],
-  //     devCode: [
-  //       this.itemToUpdate?.devCode || "",
-  //       Validators.required,
-  //     ],
-  //     affStatutCreation: [
-  //       this.itemToUpdate?.affStatutCreation || "",
-  //       Validators.required,
-  //     ],
-  //     facSmpLci: [this.itemToUpdate?.facSmpLci || ""],
-  //     facPrime: [this.itemToUpdate?.facPrime || ""],
-  //     cedId: [ (this.itemToUpdate?.cedId || this.user?.cedId) || "", Validators.required],
-  //     statutCode: [this.itemToUpdate?.statutCode || ""],
-  //     couvertureId: [this.itemToUpdate?.couvertureId || "", Validators.required],
-  //     exeCode: [this.itemToUpdate?.exeCode || "", Validators.required],
-  //     restARepartir: [""],
-  //     capitalDejaReparti: [
-  //       this.itemToUpdate?.capitalDejaReparti || ""
-  //     ],
-  //   });
-  // };
 
   sinistreForm = () =>{
     this.sinistre = this.formBuilder.group({

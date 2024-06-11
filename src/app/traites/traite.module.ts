@@ -27,6 +27,7 @@ import { FormTrancheComponent } from './traite-non-proportionnel/condition-trait
 import { FormLimiteSouscriptionComponent } from './traite-non-proportionnel/condition-traite-non-proportion/limite-souscription/form-limite-souscription/form-limite-souscription.component';
 import { FormSousLimiteComponent } from './traite-non-proportionnel/condition-traite-non-proportion/sous-limite/form-sous-limite/form-sous-limite.component';
 import { FormReconstitutionComponent } from './traite-non-proportionnel/condition-traite-non-proportion/reconstitution/form-reconstitution/form-reconstitution.component';
+import { FormAssietePrimeComponent } from './traite-non-proportionnel/condition-traite-non-proportion/assiete-prime/form-assiete-prime/form-assiete-prime.component';
 
 
 @NgModule({
@@ -54,12 +55,14 @@ import { FormReconstitutionComponent } from './traite-non-proportionnel/conditio
     FormTrancheComponent,
     FormLimiteSouscriptionComponent,
     FormSousLimiteComponent,
-    FormReconstitutionComponent
+    FormReconstitutionComponent,
+    FormAssietePrimeComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
     TraiteRoutingModule
   ]
+  
 })
 export class TraiteModule { }

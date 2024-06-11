@@ -126,7 +126,7 @@ export const ROUTES: RouteInfo[] = [
   //   ],
   // },
 
-  // Affaire mise en commentaire
+  // Affaire mise en commentaire jeanluc
   {
     path: "",
     title: "Production",
@@ -139,7 +139,7 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: "",
     code: "MENU_PROD",
     submenu: [
-      {
+      { 
         path: "/traites/traites-non-proportionnel",
         title: "Traites non proportionnel",
         moduleName: "traites",

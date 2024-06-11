@@ -2,38 +2,91 @@
   class="body table-responsive clsOverflow"
   [ngBusy]="{busy: busyGet, message: 'Veuillez patienter ...', backdrop: false}"
 >
+<form [formGroup]="formulaireGroup"  (submit)="confirmSaveItem(formulaireGroup.value)">
  <fieldset class="mb-3 mt-3">
-    <legend>Ajouter une répartition</legend>
-    <div class="row d-flex align-items-end">
-        <div class="col-md-5 col-xs-12 col-sm-12">
-          <label>Réassureur : </label>
-          <ng-select 
-            name="affaireDevise" 
-            id="affaireDevise"
-            notFoundText="Aucune donnée"
-            placeholder="Ex: Aveni Re"
-            [items]=""
-            [multiple]="true"
-            bindLabel="devCode"
-            bindValue="devCode"
-            >
-        </ng-select>
-        </div>
-        <div class="col-md-2 col-xs-12 col-sm-12">
-            <label>Part(%): </label>
-            <input
-              [(ngModel)]="itemToSearch.libelle"
-              class="form-control custom-input pull-left"
-              placeholder="15"
-            />
+    <legend>Ajouter un placement</legend>
+    <div class="row d-flex align-items-end p-3">
+      <!-- <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+        <label class="mb-1">Reste à repartir (%) </label>
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar"  [style.width.%]="repTauxCourtierPlaceur"
+               [attr.aria-valuenow]="repTauxCourtierPlaceur" aria-valuemin="0" aria-valuemax="100">
+            {{repTauxCourtierPlaceur}}%
           </div>
-        <div class="col-md-2 col-xs-12 col-sm-12">
-            <button type="button" class="btn btn-md custom_btn_primary">Ajouter</button>
+        </div>
+      </div> -->
+
+      <div class="col-md-12 col-xs-12 col-sm-12 mb-3">
+        <!-- <label class="mb-1">Déjà repartir(%): </label> -->
+        <div class="progress">
+          <div class="progress-bar bg-success" role="progressbar"  [style.width.%]="repTauxCourtier" [attr.aria-valuenow]="repTauxCourtier"
+               aria-valuemin="0" aria-valuemax="100">
+            {{repTauxCourtier}}%
+          </div>
         </div>
       </div>
+        <div class="col-md-6 col-xs-12 col-sm-12">
+          <label>Réassureur :  <span class="required_champs">*</span></label>
+          <ng-select
+            name="cesId"
+            id="cesId"
+            notFoundText="Aucune donnée"
+            placeholder="Ex: Aveni Re"
+            [items]="listeReassureurs"
+            bindLabel="cesNom"
+            bindValue="cesId"
+            formControlName="cesId"
+            [class.errorInputForm]="
+            getFormFiledsValue('cesId')?.invalid &&
+            getFormFiledsValue('cesId')?.touched"
+            >
+            <small
+          class="text-danger"
+          *ngIf="(getFormFiledsValue('cesId')?.dirty || getFormFiledsValue('cesId')?.touched) && getFormFiledsValue('cesId')?.invalid && getFormFiledsValue('cesId')?.errors?.['required']"
+          >
+            Ce champ est obligatoire
+          </small>
+        </ng-select>
+        </div>
+        <div class="col-md-6 col-xs-12 col-sm-12">
+           <div class="row">
+            <div class="col-md-6 col-xs-12 col-sm-12">
+              <label>Part(%):  <span class="required_champs">*</span></label>
+            <input
+              class="form-control custom-input pull-left text-end" name="repTaux"
+              formControlName="repTaux"
+              [class.errorInputForm]="
+              getFormFiledsValue('repTaux')?.invalid &&
+              getFormFiledsValue('repTaux')?.touched"
+              placeholder="15"
+            />
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('repTaux')?.dirty || getFormFiledsValue('repTaux')?.touched) && getFormFiledsValue('repTaux')?.invalid && getFormFiledsValue('repTaux')?.errors?.['required']"
+              >
+                Ce champ est obligatoire
+              </small>
+            </div>
+            <div class="col-md-4 col-xs-12 col-sm-12 d-flex align-items-end justify-content-center">
+              <input type="checkbox" name="aperiteur" id="aperiteur" value="option1"
+              formControlName="aperiteur"
+              [class.errorInputForm]="
+              getFormFiledsValue('aperiteur')?.invalid &&
+              getFormFiledsValue('aperiteur')?.touched"
+              style="margin-bottom: 8px;">
+              <label class="" for="aperiteur" style="padding-left: 12px;">
+                Apériteur ?
+              </label>
+          </div>
+            <div class="col-md-2 col-xs-12 col-sm-12 d-flex align-items-end">
+              <button type="submit" class="btn btn-md custom_btn_primary">Ajouter</button>
+          </div>
+           </div>
+          </div>
+      </div>
  </fieldset>
-          
- 
+</form>
+
   <table class="table table-condensed table-striped table-hover">
     <thead>
       <tr>
@@ -61,9 +114,9 @@
     </thead>
 
     <tbody>
-      <tr *ngFor="let item of items; let indice = index">
-        <td>{{ item?.exeCode }}</td>
-        <td>{{ item?.affCode }}</td>
+      <tr *ngFor="let item of items; let indice = index" [ngClass]="{'cls-aperiteur': item.aperiteur}">
+        <td>{{ item?.cesNom }}</td>
+        <td>{{ item?.repTaux }}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">
@@ -80,25 +133,24 @@
                   aria-labelledby="action"
                   class="dropdown-validation-plainte"
                 >
-               
                   <button
                   ngbDropdownItem
                   (click)="openModal(templateDetailsAffaire,item)"
                 >
                   <i class="fa fa-list"></i>&nbsp;Détails l'affaire
                 </button>
-  
+
                   <button
                     ngbDropdownItem
                     (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
                   >
                     <i class="fa fa-money-bill"></i>&nbsp;Paiement
                   </button>
-  
+
                   <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
                     <i class="fa fa-redo-alt"></i>&nbsp; Reversement
-                  </button>                 
-                  
+                  </button>
+
                 </div>
               </div>
             </div>
@@ -152,8 +204,7 @@
   </table>
 </div>
 
-
-<ng-template #templatePaiement> 
+<ng-template #templatePaiement>
     <div class="modal-header">
       <h4 class="modal-title pull-left">
         {{isOngletPaiement ? 'Paiement':'Reversement' }} affaire N° {{itemToSave?.affCode}}

@@ -5,7 +5,7 @@
   <table class="table table-condensed table-striped table-hover">
     <thead>
       <tr>
-        <th colspan="7">
+        <th colspan="7" class="specialTh-cls">
           <div class="row d-flex align-items-center">
             <div class="col-md-9 col-xs-12 col-sm-12">
               <!-- <label>Rechercher par mot clé : </label> -->
@@ -46,12 +46,18 @@
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td> -->
 
-        <td>{{ item?.exeCode }}</td>
-        <td>{{ item?.affCode }}</td>
-        <td>{{ item?.affCode }}</td>
-        <td>{{ item?.affCode }}</td>
-        <td>{{ item?.affCode }}</td>
-        <td>{{ item?.affCode }}</td>
+        <td>{{ item?.trancheLibelle }}</td>
+        <td>{{ item?.trancheType }}</td>
+        <td>
+          <span *ngFor="let elt of item.categories ; let i = index; let last = last">
+            <span>
+              {{ elt?.categorieLibelle }}<span *ngIf="!last">;</span>
+            </span>
+          </span>        
+        </td>
+        <td>{{ item?.couLibelle }}</td>
+        <td>{{ item?.tranchePriorite }}</td>
+        <td>{{ item?.tranchePorte }}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">
@@ -78,13 +84,13 @@
   
                   <button
                     ngbDropdownItem
-                    (click)="openModal(templatePaiement,item)"  *ngIf="isOngletPaiement"
+                    (click)="openModal(templatePaiement,item)"
                   >
-                    <i class="fa fa-money-bill"></i>&nbsp;Paiement
+                    <i class="fa fa-edit"></i>&nbsp;Modifier
                   </button>
   
-                  <button ngbDropdownItem (click)="openModal(templatePaiement,item)" *ngIf="isOngletReversement" >
-                    <i class="fa fa-redo-alt"></i>&nbsp; Reversement
+                  <button ngbDropdownItem (click)="openModal(templatePaiement,item)">
+                    <i class="fa fa-trash"></i>&nbsp; Supprimer
                   </button>                 
                   
                 </div>
@@ -98,9 +104,9 @@
       <tr *ngIf="items && items.length > 0">
         <td colspan="14">
           <div class="row pagination-part">
-            <div class="col-md-9" style="text-align: center">
+            <div class="col-md-7" style="text-align: center">
               <pagination
-                [boundaryLinks]="true"
+                [boundaryLinks]="false"
                 [itemsPerPage]="itemsPerPage"
                 [totalItems]="totalItems"
                 [(ngModel)]="currentPage"
@@ -112,16 +118,16 @@
                 (pageChanged)="pageChanged($event)"
               ></pagination>
             </div>
-
-            <div class="col-md-3">
+  
+            <div class="col-md-5">
               <div class="paginator-per-page">
                 <app-element-by-page-paginator
                   (paginationChange)="changePaginationSize($event)"
                   [defaultItemPerPage]="itemsPerPage"
                 ></app-element-by-page-paginator>
-
+  
                 <span class="span_total_entree pull-right"
-                  >Total : {{ totalItems }}</span
+                  >Total :{{ totalItems }}</span
                 >
               </div>
             </div>
@@ -153,6 +159,7 @@
     </div>
     <div class="modal-body">
       <!-- <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement> -->
-      <app-form-tranche [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-tranche>
+      <app-form-tranche [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement" [itemsUpdate]="dataCurrent"
+                        [idTraitNonProChildrenSed]="idTraitNonProChildren" (closeModal)="closeModal($event)"></app-form-tranche>
     </div>
   </ng-template>

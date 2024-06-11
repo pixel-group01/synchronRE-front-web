@@ -1,21 +1,22 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { BusinessOptional } from 'src/app/core/models/businessOptional';
-import { Cedante } from 'src/app/core/models/cedante';
-import { Couverture } from 'src/app/core/models/couverture';
 import { Devise } from 'src/app/core/models/devise';
 import { Exercice } from 'src/app/core/models/exercice';
-import { User } from 'src/app/core/models/user';
-import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
-import { CedanteService } from 'src/app/core/service/cedante.service';
-import { CouvertureService } from 'src/app/core/service/couverture.service';
+import { User } from 'src/app/core/models/user';;
 import { DeviseService } from 'src/app/core/service/devise.service';
 import { ExerciceService } from 'src/app/core/service/exercice.service';
 import { UserService } from 'src/app/core/service/user.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from 'sweetalert2';
 import * as _ from "lodash";
+import { NatureService } from 'src/app/core/service/nature.service';
+import { PeriodiciteService } from 'src/app/core/service/periodicite.service';
+import { ExoRattachementService } from 'src/app/core/service/exo-rattachement.service';
+import { TraiteNonProportionnel } from 'src/app/core/models/traite-non-proportionnel.model';
+import { TraiteNonProportionnelService } from 'src/app/core/service/traite-non-proportionnel.service';
+import * as moment from 'moment';
+import {CessionnaireService} from "../../../core/service/cessionnaire.service";
 
 @Component({
   selector: 'app-information-general-traite-non-proportion',
@@ -24,113 +25,129 @@ import * as _ from "lodash";
 })
 export class InformationGeneralTraiteNonProportionComponent implements OnInit {
 
-  itemToSave: BusinessOptional = {};
   formulaireGroup!: FormGroup;
-  listeCedente: Array<Cedante> = [];
-  listeCouvertures: Array<Couverture> = [];
   listeDevises: Array<Devise> = [];
+
   isUpdateForm : boolean = false;
   dateActuelle = new Date();
   busySave : Subscription;
-  currentAffaire: BusinessOptional;
+  currentTraiteNonPropor: TraiteNonProportionnel;
   user : User;
   listeExercices: Array<Exercice> = [];
-   natureListe : any = [
-     {natLibelle  : 'Excédent de sinistres incendie et ADAB'},
-     { natLibelle  : 'XL Catastr 1è T'},
-     { natLibelle  : 'XL Catastr 2è T'},
-     { natLibelle  : 'XL Catastr 3è T'},
-     { natLibelle  : 'XL Catastr 4è T'},
-     { natLibelle  : 'XL Catastr 5è T'}
-   ];
-  exoRattachement : any = [
-    {exeLibelle  : 'Exercice de souscription '},
-    { exeLibelle  : 'Exercice de survenance'}
-  ];
 
-  deviseListe : any = [
-    {devLibelle  : 'XOF'},
-    { devLibelle  : 'EURO'},
-    { devLibelle  : 'DOLLAR'}
-  ];
-
-  PeriodiciteListe : any = [
-    {perLibelle  : 'Annuelle'},
-    { perLibelle  : 'Semestrielle'},
-    { perLibelle  : 'Trismestrielle'},
-    { perLibelle  : 'Mensuelle'}
-  ];
-  listeStatus : any = [
-    {
-      libelle: "Réalisée",
-      code : 'REALISEE'
-    },
-    {
-      libelle: "En instance",
-      code : 'INSTANCE'
-    },
-    {
-      libelle: "Non réalisée",
-      code : 'NON_REALISEE'
-    }
-  ]
+  natureListe : any =[];
+  exoRattachement : any = [];
+  periodiciteListe : any = [];
+  courtierPlaceurListe : any =[];
+  formDate :any={};
+  traiDateEffet :string;
+  traiDateEcheance :string;
+ 
   @Input() isDetails:boolean = false;
-  @Input() itemToUpdate: BusinessOptional;
+  @Input() itemToUpdate: TraiteNonProportionnel;
   @Input() isWizardProcess:boolean = false;
+  @Input() idTraitNonProChild: number;
+  @Input() currentTraiterNonPropoChild: any;
+  
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  @Output() sendInfoParent: EventEmitter<number> = new EventEmitter();
   @Output() stepperInice: EventEmitter<number> = new EventEmitter();
 
   constructor(
     private formBuilder: FormBuilder,
-    private cedanteServcie: CedanteService,
-    private couvertureService: CouvertureService,
-    private businessOptionalService: BusinessOptionalService,
+    private traiteNonPropertionnelService: TraiteNonProportionnelService,
     private utilities: UtilitiesService,
     private exerciceService: ExerciceService,
     private userService:UserService,
+    private natureService : NatureService,
+    private cessionnaireService : CessionnaireService,
+    private periodiciteListeService : PeriodiciteService,
+    private exoRattachemenService : ExoRattachementService,
     private deviseService:DeviseService
   ) {
     this.user = this.userService.getCurrentUserInfo();
-  }
-
-  getCedente() {
-    this.cedanteServcie.getAll().subscribe((response: any) => {
-      if (response && response["content"]) {
-        this.listeCedente = response["content"] as Cedante[];
-
-        if(this.user.cedId) {
-          this.createForm();
-        }
-
-      } else {
-        this.listeCedente = [];
-      }
-    });
+    
   }
 
   getDevise() {
     this.deviseService.getAll().subscribe((response: any) => {
       if (response) {
         this.listeDevises = response as Devise[];
-
-        this.listeDevises =   _.orderBy( this.listeDevises, ['devLibelle'], ['asc']);
-
-        if(this.itemToUpdate && this.itemToUpdate.affId) {
-          this.createForm();
+        this.listeDevises =   _.orderBy( this.listeDevises, ['devCode'], ['asc']);
+        this.formulaireGroup.patchValue({'devCode':'XOF','traiCompteDevCode':'XOF' });
+        if(this.formulaireGroup.value.devCode =="XOF"){
+            this.formulaireGroup.patchValue({'traiCoursDevise':1});
         }
-
       } else {
         this.listeDevises = [];
       }
     });
   }
 
-  getCouverture() {
-    this.couvertureService.getAll().subscribe((response) => {
-      if (response && response["content"]) {
-        this.listeCouvertures = response["content"] as Couverture[];
+  clearCours(){
+    if(this.formulaireGroup.value.devCode !="XOF" || this.formulaireGroup.value.traiCoursDevise ==1){
+      this.formulaireGroup.patchValue({'traiCoursDevise': ""});
+     }else{
+      this.formulaireGroup.patchValue({'traiCoursDevise':1});
+    }
+  }
+
+  getNature() {
+    this.natureService.getAll().subscribe((response) => {
+      if (response) {
+        this.natureListe = _.orderBy( (response), ['formeLibelle'], ['asc']);
       } else {
-        this.listeCouvertures = [];
+        this.natureListe = [];
+      }
+    });
+  }
+
+  getCourtierPlaceurs() {
+    this.cessionnaireService.getCourtiersPlaceurs().subscribe((response) => {
+      if (response) {
+        this.courtierPlaceurListe = response;
+      } else {
+        this.courtierPlaceurListe = [];
+      }
+    });
+  }
+
+  getExoRattachement() {
+    this.exoRattachemenService.getAll().subscribe((response) => {
+      if (response) {
+        this.exoRattachement = response;
+      } else {
+        this.exoRattachement = [];
+      }
+    });
+  }
+
+  formatDateTraiDateEffet(evt:any){
+    if(evt){
+      this.traiDateEffet = moment(evt).format("YYYY-MM-DD");
+    }
+  }
+
+  formatDateTraiDateEcheance(evt:any){
+    if(evt){
+      this.traiDateEcheance = moment(evt).format("YYYY-MM-DD");
+    }
+  }
+
+  getEditTraiterNonPropo(idTraitNonPro :number){
+    this.traiteNonPropertionnelService.getEdit(idTraitNonPro).subscribe((res:any)=>{
+      // console.log("res retour :", res);
+      this.formulaireGroup.patchValue({...res})
+    })
+  }
+
+  getPeriodiciteListe() {
+    this.periodiciteListeService.getAll().subscribe((response) => {
+      if (response) {
+        this.periodiciteListe = response;
+
+      } else {
+        this.periodiciteListe = [];
       }
     });
   }
@@ -138,12 +155,9 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
   getExercice() {
     this.exerciceService.getAll().subscribe((response : any) => {
       if (response) {
-
-        console.log(" response exercice ",response);
-
         this.listeExercices = response as Exercice[];
         // Recuperer l'exercice courante et fixer
-        if(!this.currentAffaire.affId) {
+        if(!this.currentTraiteNonPropor?.traiteNpId) {
           let currentExercice = _.find(this.listeExercices, (o) => { return o.exeCourant });
           console.log(" currentExercice ",currentExercice);
 
@@ -151,10 +165,8 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
             setTimeout(() => {
               this.formulaireGroup.patchValue({'exeCode':currentExercice?.exeCode})
             }, 1000);
-
           }
         }
-
       } else {
         this.listeExercices = [];
       }
@@ -162,57 +174,40 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
   }
 
   createForm = () => {
-
-    console.log(" this.itemToUpdate ",this.itemToUpdate);
-
+    // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
-      affId: [this.itemToUpdate?.affId || ""],
-      affCode: [this.itemToUpdate?.affCode || ""],
-      affAssure: [this.itemToUpdate?.affAssure || "", Validators.required],
-      affActivite: [this.itemToUpdate?.affActivite || "", Validators.required],
-      affDateEffet: [
-        this.itemToUpdate?.affDateEffet || ""
-      ],
-      affDateEcheance: [
-        this.itemToUpdate?.affDateEcheance || ""
-      ],
-      facNumeroPolice: [
-        this.itemToUpdate?.facNumeroPolice || ""
-      ],
-      affCapitalInitial: [
-        this.itemToUpdate?.affCapitalInitial || "",
-        Validators.required,
-      ],
-      devCode: [
-        this.itemToUpdate?.devCode || "XOF",
-        Validators.required,
-      ],
-      affStatutCreation: [
-        this.itemToUpdate?.affStatutCreation || "",
-        Validators.required,
-      ],
-      facSmpLci: [this.itemToUpdate?.facSmpLci || ""],
-      facPrime: [this.itemToUpdate?.facPrime || ""],
-      cedId: [ (this.itemToUpdate?.cedId || this.user?.cedId || this.itemToSave.cedenteId) || "", Validators.required],
-      statutCode: [this.itemToUpdate?.statutCode || ""],
-      couvertureId: [ (this.itemToUpdate?.couvertureId || this.itemToUpdate?.couId) || "", Validators.required],
-      exeCode: [this.itemToUpdate?.exeCode || "", Validators.required],
-      restARepartir: [""],
-      capitalDejaReparti: [
-        this.itemToUpdate?.capitalDejaReparti || ""
-      ],
+      traiteNpId : [""],
+      natCode: [null, Validators.required],
+      traiNumero: ["", Validators.required],
+      exeCode: ["", Validators.required],
+      traiReference: ["", Validators.required],
+      traiEcerciceRattachement: [null],
+      traiDateEffet: ["", Validators.required,],
+      traiDateEcheance: ["", Validators.required,],
+      traiCoursDevise: [ "", Validators.required,],
+      courtierPlaceurId: [ null, Validators.required ],
+      traiPeriodicite: [null, Validators.required],
+      traiDelaiEnvoi: ["", Validators.required],
+      traiDelaiConfirmation: ["", Validators.required],
+      traiTauxCourtier: ["", Validators.required],
+      traiCompteDevCode:[null, Validators.required],
+      devCode: [null, Validators.required],
+      traiSourceRef: [null],
+      traiTauxCourtierPlaceur: ["",Validators.required],
     });
+
+
   };
 
   getFormFiledsValue = (field: string) => {
     return this.formulaireGroup.get(field);
   };
 
-  confirmSaveItem() {
+  confirmSaveItem(item:TraiteNonProportionnel) {
     Swal.fire({
       title: "Identification",
       text:
-        this.itemToUpdate?.affId && this.itemToUpdate?.affId > 0
+          this.idTraitNonProChild || this.currentTraiterNonPropoChild?.traiteNpId 
           ? "Vous êtes sur le point de modifier une identification. Voulez-vous poursuivre cette action ?"
           : "Vous êtes sur le point d'enregistrer une identification. Voulez-vous poursuivre cette action ?",
       icon: "warning",
@@ -224,98 +219,91 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         // On effectue l'enregistrement
-        this.saveItem(this.formulaireGroup.value);
+        this.saveItem(item);
       }
     });
   }
 
-  saveItem(item: BusinessOptional) {
-    this.stepperInice.emit(2);
-    return
-    let itemAEnregistrer = Object.assign({}, item);
-    if (!this.isUpdateForm) {
+  saveItem(item: TraiteNonProportionnel) {
+    let itemAEnregistrer = {...item};
+   
+    if (!itemAEnregistrer.traiteNpId) {
       // nous sommes au create
-      this.busySave = this.businessOptionalService
+    if (this.traiDateEffet) {
+      itemAEnregistrer.traiDateEffet = this.traiDateEffet
+    }
+    if (this.traiDateEcheance) {
+      itemAEnregistrer.traiDateEcheance = this.traiDateEcheance
+    }
+      this.busySave = this.traiteNonPropertionnelService
         .create(itemAEnregistrer)
         .subscribe((response: any) => {
-          if (response && response.affId) {
+          if (response) {
             this.utilities.showNotification(
               "snackbar-success",
               this.utilities.getMessageOperationSuccessFull(),
               "bottom",
               "center"
             );
-
-            console.log(" response ",response);
-            if(!itemAEnregistrer.facSmpLci) {
-              this.closeModal.emit(true);
-              return
-            }
-
-            // On souscrit à l'observable
-            this.businessOptionalService.setCurrentOptionalBusiness(
-              response as BusinessOptional
-            );
+            // console.log(" response ",response);
             this.stepperInice.emit(2);
           }
+          this.sendInfoParent.emit(response.traiteNpId)
           // this.closeModal.emit(true);
         });
     } else {
       // Nous sommes en modification
-      itemAEnregistrer.facCapitaux = itemAEnregistrer.affCapitalInitial;
-      this.busySave = this.businessOptionalService
+      // if(this.currentTraiterNonPropoChild && this.currentTraiterNonPropoChild.traiteNpId){
+      //     this.formulaireGroup.patchValue({...this.currentTraiterNonPropoChild,
+      //       traiDateEffet: moment(this.currentTraiterNonPropoChild.traiDateEcheance).format("YYYY-MM-DD"),
+      //       traiDateEcheance:moment(this.currentTraiterNonPropoChild.traiDateEffet).format("YYYY-MM-DD"),
+      //     })
+      // }
+      this.busySave = this.traiteNonPropertionnelService
         .update(itemAEnregistrer)
         .subscribe((response: any) => {
-          if (response && response?.affId) {
+          if (response) {
             this.utilities.showNotification(
               "snackbar-success",
               this.utilities.getMessageOperationSuccessFull(),
               "bottom",
               "center"
             );
-          }
-
-          if (!this.isWizardProcess) {
-            this.closeModal.emit(true);
-          } else {
-            // Nous sommes toujours sur le wizard
-             // On souscrit à l'observable
-             this.businessOptionalService.setCurrentOptionalBusiness(
-              response as BusinessOptional
-            );
+            if (this.currentTraiterNonPropoChild) {
+              this.closeModal.emit(true);
+              return
+            }
             this.stepperInice.emit(2);
           }
+
+          // if (!this.isWizardProcess) {
+          //   this.closeModal.emit(true);
+          // }
         });
     }
   }
 
-
   ngOnInit(): void {
-    // Initialisation du forms group
-
-    this.currentAffaire = {...this.businessOptionalService.businessOptionalSubject$.value};
-
-    if(this.currentAffaire && this.currentAffaire.affId) {
-      this.isUpdateForm = true; // Pour signifier que nous sommes en modification
-      this.itemToUpdate = {...this.currentAffaire};
-      this.itemToUpdate.cedId = this.itemToUpdate.cedanteId || this.itemToUpdate.cedId  || this.itemToUpdate.cedenteId ;
-      this.itemToUpdate.affCapitalInitial = this.itemToUpdate.affCapitalInitial || this.itemToUpdate.facCapitaux;
-      // Nous allons formater la date pour eviter invalid date
-      if(this.itemToUpdate && this.itemToUpdate.affDateEffet) {
-        this.itemToUpdate.affDateEffet = this.utilities.formatDateInIsoData(this.itemToUpdate.affDateEffet);
-      }
-
-      if(this.itemToUpdate && this.itemToUpdate.affDateEcheance) {
-        this.itemToUpdate.affDateEcheance = this.utilities.formatDateInIsoData(this.itemToUpdate.affDateEcheance);
-      }
-    }
-
     this.createForm();
-    this.getCedente();
-    this.getCouverture();
+    this.getDevise()
+    this.getNature()
+    this.getPeriodiciteListe();
     this.getExercice();
     this.getDevise();
-  }
+    this.getCourtierPlaceurs();
+    this.getExoRattachement();
+    console.log('currentTraiterNonPropoChild :', this.currentTraiterNonPropoChild);
+    if(this.currentTraiterNonPropoChild && this.currentTraiterNonPropoChild.traiteNpId){
+      const item = {...this.currentTraiterNonPropoChild}      
+        this.formulaireGroup.patchValue({...this.currentTraiterNonPropoChild,
+          traiDateEffet: moment(item.traiDateEcheance).format("YYYY-MM-DD"),
+          traiDateEcheance:moment(item.traiDateEffet).format("YYYY-MM-DD"),
+        })
+    }
+    if (this.idTraitNonProChild) {
+        this.getEditTraiterNonPropo(this.idTraitNonProChild)
+    }
+  } 
 
   // ngOnChanges(changes: SimpleChanges) {
   //   if (changes["itemToUpdate"] && changes["itemToUpdate"].currentValue) {

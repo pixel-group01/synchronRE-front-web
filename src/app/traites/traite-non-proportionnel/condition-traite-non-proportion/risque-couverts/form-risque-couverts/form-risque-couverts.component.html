@@ -1,43 +1,70 @@
-<div class="row">
-    <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
-        <label>Branche : <span class="required_champs">*</span> </label>
+<div class="row" 
+class="body table-responsive clsOverflow"
+  [ngBusy]="{busy: busyGet, message: 'Veuillez patienter ...', backdrop: false}"
+>
+    <form [formGroup]="formulaireGroup" (submit)="confirmSaveItem(formulaireGroup.value)">
+      <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
+        <label>Couverture : <span class="required_champs">*</span> </label>
 
         <ng-select
-          name="risqueLibelle"
-          id="risqueLibelle"
-        >
+          formControlName="couId"
+          name="couId"
+          id="couId" 
+          [class.errorInputForm]="
+          getFormFiledsValue('couId')?.invalid &&
+          getFormFiledsValue('couId')?.touched
+        "
+          (change)="getActivites(formulaireGroup.value.couId)"
+        > 
           <ng-option
-            *ngFor="let risque of risqueListe"
-            [value]="risque"
-            >{{ risque.risqueLibelle }}</ng-option
+            *ngFor="let risque of couverturesListe"
+            [value]="risque.couId"
+            >{{ risque.couLibelle }}</ng-option
           >
         </ng-select>
+        <small
+        class="text-danger"
+        *ngIf="(getFormFiledsValue('couId')?.dirty || getFormFiledsValue('couId')?.touched) && getFormFiledsValue('couId')?.invalid && getFormFiledsValue('couId')?.errors?.['required']"
+      >
+        Ce champ est obligatoire
+      </small>
       </div>
-  <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
+    <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
     <label>Activité : <span class="required_champs">*</span> </label>
-
     <ng-select
-      name="risqueLibelle"
-      id="risqueLibelle"
-    >
+      formControlName="activiteCode"
+      name="activiteCode"
+      id="activiteCode"
+      [class.errorInputForm]="
+      getFormFiledsValue('activiteCode')?.invalid &&
+      getFormFiledsValue('activiteCode')?.touched
+    "> 
       <ng-option
-        *ngFor="let risque of risqueListe"
-        [value]="risque"
-      >{{ risque.risqueLibelle }}</ng-option
+        *ngFor="let risque of activitesListe"
+        [value]="risque.activiteCode"
+      >{{ risque.couLibelle }}</ng-option
       >
     </ng-select>
+    <small
+    class="text-danger"
+    *ngIf="(getFormFiledsValue('activiteCode')?.dirty || getFormFiledsValue('activiteCode')?.touched) && getFormFiledsValue('activiteCode')?.invalid && getFormFiledsValue('activiteCode')?.errors?.['required']"
+  >
+    Ce champ est obligatoire
+  </small>
   </div>
 
       <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
         <label>Description : <span class="required_champs">*</span> </label>
-        <textarea class="form-control custom-input" name="descrip" id="descrip" formControlName="docDescription"
+        <textarea class="form-control custom-input" name="descrip" id="descrip" formControlName="description"
             cols="30" rows="5" placeholder="Description">
-                </textarea>
+       </textarea>
+      
       </div>
 
       <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
-        <button type="button" (click)="confirmSaveItem(itemToSave)"
-                                        class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
+        <button type="submit" class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
       </div>
+    </form>
+ 
 
     </div>

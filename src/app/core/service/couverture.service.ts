@@ -14,6 +14,10 @@ export class CouvertureService {
   getAll = () => {
     return this.restClient.get('couvertures/list');
   }
+
+  getCouvertureParents =() =>{
+    return this.restClient.get('couvertures/parents');
+  }
  
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {
     let endPointFinal = "couvertures/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");

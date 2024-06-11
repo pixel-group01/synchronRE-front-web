@@ -107,7 +107,6 @@ import { SearchInterlocuteurComponent } from "../business-manager/affaire-facuta
     MatButtonModule,
     ChartModule,
     PopoverModule.forRoot(),
-
     UiSwitchModule.forRoot({
       size: 'small',
       color: 'red',
