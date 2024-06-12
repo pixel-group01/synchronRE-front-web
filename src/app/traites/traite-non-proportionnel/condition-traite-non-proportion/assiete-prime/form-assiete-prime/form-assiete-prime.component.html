@@ -13,13 +13,13 @@
               getFormFiledsValue('cedId')?.invalid &&
               getFormFiledsValue('cedId')?.touched
             "
-      > 
+      >
         <ng-option
           *ngFor="let cedante of cedanteListe"
           [value]="cedante.cedId"
           >{{ cedante.cedNomFiliale }}</ng-option
         >
-      </ng-select> 
+      </ng-select>
       <small
       class="text-danger"
       *ngIf="(getFormFiledsValue('cedId')?.dirty || getFormFiledsValue('cedId')?.touched) && getFormFiledsValue('cedId')?.invalid && getFormFiledsValue('cedId')?.errors?.['required']"
@@ -36,27 +36,27 @@
         class="form-control custom-input text-end"
         formControlName="assiettePrime"
         placeholder=""
-        autocomplete="off" 
+        autocomplete="off"
         name="assiettePrime"
         mask="separator"
         type="text"
         (keyup)="calculPmd()"
-        [class.errorInputForm]=" 
+        [class.errorInputForm]="
         getFormFiledsValue('assiettePrime')?.invalid &&
         getFormFiledsValue('assiettePrime')?.touched
-      "> 
-      <small 
+      ">
+      <small
       class="text-danger"
       *ngIf="(getFormFiledsValue('assiettePrime')?.dirty || getFormFiledsValue('assiettePrime')?.touched) && getFormFiledsValue('assiettePrime')?.invalid && getFormFiledsValue('assiettePrime')?.errors?.['required']"
     >
       Ce champ est obligatoire
     </small>
     </div>
- 
+
       <div class="col-md-4 col-xs-12 col-sm-4 mb-2">
         <label>Taux de prime : <span class="required_champs">*</span> </label>
         <input
-        class="form-control custom-input"
+        class="form-control custom-input text-end"
         placeholder=""
         formControlName="tauxPrime"
         autocomplete="off"
@@ -80,16 +80,17 @@
           <span class="required_champs">*</span>
         </label>
         <input
-          class="form-control custom-input"
+          class="form-control custom-input text-end"
           placeholder=""
           formControlName="pmd"
           autocomplete="off"
           name="affAssure"
           type="text"
+          mask="separator"
           [class.errorInputForm]="
           getFormFiledsValue('pmd')?.invalid &&
           getFormFiledsValue('pmd')?.touched
-        ">  
+        ">
         <small
         class="text-danger"
         *ngIf="(getFormFiledsValue('pmd')?.dirty || getFormFiledsValue('pmd')?.touched) && getFormFiledsValue('pmd')?.invalid && getFormFiledsValue('pmd')?.errors?.['required']"
@@ -98,9 +99,9 @@
       </small>
       </div>
 
-    </div> 
+    </div>
     </form>
-  
+
       <div class="col-md-12 col-xs-12 col-sm-12 mt-3 mb-3">
         <fieldset>
           <legend>PMD par cession legale</legend>
@@ -115,7 +116,7 @@
                 <th class="text-center"></th>
                 </tr>
             </thead>
-         
+
             <tbody>
               <tr *ngFor="let item of listeCessionLegale; let indice = index">
                 <!-- <td class="txt-align-center">
@@ -142,28 +143,29 @@
                       name="pmd{{indice}}"
                       autocomplete="off"
                       name="pmd"
+                      mask="separator"
                       type="text">
                 </td>
                 <td>
                   <input
-                  class="form-control custom-input"
+                  class="form-control custom-input text-center"
                   placeholder=""
                   [(ngModel)]="item.tauxCourtier"
                   name="tauxCourtier{{indice}}"
                   autocomplete="off"
                   name="tauxCourtier"
                   type="text"
-                  >  
+                  >
                 </td>
                 <td>
                   <input
-                  class="form-control custom-input"
+                  class="form-control custom-input text-center"
                   placeholder=""
                   [(ngModel)]="item.tauxCourtierPlaceur"
                   name="tauxCourtierPlaceur{{indice}}"
                   autocomplete="off"
                   name="tauxCourtierPlaceur"
-                  type="text">  
+                  type="text">
                 </td>
                 <td>
                   <input
@@ -177,7 +179,7 @@
                 </td>
               </tr>
             </tbody>
-        
+
             <tfoot>
               <tr *ngIf="!items || items.length == 0">
                 <td colspan="5">
@@ -186,10 +188,10 @@
                   </div>
                 </td>
               </tr>
-            </tfoot> 
+            </tfoot>
           </table>
         </fieldset>
-      </div>       
+      </div>
 
       <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
         <button type="button" [disabled]="!formulaireGroup.valid"  (click)="confirmSaveItem(formulaireGroup.value)"
@@ -197,5 +199,4 @@
       </div>
 
 </section>
-  
-  
+
