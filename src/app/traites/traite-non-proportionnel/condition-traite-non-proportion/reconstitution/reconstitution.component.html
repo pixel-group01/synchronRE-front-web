@@ -31,8 +31,6 @@
         </th> -->
         <th>Tranches</th>
         <th>Nbre de reconstitution</th>
-        <th>Taux de reconstitution</th>
-        <th>Taux de prime</th>
         <th>Mode de calcul</th>
         <th class="txt-align-center">Actions</th>
 
@@ -47,8 +45,6 @@
 
         <td>{{ item?.trancheLibelle }}</td>
         <td>{{ item?.nbrReconstitution }}</td>
-        <td>{{ item?.tauxReconstitution }}</td>
-        <td>{{ item?.tauxPrimeReconstitution }}</td>
         <td>{{ item?.modeCalculReconstitution }}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
@@ -66,32 +62,32 @@
                   aria-labelledby="action"
                   class="dropdown-validation-plainte"
                 >
-               
+
                   <button
                   ngbDropdownItem
                   (click)="openModal(templateDetailsAffaire,item)"
                 >
                   <i class="fa fa-list"></i>&nbsp;Détails l'affaire
                 </button>
-  
+
                   <button
                     ngbDropdownItem
                     (click)="openModal(templatePaiement,item)"
                   >
                     <i class="fa fa-edit"></i>&nbsp;Modifier
                   </button>
-  
+
                   <button ngbDropdownItem (click)="openModal(templatePaiement,item)" >
                     <i class="fa fa-trash"></i>&nbsp; Supprimer
-                  </button>                 
-                  
+                  </button>
+
                 </div>
               </div>
             </div>
           </td>
       </tr>
     </tbody>
- 
+
     <tfoot>
       <tr *ngIf="items && items.length > 0">
         <td colspan="14">
@@ -110,14 +106,14 @@
                 (pageChanged)="pageChanged($event)"
               ></pagination>
             </div>
-  
+
             <div class="col-md-5">
               <div class="paginator-per-page">
                 <app-element-by-page-paginator
                   (paginationChange)="changePaginationSize($event)"
                   [defaultItemPerPage]="itemsPerPage"
                 ></app-element-by-page-paginator>
-  
+
                 <span class="span_total_entree pull-right"
                   >Total :{{ totalItems }}</span
                 >
@@ -139,7 +135,7 @@
 </div>
 
 
-<ng-template #templatePaiement> 
+<ng-template #templatePaiement>
     <div class="modal-header">
       <h4 class="modal-title pull-left">
         Nouvelle reconstitution
