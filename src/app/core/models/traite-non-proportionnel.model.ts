@@ -18,4 +18,5 @@ export class TraiteNonProportionnel {
     traiSourceRef: string;
     traiTauxCourtierPlaceur: number;
     traiTauxAbattement: number;
+    traiDelaiPaiement: number;
 }

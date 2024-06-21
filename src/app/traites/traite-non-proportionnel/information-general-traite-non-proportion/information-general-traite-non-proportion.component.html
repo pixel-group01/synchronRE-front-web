@@ -287,8 +287,6 @@
               Ce champ est obligatoire
             </small>
           </div>
-
-
             <div class="col-md-3 col-xs-12 mb-1">
               <label
                 >Delai d'envoi (jours) :
@@ -296,7 +294,7 @@
               </label>
               <input
                 class="form-control custom-input"
-                placeholder="Delai d'envoi"
+                placeholder=""
                 autocomplete="off"
                 formControlName="traiDelaiEnvoi"
                 name="traiDelaiEnvoi"
@@ -314,15 +312,14 @@
                 Ce champ est obligatoire
               </small>
             </div>
-
-            <div class="col-md-3 col-xs-12 mb-1">
+            <div class="col-md-2 col-xs-12 mb-1">
               <label
-                >Délai de confirmation :
+                >Délai de confirmation
                 <span class="required_champs">*</span>
               </label>
               <input
                 class="form-control custom-input"
-                placeholder="Délai ..."
+                placeholder=""
                 autocomplete="off"
                 formControlName="traiDelaiConfirmation"
                 name="traiDelaiConfirmation"
@@ -336,11 +333,33 @@
                 class="text-danger"
                 *ngIf="(getFormFiledsValue('traiDelaiConfirmation')?.dirty || getFormFiledsValue('traiDelaiConfirmation')?.touched) && getFormFiledsValue('traiDelaiConfirmation')?.invalid && getFormFiledsValue('traiDelaiConfirmation')?.errors?.['required']"
               >
-                Ce champ est obligatoire
+                Champ obligatoire
               </small>
             </div>
-
-          <div class="col-md-3 col-xs-12 col-sm-12 mb-1">
+          <div class="col-md-2 col-xs-12 col-sm-12 mb-1">
+            <label>Délai de paiement :
+              <span class="required_champs">*</span>
+            </label>
+            <input
+              class="form-control custom-input"
+              placeholder=""
+              autocomplete="off"
+              formControlName="traiDelaiPaiement"
+              name="traiDelaiPaiement"
+              [class.errorInputForm]="
+                  getFormFiledsValue('traiDelaiPaiement')?.invalid &&
+                  getFormFiledsValue('traiDelaiPaiement')?.touched
+                "
+              type="text"
+            />
+            <small
+              class="text-danger"
+              *ngIf="(getFormFiledsValue('traiDelaiPaiement')?.dirty || getFormFiledsValue('traiDelaiPaiement')?.touched) && getFormFiledsValue('traiDelaiPaiement')?.invalid && getFormFiledsValue('traiDelaiPaiement')?.errors?.['required']"
+            >
+              Champ obligatoire
+            </small>
+          </div>
+          <div class="col-md-2 col-xs-12 col-sm-12 mb-1">
             <label>Devise : <span class="required_champs">*</span> </label>
 
             <ng-select
@@ -358,7 +377,7 @@
               class="text-danger"
               *ngIf="(getFormFiledsValue('traiCompteDevCode')?.dirty || getFormFiledsValue('traiCompteDevCode')?.touched) && getFormFiledsValue('traiCompteDevCode')?.invalid && getFormFiledsValue('traiCompteDevCode')?.errors?.['required']"
             >
-              Ce champ est obligatoire
+              Champ obligatoire
             </small>
           </div>
          </div>
