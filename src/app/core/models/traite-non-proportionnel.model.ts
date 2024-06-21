@@ -17,4 +17,5 @@ export class TraiteNonProportionnel {
     devCode: string;
     traiSourceRef: string;
     traiTauxCourtierPlaceur: number;
+    traiTauxAbattement: number;
 }

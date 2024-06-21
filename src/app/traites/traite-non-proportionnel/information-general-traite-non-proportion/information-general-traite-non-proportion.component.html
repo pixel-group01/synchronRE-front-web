@@ -415,6 +415,30 @@
                 Ce champ est obligatoire
               </small>
             </div>
+            <div class="col-md-3 col-xs-12 mb-1">
+              <label
+              >Taux d'abattement :
+                <span class="required_champs">*</span>
+              </label>
+              <input
+                class="form-control custom-input"
+                placeholder=""
+                autocomplete="off"
+                formControlName="traiTauxAbattement"
+                name="traiTauxAbattement"
+                [class.errorInputForm]="
+                getFormFiledsValue('traiTauxAbattement')?.invalid &&
+                getFormFiledsValue('traiTauxAbattement')?.touched
+              "
+                type="text"
+              />
+              <small
+                class="text-danger"
+                *ngIf="(getFormFiledsValue('traiTauxAbattement')?.dirty || getFormFiledsValue('traiTauxAbattement')?.touched) && getFormFiledsValue('traiTauxAbattement')?.invalid && getFormFiledsValue('traiTauxAbattement')?.errors?.['required']"
+              >
+                Ce champ est obligatoire
+              </small>
+            </div>
           </div>
           </div>
     </fieldset>
