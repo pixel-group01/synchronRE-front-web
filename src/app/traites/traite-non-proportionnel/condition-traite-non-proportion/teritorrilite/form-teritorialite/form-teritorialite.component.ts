@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./form-teritorialite.component.scss']
 })
 export class FormTeritorialiteComponent implements OnInit {
-  organisationListe : any = []; 
+  organisationListe : any = [];
   paysListe : any = [];
   formulaireGroup!: FormGroup;
   @Input() idTraitNonProChildrenSed: number;
@@ -28,8 +28,8 @@ export class FormTeritorialiteComponent implements OnInit {
     private teritorrialiteService : TeritorrialiteService,
     private organisationService : OrganisationService
   ) { }
-   
-  ngOnInit(): void { 
+
+  ngOnInit(): void {
     this.createForm();
     this.getPays();
     this.getOrganisation();
@@ -39,31 +39,31 @@ export class FormTeritorialiteComponent implements OnInit {
         paysCodes: this.itemsUpdate.paysList.map((elt:any)=>{
         return elt.paysCode
         })
-      ,orgCodes : this.itemsUpdate.organisationList, 
+      ,orgCodes : this.itemsUpdate.organisationList,
        traiteNpId : this.idTraitNonProChildrenSed})
     }
-     
+
   }
- 
+
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
       terrId: [""],
       terrLibelle: ["",Validators.required],
-      terrTaux: [null,Validators.required], 
+      terrTaux: [null],
       orgCodes: [[],Validators.required],
       paysCodes: [null, Validators.required],
       terrDescription: ["", Validators.required],
       traiteNpId: [this.idTraitNonProChildrenSed],
     });
-  }; 
+  };
 
   getPays(data?:any){
     let endPointFinal = data?.length >0 ? `pays/organisations?orgCodes=${data}` : "pays/organisations";
     this.paysService.getAllFiltre(endPointFinal).subscribe((res:any)=>{
       if (res) {
           this.paysListe = res;
-          if(data && data.length>0){            
+          if(data && data.length>0){
             this.formulaireGroup.patchValue({
               paysCodes:  this.paysListe.map((elt:any)=>{
                 return elt.paysCode
@@ -78,7 +78,7 @@ export class FormTeritorialiteComponent implements OnInit {
       }
     })
   }
- 
+
   getOrganisation(){
     this.organisationService.getAll().subscribe((res:any)=>{
       if (res) {
@@ -111,7 +111,7 @@ export class FormTeritorialiteComponent implements OnInit {
   getFormFiledsValue = (field: string) => {
     return this.formulaireGroup.get(field);
   };
- 
+
   confirmSaveItem(item:any){
       Swal.fire({
         title: "Enregistrement",

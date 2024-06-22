@@ -29,6 +29,7 @@
             <i class="fa fa-redo-alt"></i></a
           >&nbsp;&nbsp; #
         </th> -->
+        <th>Couverture</th>
         <th>Activité</th>
         <th>Description</th>
         <th class="txt-align-center">Actions</th>
@@ -43,6 +44,13 @@
         </td> -->
 
         <td>{{ item?.couLibelle }}</td>
+        <td>
+          <span *ngFor="let elt of item.sousCouvertures ; let i = index; let last = last">
+            <span>
+              {{ elt?.couLibelle }}<span *ngIf="!last">;</span>
+            </span>
+          </span>
+        </td>
         <td>{{ item?.description }}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
@@ -60,25 +68,25 @@
                   aria-labelledby="action"
                   class="dropdown-validation-plainte"
                 >
-               
+
                   <button
                   ngbDropdownItem
                   (click)="openModal(templateDetailsAffaire,item)"
                 >
                   <i class="fa fa-list"></i>&nbsp;Détails l'affaire
                 </button>
-  
-                  <button 
+
+                  <button
                     ngbDropdownItem
-                    (click)="openModal(templateTerri,item)" 
+                    (click)="openModal(templateTerri,item)"
                   >
                     <i class="fa fa-edit"></i>&nbsp;Modifier
                   </button>
-  
+
                   <button ngbDropdownItem (click)="openModal(templatePaiement,item)">
-                    <i class="fa fa-trash"></i>&nbsp; Supprimer 
-                  </button>                 
-                  
+                    <i class="fa fa-trash"></i>&nbsp; Supprimer
+                  </button>
+
                 </div>
               </div>
             </div>
@@ -104,14 +112,14 @@
                 (pageChanged)="pageChanged($event)"
               ></pagination>
             </div>
-  
+
             <div class="col-md-5">
               <div class="paginator-per-page">
                 <app-element-by-page-paginator
                   (paginationChange)="changePaginationSize($event)"
                   [defaultItemPerPage]="itemsPerPage"
                 ></app-element-by-page-paginator>
-  
+
                 <span class="span_total_entree pull-right"
                   >Total :{{ totalItems }}</span
                 >
@@ -130,9 +138,9 @@
     </tfoot>
   </table>
 </div>
- 
 
-<ng-template #templateCouverture> 
+
+<ng-template #templateCouverture>
     <div class="modal-header">
       <h4 class="modal-title pull-left">
         Nouveau risque couvert
@@ -144,7 +152,7 @@
     </div>
     <div class="modal-body">
       <!-- <app-form-paiement [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement"></app-form-paiement> -->
-      <app-form-risque-couverts [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement" [itemsUpdate]="dataCurrent" 
+      <app-form-risque-couverts [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement" [itemsUpdate]="dataCurrent"
       [idTraitNonProChildrenSed]="idTraitNonProChildren" (closeModal)="closeModal($event)"></app-form-risque-couverts>
 
     </div>
