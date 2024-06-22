@@ -30,6 +30,7 @@
           >&nbsp;&nbsp; #
         </th> -->
         <th>Catégories</th>
+        <th>Cédantes</th>
         <th>Capacités</th>
         <th class="txt-align-center">Actions</th>
 
@@ -43,6 +44,13 @@
         </td> -->
 
         <td>{{ item?.categorieLibelle }}</td>
+        <td>
+          <span *ngFor="let elt of item.cedantes ; let i = index; let last = last">
+            <span>
+              {{ elt?.cedNomFiliale }}<span *ngIf="!last">,</span>
+            </span>
+          </span>
+        </td>
         <td>{{ item?.categorieCapacite | moneyFormat}}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
