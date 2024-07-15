@@ -45,7 +45,7 @@
 
         <td>{{ item?.cedNomFiliale }}</td>
         <td>{{ item?.couLibelle }}</td>
-        <td>{{ item?.limSousMontant }}</td>
+        <td>{{ item?.limSousMontant | moneyFormat}}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">
@@ -62,25 +62,25 @@
                   aria-labelledby="action"
                   class="dropdown-validation-plainte"
                 >
-               
+
                   <button
                   ngbDropdownItem
                   (click)="openModal(templateDetailsAffaire,item)"
                 >
                   <i class="fa fa-list"></i>&nbsp;Détails l'affaire
                 </button>
-  
+
                   <button
                     ngbDropdownItem
-                    (click)="openModal(templatePaiement,item)"  
+                    (click)="openModal(templatePaiement,item)"
                   >
                     <i class="fa fa-edit"></i>&nbsp;Modifier
                   </button>
-  
+
                   <button ngbDropdownItem (click)="openModal(templatePaiement,item)" >
                     <i class="fa fa-redo-alt"></i>&nbsp; Supprimer
-                  </button>                 
-                  
+                  </button>
+
                 </div>
               </div>
             </div>
@@ -106,14 +106,14 @@
                 (pageChanged)="pageChanged($event)"
               ></pagination>
             </div>
-  
+
             <div class="col-md-5">
               <div class="paginator-per-page">
                 <app-element-by-page-paginator
                   (paginationChange)="changePaginationSize($event)"
                   [defaultItemPerPage]="itemsPerPage"
                 ></app-element-by-page-paginator>
-  
+
                 <span class="span_total_entree pull-right"
                   >Total :{{ totalItems }}</span
                 >
@@ -135,12 +135,12 @@
 </div>
 
 
-<ng-template #templatePaiement> 
+<ng-template #templatePaiement>
     <div class="modal-header">
       <h4 class="modal-title pull-left">
           Nouvelle limite de souscription
       </h4>
- 
+
       <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
         <mat-icon>close</mat-icon>
       </button>

@@ -53,11 +53,11 @@
             <span>
               {{ elt?.categorieLibelle }}<span *ngIf="!last">;</span>
             </span>
-          </span>        
+          </span>
         </td>
         <td>{{ item?.couLibelle }}</td>
-        <td>{{ item?.tranchePriorite }}</td>
-        <td>{{ item?.tranchePorte }}</td>
+        <td>{{ item?.tranchePriorite | moneyFormat}}</td>
+        <td>{{ item?.tranchePorte | moneyFormat}}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">
@@ -74,25 +74,25 @@
                   aria-labelledby="action"
                   class="dropdown-validation-plainte"
                 >
-               
+
                   <button
                   ngbDropdownItem
                   (click)="openModal(templateDetailsAffaire,item)"
                 >
                   <i class="fa fa-list"></i>&nbsp;Détails l'affaire
                 </button>
-  
+
                   <button
                     ngbDropdownItem
                     (click)="openModal(templatePaiement,item)"
                   >
                     <i class="fa fa-edit"></i>&nbsp;Modifier
                   </button>
-  
+
                   <button ngbDropdownItem (click)="openModal(templatePaiement,item)">
                     <i class="fa fa-trash"></i>&nbsp; Supprimer
-                  </button>                 
-                  
+                  </button>
+
                 </div>
               </div>
             </div>
@@ -118,14 +118,14 @@
                 (pageChanged)="pageChanged($event)"
               ></pagination>
             </div>
-  
+
             <div class="col-md-5">
               <div class="paginator-per-page">
                 <app-element-by-page-paginator
                   (paginationChange)="changePaginationSize($event)"
                   [defaultItemPerPage]="itemsPerPage"
                 ></app-element-by-page-paginator>
-  
+
                 <span class="span_total_entree pull-right"
                   >Total :{{ totalItems }}</span
                 >
@@ -147,7 +147,7 @@
 </div>
 
 
-<ng-template #templatePaiement> 
+<ng-template #templatePaiement>
     <div class="modal-header">
       <h4 class="modal-title pull-left">
         Nouvelle tranche

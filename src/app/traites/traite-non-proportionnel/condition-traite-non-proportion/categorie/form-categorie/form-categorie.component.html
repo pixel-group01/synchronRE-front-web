@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <div class="row" 
+=======
+<div class="row"
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
 class="body table-responsive clsOverflow"
   [ngBusy]="{busy: busyGet, message: 'Veuillez patienter ...', backdrop: false}"
 >
@@ -16,14 +20,14 @@ class="body table-responsive clsOverflow"
       getFormFiledsValue('categorieLibelle')?.invalid &&
       getFormFiledsValue('categorieLibelle')?.touched"
     />
-    <small 
+    <small
     class="text-danger"
     *ngIf="(getFormFiledsValue('categorieLibelle')?.dirty || getFormFiledsValue('categorieLibelle')?.touched) && getFormFiledsValue('categorieLibelle')?.invalid && getFormFiledsValue('categorieLibelle')?.errors?.['required']"
     >
       Ce champ est obligatoire
     </small>
   </div>
-  
+
   <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
     <label>Cedantes : <span class="required_champs">*</span> </label>
 
@@ -33,7 +37,7 @@ class="body table-responsive clsOverflow"
       [class.errorInputForm]="
       getFormFiledsValue('cedIds')?.invalid &&
       getFormFiledsValue('cedIds')?.touched"
-      name="cedIds" 
+      name="cedIds"
       id="cedIds"
     >
       <ng-option
@@ -42,14 +46,14 @@ class="body table-responsive clsOverflow"
         >{{ cedante.cedNomFiliale }}</ng-option
       >
     </ng-select>
-    <small 
+    <small
     class="text-danger"
     *ngIf="(getFormFiledsValue('cedIds')?.dirty || getFormFiledsValue('cedIds')?.touched) && getFormFiledsValue('cedIds')?.invalid && getFormFiledsValue('paysCode')?.errors?.['required']"
     >
       Ce champ est obligatoire
     </small>
   </div>
- 
+
   <div class="col-md-12 col-xs-12 mb-1">
     <label
       >Capacité :
@@ -60,13 +64,14 @@ class="body table-responsive clsOverflow"
       placeholder=""
       autocomplete="off"
       name="affAssure"
+      mask="separator"
       type="text"
       formControlName="categorieCapacite"
       [class.errorInputForm]="
       getFormFiledsValue('categorieCapacite')?.invalid &&
       getFormFiledsValue('categorieCapacite')?.touched"
     />
-    <small 
+    <small
     class="text-danger"
     *ngIf="(getFormFiledsValue('categorieCapacite')?.dirty || getFormFiledsValue('categorieCapacite')?.touched) && getFormFiledsValue('categorieCapacite')?.invalid && getFormFiledsValue('categorieCapacite')?.errors?.['required']"
     >
@@ -78,6 +83,6 @@ class="body table-responsive clsOverflow"
     <button type="submit" [disabled]="!formulaireGroup.valid" class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
   </div>
 
-  
+
 </form>
     </div>

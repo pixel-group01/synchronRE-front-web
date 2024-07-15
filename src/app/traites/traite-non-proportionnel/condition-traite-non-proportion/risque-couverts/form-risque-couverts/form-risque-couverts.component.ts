@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-form-risque-couverts',
   templateUrl: './form-risque-couverts.component.html',
-  styleUrls: ['./form-risque-couverts.component.scss'] 
+  styleUrls: ['./form-risque-couverts.component.scss']
 })
 export class FormRisqueCouvertsComponent implements OnInit {
   couverturesListe : any = [];
@@ -30,12 +30,15 @@ export class FormRisqueCouvertsComponent implements OnInit {
     private risqueCouvertureService : RisqueCouvertureService,
     private activiteService : ActiviteService
   ) { }
- 
-  ngOnInit(): void { 
+
+  ngOnInit(): void {
     this.createForm();
     this.getCouvertures();
     if (this.itemsUpdate) {
-      this.formulaireGroup.patchValue({...this.itemsUpdate})
+      this.formulaireGroup.patchValue({...this.itemsUpdate,
+        sousCouIds: this.itemsUpdate.risques.map((elt: any) => {
+          return elt.couId
+        })})
     }
   }
 
@@ -43,30 +46,30 @@ export class FormRisqueCouvertsComponent implements OnInit {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
       couId: [null,Validators.required],
-      activiteCode: [null,Validators.required],
-      description: [""], 
+      sousCouIds: [null,Validators.required],
+      description: [""],
       traiteNpId: [this.idTraitNonProChildrenSed],
     });
   };
- 
-  clearEnfantsCouverture(){    
-    this.formulaireGroup.get('activiteCode').setValue('Aucun selectionné')
+
+  clearEnfantsCouverture(){
+    this.formulaireGroup.get('sousCouIds').setValue('Aucun selectionné')
   }
 
   getCouvertures(item?:number){
     this.couvertureService.getCouvertureParents().subscribe((res:any)=>{
       if (res) {
           this.couverturesListe = res;
-          
+
       }
     })
   }
- 
-  getActivites(idCouverture:number){ 
-    this.clearEnfantsCouverture()   
+
+  getActivites(idCouverture:number){
+    this.clearEnfantsCouverture()
     this.activiteService.getAll(idCouverture).subscribe((res:any)=>{
       if (res) {
-          this.activitesListe = res 
+          this.activitesListe = res
       }
     })
   }
@@ -91,7 +94,7 @@ export class FormRisqueCouvertsComponent implements OnInit {
   getFormFiledsValue = (field: string) => {
     return this.formulaireGroup.get(field);
   };
- 
+
   confirmSaveItem(item:any){
       Swal.fire({
         title: "Enregistrement",

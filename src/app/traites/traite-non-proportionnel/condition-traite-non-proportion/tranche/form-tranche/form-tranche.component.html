@@ -10,9 +10,9 @@ class="body table-responsive clsOverflow"
         placeholder=""
         autocomplete="off"
         name="trancheLibelle"
-        type="text" 
+        type="text"
         formControlName="trancheLibelle"
-        [class.errorInputForm]=" 
+        [class.errorInputForm]="
               getFormFiledsValue('trancheLibelle')?.invalid &&
               getFormFiledsValue('trancheLibelle')?.touched
             "/>
@@ -27,16 +27,16 @@ class="body table-responsive clsOverflow"
           name="trancheType"
           id="trancheType"
           formControlName="trancheType"
-          [class.errorInputForm]=" 
+          [class.errorInputForm]="
                 getFormFiledsValue('trancheType')?.invalid &&
                 getFormFiledsValue('trancheType')?.touched
               ">
 
-          <ng-option 
+          <ng-option
             *ngFor="let typeCou of typeCouverture"
             [value]="typeCou?.libelle"
             >{{ typeCou.libelle }}</ng-option
-          > 
+          >
         </ng-select>
         <small class="text-danger"
         *ngIf="(getFormFiledsValue('trancheType')?.dirty || getFormFiledsValue('trancheType')?.touched) && getFormFiledsValue('trancheType')?.invalid && getFormFiledsValue('trancheType')?.errors?.['required']">
@@ -50,15 +50,15 @@ class="body table-responsive clsOverflow"
         [multiple]="true"
         id="categorieIds"
         formControlName="categorieIds"
-        [class.errorInputForm]=" 
+        [class.errorInputForm]="
               getFormFiledsValue('categorieIds')?.invalid &&
               getFormFiledsValue('categorieIds')?.touched
             ">
-        <ng-option 
+        <ng-option
           *ngFor="let pays of paysListe"
           [value]="pays?.categorieId"
           >{{ pays?.categorieLibelle }}</ng-option
-        > 
+        >
       </ng-select>
       <small class="text-danger"
       *ngIf="(getFormFiledsValue('categorieIds')?.dirty || getFormFiledsValue('categorieIds')?.touched) && getFormFiledsValue('categorieIds')?.invalid && getFormFiledsValue('categorieIds')?.errors?.['required']">
@@ -71,7 +71,7 @@ class="body table-responsive clsOverflow"
           name="risqueId"
           id="risqueId"
           formControlName="risqueId"
-          [class.errorInputForm]=" 
+          [class.errorInputForm]="
                 getFormFiledsValue('risqueId')?.invalid &&
                 getFormFiledsValue('risqueId')?.touched
               ">
@@ -84,7 +84,7 @@ class="body table-responsive clsOverflow"
         <small class="text-danger"
         *ngIf="(getFormFiledsValue('risqueId')?.dirty || getFormFiledsValue('risqueId')?.touched) && getFormFiledsValue('risqueId')?.invalid && getFormFiledsValue('risqueId')?.errors?.['required']">
         Ce champ est obligatoire
-     </small>        
+     </small>
       </div>
 
       <div class="col-md-12 col-xs-12 mb-1">
@@ -97,9 +97,10 @@ class="body table-responsive clsOverflow"
           placeholder=""
           autocomplete="off"
           name="tranchePriorite"
-          type="text" 
+          mask="separator"
+          type="text"
           formControlName="tranchePriorite"
-          [class.errorInputForm]=" 
+          [class.errorInputForm]="
                 getFormFiledsValue('tranchePriorite')?.invalid &&
                 getFormFiledsValue('tranchePriorite')?.touched
               "
@@ -119,9 +120,10 @@ class="body table-responsive clsOverflow"
           placeholder=""
           autocomplete="off"
           name="tranchePorte"
+          mask="separator"
           type="text"
           formControlName="tranchePorte"
-          [class.errorInputForm]=" 
+          [class.errorInputForm]="
                 getFormFiledsValue('tranchePorte')?.invalid &&
                 getFormFiledsValue('tranchePorte')?.touched
               "
@@ -131,7 +133,7 @@ class="body table-responsive clsOverflow"
         Ce champ est obligatoire
         </small>
       </div>
-    
+
       <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
         <button type="submit" class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
       </div>

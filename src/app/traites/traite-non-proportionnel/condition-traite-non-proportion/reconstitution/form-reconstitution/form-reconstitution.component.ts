@@ -12,12 +12,16 @@ import Swal from 'sweetalert2';
   styleUrls: ['./form-reconstitution.component.scss']
 })
 export class FormReconstitutionComponent implements OnInit {
-  listeTranche : any = []; 
+  listeTranche : any = [];
   calaculListe : any = [{libelle:"Au proata de la garantie consommée"},{libelle:"Au prorata temporis"}];
   formulaireGroup!: FormGroup;
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+<<<<<<< HEAD
   @Input() itemsUpdate :any;  
+=======
+  @Input() itemsUpdate :any;
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
   busyGet: Subscription;
 
   constructor(
@@ -26,8 +30,8 @@ export class FormReconstitutionComponent implements OnInit {
     private reconstitutionService : ReconstitutionService,
     private tranchesService : TranchesService
   ) { }
- 
-  ngOnInit(): void { 
+
+  ngOnInit(): void {
     this.createForm();
     this.getOrganisation();
     console.log('itemsUpdate :', this.itemsUpdate);
@@ -35,20 +39,18 @@ export class FormReconstitutionComponent implements OnInit {
       this.formulaireGroup.patchValue({...this.itemsUpdate})
     }
   }
- 
+
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
       reconstitutionId :[null],
       nbrReconstitution: ["",Validators.required],
-      tauxReconstitution: ["",Validators.required], 
-      tauxPrimeReconstitution: ["",Validators.required],
       modeCalculReconstitution: [null, Validators.required],
       trancheId: [null, Validators.required],
       traiteNpId: [this.idTraitNonProChildrenSed],
     });
-  }; 
- 
+  };
+
   getOrganisation(){
     this.tranchesService.getAll(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
       if (res) {
@@ -78,7 +80,7 @@ export class FormReconstitutionComponent implements OnInit {
   getFormFiledsValue = (field: string) => {
     return this.formulaireGroup.get(field);
   };
- 
+
   confirmSaveItem(item:any){
       Swal.fire({
         title: "Enregistrement",

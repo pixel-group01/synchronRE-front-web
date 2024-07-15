@@ -31,7 +31,6 @@
             name="cesId"
             id="cesId"
             notFoundText="Aucune donnée"
-            placeholder="Ex: Aveni Re"
             [items]="listeReassureurs"
             bindLabel="cesNom"
             bindValue="cesId"
@@ -58,7 +57,6 @@
               [class.errorInputForm]="
               getFormFiledsValue('repTaux')?.invalid &&
               getFormFiledsValue('repTaux')?.touched"
-              placeholder="15"
             />
             <small
               class="text-danger"

@@ -47,8 +47,8 @@
         <td>{{ item?.traiNumero }}</td>
         <td>{{ item?.traiReference }}</td>
         <td>{{ item?.traiSourceRef }}</td>
-        <td>{{ item?.traiDateEffet }}</td>
-        <td>{{ item?.traiDateEcheance }}</td>
+        <td>{{ item?.traiDateEffet | dateFormatInDateHour}}</td>
+        <td>{{ item?.traiDateEcheance | dateFormatInDateHour}}</td>
         <td>{{ item?.cesNom }}</td>
 
         <!-- <td>{{ item?.facPrime | moneyFormat }}</td> -->
@@ -166,7 +166,7 @@
         <mat-icon>close</mat-icon>
       </button>
     </div>
-    <div class="modal-body"> 
+    <div class="modal-body">
       <app-form-traite-non-proportionnel [currentTraiterNonPropo]="itemToSave"  (closeModal)="closeFormModal($event)"
                                           [numStep]="NumeroStepParent" ></app-form-traite-non-proportionnel>
     </div>

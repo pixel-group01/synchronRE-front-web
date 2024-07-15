@@ -8,19 +8,19 @@ class="body table-responsive clsOverflow"
       <label
         >Libelle :
         <span class="required_champs">*</span>
-      </label>  
-      <input  
+      </label>
+      <input
         class="form-control custom-input"
         formControlName="terrLibelle"
         placeholder=""
         autocomplete="off"
         name="terrLibelle"
         type="text"
-        [class.errorInputForm]=" 
+        [class.errorInputForm]="
         getFormFiledsValue('terrLibelle')?.invalid &&
         getFormFiledsValue('terrLibelle')?.touched
-      "> 
-      <small 
+      ">
+      <small
       class="text-danger"
       *ngIf="(getFormFiledsValue('terrLibelle')?.dirty || getFormFiledsValue('terrLibelle')?.touched) && getFormFiledsValue('terrLibelle')?.invalid && getFormFiledsValue('terrLibelle')?.errors?.['required']"
     >
@@ -40,13 +40,13 @@ class="body table-responsive clsOverflow"
           [class.errorInputForm]="
                 getFormFiledsValue('orgCodes')?.invalid &&
                 getFormFiledsValue('orgCodes')?.touched
-              "> 
+              ">
           <ng-option
             *ngFor="let organistaions  of organisationListe"
             [value]="organistaions.organisationCode"
             >{{ organistaions.organisationCode }}</ng-option
           >
-        </ng-select> 
+        </ng-select>
         <small
         class="text-danger"
         *ngIf="(getFormFiledsValue('orgCodes')?.dirty || getFormFiledsValue('orgCodes')?.touched) && getFormFiledsValue('orgCodes')?.invalid && getFormFiledsValue('orgCodes')?.errors?.['required']"
@@ -54,10 +54,10 @@ class="body table-responsive clsOverflow"
         Ce champ est obligatoire
       </small>
       </div>
- 
+
       <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
         <label>Pays : <span class="required_champs">*</span> </label>
-        
+
           <ng-select
             formControlName="paysCodes"
             name="paysCodes"
@@ -84,7 +84,7 @@ class="body table-responsive clsOverflow"
       <div class="col-md-12 col-xs-12 mb-1">
         <label
           >Taux:
-          <span class="required_champs">*</span>
+<!--          <span class="required_champs">*</span>-->
         </label>
         <input
           class="form-control custom-input"
@@ -97,12 +97,12 @@ class="body table-responsive clsOverflow"
           getFormFiledsValue('terrTaux')?.invalid &&
           getFormFiledsValue('terrTaux')?.touched
         ">
-        <small
-        class="text-danger"
-        *ngIf="(getFormFiledsValue('terrTaux')?.dirty || getFormFiledsValue('terrTaux')?.touched) && getFormFiledsValue('terrTaux')?.invalid && getFormFiledsValue('terrTaux')?.errors?.['required']"
-      >
-        Ce champ est obligatoire
-      </small>
+<!--        <small-->
+<!--        class="text-danger"-->
+<!--        *ngIf="(getFormFiledsValue('terrTaux')?.dirty || getFormFiledsValue('terrTaux')?.touched) && getFormFiledsValue('terrTaux')?.invalid && getFormFiledsValue('terrTaux')?.errors?.['required']"-->
+<!--      >-->
+<!--        Ce champ est obligatoire-->
+<!--      </small>-->
       </div>
 
       <div class="col-md-12 col-xs-12 mb-1">
@@ -133,4 +133,4 @@ class="body table-responsive clsOverflow"
                                         class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
       </div>
   </form>
-    </div> 
+    </div>

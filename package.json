@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --prod --aot false --build-optimizer false",
     "build-synchronRe": "ng build --base-href=/synchronRe/",
     "build-synchronReWeb": "ng build --base-href=/Synchronre-Web/",
     "test": "ng test",
