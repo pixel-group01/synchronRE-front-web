@@ -13,13 +13,21 @@
               getFormFiledsValue('cedId')?.invalid &&
               getFormFiledsValue('cedId')?.touched
             "
+<<<<<<< HEAD
+      > 
+=======
       >
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
         <ng-option
           *ngFor="let cedante of cedanteListe"
           [value]="cedante.cedId"
           >{{ cedante.cedNomFiliale }}</ng-option
         >
+<<<<<<< HEAD
+      </ng-select> 
+=======
       </ng-select>
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
       <small
       class="text-danger"
       *ngIf="(getFormFiledsValue('cedId')?.dirty || getFormFiledsValue('cedId')?.touched) && getFormFiledsValue('cedId')?.invalid && getFormFiledsValue('cedId')?.errors?.['required']"
@@ -36,27 +44,47 @@
         class="form-control custom-input text-end"
         formControlName="assiettePrime"
         placeholder=""
+<<<<<<< HEAD
+        autocomplete="off" 
+=======
         autocomplete="off"
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
         name="assiettePrime"
         mask="separator"
         type="text"
         (keyup)="calculPmd()"
+<<<<<<< HEAD
+        [class.errorInputForm]=" 
+        getFormFiledsValue('assiettePrime')?.invalid &&
+        getFormFiledsValue('assiettePrime')?.touched
+      "> 
+      <small 
+=======
         [class.errorInputForm]="
         getFormFiledsValue('assiettePrime')?.invalid &&
         getFormFiledsValue('assiettePrime')?.touched
       ">
       <small
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
       class="text-danger"
       *ngIf="(getFormFiledsValue('assiettePrime')?.dirty || getFormFiledsValue('assiettePrime')?.touched) && getFormFiledsValue('assiettePrime')?.invalid && getFormFiledsValue('assiettePrime')?.errors?.['required']"
     >
       Ce champ est obligatoire
     </small>
     </div>
+<<<<<<< HEAD
+ 
+      <div class="col-md-4 col-xs-12 col-sm-4 mb-2">
+        <label>Taux de prime : <span class="required_champs">*</span> </label>
+        <input
+        class="form-control custom-input"
+=======
 
       <div class="col-md-4 col-xs-12 col-sm-4 mb-2">
         <label>Taux de prime : <span class="required_champs">*</span> </label>
         <input
         class="form-control custom-input text-end"
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
         placeholder=""
         formControlName="tauxPrime"
         autocomplete="off"
@@ -80,17 +108,28 @@
           <span class="required_champs">*</span>
         </label>
         <input
+<<<<<<< HEAD
+          class="form-control custom-input"
+=======
           class="form-control custom-input text-end"
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
           placeholder=""
           formControlName="pmd"
           autocomplete="off"
           name="affAssure"
           type="text"
+<<<<<<< HEAD
+          [class.errorInputForm]="
+          getFormFiledsValue('pmd')?.invalid &&
+          getFormFiledsValue('pmd')?.touched
+        ">  
+=======
           mask="separator"
           [class.errorInputForm]="
           getFormFiledsValue('pmd')?.invalid &&
           getFormFiledsValue('pmd')?.touched
         ">
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
         <small
         class="text-danger"
         *ngIf="(getFormFiledsValue('pmd')?.dirty || getFormFiledsValue('pmd')?.touched) && getFormFiledsValue('pmd')?.invalid && getFormFiledsValue('pmd')?.errors?.['required']"
@@ -99,9 +138,15 @@
       </small>
       </div>
 
+<<<<<<< HEAD
+    </div> 
+    </form>
+  
+=======
     </div>
     </form>
 
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
       <div class="col-md-12 col-xs-12 col-sm-12 mt-3 mb-3">
         <fieldset>
           <legend>PMD par cession legale</legend>
@@ -112,11 +157,19 @@
                 <th class="text-center" style="width: 80px;">Taux(%)</th>
                 <th class="text-center">PMD</th>
                 <th class="text-center" style="width: 107px">Taux courtier</th>
+<<<<<<< HEAD
+                <th class="text-center" style="width: 164px;">Taux courtier placeur</th>
+                <th class="text-center"></th>
+                </tr>
+            </thead>
+         
+=======
                 <th class="text-center" style="width: 164px;">Taux NelsonRe</th>
                 <th class="text-center"></th>
                 </tr>
             </thead>
 
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
             <tbody>
               <tr *ngFor="let item of listeCessionLegale; let indice = index">
                 <!-- <td class="txt-align-center">
@@ -143,29 +196,48 @@
                       name="pmd{{indice}}"
                       autocomplete="off"
                       name="pmd"
+<<<<<<< HEAD
+=======
                       mask="separator"
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
                       type="text">
                 </td>
                 <td>
                   <input
+<<<<<<< HEAD
+                  class="form-control custom-input"
+=======
                   class="form-control custom-input text-center"
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
                   placeholder=""
                   [(ngModel)]="item.tauxCourtier"
                   name="tauxCourtier{{indice}}"
                   autocomplete="off"
                   name="tauxCourtier"
                   type="text"
+<<<<<<< HEAD
+                  >  
+                </td>
+                <td>
+                  <input
+                  class="form-control custom-input"
+=======
                   >
                 </td>
                 <td>
                   <input
                   class="form-control custom-input text-center"
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
                   placeholder=""
                   [(ngModel)]="item.tauxCourtierPlaceur"
                   name="tauxCourtierPlaceur{{indice}}"
                   autocomplete="off"
                   name="tauxCourtierPlaceur"
+<<<<<<< HEAD
+                  type="text">  
+=======
                   type="text">
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
                 </td>
                 <td>
                   <input
@@ -179,7 +251,11 @@
                 </td>
               </tr>
             </tbody>
+<<<<<<< HEAD
+        
+=======
 
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
             <tfoot>
               <tr *ngIf="!items || items.length == 0">
                 <td colspan="5">
@@ -188,6 +264,21 @@
                   </div>
                 </td>
               </tr>
+<<<<<<< HEAD
+            </tfoot> 
+          </table>
+        </fieldset>
+      </div>       
+
+      <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
+        <button type="button" [disabled]="!formulaireGroup.valid"  (click)="confirmSaveItem(formulaireGroup.value)"
+         class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
+      </div>
+
+</section>
+  
+  
+=======
             </tfoot>
           </table>
         </fieldset>
@@ -200,3 +291,4 @@
 
 </section>
 
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67

@@ -17,7 +17,11 @@ export class FormReconstitutionComponent implements OnInit {
   formulaireGroup!: FormGroup;
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+<<<<<<< HEAD
+  @Input() itemsUpdate :any;  
+=======
   @Input() itemsUpdate :any;
+>>>>>>> ed797254eeebad513c991fec8b38d59ea207be67
   busyGet: Subscription;
 
   constructor(
