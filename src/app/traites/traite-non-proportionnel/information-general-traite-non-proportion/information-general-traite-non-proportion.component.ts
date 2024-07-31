@@ -42,13 +42,13 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
   formDate :any={};
   traiDateEffet :string;
   traiDateEcheance :string;
- 
+
   @Input() isDetails:boolean = false;
   @Input() itemToUpdate: TraiteNonProportionnel;
   @Input() isWizardProcess:boolean = false;
   @Input() idTraitNonProChild: number;
   @Input() currentTraiterNonPropoChild: any;
-  
+
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Output() sendInfoParent: EventEmitter<number> = new EventEmitter();
   @Output() stepperInice: EventEmitter<number> = new EventEmitter();
@@ -66,7 +66,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
     private deviseService:DeviseService
   ) {
     this.user = this.userService.getCurrentUserInfo();
-    
+
   }
 
   getDevise() {
@@ -194,6 +194,8 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
       devCode: [null, Validators.required],
       traiSourceRef: [null],
       traiTauxCourtierPlaceur: ["",Validators.required],
+      traiTauxAbattement: ["",Validators.required],
+      traiDelaiPaiement: ["",Validators.required],
     });
 
 
@@ -207,7 +209,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
     Swal.fire({
       title: "Identification",
       text:
-          this.idTraitNonProChild || this.currentTraiterNonPropoChild?.traiteNpId 
+          this.idTraitNonProChild || this.currentTraiterNonPropoChild?.traiteNpId
           ? "Vous êtes sur le point de modifier une identification. Voulez-vous poursuivre cette action ?"
           : "Vous êtes sur le point d'enregistrer une identification. Voulez-vous poursuivre cette action ?",
       icon: "warning",
@@ -226,7 +228,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
 
   saveItem(item: TraiteNonProportionnel) {
     let itemAEnregistrer = {...item};
-   
+
     if (!itemAEnregistrer.traiteNpId) {
       // nous sommes au create
     if (this.traiDateEffet) {
@@ -294,7 +296,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
     this.getExoRattachement();
     console.log('currentTraiterNonPropoChild :', this.currentTraiterNonPropoChild);
     if(this.currentTraiterNonPropoChild && this.currentTraiterNonPropoChild.traiteNpId){
-      const item = {...this.currentTraiterNonPropoChild}      
+      const item = {...this.currentTraiterNonPropoChild}
         this.formulaireGroup.patchValue({...this.currentTraiterNonPropoChild,
           traiDateEffet: moment(item.traiDateEcheance).format("YYYY-MM-DD"),
           traiDateEcheance:moment(item.traiDateEffet).format("YYYY-MM-DD"),
@@ -303,7 +305,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
     if (this.idTraitNonProChild) {
         this.getEditTraiterNonPropo(this.idTraitNonProChild)
     }
-  } 
+  }
 
   // ngOnChanges(changes: SimpleChanges) {
   //   if (changes["itemToUpdate"] && changes["itemToUpdate"].currentValue) {

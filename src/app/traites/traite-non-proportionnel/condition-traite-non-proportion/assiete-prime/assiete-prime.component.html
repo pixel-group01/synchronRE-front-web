@@ -45,9 +45,9 @@
         </td> -->
 
         <td>{{ item?.cedNomFiliale }}</td>
-        <td>{{ item?.assiettePrime }}</td>
+        <td>{{ item?.assiettePrime | moneyFormat}}</td>
         <td>{{ item?.tauxPrime }}</td>
-        <td>{{ item?.pmd }}</td>
+        <td>{{ item?.pmd | moneyFormat}}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">
@@ -64,26 +64,26 @@
                   aria-labelledby="action"
                   class="dropdown-validation-plainte"
                 >
-               
+
                   <button
                   ngbDropdownItem
                   (click)="openModal(templateAssietePrime,item)"
                 >
                   <i class="fa fa-list"></i>&nbsp;Détails l'affaire
                 </button>
-  
+
                   <button
                     ngbDropdownItem
                     (click)="openModal(templateAssietePrime,item)"
                   >
                     <i class="fa fa-money-bill"></i>&nbsp;Modifier
                   </button>
-  
+
                   <button ngbDropdownItem>
                     <i class="fa fa-redo-alt"></i>&nbsp; Supprimer
-                  </button>                 
-                  
-                </div> 
+                  </button>
+
+                </div>
               </div>
             </div>
           </td>
@@ -108,14 +108,14 @@
                 (pageChanged)="pageChanged($event)"
               ></pagination>
             </div>
-  
+
             <div class="col-md-5">
               <div class="paginator-per-page">
                 <app-element-by-page-paginator
                   (paginationChange)="changePaginationSize($event)"
                   [defaultItemPerPage]="itemsPerPage"
                 ></app-element-by-page-paginator>
-  
+
                 <span class="span_total_entree pull-right"
                   >Total :{{ totalItems }}</span
                 >
@@ -135,10 +135,10 @@
   </table>
 </div>
 
-<ng-template #templateAssietePrime> 
+<ng-template #templateAssietePrime>
     <div class="modal-header">
       <h4 class="modal-title pull-left">
-        Nouvelle cedante
+        Nouvelle assiette de prime
       </h4>
 
       <button mat-icon-button class="pull-right" (click)="modalRef.hide()" aria-label="Close dialog">
@@ -150,4 +150,3 @@
                               [idTraitNonProChildrenSed]="idTraitNonProChildren"  [itemsUpdate]="dataCurrent"></app-form-assiete-prime>
     </div>
   </ng-template>
- 

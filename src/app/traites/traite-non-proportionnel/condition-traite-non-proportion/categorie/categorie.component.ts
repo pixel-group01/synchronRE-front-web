@@ -11,7 +11,7 @@ import { RestClientService } from 'src/app/core/service/rest-client.service';
   styleUrls: ['./categorie.component.scss']
 })
 export class CategorieComponent implements OnInit {
- 
+
   items : any;
   modalRef: BsModalRef;
   itemToSearch :any = {}
@@ -26,7 +26,7 @@ export class CategorieComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private restClient:RestClientService
-  ) {} 
+  ) {}
 
   openModal(template: TemplateRef<any>, data?: any) {
     let config = {
@@ -38,7 +38,7 @@ export class CategorieComponent implements OnInit {
     this.dataCurrent = data;
     this.modalRef = this.modalService.show(template, config);
   }
-  
+
 
   getItems() {
     let endPointFinal =
@@ -51,7 +51,7 @@ export class CategorieComponent implements OnInit {
       (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "") +
       "" +
       (this.idTraitNonProChildren
-        ? "&traiId=" + this.idTraitNonProChildren
+        ? "&traiteNpId=" + this.idTraitNonProChildren
         : "");
 
     this.busyGet = this.restClient.get(endPointFinal).subscribe(

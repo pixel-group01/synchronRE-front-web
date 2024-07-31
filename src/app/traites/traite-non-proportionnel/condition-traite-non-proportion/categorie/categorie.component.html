@@ -30,6 +30,7 @@
           >&nbsp;&nbsp; #
         </th> -->
         <th>Catégories</th>
+        <th>Cédantes</th>
         <th>Capacités</th>
         <th class="txt-align-center">Actions</th>
 
@@ -43,7 +44,14 @@
         </td> -->
 
         <td>{{ item?.categorieLibelle }}</td>
-        <td>{{ item?.categorieCapacite}}</td>
+        <td>
+          <span *ngFor="let elt of item.cedantes ; let i = index; let last = last">
+            <span>
+              {{ elt?.cedNomFiliale }}<span *ngIf="!last">,</span>
+            </span>
+          </span>
+        </td>
+        <td>{{ item?.categorieCapacite | moneyFormat}}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">
@@ -60,24 +68,24 @@
                   aria-labelledby="action"
                   class="dropdown-validation-plainte"
                 >
-               
+
                   <button
                   ngbDropdownItem
                   (click)="openModal(templateDetailsAffaire,item)"
                 >
                   <i class="fa fa-list"></i>&nbsp;Détails l'affaire
                 </button>
-  
+
                   <button
                     ngbDropdownItem
                     (click)="openModal(templatePaiement,item)">
                     <i class="fa fa-edit"></i>&nbsp;Modifier
                   </button>
-  
+
                   <button ngbDropdownItem (click)="openModal(templatePaiement,item)">
                     <i class="fa fa-trash"></i>&nbsp; Supprimer
-                  </button>                 
-                  
+                  </button>
+
                 </div>
               </div>
             </div>
@@ -130,7 +138,7 @@
 </div>
 
 
-<ng-template #templatePaiement> 
+<ng-template #templatePaiement>
     <div class="modal-header">
       <h4 class="modal-title pull-left">
         Nouvelle catégorie

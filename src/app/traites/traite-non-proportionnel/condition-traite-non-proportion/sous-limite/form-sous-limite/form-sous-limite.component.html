@@ -9,7 +9,7 @@ class="body table-responsive clsOverflow"
 
         <ng-select
           formControlName="risqueCouvertId"
-          [class.errorInputForm]="  
+          [class.errorInputForm]="
                 getFormFiledsValue('risqueCouvertId')?.invalid &&
                 getFormFiledsValue('risqueCouvertId')?.touched
               "
@@ -22,16 +22,16 @@ class="body table-responsive clsOverflow"
             >{{ couv.couLibelle }}
         </ng-option>
         </ng-select>
-        <small 
+        <small
           class="text-danger"
           *ngIf="(getFormFiledsValue('risqueCouvertId')?.dirty || getFormFiledsValue('risqueCouvertId')?.touched) && getFormFiledsValue('risqueCouvertId')?.invalid && getFormFiledsValue('risqueCouvertId')?.errors?.['required']"
             >
           Ce champ est obligatoire
         </small>
       </div>
- 
+
       <div class="col-md-12 col-xs-12 mb-1">
-        <label 
+        <label
           >Montant :
           <span class="required_champs">*</span>
         </label>
@@ -40,21 +40,22 @@ class="body table-responsive clsOverflow"
           placeholder=""
           autocomplete="off"
           name="sousLimMontant"
+          mask="separator"
           type="text"
           formControlName="sousLimMontant"
-          [class.errorInputForm]=" 
+          [class.errorInputForm]="
             getFormFiledsValue('sousLimMontant')?.invalid &&
             getFormFiledsValue('sousLimMontant')?.touched
           "
         />
-        <small 
+        <small
         class="text-danger"
         *ngIf="(getFormFiledsValue('sousLimMontant')?.dirty || getFormFiledsValue('sousLimMontant')?.touched) && getFormFiledsValue('sousLimMontant')?.invalid && getFormFiledsValue('terrLibelle')?.errors?.['required']"
           >
         Ce champ est obligatoire
       </small>
       </div>
-    
+
       <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
         <button type="submit" [disabled]="!formulaireGroup.valid" class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
       </div>

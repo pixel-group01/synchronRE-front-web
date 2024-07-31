@@ -26,7 +26,7 @@ class="body table-responsive clsOverflow"
         Ce champ est obligatoire
       </small>
       </div>
-   
+
       <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
         <label>Couverture : <span class="required_champs">*</span> </label>
         <ng-select
@@ -62,6 +62,7 @@ class="body table-responsive clsOverflow"
           autocomplete="off"
           name="limSousMontant"
           id="limSousMontant"
+          mask="separator"
           type="text"
           formControlName="limSousMontant"
           [class.errorInputForm]="
@@ -76,7 +77,7 @@ class="body table-responsive clsOverflow"
         Ce champ est obligatoire
       </small>
       </div>
-    
+
       <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
         <button type="submit" [disabled]="!formulaireGroup.valid" class="btn btn-md custom_btn_primary pull-right">Enregistrer</button>
       </div>
