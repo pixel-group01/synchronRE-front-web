@@ -8,7 +8,7 @@
 
       <div class="left-img" style="background-image: url(https://asseco.com/files/public/_processed_/csm_insurance_952d181a9a.png);
       background-repeat: no-repeat;
-  background-size: 100% 100%;">
+      background-size: 100% 100%;">
       </div>
 
     </div>
@@ -16,7 +16,7 @@
       <div class="form-section">
         <div class="auth-wrapper">
 
-          <div class="logo-part">
+          <div class="logo-part"> 
             <div class="logo-app-part">
               <img src="assets/images/images-app/logo_synchro_re.png" class="logo-app" alt="" />
             </div>
@@ -70,13 +70,19 @@
               <div class="container-auth-form-btn">
                 <div style="text-align:center">
                   <button mat-raised-button color="primary" [class.auth-spinner]="loading" [disabled]="loading"
-                    class="auth-form-btn custom_btn_primary" [disabled]="!authForm.valid " type="submit">Se connecter</button>
+                    class="auth-form-btn custom_btn_primary" [disabled]="!authForm.valid || isLock" type="submit">Se connecter</button>
                 </div>
               </div>
               <br>
               <div class="container-auth-form-btn">
                 <div style="text-align:center">
                   <a style="text-decoration: underline; cursor: pointer;" (click)="forgotPassword()">Mot de passe oublié ou expiré ?</a>
+                </div>
+              </div>
+
+              <div class="container-auth-form-btn" *ngIf="isLock && valeurSeconde>0">
+                <div style="text-align:center">
+                  <a style="text-decoration: none; cursor: pointer;" class="text-danger">Votre session a été bloquée, veuillez réessayer dans {{valeurSeconde}} seconde(s), svp!</a>
                 </div>
               </div>
             </form>
