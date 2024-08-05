@@ -28,7 +28,12 @@ export class SigninComponent
   isFirstConnexion : boolean = false;
   currentToken : string;
   isPassForget : boolean = false;
-
+  isLock :boolean =false;
+  nbreConnexionEchouer :number =0;
+  private totalTime: any; // Temps total en secondes
+  private remainingTime: number; // Temps restant en secondes
+  private intervalId: any; // ID de l'intervalle
+  valeurSeconde :any
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -36,10 +41,11 @@ export class SigninComponent
     private authService: AuthService,
     private utilities: UtilitiesService,
     private modalService: BsModalService,
-    private userService: UserService
+    private userService: UserService,
   ) {
     super();
-
+    this.totalTime = sessionStorage.getItem('remainingTime') ? sessionStorage.getItem('remainingTime') : 60;
+    this.remainingTime = this.totalTime;
        
     this.route.params.subscribe(params => {
       if (params['token']) {
@@ -48,18 +54,23 @@ export class SigninComponent
       }
     });
  
-    console.log(" this.route ",this.route);
-    console.log(" this.this.route.snapshot ",this.route.snapshot['_routerState']?.url);
+    // console.log(" this.route ",this.route);
+    // console.log(" this.this.route.snapshot ",this.route.snapshot['_routerState']?.url);
     
-    console.log(" this.route.snapshot['_routerState']?.url.includes('/authentication/forget-password/') ",this.route.snapshot['_routerState']?.url.includes('/authentication/forget-password/'));
+    // console.log(" this.route.snapshot['_routerState']?.url.includes('/authentication/forget-password/') ",this.route.snapshot['_routerState']?.url.includes('/authentication/forget-password/'));
     
     if(this.route.snapshot['_routerState']?.url.includes('/authentication/forget-password/')){
       this.isPassForget = true;
     }
-
   }
 
   ngOnInit() {
+    if (JSON.parse(sessionStorage.getItem('numConnexion')) == 3) {
+      this.isLock =true;
+      this.compteIsLock(JSON.parse(sessionStorage.getItem('numConnexion')))
+    }else{
+      this.isLock =false
+    }
     this.authForm = this.formBuilder.group({
       username: ["", Validators.required],
       password: ["", Validators.required],
@@ -91,9 +102,7 @@ export class SigninComponent
       return;
     } else {
       this.password=this.f.password.value;
-
       // this.authService.login(this.f.username.value, this.f.password.value);
-
       // this.router.navigate(['/admin']);
       this.subs.sink = this.authService
         .login(this.f.username.value, password??this.f.password.value)
@@ -106,7 +115,6 @@ export class SigninComponent
               this.loading = false;
               this.router.navigate(['/dashbord']);
             }
-            
             // this.router.navigate(['/admin']);
             // if (res && !res['hasError']) {
             //   console.log('res authxx',res);
@@ -133,11 +141,13 @@ export class SigninComponent
           },
           (error) => {
             // this.error = error;
-            console.log('error',error);
-            
+            //console.log('error',error);
+            this.nbreConnexionEchouer++;
+            console.log("nbreConnexionEchouer",this.nbreConnexionEchouer);
+            sessionStorage.setItem('numConnexion',this.nbreConnexionEchouer.toString())
+            this.compteIsLock(JSON.parse(sessionStorage.getItem('numConnexion')));
             this.submitted = false;
             this.loading = false;
-
             if(error && error.error)
             this.utilities.showNotification("snackbar-danger",
               error.error,
@@ -145,6 +155,33 @@ export class SigninComponent
                 "center");
           }
         );
+    }
+  }
+
+  compteIsLock(nbre:number){
+    if (nbre == 3) {
+      this.isLock=true;
+      this.intervalId = setInterval(() => {
+        this.remainingTime--;
+        this.valeurSeconde = sessionStorage.getItem('remainingTime');
+        sessionStorage.setItem('remainingTime',this.remainingTime.toString());
+        if (this.remainingTime <= 0) {
+           this.stop();
+        }
+      }, 1000);
+    }
+  }
+
+  stop() {
+    if (this.intervalId !== undefined) {
+      this.nbreConnexionEchouer = 0;
+      this.remainingTime = 60;
+      this.valeurSeconde = 0;
+      sessionStorage.removeItem('numConnexion');
+      sessionStorage.removeItem('remainingTime');
+      clearInterval(this.intervalId);
+      this.intervalId = undefined;
+      this.isLock = false
     }
   }
 
