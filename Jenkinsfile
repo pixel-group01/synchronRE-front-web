@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        NPM_CONFIG_CACHE = "${WORKSPACE}\\.npm"//////
+        NPM_CONFIG_CACHE = "${WORKSPACE}\\.npm"
     }
 
     stages {
@@ -25,25 +25,18 @@ pipeline {
         stage('Build') {
             steps {
                 bat 'npm run build'
-                echo "Workspace directory is: ${env.WORKSPACE}"
             }
         }
 
         stage('Copy Build to Nginx Directory') {
-             steps {
-                            // Crée le répertoire cible si nécessaire, puis copie les fichiers de build
-//                             bat '''
-//                             if not exist C:\\nginx-1.24.0\\html\\synch mkdir C:\\nginx-1.24.0\\html\\synch
-//                             xcopy /s /e /y dist\\* C:\\nginx-1.24.0\\html\\synch\\
-//                             '''
-
-                             // Copie les fichiers du répertoire 'dist' directement dans 'C:\\nginx-1.24.0\\html\\synch'
-                                                bat '''
-                                                if not exist C:\\nginx-1.24.0\\html\\synch mkdir C:\\nginx-1.24.0\\html\\synch
-                                                xcopy /s /e /y dist\\* C:\\nginx-1.24.0\\html\\synch\\
-                                                '''
-                    }
-                }
+            steps {
+                // Copie les fichiers de 'dist/main' (ou autre sous-répertoire) directement dans 'C:\\nginx-1.24.0\\html\\synch'
+                bat '''
+                if not exist C:\\nginx-1.24.0\\html\\synch mkdir C:\\nginx-1.24.0\\html\\synch
+                xcopy /s /e /y dist\\main\\* C:\\nginx-1.24.0\\html\\synch\\
+                '''
+            }
+        }
 
         stage('Archive Artifacts') {
             steps {
