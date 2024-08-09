@@ -29,6 +29,16 @@ pipeline {
             }
         }
 
+        stage('Copy Build to Nginx Directory') {
+             steps {
+                            // Crée le répertoire cible si nécessaire, puis copie les fichiers de build
+                            bat '''
+                            if not exist C:\\nginx-1.24.0\\html\\synch mkdir C:\\nginx-1.24.0\\html\\synch
+                            xcopy /s /e /y dist\\* C:\\nginx-1.24.0\\html\\synch\\
+                            '''
+                    }
+                }
+
         stage('Archive Artifacts') {
             steps {
                 archiveArtifacts artifacts: 'dist/**', allowEmptyArchive: true
