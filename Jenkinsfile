@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        NPM_CONFIG_CACHE = "${WORKSPACE}\\.npm"///
+        NPM_CONFIG_CACHE = "${WORKSPACE}\\.npm"//////
     }
 
     stages {
