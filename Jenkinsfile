@@ -32,10 +32,16 @@ pipeline {
         stage('Copy Build to Nginx Directory') {
              steps {
                             // Crée le répertoire cible si nécessaire, puis copie les fichiers de build
-                            bat '''
-                            if not exist C:\\nginx-1.24.0\\html\\synch mkdir C:\\nginx-1.24.0\\html\\synch
-                            xcopy /s /e /y dist\\* C:\\nginx-1.24.0\\html\\synch\\
-                            '''
+//                             bat '''
+//                             if not exist C:\\nginx-1.24.0\\html\\synch mkdir C:\\nginx-1.24.0\\html\\synch
+//                             xcopy /s /e /y dist\\* C:\\nginx-1.24.0\\html\\synch\\
+//                             '''
+
+                             // Copie les fichiers du répertoire 'dist' directement dans 'C:\\nginx-1.24.0\\html\\synch'
+                                                bat '''
+                                                if not exist C:\\nginx-1.24.0\\html\\synch mkdir C:\\nginx-1.24.0\\html\\synch
+                                                xcopy /s /e /y dist\\* C:\\nginx-1.24.0\\html\\synch\\
+                                                '''
                     }
                 }
 
