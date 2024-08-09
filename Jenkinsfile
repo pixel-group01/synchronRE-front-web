@@ -24,7 +24,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'npm run build --base-href='
+                bat 'npm run build'
             }
         }
 
