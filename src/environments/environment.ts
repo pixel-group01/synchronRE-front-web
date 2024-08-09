@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   // apiUrl : 'http://localhost:5000/',
   // apiUrl : 'http://141.94.206.:5000/'
-  apiUrl :'http://groupensia-dev.synchronre.com:5002/'
+  apiUrl : 'http://groupensia-dev.synchronre.com:5002/'
 };
 
 /*
