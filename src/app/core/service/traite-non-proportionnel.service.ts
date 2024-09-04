@@ -10,12 +10,16 @@ export class TraiteNonProportionnelService {
 
   create = (body:any) => {
     return this.restClient.post('traite-non-proportionnel/create',body)
-  } 
- 
+  }
+
   update = (body:any) => {
     return this.restClient.put('traite-non-proportionnel/update',body)
   }
-  
+
+  getSaisiSouscripteur = () => {
+    return this.restClient.get('traite-non-proportionnel/saisi-by-souscripteur');
+  }
+
   getAll = () => {
     return this.restClient.get('traite-non-proportionnel/search');
   }
@@ -33,4 +37,4 @@ export class TraiteNonProportionnelService {
     return this.restClient.get(endPointFinal);
   }
 
-} 
+}
