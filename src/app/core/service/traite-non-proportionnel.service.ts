@@ -15,7 +15,7 @@ export class TraiteNonProportionnelService {
   update = (body:any) => {
     return this.restClient.put('traite-non-proportionnel/update',body)
   }
-
+//
   getSaisiSouscripteur = () => {
     return this.restClient.get('traite-non-proportionnel/saisi-by-souscripteur');
   }
