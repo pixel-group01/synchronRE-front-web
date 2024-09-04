@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="header mb-3">
                         <h2><strong>Affaires facultatives</strong></h2>
-                    </div> 
+                    </div>
                     <div class="body">
                         <mat-tab-group>
                             <mat-tab label="En cours de saisie">
@@ -15,18 +15,18 @@
                                             (click)="openModal(templateNewBusiness)">
                                             <i class="fa fa-plus"></i>&nbsp; Nouvelle affaire
                                         </button>
-                                    </div> 
+                                    </div>
                                     <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante':'affaires/facultative/by-reassureur-en-traitement' "
                                         [refreshDataTable]="refreshDataTable">
                                     </app-list-affaires-facultatives>
                                 </ng-template>
-                            </mat-tab> 
+                            </mat-tab>
                             <mat-tab label="En cours de placement">
                                 <ng-template matTabContent>
                                     <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante-transmis':'affaires/facultative/by-reassureur-en-placement' "
                                         [refreshDataTable]="refreshDataTable"  [noPutAction]="true" [noPutAction1]="true" [isEnCoursPlacementNelson]="user?.cedId ? false : true"></app-list-affaires-facultatives>
                                 </ng-template>
-                            </mat-tab> 
+                            </mat-tab>
                             <mat-tab label="En cours de règlement">
                                 <ng-template matTabContent>
                                     <app-list-affaires-facultatives [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante-en-reglement':'affaires/facultative/by-reassureur-en-reglement' "
