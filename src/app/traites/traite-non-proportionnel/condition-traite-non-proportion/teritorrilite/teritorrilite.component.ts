@@ -9,7 +9,7 @@ import { RestClientService } from 'src/app/core/service/rest-client.service';
   styleUrls: ['./teritorrilite.component.scss']
 })
 export class TeritorriliteComponent implements OnInit {
- 
+
   items : any;
   dataCurrent : any;
   modalRef: BsModalRef;
@@ -30,7 +30,7 @@ export class TeritorriliteComponent implements OnInit {
     let config = {
       backdrop: true,
       ignoreBackdropClick: true,
-      class: "modal-width-30",
+      class: "modal-width-60",
     };
     console.log('item terr ::', data);
     this.dataCurrent = data;
@@ -62,7 +62,7 @@ export class TeritorriliteComponent implements OnInit {
         }
    }
     );
-  } 
+  }
 
   changePaginationSize($event) {
     if($event) {
