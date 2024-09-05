@@ -25,7 +25,7 @@
           <th>Part(%)</th>
           <th>Taux Com. court</th>
           <th>S/C</th>
-          <th style="text-align: center" *ngIf="!isDetails">Action</th>
+          <th style="text-align: center">Action</th>
         </tr>
       </thead>
 
@@ -38,7 +38,7 @@
           <td>{{ repart?.repTaux }}</td>
           <td>{{ repart?.repTauxComCourt | moneyFormat }}</td>
           <td>{{ repart?.repSousCommission | moneyFormat }}</td>
-          <td style="text-align: center" *ngIf="!isDetails">
+          <td style="text-align: center">
             <ng-container *ngIf="!canPutAction && !isEnAttenteTab && !isValidateOnglet">
               <a
                 title="Imprimer"
@@ -49,7 +49,7 @@
               >&nbsp;&nbsp;
 
               <a
-                title="Supprimer"
+                title="Supprimer" *ngIf="!isDetails"
                 (click)="confirmDeletePlacement(repart)"
                 style="color: red; cursor: pointer"
               >
@@ -88,7 +88,7 @@
                     </button>
 
                     <!-- <button ngbDropdownItem (click)="confirmEnvoiNoteCessionnaire(repart.repId)" *ngIf="repart?.statutCode == 'VAL' || repart?.statutCode == 'MAIL'" >
-                      <i class="fa fa-share"></i>&nbsp;Transmettre la note de cession 
+                      <i class="fa fa-share"></i>&nbsp;Transmettre la note de cession
                     </button> -->
 
                     <button
@@ -141,7 +141,7 @@
                       <i class="fa fa-share"></i>&nbsp;Transmettre
                     </button>
 
-                    <button 
+                    <button
                     type="button"
                     ngbDropdownItem
                     (click)="getReportPlacement(repart.repId)"
@@ -164,7 +164,7 @@
                     >
                       <i class="fa fa-trash"></i>&nbsp;Supprimer
                     </button>
-                    
+
                   </div>
                 </div>
               </div>
@@ -308,5 +308,5 @@
   </div>
 
 
-  
+
 </ng-container>

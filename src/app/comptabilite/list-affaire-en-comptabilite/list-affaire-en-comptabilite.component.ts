@@ -19,6 +19,7 @@ import { Exercice } from "src/app/core/models/exercice";
 import { ExerciceService } from "src/app/core/service/exercice.service";
 import { enumStatutAffaire } from "src/app/core/enumerator/enumerator";
 import { RestClientService } from "src/app/core/service/rest-client.service";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: "app-list-affaire-en-comptabilite",
@@ -35,6 +36,8 @@ export class ListAffaireEnComptabiliteComponent implements OnInit {
   itemsPerPage: number = 10;
   totalItems: number;
   busyGet: Subscription;
+  fileUrlDebitNote : any;
+  busyReport : Subscription;
   user: User;
   listeExercices: Array<Exercice> = [];
   @Input() statutAffaire!: string;
@@ -43,7 +46,7 @@ export class ListAffaireEnComptabiliteComponent implements OnInit {
   @Input() isOngletReversement: boolean = false;
   @Input() isOngletPaiement: boolean = false;
   @Input() endPoint: string;
-  
+
   initialEndPoint: string;
   statutAffEnum: any;
 
@@ -54,7 +57,8 @@ export class ListAffaireEnComptabiliteComponent implements OnInit {
     private userService: UserService,
     private utilities: UtilitiesService,
     private modalService: BsModalService,
-    private restClient:RestClientService
+    private restClient:RestClientService,
+    public sanitizer: DomSanitizer
   ) {
     this.user = this.userService.getCurrentUserInfo();
     this.statutAffEnum = enumStatutAffaire;
@@ -74,6 +78,35 @@ export class ListAffaireEnComptabiliteComponent implements OnInit {
       this.itemToSave = { ...itemAffaire };
       this.businessOptionalService.setCurrentOptionalBusiness(itemAffaire);
     }
+    this.modalRef = this.modalService.show(template, config);
+  }
+
+  getPrintReportDebit(idAffaire: number) {
+    if (idAffaire) {
+      // window.open(
+      //   environment.apiUrl + "reports/display-note-de-debit-fac/" + idAffaire,
+      //   "_blank"
+      // );
+      this.busyReport = this.businessOptionalService.getReportNoteDebit(idAffaire).subscribe(
+        (response : any) => {
+          console.log(" response ",response);
+          let fileUrlDebitNote = "data:application/pdf;base64,"+response?.base64UrlString;
+
+          this.fileUrlDebitNote = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrlDebitNote);
+          // window.open(this.fileUrlDebitNote,"_blank");
+        }
+      )
+
+    }
+  }
+
+  openModalNoteDebit(template: TemplateRef<any>, itemAffaire: BusinessOptional) {
+    let config = {
+      backdrop: true,
+      ignoreBackdropClick: true,
+      class: "modal-width-65",
+    };
+    this.getPrintReportDebit(itemAffaire.affId)
     this.modalRef = this.modalService.show(template, config);
   }
 
