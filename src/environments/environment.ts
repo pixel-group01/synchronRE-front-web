@@ -4,19 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl : 'https://groupensia.synchronre.com:5000/'
- //  apiUrl : 'http://localhost:5000/',
-  // apiUrl : 'http://141.94.206.:5000/'
- // apiUrl : 'http://164.160.41.153:5000/' , // serveur SNDI
- //  apiUrl : 'http://groupensia-dev.synchronre.com:5002/'
-  //   apiUrl :'https://groupensia-test.synchronre.com:5001/'
+  // apiUrl : 'http://localhost:5000/',
+     apiUrl : 'https://groupensia.synchronre.com/',
+  // apiUrl : 'http://groupensia-dev.synchronre.com:5002/',
+  // apiUrl : 'https://groupensia-test.synchronre.com/'
 };
 
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
