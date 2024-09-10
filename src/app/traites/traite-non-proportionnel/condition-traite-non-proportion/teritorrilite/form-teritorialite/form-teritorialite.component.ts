@@ -53,7 +53,7 @@ export class FormTeritorialiteComponent implements OnInit {
       terrTaux: [null],
       orgCodes: [[]],
       paysCodes: [null, Validators.required],
-      terrDescription: ["", Validators.required],
+      terrDescription: [""],
       traiteNpId: [this.idTraitNonProChildrenSed],
     });
   };
