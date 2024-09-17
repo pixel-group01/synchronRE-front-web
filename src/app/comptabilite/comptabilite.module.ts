@@ -13,7 +13,6 @@ import { PaiementsSinistreComponent } from './sinistre-compta/paiements-sinistre
 import { FormPaiementSinistreComponent } from './sinistre-compta/paiements-sinistre/form-paiement-sinistre/form-paiement-sinistre.component';
 import { EtatComptableComponent } from '../sinistre/list-sinistre/etat-comptable/etat-comptable.component';
 
-
 @NgModule({
   declarations: [
     ComptabiliteComponent,

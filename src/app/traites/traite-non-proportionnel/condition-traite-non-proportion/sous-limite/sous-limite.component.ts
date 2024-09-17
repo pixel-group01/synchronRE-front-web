@@ -33,7 +33,7 @@ export class SousLimiteComponent implements OnInit {
     let config = {
       backdrop: true,
       ignoreBackdropClick: true,
-      class: "modal-width-30",
+      class: "modal-width-58 modal-dialog-position",
     };
     console.log('item terr ::', data);
     this.dataCurrent = data;

@@ -13,7 +13,13 @@ export class CedanteService {
   } 
 
   getAll = () => {
-    return this.restClient.get('cedantes/list');
+    return this.restClient.get('cedantes/list');    
+  }
+
+  getAllById = (traiteNpId:any) => {
+    // return this.restClient.get('cedantes/list');
+    return this.restClient.get(`traite/cedantes/a-saisir/${traiteNpId}`);
+    
   }
 
   getAllTraite = (traiteNpId:number) => {
@@ -22,7 +28,8 @@ export class CedanteService {
 
   getCedanteParTraite = (body:any) => {
     return this.restClient.post("traite/cedantes/edit",body);
-  }
+  }  
+
  
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {
     let endPointFinal = "cedantes/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");

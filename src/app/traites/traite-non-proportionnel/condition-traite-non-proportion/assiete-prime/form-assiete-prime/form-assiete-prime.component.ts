@@ -65,16 +65,16 @@ export class FormAssietePrimeComponent implements OnInit {
   }
 
   calculPmd(){ 
-    console.log("this.formulaireGroup.value :", this.formulaireGroup.value);
+    // console.log("this.formulaireGroup.value :", this.formulaireGroup.value);
     if (this.formulaireGroup.value.assiettePrime && this.formulaireGroup.value.tauxPrime ) {
         this.getListCedanteParTraite(this.formulaireGroup.value)
     }
   }
 
   getCedante(){
-    this.cedanteService.getAll().subscribe((res:any)=>{
+    this.cedanteService.getAllById(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
       if (res) {
-          this.cedanteListe = res['content'];
+          this.cedanteListe = res;
       }
     })
   }
@@ -87,6 +87,7 @@ export class FormAssietePrimeComponent implements OnInit {
           this.utilities.formatMsgServeur("Opération réussie."),
           "bottom",
           "center");
+          this.getCedante();
         this.closeModal.emit(true)
       }else{
         this.utilities.showNotification("snackbar-danger",
