@@ -30,9 +30,9 @@ export class TeritorriliteComponent implements OnInit {
     let config = {
       backdrop: true,
       ignoreBackdropClick: true,
-      class: "modal-width-60",
+      class: "modal-width-58 modal-dialog-position",
     };
-    console.log('item terr ::', data);
+    // console.log('item terr ::', data);
     this.dataCurrent = data;
     this.modalRef = this.modalService.show(template, config);
   }

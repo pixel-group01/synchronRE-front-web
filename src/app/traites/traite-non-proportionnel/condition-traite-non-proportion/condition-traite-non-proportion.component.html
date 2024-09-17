@@ -13,12 +13,12 @@
                                     <app-teritorrilite [endPoint]="'territorialites/search'" 
                                               [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-teritorrilite> 
                               </ng-template>
-                          </mat-tab>
+                          </mat-tab> 
                           <mat-tab label="Risque couverts">
                               <ng-template matTabContent>
                                 <app-risque-couverts [endPoint]="'risques/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-risque-couverts>
                               </ng-template>
-                          </mat-tab>
+                          </mat-tab>  
                           <mat-tab label="Catégorie">
                               <ng-template matTabContent>
                                 <app-categorie [endPoint]="'categories/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-categorie>

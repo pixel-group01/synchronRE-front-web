@@ -46,7 +46,6 @@ export class FormPaiementSinistreComponent implements OnInit {
   ];
   @Input() itemSinistre : any;
   fileUrl : any;
-
   etatComp :any;
   paiementSinistre: any=[];
   constructor(
@@ -61,7 +60,6 @@ export class FormPaiementSinistreComponent implements OnInit {
   ) {
     this.currentUser = this.userService.getCurrentUserInfo();
     console.log("currentUser :",this.currentUser);
-
   }
 
   openPanelNewPaiement(isOpen: boolean, isFond? :boolean) {

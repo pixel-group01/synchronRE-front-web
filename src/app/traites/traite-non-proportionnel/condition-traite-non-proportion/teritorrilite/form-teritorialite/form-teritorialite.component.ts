@@ -33,7 +33,7 @@ export class FormTeritorialiteComponent implements OnInit {
     this.createForm();
     this.getPays();
     this.getOrganisation();
-    console.log('itemsUpdate :', this.itemsUpdate);
+    // console.log('itemsUpdate :', this.itemsUpdate);
     if (this.itemsUpdate) {
       this.formulaireGroup.patchValue({...this.itemsUpdate,
         paysCodes: this.itemsUpdate.paysList.map((elt:any)=>{
@@ -42,7 +42,7 @@ export class FormTeritorialiteComponent implements OnInit {
       ,orgCodes : this.itemsUpdate.organisationList,
        traiteNpId : this.idTraitNonProChildrenSed})
     }
-
+ 
   }
 
     createForm = () => {
@@ -70,9 +70,9 @@ export class FormTeritorialiteComponent implements OnInit {
               })
             });
           }else{
-            if (!this.itemsUpdate) {
-              this.formulaireGroup.get('paysCodes').setValue(['Aucun selectionné'])
-            }
+            // if (!this.itemsUpdate) {
+              // this.formulaireGroup.get('paysCodes').setValue(['Aucun selectionné'])
+            // }
             this.paysListe = res
           }
       }

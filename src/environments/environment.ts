@@ -5,3 +5,4 @@ export const environment = {
    apiUrl : 'http://groupensia-dev.synchronre.com:5002/',
   // apiUrl : 'https://groupensia-test.synchronre.com/'
 };
+
