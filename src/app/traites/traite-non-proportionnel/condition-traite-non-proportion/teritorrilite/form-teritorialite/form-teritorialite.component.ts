@@ -20,7 +20,7 @@ export class FormTeritorialiteComponent implements OnInit {
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() itemsUpdate :any;
   busyGet: Subscription;
-
+  paysSelectionnerListe :any =[]
   constructor(
     private formBuilder: FormBuilder,
     private paysService : PaysService,
@@ -52,30 +52,39 @@ export class FormTeritorialiteComponent implements OnInit {
       terrLibelle: ["",Validators.required],
       terrTaux: [null],
       orgCodes: [[]],
-      paysCodes: [null, Validators.required],
+      paysCodes: [[], Validators.required],
       terrDescription: [""],
       traiteNpId: [this.idTraitNonProChildrenSed],
     });
   };
 
-  getPays(data?:any){
-    let endPointFinal = data?.length >0 ? `pays/organisations?orgCodes=${data}` : "pays/organisations";
+  clearInputPays(){
+    // Vider seulement le champ 'paysCodes'
+    this.formulaireGroup.patchValue({
+      paysCodes: '' 
+    });
+  }
+
+  getSelectinnerPays(data?:any){
+    let endPointFinal = `pays/organisations?orgCodes=${data}`;
     this.paysService.getAllFiltre(endPointFinal).subscribe((res:any)=>{
       if (res) {
-          this.paysListe = res;
-          if(data && data.length>0){
+          this.paysSelectionnerListe = res;          
             this.formulaireGroup.patchValue({
-              paysCodes:  this.paysListe.map((elt:any)=>{
+              paysCodes:  this.paysSelectionnerListe.map((elt:any)=>{
                 return elt.paysCode
-              })
+              }).concat(this.formulaireGroup.value.paysCodes)
             });
-          }else{
-            // if (!this.itemsUpdate) {
-              // this.formulaireGroup.get('paysCodes').setValue(['Aucun selectionné'])
-            // }
-            this.paysListe = res
-          }
       }
+    })
+  }
+
+  getPays(){
+    let endPointFinal = "pays/organisations";
+    this.paysService.getAllFiltre(endPointFinal).subscribe((res:any)=>{
+      if (res) {
+          this.paysListe = res;          
+          }
     })
   }
 

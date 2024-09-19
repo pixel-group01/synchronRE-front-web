@@ -34,7 +34,8 @@ class="body table-responsive clsOverflow"
         <ng-select
           formControlName="orgCodes"
           [multiple]="true"
-          (change)="getPays(formulaireGroup.value.orgCodes)"
+          (change)="getSelectinnerPays(formulaireGroup.value.orgCodes)"
+          (clear)="clearInputPays()"
           name="orgCodes"
           id="orgCodes"
           [class.errorInputForm]="
@@ -57,8 +58,7 @@ class="body table-responsive clsOverflow"
 
       <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
         <label>Pays : <span class="required_champs">*</span> </label>
-
-          <ng-select
+          <ng-select 
             formControlName="paysCodes"
             name="paysCodes"
             [multiple]="true"
