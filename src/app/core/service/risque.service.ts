@@ -12,4 +12,9 @@ export class RisqueService {
     return this.restClient.get(`risques/list/${traiteNpId}`);
   }
 
+  getCouvertureParents = (traiteNpId :number) => {
+    return this.restClient.get(`risques/couvertureParent/${traiteNpId}`);
+  }
+
+
 }

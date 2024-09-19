@@ -5,6 +5,7 @@ import { RisqueService } from 'src/app/core/service/risque.service';
 import { SousLimiteService } from 'src/app/core/service/sous-limite.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from 'sweetalert2';
+import {ActiviteService} from "../../../../../core/service/activite.service";
 
 @Component({
   selector: 'app-form-sous-limite',
@@ -13,25 +14,37 @@ import Swal from 'sweetalert2';
 })
 export class FormSousLimiteComponent implements OnInit {
   couverturesListe : any = [];
+  couverturesParents : any=[]
+  activiteListe : any=[]
   formulaireGroup!: FormGroup;
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() itemsUpdate :any;
   busyGet: Subscription;
 
+
   constructor(
     private formBuilder: FormBuilder,
     private risqueService : RisqueService,
     private utilities: UtilitiesService,
     private sousLimiteService : SousLimiteService,
+    private activiteService : ActiviteService
   ) { }
- 
-  ngOnInit(): void { 
+
+  ngOnInit(): void {
     this.createForm();
     this.getCouvertures();
+    this.getCouvertureParents();
+    // this.getActivites();
     if (this.itemsUpdate) {
-      this.formulaireGroup.patchValue({...this.itemsUpdate,risqueCouvertId : this.itemsUpdate.sslimiteRisqueCouvertId})
+      this.formulaireGroup.patchValue({...this.itemsUpdate,couId : this.itemsUpdate.sslimiteRisqueCouvertId})
   }
+    // if (this.itemsUpdate) {
+    //   this.formulaireGroup.patchValue({...this.itemsUpdate,
+    //     risqueId: this.itemsUpdate.risques.map((elt: any) => {
+    //       return elt.risqueId
+    //     })})
+    // }
 }
 
     createForm = () => {
@@ -39,7 +52,7 @@ export class FormSousLimiteComponent implements OnInit {
     this.formulaireGroup = this.formBuilder.group({
       sslimiteRisqueCouvertId :[null],
       sousLimMontant: ["",Validators.required],
-      risqueCouvertId: [null,Validators.required], 
+      couId: [null,Validators.required],
       traiteNpId: [this.idTraitNonProChildrenSed],
     });
   };
@@ -51,7 +64,28 @@ export class FormSousLimiteComponent implements OnInit {
       }
     })
   }
- 
+
+  getCouvertureParents(){
+    this.risqueService.getCouvertureParents(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
+      if (res) {
+        this.couverturesParents = res;
+        // this.getActivites();
+      }
+    })
+  }
+
+
+  getActivites(risqueId:number){
+    // this.clearEnfantsCouverture()
+    console.log(risqueId);
+    this.activiteService.getActivitesByRisque(risqueId).subscribe((res:any)=>{
+      if (res) {
+        this.activiteListe = res;
+      }
+    })
+  }
+
+
   save(item: any) {
     this.formulaireGroup.removeControl('sslimiteRisqueCouvertId');
      item = this.formulaireGroup.value;
@@ -74,7 +108,7 @@ export class FormSousLimiteComponent implements OnInit {
   getFormFiledsValue = (field: string) => {
     return this.formulaireGroup.get(field);
   };
- 
+
   confirmSaveItem(item:any){
       Swal.fire({
         title: "Enregistrement",
@@ -93,4 +127,3 @@ export class FormSousLimiteComponent implements OnInit {
       });
   }
 }
- 

@@ -10,5 +10,9 @@ export class ActiviteService {
   getAll = (idCouverture:number) => {
     return this.restClient.get(`couvertures/filles/${idCouverture}`);
   }
- 
+
+  getActivitesByRisque = (risqueId :number) => {
+    return this.restClient.get(`risques/activites/${risqueId}`);
+  }
+
 }
