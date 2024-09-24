@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { CategorieService } from 'src/app/core/service/categorie.service';
 import { CedanteService } from 'src/app/core/service/cedante.service';
 import { LimiteSouscriptionService } from 'src/app/core/service/limite-souscription.service';
-import { OrganisationService } from 'src/app/core/service/organisation.service';
-import { PaysService } from 'src/app/core/service/pays.service';
 import { RisqueService } from 'src/app/core/service/risque.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from 'sweetalert2';
@@ -16,7 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class FormLimiteSouscriptionComponent implements OnInit {
   listeCouvertures : any = []; 
-  listeCedantes : any = [];
+  listeCategorie : any = [];
   formulaireGroup!: FormGroup;
   busyGet: Subscription;
 
@@ -29,14 +28,14 @@ export class FormLimiteSouscriptionComponent implements OnInit {
     private limiteSouscriptionService : LimiteSouscriptionService,
     private utilities: UtilitiesService,
     private risqueService : RisqueService,
-    private cedanteService : CedanteService
+    private categorieService : CategorieService
   ) { }
  
   ngOnInit(): void { 
     this.createForm();
     this.getRisque();
-    this.getCedantes();
-    console.log('itemsUpdate :', this.itemsUpdate);
+    this.getCategorie();
+    // console.log('itemsUpdate :', this.itemsUpdate);
     if (this.itemsUpdate) {
       this.formulaireGroup.patchValue({...this.itemsUpdate})
     }
@@ -47,7 +46,7 @@ export class FormLimiteSouscriptionComponent implements OnInit {
     this.formulaireGroup = this.formBuilder.group({
     limiteSouscriptionId:[null],
     risqueId : [null,Validators.required],
-    cedanteTraiteId: [null,Validators.required], 
+    categorieId: [null,Validators.required], 
     limSousMontant: ["",Validators.required], 
     traiteNpId: [this.idTraitNonProChildrenSed],
     });
@@ -61,10 +60,10 @@ export class FormLimiteSouscriptionComponent implements OnInit {
     })
   }
  
-  getCedantes(){
-    this.cedanteService.getAllTraite(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
+  getCategorie(){
+    this.categorieService.getCategorieList(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
       if (res) {
-          this.listeCedantes = res;
+          this.listeCategorie = res;
       }
     })
   }

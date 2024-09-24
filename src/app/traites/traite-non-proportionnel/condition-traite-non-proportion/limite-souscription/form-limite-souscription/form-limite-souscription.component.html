@@ -4,19 +4,19 @@ class="body table-responsive clsOverflow"
 >
   <div class="row">
     <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
-        <label>Cédante : <span class="required_champs">*</span> </label>
+        <label>Catégorie : <span class="required_champs">*</span> </label>
         <ng-select
-          name="cedanteTraiteId"
-          id="cedanteTraiteId"
-          formControlName="cedanteTraiteId"
+          name="categorieId"
+          id="categorieId"
+          formControlName="categorieId"
           [class.errorInputForm]="
-                    getFormFiledsValue('cedanteTraiteId')?.invalid &&
-                    getFormFiledsValue('cedanteTraiteId')?.touched
+                    getFormFiledsValue('categorieId')?.invalid &&
+                    getFormFiledsValue('categorieId')?.touched
                   ">
           <ng-option
-            *ngFor="let cedante of listeCedantes"
-            [value]="cedante?.cedanteTraiteId"
-            >{{ cedante.cedNomFiliale }}</ng-option
+            *ngFor="let cat of listeCategorie"
+            [value]="cat?.categorieId"
+            >{{ cat.categorieLibelle }}</ng-option
           >
         </ng-select>
         <small

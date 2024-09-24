@@ -10,6 +10,10 @@ export class CategorieService {
   create = (body:any) => {
     return this.restClient.post('categories/save',body)
   } 
+
+  getCategorieList = (body:any) =>{
+    return this.restClient.get(`categories/list/${body}`)
+  }
  
   // update = (body:any) => {
   //   return this.restClient.put('cedantes/update',body)

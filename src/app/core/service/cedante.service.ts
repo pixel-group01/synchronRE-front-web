@@ -19,8 +19,8 @@ export class CedanteService {
   getAllById = (traiteNpId:any) => {
     // return this.restClient.get('cedantes/list');
     return this.restClient.get(`traite/cedantes/a-saisir/${traiteNpId}`);
-    
   }
+
 
   getAllTraite = (traiteNpId:number) => {
     return this.restClient.get(`traite/cedantes/list/${traiteNpId}`);

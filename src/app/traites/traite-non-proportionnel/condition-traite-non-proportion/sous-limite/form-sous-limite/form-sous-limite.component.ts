@@ -50,6 +50,7 @@ export class FormSousLimiteComponent implements OnInit {
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
+      risqueId :[null],
       sslimiteRisqueCouvertId :[null],
       sousLimMontant: ["",Validators.required],
       couId: [null,Validators.required],
@@ -77,7 +78,7 @@ export class FormSousLimiteComponent implements OnInit {
 
   getActivites(risqueId:number){
     // this.clearEnfantsCouverture()
-    console.log(risqueId);
+    // console.log(risqueId);
     this.activiteService.getActivitesByRisque(risqueId).subscribe((res:any)=>{
       if (res) {
         this.activiteListe = res;

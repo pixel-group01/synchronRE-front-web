@@ -15,7 +15,7 @@ class="body table-responsive clsOverflow"
               "
           name="risqueId"
           id="risqueId"
-          (change)="getActivites(formulaireGroup.value.risqueId)"
+          (ngModelChange)="getActivites($event)"
         >
           <ng-option
             *ngFor="let couv of couverturesParents"
