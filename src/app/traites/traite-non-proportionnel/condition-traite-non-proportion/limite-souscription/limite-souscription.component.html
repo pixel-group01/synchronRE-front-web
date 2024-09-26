@@ -29,7 +29,8 @@
             <i class="fa fa-redo-alt"></i></a
           >&nbsp;&nbsp; #
         </th> -->
-        <th>Cédante</th>
+        <th>Categorie</th>
+        <th>Cédante(s)</th>
         <th>couverture</th>
         <th>Montant</th>
         <th class="txt-align-center">Actions</th>
@@ -43,7 +44,8 @@
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td> -->
 
-        <td>{{ item?.cedNomFiliale }}</td>
+        <td>{{ item?.categorieLibelle }}</td>
+        <td width="50%">{{ item?.libellesCedantes }}</td>
         <td>{{ item?.couLibelle }}</td>
         <td>{{ item?.limSousMontant | moneyFormat}}</td>
         <td class="custom-width-td-action">
