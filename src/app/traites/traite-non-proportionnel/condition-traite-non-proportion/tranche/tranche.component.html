@@ -35,6 +35,7 @@
         <th>Branche</th>
         <th>Priorité</th>
         <th>Portée</th>
+        <th>Taux de prime</th>
         <th class="txt-align-center">Actions</th>
 
         </tr>
@@ -58,6 +59,7 @@
         <td>{{ item?.couLibelle }}</td>
         <td>{{ item?.tranchePriorite | moneyFormat}}</td>
         <td>{{ item?.tranchePorte | moneyFormat}}</td>
+        <td>{{ item?.trancheTauxPrime}}</td>
         <td class="custom-width-td-action">
             <div class="custom-td-action">
               <div ngbDropdown class="d-inline-block">

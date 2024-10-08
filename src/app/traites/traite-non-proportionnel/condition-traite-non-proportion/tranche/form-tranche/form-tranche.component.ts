@@ -34,7 +34,7 @@ export class FormTrancheComponent implements OnInit {
     private risqueService : RisqueService
   ) { }
 // a personnaliser en tranche
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.createForm();
     this.getBranches();
     this.getPaysConcerner();
@@ -48,15 +48,16 @@ export class FormTrancheComponent implements OnInit {
     this.formulaireGroup = this.formBuilder.group({
       trancheId :[null],
       trancheLibelle: ["",Validators.required],
-      trancheType: [null,Validators.required], 
-      tranchePriorite: [null,Validators.required], 
+      trancheType: [null,Validators.required],
+      tranchePriorite: [null,Validators.required],
       tranchePorte: [null,Validators.required],
+      trancheTauxPrime: [null,Validators.required],
       risqueId: [null, Validators.required],
       categorieIds : [null, Validators.required],
       traiteNpId: [this.idTraitNonProChildrenSed],
-    }); 
+    });
   };
-  
+
   getBranches(){
     this.risqueService.getAll(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
       if (res) {
@@ -86,7 +87,7 @@ export class FormTrancheComponent implements OnInit {
   getFormFiledsValue = (field: string) => {
     return this.formulaireGroup.get(field);
   };
- 
+
   confirmSaveItem(item:any){
       Swal.fire({
         title: "Enregistrement",

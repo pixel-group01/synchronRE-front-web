@@ -10,31 +10,30 @@
                       <mat-tab-group>
                           <mat-tab label="Térritorialité">
                               <ng-template matTabContent>
-                                    <app-teritorrilite [endPoint]="'territorialites/search'" 
-                                              [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-teritorrilite> 
+                                    <app-teritorrilite [endPoint]="'territorialites/search'"
+                                              [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-teritorrilite>
                               </ng-template>
-                          </mat-tab> 
+                          </mat-tab>
                           <mat-tab label="Risque couverts">
                               <ng-template matTabContent>
                                 <app-risque-couverts [endPoint]="'risques/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-risque-couverts>
                               </ng-template>
-                          </mat-tab>  
+                          </mat-tab>
                           <mat-tab label="Catégorie">
                               <ng-template matTabContent>
                                 <app-categorie [endPoint]="'categories/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-categorie>
                               </ng-template>
-                          </mat-tab>          
+                          </mat-tab>
+                        <mat-tab label="Tranche">
+                          <ng-template matTabContent>
+                            <app-tranche [endPoint]="'tranches/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId" ></app-tranche>
+                          </ng-template>
+                        </mat-tab>
                           <mat-tab label="Assiette de prime">
                             <ng-template matTabContent>
                               <app-assiete-prime [endPoint]="'traite/cedantes/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId"></app-assiete-prime>
                             </ng-template>
                         </mat-tab>
-
-                        <mat-tab label="Tranche">
-                          <ng-template matTabContent>
-                            <app-tranche [endPoint]="'tranches/search'" [idTraitNonProChildren]="idTraitNonProChild || currentTraiterNonPropoChild.traiteNpId" ></app-tranche>
-                          </ng-template>
-                      </mat-tab>
 
                       <mat-tab label="Limite de souscription">
                         <ng-template matTabContent>
@@ -99,7 +98,7 @@
         <fieldset>
           <legend>Catégorie</legend>
 
-          <div> 
+          <div>
             <app-categorie [endPoint]="'categories/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-categorie>
           </div>
         </fieldset>
@@ -134,7 +133,7 @@
       </div>
       <div class="col-6 mt-4">
         <fieldset>
-          <legend>Sous Limite</legend> 
+          <legend>Sous Limite</legend>
 
           <div>
             <app-sous-limite [endPoint]="'sous-limite/search'" [idTraitNonProChildren]="idTraitNonProChild"></app-sous-limite>
