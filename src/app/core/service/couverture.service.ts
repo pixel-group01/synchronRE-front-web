@@ -27,4 +27,12 @@ export class CouvertureService {
   update = (body:any) => {
     return this.restClient.put('couvertures/update',body)
   }
+
+  getParentCouverture = (traiteNpId:number) => {
+    return this.restClient.get(`couvertures/parents/${traiteNpId}`)
+  }
+  
+  getActivites = (traiteNpId:number,couParentId:number) => {
+    return this.restClient.get(`couvertures/filles?traiteNpId=${traiteNpId}&couParentId=${couParentId}`)
+  }
 }

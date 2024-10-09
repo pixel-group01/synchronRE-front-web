@@ -15,4 +15,6 @@ export class RisqueCouvertureService {
   update = (body:any) => {
     return this.restClient.put('risques/update',body)
   }
+
+ 
 }

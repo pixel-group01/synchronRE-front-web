@@ -15,7 +15,7 @@ class="body table-responsive clsOverflow"
           getFormFiledsValue('couId')?.invalid &&
           getFormFiledsValue('couId')?.touched
         "
-          (change)="getActivites(formulaireGroup.value.couId)"
+          (change)="getListeActiviteCouverture(formulaireGroup.value.couId)"
         >
           <ng-option
             *ngFor="let risque of couverturesListe"

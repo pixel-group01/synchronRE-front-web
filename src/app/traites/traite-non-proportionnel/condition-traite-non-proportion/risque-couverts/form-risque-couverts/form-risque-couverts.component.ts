@@ -23,10 +23,8 @@ export class FormRisqueCouvertsComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-
     private couvertureService : CouvertureService,
     private utilities: UtilitiesService,
-
     private risqueCouvertureService : RisqueCouvertureService,
     private activiteService : ActiviteService
   ) { }
@@ -56,18 +54,26 @@ export class FormRisqueCouvertsComponent implements OnInit {
     this.formulaireGroup.get('sousCouIds').setValue('Aucun selectionné')
   }
 
-  getCouvertures(item?:number){
-    this.couvertureService.getCouvertureParents().subscribe((res:any)=>{
+  getCouvertures(){
+    this.couvertureService.getParentCouverture(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
       if (res) {
           this.couverturesListe = res;
+      }
+    })
+  }
 
+  getListeActiviteCouverture(idCouv:any){
+    this.couvertureService.getParentCouverture(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
+      if (res) {
+          this.couverturesListe = res;
+          this.getActivites(idCouv)
       }
     })
   }
 
   getActivites(idCouverture:number){
     this.clearEnfantsCouverture()
-    this.activiteService.getAll(idCouverture).subscribe((res:any)=>{
+    this.couvertureService.getActivites(this.idTraitNonProChildrenSed,idCouverture).subscribe((res:any)=>{
       if (res) {
           this.activitesListe = res
       }
@@ -81,7 +87,9 @@ export class FormRisqueCouvertsComponent implements OnInit {
           this.utilities.formatMsgServeur("Opération réussie."),
           "bottom",
           "center");
-        this.closeModal.emit(true)
+          this.getCouvertures();
+          this.formulaireGroup.reset();
+          this.closeModal.emit(true);
       }else{
         this.utilities.showNotification("snackbar-danger",
           this.utilities.formatMsgServeur("Échec de l'opération, veuillez réessayer."),

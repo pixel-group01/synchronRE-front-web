@@ -75,8 +75,8 @@ export class RisqueCouvertsComponent implements OnInit {
   }
 
   closeModal($event: any) {
-    this.modalRef.hide();
-
+    // this.modalRef.hide();
+    
     // Dans le cas ou $event vaut true alors on actualise la liste
     if ($event) {
       this.getItems();
