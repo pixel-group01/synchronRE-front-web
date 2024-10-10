@@ -32,8 +32,8 @@ pipeline {
             steps {
                 // Copie les fichiers de 'dist/main' (ou autre sous-répertoire) directement dans 'C:\\nginx-1.24.0\\html\\synchronre'
                 bat '''
-                if not exist C:\\nginx-1.24.0\\html\\synchronre mkdir C:\\nginx-1.24.0\\html\\synchronre
-                xcopy /s /e /y dist\\main\\* C:\\nginx-1.24.0\\html\\synchronre\\
+                if not exist C:\\nginx-1.24.0\\html\\synchronre mkdir C:\\nginx-1.24.0\\html\\synchronreDev
+                xcopy /s /e /y dist\\main\\* C:\\nginx-1.24.0\\html\\synchronreDev\\
                 '''
             }
         }
