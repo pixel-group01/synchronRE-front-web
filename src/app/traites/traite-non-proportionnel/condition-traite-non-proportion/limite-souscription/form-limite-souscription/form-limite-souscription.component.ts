@@ -18,10 +18,12 @@ export class FormLimiteSouscriptionComponent implements OnInit {
   listeCategorie : any = [];
   formulaireGroup!: FormGroup;
   busyGet: Subscription;
-
+  listeCedante :any;
+  tabCedante :any = [];
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() itemsUpdate :any;
+  isCollapsed = true;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -66,6 +68,25 @@ export class FormLimiteSouscriptionComponent implements OnInit {
           this.listeCategorie = res;
       }
     })
+  }
+
+  controlIsCollapse(evt:any){
+      if (!this.isCollapsed) {
+        this.listeCedante = this.listeCategorie.find((res:any)=> res.categorieId == evt);
+        this.tabCedante = this.listeCedante?.libellesCedantes.split(", ");
+      }
+  } 
+
+  clearCollapse(){
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  getListeCedante(evt:any){
+    if (this.isCollapsed) {
+      this.isCollapsed = !this.isCollapsed;
+      this.listeCedante = this.listeCategorie.find((res:any)=> res.categorieId == evt);
+      this.tabCedante = this.listeCedante.libellesCedantes.split(", ");
+    }
   }
 
   save(item: any) {

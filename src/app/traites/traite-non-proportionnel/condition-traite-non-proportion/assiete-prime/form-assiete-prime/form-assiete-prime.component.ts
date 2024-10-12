@@ -17,7 +17,7 @@ export class FormAssietePrimeComponent implements OnInit {
   listeCessionLegale :any =[];
   formulaireGroup!: FormGroup;
   busyGet: Subscription;
-
+  
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() itemsUpdate :any;

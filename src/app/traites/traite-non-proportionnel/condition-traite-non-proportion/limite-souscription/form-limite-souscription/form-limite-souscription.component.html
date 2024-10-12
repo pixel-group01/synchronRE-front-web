@@ -7,7 +7,10 @@ class="body table-responsive clsOverflow"
         <label>Catégorie : <span class="required_champs">*</span> </label>
         <ng-select
           name="categorieId"
-          id="categorieId"
+          (ngModelChange)="getListeCedante($event)"
+          id="categorieId" 
+          (clear)="clearCollapse()"
+          (change)="controlIsCollapse(formulaireGroup.value.categorieId)"
           formControlName="categorieId"
           [class.errorInputForm]="
                     getFormFiledsValue('categorieId')?.invalid &&
@@ -25,6 +28,19 @@ class="body table-responsive clsOverflow"
       >
         Ce champ est obligatoire
       </small>
+      <div [ngbCollapse]="isCollapsed" id="collapseExample">
+        <div class="card card-body mb-0">
+          <fieldset *ngIf="listeCedante">
+            <legend>Liste des cédantes</legend>
+            <div>
+              <span class="badge bg-secondary mr-2" style="color: white;background-color: #7c7c7c !important;"
+              *ngFor="let ced of tabCedante">
+                {{ced}}
+              </span>
+            </div>
+          </fieldset>
+        </div>
+      </div>
       </div>
 
       <div class="col-md-12 col-xs-12 col-sm-12 mb-1">

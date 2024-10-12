@@ -84,7 +84,35 @@
       </div>
     </div>
   </form>
-
+  <div class="col-md-12 col-xs-12 col-sm-12 mt-3 mb-4">
+    <fieldset>
+      <legend>Information sur la tranche</legend>
+      <table class="table table-condensed table-striped table-hover">
+        <thead>
+        <tr class="custom-table-head">
+          <th class="text-center" style="width: 150px">Tranche</th>
+          <th class="text-center">Assiète prime</th>
+          <th class="text-center">Taux prime</th>
+          <th class="text-center" style="width: 107px">PMD</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+         
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr *ngIf="!items || items.length == 0">
+          <td colspan="4">
+            <div class="col-md-12 text-center">
+              Aucune donnée disponible
+            </div>
+          </td>
+        </tr>
+        </tfoot>
+      </table>
+    </fieldset>
+  </div>
   <div class="col-md-12 col-xs-12 col-sm-12 mt-3 mb-3">
     <fieldset>
       <legend>PMD par cession légale</legend>
@@ -96,7 +124,6 @@
           <th class="text-center">PMD</th>
           <th class="text-center" style="width: 107px">Taux courtier</th>
           <th class="text-center" style="width: 164px;">Taux courtier placeur</th>
-          <th class="text-center"></th>
         </tr>
         </thead>
         <tbody>
@@ -146,7 +173,7 @@
         </tbody>
         <tfoot>
         <tr *ngIf="!items || items.length == 0">
-          <td colspan="6">
+          <td colspan="5">
             <div class="col-md-12 text-center">
               Aucune donnée disponible
             </div>
@@ -156,7 +183,6 @@
       </table>
     </fieldset>
   </div>
-
   <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
     <button type="button" [disabled]="!formulaireGroup.valid" (click)="confirmSaveItem(formulaireGroup.value)"
             class="btn btn-md custom_btn_primary pull-right">Enregistrer

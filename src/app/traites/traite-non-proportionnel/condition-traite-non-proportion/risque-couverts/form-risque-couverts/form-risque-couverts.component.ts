@@ -34,9 +34,10 @@ export class FormRisqueCouvertsComponent implements OnInit {
     this.getCouvertures();
     if (this.itemsUpdate) {
       this.formulaireGroup.patchValue({...this.itemsUpdate,
-        sousCouIds: this.itemsUpdate.risques.map((elt: any) => {
+        sousCouIds: this.itemsUpdate.sousCouvertures.map((elt: any) => {
           return elt.couId
-        })})
+        })
+      })
     }
   }
 
