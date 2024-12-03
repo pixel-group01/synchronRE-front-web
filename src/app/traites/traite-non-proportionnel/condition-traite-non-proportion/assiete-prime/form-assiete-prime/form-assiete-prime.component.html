@@ -2,7 +2,7 @@
          [ngBusy]="{busy: busyGet, message: 'Veuillez patienter ...', backdrop: false}">
   <form [formGroup]="formulaireGroup">
     <div class="row">
-      <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
+      <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
         <label>Cédante : <span class="required_champs">*</span> </label>
         <ng-select
           formControlName="cedId"
@@ -24,7 +24,10 @@
           Ce champ est obligatoire
         </small>
       </div>
-
+    </div>
+    <fieldset class="mt-3 mb-3">
+      <legend>TrancheLibelle</legend>
+    <div class="row">
       <div class="col-md-4 col-xs-12 col-sm-4 mb-1">
         <label>Assiette de prime : <span class="required_champs">*</span></label>
         <input class="form-control custom-input text-end"
@@ -44,7 +47,6 @@
           Ce champ est obligatoire
         </small>
       </div>
-
       <div class="col-md-4 col-xs-12 col-sm-4 mb-2">
         <label>Taux de prime : <span class="required_champs">*</span></label>
         <input class="form-control custom-input text-end"
@@ -63,7 +65,6 @@
           Ce champ est obligatoire
         </small>
       </div>
-
       <div class="col-md-4 col-xs-12 col-sm-12 mb-1">
         <label>PMD : <span class="required_champs">*</span></label>
         <input class="form-control custom-input text-end"
@@ -83,106 +84,39 @@
         </small>
       </div>
     </div>
+    <div class="col-md-12 col-xs-12 col-sm-12 mt-3 mb-4">
+      <fieldset>
+        <legend>PMD par cession légale</legend>
+        <table class="table table-condensed table-striped table-hover">
+          <thead>
+          <tr class="custom-table-head">
+            <th class="text-center">Cession légale</th>
+            <th class="text-center">Taux</th>
+            <th class="text-center">PMD</th>
+            <th class="text-center">Taux courtier</th>
+            <th class="text-center">Taux Placeur</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+           
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr *ngIf="!items || items.length == 0">
+            <td colspan="4">
+              <div class="col-md-12 text-center">
+                Aucune donnée disponible
+              </div>
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+      </fieldset>
+    </div>
+    </fieldset>     
   </form>
-  <div class="col-md-12 col-xs-12 col-sm-12 mt-3 mb-4">
-    <fieldset>
-      <legend>Information sur la tranche</legend>
-      <table class="table table-condensed table-striped table-hover">
-        <thead>
-        <tr class="custom-table-head">
-          <th class="text-center" style="width: 150px">Tranche</th>
-          <th class="text-center">Assiète prime</th>
-          <th class="text-center">Taux prime</th>
-          <th class="text-center" style="width: 107px">PMD</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-         
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr *ngIf="!items || items.length == 0">
-          <td colspan="4">
-            <div class="col-md-12 text-center">
-              Aucune donnée disponible
-            </div>
-          </td>
-        </tr>
-        </tfoot>
-      </table>
-    </fieldset>
-  </div>
-  <div class="col-md-12 col-xs-12 col-sm-12 mt-3 mb-3">
-    <fieldset>
-      <legend>PMD par cession légale</legend>
-      <table class="table table-condensed table-striped table-hover">
-        <thead>
-        <tr class="custom-table-head">
-          <th class="text-center" style="width: 150px">Cession légale</th>
-          <th class="text-center" style="width: 80px;">Taux(%)</th>
-          <th class="text-center">PMD</th>
-          <th class="text-center" style="width: 107px">Taux courtier</th>
-          <th class="text-center" style="width: 164px;">Taux courtier placeur</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let item of listeCessionLegale; let indice = index">
-          <td class="text-center">
-            {{item?.paramCesLegalLibelle || "Libelle cession"}}
-          </td>
-          <td>
-            <input class="form-control custom-input text-center"
-                   placeholder=""
-                   [(ngModel)]="item.tauxCesLeg"
-                   name="tauxCesLeg{{indice}}"
-                   autocomplete="off"
-                   type="text">
-          </td>
-          <td>
-            <input class="form-control custom-input text-center"
-                   placeholder=""
-                   [(ngModel)]="item.pmd"
-                   name="pmd{{indice}}"
-                   autocomplete="off"
-                   mask="separator"
-                   type="text">
-          </td>
-          <td>
-            <input class="form-control custom-input text-center"
-                   placeholder=""
-                   [(ngModel)]="item.tauxCourtier"
-                   name="tauxCourtier{{indice}}"
-                   autocomplete="off"
-                   type="text">
-          </td>
-          <td>
-            <input class="form-control custom-input text-center"
-                   placeholder=""
-                   [(ngModel)]="item.tauxCourtierPlaceur"
-                   name="tauxCourtierPlaceur{{indice}}"
-                   autocomplete="off"
-                   type="text">
-          </td>
-          <td class="text-center">
-            <input type="checkbox"
-                   [(ngModel)]="item.accepte"
-                   name="accepte{{indice}}">
-          </td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr *ngIf="!items || items.length == 0">
-          <td colspan="5">
-            <div class="col-md-12 text-center">
-              Aucune donnée disponible
-            </div>
-          </td>
-        </tr>
-        </tfoot>
-      </table>
-    </fieldset>
-  </div>
+  
   <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
     <button type="button" [disabled]="!formulaireGroup.valid" (click)="confirmSaveItem(formulaireGroup.value)"
             class="btn btn-md custom_btn_primary pull-right">Enregistrer

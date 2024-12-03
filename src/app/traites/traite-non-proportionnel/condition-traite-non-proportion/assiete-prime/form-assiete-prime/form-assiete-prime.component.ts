@@ -54,8 +54,8 @@ export class FormAssietePrimeComponent implements OnInit {
   };
 
   getListCedanteParTraite(data:any){
-      this.busyGet = this.cedanteService.getCedanteParTraite(data).subscribe((res:any)=>{
-        // console.log(res , "res de cedande par traite");
+      this.busyGet = this.cedanteService.getCedanteParTranche(data).subscribe((res:any)=>{
+        console.log(res , "res de cedande par traite");
         if (res) {
           this.items = res;
           this.listeCessionLegale = this.items.cessionsLegales
@@ -72,8 +72,13 @@ export class FormAssietePrimeComponent implements OnInit {
   }
 
   getCedante(){
-    this.cedanteService.getAllById(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
+    const data = {
+      "cedId": 8,
+      "traiteNpId": this.idTraitNonProChildrenSed
+    }
+    this.cedanteService.getAllByTrancheCedante(data).subscribe((res:any)=>{
       if (res) {
+        console.log(res , "res de cedante par tranche");
           this.cedanteListe = res;
       }
     })
