@@ -23,7 +23,7 @@ export class CedanteService {
 
   getAllByTrancheCedante = (body:any) => {
     // return this.restClient.get('cedantes/list');
-    return this.restClient.post(`tranches/cedantes/edit/`,`${body}`);
+    return this.restClient.post(`tranches/cedantes/edit`,body);
   }
 
   getAllTraite = (traiteNpId:number) => {

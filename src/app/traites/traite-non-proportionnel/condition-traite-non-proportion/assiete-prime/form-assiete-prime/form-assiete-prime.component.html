@@ -1,4 +1,4 @@
-<section class="body table-responsive clsOverflow"
+<section class="body clsOverflow"
          [ngBusy]="{busy: busyGet, message: 'Veuillez patienter ...', backdrop: false}">
   <form [formGroup]="formulaireGroup">
     <div class="row">
@@ -8,7 +8,7 @@
           formControlName="cedId"
           name="cedId"
           id="cedId"
-          (change)="getListCedanteParTraite(formulaireGroup.value)"
+          (change)="getCedante(formulaireGroup.value)"
           [class.errorInputForm]="
                 getFormFiledsValue('cedId')?.invalid &&
                 getFormFiledsValue('cedId')?.touched
@@ -25,63 +25,43 @@
         </small>
       </div>
     </div>
-    <fieldset class="mt-3 mb-3">
-      <legend>TrancheLibelle</legend>
+  </form>
+  
+    <fieldset class="mt-4 mb-3" *ngFor="let tranch of tranchePrime ; let i = index">
+    <legend>{{capitalizeFirstLetterPreserveCase(tranch?.trancheLibelle)}}</legend>
     <div class="row">
       <div class="col-md-4 col-xs-12 col-sm-4 mb-1">
         <label>Assiette de prime : <span class="required_champs">*</span></label>
         <input class="form-control custom-input text-end"
-               formControlName="assiettePrime"
+              [(ngModel)]="tranchePrime[i].assietteDePrime"
                placeholder=""
+               (blur)="calculAssiettePrime(i)"
                autocomplete="off"
                name="assiettePrime"
                mask="separator"
                type="text"
-               (keyup)="calculPmd()"
-               [class.errorInputForm]="
-                 getFormFiledsValue('assiettePrime')?.invalid &&
-                 getFormFiledsValue('assiettePrime')?.touched
-               ">
-        <small class="text-danger"
-               *ngIf="(getFormFiledsValue('assiettePrime')?.dirty || getFormFiledsValue('assiettePrime')?.touched) && getFormFiledsValue('assiettePrime')?.invalid && getFormFiledsValue('assiettePrime')?.errors?.['required']">
-          Ce champ est obligatoire
-        </small>
+               >
       </div>
       <div class="col-md-4 col-xs-12 col-sm-4 mb-2">
         <label>Taux de prime : <span class="required_champs">*</span></label>
         <input class="form-control custom-input text-end"
                placeholder=""
-               formControlName="tauxPrime"
+               [(ngModel)]="tranchePrime[i].tauxPrimeTranche"
                autocomplete="off"
                name="tauxPrime"
                type="text"
-               (keyup)="calculPmd()"
-               [class.errorInputForm]="
-                 getFormFiledsValue('tauxPrime')?.invalid &&
-                 getFormFiledsValue('tauxPrime')?.touched
-               ">
-        <small class="text-danger"
-               *ngIf="(getFormFiledsValue('tauxPrime')?.dirty || getFormFiledsValue('tauxPrime')?.touched) && getFormFiledsValue('tauxPrime')?.invalid && getFormFiledsValue('tauxPrime')?.errors?.['required']">
-          Ce champ est obligatoire
-        </small>
+               >
       </div>
       <div class="col-md-4 col-xs-12 col-sm-12 mb-1">
         <label>PMD : <span class="required_champs">*</span></label>
         <input class="form-control custom-input text-end"
                placeholder=""
-               formControlName="pmd"
+               [(ngModel)]="tranchePrime[i].pmdTranche"
                autocomplete="off"
                name="affAssure"
                type="text"
                mask="separator"
-               [class.errorInputForm]="
-                 getFormFiledsValue('pmd')?.invalid &&
-                 getFormFiledsValue('pmd')?.touched
-               ">
-        <small class="text-danger"
-               *ngIf="(getFormFiledsValue('pmd')?.dirty || getFormFiledsValue('pmd')?.touched) && getFormFiledsValue('pmd')?.invalid && getFormFiledsValue('pmd')?.errors?.['required']">
-          Ce champ est obligatoire
-        </small>
+              >
       </div>
     </div>
     <div class="col-md-12 col-xs-12 col-sm-12 mt-3 mb-4">
@@ -98,12 +78,16 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-           
+          <tr *ngFor="let cess of tranchePrime[i]?.cessionsLegales">
+              <td class="text-center">{{cess?.paramCesLegalLibelle}}</td>
+              <td class="text-center">{{cess?.tauxCesLeg}}</td>
+              <td class="text-center">{{cess?.pmd}}</td>
+              <td class="text-center">{{cess?.tauxCourtier}}</td>
+              <td class="text-center">{{cess?.tauxCourtierPlaceur}}</td>
           </tr>
           </tbody>
           <tfoot>
-          <tr *ngIf="!items || items.length == 0">
+          <tr *ngIf="!tranchePrime[i]?.cessionsLegales || tranchePrime[i]?.cessionsLegales.length == 0">
             <td colspan="4">
               <div class="col-md-12 text-center">
                 Aucune donnée disponible
@@ -114,11 +98,9 @@
         </table>
       </fieldset>
     </div>
-    </fieldset>     
-  </form>
-  
-  <div class="col-md-12 col-xs-12 col-sm-12 mb-2">
-    <button type="button" [disabled]="!formulaireGroup.valid" (click)="confirmSaveItem(formulaireGroup.value)"
+    </fieldset> 
+  <div class="col-md-12 col-xs-12 col-sm-12 mb-2" *ngIf="formulaireGroup.value.cedId"> 
+    <button type="button"  (click)="confirmSaveItem()"
             class="btn btn-md custom_btn_primary pull-right">Enregistrer
     </button>
   </div>
