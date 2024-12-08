@@ -1,0 +1,15 @@
+.manage-radio {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-top: 25px;
+
+    div {
+        align-items: center;
+        display: flex;
+        label {
+            padding-left: 10px;
+        }
+    }
+   
+}

@@ -1,0 +1,100 @@
+<section class="content">
+    <div class="content-block" [ngBusy]="{
+        busy: busyGet,
+        message: 'Veuillez patienter ...',
+        backdrop: false
+      }">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header mb-3">
+                        <h2><strong>Etablissement des comptes</strong></h2>
+                    </div>
+                    <div class="body">
+
+                        <div class="row">
+
+                            <div class="col-md-2 col-xs-12 mb-2">
+                                <label>Exercice</label>
+                                <ng-select [(ngModel)]="itemToSave.exerciceSelected" placeholder="Choisissez"
+                                    (change)="selectedExercice(itemToSave.exerciceSelected)" name="exercei" id="exercei"
+                                    [multiple]="false" [closeOnSelect]="true">
+                                    <ng-option *ngFor="let item of ListeExercice"
+                                        [value]="item?.exeCode">{{item?.exeLibelle}}
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+
+                            <div class="col-md-4 col-xs-12 mb-2">
+                                <label>Traités</label>
+                                <ng-select [(ngModel)]="itemToSave.traiteSelected" placeholder="Choisissez"
+                                    (change)="changeTraite(itemToSave.traiteSelected)" name="traites" id="traites"
+                                    [multiple]="false" [closeOnSelect]="true">
+                                    <ng-option *ngFor="let item of ListeTraites" [value]="item">{{item?.traiReference}}
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+
+                            <div class="col-md-3 col-xs-12 mb-2">
+                                <label>Nature :</label>
+                                <input class="form-control custom-input" placeholder="Nature" autocomplete="off"
+                                    disabled [(ngModel)]="itemToSave.traiteSelected.natLibelle" name="nature"
+                                    type="text">
+                            </div>
+
+                            <div class="col-md-3 col-xs-12 mb-2">
+                                <label>Comptabilisation :</label>
+                                <input class="form-control custom-input" placeholder="Comptabilisation"
+                                    autocomplete="off" disabled [(ngModel)]="itemToSave.traiteSelected.traiEcerciceRattachement"
+                                    name="comptabilisation"  type="text">
+                            </div>
+
+                            <div class="col-md-2 col-xs-12 mb-2">
+                                <label>Périodicité :</label>
+                                <ng-select [(ngModel)]="itemToSave.periodiciteSelected" placeholder="Choisissez"
+                                    (change)="changePeriodicite(itemToSave.periodiciteSelected)" name="preference"
+                                    id="preference" [multiple]="false" [closeOnSelect]="true">
+                                    <ng-option *ngFor="let item of ListePeriodicites"
+                                        [value]="item">{{item?.name}}
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+
+                            <div class="col-md-2 col-xs-12 mb-2">
+                                <label>Période :</label>
+                                <ng-select [(ngModel)]="itemToSave.traiteSelected" placeholder="Choisissez"
+                                    name="periode" id="periode" [multiple]="false" [closeOnSelect]="true">
+                                    <ng-option *ngFor="let item of ListePeriode" [value]="item">{{item?.type?.name}}
+                                    </ng-option>
+                                </ng-select>
+                            </div>
+
+                        </div>
+
+
+                        <!-- Tranches partie -->
+                        <div class="row" *ngIf="ListeTranches && ListeTranches.length">
+                            <div class="col-12 mb-3">
+
+                                <mat-tab-group>
+                                    <mat-tab *ngFor="let itemTranche of ListeTranches; let index = index" label="{{'Tranche '+(index +1)}}">
+                                        <ng-template matTabContent>
+                                            <app-form-tranche [currentTranche]="itemTranche"></app-form-tranche>
+                                        </ng-template>
+                                    </mat-tab>
+
+                                </mat-tab-group>
+
+                                
+                            </div>
+                        </div>
+                        <!-- Fin tranche-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

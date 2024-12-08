@@ -1,0 +1,88 @@
+<ng-container>
+    <div class="row">
+        <div class="col-md-4 col-xs-12 mb-3">
+            <label>Cedante</label>
+            <ng-select [(ngModel)]="itemToSave.parentId" placeholder="Choisissez " name="actes" id="actes"
+                [multiple]="false" [closeOnSelect]="true">
+                <ng-option *ngFor="let item of ListeCedantes" [value]="item?.cedId">{{item?.cedNomFiliale}}
+                </ng-option>
+            </ng-select>
+        </div>
+
+        <div class="col-md-4">
+            <div class="manage-radio">
+                <div>
+                    <input type="radio" id="huey" name="drone" value="huey" checked />
+                    <label for="huey">Compte simple</label>
+                </div>
+
+                <div>
+                    <input type="radio" id="dewey" name="drone" value="dewey" />
+                    <label for="dewey">Compte agrégé</label>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 col-xs-12 table-responsive mb-3">
+            <table class="table table-responsive table-condensed table-striped">
+                <thead>
+                    <tr class="custom-table-head">
+                        <th>Désignation</th>
+                        <th>Débit</th>
+                        <th>Crédit</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let item of ListeDesignations">
+                        <td>{{item?.designation}}</td>
+                        <td> <input type="text" class="form-control custom-input" [(ngModel)]="item.debit" mask="separator"  placeholder="Débit" [ngModelOptions]="{ standalone: true }" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control custom-input" [(ngModel)]="item.credit" mask="separator"  placeholder="Crédit" [ngModelOptions]="{ standalone: true }" />
+                        
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="!ListeDesignations || ListeDesignations.length == 0">
+                        <td class="txt-align-center" colspan="3">Aucune données disponible</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="col-md-6 col-xs-12 table-responsive mb-3">
+            <table class="table table-responsive table-condensed table-striped">
+                <thead>
+                    <tr class="custom-table-head">
+                        <th>Cessionnaire</th>
+                        <th>Taux</th>
+                        <th>Prime</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let item of ListeCessionnaires">
+                        <td>{{item?.designation}}</td>
+                        <td>{{item?.debit}}</td>
+                        <td>{{item?.credit}}</td>
+                    </tr>
+
+                    <tr *ngIf="!ListeCessionnaires || ListeCessionnaires.length == 0">
+                        <td class="txt-align-center" colspan="3">Aucune données disponible</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</ng-container>
