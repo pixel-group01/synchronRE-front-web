@@ -34,7 +34,7 @@ export class RisqueCouvertsComponent implements OnInit {
       ignoreBackdropClick: true,
       class: "modal-width-58 modal-dialog-position",
     };
-    // console.log('item terr ::', data);
+    console.log('item risque ::', data);
     this.dataCurrent = data;
     this.modalRef = this.modalService.show(template, config);
   }

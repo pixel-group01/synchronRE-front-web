@@ -3,7 +3,7 @@
 }
 
 .table-responsive {
-    overflow-x: hidden;
+    overflow-x: hidden !important;
 }
 
 button{
@@ -12,4 +12,12 @@ button{
 
 .custom-input{
     height: 30px !important;
+}
+
+.style100{
+    height: 100% !important;
+}
+
+.classfixe{
+    height: 15rem !important;
 }

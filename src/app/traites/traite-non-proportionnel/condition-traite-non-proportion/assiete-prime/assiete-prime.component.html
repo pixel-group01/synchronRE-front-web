@@ -1,4 +1,4 @@
-<div
+<!-- <div
   class="body table-responsive clsOverflow"
   [ngBusy]="{busy: busyGet, message: 'Veuillez patienter ...', backdrop: false}"
 >
@@ -8,7 +8,6 @@
         <th colspan="5" class="specialTh-cls">
           <div class="row d-flex align-items-center">
             <div class="col-md-9 col-xs-12 col-sm-12">
-              <!-- <label>Rechercher par mot clé : </label> -->
               <input
                 [(ngModel)]="itemToSearch.libelle"
                 class="form-control custom-input pull-left"
@@ -24,11 +23,6 @@
       </tr>
 
       <tr class="custom-table-head">
-        <!-- <th class="txt-align-center-counter-row">
-          <a (click)="currentPage = 1; getItems()" title="Actualiser">
-            <i class="fa fa-redo-alt"></i></a
-          >&nbsp;&nbsp; #
-        </th> -->
         <th>Cédantes</th>
         <th>Assiète</th>
         <th>Taux de prime</th>
@@ -40,10 +34,6 @@
 
     <tbody>
       <tr *ngFor="let item of items; let indice = index">
-        <!-- <td class="txt-align-center">
-          {{ getExactlyNumberRow(this.currentPage, indice) }}
-        </td> -->
-
         <td>{{ item?.cedNomFiliale }}</td>
         <td>{{ item?.assiettePrime | moneyFormat}}</td>
         <td>{{ item?.tauxPrime }}</td>
@@ -149,4 +139,115 @@
       <app-form-assiete-prime [currentAffaire]="itemToSave" [isPaiement]="isOngletPaiement" (closeModal)="closeModal($event)"
                               [idTraitNonProChildrenSed]="idTraitNonProChildren"  [itemsUpdate]="dataCurrent"></app-form-assiete-prime>
     </div>
-  </ng-template>
+  </ng-template> -->
+
+
+  <section class="body table-responsive mt-2"
+         [ngBusy]="{busy: busyGet, message: 'Veuillez patienter ...', backdrop: false}">
+  <form [formGroup]="formulaireGroup">
+    <div class="row">
+      <div class="col-md-6 col-xs-12 col-sm-12 mb-2" [ngClass]="{'style100': isStylePourcent , 'classfixe': isStylefixe  }">
+        <label>Cédante : <span class="required_champs">*</span> </label>
+        <ng-select
+          formControlName="cedId"
+          name="cedId"
+          id="cedId"
+          (close)="closeStyle()"
+          (open)="openStyle()"
+          (change)="getCedante(formulaireGroup.value)"
+          [class.errorInputForm]="
+                getFormFiledsValue('cedId')?.invalid &&
+                getFormFiledsValue('cedId')?.touched
+              ">
+          <ng-option
+            *ngFor="let cedante of cedanteListe"
+            [value]="cedante.cedId">
+            {{ cedante.cedNomFiliale }}
+          </ng-option>
+        </ng-select>
+        <small class="text-danger"
+               *ngIf="(getFormFiledsValue('cedId')?.dirty || getFormFiledsValue('cedId')?.touched) && getFormFiledsValue('cedId')?.invalid && getFormFiledsValue('cedId')?.errors?.['required']">
+          Ce champ est obligatoire 
+        </small>
+      </div>
+    </div>
+  </form>
+  
+    <fieldset class="mt-4 mb-3" *ngFor="let tranch of tranchePrime ; let i = index">
+    <legend>{{capitalizeFirstLetterPreserveCase(tranch?.trancheLibelle)}}</legend>
+    <div class="row">
+      <div class="col-md-4 col-xs-12 col-sm-4 mb-1">
+        <label>Assiette de prime : <span class="required_champs">*</span></label>
+        <input class="form-control custom-input text-end"
+              [(ngModel)]="tranchePrime[i].assietteDePrime"
+               placeholder=""
+               (blur)="calculAssiettePrime(i)"
+               autocomplete="off"
+               name="assiettePrime"
+               mask="separator"
+               type="text"
+               >
+      </div>
+      <div class="col-md-4 col-xs-12 col-sm-4 mb-2">
+        <label>Taux de prime : <span class="required_champs">*</span></label>
+        <input class="form-control custom-input text-end"
+               placeholder=""
+               [(ngModel)]="tranchePrime[i].tauxPrimeTranche"
+               autocomplete="off"
+               name="tauxPrime"
+               type="text"
+               >
+      </div>
+      <div class="col-md-4 col-xs-12 col-sm-12 mb-1">
+        <label>PMD : <span class="required_champs">*</span></label>
+        <input class="form-control custom-input text-end"
+               placeholder=""
+               [(ngModel)]="tranchePrime[i].pmdTranche"
+               autocomplete="off"
+               name="affAssure"
+               type="text"
+               mask="separator"
+              >
+      </div>
+    </div>
+    <div class="col-md-12 col-xs-12 col-sm-12 mt-3 mb-4">
+      <fieldset>
+        <legend>PMD par cession légale</legend>
+        <table class="table table-condensed table-striped table-hover">
+          <thead>
+          <tr class="custom-table-head">
+            <th class="text-center">Cession légale</th>
+            <th class="text-center">Taux</th>
+            <th class="text-center">PMD</th>
+            <th class="text-center">Taux courtier</th>
+            <th class="text-center">Taux Placeur</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let cess of tranchePrime[i]?.cessionsLegales">
+              <td class="text-center">{{cess?.paramCesLegalLibelle}}</td>
+              <td class="text-center">{{cess?.tauxCesLeg}}</td>
+              <td class="text-center">{{cess?.pmd}}</td>
+              <td class="text-center">{{cess?.tauxCourtier}}</td>
+              <td class="text-center">{{cess?.tauxCourtierPlaceur}}</td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr *ngIf="!tranchePrime[i]?.cessionsLegales || tranchePrime[i]?.cessionsLegales.length == 0">
+            <td colspan="4">
+              <div class="col-md-12 text-center">
+                Aucune donnée disponible
+              </div>
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+      </fieldset>
+    </div>
+    </fieldset> 
+  <div class="col-md-12 col-xs-12 col-sm-12 mb-2" *ngIf="formulaireGroup.value.cedId"> 
+    <button type="button"  (click)="confirmSaveItem()"
+            class="btn btn-md custom_btn_primary pull-right">Valider
+    </button>
+  </div>
+</section>

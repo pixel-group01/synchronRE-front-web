@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AssiettePrimeService } from 'src/app/core/service/assiette-prime.service';
 import { CedanteService } from 'src/app/core/service/cedante.service';
@@ -17,15 +17,14 @@ export class FormAssietePrimeComponent implements OnInit {
   listeCessionLegale :any =[];
   formulaireGroup!: FormGroup;
   busyGet: Subscription;
-
+  tranchePrime :any;
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() itemsUpdate :any;
-
+  inputASave :any;
   constructor(
     private formBuilder: FormBuilder,
     private utilities: UtilitiesService,
-    private assiettePrimeService : AssiettePrimeService,
     private cedanteService : CedanteService
   ) { }
  
@@ -40,54 +39,93 @@ export class FormAssietePrimeComponent implements OnInit {
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
-      assiettePrime : [this.items.assiettePrime ? this.items.assiettePrime : null,Validators.required],
       cedId : [this.items.cedId ? this.items.cedId : null,Validators.required],
-      tauxPrime: [this.items.tauxPrime ? this.items.tauxPrime : null,Validators.required], 
-      traiteNpId: [this.idTraitNonProChildrenSed],
-      cessionsLegales : [null],
-      pmd : [this.items.pmd ? this.items.pmd : "",Validators.required], 
-      tauxCesLeg: [""],
-      paramCesLegalLibelle:[""],
-      tauxCourtier: [null],
-      tauxCourtierPlaceur : [null]
+
     });
+   
   };
 
-  getListCedanteParTraite(data:any){
-      this.busyGet = this.cedanteService.getCedanteParTraite(data).subscribe((res:any)=>{
-        // console.log(res , "res de cedande par traite");
-        if (res) {
-          this.items = res;
-          this.listeCessionLegale = this.items.cessionsLegales
-          this.formulaireGroup.patchValue({pmd : res.pmd})
-        }
-      })
-  }
+  // getListCedanteParTraite(data:any){
+  //     this.busyGet = this.cedanteService.getCedanteParTranche(data).subscribe((res:any)=>{
+  //       if (res) {
+  //         this.items = res;
+  //         this.listeCessionLegale = this.items.cessionsLegales
+  //         this.formulaireGroup.patchValue({pmd : res.pmd})
+  //       }
+  //     })
+  // }
 
-  calculPmd(){ 
-    // console.log("this.formulaireGroup.value :", this.formulaireGroup.value);
-    if (this.formulaireGroup.value.assiettePrime && this.formulaireGroup.value.tauxPrime ) {
-        this.getListCedanteParTraite(this.formulaireGroup.value)
-    }
-  }
-
-  getCedante(){
-    this.cedanteService.getAllById(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
-      if (res) {
-          this.cedanteListe = res;
-      }
-    })
-  }
+  // calculPmd(){ 
+  //   // console.log("this.formulaireGroup.value :", this.formulaireGroup.value);
+  //   if (this.formulaireGroup.value.assiettePrime && this.formulaireGroup.value.tauxPrime ) {
+  //       this.getListCedanteParTraite(this.formulaireGroup.value)
+  //   }
+  // }
  
+  getCedante(itemcedId?: any,) {    
+    const data: any = {
+      traiteNpId: this.idTraitNonProChildrenSed
+    };
+    // Ajoute la clé `cedId` uniquement si `itemcedId` est défini et non vide
+    if (itemcedId) {
+      data.cedId = itemcedId.cedId;
+    }
+
+    this.cedanteService.getAllByTrancheCedante(data).subscribe((res: any) => {
+      if (res) {
+        if (!itemcedId) {
+          this.cedanteListe = res.cedantes;
+        }else{
+          this.tranchePrime = res.tranchePrimeDtos
+        }
+        this.inputASave = {...res};
+        console.log("inputASave 00 ::",this.inputASave);
+
+      }
+    });
+  }
+
+  capitalizeFirstLetterPreserveCase(text: string): string {
+    if (!text) {
+        return '';
+    }
+    return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+  getCedanteParTranche(itemTranche?:any, indexTranche?:number) {    
+    const data: any = {
+      traiteNpId: this.idTraitNonProChildrenSed,
+      cedId : this.formulaireGroup.value.cedId
+    };
+ 
+    if (itemTranche) {
+      data.tranchePrimeDtos = itemTranche
+    }
+
+    this.cedanteService.getAllByTrancheCedante(data).subscribe((res: any) => {
+      if (res) {
+            this.inputASave = {...res};
+            res.tranchePrimeDtos.map((elt:any)=>{
+              if (elt.assiettePrime == this.tranchePrime[indexTranche].assietteDePrime) {
+                this.tranchePrime[indexTranche].tauxPrimeTranche = elt.trancheTauxPrime
+                this.tranchePrime[indexTranche].pmdTranche = elt.pmd
+              }
+            })
+            console.log("inputASave ::",this.inputASave);
+
+      }
+    });
+  }
+
   save(item: any) {
-    item.cessionsLegales = this.listeCessionLegale ;
-    this.busyGet = this.assiettePrimeService.save(item).subscribe((res: any) => {
+    const data: any = item;
+    this.cedanteService.getAllByTrancheCedante(data).subscribe((res: any) => {
       if (res) {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),
           "bottom",
           "center");
-          this.getCedante();
+          // this.getCedante();
         this.closeModal.emit(true)
       }else{
         this.utilities.showNotification("snackbar-danger",
@@ -102,7 +140,7 @@ export class FormAssietePrimeComponent implements OnInit {
     return this.formulaireGroup.get(field);
   };
  
-  confirmSaveItem(item:any){
+  confirmSaveItem(){
       Swal.fire({
         title: "Enregistrement",
         text: "Vous êtes sur le point d'enregistrer une assiette de prime. Voulez-vous poursuivre cette action ?",
@@ -115,8 +153,17 @@ export class FormAssietePrimeComponent implements OnInit {
       }).then((result) => {
         if (result.value) {
           // On effectue l'enregistrement
-          this.save(item);
+          this.save(this.inputASave);
         }
       });
   }
+
+  calculAssiettePrime(index:number){
+   
+    const tranche = this.tranchePrime[index]; // Récupérer la tranche en fonction de l'index
+    if (tranche.assietteDePrime) {
+      tranche.assiettePrime = tranche.assietteDePrime
+    }
+    this.getCedanteParTranche([tranche], index);
+}
 }

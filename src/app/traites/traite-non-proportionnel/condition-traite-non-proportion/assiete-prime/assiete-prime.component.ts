@@ -1,17 +1,13 @@
-import { Component, Input, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, TemplateRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
-import { enumStatutAffaire } from 'src/app/core/enumerator/enumerator';
-import { BusinessOptional } from 'src/app/core/models/businessOptional';
 import { Cedante } from 'src/app/core/models/cedante';
 import { Exercice } from 'src/app/core/models/exercice';
 import { User } from 'src/app/core/models/user';
-import { BusinessOptionalService } from 'src/app/core/service/business-optional.service';
 import { CedanteService } from 'src/app/core/service/cedante.service';
-import { ExerciceService } from 'src/app/core/service/exercice.service';
-import { RestClientService } from 'src/app/core/service/rest-client.service';
-import { UserService } from 'src/app/core/service/user.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-assiete-prime',
@@ -38,142 +34,290 @@ export class AssietePrimeComponent implements OnInit {
   
   @Input() endPoint: string;
   @Input() idTraitNonProChildren: number;
-  
   initialEndPoint: string;
   statutAffEnum: any;
   dataCurrent :any
 
+
+  cedanteListe : any = [];
+  listeCessionLegale :any =[];
+  formulaireGroup!: FormGroup;
+  tranchePrime :any;
+  @Input() idTraitNonProChildrenSed: number;
+  @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  @Input() itemsUpdate :any;
+  inputASave :any;
+  isStylePourcent :boolean = false;
+  isStylefixe :boolean =false
   constructor(
-    private businessOptionalService: BusinessOptionalService,
-    private cedenteService: CedanteService,
-    private exercieService: ExerciceService,
-    private userService: UserService,
+    private formBuilder: FormBuilder,
     private utilities: UtilitiesService,
-    private modalService: BsModalService,
-    private restClient:RestClientService
-  ) {
-    this.user = this.userService.getCurrentUserInfo();
-    this.statutAffEnum = enumStatutAffaire;
-
-    if (this.user.cedId) {
-      this.itemToSearch.cedenteId = this.user.cedId;
-    }
-  }
-
-  openModal(template: TemplateRef<any>, data?: any) {
-    let config = {
-      backdrop: true,
-      ignoreBackdropClick: true,
-      class: "modal-width-58 modal-dialog-position",
-    };
-    // console.log('item terr ::', data);
-    this.dataCurrent = data;
-    this.modalRef = this.modalService.show(template, config);
-  }
+    private cedanteService : CedanteService
+  ) { }
+  // openModal(template: TemplateRef<any>, data?: any) {
+  //   let config = {
+  //     backdrop: true,
+  //     ignoreBackdropClick: true,
+  //     class: "modal-width-58 modal-dialog-position",
+  //   };
+  //   // console.log('item terr ::', data);
+  //   this.dataCurrent = data;
+  //   this.modalRef = this.modalService.show(template, config);
+  // }
   
+  // closeFormModal($event) {
+  //   this.modalRef.hide();
+  //   this.businessOptionalService.setCurrentOptionalBusiness(null);
+  //   this.getItems();
+  // }
 
-  closeFormModal($event) {
-    this.modalRef.hide();
-    this.businessOptionalService.setCurrentOptionalBusiness(null);
-    this.getItems();
+  // pageChanged(event: any): void {
+  //   this.currentPage = event.page;
+  //   this.getItems();
+  // }
+
+  // getCedente() {
+  //   this.cedenteService.getAll().subscribe((response: any) => {
+  //     if (response && response["content"]) {
+  //       this.listeCedente = response["content"] as Cedante[];
+  //     } else {
+  //       this.listeCedente = [];
+  //     }
+  //   });
+  // }
+
+  // getExercice() {
+  //   this.exercieService.getAll().subscribe((response: any) => {
+  //     if (response) {
+  //       this.listeExercices = response as Exercice[];
+  //       this.itemToSearch.exeCode = this.listeExercices[0].exeCode;
+
+  //       this.getItems();
+  //     } else {
+  //       this.listeExercices = [];
+  //     }
+  //   });
+  // }
+
+
+  // getItems() {
+  //   let endPointFinal =
+  //     this.endPoint + (this.idTraitNonProChildren
+  //       ? "?traiNpId=" + this.idTraitNonProChildren
+  //       : "") +
+  //     "&page=" +
+  //     (this.currentPage - 1) +
+  //     "&size=" +
+  //     this.itemsPerPage +
+  //     "" +
+  //     (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "") 
+
+  //   // if (endPointFinal && this.itemToSearch.cedenteId) {
+  //   //   endPointFinal = endPointFinal + "&cedId=" + this.itemToSearch.cedenteId;
+  //   // }
+
+  //   this.busyGet = this.restClient.get(endPointFinal).subscribe(
+  //     (res) => {
+  //       if (res && res["content"]) {
+  //         this.items = res["content"];
+  //         this.totalItems = res["totalElements"];
+  //       } else {
+  //         this.items = [];
+  //         this.totalItems = 0;
+  //       }
+  //     },
+  //     (err) => {}
+  //   );
+  // }
+
+  // closeModal($event: any) {
+  //   this.modalRef.hide();
+
+  //   // Dans le cas ou $event vaut true alors on actualise la liste
+  //   if ($event) {
+  //     this.getItems();
+  //   }
+  // }
+
+  // getExactlyNumberRow(page, index) {
+  //   let num = index + 1;
+  //   if (page > 1) {
+  //     num = (page - 1) * 10 + (index + 1);
+  //   }
+  //   return num;
+  // }
+
+  // changePaginationSize($event) {
+  //   if ($event) {
+  //     this.currentPage = 1;
+  //     this.itemsPerPage = parseInt($event);
+  //   }
+  //   this.getItems();
+  // }
+
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (
+  //     changes["refreshDataTable"] &&
+  //     changes["refreshDataTable"].currentValue
+  //   ) {
+  //     /** On reinitialise la pagination  */
+  //     this.currentPage = 1;
+  //     this.getItems();
+  //   }
+  // }
+
+  // ngOnInit() {  
+  //   this.getItems();
+  // }
+ 
+  ngOnInit(): void { 
+    this.createForm();
+    this.getCedante();
+    if (this.itemsUpdate) {
+      this.formulaireGroup.patchValue({...this.itemsUpdate})
+    }
   }
 
-  pageChanged(event: any): void {
-    this.currentPage = event.page;
-    this.getItems();
+  closeStyle(){
+    this.isStylePourcent = true,
+    this.isStylefixe =false
   }
 
-  getCedente() {
-    this.cedenteService.getAll().subscribe((response: any) => {
-      if (response && response["content"]) {
-        this.listeCedente = response["content"] as Cedante[];
-      } else {
-        this.listeCedente = [];
-      }
+  openStyle(){
+    if (!this.formulaireGroup.value.cedId) {
+      this.isStylePourcent = false,
+      this.isStylefixe =true
+    }else{
+      this.isStylePourcent = true,
+      this.isStylefixe =false
+    }
+  }
+ 
+    createForm = () => {
+    // console.log(" this.itemToUpdate ",this.itemToUpdate);
+    this.formulaireGroup = this.formBuilder.group({
+      cedId : [this.items.cedId ? this.items.cedId : null,Validators.required],
+
     });
-  }
+   
+  };
 
-  getExercice() {
-    this.exercieService.getAll().subscribe((response: any) => {
-      if (response) {
-        this.listeExercices = response as Exercice[];
-        this.itemToSearch.exeCode = this.listeExercices[0].exeCode;
+  // getListCedanteParTraite(data:any){
+  //     this.busyGet = this.cedanteService.getCedanteParTranche(data).subscribe((res:any)=>{
+  //       if (res) {
+  //         this.items = res;
+  //         this.listeCessionLegale = this.items.cessionsLegales
+  //         this.formulaireGroup.patchValue({pmd : res.pmd})
+  //       }
+  //     })
+  // }
 
-        this.getItems();
-      } else {
-        this.listeExercices = [];
-      }
-    });
-  }
-
-
-  getItems() {
-    let endPointFinal =
-      this.endPoint + (this.idTraitNonProChildren
-        ? "?traiNpId=" + this.idTraitNonProChildren
-        : "") +
-      "&page=" +
-      (this.currentPage - 1) +
-      "&size=" +
-      this.itemsPerPage +
-      "" +
-      (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "") 
-
-    // if (endPointFinal && this.itemToSearch.cedenteId) {
-    //   endPointFinal = endPointFinal + "&cedId=" + this.itemToSearch.cedenteId;
-    // }
-
-    this.busyGet = this.restClient.get(endPointFinal).subscribe(
-      (res) => {
-        if (res && res["content"]) {
-          this.items = res["content"];
-          this.totalItems = res["totalElements"];
-        } else {
-          this.items = [];
-          this.totalItems = 0;
+  // calculPmd(){ 
+  //   // console.log("this.formulaireGroup.value :", this.formulaireGroup.value);
+  //   if (this.formulaireGroup.value.assiettePrime && this.formulaireGroup.value.tauxPrime ) {
+  //       this.getListCedanteParTraite(this.formulaireGroup.value)
+  //   }
+  // }
+ 
+  getCedante(itemcedId?: any,) {    
+    const data: any = {
+      traiteNpId: this.idTraitNonProChildren
+    };
+    // Ajoute la clé `cedId` uniquement si `itemcedId` est défini et non vide
+    if (itemcedId) {
+      data.cedId = itemcedId.cedId;
+    }
+    this.busyGet = this.cedanteService.getAllByTrancheCedante(data).subscribe((res: any) => {
+      if (res) {
+        if (!itemcedId) {
+          this.cedanteListe = res.cedantes;
+        }else{
+          this.tranchePrime = res.tranchePrimeDtos
         }
-      },
-      (err) => {}
-    );
+        this.inputASave = {...res};
+      }
+    });
   }
 
-  closeModal($event: any) {
-    this.modalRef.hide();
-
-    // Dans le cas ou $event vaut true alors on actualise la liste
-    if ($event) {
-      this.getItems();
+  capitalizeFirstLetterPreserveCase(text: string): string {
+    if (!text) {
+        return '';
     }
-  }
+    return text.charAt(0).toUpperCase() + text.slice(1);
+}
 
-  getExactlyNumberRow(page, index) {
-    let num = index + 1;
-    if (page > 1) {
-      num = (page - 1) * 10 + (index + 1);
+  getCedanteParTranche(itemTranche?:any, indexTranche?:number) {    
+    const data: any = {
+      traiteNpId: this.idTraitNonProChildren,
+      cedId : this.formulaireGroup.value.cedId
+    };
+ 
+    if (itemTranche) {
+      data.tranchePrimeDtos = itemTranche
     }
-    return num;
+
+    this.cedanteService.getAllByTrancheCedante(data).subscribe((res: any) => {
+      if (res) {
+            this.inputASave = {...res};
+            res.tranchePrimeDtos.map((elt:any)=>{
+              if (elt.assiettePrime == this.tranchePrime[indexTranche].assietteDePrime) {
+                this.tranchePrime[indexTranche].tauxPrimeTranche = elt.trancheTauxPrime
+                this.tranchePrime[indexTranche].pmdTranche = elt.pmd
+              }
+            })
+            console.log("inputASave ::",this.inputASave);
+
+      }
+    });
   }
 
-  changePaginationSize($event) {
-    if ($event) {
-      this.currentPage = 1;
-      this.itemsPerPage = parseInt($event);
+  save(item: any) {
+    const data: any = item;
+    this.cedanteService.getAllByTrancheCedante(data).subscribe((res: any) => {
+      if (res) {
+        this.utilities.showNotification("snackbar-success",
+          this.utilities.formatMsgServeur("Opération réussie."),
+          "bottom",
+          "center");
+          // this.getCedante();
+        this.closeModal.emit(true)
+      }else{
+        this.utilities.showNotification("snackbar-danger",
+          this.utilities.formatMsgServeur("Échec de l'opération, veuillez réessayer."),
+          "bottom",
+          "center");
+      }
+    })
+  }
+
+  getFormFiledsValue = (field: string) => {
+    return this.formulaireGroup.get(field);
+  };
+ 
+  confirmSaveItem(){
+      Swal.fire({
+        title: "Enregistrement",
+        text: "Vous êtes sur le point d'enregistrer une assiette de prime. Voulez-vous poursuivre cette action ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0665aa",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Oui",
+        cancelButtonText: "Non",
+      }).then((result) => {
+        if (result.value) {
+          // On effectue l'enregistrement
+          this.save(this.inputASave);
+        }
+      });
+  }
+
+  calculAssiettePrime(index:number){
+   
+    const tranche = this.tranchePrime[index]; // Récupérer la tranche en fonction de l'index
+    if (tranche.assietteDePrime) {
+      tranche.assiettePrime = tranche.assietteDePrime
     }
-    this.getItems();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (
-      changes["refreshDataTable"] &&
-      changes["refreshDataTable"].currentValue
-    ) {
-      /** On reinitialise la pagination  */
-      this.currentPage = 1;
-      this.getItems();
-    }
-  }
-
-  ngOnInit() {  
-    this.getItems();
-  }
+    this.getCedanteParTranche([tranche], index);
+}
 }
