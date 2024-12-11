@@ -8,6 +8,7 @@ import { User } from 'src/app/core/models/user';
 import { CedanteService } from 'src/app/core/service/cedante.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from 'sweetalert2';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-assiete-prime',
@@ -38,6 +39,7 @@ export class AssietePrimeComponent implements OnInit {
   statutAffEnum: any;
   dataCurrent :any
 
+  tranches :any = [];
 
   cedanteListe : any = [];
   listeCessionLegale :any =[];
@@ -196,28 +198,10 @@ export class AssietePrimeComponent implements OnInit {
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
-      cedId : [this.items.cedId ? this.items.cedId : null,Validators.required],
-
+      cedId : [this.items.cedId ? this.items.cedId : null,Validators.required]
     });
    
   };
-
-  // getListCedanteParTraite(data:any){
-  //     this.busyGet = this.cedanteService.getCedanteParTranche(data).subscribe((res:any)=>{
-  //       if (res) {
-  //         this.items = res;
-  //         this.listeCessionLegale = this.items.cessionsLegales
-  //         this.formulaireGroup.patchValue({pmd : res.pmd})
-  //       }
-  //     })
-  // }
-
-  // calculPmd(){ 
-  //   // console.log("this.formulaireGroup.value :", this.formulaireGroup.value);
-  //   if (this.formulaireGroup.value.assiettePrime && this.formulaireGroup.value.tauxPrime ) {
-  //       this.getListCedanteParTraite(this.formulaireGroup.value)
-  //   }
-  // }
  
   getCedante(itemcedId?: any,) {    
     const data: any = {
@@ -244,7 +228,7 @@ export class AssietePrimeComponent implements OnInit {
         return '';
     }
     return text.charAt(0).toUpperCase() + text.slice(1);
-}
+  }
 
   getCedanteParTranche(itemTranche?:any, indexTranche?:number) {    
     const data: any = {
@@ -258,13 +242,18 @@ export class AssietePrimeComponent implements OnInit {
 
     this.cedanteService.getAllByTrancheCedante(data).subscribe((res: any) => {
       if (res) {
-            this.inputASave = {...res};
+
             res.tranchePrimeDtos.map((elt:any)=>{
               if (elt.assiettePrime == this.tranchePrime[indexTranche].assietteDePrime) {
                 this.tranchePrime[indexTranche].tauxPrimeTranche = elt.trancheTauxPrime
                 this.tranchePrime[indexTranche].pmdTranche = elt.pmd
               }
             })
+            this.tranches.push(res?.tranchePrimeDtos[indexTranche])
+            const uniqueData = _.uniqBy([...this.tranches].reverse(), 'trancheId');
+            this.inputASave.tranchePrimeDtos = [...uniqueData];
+            this.inputASave.cedId = res?.cedId;
+            this.inputASave.traiteNpId = res?.traiteNpId;
             console.log("inputASave ::",this.inputASave);
 
       }
@@ -273,14 +262,15 @@ export class AssietePrimeComponent implements OnInit {
 
   save(item: any) {
     const data: any = item;
-    this.cedanteService.getAllByTrancheCedante(data).subscribe((res: any) => {
+    this.cedanteService.saveTrancheCedante(data).subscribe((res: any) => {
       if (res) {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),
           "bottom",
           "center");
           // this.getCedante();
-        this.closeModal.emit(true)
+        this.closeModal.emit(true);
+        this.inputASave = [];
       }else{
         this.utilities.showNotification("snackbar-danger",
           this.utilities.formatMsgServeur("Échec de l'opération, veuillez réessayer."),
@@ -313,7 +303,6 @@ export class AssietePrimeComponent implements OnInit {
   }
 
   calculAssiettePrime(index:number){
-   
     const tranche = this.tranchePrime[index]; // Récupérer la tranche en fonction de l'index
     if (tranche.assietteDePrime) {
       tranche.assiettePrime = tranche.assietteDePrime
