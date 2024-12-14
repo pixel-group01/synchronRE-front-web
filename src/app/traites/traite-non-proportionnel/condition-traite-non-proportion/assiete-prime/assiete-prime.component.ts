@@ -216,7 +216,12 @@ export class AssietePrimeComponent implements OnInit {
         if (!itemcedId) {
           this.cedanteListe = res.cedantes;
         }else{
-          this.tranchePrime = res.tranchePrimeDtos
+          this.tranchePrime = res.tranchePrimeDtos;
+          for (let index = 0; index < this.tranchePrime.length; index++) {
+            this.tranchePrime[index].assietteDePrime = this.tranchePrime[index].assiettePrime;
+            this.tranchePrime[index].tauxPrimeTranche =this.tranchePrime[index].trancheTauxPrime;
+            this.tranchePrime[index].pmdTranche = this.tranchePrime[index].pmd
+          }
         }
         this.inputASave = {...res};
       }
@@ -242,7 +247,6 @@ export class AssietePrimeComponent implements OnInit {
 
     this.cedanteService.getAllByTrancheCedante(data).subscribe((res: any) => {
       if (res) {
-
             res.tranchePrimeDtos.map((elt:any)=>{
               if (elt.assiettePrime == this.tranchePrime[indexTranche].assietteDePrime) {
                 this.tranchePrime[indexTranche].tauxPrimeTranche = elt.trancheTauxPrime
@@ -254,7 +258,7 @@ export class AssietePrimeComponent implements OnInit {
             this.inputASave.tranchePrimeDtos = [...uniqueData];
             this.inputASave.cedId = res?.cedId;
             this.inputASave.traiteNpId = res?.traiteNpId;
-            console.log("inputASave ::",this.inputASave);
+            // console.log("inputASave ::",this.inputASave);
 
       }
     });
@@ -262,7 +266,7 @@ export class AssietePrimeComponent implements OnInit {
 
   save(item: any) {
     const data: any = item;
-    this.cedanteService.saveTrancheCedante(data).subscribe((res: any) => {
+    this.busyGet = this.cedanteService.saveTrancheCedante(data).subscribe((res: any) => {
       if (res) {
         this.utilities.showNotification("snackbar-success",
           this.utilities.formatMsgServeur("Opération réussie."),
@@ -271,6 +275,14 @@ export class AssietePrimeComponent implements OnInit {
           // this.getCedante();
         this.closeModal.emit(true);
         this.inputASave = [];
+        for (let index = 0; index < this.tranchePrime.length; index++) {
+          this.tranchePrime[index].assietteDePrime = "";
+          this.tranchePrime[index].tauxPrimeTranche ="";
+          this.tranchePrime[index].pmdTranche = "";
+        }
+        // this.tranchePrime[i].assietteDePrim
+        // this.tranchePrime[i].tauxPrimeTranche
+        // this.tranchePrime[i].pmdTranche
       }else{
         this.utilities.showNotification("snackbar-danger",
           this.utilities.formatMsgServeur("Échec de l'opération, veuillez réessayer."),
