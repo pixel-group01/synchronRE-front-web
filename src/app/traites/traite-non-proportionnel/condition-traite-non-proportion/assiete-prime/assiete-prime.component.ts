@@ -258,12 +258,14 @@ export class AssietePrimeComponent implements OnInit {
             this.inputASave.tranchePrimeDtos = [...uniqueData];
             this.inputASave.cedId = res?.cedId;
             this.inputASave.traiteNpId = res?.traiteNpId;
-            // console.log("inputASave ::",this.inputASave);
-
+            //actualisons la liste PMD par cession légale
+            if (this.tranchePrime.length>0 && this.tranchePrime[indexTranche].cessionsLegales) {
+                this.tranchePrime[indexTranche].cessionsLegales = res?.tranchePrimeDtos[indexTranche].cessionsLegales
+            }
       }
     });
   }
-
+ 
   save(item: any) {
     const data: any = item;
     this.busyGet = this.cedanteService.saveTrancheCedante(data).subscribe((res: any) => {

@@ -167,12 +167,12 @@
         </ng-select>
         <small class="text-danger"
                *ngIf="(getFormFiledsValue('cedId')?.dirty || getFormFiledsValue('cedId')?.touched) && getFormFiledsValue('cedId')?.invalid && getFormFiledsValue('cedId')?.errors?.['required']">
-          Ce champ est obligatoire 
+          Ce champ est obligatoire
         </small>
       </div>
     </div>
   </form>
-  
+
     <fieldset class="mt-4 mb-3" *ngFor="let tranch of tranchePrime ; let i = index">
     <legend>{{capitalizeFirstLetterPreserveCase(tranch?.trancheLibelle)}}</legend>
     <div class="row">
@@ -219,17 +219,17 @@
             <th class="text-center">Cession légale</th>
             <th class="text-center">Taux</th>
             <th class="text-center">PMD</th>
-            <th class="text-center">Taux courtier</th>
-            <th class="text-center">Taux Placeur</th>
+<!--            <th class="text-center">Taux courtier</th>-->
+<!--            <th class="text-center">Taux Placeur</th>-->
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let cess of tranchePrime[i]?.cessionsLegales">
               <td class="text-center">{{cess?.paramCesLegalLibelle}}</td>
               <td class="text-center">{{cess?.tauxCesLeg}}</td>
-              <td class="text-center">{{cess?.pmd}}</td>
-              <td class="text-center">{{cess?.tauxCourtier}}</td>
-              <td class="text-center">{{cess?.tauxCourtierPlaceur}}</td>
+              <td class="text-center">{{cess?.pmd | moneyFormat}}</td>
+<!--              <td class="text-center">{{cess?.tauxCourtier}}</td>-->
+<!--              <td class="text-center">{{cess?.tauxCourtierPlaceur}}</td>-->
           </tr>
           </tbody>
           <tfoot>
@@ -244,8 +244,8 @@
         </table>
       </fieldset>
     </div>
-    </fieldset> 
-  <div class="col-md-12 col-xs-12 col-sm-12 mb-2" *ngIf="formulaireGroup.value.cedId"> 
+    </fieldset>
+  <div class="col-md-12 col-xs-12 col-sm-12 mb-2" *ngIf="formulaireGroup.value.cedId">
     <button type="button"  (click)="confirmSaveItem()"
             class="btn btn-md custom_btn_primary pull-right">Valider
     </button>
