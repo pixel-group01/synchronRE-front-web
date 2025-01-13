@@ -43,6 +43,10 @@
             <b>SMP/LCI :</b>
             <span>{{ (currentRepartitionTaux?.facSmpLci || itemDetailsAffaire?.facSmpLci) | moneyFormat}}</span>
         </div>
+      <div class="col-md-6 col-xs-12 col-sm-12 mb-2">
+        <b>Réserve NelsonRE :</b>
+        <span>{{ (itemDetailsAffaire?.reserveCourtier) | moneyFormat}}</span>
+      </div>
     </div>
 
     <div class="row" *ngIf="isPlacement">
@@ -69,6 +73,10 @@
             </b>
             <span>{{detailsPlacement?.facSmpLci | moneyFormat}}</span>
         </div>
+      <div class="col-md-3 col-xs-12 col-sm-12 mb-2">
+        <b>Réserve NelsonRE :</b>
+        <span>{{ (itemDetailsAffaire?.reserveCourtier) | moneyFormat}}</span>
+      </div>
 
     </div>
 

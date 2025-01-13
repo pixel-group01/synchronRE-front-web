@@ -13,6 +13,7 @@ export class BusinessOptional {
     cedSigleFiliale?:string;
     etatComptable?:string;
     facSmpLci?: number;
+    reserveCourtier?:number;
     facPrime?: number;
     cedId?: number;
     statutCode?: string;
@@ -24,7 +25,7 @@ export class BusinessOptional {
     devCode?:string;
     affStatutCreation?:string;
     facCapitaux?:number;
-    isSeeMotifRetour?:boolean; 
+    isSeeMotifRetour?:boolean;
     placementTermine?:boolean;
     cedenteId?:number
 }
