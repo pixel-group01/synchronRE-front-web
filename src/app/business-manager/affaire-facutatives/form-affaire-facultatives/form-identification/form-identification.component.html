@@ -15,7 +15,7 @@
           formControlName="exeCode"
           name="exeCode"
           id="exeCode"
-          [readonly]="true"
+          [readonly]="false"
         >
           <ng-option
             *ngFor="let exercice of listeExercices"
@@ -296,7 +296,7 @@
     </div>
 
     <div class="row">
-      <div class="col-md-4 col-xs-12 mb-3">
+      <div class="col-md-3 col-xs-12 mb-3">
         <label
           >Capitaux 100%:
           <span class="required_champs">*</span>
@@ -323,7 +323,7 @@
         </small>
       </div>
 
-      <div class="col-md-4 col-xs-12 mb-3">
+      <div class="col-md-3 col-xs-12 mb-3">
         <label
           >SMP/LCI :
           <!-- <span class="required_champs">*</span> -->
@@ -350,7 +350,7 @@
         </small>
       </div>
 
-      <div class="col-md-4 col-xs-12 mb-3">
+      <div class="col-md-3 col-xs-12 mb-3">
         <label
           >Prime à 100% :
           <span class="required_champs">*</span>
@@ -375,6 +375,22 @@
         >
           Ce champ est obligatoire
         </small>
+      </div>
+
+      <div class="col-md-3 col-xs-12 mb-3">
+        <label
+        >Réserve NelsonRE :
+        </label>
+        <input
+          class="form-control custom-input"
+          placeholder="Réserve NelsonRE"
+          autocomplete="off"
+          mask="separator"
+          [readonly]="isDetails"
+          formControlName="reserveCourtier"
+          name="reserveCourtier"
+          type="text"
+        />
       </div>
     </div>
 
