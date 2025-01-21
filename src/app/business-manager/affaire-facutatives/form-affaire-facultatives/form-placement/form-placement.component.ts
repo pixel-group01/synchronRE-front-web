@@ -44,7 +44,7 @@ export class FormPlacementComponent implements OnInit {
 
   currentUser : User;
   listeHistoriquePlacement : any = [];
-  
+
   constructor(
     private cessionaireService: CessionnaireService,
     private businessOptionalRepartition: BusinessOptionalRepartitionService,
@@ -72,19 +72,19 @@ export class FormPlacementComponent implements OnInit {
   getInterlocuteurByPlacement(idPlacement) {
     this.interlocuteurServices.getInterlocuteurByPlacement(idPlacement).subscribe((response : any) => {
       console.log(" response ",response);
-      
+
       if (response && response['content']) {
         this.listeInterlocuteursPlacements = response['content'] as Interlocuteur[];
       }
     });
   }
 
-  getInterlocuteurSelected($event) { 
+  getInterlocuteurSelected($event) {
     // console.log(" $event ",$event);
 
     this.idInterlocuteurPrincipale = 0;
     this.idsInterlocuteurs = [];
- 
+
     $event.forEach(element => {
       if(element.hasPrincipal){
         this.idInterlocuteurPrincipale = element.intId;
@@ -96,7 +96,7 @@ export class FormPlacementComponent implements OnInit {
 
   changeSession() {
     console.log(" itemToSave.cessionnaireSelected ",this.itemToSave.cessionnaireSelected);
-    
+
   }
   confirmSaveItem() {
     /** Faire les controls */
@@ -106,7 +106,7 @@ export class FormPlacementComponent implements OnInit {
       !itemAEnregistrer ||
       !itemAEnregistrer?.repCapital ||
       !itemAEnregistrer?.repTaux ||
-      !itemAEnregistrer?.repSousCommission || 
+      !itemAEnregistrer?.repSousCommission ||
       !itemAEnregistrer?.repTauxComCourt
     ) {
       this.utilities.showNotification(
@@ -144,7 +144,7 @@ export class FormPlacementComponent implements OnInit {
 
       return;
     }
-    
+
 
     itemAEnregistrer.cesId = this.itemToSave.cessionnaireSelected?.cesId;
     itemAEnregistrer.affId = this.currentAffaire?.affId;
@@ -154,7 +154,7 @@ export class FormPlacementComponent implements OnInit {
     itemAEnregistrer.interlocuteurPrincipalId = this.idInterlocuteurPrincipale; // 2; // this.idsInterlocuteurs[0]; // this.idInterlocuteurPrincipale;
     itemAEnregistrer.autreInterlocuteurIds = this.idsInterlocuteurs;
 
-    
+
     if (itemAEnregistrer)
       Swal.fire({
         title: "Placement",
@@ -234,9 +234,9 @@ export class FormPlacementComponent implements OnInit {
       return;
     }
     this.businessOptionalRepartition
-      .getPlacementSaisieByAffaire(0, 10, "", this.currentAffaire?.affId)
+      .getPlacementSaisieByAffaire(0, 1000, "", this.currentAffaire?.affId)
       .subscribe((response) => {
-      
+
         if (response && response["content"]) {
           this.listeRepartitions = response["content"];
           this.itemToSave.repSousCommission = 5;
@@ -261,7 +261,7 @@ export class FormPlacementComponent implements OnInit {
       return;
     }
     this.businessOptionalRepartition
-      .getPlacementEnAttenteValidationByAffaire(0, 10, "", this.currentAffaire?.affId)
+      .getPlacementEnAttenteValidationByAffaire(0, 1000, "", this.currentAffaire?.affId)
       .subscribe((response) => {
         console.log(" response ", response);
 
@@ -286,7 +286,7 @@ export class FormPlacementComponent implements OnInit {
       return;
     }
     this.businessOptionalRepartition
-      .getPlacementValideByAffaire(0, 10, "", this.currentAffaire?.affId)
+      .getPlacementValideByAffaire(0, 1000, "", this.currentAffaire?.affId)
       .subscribe((response) => {
         if (response && response["content"]) {
           this.listePlacementValides = response["content"];
@@ -295,7 +295,7 @@ export class FormPlacementComponent implements OnInit {
         }
       });
   }
-  
+
 
   getRepartionByCapital(itemRepartition) {
     if (!this.currentAffaire || !this.currentAffaire.affId) {
@@ -392,7 +392,7 @@ export class FormPlacementComponent implements OnInit {
 
     this.getPlacementSaisieByAff();
     this.getCessionnaire();
-    
+
     if(this.isUpdatePlacement) {
       // En ce moment nous pouvons avoir des placements validés
       this.getPlacementValideByAff();
