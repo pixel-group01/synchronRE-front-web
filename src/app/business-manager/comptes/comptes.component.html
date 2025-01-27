@@ -1,4 +1,4 @@
-<section class="content">
+<section class="content mb-3">
     <div class="content-block" [ngBusy]="{
         busy: busyGet,
         message: 'Veuillez patienter ...',
@@ -65,7 +65,7 @@
 
                             <div class="col-md-2 col-xs-12 mb-2">
                                 <label>Période :</label>
-                                <ng-select [(ngModel)]="itemToSave.traiteSelected" placeholder="Choisissez"
+                                <ng-select [(ngModel)]="itemToSave.periodeSelected" placeholder="Choisissez" (change)="refreshToSendItemsValue()"
                                     name="periode" id="periode" [multiple]="false" [closeOnSelect]="true">
                                     <ng-option *ngFor="let item of ListePeriode" [value]="item">{{item?.type?.name}}
                                     </ng-option>
@@ -76,19 +76,15 @@
 
 
                         <!-- Tranches partie -->
-                        <div class="row" *ngIf="ListeTranches && ListeTranches.length">
+                        <div class="row mb-3" *ngIf="ListeTranches && ListeTranches.length">
                             <div class="col-12 mb-3">
-
                                 <mat-tab-group>
                                     <mat-tab *ngFor="let itemTranche of ListeTranches; let index = index" label="{{'Tranche '+(index +1)}}">
                                         <ng-template matTabContent>
                                             <app-form-tranche [currentTranche]="itemTranche"></app-form-tranche>
                                         </ng-template>
                                     </mat-tab>
-
                                 </mat-tab-group>
-
-                                
                             </div>
                         </div>
                         <!-- Fin tranche-->

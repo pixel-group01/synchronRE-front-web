@@ -4,6 +4,8 @@ import { CedanteService } from 'src/app/core/service/cedante.service';
 import { CompteService } from 'src/app/core/service/compte.service';
 import { ExerciceService } from 'src/app/core/service/exercice.service';
 import { TraiteNonProportionnelService } from 'src/app/core/service/traite-non-proportionnel.service';
+import { UtilitiesService } from 'src/app/core/service/utilities.service';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-comptes',
@@ -42,6 +44,7 @@ export class ComptesComponent implements OnInit {
   changeTraite(changeTraite) {
     console.log(" traite ",changeTraite);
     this.getTranche(changeTraite?.traiteNpId);
+    this.refreshToSendItemsValue();
   }
 
   changePeriodicite(currentPeriodicite : any) {
@@ -50,6 +53,12 @@ export class ComptesComponent implements OnInit {
     if(currentPeriodicite) {
       this.getPeriode(this.currentExercice,currentPeriodicite.typeId);
     }
+
+    this.refreshToSendItemsValue();
+  }
+
+  refreshToSendItemsValue() {
+    sessionStorage.setItem("refreshValue",JSON.stringify(this.itemToSave));
   }
 
   getTraiteNonProportionnelByExeCode(currentCodeExercice) {
@@ -58,7 +67,7 @@ export class ComptesComponent implements OnInit {
         console.log("response ",response);
         if(response && response.length) {
           this.ListeTraites = response;
-        }
+        } 
       }
     )
   }
@@ -105,12 +114,14 @@ export class ComptesComponent implements OnInit {
       console.log(" currentExercice ",currentExercice);
       this.getTraiteNonProportionnelByExeCode(currentExercice);
     }
+
+    this.refreshToSendItemsValue();
   }
+
 
   ngOnInit(): void {
     this.getCurrentExercice();
     this.getPeriodicite();
-   
   }
 
 }

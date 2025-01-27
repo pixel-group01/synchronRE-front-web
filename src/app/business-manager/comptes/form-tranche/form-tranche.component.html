@@ -1,8 +1,8 @@
 <ng-container>
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-md-4 col-xs-12 mb-3">
             <label>Cedante</label>
-            <ng-select [(ngModel)]="itemToSave.parentId" placeholder="Choisissez " name="actes" id="actes"
+            <ng-select [(ngModel)]="itemToSave.cedId" placeholder="Choisissez " name="actes" id="actes"
                 [multiple]="false" [closeOnSelect]="true">
                 <ng-option *ngFor="let item of ListeCedantes" [value]="item?.cedId">{{item?.cedNomFiliale}}
                 </ng-option>
@@ -12,7 +12,7 @@
         <div class="col-md-4">
             <div class="manage-radio">
                 <div>
-                    <input type="radio" id="huey" name="drone" value="huey" checked />
+                    <input type="radio" id="huey" name="drone" value="huey" [(ngModel)]="itemToSave" />
                     <label for="huey">Compte simple</label>
                 </div>
 
@@ -23,8 +23,6 @@
             </div>
 
         </div>
-
-
     </div>
 
     <div class="row">
@@ -71,9 +69,9 @@
 
                 <tbody>
                     <tr *ngFor="let item of ListeCessionnaires">
-                        <td>{{item?.designation}}</td>
-                        <td>{{item?.debit}}</td>
-                        <td>{{item?.credit}}</td>
+                        <td>{{item?.cesNom}}</td>
+                        <td>{{item?.taux}}</td>
+                        <td>{{item?.prime}}</td>
                     </tr>
 
                     <tr *ngIf="!ListeCessionnaires || ListeCessionnaires.length == 0">
@@ -84,5 +82,26 @@
             </table>
         </div>
     </div>
+
+    <!-- <div class="row mt-3 mb-3"> -->
+
+        <div class="custom-btn-save-manager">
+            <button
+              type="button"
+              (click)="confirmSaveItem()"
+              class="btn btn-md custom_btn_primary pull-right"
+            >
+              Enregistrer
+            </button>
+      
+            <button
+              type="button"
+              class="btn btn-md btn-cancel pull-right"
+            >
+              Annuler
+            </button>
+          </div>
+
+    <!-- </div> -->
 
 </ng-container>

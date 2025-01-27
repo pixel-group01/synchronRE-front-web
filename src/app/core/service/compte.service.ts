@@ -12,6 +12,11 @@ export class CompteService {
     return this.restClient.post('pays/create',body)
   } 
 
+
+  saveCompte = (body:any) => {
+    return this.restClient.post('comptes/traites/save',body)
+  } 
+
   getPeriodicite = () => {
     return this.restClient.get('comptes/periodicites');
   }
