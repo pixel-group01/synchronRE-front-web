@@ -1,4 +1,4 @@
-<section class="content">
+<!-- <section class="content">
     <div class="content-block">
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -50,18 +50,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-                        <!-- <div class="graph-part mt-3 mb-3">
-                        
-                                <div class="repartition-affaire">
-                                    <div id="pie-chart"></div>
-                                </div>
-
-                                <div class="line-chart-part">
-                                    <div  id="line-chart"></div>
-                                </div>
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -69,4 +57,51 @@
     </div>
 </section>
 
+ -->
 
+
+ <section class="content">
+    <div class="content-block">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header mb-3">
+                        <h2><strong>Statistique sur les affaires facultatives</strong></h2>
+                    </div>
+                    <div class="body">
+                        <mat-tab-group>
+                            <mat-tab label="Situation des notes de débit par filiale">
+                                <ng-template matTabContent >
+                                    <app-liste-statistique-fac [action]="'sitFinfilia'" [actionPlus]="''"
+                                    [endPoint]="'statistiques/affaires-fac/situation-par-cedante'"
+                                    [tab]="'reports/situation-note-debit-par-cedante'"></app-liste-statistique-fac>
+                                </ng-template>
+                            </mat-tab>
+                            <mat-tab label="Situation des notes de debit par filiale et par réassureur">
+                                <ng-template matTabContent>
+                                    <app-liste-statistique-fac [action]="'sitFinfilia'" [actionPlus]="'sitFinFiliaReas'" 
+                                    [tab]="'reports/situation-note-debit-par-cedante-reassureur'"
+                                    [endPoint]="'statistiques/affaires-fac/situation-par-cedante-reassureur'"></app-liste-statistique-fac>
+                                </ng-template>
+                            </mat-tab>
+                            <mat-tab label="Situation des notes de crédit par filiale et par réassureur">
+                                <ng-template matTabContent>
+                                    <app-liste-statistique-fac  [action]="'stiFinNoCreFiliRea'" [actionPlus]="'sitFinFiliaReas'"
+                                    [endPoint]="'statistiques/affaires-fac/situation-note-de-credit'" 
+                                    [tab]="'reports/situation-note-credit-par-cedante-reassureur'"></app-liste-statistique-fac>
+                                </ng-template>
+                            </mat-tab> 
+                            <mat-tab label="Chiffre d'affaire par réassureur">
+                                <ng-template matTabContent>
+                                    <app-liste-statistique-fac [endPoint]="'statistiques/affaires-fac/chiffre-affaire'" 
+                                    [tab]="'reports/chiffre-affaires-par-periode-par-ced-rea'" [action] ="'stiFinNoCreFiliRea'" 
+                                    [actionPlus]="'chifAfRea'"></app-liste-statistique-fac>
+                                </ng-template>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
