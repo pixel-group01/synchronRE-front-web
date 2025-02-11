@@ -18,7 +18,7 @@
                         placeholder=""
                         [items]="exercices"
                         bindLabel="exeCode"
-                        (change)="exerciceDash()"
+                        (change)="getStat()"
                         bindValue="exeCode"
                         [(ngModel)]="exercice">
                     </ng-select>
@@ -33,7 +33,7 @@
                         placeholder=""
                         [items]="cedantes"
                         bindLabel="cedNomFiliale"
-                        (change)="cedanteDash()"
+                        (change)="getStat()"
                         bindValue="cedId"
                         [(ngModel)]="cedante">
                     </ng-select>
@@ -47,18 +47,26 @@
                         placeholder=""
                         [items]="reassureurs"
                         bindLabel="cesNom"
-                        (change)="reassureurDash()"
+                        (change)="getStat()"
                         bindValue="cesId"
                         [(ngModel)]="reassureur">
                     </ng-select>
             </div>
             <div class="col-md-2 col-xs-12 col-sm-12" *ngIf="actionPlus =='chifAfRea'">
               <label>Date début</label>
-              <input type="text" class="form-control custom-input" [(ngModel)]="debut">
+              <input class="form-control custom-input" placeholder="Période"
+                                                    autocomplete="off" [(ngModel)]="debut"
+                                                    name="dateRecherche" type="text" bsDatepicker
+                                                    (ngModelChange)="onValueDateChange($event)" [maxDate]="dateActuelle"
+                                                    [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY' , containerClass: 'theme-dark-blue'}">
             </div>
             <div class="col-md-2 col-xs-12 col-sm-12" *ngIf="actionPlus =='chifAfRea'">
               <label>Date fin</label>
-             <input type="text" class="form-control custom-input" [(ngModel)]="fin">
+              <input class="form-control custom-input" placeholder="Période"
+                                                    autocomplete="off" [(ngModel)]="fin"
+                                                    name="dateRecherche" type="text" bsDatepicker
+                                                    (ngModelChange)="onValueDateChange($event)" [maxDate]="dateActuelle"
+                                                    [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY' , containerClass: 'theme-dark-blue'}">
             </div>
             <div class="col-md-3 col-xs-12 col-sm-12" *ngIf="action =='sitFinfilia'">
               <label>Statut d'envoi </label>
@@ -69,7 +77,7 @@
                         placeholder=""
                         [items]="statusEnvois"
                         bindLabel="libelle"
-                        (change)="statusEnvoiDash()"
+                        (change)="getStat()"
                         bindValue="value"
                         [(ngModel)]="statusEnvoi">
               </ng-select>
@@ -83,7 +91,7 @@
                         placeholder=""
                         [items]="statutEncaissments"
                         bindLabel="libelle"
-                        (change)="statutEncaissmentDash()"
+                        (change)="getStat()"
                         bindValue="value"
                         [(ngModel)]="statutEncaissment">
                     </ng-select>
@@ -128,6 +136,7 @@
         <td *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'">{{ item?.couLibelle || item?.branche}}</td>
         <td *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'">{{ item?.affDateEffet || item?.dateEffet | dateFormatInDateHour}}</td> 
         <td *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'">{{ item?.affDateEcheance || item?.dateEcheance | dateFormatInDateHour}}</td>
+        <td *ngIf="actionPlus =='chifAfRea'">{{item?.dateReversement}}</td>
         <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ item?.montantNoteDebit | moneyFormat}}</td>     
         <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ item?.montantEncaisse | moneyFormat}}</td>     
         <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ item?.resteAEncaisser | moneyFormat}}</td>     
@@ -153,7 +162,7 @@
               <div class="paginator-per-page">
                 <app-element-by-page-paginator (paginationChange)="changePaginationSize($event)"
                   [defaultItemPerPage]="itemsPerPage"></app-element-by-page-paginator>
-
+                  
                 <span class="span_total_entree pull-right">Total : {{ totalItems }}</span>
               </div>
             </div> 

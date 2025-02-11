@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as moment from 'moment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { DashboardService } from 'src/app/core/service/dashboard.service';
@@ -13,7 +14,7 @@ export class ListeStatistiqueFacComponent implements OnInit {
   items: any =[];
   itemToSearch: any = {};
   currentPage: number = 1;
-  itemsPerPage: number = 5;
+  itemsPerPage: number = 10;
   totalItems: number; 
   busyGet: Subscription;
   @Input() action :string;
@@ -24,6 +25,8 @@ export class ListeStatistiqueFacComponent implements OnInit {
   cedante :any;
   debut :any;
   fin :any;
+  debutCopie:any;
+  finCopie:any;
   reassureurs:any=[]
   reassureur:any;
   statusEnvois:any=[{libelle :"Envoyé",value:'Envoyé'},{libelle:"Non envoyé", value:"Non envoyé"}]
@@ -36,6 +39,8 @@ export class ListeStatistiqueFacComponent implements OnInit {
   exercice :any;
   fileUrlDebitNote :any;
   modalRef : BsModalRef;
+  dateActuelle = new Date()
+
   constructor(private dashboardService:DashboardService,
               public sanitizer: DomSanitizer,
               private modalService: BsModalService,) { }
@@ -58,6 +63,19 @@ export class ListeStatistiqueFacComponent implements OnInit {
       return num;
   }
 
+   onValueDateChange($event: any) {
+     
+      if ($event) {
+        this.debutCopie = moment($event[0]).format("YYYY-MM-DD");
+        this.finCopie = moment($event[1]).format("YYYY-MM-DD");
+      }      
+      this.getStat();
+    }
+
+  pageChanged(event:any){
+    this.currentPage = event.page ;      
+    this.getStat();
+  }
   
 
   open(template: TemplateRef<any>) {
@@ -74,22 +92,22 @@ export class ListeStatistiqueFacComponent implements OnInit {
       this.modalRef.hide();
     }
 
-  getStat(){
-   this.busyGet= this.dashboardService.getAll(this.endPoint,this.exercice, '', '','','','','',this.currentPage,this.itemsPerPage).subscribe((res:any)=>{
-      if (res) {
-        this.items = res.content;
-        this.totalItems = res.totalPages;
-      }
-    })
-  }
+getStat(){
+  this.busyGet= this.dashboardService.getAll(this.endPoint,this.exercice, this.cedante, this.reassureur,this.statusEnvoi,
+                this.statutEncaissment,this.debutCopie,this.finCopie,this.currentPage,this.itemsPerPage).subscribe((res:any)=>{
+     if (res) {
+       this.items = res.content;
+       this.totalItems = res.totalPages;
+     }
+   })
+ }
+
 
   changePaginationSize($event) {
     if($event) {
       this.currentPage = 1;
       this.itemsPerPage = parseInt($event);
-    }
-    console.log($event ,"$event");
-    
+    }    
     this.getStat();
   }
 
@@ -111,7 +129,7 @@ export class ListeStatistiqueFacComponent implements OnInit {
 
   statusEnvoiDash(){}
   statutEncaissmentDash(){}
-  pageChanged(){}
+  
 
   imprimer(){
       this.busyGet = this.dashboardService.getAll(this.tab,
