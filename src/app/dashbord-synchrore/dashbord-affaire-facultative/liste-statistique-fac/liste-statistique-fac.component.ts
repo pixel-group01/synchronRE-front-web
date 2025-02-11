@@ -14,7 +14,7 @@ export class ListeStatistiqueFacComponent implements OnInit {
   items: any =[];
   itemToSearch: any = {};
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 5;
   totalItems: number; 
   busyGet: Subscription;
   @Input() action :string;
@@ -29,10 +29,10 @@ export class ListeStatistiqueFacComponent implements OnInit {
   finCopie:any;
   reassureurs:any=[]
   reassureur:any;
-  statusEnvois:any=[{libelle :"Envoyé",value:'Envoyé'},{libelle:"Non envoyé", value:"Non envoyé"}]
+  statusEnvois:any=[{libelle :"Envoyé",value:'Envoye'},{libelle:"Non envoyé", value:"Non envoye"}]
   statusEnvoi:any;
-  statutEncaissments:any=[{libelle :"Encaissé",value:'Encaissé'},
-                        {libelle:"Non encaissé", value:"Non encaissé"},
+  statutEncaissments:any=[{libelle :"Encaissé",value:'Encaisse'},
+                        {libelle:"Non encaissé", value:"Non encaisse"},
                         {libelle:"En cours d'encaissement", value:"En cours d'encaissement"}];
   statutEncaissment:any;
   exercices :any=[];
@@ -73,7 +73,7 @@ export class ListeStatistiqueFacComponent implements OnInit {
     }
 
   pageChanged(event:any){
-    this.currentPage = event.page ;      
+    this.currentPage = event.page-1 ;      
     this.getStat();
   }
   
@@ -97,7 +97,7 @@ getStat(){
                 this.statutEncaissment,this.debutCopie,this.finCopie,this.currentPage,this.itemsPerPage).subscribe((res:any)=>{
      if (res) {
        this.items = res.content;
-       this.totalItems = res.totalPages;
+       this.totalItems = res.totalElements;
      }
    })
  }
@@ -105,7 +105,7 @@ getStat(){
 
   changePaginationSize($event) {
     if($event) {
-      this.currentPage = 1;
+      this.currentPage = 0;
       this.itemsPerPage = parseInt($event);
     }    
     this.getStat();
@@ -116,6 +116,7 @@ getStat(){
       this.exercices = res;
     });
   }
+
   cedanteDash(){
     this.dashboardService.cedDash().subscribe((res:any)=>{
       this.cedantes = res.content

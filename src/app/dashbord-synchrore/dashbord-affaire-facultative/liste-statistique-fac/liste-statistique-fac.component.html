@@ -155,7 +155,7 @@
             <div class="col-md-9" style="text-align: center">
               <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage" [totalItems]="totalItems"
                 [(ngModel)]="currentPage" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;"
-                firstText="&laquo;" lastText="&raquo;" (pageChanged)="pageChanged($event)"></pagination>
+                firstText="&laquo;" lastText="&raquo;" [maxSize]="5" [rotate]="true" (pageChanged)="pageChanged($event)"></pagination>
             </div>
 
             <div class="col-md-3">
