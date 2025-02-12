@@ -13,7 +13,7 @@ import { DashboardService } from 'src/app/core/service/dashboard.service';
 export class ListeStatistiqueFacComponent implements OnInit {
   items: any =[];
   itemToSearch: any = {};
-  currentPage: number = 1;
+  currentPage: number = 0;
   itemsPerPage: number = 5;
   totalItems: number; 
   busyGet: Subscription;
@@ -29,11 +29,11 @@ export class ListeStatistiqueFacComponent implements OnInit {
   finCopie:any;
   reassureurs:any=[]
   reassureur:any;
-  statusEnvois:any=[{libelle :"Envoyé",value:'Envoye'},{libelle:"Non envoyé", value:"Non envoye"}]
+  statusEnvois:any=[{libelle :"Envoyé",value:'Envoye'},{libelle:"Non envoye", value:"Nonenvoye"}]
   statusEnvoi:any;
   statutEncaissments:any=[{libelle :"Encaissé",value:'Encaisse'},
-                        {libelle:"Non encaissé", value:"Non encaisse"},
-                        {libelle:"En cours d'encaissement", value:"En cours d'encaissement"}];
+                        {libelle:"Non encaissé", value:"Nonencaisse"},
+                        {libelle:"En cours d'encaissement", value:"Encoursdencaissement"}];
   statutEncaissment:any;
   exercices :any=[];
   exercice :any;
@@ -45,7 +45,7 @@ export class ListeStatistiqueFacComponent implements OnInit {
               public sanitizer: DomSanitizer,
               private modalService: BsModalService,) { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {    
     this.exerciceDash();
     this.cedanteDash();
     this.reassureurDash();
@@ -63,18 +63,40 @@ export class ListeStatistiqueFacComponent implements OnInit {
       return num;
   }
 
-   onValueDateChange($event: any) {
-     
+   onValueDateChangeDebut($event: any) {
+    console.log("event :" , $event);
+    
       if ($event) {
-        this.debutCopie = moment($event[0]).format("YYYY-MM-DD");
-        this.finCopie = moment($event[1]).format("YYYY-MM-DD");
-      }      
+        this.debutCopie = moment($event).format("YYYY-MM-DD");
+      }else{
+        this.debutCopie = '';
+      }
+    console.log("event debutCopie:" , this.debutCopie);
+
       this.getStat();
     }
 
-  pageChanged(event:any){
+    onValueDateChangeFin($event: any) {
+      console.log("event  :" , $event);
+      
+        if ($event) {
+          this.finCopie = moment($event).format("YYYY-MM-DD");
+        }else{
+          this.finCopie = ''
+        }
+      console.log("event finCopie  :" , this.finCopie);
+
+        this.getStat();
+      }
+
+  pageChanged(event:any){    
     this.currentPage = event.page-1 ;      
     this.getStat();
+  }
+
+  clean(){    
+    this.currentPage = 0
+    this.getStat()
   }
   
 
@@ -133,16 +155,18 @@ getStat(){
   
 
   imprimer(){
-      this.busyGet = this.dashboardService.getAll(this.tab,
+    this.busyGet = this.dashboardService.getAll(this.tab,
         this.exercice, 
         this.cedante, 
         this.reassureur,
         this.statusEnvoi,
-        this.statutEncaissment,this.debut,this.fin,'','').subscribe((res:any)=>{
-      console.log("res imprimante :", res);
+        this.statutEncaissment,this.debut,this.fin).subscribe((res:any)=>{
       this.fileUrlDebitNote = "data:application/pdf;base64,"+res?.base64UrlString;
-
-          this.fileUrlDebitNote = this.sanitizer.bypassSecurityTrustResourceUrl(this.fileUrlDebitNote);
+      this.fileUrlDebitNote = this.sanitizer.bypassSecurityTrustResourceUrl(this.fileUrlDebitNote);
      });
+  }
+
+  arrondir(nombre: number): number {
+    return Math.round(nombre);
   }
 }

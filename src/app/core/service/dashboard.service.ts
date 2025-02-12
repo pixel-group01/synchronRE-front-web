@@ -17,8 +17,8 @@ export class DashboardService {
     statutEncaissement?: string,
     debut?: any,
     fin?: any,
-    page?: any,
-    size?: any
+    page?: number,
+    size?: number
   ) => {
     const params: any = {};
   

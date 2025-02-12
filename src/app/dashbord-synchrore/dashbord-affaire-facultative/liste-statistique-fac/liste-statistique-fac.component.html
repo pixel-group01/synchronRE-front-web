@@ -16,9 +16,10 @@
                         id="exerciceId"
                         notFoundText="Aucune donnée"
                         placeholder=""
+                        (clear)="clean()"
                         [items]="exercices"
                         bindLabel="exeCode"
-                        (change)="getStat()"
+                        (change)="currentPage=0;getStat()"
                         bindValue="exeCode"
                         [(ngModel)]="exercice">
                     </ng-select>
@@ -31,9 +32,10 @@
                         id="cedanteId"
                         notFoundText="Aucune donnée"
                         placeholder=""
+                        (clear)="clean()"
                         [items]="cedantes"
                         bindLabel="cedNomFiliale"
-                        (change)="getStat()"
+                        (change)="currentPage=0;getStat()"
                         bindValue="cedId"
                         [(ngModel)]="cedante">
                     </ng-select>
@@ -46,8 +48,9 @@
                         notFoundText="Aucune donnée"
                         placeholder=""
                         [items]="reassureurs"
+                        (clear)="clean()"
                         bindLabel="cesNom"
-                        (change)="getStat()"
+                        (change)="currentPage=0;getStat()"
                         bindValue="cesId"
                         [(ngModel)]="reassureur">
                     </ng-select>
@@ -57,7 +60,7 @@
               <input class="form-control custom-input" placeholder="Période"
                                                     autocomplete="off" [(ngModel)]="debut"
                                                     name="dateRecherche" type="text" bsDatepicker
-                                                    (ngModelChange)="onValueDateChange($event)" [maxDate]="dateActuelle"
+                                                    (ngModelChange)="currentPage=0;onValueDateChangeDebut($event)" [maxDate]="dateActuelle"
                                                     [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY' , containerClass: 'theme-dark-blue'}">
             </div>
             <div class="col-md-2 col-xs-12 col-sm-12" *ngIf="actionPlus =='chifAfRea'">
@@ -65,7 +68,7 @@
               <input class="form-control custom-input" placeholder="Période"
                                                     autocomplete="off" [(ngModel)]="fin"
                                                     name="dateRecherche" type="text" bsDatepicker
-                                                    (ngModelChange)="onValueDateChange($event)" [maxDate]="dateActuelle"
+                                                    (ngModelChange)="currentPage=0;onValueDateChangeFin($event)" [maxDate]="dateActuelle"
                                                     [bsConfig]="{ rangeInputFormat : 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY' , containerClass: 'theme-dark-blue'}">
             </div>
             <div class="col-md-3 col-xs-12 col-sm-12" *ngIf="action =='sitFinfilia'">
@@ -75,9 +78,10 @@
                         id="statusEnvoiId"
                         notFoundText="Aucune donnée"
                         placeholder=""
+                        (clear)="clean()"
                         [items]="statusEnvois"
                         bindLabel="libelle"
-                        (change)="getStat()"
+                        (change)="currentPage=0;getStat()"
                         bindValue="value"
                         [(ngModel)]="statusEnvoi">
               </ng-select>
@@ -89,9 +93,10 @@
                         id="statutEncaissmentId"
                         notFoundText="Aucune donnée"
                         placeholder=""
+                        (clear)="clean()"
                         [items]="statutEncaissments"
                         bindLabel="libelle"
-                        (change)="getStat()"
+                        (change)="currentPage=0;getStat()"
                         bindValue="value"
                         [(ngModel)]="statutEncaissment">
                     </ng-select>
@@ -137,14 +142,14 @@
         <td *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'">{{ item?.affDateEffet || item?.dateEffet | dateFormatInDateHour}}</td> 
         <td *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'">{{ item?.affDateEcheance || item?.dateEcheance | dateFormatInDateHour}}</td>
         <td *ngIf="actionPlus =='chifAfRea'">{{item?.dateReversement}}</td>
-        <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ item?.montantNoteDebit | moneyFormat}}</td>     
-        <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ item?.montantEncaisse | moneyFormat}}</td>     
-        <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ item?.resteAEncaisser | moneyFormat}}</td>     
-        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ item?.montantCede | moneyFormat}}</td>     
-        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ item?.montantEncaisse | moneyFormat}}</td>     
-        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ item?.commissionNelre | moneyFormat}}</td>     
-        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ item?.montantAReverser || item?.montantAReverser | moneyFormat}}</td>     
-        <td *ngIf="action =='stiFinNoCreFiliRea'">{{ item?.sinDateDeclaration || item?.montantReverse | moneyFormat}}</td>     
+        <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ arrondir(item?.montantNoteDebit) | moneyFormat}}</td>     
+        <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ arrondir(item?.montantEncaisse) | moneyFormat}}</td>     
+        <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ arrondir(item?.resteAEncaisser) | moneyFormat}}</td>     
+        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ arrondir(item?.montantCede) | moneyFormat}}</td>     
+        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ arrondir(item?.montantEncaisse) | moneyFormat}}</td>     
+        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ arrondir(item?.commissionNelre) | moneyFormat}}</td>     
+        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ arrondir(item?.montantAReverser) || arrondir(item?.montantAReverser) | moneyFormat}}</td>     
+        <td *ngIf="action =='stiFinNoCreFiliRea'">{{ item?.sinDateDeclaration || arrondir(item?.montantReverse) | moneyFormat}}</td>     
       </tr>
     </tbody>
 
@@ -152,10 +157,10 @@
       <tr *ngIf="items && items.length > 0">
         <td colspan="14">
           <div class="row pagination-part">
-            <div class="col-md-9" style="text-align: center">
+            <div class="col-md-9 mb-0" style="text-align: center">
               <pagination [boundaryLinks]="true" [itemsPerPage]="itemsPerPage" [totalItems]="totalItems"
                 [(ngModel)]="currentPage" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;"
-                firstText="&laquo;" lastText="&raquo;" [maxSize]="5" [rotate]="true" (pageChanged)="pageChanged($event)"></pagination>
+                firstText="&laquo;" lastText="&raquo;" [maxSize]="5" [rotate]="false" (pageChanged)="pageChanged($event)"></pagination>
             </div>
 
             <div class="col-md-3">
@@ -198,12 +203,12 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body" style="height: 80vh;">
     <div [ngBusy]="{
       busy: busyReport,
       message: 'Veuillez patienter ...',
       backdrop: false
-    }" style="height: 400px;">
+    }" style="height: 100%;">
       <iframe [src]="fileUrlDebitNote" title="description" *ngIf="fileUrlDebitNote" style="width: 100%;height: 100%;"></iframe>
     </div>
 
