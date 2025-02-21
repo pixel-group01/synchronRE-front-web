@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'jeanluc/dev', url: 'https://github.com/pixel-group01/synchronRE-front-web.git'
+                git branch: 'dev_venance', url: 'https://github.com/pixel-group01/synchronRE-front-web.git'
             }
         }
 
