@@ -1,53 +1,60 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs "NodeJS" // Nom de l'installation Node.js dans Jenkins (à configurer dans Jenkins Global Tool Configuration)
-    }
-
     environment {
-        NPM_CONFIG_CACHE = "${WORKSPACE}\\.npm"
+        // Nom de l'image Docker
+        IMAGE_NAME = 'synchronre-front-web'
+        // Nom de ton serveur de production
+        SERVER_IP = '137.74.199.79'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'jeanluc/dev', url: 'https://github.com/pixel-group01/synchronRE-front-web.git'
+                // Récupérer le code source
+                git branch: 'test', url: 'https://github.com/pixel-group01/synchronRE-front-web.git'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build Docker Image') {
             steps {
-                bat 'npm install'
+                script {
+                    // Construire l'image Docker
+                    sh 'docker build -t $IMAGE_NAME .'
+                }
             }
         }
 
-        stage('Build') {
+        stage('Push Docker Image to Registry') {
             steps {
-                bat 'npm run build'
+                script {
+                    // Si tu veux pousser l'image dans un registre Docker (par exemple DockerHub ou GitHub)
+                    // docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+                    // sh 'docker push $IMAGE_NAME'
+                }
             }
         }
 
-        stage('Copy Build to Nginx Directory') {
+        stage('Deploy to Production') {
             steps {
-                // Copie les fichiers de 'dist/main' (ou autre sous-répertoire) directement dans 'C:\\nginx-1.24.0\\html\\synchronre'
-                bat '''
-                if not exist C:\\nginx-1.24.0\\html\\synchronre mkdir C:\\nginx-1.24.0\\html\\synchronreDev
-                xcopy /s /e /y dist\\main\\* C:\\nginx-1.24.0\\html\\synchronreDev\\
-                '''
-            }
-        }
+                script {
+                    // Stopper le conteneur en cours (si existe)
+                    sh "docker stop $IMAGE_NAME || true"
+                    sh "docker rm $IMAGE_NAME || true"
 
-        stage('Archive Artifacts') {
-            steps {
-                archiveArtifacts artifacts: 'dist/**', allowEmptyArchive: true
+                    // Lancer le nouveau conteneur avec l'image Docker
+                    sh "docker run -d -p 80:80 --name $IMAGE_NAME $IMAGE_NAME"
+                }
             }
         }
     }
 
     post {
-        always {
-            cleanWs()
+        success {
+            echo 'Le déploiement a réussi !'
+        }
+        failure {
+            echo 'Le déploiement a échoué.'
         }
     }
 }
