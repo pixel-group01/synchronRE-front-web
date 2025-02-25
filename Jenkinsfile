@@ -47,6 +47,8 @@ pipeline {
                 script {
                     echo "💾 Sauvegarde de l'image Docker..."
                     bat "docker save -o %IMAGE_NAME%.tar %IMAGE_NAME%"
+                    echo "📝 Affichage de l'état de Docker après le build"
+                    bat "docker info"
                 }
             }
         }
