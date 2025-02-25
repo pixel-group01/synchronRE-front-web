@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'URL_DU_REPO_GIT'
+                git branch: 'test', url: 'https://github.com/pixel-group01/synchronRE-front-web.git'
             }
         }
 
