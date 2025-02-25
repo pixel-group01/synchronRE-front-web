@@ -3,9 +3,9 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'synchronre-front-web'
-        SERVER_IP = '137.74.199.79'  // IP de ton serveur
+        SERVER_IP = '137.74.199.79'
         SSH_USER = 'Administrator'  // Utilisateur pour Windows
-        SSH_KEY = 'C:\\putty-key\\id_rsa.ppk'  // Chemin vers la clé privée PuTTY (.ppk)
+        SSH_KEY = 'C:\\putty-key\\id_rsa.ppk'  // Chemin vers la clé privée PuTTY
     }
 
     stages {
@@ -20,6 +20,24 @@ pipeline {
                 script {
                     echo "🔨 Construction de l'image Docker..."
                     bat "docker build -t %IMAGE_NAME% ."
+                }
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    echo "📦 Installation des dépendances npm..."
+
+                    // Installation de npm latest pour éviter les problèmes avec package-lock.json
+                    bat "npm install -g npm@latest"
+
+                    // Supprimer le node_modules et package-lock.json avant de faire une installation propre
+                    bat "del /F /Q node_modules"
+                    bat "del /F /Q package-lock.json"
+
+                    // Installer les dépendances en utilisant --legacy-peer-deps
+                    bat "npm install --legacy-peer-deps"
                 }
             }
         }
