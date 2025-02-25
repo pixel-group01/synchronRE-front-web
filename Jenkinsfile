@@ -1,58 +1,59 @@
 pipeline {
     agent any
+
     environment {
-        DOCKER_IMAGE = 'my-app'
-        MEMORY_LIMIT = '4g'
-        CPU_LIMIT = '2'
+        IMAGE_NAME = 'synchronRE-front-web'
+        CONTAINER_NAME = 'synchronRE-front-web'
+        PORT_MAPPING = '8585:80'
     }
+
     stages {
-        stage('Vérification Docker') {
+        stage('Checkout Code') {
+            steps {
+                git 'URL_DU_REPO_GIT'
+            }
+        }
+
+        stage('Install Dependencies') {
             steps {
                 script {
-                    // Vérification de la version de Docker
-                    echo 'Vérification de la version de Docker...'
-                    sh 'docker --version'
-
-                    // Vérification des conteneurs en cours d'exécution
-                    echo 'Vérification des conteneurs Docker en cours d\'exécution...'
-                    sh 'docker ps'
+                    sh 'npm install'
                 }
             }
         }
 
-        stage('Build Docker') {
+        stage('Build Angular App') {
             steps {
                 script {
-                    // Construction de l'image Docker avec des ressources limitées
-                    echo 'Construction de l\'image Docker...'
-                    docker.build(DOCKER_IMAGE, "--memory=${MEMORY_LIMIT} --cpus=${CPU_LIMIT}")
+                    sh 'npm run build --configuration=production'
                 }
             }
         }
 
-        stage('Test Docker') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    // Test pour vérifier l'image construite
-                    echo 'Test de l\'image Docker...'
-                    sh 'docker images'
-
-                    // Lancer le conteneur pour tester son fonctionnement
-                    echo 'Lancement du conteneur Docker...'
-                    sh 'docker run -d --name my-container ${DOCKER_IMAGE}'
-
-                    // Vérifier si le conteneur fonctionne correctement
-                    sh 'docker ps -a'
+                    sh "docker build -t ${IMAGE_NAME} ."
                 }
             }
         }
-    }
-    post {
-        always {
-            // Nettoyage après l'exécution (optionnel)
-            echo 'Nettoyage des conteneurs Docker...'
-            sh 'docker rm -f my-container || true'  // Supprime le conteneur s'il existe
-            sh 'docker rmi -f ${DOCKER_IMAGE} || true'  // Supprime l'image construite
+
+        stage('Deploy Container') {
+            steps {
+                script {
+                    sh "docker stop ${CONTAINER_NAME} || true"
+                    sh "docker rm ${CONTAINER_NAME} || true"
+                    sh "docker run -d --name ${CONTAINER_NAME} -p ${PORT_MAPPING} -v angular_build:/usr/share/nginx/html ${IMAGE_NAME}"
+                }
+            }
+        }
+
+        stage('Capture Logs') {
+            steps {
+                script {
+                    sh "docker logs -f ${CONTAINER_NAME}"
+                }
+            }
         }
     }
 }
