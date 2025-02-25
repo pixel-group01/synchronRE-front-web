@@ -2,24 +2,52 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'nodejs'  // Utilise le nom que tu as donné à ta configuration Node.js
+        nodejs "NodeJS" // Nom de l'installation Node.js dans Jenkins (à configurer dans Jenkins Global Tool Configuration)
+    }
+
+    environment {
+        NPM_CONFIG_CACHE = "${WORKSPACE}\\.npm"
     }
 
     stages {
-        stage('Install Dependencies') {
+        stage('Checkout') {
             steps {
-                script {
-                    sh 'npm install'
-                }
+                git branch: 'test', url: 'https://github.com/pixel-group01/synchronRE-front-web.git'
             }
         }
 
-        stage('Run Tests') {
+        stage('Install Dependencies') {
             steps {
-                script {
-                    sh 'npm test'
-                }
+                bat 'npm install'
             }
+        }
+
+        stage('Build') {
+            steps {
+                bat 'npm run build'
+            }
+        }
+
+        stage('Copy Build to Nginx Directory') {
+            steps {
+                // Copie les fichiers de 'dist/main' (ou autre sous-répertoire) directement dans 'C:\\nginx-1.24.0\\html\\synchronre'
+                bat '''
+                if not exist C:\\nginx-1.24.0\\html\\synchronre mkdir C:\\nginx-1.24.0\\html\\synchronreDev
+                xcopy /s /e /y dist\\main\\* C:\\nginx-1.24.0\\html\\synchronreDev\\
+                '''
+            }
+        }
+
+        stage('Archive Artifacts') {
+            steps {
+                archiveArtifacts artifacts: 'dist/**', allowEmptyArchive: true
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
         }
     }
 }
