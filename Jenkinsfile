@@ -14,9 +14,20 @@ pipeline {
             }
         }
 
+        stage('Install Node.js and npm') {
+            steps {
+                script {
+                    // Vérifie si node et npm sont installés
+                    sh 'node -v'
+                    sh 'npm -v'
+                }
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 script {
+                    // Installer les dépendances
                     sh 'npm install'
                 }
             }
