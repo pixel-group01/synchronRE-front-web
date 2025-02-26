@@ -35,11 +35,16 @@ pipeline {
             steps {
                 script {
                     echo "Checking Minikube version"
-                    bat 'minikube version'
-                    echo "Configuring Docker to use Minikube's Docker daemon"
-                    bat "FOR /f \"tokens=*\" %%i IN ('minikube -p minikube docker-env') DO %%i"
-                    echo "Docker config applied"
-                    bat 'docker info'
+                                bat 'minikube version'
+                                echo "Configuring Docker to use Minikube's Docker daemon"
+                                powershell """
+                                    \$env:DOCKER_TLS_VERIFY = '1'
+                                    \$env:DOCKER_HOST = 'tcp://$(minikube -p minikube ip):2376'
+                                    \$env:DOCKER_CERT_PATH = (minikube -p minikube docker-env | Select-String -Pattern 'DOCKER_CERT_PATH=(.*)' | ForEach-Object { \$_.Matches.Groups[1].Value }).Trim()
+                                    \$env:DOCKER_MACHINE_NAME = 'minikube'
+                                    docker info
+                                """
+                                echo "Docker config applied"
                 }
             }
         }
