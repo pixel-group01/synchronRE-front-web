@@ -3,8 +3,10 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'synchronre-front-web'
-        CONTAINER_NAME = 'synchronre-front-web'
-        PORT_MAPPING = '8585:80'
+        OLD_CONTAINER_NAME = 'synchronre-front-web-1'
+        NEW_CONTAINER_NAME = 'synchronre-front-web-2'
+        PORT_MAPPING_OLD = '8585:80'
+        PORT_MAPPING_NEW = '8586:80'
     }
 
     tools {
@@ -33,25 +35,31 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    bat "docker build -t ${env.IMAGE_NAME} ."
+                    bat "docker build -t ${env.IMAGE_NAME}:latest ."
                 }
             }
         }
 
-        stage('Deploy Container') {
+        stage('Deploy New Container') {
             steps {
                 script {
                     bat """
                     @echo off
-                    for /f %%i in ('docker ps -a --format "{{.Names}}"') do (
-                        if "%%i"=="${env.CONTAINER_NAME}" (
-                            echo "Container exists. Stopping and removing..."
-                            docker stop ${env.CONTAINER_NAME}
-                            docker rm ${env.CONTAINER_NAME}
-                        )
-                    )
-                    echo "Deploying new container..."
-                    docker run -d --name ${env.CONTAINER_NAME} -p ${env.PORT_MAPPING} ${env.IMAGE_NAME}:latest
+                    echo "Starting new container..."
+                    docker run -d --name ${env.NEW_CONTAINER_NAME} -p ${env.PORT_MAPPING_NEW} ${env.IMAGE_NAME}:latest
+
+                    echo "Waiting for new container to be ready..."
+                    timeout /t 5
+
+                    echo "Updating Nginx to route traffic to new container..."
+                    docker exec nginx_container nginx -s reload
+
+                    echo "Stopping and removing old container..."
+                    docker stop ${env.OLD_CONTAINER_NAME}
+                    docker rm ${env.OLD_CONTAINER_NAME}
+
+                    echo "Switching container names for next deployment..."
+                    docker rename ${env.NEW_CONTAINER_NAME} ${env.OLD_CONTAINER_NAME}
                     """
                 }
             }
