@@ -7,6 +7,8 @@ pipeline {
         NEW_CONTAINER_NAME = 'synchronre-front-web-2'
         PORT_MAPPING_OLD = '8585:80'
         PORT_MAPPING_NEW = '8586:80'
+        MINIKUBE_HOME = 'C:\\minikube' // Chemin d'accès à Minikube sur ton système
+        KUBECONFIG = "${MINIKUBE_HOME}\\kubeconfig" // Chemin vers le fichier kubeconfig
     }
 
     tools {
@@ -40,27 +42,35 @@ pipeline {
             }
         }
 
-        stage('Deploy New Container') {
+        stage('Deploy to Minikube Kubernetes') {
             steps {
                 script {
-                    bat """
-                    @echo off
-                    echo "Starting new container..."
-                    docker run -d --name ${env.NEW_CONTAINER_NAME} -p ${env.PORT_MAPPING_NEW} ${env.IMAGE_NAME}:latest
+                    // Configure Docker to use Minikube's Docker daemon
+                    echo "Configuring Docker to use Minikube's Docker daemon"
+                    bat 'minikube -p minikube docker-env | Invoke-Expression'
 
-                    echo "Waiting for new container to be ready..."
-                    timeout /t 5
+                    // Build the Docker image and tag it
+                    echo "Building Docker image for Minikube"
+                    bat "docker build -t ${env.IMAGE_NAME}:latest ."
 
-                    echo "Updating Nginx to route traffic to new container..."
-                    docker exec nginx_container nginx -s reload
+                    // Apply Kubernetes deployment
+                    echo "Deploying new version to Minikube"
+                    bat "kubectl apply -f k8s/deployment.yaml"
+                    bat "kubectl apply -f k8s/service.yaml"
 
-                    echo "Stopping and removing old container..."
-                    docker stop ${env.OLD_CONTAINER_NAME}
-                    docker rm ${env.OLD_CONTAINER_NAME}
+                    // Verify the deployment
+                    echo "Verifying the deployment"
+                    bat "kubectl rollout status deployment/${env.IMAGE_NAME}"
+                }
+            }
+        }
 
-                    echo "Switching container names for next deployment..."
-                    docker rename ${env.NEW_CONTAINER_NAME} ${env.OLD_CONTAINER_NAME}
-                    """
+        stage('Cleanup Old Container') {
+            steps {
+                script {
+                    // Optionally, you can clean up old deployments if needed
+                    echo "Cleaning up old deployments"
+                    bat "kubectl delete pod -l app=${env.IMAGE_NAME} --grace-period=0 --force"
                 }
             }
         }

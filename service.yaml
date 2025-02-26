@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: synchronre-front-web
+spec:
+  selector:
+    app: synchronre-front-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
