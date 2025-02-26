@@ -5,6 +5,7 @@ pipeline {
         IMAGE_NAME = 'synchronre-front-web'
         MINIKUBE_HOME = 'C:\\minikube'  // Assure-toi que Minikube est installé ici
         KUBECONFIG = "${MINIKUBE_HOME}\\kubeconfig"
+        PATH = "${MINIKUBE_HOME}\\bin;${env.PATH}"  // Ajouter Minikube au PATH
     }
 
     tools {
@@ -31,15 +32,17 @@ pipeline {
         }
 
         stage('Setup Minikube Docker') {
-                    steps {
-                        script {
-                            echo "Configuring Docker to use Minikube's Docker daemon"
-                            bat 'FOR /f "tokens=*" %%i IN ('minikube -p minikube docker-env') DO %%i'
-                            echo Docker config applied
-                            docker info
-                        }
-                    }
+            steps {
+                script {
+                    echo "Checking Minikube version"
+                    bat 'minikube version'
+                    echo "Configuring Docker to use Minikube's Docker daemon"
+                    bat "FOR /f \"tokens=*\" %%i IN ('minikube -p minikube docker-env') DO %%i"
+                    echo "Docker config applied"
+                    bat 'docker info'
                 }
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
