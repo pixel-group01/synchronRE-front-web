@@ -41,18 +41,17 @@ pipeline {
         stage('Deploy Container') {
             steps {
                 script {
-                         /script {
-                                              // Vérifie si le conteneur existe
-                                              bat """
-                                              docker ps -a --format "{{.Names}}" | findstr /R /C:"^%CONTAINER_NAME%$" > nul
-                                              if %ERRORLEVEL% == 0 (
-                                                  echo "Container exists. Stopping and removing..."
-                                                  docker stop %CONTAINER_NAME%
-                                                  docker rm %CONTAINER_NAME%
-                                              )
-                                              echo "Deploying new container..."
-                                              docker run -d --name %CONTAINER_NAME% -p %PORT_MAPPING% %IMAGE_NAME%:latest
-                                              """
+                         // Vérifie si le conteneur existe
+                                             bat """
+                                             docker ps -a --format "{{.Names}}" | findstr /R /C:"^%CONTAINER_NAME%$" > nul
+                                             if %ERRORLEVEL% == 0 (
+                                                 echo "Container exists. Stopping and removing..."
+                                                 docker stop %CONTAINER_NAME%
+                                                 docker rm %CONTAINER_NAME%
+                                             )
+                                             echo "Deploying new container..."
+                                             docker run -d --name %CONTAINER_NAME% -p %PORT_MAPPING% %IMAGE_NAME%:latest
+                                             """
                         }
             }
         }
