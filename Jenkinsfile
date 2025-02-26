@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     echo "Configuring Docker to use Minikube's Docker daemon"
-                    bat 'minikube -p minikube docker-env | Invoke-Expression'
+                    bat '@FOR /f "tokens=*" %i IN (\'minikube -p minikube docker-env\') DO @%i'
 
                     echo "Building Docker image"
                     bat "docker build -t ${env.IMAGE_NAME}:latest ."
