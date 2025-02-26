@@ -41,26 +41,20 @@ pipeline {
         stage('Deploy Container') {
             steps {
                 script {
-                    // Vérifier si le conteneur tourne et l'arrêter
-                    bat "FOR /F %i IN ('docker ps -q --filter \"name=%CONTAINER_NAME%\"') DO docker stop %i"
-                    bat "FOR /F %i IN ('docker ps -aq --filter \"name=%CONTAINER_NAME%\"') DO docker rm %i"
+                            // Vérifier si le conteneur tourne et l'arrêter
+                            bat "FOR /F %i IN ('docker ps -q --filter \"name=%CONTAINER_NAME%\"') DO docker stop %i"
+                            bat "FOR /F %i IN ('docker ps -aq --filter \"name=%CONTAINER_NAME%\"') DO docker rm %i"
 
+                            // Supprimer les images orphelines (dangling)
+                            bat "FOR /F %i IN ('docker images -f \"dangling=true\" -q') DO docker rmi %i"
 
-                    // Supprimer les images orphelines (dangling)
-                    bat "FOR /F %%i IN ('docker images -f 'dangling=true' -q') DO docker rmi %%i"
+                            // Lancer le conteneur avec le bon nom d'image
+                            bat "docker run -d --name %CONTAINER_NAME% -p %PORT_MAPPING% synchronre-front-web"
 
-                    // Lancer le conteneur
-                    bat "docker run -d --name %CONTAINER_NAME% -p %PORT_MAPPING% %IMAGE_NAME%"
-                }
-            }
-        }
-
-        stage('Debug Docker') {
-            steps {
-                script {
-                    bat "docker ps -a" // Voir tous les conteneurs, même arrêtés
-                    bat "docker logs %CONTAINER_NAME%" // Voir les logs du conteneur
-                }
+                            // Vérifier si le conteneur tourne correctement
+                            bat "docker ps -a"
+                            bat "docker logs %CONTAINER_NAME%"
+                        }
             }
         }
 
