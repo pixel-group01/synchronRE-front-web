@@ -33,7 +33,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    bat "docker build -t %IMAGE_NAME% ."
+                    bat "docker build -t ${env.IMAGE_NAME} ."
                 }
             }
         }
@@ -41,18 +41,19 @@ pipeline {
         stage('Deploy Container') {
             steps {
                 script {
-                         // Vérifie si le conteneur existe
-                                             bat """
-                                             docker ps -a --format "{{.Names}}" | findstr /R /C:"^%CONTAINER_NAME%$" > nul
-                                             if %ERRORLEVEL% == 0 (
-                                                 echo "Container exists. Stopping and removing..."
-                                                 docker stop %CONTAINER_NAME%
-                                                 docker rm %CONTAINER_NAME%
-                                             )
-                                             echo "Deploying new container..."
-                                             docker run -d --name %CONTAINER_NAME% -p %PORT_MAPPING% %IMAGE_NAME%:latest
-                                             """
-                        }
+                    bat """
+                    @echo off
+                    for /f %%i in ('docker ps -a --format "{{.Names}}"') do (
+                        if "%%i"=="${env.CONTAINER_NAME}" (
+                            echo "Container exists. Stopping and removing..."
+                            docker stop ${env.CONTAINER_NAME}
+                            docker rm ${env.CONTAINER_NAME}
+                        )
+                    )
+                    echo "Deploying new container..."
+                    docker run -d --name ${env.CONTAINER_NAME} -p ${env.PORT_MAPPING} ${env.IMAGE_NAME}:latest
+                    """
+                }
             }
         }
     }
