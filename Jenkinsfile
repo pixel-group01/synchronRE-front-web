@@ -7,8 +7,8 @@ pipeline {
         PORT_MAPPING = '8585:80'
     }
 
-	tools {
-        nodejs "NodeJS" // Nom de l'installation Node.js dans Jenkins (à configurer dans Jenkins Global Tool Configuration)
+    tools {
+        nodejs "NodeJS"
     }
 
     stages {
@@ -26,16 +26,14 @@ pipeline {
 
         stage('Build Angular App') {
             steps {
-                script {
-                    bat 'npm run build --configuration=production'
-                }
+                bat 'npm run build --configuration=production'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    bat "docker build -t ${IMAGE_NAME} ."
+                    bat "docker build -t %IMAGE_NAME% ."
                 }
             }
         }
@@ -43,18 +41,22 @@ pipeline {
         stage('Deploy Container') {
             steps {
                 script {
-                    bat "docker stop ${CONTAINER_NAME} || true"
-                    bat "docker rm ${CONTAINER_NAME} || true"
-                    bat "docker run -d --name ${CONTAINER_NAME} -p ${PORT_MAPPING} -v angular_build:/usr/share/nginx/html ${IMAGE_NAME}"
+                    // Vérifier si le conteneur tourne et l'arrêter
+                    bat "FOR /F %%i IN ('docker ps -q --filter name=%CONTAINER_NAME%') DO docker stop %%i"
+                    bat "FOR /F %%i IN ('docker ps -aq --filter name=%CONTAINER_NAME%') DO docker rm %%i"
+
+                    // Supprimer les images orphelines (dangling)
+                    bat "FOR /F %%i IN ('docker images -f 'dangling=true' -q') DO docker rmi %%i"
+
+                    // Lancer le conteneur
+                    bat "docker run -d --name %CONTAINER_NAME% -p %PORT_MAPPING% %IMAGE_NAME%"
                 }
             }
         }
 
         stage('Capture Logs') {
             steps {
-                script {
-                    bat "docker logs -f ${CONTAINER_NAME}"
-                }
+                bat "docker logs -f %CONTAINER_NAME%"
             }
         }
     }
