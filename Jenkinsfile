@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'synchronRE-front-web'
-        CONTAINER_NAME = 'synchronRE-front-web'
+        IMAGE_NAME = 'synchronre-front-web'
+        CONTAINER_NAME = 'synchronre-front-web'
         PORT_MAPPING = '8585:80'
     }
 
