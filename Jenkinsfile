@@ -42,8 +42,8 @@ pipeline {
             steps {
                 script {
                            // Arrête et supprime le conteneur s'il existe déjà
-                                              bat "docker stop ${CONTAINER_NAME} || true"
-                                              bat "docker rm ${CONTAINER_NAME} || true"
+//                                               bat "docker stop ${CONTAINER_NAME} || true"
+//                                               bat "docker rm ${CONTAINER_NAME} || true"
 
                                               // Lance le conteneur Docker avec les variables définies
                                               bat "docker run -d --name ${CONTAINER_NAME} -p ${PORT_MAPPING} ${IMAGE_NAME}:latest"
