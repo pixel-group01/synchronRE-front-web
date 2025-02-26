@@ -55,10 +55,19 @@ pipeline {
             }
         }
 
-        stage('Capture Logs') {
+        stage('Debug Docker') {
             steps {
-                bat "docker logs -f %CONTAINER_NAME%"
+                script {
+                    bat "docker ps -a" // Voir tous les conteneurs, même arrêtés
+                    bat "docker logs %CONTAINER_NAME%" // Voir les logs du conteneur
+                }
             }
         }
+
+//         stage('Capture Logs') {
+//             steps {
+//                 bat "docker logs -f %CONTAINER_NAME%"
+//             }
+//         }
     }
 }
