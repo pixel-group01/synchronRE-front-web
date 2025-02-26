@@ -42,8 +42,9 @@ pipeline {
             steps {
                 script {
                     // Vérifier si le conteneur tourne et l'arrêter
-                    bat "FOR /F %%i IN ('docker ps -q --filter name=%CONTAINER_NAME%') DO docker stop %%i"
-                    bat "FOR /F %%i IN ('docker ps -aq --filter name=%CONTAINER_NAME%') DO docker rm %%i"
+                    bat "FOR /F %i IN ('docker ps -q --filter \"name=%CONTAINER_NAME%\"') DO docker stop %i"
+                    bat "FOR /F %i IN ('docker ps -aq --filter \"name=%CONTAINER_NAME%\"') DO docker rm %i"
+
 
                     // Supprimer les images orphelines (dangling)
                     bat "FOR /F %%i IN ('docker images -f 'dangling=true' -q') DO docker rmi %%i"
