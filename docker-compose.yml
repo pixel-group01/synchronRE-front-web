@@ -20,13 +20,13 @@ services:
     container_name: synchronre-front-web-1
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.synchronre.rule=Host(`localhost`)"
-      - "traefik.http.services.synchronre.loadbalancer.server.port=8585"  # Mise à jour du port
+      - "traefik.http.routers.synchronre.rule=Host('localhost')"  // Remplacer les backticks par des guillemets simples
+      - "traefik.http.services.synchronre.loadbalancer.server.port=8585"
 
   synchronre-front-2:
     image: synchronre-front-web:latest
     container_name: synchronre-front-web-2
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.synchronre.rule=Host(`localhost`)"
-      - "traefik.http.services.synchronre.loadbalancer.server.port=8585"  # Mise à jour du port
+      - "traefik.http.routers.synchronre.rule=Host('localhost')"  // Remplacer les backticks par des guillemets simples
+      - "traefik.http.services.synchronre.loadbalancer.server.port=8585"
