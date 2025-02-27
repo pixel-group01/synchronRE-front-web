@@ -3,12 +3,8 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'synchronre-front-web'
-        OLD_CONTAINER_NAME = 'synchronre-front-web-1'
-        NEW_CONTAINER_NAME = 'synchronre-front-web-2'
-        PORT_OLD = '8585'
-        PORT_NEW = '8586'
-        NGINX_CONTAINER = 'nginx_container'
-        HEALTHCHECK_URL = 'http://localhost:8586'
+        SERVICE_NAME = 'synchronre-front'  // Nom du service dans Docker Swarm
+        HEALTHCHECK_URL = 'http://localhost:8586'  // URL pour vérifier la disponibilité du service
     }
 
     tools {
@@ -45,23 +41,27 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 script {
-                   bat """
-                                       echo "Démarrage du nouveau conteneur..."
-                                       docker run -d --label traefik.enable=true --label traefik.http.routers.synchronre.rule=Host('yourdomain.com') --label traefik.http.services.synchronre.loadbalancer.server.port=80 --name ${env.NEW_CONTAINER_NAME} ${env.IMAGE_NAME}:latest
+                    echo "Démarrage du nouveau conteneur..."
+                    // Pousser l'image vers Docker registry si nécessaire (local ou distant)
+                    bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
 
-                                       echo "Attente du nouveau conteneur..."
-                                       for /L %%i in (1,1,10) do (
-                                           docker inspect -f "{{.State.Running}}" ${env.NEW_CONTAINER_NAME} 2>nul | find "true" >nul && exit /b 0
-                                           echo "En attente de disponibilité..."
-                                           timeout /t 5 >nul
-                                       )
+                    // Si vous utilisez Docker Swarm, mise à jour du service avec rolling update
+                    bat """
+                        docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.SERVICE_NAME}
+                    """
 
-                                       echo "Arrêt et suppression de l'ancien conteneur..."
-                                       docker stop ${env.OLD_CONTAINER_NAME} || echo "Ancien conteneur déjà arrêté"
-                                       docker rm -f ${env.OLD_CONTAINER_NAME} || echo "Ancien conteneur déjà supprimé"
+                    // Vérifier la disponibilité du nouveau conteneur avant de stopper l'ancien
+                    echo "Vérification de la disponibilité du nouveau conteneur..."
+                    bat """
+                        for /L %%i in (1,1,10) do (
+                            curl --silent --fail ${env.HEALTHCHECK_URL} && exit /b 0 || (
+                                echo "En attente de disponibilité... %%i"
+                                timeout /t 5 >nul
+                            )
+                        )
+                    """
 
-                                       echo "Déploiement terminé avec succès !"
-                                       """
+                    echo "Rolling update terminé avec succès !"
                 }
             }
         }
