@@ -41,10 +41,21 @@ pipeline {
         stage('Create Docker Service') {
             steps {
                 script {
-                    // Créer le service Docker dans Swarm si ce n'est pas déjà fait
-                    bat """
-                        docker service ls | findstr synchronre-front || docker service create --name synchronre-front --replicas 2 --publish 8585:80 --label traefik.enable=true --label traefik.http.routers.synchronre.rule=Host('yourdomain.com') --label traefik.http.services.synchronre.loadbalancer.server.port=80 ${env.IMAGE_NAME}:latest
-                    """
+                     // Vérifier si le service existe déjà
+                                def serviceExists = sh(script: "docker service ls --filter name=${env.SERVICE_NAME} -q", returnStdout: true).trim()
+
+                                if (serviceExists) {
+                                    // Si le service existe déjà, le mettre à jour
+                                    echo "Le service ${env.SERVICE_NAME} existe déjà. Mise à jour avec la nouvelle image..."
+                                    bat """
+                                        docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.SERVICE_NAME}
+                                    """
+                                } else {
+                                    // Sinon, créer un nouveau service
+                                    echo "Le service ${env.SERVICE_NAME} n'existe pas. Création d'un nouveau service..."
+                                    bat """
+                                        docker service create --name ${env.SERVICE_NAME} --replicas 2 --publish 8585:80 --label traefik.enable=true --label traefik.http.routers.synchronre.rule=Host('yourdomain.com') --label traefik.http.services.synchronre.loadbalancer.server.port=80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
+                                    """
                 }
             }
         }
