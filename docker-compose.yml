@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    restart: always
+    ports:
+      - "80:80"   # HTTP
+      - "8080:8080" # Dashboard
+    command:
+      - "--api.insecure=true"  # Pour accéder au dashboard (désactive en prod)
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  synchronre-front-1:
+    image: synchronre-front-web:latest
+    container_name: synchronre-front-web-1
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.synchronre.rule=Host(`yourdomain.com`)"
+      - "traefik.http.services.synchronre.loadbalancer.server.port=80"
+
+  synchronre-front-2:
+    image: synchronre-front-web:latest
+    container_name: synchronre-front-web-2
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.synchronre.rule=Host(`yourdomain.com`)"
+      - "traefik.http.services.synchronre.loadbalancer.server.port=80"
