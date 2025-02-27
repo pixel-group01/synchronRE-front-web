@@ -16,4 +16,4 @@ spec:
         - name: synchronre-front-web
           image: synchronre-front-web:latest
           ports:
-            - containerPort: 80
+            - containerPort: 8585

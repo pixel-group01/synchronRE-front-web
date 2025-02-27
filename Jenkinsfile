@@ -3,9 +3,9 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'synchronre-front-web'
-        MINIKUBE_HOME = 'C:\\minikube'  // Assure-toi que Minikube est installé ici
+        MINIKUBE_HOME = 'C:\\minikube'
         KUBECONFIG = "${MINIKUBE_HOME}\\kubeconfig"
-        PATH = "${MINIKUBE_HOME}\\bin;${env.PATH}"  // Ajouter Minikube au PATH
+        PATH = "${MINIKUBE_HOME}\\bin;${env.PATH}"
     }
 
     tools {
@@ -35,16 +35,11 @@ pipeline {
             steps {
                 script {
                     echo "Checking Minikube version"
-                                bat 'minikube version'
-                                echo "Configuring Docker to use Minikube's Docker daemon"
-                                powershell """
-                                    \$env:DOCKER_TLS_VERIFY = '1'
-                                    \$env:DOCKER_HOST = 'tcp://$(minikube -p minikube ip):2376'
-                                    \$env:DOCKER_CERT_PATH = (minikube -p minikube docker-env | Select-String -Pattern 'DOCKER_CERT_PATH=(.*)' | ForEach-Object { \$_.Matches.Groups[1].Value }).Trim()
-                                    \$env:DOCKER_MACHINE_NAME = 'minikube'
-                                    docker info
-                                """
-                                echo "Docker config applied"
+                    bat 'minikube version'
+                    echo "Configuring Docker to use Minikube's Docker daemon"
+                    bat "FOR /f \"tokens=*\" %%i IN ('minikube -p minikube docker-env') DO %%i"
+                    echo "Docker config applied"
+                    bat 'docker info'
                 }
             }
         }
@@ -58,24 +53,31 @@ pipeline {
             }
         }
 
-        stage('Push Docker Image to Minikube') {
+        stage('Apply Kubernetes Deployment') {
             steps {
                 script {
-                    echo "Pushing image to Minikube's Docker"
-                    bat "minikube cache add ${env.IMAGE_NAME}:latest"
+                    echo "Applying Kubernetes Deployment"
+                    bat 'kubectl apply -f deployment.yaml'
                 }
             }
         }
 
-        stage('Deploy to Minikube Kubernetes') {
+        stage('Apply Kubernetes Service') {
             steps {
                 script {
-                    echo "Applying Kubernetes configurations"
-                    bat "kubectl apply -f k8s/deployment.yaml"
-                    bat "kubectl apply -f k8s/service.yaml"
+                    echo "Applying Kubernetes Service"
+                    bat 'kubectl apply -f service.yaml'
+                }
+            }
+        }
 
-                    echo "Verifying deployment"
-                    bat "kubectl rollout status deployment/${env.IMAGE_NAME}"
+        stage('Verify Deployment') {
+            steps {
+                script {
+                    echo "Checking running pods"
+                    bat 'kubectl get pods'
+                    echo "Getting service details"
+                    bat 'kubectl get svc'
                 }
             }
         }
