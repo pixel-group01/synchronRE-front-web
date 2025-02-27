@@ -45,23 +45,23 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 script {
-                    bat """
-                                echo "Démarrage du nouveau conteneur..."
-                                docker run -d --label traefik.enable=true --label traefik.http.routers.synchronre.rule=Host(\`yourdomain.com\`) --label traefik.http.services.synchronre.loadbalancer.server.port=80 --name ${env.NEW_CONTAINER_NAME} ${env.IMAGE_NAME}:latest
+                   bat """
+                                       echo "Démarrage du nouveau conteneur..."
+                                       docker run -d --label traefik.enable=true --label traefik.http.routers.synchronre.rule=Host('yourdomain.com') --label traefik.http.services.synchronre.loadbalancer.server.port=80 --name ${env.NEW_CONTAINER_NAME} ${env.IMAGE_NAME}:latest
 
-                                echo "Attente du nouveau conteneur..."
-                                for /L %%i in (1,1,10) do (
-                                    docker inspect -f "{{.State.Running}}" ${env.NEW_CONTAINER_NAME} 2>nul | find "true" >nul && exit /b 0
-                                    echo "En attente de disponibilité..."
-                                    timeout /t 5 >nul
-                                )
+                                       echo "Attente du nouveau conteneur..."
+                                       for /L %%i in (1,1,10) do (
+                                           docker inspect -f "{{.State.Running}}" ${env.NEW_CONTAINER_NAME} 2>nul | find "true" >nul && exit /b 0
+                                           echo "En attente de disponibilité..."
+                                           timeout /t 5 >nul
+                                       )
 
-                                echo "Arrêt et suppression de l'ancien conteneur..."
-                                docker stop ${env.OLD_CONTAINER_NAME} || echo "Ancien conteneur déjà arrêté"
-                                docker rm -f ${env.OLD_CONTAINER_NAME} || echo "Ancien conteneur déjà supprimé"
+                                       echo "Arrêt et suppression de l'ancien conteneur..."
+                                       docker stop ${env.OLD_CONTAINER_NAME} || echo "Ancien conteneur déjà arrêté"
+                                       docker rm -f ${env.OLD_CONTAINER_NAME} || echo "Ancien conteneur déjà supprimé"
 
-                                echo "Déploiement terminé avec succès !"
-                                """
+                                       echo "Déploiement terminé avec succès !"
+                                       """
                 }
             }
         }
