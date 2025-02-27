@@ -66,8 +66,8 @@ pipeline {
                     docker exec ${env.NGINX_CONTAINER} sh -c "sed -i 's/:${PORT_OLD}/:${PORT_NEW}/' /etc/nginx/nginx.conf && nginx -s reload"
 
                     echo "Arrêt et suppression de l'ancien conteneur..."
-                    docker stop ${env.OLD_CONTAINER_NAME}
-                    docker rm ${env.OLD_CONTAINER_NAME}
+                    docker stop ${env.OLD_CONTAINER_NAME} || echo "Ancien conteneur déjà arrêté"
+                    docker rm -f ${env.OLD_CONTAINER_NAME} || echo "Ancien conteneur déjà supprimé"
 
                     echo "Renommage des conteneurs..."
                     docker rename ${env.NEW_CONTAINER_NAME} ${env.OLD_CONTAINER_NAME}
