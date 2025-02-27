@@ -52,28 +52,28 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 script {
-                    script {
-                                echo "Démarrage du nouveau conteneur..."
-                                // Pousser l'image vers Docker registry si nécessaire
-                                bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+                    echo "Démarrage du nouveau conteneur..."
+                               // Pousser l'image vers Docker registry si nécessaire
+                               bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
 
-                                // Mettre à jour le service avec la nouvelle image
-                                bat """
-                                    docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} synchronre-front
-                                """
+                               // Mettre à jour le service avec la nouvelle image
+                               echo "Mise à jour du service Docker avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+                               bat """
+                                   docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} synchronre-front
+                               """
 
-                                // Vérifier la disponibilité du nouveau conteneur
-                                echo "Vérification de la disponibilité du nouveau conteneur..."
-                                bat """
-                                    for /L %%i in (1,1,10) do (
-                                        curl --silent --fail ${env.HEALTHCHECK_URL} && exit /b 0 || (
-                                            echo "En attente de disponibilité... %%i"
-                                            timeout /t 5 >nul
-                                        )
-                                    )
-                                """
+                               // Vérifier la disponibilité du nouveau conteneur
+                               echo "Vérification de la disponibilité du nouveau conteneur..."
+                               bat """
+                                   for /L %%i in (1,1,10) do (
+                                       curl --silent --fail ${env.HEALTHCHECK_URL} && exit /b 0 || (
+                                           echo "En attente de disponibilité... %%i"
+                                           timeout /t 5 >nul
+                                       )
+                                   )
+                               """
 
-                                echo "Rolling update terminé avec succès !"
+                               echo "Rolling update terminé avec succès !"
                 }
             }
         }
