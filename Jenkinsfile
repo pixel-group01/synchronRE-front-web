@@ -34,12 +34,23 @@ pipeline {
         stage('Setup Minikube Docker') {
             steps {
                 script {
-                    echo "Checking Minikube version"
-                    bat 'minikube version'
-                    echo "Configuring Docker to use Minikube's Docker daemon"
-                    bat "FOR /f \"tokens=*\" %%i IN ('minikube -p minikube docker-env') DO %%i"
-                    echo "Docker config applied"
-                    bat 'docker info'
+                   echo "Checking Minikube version"
+                               bat 'minikube version'
+
+                               echo "Configuring Docker to use Minikube's Docker daemon"
+                               def output = bat(script: 'minikube -p minikube docker-env --shell cmd', returnStdout: true).trim()
+
+                               echo "Setting environment variables..."
+                               output.split("\n").each { line ->
+                                   if (line.startsWith("SET ")) {
+                                       def parts = line.split("SET ")[1].split("=")
+                                       env[parts[0]] = parts[1]
+                                       echo "Applied: ${parts[0]}=${parts[1]}"
+                                   }
+                               }
+
+                               echo "Docker config applied"
+                               bat 'docker info'
                 }
             }
         }
