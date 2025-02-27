@@ -38,30 +38,42 @@ pipeline {
             }
         }
 
+        stage('Create Docker Service') {
+            steps {
+                script {
+                    // Créer le service Docker dans Swarm si ce n'est pas déjà fait
+                    bat """
+                        docker service ls | findstr synchronre-front || docker service create --name synchronre-front --replicas 2 --publish 8585:80 --label traefik.enable=true --label traefik.http.routers.synchronre.rule=Host('yourdomain.com') --label traefik.http.services.synchronre.loadbalancer.server.port=80 ${env.IMAGE_NAME}:latest
+                    """
+                }
+            }
+        }
+
         stage('Deploy New Container') {
             steps {
                 script {
-                    echo "Démarrage du nouveau conteneur..."
-                    // Pousser l'image vers Docker registry si nécessaire (local ou distant)
-                    bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+                    script {
+                                echo "Démarrage du nouveau conteneur..."
+                                // Pousser l'image vers Docker registry si nécessaire
+                                bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
 
-                    // Si vous utilisez Docker Swarm, mise à jour du service avec rolling update
-                    bat """
-                        docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.SERVICE_NAME}
-                    """
+                                // Mettre à jour le service avec la nouvelle image
+                                bat """
+                                    docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} synchronre-front
+                                """
 
-                    // Vérifier la disponibilité du nouveau conteneur avant de stopper l'ancien
-                    echo "Vérification de la disponibilité du nouveau conteneur..."
-                    bat """
-                        for /L %%i in (1,1,10) do (
-                            curl --silent --fail ${env.HEALTHCHECK_URL} && exit /b 0 || (
-                                echo "En attente de disponibilité... %%i"
-                                timeout /t 5 >nul
-                            )
-                        )
-                    """
+                                // Vérifier la disponibilité du nouveau conteneur
+                                echo "Vérification de la disponibilité du nouveau conteneur..."
+                                bat """
+                                    for /L %%i in (1,1,10) do (
+                                        curl --silent --fail ${env.HEALTHCHECK_URL} && exit /b 0 || (
+                                            echo "En attente de disponibilité... %%i"
+                                            timeout /t 5 >nul
+                                        )
+                                    )
+                                """
 
-                    echo "Rolling update terminé avec succès !"
+                                echo "Rolling update terminé avec succès !"
                 }
             }
         }
