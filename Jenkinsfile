@@ -16,7 +16,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'test', url: 'https://github.com/pixel-group01/synchronRE-front-web.git'
+                git branch: 'test-docker', url: 'https://github.com/pixel-group01/synchronRE-front-web.git'
             }
         }
 
