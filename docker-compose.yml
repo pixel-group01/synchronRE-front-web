@@ -6,27 +6,33 @@ services:
     container_name: traefik
     restart: always
     ports:
-      - "80:80"   # HTTP
-      - "8080:8080" # Dashboard
+      - "80:80"    # HTTP
+      - "8080:8080"  # Dashboard
     command:
       - "--api.insecure=true"  # Pour accéder au dashboard (désactive en prod)
       - "--providers.docker=true"
       - "--entrypoints.web.address=:80"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
 
-  synchronre-front-1:
+  synchronre-front:
     image: synchronre-front-web:latest
-    container_name: synchronre-front-web-1
+    deploy:
+      replicas: 3  # Nombre de réplicas du service
+      update_config:
+        parallelism: 1  # Nombre de réplicas mis à jour simultanément
+        delay: 10s  # Délai entre les mises à jour des réplicas
+      restart_policy:
+        condition: on-failure  # Redémarre si le conteneur échoue
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.synchronre.rule=Host('localhost')"  # Correctement formaté
+      - "traefik.http.routers.synchronre.rule=Host(`localhost`)"  # Correctement formaté
       - "traefik.http.services.synchronre.loadbalancer.server.port=8585"
+    ports:
+      - "8585:8585"  # Expose le port du conteneur si nécessaire
 
-  synchronre-front-2:
-    image: synchronre-front-web:latest
-    container_name: synchronre-front-web-2
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.synchronre.rule=Host('localhost')"  # Correctement formaté
-      - "traefik.http.services.synchronre.loadbalancer.server.port=8585"
