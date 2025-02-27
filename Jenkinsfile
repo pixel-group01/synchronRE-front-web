@@ -41,21 +41,22 @@ pipeline {
         stage('Create Docker Service') {
             steps {
                 script {
-                     // Vérifier si le service existe déjà
-                                def serviceExists = sh(script: "docker service ls --filter name=${env.SERVICE_NAME} -q", returnStdout: true).trim()
+                    // Vérifier si le service existe déjà
+                    def serviceExists = sh(script: "docker service ls --filter name=${env.SERVICE_NAME} -q", returnStdout: true).trim()
 
-                                if (serviceExists) {
-                                    // Si le service existe déjà, le mettre à jour
-                                    echo "Le service ${env.SERVICE_NAME} existe déjà. Mise à jour avec la nouvelle image..."
-                                    bat """
-                                        docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.SERVICE_NAME}
-                                    """
-                                } else {
-                                    // Sinon, créer un nouveau service
-                                    echo "Le service ${env.SERVICE_NAME} n'existe pas. Création d'un nouveau service..."
-                                    bat """
-                                        docker service create --name ${env.SERVICE_NAME} --replicas 2 --publish 8585:80 --label traefik.enable=true --label traefik.http.routers.synchronre.rule=Host('yourdomain.com') --label traefik.http.services.synchronre.loadbalancer.server.port=80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
-                                    """
+                    if (serviceExists) {
+                        // Si le service existe déjà, le mettre à jour
+                        echo "Le service ${env.SERVICE_NAME} existe déjà. Mise à jour avec la nouvelle image..."
+                        bat """
+                            docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.SERVICE_NAME}
+                        """
+                    } else {
+                        // Sinon, créer un nouveau service
+                        echo "Le service ${env.SERVICE_NAME} n'existe pas. Création d'un nouveau service..."
+                        bat """
+                            docker service create --name ${env.SERVICE_NAME} --replicas 2 --publish 8585:80 --label traefik.enable=true --label traefik.http.routers.synchronre.rule=Host('yourdomain.com') --label traefik.http.services.synchronre.loadbalancer.server.port=80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
+                        """
+                    }
                 }
             }
         }
@@ -64,27 +65,28 @@ pipeline {
             steps {
                 script {
                     echo "Démarrage du nouveau conteneur..."
-                               // Pousser l'image vers Docker registry si nécessaire
-                               bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
 
-                               // Mettre à jour le service avec la nouvelle image
-                               echo "Mise à jour du service Docker avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
-                               bat """
-                                   docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} synchronre-front
-                               """
+                    // Pousser l'image vers Docker registry si nécessaire
+                    bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
 
-                               // Vérifier la disponibilité du nouveau conteneur
-                               echo "Vérification de la disponibilité du nouveau conteneur..."
-                               bat """
-                                   for /L %%i in (1,1,10) do (
-                                       curl --silent --fail ${env.HEALTHCHECK_URL} && exit /b 0 || (
-                                           echo "En attente de disponibilité... %%i"
-                                           timeout /t 5 >nul
-                                       )
-                                   )
-                               """
+                    // Mettre à jour le service avec la nouvelle image
+                    echo "Mise à jour du service Docker avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+                    bat """
+                        docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.SERVICE_NAME}
+                    """
 
-                               echo "Rolling update terminé avec succès !"
+                    // Vérifier la disponibilité du nouveau conteneur
+                    echo "Vérification de la disponibilité du nouveau conteneur..."
+                    bat """
+                        for /L %%i in (1,1,10) do (
+                            curl --silent --fail ${env.HEALTHCHECK_URL} && exit /b 0 || (
+                                echo "En attente de disponibilité... %%i"
+                                timeout /t 5 >nul
+                            )
+                        )
+                    """
+
+                    echo "Rolling update terminé avec succès !"
                 }
             }
         }
