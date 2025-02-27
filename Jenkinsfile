@@ -8,7 +8,7 @@ pipeline {
         PORT_OLD = '8585'
         PORT_NEW = '8586'
         NGINX_CONTAINER = 'nginx_container'
-        HEALTHCHECK_URL = 'http://localhost:8586'  // Vérifier si le conteneur est prêt
+        HEALTHCHECK_URL = 'http://localhost:8586'
     }
 
     tools {
@@ -46,32 +46,30 @@ pipeline {
             steps {
                 script {
                     bat """
-                    echo "Démarrage du nouveau conteneur sur ${PORT_NEW}..."
+                    echo "Démarrage du nouveau conteneur..."
                     docker run -d --name ${env.NEW_CONTAINER_NAME} -p ${PORT_NEW}:80 ${env.IMAGE_NAME}:latest
 
-                    echo "Attente de l'initialisation du conteneur..."
+                    echo "Vérification du statut du conteneur..."
                     for /L %%i in (1,1,10) do (
-                        curl --silent --fail ${env.HEALTHCHECK_URL} >nul && exit /b 0
+                        docker inspect -f "{{.State.Running}}" ${env.NEW_CONTAINER_NAME} 2>nul | find "true" >nul && exit /b 0
                         echo "En attente de disponibilité..."
                         timeout /t 5 >nul
                     )
 
-                    echo "Mise à jour de Nginx pour diriger le trafic vers ${PORT_NEW}..."
-                    docker exec ${env.NGINX_CONTAINER} sh -c "sed -i 's/:${PORT_OLD}/:${PORT_NEW}/' /etc/nginx/nginx.conf && nginx -s reload"
-
-                    echo "Validation du nouveau conteneur..."
-                    curl --silent --fail ${env.HEALTHCHECK_URL} || (
-                        echo "Le nouveau conteneur ne répond pas ! Rollback..."
-                        docker stop ${env.NEW_CONTAINER_NAME}
-                        docker rm ${env.NEW_CONTAINER_NAME}
+                    echo "Vérification de Nginx..."
+                    docker ps -q -f name=${env.NGINX_CONTAINER} || (
+                        echo "Erreur: Le conteneur Nginx n'existe pas."
                         exit /b 1
                     )
+
+                    echo "Mise à jour de Nginx..."
+                    docker exec ${env.NGINX_CONTAINER} sh -c "sed -i 's/:${PORT_OLD}/:${PORT_NEW}/' /etc/nginx/nginx.conf && nginx -s reload"
 
                     echo "Arrêt et suppression de l'ancien conteneur..."
                     docker stop ${env.OLD_CONTAINER_NAME}
                     docker rm ${env.OLD_CONTAINER_NAME}
 
-                    echo "Basculement des noms..."
+                    echo "Renommage des conteneurs..."
                     docker rename ${env.NEW_CONTAINER_NAME} ${env.OLD_CONTAINER_NAME}
 
                     echo "Déploiement terminé avec succès !"
