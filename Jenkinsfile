@@ -19,33 +19,33 @@ pipeline {
         }
 
         stage('Restore node_modules from cache') {
-                    steps {
-                        script {
-                            // Vérifie si l'archive node_modules.tar.gz existe
-                            if (fileExists('node_modules.tar.gz')) {
-                                echo "Restauration du dossier node_modules depuis le cache..."
-                                bat 'tar -xzf node_modules.tar.gz'
-                            } else {
-                                echo "Aucun cache trouvé. Le dossier node_modules sera créé lors de l'installation des dépendances."
-                            }
-                        }
+            steps {
+                script {
+                    // Vérifie si l'archive node_modules.tar.gz existe
+                    if (fileExists('node_modules.tar.gz')) {
+                        echo "Restauration du dossier node_modules depuis le cache..."
+                        bat 'tar -xzf node_modules.tar.gz'
+                    } else {
+                        echo "Aucun cache trouvé. Le dossier node_modules sera créé lors de l'installation des dépendances."
                     }
+                }
+            }
         }
 
-       stage('Install Dependencies') {
-                   steps {
-                       script {
-                           // Vérifie si le dossier node_modules existe et n'est pas vide
-                           if (fileExists('node_modules') && !bat(script: 'dir node_modules', returnStdout: true).trim().isEmpty()) {
-                               echo "Le dossier node_modules existe et n'est pas vide. Les dépendances sont déjà installées."
-                           } else {
-                               // Si le dossier node_modules n'existe pas ou est vide, installer les dépendances
-                               echo "Installation des dépendances..."
-                               bat 'npm install'
-                           }
-                       }
-                   }
-       }
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    // Vérifie si le dossier node_modules existe et n'est pas vide
+                    if (fileExists('node_modules') && !bat(script: 'dir node_modules', returnStdout: true).trim().isEmpty()) {
+                        echo "Le dossier node_modules existe et n'est pas vide. Les dépendances sont déjà installées."
+                    } else {
+                        // Si le dossier node_modules n'existe pas ou est vide, installer les dépendances
+                        echo "Installation des dépendances..."
+                        bat 'npm install'
+                    }
+                }
+            }
+        }
 
         stage('Build Angular App') {
             steps {
@@ -65,7 +65,7 @@ pipeline {
             steps {
                 script {
                     // Vérifier si le service existe déjà
-                    def serviceExists = sh(script: "docker service ls --filter name=${env.SERVICE_NAME} -q", returnStdout: true).trim()
+                    def serviceExists = bat(script: "docker service ls --filter name=${env.SERVICE_NAME} -q", returnStdout: true).trim()
 
                     if (serviceExists) {
                         // Si le service existe déjà, le mettre à jour
@@ -113,15 +113,14 @@ pipeline {
                 }
             }
         }
+    }
 
-         post {
-                success {
-                    // Sauvegarde le dossier node_modules dans le cache
-                    echo "Sauvegarde du dossier node_modules dans le cache..."
-                    bat 'tar -czf node_modules.tar.gz node_modules'
-                    archiveArtifacts artifacts: 'node_modules.tar.gz', onlyIfSuccessful: true
-                }
-         }
-
+    post {
+        success {
+            // Sauvegarde le dossier node_modules dans le cache
+            echo "Sauvegarde du dossier node_modules dans le cache..."
+            bat 'tar -czf node_modules.tar.gz node_modules'
+            archiveArtifacts artifacts: 'node_modules.tar.gz', onlyIfSuccessful: true
+        }
     }
 }
