@@ -18,9 +18,32 @@ pipeline {
             }
         }
 
+         stage('Restore node_modules from cache') {
+                    steps {
+                        script {
+                            // Vérifie si un cache de node_modules existe
+                            if (fileExists('node_modules')) {
+                                echo "Le dossier node_modules existe déjà. Récupération depuis le cache."
+                            } else {
+                                // Si le cache n'existe pas, créer un dossier node_modules vide
+                                bat 'mkdir node_modules'
+                            }
+                        }
+                    }
+         }
+
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'
+               script {
+                                   // Vérifie si le dossier node_modules est vide
+                                   def nodeModulesEmpty = bat(script: 'dir node_modules', returnStdout: true).trim().isEmpty()
+                                   if (nodeModulesEmpty) {
+                                       echo "Installation des dépendances..."
+                                       bat 'npm install'
+                                   } else {
+                                       echo "Les dépendances sont déjà installées. Passage au stage suivant."
+                                   }
+                               }
             }
         }
 
