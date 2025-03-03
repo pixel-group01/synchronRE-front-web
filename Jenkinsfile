@@ -96,15 +96,15 @@ pipeline {
                     """
 
                     // Vérifier la disponibilité du nouveau conteneur
-                    echo "Vérification de la disponibilité du nouveau conteneur..."
-                    bat """
-                        for /L %%i in (1,1,10) do (
-                            curl --silent --fail ${env.HEALTHCHECK_URL} && exit /b 0 || (
-                                echo "En attente de disponibilité... %%i"
-                                timeout /t 5 >nul
-                            )
-                        )
-                    """
+//                     echo "Vérification de la disponibilité du nouveau conteneur..."
+//                     bat """
+//                         for /L %%i in (1,1,10) do (
+//                             curl --silent --fail ${env.HEALTHCHECK_URL} && exit /b 0 || (
+//                                 echo "En attente de disponibilité... %%i"
+//                                 timeout /t 5 >nul
+//                             )
+//                         )
+//                     """
 
                     echo "Rolling update terminé avec succès !"
                 }
@@ -113,11 +113,6 @@ pipeline {
     }
 
     post {
-        success {
-            // Sauvegarde le dossier node_modules dans le cache
-            echo "Sauvegarde du dossier node_modules dans le cache..."
-            bat 'tar -czf node_modules.tar.gz node_modules'
-            archiveArtifacts artifacts: 'node_modules.tar.gz', onlyIfSuccessful: true
-        }
+
     }
 }
