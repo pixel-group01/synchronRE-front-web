@@ -97,25 +97,28 @@ pipeline {
                 script {
                     echo "Demarrage du nouveau conteneur..."
 
-                    // Pousser l'image vers Docker registry si necessaire
-                    bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+                   bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
 
-                    // Mettre à jour le service avec la nouvelle image
-                    echo "Mise à jour du service Docker avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
-                    bat """
-                        docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.SERVICE_NAME}
-                    """
+                               // Mettre à jour le service avec la nouvelle image
+                               echo "Mise à jour du service Docker avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+                               bat """
+                                   docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.SERVICE_NAME}
+                               """
 
-                    // Verifier la disponibilite du nouveau conteneur
-                    echo "Verification de la disponibilite du nouveau conteneur..."
-                    bat """
-                        for /L %%i in (1,1,10) do (
-                            curl --silent --fail ${env.HEALTHCHECK_URL} && exit /b 0 || (
-                                echo "En attente de disponibilite... %%i"
-                                timeout /t 5 >nul
-                            )
-                        )
-                    """
+                               // Vérification de la disponibilité du nouveau conteneur
+                               echo "Vérification de la disponibilité du nouveau conteneur..."
+                               bat """
+                                   for /L %%i in (1,1,10) do (
+                                       curl --silent --fail ${env.HEALTHCHECK_URL}
+                                       if %%errorlevel%% equ 0 (
+                                           echo "Le conteneur est disponible."
+                                           exit /b 0
+                                       ) else (
+                                           echo "En attente de disponibilité... %%i"
+                                           timeout /t 5 >nul
+                                       )
+                                   )
+                               """
 
                     echo "Rolling update termine avec succès !"
                 }
