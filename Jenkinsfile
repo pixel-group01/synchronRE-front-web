@@ -18,32 +18,30 @@ pipeline {
             }
         }
 
-        stage('Restore node_modules from cache') {
-            steps {
-                script {
-                    // Vérifie si l'archive node_modules.tar.gz existe
-                    if (fileExists('node_modules.tar.gz')) {
-                        echo "Restauration du dossier node_modules depuis le cache..."
-                        bat 'tar -xzf node_modules.tar.gz'
-                    } else {
-                        echo "Aucun cache trouvé. Le dossier node_modules sera créé lors de l'installation des dépendances."
-                    }
-                }
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
-                script {
-                    // Vérifie si le dossier node_modules existe et n'est pas vide
-//                     if (fileExists('node_modules') && !bat(script: 'dir node_modules', returnStdout: true).trim().isEmpty()) {
-//                                    echo "Le dossier node_modules existe et n'est pas vide. Les dépendances sont déjà installées."
-//                                } else {
-//                                    echo "Installation des dépendances avec npm ci..."
-                                   bat 'npm ci'
-                               //}
+                    script {
+                        // Vérifie si l'archive node_modules.tar.gz existe et restaure le cache si disponible
+                        if (fileExists('node_modules.tar.gz')) {
+                            echo "Restauration du dossier node_modules depuis le cache..."
+                            bat 'tar -xzf node_modules.tar.gz'
+                        } else {
+                            echo "Aucun cache trouvé. Le dossier node_modules sera créé lors de l'installation des dépendances."
+                        }
+
+                        // Vérifie si node_modules est valide
+                        if (fileExists('node_modules') && !bat(script: 'dir node_modules', returnStdout: true).trim().isEmpty()) {
+                            echo "Le dossier node_modules existe et n'est pas vide. Les dépendances sont déjà installées."
+                        } else {
+                            echo "Installation des dépendances avec npm ci..."
+                            bat 'npm ci'
+
+                            echo "Sauvegarde du dossier node_modules dans le cache..."
+                            bat 'tar -czf node_modules.tar.gz node_modules'
+                            archiveArtifacts artifacts: 'node_modules.tar.gz', onlyIfSuccessful: true
+                        }
+                    }
                 }
-            }
         }
 
         stage('Build Angular App') {
