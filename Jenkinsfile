@@ -36,12 +36,12 @@ pipeline {
             steps {
                 script {
                     // Vérifie si le dossier node_modules existe et n'est pas vide
-                    if (fileExists('node_modules') && !bat(script: 'dir node_modules', returnStdout: true).trim().isEmpty()) {
-                                   echo "Le dossier node_modules existe et n'est pas vide. Les dépendances sont déjà installées."
-                               } else {
-                                   echo "Installation des dépendances avec npm ci..."
+//                     if (fileExists('node_modules') && !bat(script: 'dir node_modules', returnStdout: true).trim().isEmpty()) {
+//                                    echo "Le dossier node_modules existe et n'est pas vide. Les dépendances sont déjà installées."
+//                                } else {
+//                                    echo "Installation des dépendances avec npm ci..."
                                    bat 'npm ci'
-                               }
+                               //}
                 }
             }
         }
