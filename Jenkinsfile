@@ -21,36 +21,36 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                     script {
-                      // Vérifie si l'archive node_modules.tar.gz existe et restaure le cache si disponible
-                                  if (fileExists('node_modules.tar.gz')) {
-                                      echo "Restauration du cache node_modules..."
-                                      bat '7z x node_modules.tar.gz -o./node_modules'
-                                  } else {
-                                      echo "Aucun cache trouvé. Installation des dépendances..."
+                     // Vérifie si l'archive node_modules.tar.gz existe et restaure le cache si disponible
+                                 if (fileExists('node_modules.tar.gz')) {
+                                     echo "Restauration du cache node_modules..."
+                                     bat 'tar -xzf node_modules.tar.gz -C ./node_modules'
+                                 } else {
+                                     echo "Aucun cache trouvé. Installation des dépendances..."
 
-                                      // Installer les dépendances avec npm ci
-                                      bat 'npm ci'
+                                     // Installer les dépendances avec npm ci
+                                     bat 'npm ci'
 
-                                      // Sauvegarder les dépendances dans le cache
-                                      echo "Sauvegarde du dossier node_modules dans le cache..."
-                                      bat '7z a node_modules.tar.gz node_modules'
-                                      archiveArtifacts artifacts: 'node_modules.tar.gz', onlyIfSuccessful: true
-                                  }
+                                     // Sauvegarder les dépendances dans le cache
+                                     echo "Sauvegarde du dossier node_modules dans le cache..."
+                                     bat 'tar -czf node_modules.tar.gz node_modules'
+                                     archiveArtifacts artifacts: 'node_modules.tar.gz', onlyIfSuccessful: true
+                                 }
 
-                                  // Vérifie si node_modules existe et contient des fichiers
-                                  def nodeModulesExists = fileExists('node_modules')
-                                  def nodeModulesNotEmpty = nodeModulesExists && bat(script: 'dir /b node_modules | findstr /r /c:"."', returnStdout: true).trim()
+                                 // Vérifie si node_modules existe et contient des fichiers
+                                 def nodeModulesExists = fileExists('node_modules')
+                                 def nodeModulesNotEmpty = nodeModulesExists && bat(script: 'dir /b node_modules | findstr /r /c:"."', returnStdout: true).trim()
 
-                                  if (nodeModulesNotEmpty) {
-                                      echo "Le dossier node_modules existe et n'est pas vide. Les dépendances sont déjà installées."
-                                  } else {
-                                      echo "Installation des dépendances avec npm ci..."
-                                      bat 'npm ci'
+                                 if (nodeModulesNotEmpty) {
+                                     echo "Le dossier node_modules existe et n'est pas vide. Les dépendances sont déjà installées."
+                                 } else {
+                                     echo "Installation des dépendances avec npm ci..."
+                                     bat 'npm ci'
 
-                                      echo "Sauvegarde du dossier node_modules dans le cache..."
-                                      bat '7z a node_modules.tar.gz node_modules'
-                                      archiveArtifacts artifacts: 'node_modules.tar.gz', onlyIfSuccessful: true
-                                  }
+                                     echo "Sauvegarde du dossier node_modules dans le cache..."
+                                     bat 'tar -czf node_modules.tar.gz node_modules'
+                                     archiveArtifacts artifacts: 'node_modules.tar.gz', onlyIfSuccessful: true
+                                 }
                     }
                 }
         }
