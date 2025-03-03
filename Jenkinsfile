@@ -37,19 +37,18 @@ pipeline {
                 script {
                     // Vérifie si le dossier node_modules existe et n'est pas vide
                     if (fileExists('node_modules') && !bat(script: 'dir node_modules', returnStdout: true).trim().isEmpty()) {
-                        echo "Le dossier node_modules existe et n'est pas vide. Les dépendances sont déjà installées."
-                    } else {
-                        // Si le dossier node_modules n'existe pas ou est vide, installer les dépendances
-                        echo "Installation des dépendances..."
-                        bat 'npm install'
-                    }
+                                   echo "Le dossier node_modules existe et n'est pas vide. Les dépendances sont déjà installées."
+                               } else {
+                                   echo "Installation des dépendances avec npm ci..."
+                                   bat 'npm ci'
+                               }
                 }
             }
         }
 
         stage('Build Angular App') {
             steps {
-                bat 'npm run build --configuration=production'
+                bat 'ng build --configuration=production --optimization=true --buildOptimizer=true --aot=true'
             }
         }
 
