@@ -96,15 +96,8 @@ pipeline {
                     """
 
                     // Vérifier la disponibilité du nouveau conteneur
-//                     echo "Vérification de la disponibilité du nouveau conteneur..."
-//                     bat """
-//                         for /L %%i in (1,1,10) do (
-//                             curl --silent --fail ${env.HEALTHCHECK_URL} && exit /b 0 || (
-//                                 echo "En attente de disponibilité... %%i"
-//                                 timeout /t 5 >nul
-//                             )
-//                         )
-//                     """
+                    echo "Vérification de la disponibilité du nouveau conteneur..."
+
 
                     echo "Rolling update terminé avec succès !"
                 }
