@@ -113,6 +113,11 @@ pipeline {
     }
 
     post {
-
+        success {
+            // Sauvegarde le dossier node_modules dans le cache
+            echo "Sauvegarde du dossier node_modules dans le cache..."
+            bat 'tar -czf node_modules.tar.gz node_modules'
+            archiveArtifacts artifacts: 'node_modules.tar.gz', onlyIfSuccessful: true
+        }
     }
 }
