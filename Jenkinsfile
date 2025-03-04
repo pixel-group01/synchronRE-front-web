@@ -40,7 +40,7 @@ pipeline {
                     // Health check: Wait until the service is healthy
                     echo "Waiting for service health check..."
                     bat """
-                        docker service ps ${env.SERVICE_NAME} --filter "desired-state=running" --format "{{.ID}}" | xargs -I {} docker inspect --format '{{.State.Health.Status}}' {}
+                        for /F %i in ('docker service ps ${env.SERVICE_NAME} --filter "desired-state=running" --format "{{.ID}}"') do docker inspect --format "{{.State.Health.Status}}" %i
                     """
                 }
             }
@@ -51,9 +51,9 @@ pipeline {
                 script {
                     echo "Starting the new container with image ${env.IMAGE_NAME}:${BUILD_NUMBER}"
 
-                    // Stop and remove the old container if exists
+                    // Stop and remove the old container if it exists
                     bat """
-                        docker rm -f ${env.CONTAINER_NAME} || echo "No container to remove"
+                        docker rm -f ${env.CONTAINER_NAME} 2>nul || echo "No existing container to remove"
                     """
 
                     // Start the new container
