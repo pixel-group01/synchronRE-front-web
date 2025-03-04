@@ -9,7 +9,7 @@ services:
       - "80:80"    # HTTP
       - "8080:8080"  # Dashboard
     command:
-      - "--api.insecure=true"  # Pour accéder au dashboard (désactive en prod)
+      - "--api.insecure=true"  # Désactiver en prod
       - "--providers.docker=true"
       - "--entrypoints.web.address=:80"
     volumes:
@@ -23,7 +23,7 @@ services:
   synchronre-front:
     image: synchronre-front-web:latest
     deploy:
-      replicas: 3  # Nombre de réplicas du service
+      replicas: 3  # Nombre de réplicas du service Angular
       update_config:
         parallelism: 1  # Nombre de réplicas mis à jour simultanément
         delay: 10s  # Délai entre les mises à jour des réplicas
@@ -31,8 +31,7 @@ services:
         condition: on-failure  # Redémarre si le conteneur échoue
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.synchronre.rule=Host(`localhost`)"  # Correctement formaté
+      - "traefik.http.routers.synchronre.rule=Host(`localhost`)"
       - "traefik.http.services.synchronre.loadbalancer.server.port=8585"
     ports:
-      - "8585:8585"  # Expose le port du conteneur si nécessaire
-
+      - "8585:8585"  # Mapping du port
