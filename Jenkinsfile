@@ -39,34 +39,25 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 script {
-                   echo "Démarrage du nouveau conteneur..."
+                     echo "Arrêt et suppression de l'ancien conteneur..."
 
+                               // Arrêter et supprimer l'ancien conteneur (s'il existe)
+                               bat """
+                                   docker stop ${env.CONTAINER_NAME} || echo "Aucun conteneur à arrêter."
+                                   docker rm ${env.CONTAINER_NAME} || echo "Aucun conteneur à supprimer."
+                               """
+
+                               echo "Démarrage du nouveau conteneur..."
+
+                               // Taguer l'image Docker
                                bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
 
-                               // Mettre à jour le service avec la nouvelle image
-                               echo "Mise à jour du service Docker avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+                               // Démarrer un nouveau conteneur avec la nouvelle image
+                               echo "Démarrage du nouveau conteneur avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
                                bat """
-                                   docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.SERVICE_NAME}
+                                   docker run -d --name ${env.CONTAINER_NAME} -p 8586:80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
                                """
-
-                               // Vérification de la disponibilité du nouveau conteneur
-                               echo "Vérification de la disponibilité du nouveau conteneur..."
-                               bat """
-                                   for /L %%i in (1,1,10) do (
-                                      curl --silent --fail http://localhost:8586
-                                              if %%errorlevel%% equ 0 (
-                                                  echo "Le conteneur est disponible."
-                                                  exit /b 0
-                                              ) else (
-                                                  echo "En attente de disponibilité... %%i"
-                                                  ping 127.0.0.1 -n 6 >nul
-                                              )
-                                   )
-                                   echo "Le conteneur n'est pas disponible après 10 tentatives."
-                                   exit /b 1
-                               """
-
-                               echo "Rolling update terminé avec succès !"
+                               echo "Nouveau conteneur démarré et vérifié avec succès !"
                 }
             }
         }
