@@ -3,6 +3,10 @@ FROM node:18 AS build-stage
 
 WORKDIR /app
 
+# Ajout de l'argument VERSION
+ARG VERSION
+LABEL version=${VERSION}
+
 COPY package*.json ./
 RUN npm install --legacy-peer-deps  # Ajout du flag --legacy-peer-deps
 
@@ -17,5 +21,8 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
+# Expose le port 80 pour Nginx
 EXPOSE 80
+
+# Commande pour démarrer Nginx
 CMD ["nginx", "-g", "daemon off;"]
