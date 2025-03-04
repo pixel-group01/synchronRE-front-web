@@ -40,18 +40,18 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 script {
-                         echo "Arrêt et suppression de l'ancien conteneur..."
-
-                                    // Verifier si le conteneur existe avant de l'arrêter et de le supprimer
-                                    bat """
-                                        docker ps -a --filter "name=${env.CONTAINER_NAME}" --format "{{.Names}}" | findstr /C:"${env.CONTAINER_NAME}" >nul
-                                        if %errorlevel% equ 0 (
-                                            docker stop ${env.CONTAINER_NAME} || echo "echec de l'arrêt du conteneur."
-                                            docker rm ${env.CONTAINER_NAME} || echo "echec de la suppression du conteneur."
-                                        ) else (
-                                            echo "Aucun conteneur à arrêter ou supprimer."
-                                        )
-                                    """
+//                          echo "Arrêt et suppression de l'ancien conteneur..."
+//
+//                                     // Verifier si le conteneur existe avant de l'arrêter et de le supprimer
+//                                     bat """
+//                                         docker ps -a --filter "name=${env.CONTAINER_NAME}" --format "{{.Names}}" | findstr /C:"${env.CONTAINER_NAME}" >nul
+//                                         if %errorlevel% equ 0 (
+//                                             docker stop ${env.CONTAINER_NAME} || echo "echec de l'arrêt du conteneur."
+//                                             docker rm ${env.CONTAINER_NAME} || echo "echec de la suppression du conteneur."
+//                                         ) else (
+//                                             echo "Aucun conteneur à arrêter ou supprimer."
+//                                         )
+//                                     """
 
                                     echo "Demarrage du nouveau conteneur..."
 
