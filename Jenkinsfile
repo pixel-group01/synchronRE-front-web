@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     bat """
-                         docker build --cache-from=${env.IMAGE_NAME}:latest -t ${env.IMAGE_NAME}:latest .
+                         docker build --cache-from=${env.IMAGE_NAME}:${BUILD_NUMBER} -t ${env.IMAGE_NAME}:${BUILD_NUMBER} .
                         """
                 }
             }
