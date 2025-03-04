@@ -69,7 +69,7 @@ pipeline {
                                      echo "Vérification de la disponibilité du nouveau conteneur..."
                                      bat """
                                          for /L %%i in (1,1,10) do (
-                                             curl --silent --fail http://localhost:8586
+                                             curl --silent --fail http://localhost:8585
                                              if %%errorlevel%% equ 0 (
                                                  echo "Le conteneur est disponible."
                                                  exit /b 0
