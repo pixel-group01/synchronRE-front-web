@@ -21,30 +21,30 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                     script {
-                     // Vérifie si l'archive node_modules.tar.gz existe et restaure le cache si disponible
+                     // Verifie si l'archive node_modules.tar.gz existe et restaure le cache si disponible
                                  if (fileExists('node_modules.tar.gz')) {
                                      echo "Restauration du cache node_modules..."
                                      bat 'tar -xzf node_modules.tar.gz -C ./node_modules'
                                  } else {
-                                     echo "Aucun cache trouvé. Installation des dépendances..."
+                                     echo "Aucun cache trouve. Installation des dependances..."
 
-                                     // Installer les dépendances avec npm ci
+                                     // Installer les dependances avec npm ci
                                      bat 'npm ci'
 
-                                     // Sauvegarder les dépendances dans le cache
+                                     // Sauvegarder les dependances dans le cache
                                      echo "Sauvegarde du dossier node_modules dans le cache..."
                                      bat 'tar -czf node_modules.tar.gz node_modules'
                                      archiveArtifacts artifacts: 'node_modules.tar.gz', onlyIfSuccessful: true
                                  }
 
-                                 // Vérifie si node_modules existe et contient des fichiers
+                                 // Verifie si node_modules existe et contient des fichiers
                                  def nodeModulesExists = fileExists('node_modules')
                                  def nodeModulesNotEmpty = nodeModulesExists && bat(script: 'dir /b node_modules | findstr /r /c:"."', returnStdout: true).trim()
 
                                  if (nodeModulesNotEmpty) {
-                                     echo "Le dossier node_modules existe et n'est pas vide. Les dépendances sont déjà installées."
+                                     echo "Le dossier node_modules existe et n'est pas vide. Les dependances sont dejà installees."
                                  } else {
-                                     echo "Installation des dépendances avec npm ci..."
+                                     echo "Installation des dependances avec npm ci..."
                                      bat 'npm ci'
 
                                      echo "Sauvegarde du dossier node_modules dans le cache..."
@@ -95,7 +95,7 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 script {
-                    echo "Démarrage du nouveau conteneur..."
+                    echo "Demarrage du nouveau conteneur..."
 
                                 bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
 
@@ -105,8 +105,8 @@ pipeline {
                                     docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.SERVICE_NAME}
                                 """
 
-                                // Vérification de la disponibilité du nouveau conteneur
-                                echo "Vérification de la disponibilité du nouveau conteneur..."
+                                // Verification de la disponibilite du nouveau conteneur
+                                echo "Verification de la disponibilite du nouveau conteneur..."
                                 bat """
                                     for /L %%i in (1,1,10) do (
                                         curl --silent --fail ${env.HEALTHCHECK_URL}
@@ -114,7 +114,7 @@ pipeline {
                                             echo "Le conteneur est disponible."
                                             exit /b 0
                                         ) else (
-                                            echo "En attente de disponibilité... %%i"
+                                            echo "En attente de disponibilite... %%i"
                                             timeout /t 5 >nul
                                         )
                                     )
@@ -122,7 +122,7 @@ pipeline {
                                     exit /b 1
                                 """
 
-                                echo "Rolling update terminé avec succès !"
+                                echo "Rolling update termine avec succès !"
                 }
             }
         }
