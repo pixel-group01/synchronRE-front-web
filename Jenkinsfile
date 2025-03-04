@@ -40,47 +40,49 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 script {
+                         echo "Arrêt et suppression de l'ancien conteneur..."
 
-                                        // Définir une valeur par défaut pour le nom du conteneur
-                                        def containerName = env.CONTAINER_NAME ?: 'synchronre-front'
+                                    // Vérifier si le conteneur existe avant de l'arrêter et de le supprimer
+                                    bat """
+                                        docker ps -a --filter "name=${env.CONTAINER_NAME}" --format "{{.Names}}" | findstr /C:"${env.CONTAINER_NAME}" >nul
+                                        if %errorlevel% equ 0 (
+                                            docker stop ${env.CONTAINER_NAME} || echo "Échec de l'arrêt du conteneur."
+                                            docker rm ${env.CONTAINER_NAME} || echo "Échec de la suppression du conteneur."
+                                        ) else (
+                                            echo "Aucun conteneur à arrêter ou supprimer."
+                                        )
+                                    """
 
-                                        echo "Arrêt et suppression de l'ancien conteneur..."
+                                    echo "Démarrage du nouveau conteneur..."
 
-                                        // Arrêter et supprimer l'ancien conteneur (s'il existe)
-                                        bat """
-                                            docker stop ${containerName} || echo "Aucun conteneur à arrêter."
-                                            docker rm ${containerName} || echo "Aucun conteneur à supprimer."
-                                        """
+                                    // Taguer l'image Docker
+                                    bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
 
-                                        echo "Démarrage du nouveau conteneur..."
+                                    // Démarrer un nouveau conteneur avec la nouvelle image
+                                    echo "Démarrage du nouveau conteneur avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+                                    bat """
+                                        docker run -d --name ${env.CONTAINER_NAME} -p 8586:80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
+                                    """
 
-                                        // Taguer l'image Docker
-                                        bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
-
-                                        // Démarrer un nouveau conteneur avec la nouvelle image
-                                        echo "Démarrage du nouveau conteneur avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
-                                        bat """
-                                            docker run -d --name ${containerName} -p 8586:80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
-                                        """
-
-                                        // Vérification de la disponibilité du nouveau conteneur
-                                        echo "Vérification de la disponibilité du nouveau conteneur..."
-                                        bat """
-                                            for /L %%i in (1,1,10) do (
-                                                curl --silent --fail http://localhost:8586
-                                                if %%errorlevel%% equ 0 (
-                                                    echo "Le conteneur est disponible."
-                                                    exit /b 0
-                                                ) else (
-                                                    echo "En attente de disponibilité... %%i"
-                                                    ping 127.0.0.1 -n 6 >nul
-                                                )
+                                    // Vérification de la disponibilité du nouveau conteneur
+                                    echo "Vérification de la disponibilité du nouveau conteneur..."
+                                    bat """
+                                        for /L %%i in (1,1,10) do (
+                                            curl --silent --fail http://localhost:8586
+                                            if %%errorlevel%% equ 0 (
+                                                echo "Le conteneur est disponible."
+                                                exit /b 0
+                                            ) else (
+                                                echo "En attente de disponibilité... %%i"
+                                                ping 127.0.0.1 -n 6 >nul
                                             )
-                                            echo "Le conteneur n'est pas disponible après 10 tentatives."
-                                            exit /b 1
-                                        """
+                                        )
+                                        echo "Le conteneur n'est pas disponible après 10 tentatives."
+                                        exit /b 1
+                                    """
 
-                                        echo "Nouveau conteneur démarré et vérifié avec succès !"
+                                    echo "Nouveau conteneur démarré et vérifié avec succès !"
+
                 }
             }
         }
