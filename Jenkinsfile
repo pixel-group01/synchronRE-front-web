@@ -40,7 +40,7 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 script {
-                    script {
+
                                         // Définir une valeur par défaut pour le nom du conteneur
                                         def containerName = env.CONTAINER_NAME ?: 'synchronre-front'
 
