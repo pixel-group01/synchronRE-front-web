@@ -12,11 +12,20 @@ RUN npm run build -- --configuration=production --output-path=dist
 # Étape 2 : Création de l'image finale avec Nginx
 FROM nginx:1.23-alpine AS production-stage
 
+# Supprimer la configuration par défaut
 RUN rm -rf /etc/nginx/conf.d/default.conf
+
+# Copier le fichier nginx.conf personnalisé
 COPY nginx.conf /etc/nginx/nginx.conf
 
+# Copier les fichiers de l'application Angular construite dans le répertoire Nginx
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Tester la configuration Nginx
+RUN nginx -t
 
+# Exposer le port 80
+EXPOSE 80
+
+# Démarrer Nginx en mode non-démon
+CMD ["nginx", "-g", "daemon off;"]
