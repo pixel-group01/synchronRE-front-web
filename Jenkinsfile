@@ -53,14 +53,14 @@ pipeline {
                                echo "Vérification de la disponibilité du nouveau conteneur..."
                                bat """
                                    for /L %%i in (1,1,10) do (
-                                       curl --silent --fail http://localhost:8586
-                                       if %%errorlevel%% equ 0 (
-                                           echo "Le conteneur est disponible."
-                                           exit /b 0
-                                       ) else (
-                                           echo "En attente de disponibilité... %%i"
-                                           timeout /t 5
-                                       )
+                                      curl --silent --fail http://localhost:8586
+                                              if %%errorlevel%% equ 0 (
+                                                  echo "Le conteneur est disponible."
+                                                  exit /b 0
+                                              ) else (
+                                                  echo "En attente de disponibilité... %%i"
+                                                  ping 127.0.0.1 -n 6 >nul
+                                              )
                                    )
                                    echo "Le conteneur n'est pas disponible après 10 tentatives."
                                    exit /b 1
