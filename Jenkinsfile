@@ -40,7 +40,7 @@ pipeline {
                     // Health check: Wait until the service is healthy
                     echo "Waiting for service health check..."
                     bat """
-                        for /F %i in ('docker service ps ${env.SERVICE_NAME} --filter "desired-state=running" --format "{{.ID}}"') do docker inspect --format "{{.State.Health.Status}}" %i
+                        for /F "tokens=*" %%i in ('docker service ps ${env.SERVICE_NAME} --filter "desired-state=running" --format \\"{{.ID}}\\"') do docker inspect --format \\"{{.State.Health.Status}}\\" %%i
                     """
                 }
             }
