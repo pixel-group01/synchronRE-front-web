@@ -41,32 +41,40 @@ pipeline {
                 script {
                     echo "Démarrage du nouveau conteneur..."
 
-                                bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+                     echo "Démarrage du nouveau conteneur..."
 
-                                // Mettre à jour le service avec la nouvelle image
-                                echo "Mise à jour du service Docker avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
-                                bat """
-                                    docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.SERVICE_NAME}
-                                """
+                                 bat "docker tag ${env.IMAGE_NAME}:latest ${env.IMAGE_NAME}:${BUILD_NUMBER}"
 
-                                // Vérification de la disponibilité du nouveau conteneur
-                                echo "Vérification de la disponibilité du nouveau conteneur..."
-                                bat """
-                                    for /L %%i in (1,1,10) do (
-                                        curl --silent --fail ${env.HEALTHCHECK_URL}
-                                        if %%errorlevel%% equ 0 (
-                                            echo "Le conteneur est disponible."
-                                            exit /b 0
-                                        ) else (
-                                            echo "En attente de disponibilité... %%i"
-                                            timeout /t 5 >nul
-                                        )
-                                    )
-                                    echo "Le conteneur n'est pas disponible après 10 tentatives."
-                                    exit /b 1
-                                """
+                                 // Mettre à jour le service avec la nouvelle image
+                                 echo "Mise à jour du service Docker avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+                                 bat """
+                                     docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.SERVICE_NAME}
+                                 """
 
-                                echo "Rolling update terminé avec succès !"
+                                 // Vérification de la disponibilité du nouveau conteneur
+                                 echo "Vérification de la disponibilité du nouveau conteneur..."
+                                 powershell """
+                                     \$attempts = 10
+                                     \$delay = 5
+                                     \$url = "${env.HEALTHCHECK_URL}"
+                                     for (\$i = 1; \$i -le \$attempts; \$i++) {
+                                         try {
+                                             \$response = Invoke-WebRequest -Uri \$url -UseBasicParsing -ErrorAction Stop
+                                             if (\$response.StatusCode -eq 200) {
+                                                 Write-Host "Le conteneur est disponible."
+                                                 exit 0
+                                             }
+                                         } catch {
+                                             Write-Host "En attente de disponibilité... \$i"
+                                             Start-Sleep -Seconds \$delay
+                                         }
+                                     }
+                                     Write-Host "Le conteneur n'est pas disponible après \$attempts tentatives."
+                                     exit 1
+                                 """
+
+                                 echo "Rolling update terminé avec succès !"
+
                 }
             }
         }
