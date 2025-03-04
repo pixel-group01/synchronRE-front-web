@@ -6,14 +6,15 @@ services:
     container_name: traefik
     restart: always
     ports:
-      - "80:80"    # HTTP
-      - "8080:8080"  # Dashboard
+      - "80:80"      # HTTP
+      - "8080:8080"  # Dashboard (Sécuriser en prod)
     command:
-      - "--api.insecure=true"  # Désactiver en prod
+      - "--api.insecure=true"  # Désactiver en production
       - "--providers.docker=true"
       - "--entrypoints.web.address=:80"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
+      - "traefik-data:/etc/traefik"  # Pour persister la config de Traefik
     deploy:
       replicas: 1
       placement:
@@ -31,7 +32,16 @@ services:
         condition: on-failure  # Redémarre si le conteneur échoue
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.synchronre.rule=Host(`localhost`)"
+      - "traefik.http.routers.synchronre.rule=Host(`localhost.com`)"  # Nom de domaine personnalisé
       - "traefik.http.services.synchronre.loadbalancer.server.port=8585"
     ports:
       - "8585:8585"  # Mapping du port
+    networks:
+      - web
+
+networks:
+  web:
+    driver: overlay  # Assure une communication réseau entre les conteneurs dans Swarm
+
+volumes:
+  traefik-data:  # Volume pour persister la configuration de Traefik
