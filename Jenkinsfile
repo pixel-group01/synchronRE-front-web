@@ -62,7 +62,7 @@ pipeline {
                                      // Démarrer un nouveau conteneur avec la nouvelle image
                                      echo "Démarrage du nouveau conteneur avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
                                      bat """
-                                         docker run -d --name ${env.CONTAINER_NAME} -p 8586:80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
+                                         docker run -d --name ${env.CONTAINER_NAME} -p 8585:80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
                                      """
 
                                      // Vérification de la disponibilité du nouveau conteneur
