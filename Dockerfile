@@ -1,21 +1,23 @@
-# Étape 1 : Build Angular
-FROM node:18 AS build-stage
+# Spécifie une version stable et compatible de Node.js
+FROM node:18-alpine
 
+# Définit le dossier de travail
 WORKDIR /app
 
+# Copie uniquement les fichiers de dépendances pour optimiser le cache Docker
 COPY package*.json ./
-RUN npm install --legacy-peer-deps  # Ajout du flag --legacy-peer-deps
 
+# Installe les dépendances
+RUN npm install --legacy-peer-deps
+
+# Copie les fichiers restants
 COPY . .
-RUN npm run build -- --configuration=production --output-path=dist
 
-# Étape 2 : Création de l'image finale avec Nginx
-FROM nginx:1.23-alpine AS production-stage
+# Build du projet (si Angular ou React)
+RUN npm run build
 
-RUN rm -rf /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-COPY --from=build-stage /app/dist /usr/share/nginx/html
-
+# Exposition du port
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+# Commande de lancement
+CMD ["npm", "start"]
