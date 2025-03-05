@@ -8,7 +8,7 @@ pipeline {
         CONTAINER_NAME  = 'synchronre-front'
         VERSION = '1.0.0'  // Exemple de version pour l'argument VERSION
     }
-
+//
     stages {
         stage('Build Docker Image') {
             steps {
