@@ -41,25 +41,28 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 script {
-                          echo "Vérification des conteneurs en cours d'exécution..."
-                                     def containerExists = bat(script: "docker ps -q -f name=${env.CONTAINER_NAME}", returnStdout: true).trim()
+                         // Vérifier si le conteneur existe
+            def containerExists = bat(script: "docker ps -a -q -f name=${env.CONTAINER_NAME}", returnStdout: true).trim()
 
-                                     if (containerExists) {
-                                         echo "Un conteneur avec le nom ${env.CONTAINER_NAME} est en cours d'exécution. Arrêt et suppression..."
-                                         bat """
-                                             docker stop ${env.CONTAINER_NAME}
-                                             docker rm ${env.CONTAINER_NAME}
-                                         """
-                                         echo "Ancien conteneur arrêté et supprimé avec succès."
-                                     } else {
-                                         echo "Aucun conteneur en cours d'exécution avec le nom ${env.CONTAINER_NAME}."
-                                     }
+            if (containerExists) {
+                echo "Un conteneur avec le nom ${env.CONTAINER_NAME} existe. Arrêt et suppression..."
 
-                                     echo "Démarrage du nouveau conteneur avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
-                                     bat """
-                                         docker run -d --name ${env.CONTAINER_NAME} -p 8585:80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
-                                     """
-                                     echo "Nouveau conteneur démarré avec succès."
+                // Arrêter et supprimer le conteneur s'il existe
+                bat """
+                    docker stop ${env.CONTAINER_NAME}
+                    docker rm ${env.CONTAINER_NAME}
+                """
+            } else {
+                echo "Aucun conteneur existant trouvé. Déploiement direct."
+            }
+
+            // Démarrer un nouveau conteneur avec la nouvelle image
+            echo "Démarrage du nouveau conteneur avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+            bat """
+                docker run -d --name ${env.CONTAINER_NAME} -p 8585:80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
+            """
+
+            echo "Nouveau conteneur démarré avec succès !"
                 }
             }
         }
