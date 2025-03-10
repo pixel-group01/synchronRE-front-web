@@ -38,38 +38,38 @@ pipeline {
             }
         }
 
-        stage('Deploy New Container') {
+        stage('Deploy to Docker Swarm') {
             steps {
                 script {
-                        // Vérifier si le conteneur existe
-                                    def containerExists = bat(script: "docker ps -a --filter name=${env.CONTAINER_NAME} -q", returnStdout: true).trim()
+                       def serviceExists = bat(script: "docker service ls --filter name=${SERVICE_NAME} -q", returnStdout: true).trim()
 
-                                    if (containerExists) {
-                                        echo "Un conteneur existant (${env.CONTAINER_NAME}) a été trouvé. Arrêt et suppression..."
-                                        bat """
-                                            docker stop ${env.CONTAINER_NAME} || echo "Le conteneur n'existe pas, rien à stopper."
-                                            docker rm ${env.CONTAINER_NAME} || echo "Le conteneur n'existe pas, rien à supprimer."
-                                        """
-                                        echo "Ancien conteneur supprimé avec succès."
-                                    } else {
-                                        echo "Aucun conteneur existant trouvé. Un nouveau sera créé."
-                                    }
-
-                                    // Démarrer un nouveau conteneur
-                                    echo "Démarrage du nouveau conteneur avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
-                                    bat """
-                                        docker run -d --name ${env.CONTAINER_NAME} -p 8585:80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
-                                    """
-                                    echo "Nouveau conteneur démarré avec succès !"
-
-                                    // Supprimer les anciennes images sauf la plus récente
-                                    echo "Suppression des anciennes images..."
-                                    bat """
-                                        for /F "tokens=1" %%i in ('docker images ${env.IMAGE_NAME} --format "{{.ID}}" --filter before=${env.IMAGE_NAME}:${BUILD_NUMBER}') do docker rmi -f %%i
-                                    """
-                                    echo "Anciennes images supprimées avec succès."
+                                           if (serviceExists) {
+                                               echo "Le service ${SERVICE_NAME} existe déjà. Mise à jour..."
+                                               bat "docker service update --force --image ${BUILD_TAG} ${SERVICE_NAME}"
+                                           } else {
+                                               echo "Création d'un nouveau service..."
+                                               bat """
+                                                   docker service create --name ${SERVICE_NAME} --replicas 1 --publish 8585:80 \
+                                                   --label traefik.enable=true \
+                                                   --label traefik.http.routers.synchronre.rule=Host('localhost.com') \
+                                                   --label traefik.http.services.synchronre.loadbalancer.server.port=80 \
+                                                   ${BUILD_TAG}
+                                               """
                 }
             }
         }
     }
+
+     stage('Cleanup Old Images') {
+                steps {
+                    script {
+                        echo "Suppression des anciennes images..."
+                        bat """
+                            for /F "tokens=1" %%i in ('docker images ${IMAGE_NAME} --format "{{.ID}}" --filter before=${BUILD_TAG}') do docker rmi -f %%i
+                        """
+                        echo "Anciennes images supprimées avec succès."
+                    }
+                }
+            }
+        }
 }
