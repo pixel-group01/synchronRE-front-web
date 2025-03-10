@@ -6,6 +6,7 @@ pipeline {
         SERVICE_NAME = 'synchronre-front'
         HEALTHCHECK_URL = 'http://localhost:8586'
         CONTAINER_NAME  = 'synchronre-front'
+        STACK_NAME = 'synchronre-stack'  // Définir la variable ici
         VERSION = '1.0.0'  // Exemple de version pour l'argument VERSION
     }
 //
