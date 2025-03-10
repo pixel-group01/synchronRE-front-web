@@ -20,7 +20,7 @@ export class FormTrancheComponent implements OnInit {
   busySave: Subscription;
   currentItemCompte : any = {};
   @Input() currentTranche : any;
-  
+
   constructor(private cedenteService: CedanteService,private utilities: UtilitiesService,private compteService : CompteService) { }
 
 
@@ -34,7 +34,7 @@ export class FormTrancheComponent implements OnInit {
   //     }
   //   )
   // }
- 
+
 
   confirmSaveItem() {
     Swal.fire({
@@ -55,7 +55,7 @@ export class FormTrancheComponent implements OnInit {
         let currentTrancheDto = this.currentTranche;
 
         console.log(" currentValueCompte ",currentValueCompte);
-        
+
         if(!this.itemToSave.cedId) {
           this.utilities.showNotification(
             "snackbar-danger",
@@ -110,9 +110,10 @@ export class FormTrancheComponent implements OnInit {
           "traiEcerciceRattachement": currentValueCompte?.traiteSelected?.traiEcerciceRattachement,
           "trancheIdSelected": this.currentTranche?.trancheId,
           "periodeId": currentValueCompte?.periodeSelected?.periodeId,
+          "periodeName": currentValueCompte?.periodeSelected?.periodeName,
           trancheCompteDtos : [currentTrancheDto]
         };
-       
+
         this.saveItem(itemAEnregistrer);
       }
     });
@@ -124,7 +125,7 @@ export class FormTrancheComponent implements OnInit {
 
     this.busySave = this.compteService.saveCompte(itemAEnregistrer)
     .subscribe((response: any) => {
-   
+
       // if (response && response.repId) {
       if(response) {
         this.utilities.showNotification(
@@ -134,7 +135,7 @@ export class FormTrancheComponent implements OnInit {
           "center"
         );
       }
-        
+
     });
   }
 
@@ -156,7 +157,7 @@ export class FormTrancheComponent implements OnInit {
         this.ListeCedantes = this.currentTranche?.cedantes;
       }
     }
-    
+
   }
 
 }

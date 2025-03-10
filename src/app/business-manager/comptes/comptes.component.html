@@ -14,7 +14,7 @@
 
                         <div class="row">
 
-                            <div class="col-md-2 col-xs-12 mb-2">
+                            <div class="col-md-1 col-xs-12 mb-1">
                                 <label>Exercice</label>
                                 <ng-select [(ngModel)]="itemToSave.exerciceSelected" placeholder="Choisissez"
                                     (change)="selectedExercice(itemToSave.exerciceSelected)" name="exercei" id="exercei"
@@ -25,7 +25,7 @@
                                 </ng-select>
                             </div>
 
-                            <div class="col-md-4 col-xs-12 mb-2">
+                            <div class="col-md-2 col-xs-12 mb-2">
                                 <label>Traités</label>
                                 <ng-select [(ngModel)]="itemToSave.traiteSelected" placeholder="Choisissez"
                                     (change)="changeTraite(itemToSave.traiteSelected)" name="traites" id="traites"
@@ -34,46 +34,40 @@
                                     </ng-option>
                                 </ng-select>
                             </div>
+                          <div class="col-md-2 col-xs-12 mb-2">
+                            <label>Nature :</label>
+                            <input class="form-control custom-input" placeholder="Nature" autocomplete="off"
+                                   disabled [(ngModel)]="itemToSave.traiteSelected.natLibelle" name="nature"
+                                   type="text">
+                          </div>
+
+                          <div class="col-md-2 col-xs-12 mb-2">
+                            <label>Comptabilisation :</label>
+                            <input class="form-control custom-input" placeholder="Comptabilisation"
+                                   autocomplete="off" disabled [(ngModel)]="itemToSave.traiteSelected.traiEcerciceRattachement"
+                                   name="comptabilisation"  type="text">
+                          </div>
+
+                          <div class="col-md-2 col-xs-12 mb-2">
+                            <label>Périodicité :</label>
+                            <ng-select [(ngModel)]="itemToSave.periodiciteSelected" placeholder="Choisissez"
+                                       (change)="changePeriodicite(itemToSave.periodiciteSelected)" name="preference"
+                                       id="preference" [multiple]="false" [closeOnSelect]="true">
+                              <ng-option *ngFor="let item of ListePeriodicites"
+                                         [value]="item">{{item?.name}}
+                              </ng-option>
+                            </ng-select>
+                          </div>
+
+                          <div class="col-md-3 col-xs-12 mb-2">
+                            <label>Période :</label>
+                            <ng-select [(ngModel)]="itemToSave.periodeSelected" placeholder="Choisissez" (change)="refreshToSendItemsValue()"
+                                       name="periode" id="periode" [multiple]="false" [closeOnSelect]="true">
+                              <ng-option *ngFor="let item of ListePeriode" [value]="item">{{item?.periodeName}}
+                              </ng-option>
+                            </ng-select>
+                          </div>
                         </div>
-
-                        <div class="row mb-3">
-
-                            <div class="col-md-3 col-xs-12 mb-2">
-                                <label>Nature :</label>
-                                <input class="form-control custom-input" placeholder="Nature" autocomplete="off"
-                                    disabled [(ngModel)]="itemToSave.traiteSelected.natLibelle" name="nature"
-                                    type="text">
-                            </div>
-
-                            <div class="col-md-3 col-xs-12 mb-2">
-                                <label>Comptabilisation :</label>
-                                <input class="form-control custom-input" placeholder="Comptabilisation"
-                                    autocomplete="off" disabled [(ngModel)]="itemToSave.traiteSelected.traiEcerciceRattachement"
-                                    name="comptabilisation"  type="text">
-                            </div>
-
-                            <div class="col-md-2 col-xs-12 mb-2">
-                                <label>Périodicité :</label>
-                                <ng-select [(ngModel)]="itemToSave.periodiciteSelected" placeholder="Choisissez"
-                                    (change)="changePeriodicite(itemToSave.periodiciteSelected)" name="preference"
-                                    id="preference" [multiple]="false" [closeOnSelect]="true">
-                                    <ng-option *ngFor="let item of ListePeriodicites"
-                                        [value]="item">{{item?.name}}
-                                    </ng-option>
-                                </ng-select>
-                            </div>
-
-                            <div class="col-md-2 col-xs-12 mb-2">
-                                <label>Période :</label>
-                                <ng-select [(ngModel)]="itemToSave.periodeSelected" placeholder="Choisissez" (change)="refreshToSendItemsValue()"
-                                    name="periode" id="periode" [multiple]="false" [closeOnSelect]="true">
-                                    <ng-option *ngFor="let item of ListePeriode" [value]="item">{{item?.type?.name}}
-                                    </ng-option>
-                                </ng-select>
-                            </div>
-
-                        </div>
-
 
                         <!-- Tranches partie -->
                         <div class="row mb-3" *ngIf="ListeTranches && ListeTranches.length">
