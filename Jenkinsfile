@@ -41,13 +41,26 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 script {
+                         // Vérifier si le conteneur existe
+                                    def containerExists = bat(script: "docker ps -a --filter name=${env.CONTAINER_NAME} -q", returnStdout: true).trim()
 
-                                   // Démarrer un nouveau conteneur
-                                   echo "Démarrage du nouveau conteneur avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
-                                   bat """
-                                       docker run -d --name ${env.CONTAINER_NAME} -p 8585:80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
-                                   """
-                                   echo "Nouveau conteneur démarré avec succès !"
+                                    if (containerExists) {
+                                        echo "Un conteneur existant (${env.CONTAINER_NAME}) a été trouvé. Arrêt et suppression..."
+                                        bat """
+                                            docker stop ${env.CONTAINER_NAME}
+                                            docker rm ${env.CONTAINER_NAME}
+                                        """
+                                        echo "Ancien conteneur supprimé avec succès."
+                                    } else {
+                                        echo "Aucun conteneur existant trouvé."
+                                    }
+
+                                    // Démarrer un nouveau conteneur
+                                    echo "Démarrage du nouveau conteneur avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+                                    bat """
+                                        docker run -d --name ${env.CONTAINER_NAME} -p 8585:80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
+                                    """
+                                    echo "Nouveau conteneur démarré avec succès !"
                 }
             }
         }
