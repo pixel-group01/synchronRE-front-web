@@ -20,56 +20,38 @@ pipeline {
             }
         }
 
-        stage('Create Docker Service') {
-            steps {
-                script {
-                       def serviceExists = bat(script: "docker service ls --filter name=${env.SERVICE_NAME} -q", returnStdout: true).trim()
+        stage('Push to Local Registry') {
+                   steps {
+                       script {
+                           bat """
+                               docker tag ${BUILD_TAG} ${IMAGE_NAME}:latest
+                               docker image ls
+                           """
+                       }
+                   }
+               }
 
-                                           if (serviceExists) {
-                                               echo "Le service ${env.SERVICE_NAME} existe déjà. Mise à jour..."
-                                               bat "docker service update --image ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.SERVICE_NAME}"
-                                           } else {
-                                               echo "Création d'un nouveau service..."
-                                               bat """
-                                                   docker service create --name ${env.SERVICE_NAME} --replicas 1 --publish 8585:80 --label traefik.enable=true --label traefik.http.routers.synchronre.rule=Host('localhost.com') --label traefik.http.services.synchronre.loadbalancer.server.port=80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
-                                               """
-                    }
-                }
-            }
-        }
+       stage('Deploy to Docker Swarm') {
+                   steps {
+                       script {
+                           echo "Déploiement de la stack Docker Swarm..."
+                           bat """
+                               docker stack deploy -c docker-compose.yml ${STACK_NAME}
+                           """
+                       }
+                   }
+               }
 
-        stage('Deploy to Docker Swarm') {
-            steps {
-                script {
-                       def serviceExists = bat(script: "docker service ls --filter name=${SERVICE_NAME} -q", returnStdout: true).trim()
-
-                                           if (serviceExists) {
-                                               echo "Le service ${SERVICE_NAME} existe déjà. Mise à jour..."
-                                               bat "docker service update --force --image ${BUILD_TAG} ${SERVICE_NAME}"
-                                           } else {
-                                               echo "Création d'un nouveau service..."
-                                               bat """
-                                                   docker service create --name ${SERVICE_NAME} --replicas 1 --publish 8585:80 \
-                                                   --label traefik.enable=true \
-                                                   --label traefik.http.routers.synchronre.rule=Host('localhost.com') \
-                                                   --label traefik.http.services.synchronre.loadbalancer.server.port=80 \
-                                                   ${BUILD_TAG}
-                                               """
-                }
-            }
-        }
-    }
-
-     stage('Cleanup Old Images') {
-                steps {
-                    script {
-                        echo "Suppression des anciennes images..."
-                        bat """
-                            for /F "tokens=1" %%i in ('docker images ${IMAGE_NAME} --format "{{.ID}}" --filter before=${BUILD_TAG}') do docker rmi -f %%i
-                        """
-                        echo "Anciennes images supprimées avec succès."
-                    }
-                }
-            }
-        }
+        stage('Cleanup Old Images') {
+                   steps {
+                       script {
+                           echo "Suppression des anciennes images..."
+                           bat """
+                               for /F "tokens=1" %%i in ('docker images ${IMAGE_NAME} --format "{{.ID}}" --filter before=${BUILD_TAG}') do docker rmi -f %%i
+                           """
+                           echo "Anciennes images supprimées avec succès."
+                       }
+                   }
+               }
+           }
 }
