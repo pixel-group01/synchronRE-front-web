@@ -47,12 +47,12 @@ pipeline {
                                             if (containerExists) {
                                                 echo "Un conteneur existant (${env.CONTAINER_NAME}) a été trouvé. Arrêt et suppression..."
                                                 bat """
-                                                    docker stop ${env.CONTAINER_NAME}
-                                                    docker rm ${env.CONTAINER_NAME}
+                                                    docker stop ${env.CONTAINER_NAME} || echo "Le conteneur n'existe pas, rien à stopper."
+                                                    docker rm ${env.CONTAINER_NAME} || echo "Le conteneur n'existe pas, rien à supprimer."
                                                 """
                                                 echo "Ancien conteneur supprimé avec succès."
                                             } else {
-                                                echo "Aucun conteneur existant trouvé."
+                                                echo "Aucun conteneur existant trouvé. Un nouveau sera créé."
                                             }
 
                                             // Démarrer un nouveau conteneur
