@@ -41,7 +41,7 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 script {
-                         // Vérifier si le conteneur existe
+                        // Vérifier si le conteneur existe
                                     def containerExists = bat(script: "docker ps -a --filter name=${env.CONTAINER_NAME} -q", returnStdout: true).trim()
 
                                     if (containerExists) {
@@ -53,6 +53,17 @@ pipeline {
                                         echo "Ancien conteneur supprimé avec succès."
                                     } else {
                                         echo "Aucun conteneur existant trouvé."
+                                    }
+
+                                    // Vérifier si l'image existe
+                                    def imageExists = bat(script: "docker images -q ${env.IMAGE_NAME}:${BUILD_NUMBER}", returnStdout: true).trim()
+
+                                    if (imageExists) {
+                                        echo "Une image existante (${env.IMAGE_NAME}:${BUILD_NUMBER}) a été trouvée. Suppression..."
+                                        bat "docker rmi -f ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+                                        echo "Ancienne image supprimée avec succès."
+                                    } else {
+                                        echo "Aucune image existante trouvée."
                                     }
 
                                     // Démarrer un nouveau conteneur
