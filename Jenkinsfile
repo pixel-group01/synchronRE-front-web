@@ -41,34 +41,33 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 script {
-                        // Vérifier si le conteneur existe avant d'essayer de le supprimer
-                                            def containerExists = bat(script: "docker ps -a --filter name=${env.CONTAINER_NAME} -q", returnStdout: true).trim()
+                        // Vérifier si le conteneur existe
+                                    def containerExists = bat(script: "docker ps -a --filter name=${env.CONTAINER_NAME} -q", returnStdout: true).trim()
 
-                                            if (containerExists) {
-                                                echo "Un conteneur existant (${env.CONTAINER_NAME}) a été trouvé. Arrêt et suppression..."
-                                                bat """
-                                                    docker stop ${env.CONTAINER_NAME}
-                                                    docker rm ${env.CONTAINER_NAME}
-                                                """
-                                                echo "Ancien conteneur supprimé avec succès."
-                                            } else {
-                                                echo "Aucun conteneur existant trouvé. Un nouveau sera créé."
-                                            }
+                                    if (containerExists) {
+                                        echo "Un conteneur existant (${env.CONTAINER_NAME}) a été trouvé. Arrêt et suppression..."
+                                        bat """
+                                            docker stop ${env.CONTAINER_NAME} || echo "Le conteneur n'existe pas, rien à stopper."
+                                            docker rm ${env.CONTAINER_NAME} || echo "Le conteneur n'existe pas, rien à supprimer."
+                                        """
+                                        echo "Ancien conteneur supprimé avec succès."
+                                    } else {
+                                        echo "Aucun conteneur existant trouvé. Un nouveau sera créé."
+                                    }
 
-                                            // Vérifier si l'image existe
-                                            def imageExists = bat(script: "docker images -q ${env.IMAGE_NAME}:${BUILD_NUMBER}", returnStdout: true).trim()
+                                    // Démarrer un nouveau conteneur
+                                    echo "Démarrage du nouveau conteneur avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
+                                    bat """
+                                        docker run -d --name ${env.CONTAINER_NAME} -p 8585:80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
+                                    """
+                                    echo "Nouveau conteneur démarré avec succès !"
 
-                                            if (!imageExists) {
-                                                echo "L'image ${env.IMAGE_NAME}:${BUILD_NUMBER} n'existe pas. Le build a échoué."
-                                                error "L'image n'a pas été trouvée."
-                                            }
-
-                                            // Démarrer un nouveau conteneur
-                                            echo "Démarrage du nouveau conteneur avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
-                                            bat """
-                                                docker run -d --name ${env.CONTAINER_NAME} -p 8585:80 ${env.IMAGE_NAME}:${BUILD_NUMBER}
-                                            """
-                                            echo "Nouveau conteneur démarré avec succès !"
+                                    // Supprimer les anciennes images sauf la plus récente
+                                    echo "Suppression des anciennes images..."
+                                    bat """
+                                        for /F "tokens=1" %%i in ('docker images ${env.IMAGE_NAME} --format "{{.ID}}" --filter before=${env.IMAGE_NAME}:${BUILD_NUMBER}') do docker rmi -f %%i
+                                    """
+                                    echo "Anciennes images supprimées avec succès."
                 }
             }
         }
