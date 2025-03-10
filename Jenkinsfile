@@ -41,27 +41,6 @@ pipeline {
         stage('Deploy New Container') {
             steps {
                 script {
-                       // Vérifier si le conteneur existe
-                                   def containerExists = bat(script: "docker ps -a -q -f name=${env.CONTAINER_NAME}", returnStdout: true).trim()
-
-                                   if (containerExists) {
-                                       echo "Un conteneur avec le nom ${env.CONTAINER_NAME} existe."
-
-                                       // Vérifier si le conteneur est en cours d'exécution avant de le stopper
-                                       def isRunning = bat(script: "docker ps -q -f name=${env.CONTAINER_NAME}", returnStdout: true).trim()
-
-                                       if (isRunning) {
-                                           echo "Le conteneur est en cours d'exécution, arrêt en cours..."
-                                           bat "docker stop ${env.CONTAINER_NAME}"
-                                       } else {
-                                           echo "Le conteneur n'est pas en cours d'exécution."
-                                       }
-
-                                       echo "Suppression du conteneur existant..."
-                                       bat "docker rm ${env.CONTAINER_NAME}"
-                                   } else {
-                                       echo "Aucun conteneur existant trouvé. Déploiement direct."
-                                   }
 
                                    // Démarrer un nouveau conteneur
                                    echo "Démarrage du nouveau conteneur avec l'image : ${env.IMAGE_NAME}:${BUILD_NUMBER}"
