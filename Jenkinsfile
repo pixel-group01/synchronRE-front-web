@@ -14,51 +14,53 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    // Construire l'image avec un tag basé sur BUILD_NUMBER
                     bat """
                          docker build --cache-from=${env.IMAGE_NAME}:${BUILD_NUMBER} --build-arg VERSION=${env.VERSION} -t ${env.IMAGE_NAME}:${BUILD_NUMBER} .
-                        """
+                    """
                 }
             }
         }
 
         stage('Push to Local Registry') {
-                   steps {
-                       script {
-                           bat """
-                               docker tag ${BUILD_TAG} ${IMAGE_NAME}:latest
-                               docker image ls
-                           """
-                       }
-                   }
-               }
+            steps {
+                script {
+                    // Taguer l'image avec 'latest' pour Docker Swarm
+                    bat """
+                        docker tag ${env.IMAGE_NAME}:${BUILD_NUMBER} ${env.IMAGE_NAME}:latest
+                        docker image ls
+                    """
+                }
+            }
+        }
 
-       stage('Deploy to Docker Swarm') {
-                   steps {
-                       script {
-                           echo "Déploiement de la stack Docker Swarm..."
-                           bat """
-                               docker stack deploy -c docker-compose.yml --with-registry-auth ${STACK_NAME}
-                           """
-                       }
-                   }
-               }
+        stage('Deploy to Docker Swarm') {
+            steps {
+                script {
+                    echo "Déploiement de la stack Docker Swarm..."
+                    bat """
+                        docker stack deploy -c docker-compose.yml --with-registry-auth ${env.STACK_NAME}
+                    """
+                }
+            }
+        }
 
         stage('Cleanup Old Images') {
-                   steps {
-                       script {
-                           echo "Suppression des anciennes images..."
-                           bat """
-                              FOR /F "tokens=*" %%i IN ('docker images ${IMAGE_NAME} --format "{{.Repository}}:{{.Tag}}"') DO (
-                                                          FOR /F "tokens=2 delims=:" %%j IN ("%%i") DO (
-                                                              IF %%j LSS ${BUILD_NUMBER} (
-                                                                  docker rmi -f %%i
-                                                              )
-                                                          )
-                                                      )
-                      """
-                           echo "Anciennes images supprimées avec succès."
-                       }
-                   }
-               }
-           }
+            steps {
+                script {
+                    echo "Suppression des anciennes images..."
+                    bat """
+                        FOR /F "tokens=*" %%i IN ('docker images ${env.IMAGE_NAME} --format "{{.Repository}}:{{.Tag}}"') DO (
+                            FOR /F "tokens=2 delims=:" %%j IN ("%%i") DO (
+                                IF %%j LSS ${BUILD_NUMBER} (
+                                    docker rmi -f %%i
+                                )
+                            )
+                        )
+                    """
+                    echo "Anciennes images supprimées avec succès."
+                }
+            }
+        }
+    }
 }
