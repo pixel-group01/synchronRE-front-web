@@ -4,15 +4,15 @@ services:
   traefik:
     image: traefik:v2.10
     ports:
-      - "80:80"       # Traefik écoutant sur le port 80
-      - "8085:8080"   # Dashboard Traefik (à sécuriser en production)
+      - "8580:80"      # HTTP
+      - "8085:8080"  # Dashboard (Sécuriser en prod)
     command:
-      - "--api.insecure=true"  # À désactiver en production
+      - "--api.insecure=true"  # Désactiver en production
       - "--providers.docker=true"
       - "--entrypoints.web.address=:80"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - "traefik-data:/etc/traefik"  # Persistance de la config de Traefik
+      - "traefik-data:/etc/traefik"  # Pour persister la config de Traefik
     deploy:
       replicas: 1
       placement:
@@ -22,24 +22,24 @@ services:
   synchronre-front:
     image: synchronre-front-web:latest
     deploy:
-      replicas: 3  # Nombre de réplicas pour synchronre-front
+      replicas: 3  # Nombre de réplicas du service Angular
       update_config:
         parallelism: 1  # Nombre de réplicas mis à jour simultanément
-        delay: 10s      # Délai entre les mises à jour des réplicas
+        delay: 10s  # Délai entre les mises à jour des réplicas
       restart_policy:
         condition: on-failure  # Redémarre si le conteneur échoue
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.synchronre.rule=Host(`localhost.com`)"  # Nom de domaine personnalisé
-      - "traefik.http.services.synchronre.loadbalancer.server.port=8585"  # Port du service synchronre
+      - "traefik.http.services.synchronre.loadbalancer.server.port=80"
     ports:
-      - "80:8585"  # Rediriger le port 80 de l'hôte vers le port 8585 du conteneur
+      - "8585:8585"  # Mapping du port
     networks:
       - web
 
 networks:
   web:
-    driver: overlay  # Assure la communication entre les conteneurs dans Swarm
+    driver: overlay  # Assure une communication réseau entre les conteneurs dans Swarm
 
 volumes:
   traefik-data:  # Volume pour persister la configuration de Traefik
