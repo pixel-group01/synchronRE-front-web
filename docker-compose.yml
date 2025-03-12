@@ -4,56 +4,42 @@ services:
   traefik:
     image: traefik:v2.10
     ports:
-      - "80:80"
-      - "443:443"
+      - "8580:80"      # HTTP
+      - "8085:8080"  # Dashboard (Sécuriser en prod)
     command:
-      - "--api.dashboard=true"
+      - "--api.insecure=true"  # Désactiver en production
       - "--providers.docker=true"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.myresolver.acme.httpChallenge.entryPoint=web"
-      - "--certificatesresolvers.myresolver.acme.email=admin@example.com"
-      - "--certificatesresolvers.myresolver.acme.storage=/etc/traefik/acme.json"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - "traefik-data:/etc/traefik"
+      - "traefik-data:/etc/traefik"  # Pour persister la config de Traefik
     deploy:
+      replicas: 1
       placement:
         constraints:
           - node.role == manager
-    restart: always
-    labels:
-      - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$randomhash"
 
   synchronre-front:
     image: synchronre-front-web:latest
     deploy:
-      replicas: 3
+      replicas: 3  # Nombre de réplicas du service Angular
       update_config:
-        parallelism: 2
-        delay: 5s
+        parallelism: 1  # Nombre de réplicas mis à jour simultanément
+        delay: 10s  # Délai entre les mises à jour des réplicas
       restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+        condition: on-failure  # Redémarre si le conteneur échoue
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.synchronre.rule=Host(`localhost.com`)"
-      - "traefik.http.routers.synchronre.entrypoints=websecure"
-      - "traefik.http.routers.synchronre.tls.certresolver=myresolver"
+      - "traefik.http.routers.synchronre.rule=Host(`localhost.com`)"  # Nom de domaine personnalisé
       - "traefik.http.services.synchronre.loadbalancer.server.port=80"
+    ports:
+      - "8585:8585"  # Mapping du port
     networks:
       - web
 
 networks:
   web:
-    driver: overlay
+    driver: overlay  # Assure une communication réseau entre les conteneurs dans Swarm
 
 volumes:
-  traefik-data:
+  traefik-data:  # Volume pour persister la configuration de Traefik

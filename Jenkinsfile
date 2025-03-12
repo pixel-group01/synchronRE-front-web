@@ -4,11 +4,10 @@ pipeline {
     environment {
         IMAGE_NAME = 'synchronre-front-web'
         SERVICE_NAME = 'synchronre-front'
-        HEALTHCHECK_URL = 'http://localhost'
-        STACK_NAME = 'synchronre-stack'
-        VERSION = '1.0.0'
-        BUILD_TAG = "latest-${env.BUILD_NUMBER}"
-        DOCKER_REGISTRY = "registry.local" // Remplace par ton registre
+        HEALTHCHECK_URL = 'http://localhost:8580'
+        CONTAINER_NAME  = 'synchronre-front'
+        STACK_NAME = 'synchronre-stack'  // Définir la variable ici
+        VERSION = '1.0.0'  // Exemple de version pour l'argument VERSION
     }
 
     stages {
@@ -16,51 +15,50 @@ pipeline {
             steps {
                 script {
                     bat """
-                        docker buildx build --cache-to=type=local,dest=/cache \
-                        --cache-from=type=local,src=/cache \
-                        --build-arg VERSION=${VERSION} \
-                        -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:${BUILD_TAG} .
-                    """
+                         docker build --cache-from=${env.IMAGE_NAME}:${BUILD_NUMBER} --build-arg VERSION=${env.VERSION} -t ${env.IMAGE_NAME}:${BUILD_NUMBER} .
+                        """
                 }
             }
         }
 
         stage('Push to Local Registry') {
-            steps {
-                script {
-                    bat """
-                        docker tag ${DOCKER_REGISTRY}/${IMAGE_NAME}:${BUILD_TAG} ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest
-                        docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${BUILD_TAG}
-                        docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest
-                    """
-                }
-            }
-        }
+                   steps {
+                       script {
+                           bat """
+                               docker tag ${BUILD_TAG} ${IMAGE_NAME}:latest
+                               docker image ls
+                           """
+                       }
+                   }
+               }
 
-        stage('Deploy to Docker Swarm') {
-            steps {
-                script {
-                    bat """
-                        docker stack deploy -c docker-compose.yml ${STACK_NAME}
-                    """
-                }
-            }
-        }
+       stage('Deploy to Docker Swarm') {
+                   steps {
+                       script {
+                           echo "Déploiement de la stack Docker Swarm..."
+                           bat """
+                               docker stack deploy -c docker-compose.yml --with-registry-auth ${STACK_NAME}
+                           """
+                       }
+                   }
+               }
 
         stage('Cleanup Old Images') {
-            steps {
-                script {
-                    bat """
-                        for /F "tokens=*" %%i in ('docker images ${IMAGE_NAME} --format "{{.Repository}}:{{.Tag}}"') do (
-                            for /F "tokens=2 delims=:" %%j in ("%%i") do (
-                                if %%j LSS ${BUILD_NUMBER} (
-                                    docker rmi -f %%i
-                                )
-                            )
-                        )
-                    """
-                }
-            }
-        }
-    }
+                   steps {
+                       script {
+                           echo "Suppression des anciennes images..."
+                           bat """
+                              FOR /F "tokens=*" %%i IN ('docker images ${IMAGE_NAME} --format "{{.Repository}}:{{.Tag}}"') DO (
+                                                          FOR /F "tokens=2 delims=:" %%j IN ("%%i") DO (
+                                                              IF %%j LSS ${BUILD_NUMBER} (
+                                                                  docker rmi -f %%i
+                                                              )
+                                                          )
+                                                      )
+                      """
+                           echo "Anciennes images supprimées avec succès."
+                       }
+                   }
+               }
+           }
 }
