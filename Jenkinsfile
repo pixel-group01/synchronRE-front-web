@@ -48,7 +48,8 @@ pipeline {
                        script {
                            echo "Suppression des anciennes images..."
                            bat """
-                               for /F "tokens=1" %%i in ('docker images ${IMAGE_NAME} --format "{{.ID}}" --filter before=${BUILD_TAG}') do docker rmi -f %%i
+                               for /F "tokens=1" %%i in ('docker images --format "{{.ID}}" --filter "before=${BUILD_TAG}" ${IMAGE_NAME}') do docker rmi -f %%i
+
                            """
                            echo "Anciennes images supprimées avec succès."
                        }
