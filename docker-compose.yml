@@ -6,12 +6,12 @@ services:
     container_name: traefik
     restart: always
     ports:
-      - "80:80"      # HTTP
-      - "8080:8080"  # Dashboard (Sécuriser en prod)
+      - "8585:80"      # HTTP
+      - "8085:8080"  # Dashboard (Sécuriser en prod)
     command:
       - "--api.insecure=true"  # Désactiver en production
       - "--providers.docker=true"
-      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.address=:8585"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "traefik-data:/etc/traefik"  # Pour persister la config de Traefik
