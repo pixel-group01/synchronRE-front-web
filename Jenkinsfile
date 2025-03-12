@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'synchronre-front-web'
         SERVICE_NAME = 'synchronre-front'
-        HEALTHCHECK_URL = 'http://localhost:8586'
+        HEALTHCHECK_URL = 'http://localhost:8580'
         CONTAINER_NAME  = 'synchronre-front'
         STACK_NAME = 'synchronre-stack'  // Définir la variable ici
         VERSION = '1.0.0'  // Exemple de version pour l'argument VERSION
@@ -37,7 +37,7 @@ pipeline {
                        script {
                            echo "Déploiement de la stack Docker Swarm..."
                            bat """
-                               docker stack deploy -c docker-compose.yml ${STACK_NAME}
+                               docker stack deploy -c docker-compose.yml --with-registry-auth ${STACK_NAME}
                            """
                        }
                    }

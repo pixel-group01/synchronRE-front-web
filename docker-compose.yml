@@ -3,15 +3,13 @@ version: '3.8'
 services:
   traefik:
     image: traefik:v2.10
-    container_name: traefik
-    restart: always
     ports:
-      - "8585:80"      # HTTP
+      - "8580:80"      # HTTP
       - "8085:8080"  # Dashboard (Sécuriser en prod)
     command:
       - "--api.insecure=true"  # Désactiver en production
       - "--providers.docker=true"
-      - "--entrypoints.web.address=:8585"
+      - "--entrypoints.web.address=:80"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "traefik-data:/etc/traefik"  # Pour persister la config de Traefik
@@ -33,7 +31,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.synchronre.rule=Host(`localhost.com`)"  # Nom de domaine personnalisé
-      - "traefik.http.services.synchronre.loadbalancer.server.port=8585"
+      - "traefik.http.services.synchronre.loadbalancer.server.port=80"
     ports:
       - "8585:8585"  # Mapping du port
     networks:
