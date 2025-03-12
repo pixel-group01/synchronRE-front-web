@@ -22,7 +22,7 @@ services:
   synchronre-front:
     image: synchronre-front-web:latest
     deploy:
-      replicas: 3  # Nombre de réplicas du service Angular
+      replicas: 1  # Nombre de réplicas du service Angular
       update_config:
         parallelism: 1  # Nombre de réplicas mis à jour simultanément
         delay: 10s  # Délai entre les mises à jour des réplicas

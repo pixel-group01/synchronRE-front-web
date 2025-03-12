@@ -1,5 +1,7 @@
-# Étape 1 : Build de l'application
-FROM node:16-alpine AS build-stage
+# Étape 1 : Build Angular
+FROM node:18 AS build-stage
+
+WORKDIR /app
 
 # Copier seulement les fichiers nécessaires pour installer les dépendances
 COPY package*.json ./
@@ -17,8 +19,8 @@ FROM nginx:1.23-alpine AS production-stage
 # Supprimer la configuration par défaut de Nginx
 RUN rm -rf /etc/nginx/conf.d/default.conf
 
-# Copier la configuration Nginx principale (nginx.conf)
-COPY nginx.conf /etc/nginx/nginx.conf   # Copie ton nginx.conf ici
+# Copier la configuration Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copier les fichiers nécessaires dans l'image finale
 COPY --from=build-stage /app/dist /usr/share/nginx/html
