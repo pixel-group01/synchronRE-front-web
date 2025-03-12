@@ -4,8 +4,8 @@ services:
   traefik:
     image: traefik:v2.10
     ports:
-      - "8580:80"      # HTTP
-      - "8085:8080"  # Dashboard (Sécuriser en prod)
+      - "8585:80"      # HTTP (Traefik écoutant sur 8585, exposant sur 80)
+      - "8085:8080"    # Dashboard (Traefik dashboard sur le port 8080, mais gardez-le exposé sur 8085 pour la gestion)
     command:
       - "--api.insecure=true"  # Désactiver en production
       - "--providers.docker=true"
@@ -33,7 +33,7 @@ services:
       - "traefik.http.routers.synchronre.rule=Host(`localhost.com`)"  # Nom de domaine personnalisé
       - "traefik.http.services.synchronre.loadbalancer.server.port=80"
     ports:
-      - "8585:8585"  # Mapping du port
+      - "8585:8585"  # Synchronre front expose sur le port 8585
     networks:
       - web
 
