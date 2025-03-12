@@ -48,14 +48,9 @@ pipeline {
                        script {
                            echo "Suppression des anciennes images..."
                            bat """
-                             set BUILD_TAG_LOWER=%BUILD_TAG%
-                             set BUILD_TAG_LOWER=%BUILD_TAG_LOWER:A=a%
-                             set BUILD_TAG_LOWER=%BUILD_TAG_LOWER:B=b%
-                             set BUILD_TAG_LOWER=%BUILD_TAG_LOWER:C=c%
-                             rem (ajoute toutes les lettres de A-Z ici si besoin)
-                               for /F "tokens=1" %%i in ('docker images --format "{{.ID}}" --filter "before=${BUILD_TAG}" ${IMAGE_NAME}') do docker rmi -f %%i
-
-                           """
+                           @echo off
+                                   for /F "tokens=1" %%i in ('docker images --format "{{.ID}}" --filter "reference=${IMAGE_NAME}" --sort=created ^| tail -n +2') do docker rmi -f %%i
+                      """
                            echo "Anciennes images supprimées avec succès."
                        }
                    }
