@@ -9,7 +9,7 @@ pipeline {
         STACK_NAME = 'synchronre-stack'  // Définir la variable ici
         VERSION = '1.0.0'  // Exemple de version pour l'argument VERSION
     }
-//
+
     stages {
         stage('Build Docker Image') {
             steps {
