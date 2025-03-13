@@ -45,6 +45,20 @@ pipeline {
             }
         }
 
+        stage('Cleanup Old Containers') {
+            steps {
+                script {
+                    echo "Suppression des anciens conteneurs éteints..."
+                    bat """
+                        FOR /F "tokens=*" %%i IN ('docker ps -a --filter "name=${env.STACK_NAME}" --format "{{.ID}}"') DO (
+                            docker rm -f %%i
+                        )
+                    """
+                    echo "Anciens conteneurs supprimés avec succès."
+                }
+            }
+        }
+
         stage('Cleanup Old Images') {
             steps {
                 script {
