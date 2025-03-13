@@ -20,8 +20,8 @@ FROM nginx:1.23-alpine AS production-stage
 RUN rm -rf /etc/nginx/conf.d/default.conf
 
 # Copier la configuration Nginx personnalisée
-COPY nginx.conf /etc/nginx/nginx.conf  # Assurez-vous que ce fichier est correctement structuré
-COPY default.conf /etc/nginx/conf.d/default.conf  # Configuration spécifique au serveur
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 # Copier les fichiers de l'application Angular dans l'image finale
 COPY --from=build-stage /app/dist /usr/share/nginx/html
