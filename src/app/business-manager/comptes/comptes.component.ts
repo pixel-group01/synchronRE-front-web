@@ -41,9 +41,11 @@ export class ComptesComponent implements OnInit {
     )
   }
 
-  changeTraite(changeTraite) {
-    console.log(" traite ",changeTraite);
-    this.getTranche(changeTraite?.traiteNpId);
+  changeTraite() {
+
+    console.log(" this.itemToSave.traiteSelected ",this.itemToSave.traiteSelected);
+    
+    this.getTranche(this.itemToSave.traiteSelected?.traiteNpId,this.itemToSave.periodeSelected?.periodeId);
     this.refreshToSendItemsValue();
   }
 
@@ -84,12 +86,15 @@ export class ComptesComponent implements OnInit {
   }
 
 
-  getTranche(traiteId : number) {
-    this.compteService.getCompteByTraiteId(traiteId).subscribe(
+  getTranche(traiteId : number,periodeId : number) {
+    this.compteService.getCompteByTraiteId(traiteId,periodeId ? periodeId : '').subscribe(
       (response : any) => {
         console.log("response ",response);
         if(response ) {
           this.ListeTranches = response?.trancheCompteDtos;
+
+          console.log(" this.ListeTranches ",this.ListeTranches);
+          
         }
       }
     )

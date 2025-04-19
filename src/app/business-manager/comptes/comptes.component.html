@@ -10,11 +10,11 @@
                     <div class="header mb-3">
                         <h2><strong>Etablissement des comptes</strong></h2>
                     </div>
-                    <div class="body">
+                    <div class="body  selected-compte-item">
 
                         <div class="row">
 
-                            <div class="col-md-1 col-xs-12 mb-1">
+                            <div class="col-md-2 col-xs-12 mb-1">
                                 <label>Exercice</label>
                                 <ng-select [(ngModel)]="itemToSave.exerciceSelected" placeholder="Choisissez"
                                     (change)="selectedExercice(itemToSave.exerciceSelected)" name="exercei" id="exercei"
@@ -28,20 +28,20 @@
                             <div class="col-md-2 col-xs-12 mb-2">
                                 <label>Traités</label>
                                 <ng-select [(ngModel)]="itemToSave.traiteSelected" placeholder="Choisissez"
-                                    (change)="changeTraite(itemToSave.traiteSelected)" name="traites" id="traites"
+                                    (change)="changeTraite()" name="traites" id="traites"
                                     [multiple]="false" [closeOnSelect]="true">
                                     <ng-option *ngFor="let item of ListeTraites" [value]="item">{{item?.traiReference}}
                                     </ng-option>
                                 </ng-select>
                             </div>
-                          <div class="col-md-2 col-xs-12 mb-2">
+                          <div class="col-md-2 col-xs-12 mb-2" *ngIf="itemToSave.traiteSelected">
                             <label>Nature :</label>
                             <input class="form-control custom-input" placeholder="Nature" autocomplete="off"
                                    disabled [(ngModel)]="itemToSave.traiteSelected.natLibelle" name="nature"
                                    type="text">
                           </div>
 
-                          <div class="col-md-2 col-xs-12 mb-2">
+                          <div class="col-md-2 col-xs-12 mb-2" *ngIf="itemToSave.traiteSelected">
                             <label>Comptabilisation :</label>
                             <input class="form-control custom-input" placeholder="Comptabilisation"
                                    autocomplete="off" disabled [(ngModel)]="itemToSave.traiteSelected.traiEcerciceRattachement"
@@ -59,9 +59,9 @@
                             </ng-select>
                           </div>
 
-                          <div class="col-md-3 col-xs-12 mb-2">
+                          <div class="col-md-2 col-xs-12 mb-2">
                             <label>Période :</label>
-                            <ng-select [(ngModel)]="itemToSave.periodeSelected" placeholder="Choisissez" (change)="refreshToSendItemsValue()"
+                            <ng-select [(ngModel)]="itemToSave.periodeSelected" placeholder="Choisissez" (change)="changeTraite()"
                                        name="periode" id="periode" [multiple]="false" [closeOnSelect]="true">
                               <ng-option *ngFor="let item of ListePeriode" [value]="item">{{item?.periodeName}}
                               </ng-option>

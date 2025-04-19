@@ -1,9 +1,13 @@
 <ng-container>
-    <div class="row mt-3">
+    <div class="row mt-3" [ngBusy]="{
+        busy: busySave,
+        message: 'Veuillez patienter ...',
+        backdrop: false
+      }">
         <div class="col-md-4 col-xs-12 mb-3">
             <label>Cedante</label>
             <ng-select [(ngModel)]="itemToSave.cedId" placeholder="Choisissez " name="actes" id="actes"
-                [multiple]="false" [closeOnSelect]="true">
+                [multiple]="false" [closeOnSelect]="true" (change)="cedanteChange()">
                 <ng-option *ngFor="let item of ListeCedantes" [value]="item?.cedId">{{item?.cedNomFiliale}}
                 </ng-option>
             </ng-select>
@@ -40,10 +44,10 @@
                 <tbody>
                     <tr *ngFor="let item of ListeDesignations">
                         <td>{{item?.designation}}</td>
-                        <td> <input type="text" class="form-control custom-input" [(ngModel)]="item.debit" mask="separator"  placeholder="Débit" [ngModelOptions]="{ standalone: true }" />
+                        <td> <input type="text" class="form-control custom-input" [(ngModel)]="item.debit" mask="separator" [disabled]="item.disabled"  placeholder="Débit" [ngModelOptions]="{ standalone: true }" (change)="cedanteChange(true)" />
                         </td>
                         <td>
-                            <input type="text" class="form-control custom-input" [(ngModel)]="item.credit" mask="separator"  placeholder="Crédit" [ngModelOptions]="{ standalone: true }" />
+                            <input type="text" class="form-control custom-input" [(ngModel)]="item.credit" mask="separator"  placeholder="Crédit"  [disabled]="item.disabled"  [ngModelOptions]="{ standalone: true }"  (change)="cedanteChange(true)"  />
 
                         </td>
                     </tr>
@@ -71,7 +75,7 @@
                     <tr *ngFor="let item of ListeCessionnaires">
                         <td>{{item?.cesNom}}</td>
                         <td>{{item?.taux}}</td>
-                        <td>{{item?.prime}}</td>
+                        <td>{{item?.prime | moneyFormat}}</td>
                     </tr>
 
                     <tr *ngIf="!ListeCessionnaires || ListeCessionnaires.length == 0">

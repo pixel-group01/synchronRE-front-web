@@ -17,12 +17,16 @@ export class CompteService {
     return this.restClient.post('comptes/traites/save',body)
   } 
 
+  getCompteTraite = (body:any) => {
+    return this.restClient.post('comptes/traites',body)
+  } 
+
   getPeriodicite = () => {
     return this.restClient.get('comptes/periodicites');
   }
  
-  getCompteByTraiteId = (id) => {
-    return this.restClient.get('comptes/traites/'+id);
+  getCompteByTraiteId = (idTraite,idPeriode) => {
+    return this.restClient.get('comptes/traites/'+idTraite+'/'+(idPeriode ? idPeriode : ''));
   }
 
   getPeriode = (exercieCode,typeId) => {
