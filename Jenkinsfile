@@ -1,19 +1,16 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = 'synchronre-front-web'
-        MINIKUBE_HOME = 'C:\\minikube'
-        KUBECONFIG = "${MINIKUBE_HOME}\\kubeconfig"
-        PATH = "${MINIKUBE_HOME}\\bin;${env.PATH}"
+    tools {
+        nodejs "NodeJS" // Nom de l'installation Node.js dans Jenkins (à configurer dans Jenkins Global Tool Configuration)
     }
 
-    tools {
-        nodejs "NodeJS"
+    environment {
+        NPM_CONFIG_CACHE = "${WORKSPACE}\\.npm"
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
                 git branch: 'test', url: 'https://github.com/pixel-group01/synchronRE-front-web.git'
             }
@@ -25,72 +22,32 @@ pipeline {
             }
         }
 
-        stage('Build Angular App') {
+        stage('Build') {
             steps {
-                bat 'npm run build --configuration=production'
+                bat 'npm run build'
             }
         }
 
-        stage('Setup Minikube Docker') {
+        stage('Copy Build to Nginx Directory') {
             steps {
-                script {
-                   echo "Checking Minikube version"
-                               bat 'minikube version'
-
-                               echo "Configuring Docker to use Minikube's Docker daemon"
-                               def output = bat(script: 'minikube -p minikube docker-env --shell cmd', returnStdout: true).trim()
-
-                               echo "Setting environment variables..."
-                               output.split("\n").each { line ->
-                                   if (line.startsWith("SET ")) {
-                                       def parts = line.split("SET ")[1].split("=")
-                                       env[parts[0]] = parts[1]
-                                       echo "Applied: ${parts[0]}=${parts[1]}"
-                                   }
-                               }
-
-                               echo "Docker config applied"
-                               bat 'docker info'
-                }
+                // Copie les fichiers de 'dist/main' (ou autre sous-répertoire) directement dans 'C:\\nginx-1.24.0\\html\\synchronre'
+                bat '''
+                if not exist C:\\nginx-1.24.0\\html\\synchronre mkdir C:\\nginx-1.24.0\\html\\synchronreTest
+                xcopy /s /e /y dist\\main\\* C:\\nginx-1.24.0\\html\\synchronreTest\\
+                '''
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Archive Artifacts') {
             steps {
-                script {
-                    echo "Building Docker image"
-                    bat "docker build -t ${env.IMAGE_NAME}:latest ."
-                }
+                archiveArtifacts artifacts: 'dist/**', allowEmptyArchive: true
             }
         }
+    }
 
-        stage('Apply Kubernetes Deployment') {
-            steps {
-                script {
-                    echo "Applying Kubernetes Deployment"
-                    bat 'kubectl apply -f deployment.yaml'
-                }
-            }
-        }
-
-        stage('Apply Kubernetes Service') {
-            steps {
-                script {
-                    echo "Applying Kubernetes Service"
-                    bat 'kubectl apply -f service.yaml'
-                }
-            }
-        }
-
-        stage('Verify Deployment') {
-            steps {
-                script {
-                    echo "Checking running pods"
-                    bat 'kubectl get pods'
-                    echo "Getting service details"
-                    bat 'kubectl get svc'
-                }
-            }
+    post {
+        always {
+            cleanWs()
         }
     }
 }
