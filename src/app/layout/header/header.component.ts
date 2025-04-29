@@ -190,7 +190,7 @@ export class HeaderComponent
 
   refreshDataNotification() {
     this.getNotificationCedenteAffaireRetourner();
-    this.requestRefreshNotifications = interval( 5 * 1000) /* On actualise chaque 5 sécondes */
+    this.requestRefreshNotifications = interval( 25 * 1000) /* On actualise chaque 5 sécondes */
       .subscribe(i => {
         this.getNotificationCedenteAffaireRetourner()
       })

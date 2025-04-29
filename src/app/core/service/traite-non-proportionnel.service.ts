@@ -24,6 +24,10 @@ export class TraiteNonProportionnelService {
     return this.restClient.get('traite-non-proportionnel/search');
   }
 
+  getTraiteNonProportionnel = (codeExercice) => {
+    return this.restClient.get('traite-non-proportionnel/list?exeCode='+codeExercice);
+  }
+
   getEdit = (traiteNpId :number) =>{
     return this.restClient.get(`traite-non-proportionnel/edit/${traiteNpId}`);
   }

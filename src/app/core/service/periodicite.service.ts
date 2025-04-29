@@ -13,5 +13,4 @@ export class PeriodiciteService {
     return this.restClient.get('enums/periodicites');
   }
 
-
 }
