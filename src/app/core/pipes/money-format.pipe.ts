@@ -16,7 +16,7 @@ export class MoneyFormatPipe implements PipeTransform {
     while (reg.test(nombre)) {
         nombre = nombre.replace(reg, '$1' + sep + '$2');
     }
-
+    
     return nombre;
 }
 

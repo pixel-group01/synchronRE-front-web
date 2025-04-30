@@ -11,6 +11,7 @@ import { DashbordSinistreTaiteComponent } from './dashbord-sinistre-taite/dashbo
 import { DashbordSinistreFacultativeComponent } from './dashbord-sinistre-facultative/dashbord-sinistre-facultative.component';
 import { DataSinistreFacultativeComponent } from './dashbord-sinistre-facultative/data-sinistre-facultative/data-sinistre-facultative.component';
 import { ChartModule } from 'angular-highcharts';
+import { ListeStatistiqueFacComponent } from './dashbord-affaire-facultative/liste-statistique-fac/liste-statistique-fac.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ChartModule } from 'angular-highcharts';
     DashbordAffaireFacultativeComponent,
     DashbordSinistreTaiteComponent,
     DashbordSinistreFacultativeComponent,
-    DataSinistreFacultativeComponent
+    DataSinistreFacultativeComponent,
+    ListeStatistiqueFacComponent
   ],
   imports: [
     CommonModule,

@@ -174,6 +174,7 @@ export class FormIdentificationComponent implements OnInit {
       facSmpLci: [this.itemToUpdate?.facSmpLci || ""],
       affCoursDevise: [this.itemToUpdate?.affCoursDevise || ""],
       facPrime: [this.itemToUpdate?.facPrime || ""],
+      reserveCourtier: [this.itemToUpdate?.reserveCourtier || ""],
       cedId: [ (this.itemToUpdate?.cedId || this.user?.cedId || this.itemToSave.cedenteId) || "", Validators.required],
       statutCode: [this.itemToUpdate?.statutCode || ""],
       couvertureId: [ (this.itemToUpdate?.couvertureId || this.itemToUpdate?.couId) || "", Validators.required],
