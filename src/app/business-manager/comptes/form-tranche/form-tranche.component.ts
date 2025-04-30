@@ -184,6 +184,22 @@ export class FormTrancheComponent implements OnInit {
       });
   }
 
+
+  gotoExport() {
+    let currentValueCompte = JSON.parse(sessionStorage.getItem("refreshValue"));
+
+    console.log(" currentValueCompte ",currentValueCompte);
+    
+    this.busySave = this.compteService
+      .exportCompteTraite(currentValueCompte?.traiteSelected?.traiteNpId,this.itemToSave.cedId,this.currentTranche?.trancheId,currentValueCompte.periodiciteSelected?.name,currentValueCompte?.periodeSelected?.periodeId)
+      .subscribe((response: any) => {
+        // if (response && response.repId) {
+      console.log(" response ",response);
+      
+       
+      });
+  }
+
   ngOnInit(): void {
     // this.getCedante();
   }
