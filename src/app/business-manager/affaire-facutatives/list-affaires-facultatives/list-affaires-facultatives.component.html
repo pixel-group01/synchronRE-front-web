@@ -16,7 +16,7 @@
                 <ng-option *ngFor="let cedente of listeCedente" [value]="cedente?.cedId">{{ cedente.cedNomFiliale
                   }}</ng-option>
               </ng-select>
-            </div> 
+            </div>
 
             <div class="col-md-3 col-xs-12 col-sm-12">
               <label>Exercice : </label>
@@ -97,8 +97,9 @@
               </button>
 
                 <button ngbDropdownItem (click)="openModal(templateUpdateAffaire,item)"  appAppAccess appAccess="UPD-FAC"
-                > 
-                <!-- *ngIf="!noPutAction" -->
+                        *ngIf="item.statutCode=='SAI' || item.statutCode=='SAI-CRT' ||item.statutCode=='CREP' || item.statutCode=='RET'"
+                >
+
                   <i class="fa fa-edit"></i>&nbsp;Modifier l'affaire
                 </button>
 
@@ -120,12 +121,12 @@
 
                 <button ngbDropdownItem (click)="confirmTransmissionOrReturnAffaire(true, item)" appAppAccess appAccess="TRANS-FAC-SOUS"
                   *ngIf="(user.cedId && !noPutAction)">
-                  <i class="fa fa-share"></i>&nbsp;Transmettre une affaire
+                  <i class="fa fa-share"></i>&nbsp;Transmettre au courtier
                 </button>
 
                 <button ngbDropdownItem (click)="openModal(templateValidationPlacement,item)"  appAppAccess appAccess="VAL-FAC"
                 *ngIf="!user.cedId && user?.isActeurValideur">
-                  <i class="fa fa-check"></i>&nbsp;Valider l'affaire
+                  <i class="fa fa-check"></i>&nbsp;Valider les placements
                 </button>
 
                 <button ngbDropdownItem (click)="confirmTransmissionPourReglement(item)" appAppAccess appAccess="TRAN-FAC-COMPTA"
@@ -133,8 +134,8 @@
                   <i class="fa fa-share"></i>&nbsp;Transmettre à la comptabilité
                 </button>
 
-                <button ngbDropdownItem (click)="confirmTransmettreNoteDeDebit(item)" appAppAccess appAccess="SEND-NOT-DEB-FAC">
-                  <i class="fa fa-share"></i>&nbsp;Transmettre note de débit
+                <button ngbDropdownItem (click)="confirmTransmettreNoteDeDebit(item)" *ngIf="item?.placementTermine" appAppAccess appAccess="SEND-NOT-DEB-FAC">
+                  <i class="fa fa-envelope"></i>&nbsp;Envoyer la note de débit à la cedante
                 </button>
 
                 <button ngbDropdownItem (click)="openModalNoteDebit(templateNoteDebitIframe,item)" *ngIf="item?.placementTermine" appAppAccess appAccess="EDIT-NOT-DEB-FAC">
