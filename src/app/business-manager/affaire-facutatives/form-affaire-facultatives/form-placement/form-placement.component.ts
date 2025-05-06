@@ -55,6 +55,7 @@ export class FormPlacementComponent implements OnInit {
   ) {
     this.currentUser = this.userService.getCurrentUserInfo();
     this.itemToSave.repSousCommission = 25;
+    this.itemToSave.repTauxComCourt = 5;
   }
 
   gotoPreviousStep() {
@@ -240,6 +241,7 @@ export class FormPlacementComponent implements OnInit {
         if (response && response["content"]) {
           this.listeRepartitions = response["content"];
           this.itemToSave.repSousCommission = 25;
+          this.itemToSave.repTauxComCourt = 5;
         }else{
           this.listeRepartitions = [];
         }
