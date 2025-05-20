@@ -44,10 +44,10 @@
                 <tbody>
                     <tr *ngFor="let item of ListeDesignations">
                         <td>{{item?.designation}}</td>
-                        <td> <input type="text" class="form-control custom-input" [(ngModel)]="item.debit" mask="separator" [disabled]="item.debitDisabled"  placeholder="Débit" [ngModelOptions]="{ standalone: true }" (change)="cedanteChange(true)" />
+                        <td> <input type="text" class="form-control custom-input" [(ngModel)]="item.debit" mask="separator"  decimalMarker=","  [disabled]="item.debitDisabled"  placeholder="Débit" [ngModelOptions]="{ standalone: true }" (change)="cedanteChange(true)" />
                         </td>
                         <td>
-                            <input type="text" class="form-control custom-input" [(ngModel)]="item.credit" mask="separator"  placeholder="Crédit"  [disabled]="item.creditDisabled"  [ngModelOptions]="{ standalone: true }"  (change)="cedanteChange(true)"  />
+                            <input type="text" class="form-control custom-input" [(ngModel)]="item.credit" mask="separator"  decimalMarker=","  placeholder="Crédit"  [disabled]="item.creditDisabled"  [ngModelOptions]="{ standalone: true }"  (change)="cedanteChange(true)"  />
 
                         </td>
                     </tr>
