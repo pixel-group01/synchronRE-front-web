@@ -11,8 +11,8 @@
             <div class="col-md-3 col-xs-12 col-sm-12" *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'"
             [ngClass]="{'col-md-2': actionPlus === 'sitFinFiliaReas', 'col-md-3': actionPlus !== 'sitFinFiliaReas', 'col-xs-12 col-sm-12': true}">
               <label>Exercice</label>
-              <ng-select 
-                        name="exerciceName" 
+              <ng-select
+                        name="exerciceName"
                         id="exerciceId"
                         notFoundText="Aucune donnée"
                         placeholder=""
@@ -27,8 +27,8 @@
             <div class="col-md-3 col-xs-12 col-sm-12" *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'"
             [ngClass]="{'col-md-2': actionPlus === 'sitFinFiliaReas', 'col-md-3': actionPlus !== 'sitFinFiliaReas', 'col-xs-12 col-sm-12': true}">
               <label>Cédante </label>
-              <ng-select 
-                        name="cedanteName" 
+              <ng-select
+                        name="cedanteName"
                         id="cedanteId"
                         notFoundText="Aucune donnée"
                         placeholder=""
@@ -42,8 +42,8 @@
             </div>
             <div class="col-md-2 col-xs-12 col-sm-12" *ngIf="actionPlus =='sitFinFiliaReas' || actionPlus =='chifAfRea'">
               <label>Réassureur</label>
-              <ng-select 
-                        name="reassureurName" 
+              <ng-select
+                        name="reassureurName"
                         id="reassureurId"
                         notFoundText="Aucune donnée"
                         placeholder=""
@@ -74,7 +74,7 @@
             <div class="col-md-3 col-xs-12 col-sm-12" *ngIf="action =='sitFinfilia'">
               <label>Statut d'envoi </label>
               <ng-select
-                        name="statusEnvoiName" 
+                        name="statusEnvoiName"
                         id="statusEnvoiId"
                         notFoundText="Aucune donnée"
                         placeholder=""
@@ -88,8 +88,8 @@
             </div>
             <div class="col-md-3 col-xs-12 col-sm-12" *ngIf="action =='sitFinfilia'">
               <label>Statut d'encaissement</label>
-              <ng-select 
-                        name="statutEncaissmentName" 
+              <ng-select
+                        name="statutEncaissmentName"
                         id="statutEncaissmentId"
                         notFoundText="Aucune donnée"
                         placeholder=""
@@ -104,7 +104,7 @@
           </div>
         </th>
       </tr>
-      
+
       <tr class="custom-table-head">
         <th class="txt-align-center-counter-row">
           <a (click)="currentPage = 1; getStat()" title="Actualiser">
@@ -134,22 +134,22 @@
         <td class="txt-align-center">
           {{ getExactlyNumberRow(this.currentPage, indice) }}
         </td>
-        <td *ngIf="action =='stiFinNoCreFiliRea'">{{ item?.bordNum || item?.numNoteCred}}</td> 
-        <td *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'">{{ item?.affCode || item?.numNoteDeb}}</td> 
-        <td *ngIf="action =='sitFinfilia'">{{ item?.affCode}}</td> 
+        <td *ngIf="action =='stiFinNoCreFiliRea'">{{ item?.bordNum || item?.numNoteCred}}</td>
+        <td *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'">{{ item?.affCode || item?.numNoteDeb}}</td>
+        <td *ngIf="action =='sitFinfilia'">{{ item?.affCode}}</td>
         <td *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'">{{ item?.affAssure || item?.nomAssure}}</td>
         <td *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'">{{ item?.couLibelle || item?.branche}}</td>
-        <td *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'">{{ item?.affDateEffet || item?.dateEffet | dateFormatInDateHour}}</td> 
+        <td *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'">{{ item?.affDateEffet || item?.dateEffet | dateFormatInDateHour}}</td>
         <td *ngIf="action =='sitFinfilia' || action =='stiFinNoCreFiliRea'">{{ item?.affDateEcheance || item?.dateEcheance | dateFormatInDateHour}}</td>
         <td *ngIf="actionPlus =='chifAfRea'">{{item?.dateReversement}}</td>
-        <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ arrondir(item?.montantNoteDebit) | moneyFormat}}</td>     
-        <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ arrondir(item?.montantEncaisse) | moneyFormat}}</td>     
-        <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ arrondir(item?.resteAEncaisser) | moneyFormat}}</td>     
-        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ arrondir(item?.montantCede) | moneyFormat}}</td>     
-        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ arrondir(item?.montantEncaisse) | moneyFormat}}</td>     
-        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ arrondir(item?.commissionNelre) | moneyFormat}}</td>     
-        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ arrondir(item?.montantAReverser) || arrondir(item?.montantAReverser) | moneyFormat}}</td>     
-        <td *ngIf="action =='stiFinNoCreFiliRea'">{{ item?.sinDateDeclaration || arrondir(item?.montantReverse) | moneyFormat}}</td>     
+        <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ arrondir(item?.montantNoteDebit) | moneyFormat}}</td>
+        <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ arrondir(item?.montantEncaisse) | moneyFormat}}</td>
+        <td *ngIf="action =='sitFinfilia' && actionPlus ==''">{{ arrondir(item?.resteAEncaisser) | moneyFormat}}</td>
+        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ arrondir(item?.montantCede) | moneyFormat}}</td>
+        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ arrondir(item?.montantEncaisse) | moneyFormat}}</td>
+        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ arrondir(item?.commissionNelre) | moneyFormat}}</td>
+        <td *ngIf="actionPlus =='sitFinFiliaReas' || action =='stiFinNoCreFiliRea'">{{ arrondir(item?.montantAReverser) || arrondir(item?.montantAReverser) | moneyFormat}}</td>
+        <td *ngIf="action =='stiFinNoCreFiliRea'">{{ item?.sinDateDeclaration || arrondir(item?.montantReverse) | moneyFormat}}</td>
       </tr>
     </tbody>
 
@@ -167,10 +167,10 @@
               <div class="paginator-per-page">
                 <app-element-by-page-paginator (paginationChange)="changePaginationSize($event)"
                   [defaultItemPerPage]="itemsPerPage"></app-element-by-page-paginator>
-                  
+
                 <span class="span_total_entree pull-right">Total : {{ totalItems }}</span>
               </div>
-            </div> 
+            </div>
           </div>
         </td>
       </tr>
@@ -183,12 +183,15 @@
         </td>
       </tr>
     </tfoot>
-  </table> 
+  </table>
 
   <div class="header-btn-new-affaire">
-    <button type="button" class="btn btn-md custom_btn_primary pull-right" (click)="open(templateNoteDebit)">
-        <i class="fa fa-print"></i>&nbsp; Imprimer
-    </button> 
+    <button type="button" class="btn-export-pdf pull-right" (click)="open(templateNoteDebit)">
+        <i class="fas fa-file-pdf"></i>&nbsp; Pdf
+    </button>
+    <button type="button" style="margin-right: 5px" class="btn btn-export-excel pull-right" (click)="exportoExcel()">
+      <i class="fas fa-file-excel"></i>&nbsp; Excel
+    </button>
 </div>
 </div>
 
