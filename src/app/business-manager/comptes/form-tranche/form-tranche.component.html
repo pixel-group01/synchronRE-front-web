@@ -44,10 +44,10 @@
                 <tbody>
                     <tr *ngFor="let item of ListeDesignations">
                         <td>{{item?.designation}}</td>
-                        <td> <input type="text" class="form-control custom-input" [(ngModel)]="item.debit" mask="separator" [disabled]="item.disabled"  placeholder="Débit" [ngModelOptions]="{ standalone: true }" (change)="cedanteChange(true)" />
+                        <td> <input type="text" class="form-control custom-input" [(ngModel)]="item.debit" mask="separator"  decimalMarker=","  [disabled]="item.debitDisabled"  placeholder="Débit" [ngModelOptions]="{ standalone: true }" (change)="cedanteChange(true)" />
                         </td>
                         <td>
-                            <input type="text" class="form-control custom-input" [(ngModel)]="item.credit" mask="separator"  placeholder="Crédit"  [disabled]="item.disabled"  [ngModelOptions]="{ standalone: true }"  (change)="cedanteChange(true)"  />
+                            <input type="text" class="form-control custom-input" [(ngModel)]="item.credit" mask="separator"  decimalMarker=","  placeholder="Crédit"  [disabled]="item.creditDisabled"  [ngModelOptions]="{ standalone: true }"  (change)="cedanteChange(true)"  />
 
                         </td>
                     </tr>
@@ -90,20 +90,27 @@
     <!-- <div class="row mt-3 mb-3"> -->
 
         <div class="custom-btn-save-manager">
-            <button
-              type="button"
-              (click)="confirmSaveItem()"
-              class="btn btn-md custom_btn_primary pull-right"
-            >
-              Enregistrer
-            </button>
+          <button
+            type="button"
 
-            <button
-              type="button"
-              class="btn btn-md btn-cancel pull-right"
-            >
-              Annuler
-            </button>
+            class="btn-export-pdf"
+          >
+            <i class="fas fa-file-pdf"></i> Pdf
+          </button>
+          <button
+            type="button"
+            (click)="gotoExport()"
+            class="btn btn-export-excel"
+          >
+            <i class="fas fa-file-excel"></i> Excel
+          </button>
+          <button
+            type="button"
+            (click)="confirmSaveItem()"
+            class="btn btn-md custom_btn_primary pull-right"
+          >
+            Enregistrer
+          </button>
           </div>
 
     <!-- </div> -->

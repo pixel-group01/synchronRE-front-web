@@ -15,7 +15,7 @@ import _ from 'lodash';
   templateUrl: './assiete-prime.component.html',
   styleUrls: ['./assiete-prime.component.scss']
 })
-export class AssietePrimeComponent implements OnInit { 
+export class AssietePrimeComponent implements OnInit {
   items: any = [];
   itemToSave: any = {};
   modalRef: BsModalRef;
@@ -32,7 +32,7 @@ export class AssietePrimeComponent implements OnInit {
   @Input() noPutAction: boolean = false;
   @Input() isOngletReversement: boolean = false;
   @Input() isOngletPaiement: boolean = false;
-  
+
   @Input() endPoint: string;
   @Input() idTraitNonProChildren: number;
   initialEndPoint: string;
@@ -66,7 +66,7 @@ export class AssietePrimeComponent implements OnInit {
   //   this.dataCurrent = data;
   //   this.modalRef = this.modalService.show(template, config);
   // }
-  
+
   // closeFormModal($event) {
   //   this.modalRef.hide();
   //   this.businessOptionalService.setCurrentOptionalBusiness(null);
@@ -112,7 +112,7 @@ export class AssietePrimeComponent implements OnInit {
   //     "&size=" +
   //     this.itemsPerPage +
   //     "" +
-  //     (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "") 
+  //     (this.itemToSearch.libelle ? "&key=" + this.itemToSearch.libelle : "")
 
   //   // if (endPointFinal && this.itemToSearch.cedenteId) {
   //   //   endPointFinal = endPointFinal + "&cedId=" + this.itemToSearch.cedenteId;
@@ -168,11 +168,11 @@ export class AssietePrimeComponent implements OnInit {
   //   }
   // }
 
-  // ngOnInit() {  
+  // ngOnInit() {
   //   this.getItems();
   // }
- 
-  ngOnInit(): void { 
+
+  ngOnInit(): void {
     this.createForm();
     this.getCedante();
     if (this.itemsUpdate) {
@@ -194,16 +194,16 @@ export class AssietePrimeComponent implements OnInit {
       this.isStylefixe =false
     }
   }
- 
+
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
       cedId : [this.items.cedId ? this.items.cedId : null,Validators.required]
     });
-   
+
   };
- 
-  getCedante(itemcedId?: any,) {    
+
+  getCedante(itemcedId?: any,) {
     const data: any = {
       traiteNpId: this.idTraitNonProChildren
     };
@@ -220,7 +220,7 @@ export class AssietePrimeComponent implements OnInit {
           for (let index = 0; index < this.tranchePrime.length; index++) {
             this.tranchePrime[index].assietteDePrime = this.tranchePrime[index].assiettePrime;
             this.tranchePrime[index].tauxPrimeTranche =this.tranchePrime[index].trancheTauxPrime;
-            this.tranchePrime[index].pmdTranche = this.tranchePrime[index].pmd
+            this.tranchePrime[index].pmdTranche = this.tranchePrime[index].pmd;
           }
         }
         this.inputASave = {...res};
@@ -235,12 +235,12 @@ export class AssietePrimeComponent implements OnInit {
     return text.charAt(0).toUpperCase() + text.slice(1);
   }
 
-  getCedanteParTranche(itemTranche?:any, indexTranche?:number) {    
+  getCedanteParTranche(itemTranche?:any, indexTranche?:number) {
     const data: any = {
       traiteNpId: this.idTraitNonProChildren,
       cedId : this.formulaireGroup.value.cedId
     };
- 
+
     if (itemTranche) {
       data.tranchePrimeDtos = itemTranche
     }
@@ -265,7 +265,7 @@ export class AssietePrimeComponent implements OnInit {
       }
     });
   }
- 
+
   save(item: any) {
     const data: any = item;
     this.busyGet = this.cedanteService.saveTrancheCedante(data).subscribe((res: any) => {
@@ -281,6 +281,7 @@ export class AssietePrimeComponent implements OnInit {
           this.tranchePrime[index].assietteDePrime = "";
           this.tranchePrime[index].tauxPrimeTranche ="";
           this.tranchePrime[index].pmdTranche = "";
+          this.tranchePrime[index].assiettePrimeRealisee="";
         }
         // this.tranchePrime[i].assietteDePrim
         // this.tranchePrime[i].tauxPrimeTranche
@@ -297,7 +298,7 @@ export class AssietePrimeComponent implements OnInit {
   getFormFiledsValue = (field: string) => {
     return this.formulaireGroup.get(field);
   };
- 
+
   confirmSaveItem(){
       Swal.fire({
         title: "Enregistrement",

@@ -19,6 +19,10 @@ export class CompteService {
 
   getCompteTraite = (body:any) => {
     return this.restClient.post('comptes/traites',body)
+  }
+
+  exportCompteTraite = (traiteNpId:number,cedanteId:number,trancheId:number,periodicite:string,periodeId : number) => {
+    return this.restClient.get("reports/compte-traites/download-excel?traitenpId="+traiteNpId+"&cedenteId="+cedanteId+"&trancheId="+trancheId+"&periodicite="+periodicite+"&periodeId="+periodeId+"")
   } 
 
   getPeriodicite = () => {
