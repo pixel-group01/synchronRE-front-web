@@ -36,20 +36,21 @@
                 <thead>
                     <tr class="custom-table-head">
                         <th>Désignation</th>
-                        <th>Débit</th>
-                        <th>Crédit</th>
+                        <th style="text-align: center">Débit</th>
+                        <th style="text-align: center">Crédit</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <tr *ngFor="let item of ListeDesignations">
-                        <td>{{item?.designation}}</td>
-                        <td> <input type="text" class="form-control custom-input" [(ngModel)]="item.debit" mask="separator"  decimalMarker=","  [disabled]="item.debitDisabled"  placeholder="Débit" [ngModelOptions]="{ standalone: true }" (change)="cedanteChange(true)" />
-                        </td>
-                        <td>
-                            <input type="text" class="form-control custom-input" [(ngModel)]="item.credit" mask="separator"  decimalMarker=","  placeholder="Crédit"  [disabled]="item.creditDisabled"  [ngModelOptions]="{ standalone: true }"  (change)="cedanteChange(true)"  />
+                      <td>{{item?.designation}}</td>
+                      <td> <input type="text" class="form-control custom-input" style="text-align: right" [(ngModel)]="item.debit" mask="separator"  decimalMarker=","  [disabled]="item.debitDisabled"  placeholder="Débit" [ngModelOptions]="{ standalone: true }" (change)="cedanteChange(true)" />
+                      </td>
+                      <td>
+                        <input type="text" class="form-control custom-input" style="text-align: right" [(ngModel)]="item.credit" mask="separator"  decimalMarker=","  placeholder="Crédit"  [disabled]="item.creditDisabled"  [ngModelOptions]="{ standalone: true }"  (change)="cedanteChange(true)"  />
 
-                        </td>
+                      </td>
+
                     </tr>
 
                     <tr *ngIf="!ListeDesignations || ListeDesignations.length == 0">
