@@ -195,6 +195,7 @@ export class InformationGeneralTraiteNonProportionComponent implements OnInit {
       traiSourceRef: [null],
       traiTauxCourtierPlaceur: ["",Validators.required],
       traiTauxAbattement: ["",Validators.required],
+      traiInteretDepotLib : [null],
       traiDelaiPaiement: ["",Validators.required],
     });
 
