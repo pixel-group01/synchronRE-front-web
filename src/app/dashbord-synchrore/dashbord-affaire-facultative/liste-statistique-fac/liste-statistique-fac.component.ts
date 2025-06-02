@@ -4,7 +4,9 @@ import * as moment from 'moment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { DashboardService } from 'src/app/core/service/dashboard.service';
-
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
+import { environment } from "src/environments/environment";
 @Component({
   selector: 'app-liste-statistique-fac',
   templateUrl: './liste-statistique-fac.component.html',
@@ -17,10 +19,11 @@ export class ListeStatistiqueFacComponent implements OnInit {
   itemsPerPage: number = 5;
   totalItems: number;
   busyGet: Subscription;
-  @Input() action :string;
-  @Input() actionPlus :string;
-  @Input() endPoint :string;
-  @Input() tab :string;
+  @Input() action !:string;
+  @Input() actionPlus !:string;
+  @Input() endPoint !:string;
+  @Input() tab !:string;
+  @Input() endPointExport !:string;
   cedantes :any=[];
   cedante :any;
   debut :any;
@@ -40,10 +43,12 @@ export class ListeStatistiqueFacComponent implements OnInit {
   fileUrlDebitNote :any;
   modalRef : BsModalRef;
   dateActuelle = new Date()
-
+  url :any;
   constructor(private dashboardService:DashboardService,
               public sanitizer: DomSanitizer,
-              private modalService: BsModalService,) { }
+              private modalService: BsModalService) { 
+                this.url = environment.apiUrl;
+              }
 
   ngOnInit(): void {
     this.exerciceDash();
@@ -53,8 +58,7 @@ export class ListeStatistiqueFacComponent implements OnInit {
     this.getStat();
   }
 
-  getExactlyNumberRow(page,index)
-  {
+  getExactlyNumberRow(page,index) {
       let num = index +1;
       if(page>1)
       {
@@ -65,20 +69,17 @@ export class ListeStatistiqueFacComponent implements OnInit {
 
    onValueDateChangeDebut($event: any) {
     console.log("event :" , $event);
-
       if ($event) {
         this.debutCopie = moment($event).format("YYYY-MM-DD");
       }else{
         this.debutCopie = '';
       }
-    console.log("event debutCopie:" , this.debutCopie);
-
+    // console.log("event debutCopie:" , this.debutCopie);
       this.getStat();
     }
 
     onValueDateChangeFin($event: any) {
       console.log("event  :" , $event);
-
         if ($event) {
           this.finCopie = moment($event).format("YYYY-MM-DD");
         }else{
@@ -99,7 +100,6 @@ export class ListeStatistiqueFacComponent implements OnInit {
     this.getStat()
   }
 
-
   open(template: TemplateRef<any>) {
       let config = {
         backdrop: true,
@@ -110,11 +110,11 @@ export class ListeStatistiqueFacComponent implements OnInit {
       this.modalRef = this.modalService.show(template, config);
     }
 
-    closeFormModal(){
+  closeFormModal(){
       this.modalRef.hide();
     }
 
-getStat(){
+  getStat(){
   this.busyGet= this.dashboardService.getAll(this.endPoint,this.exercice, this.cedante, this.reassureur,this.statusEnvoi,
                 this.statutEncaissment,this.debutCopie,this.finCopie,this.currentPage,this.itemsPerPage).subscribe((res:any)=>{
      if (res) {
@@ -124,8 +124,7 @@ getStat(){
    })
  }
 
-
-  changePaginationSize($event) {
+ changePaginationSize($event) {
     if($event) {
       this.currentPage = 0;
       this.itemsPerPage = parseInt($event);
@@ -144,6 +143,7 @@ getStat(){
       this.cedantes = res.content
    });
   }
+
   reassureurDash(){
     this.dashboardService.reasDash().subscribe((res:any)=>{
       this.reassureurs = res.content
@@ -153,8 +153,8 @@ getStat(){
   statusEnvoiDash(){}
   statutEncaissmentDash(){}
 
-
   imprimer(){
+    this.fileUrlDebitNote = "";
     this.busyGet = this.dashboardService.getAll(this.tab,
         this.exercice,
         this.cedante,
@@ -170,9 +170,85 @@ getStat(){
     return Math.round(nombre);
   }
 
+  exportoExcel0() {
+    this.fileUrlDebitNote = "";
+    this.busyGet = this.dashboardService.getAll(
+      this.endPointExport,
+      this.exercice,
+      this.cedante,
+      this.reassureur,
+      this.statusEnvoi,
+      this.statutEncaissment,
+      this.debut,
+      this.fin
+    ).subscribe({
+      next: (res: ArrayBuffer) => {
+        const blob = new Blob([res], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        });
+        FileSaver.saveAs(blob, `Export-Dashboard-${new Date().getTime()}.xlsx`);
+      },
+      error: (err) => {
+        console.error('Erreur lors de l\'export :', err);
+      },
+      complete: () => {
+        console.log('Téléchargement terminé.');
+      }
+    });
+  }
 
 
-   exportoExcel() {
+  exportoExcel() {
+    const currentValueCompte = JSON.parse(sessionStorage.getItem("refreshValue") || 'null');
+    const tokenObj = JSON.parse(sessionStorage.getItem("accesToken") || 'null');
+  
+    if (!tokenObj || !tokenObj.accessToken) {
+      console.warn("Token d'accès manquant.");
+      return;
+    }
+  
+    const TOKEN = tokenObj.accessToken;
+  
+    // Construction sécurisée de l'URL avec les bons paramètres
+    const params = new URLSearchParams();
+    if (this.exercice) params.append('exeCode', this.exercice);
+    if (this.cedante) params.append('cedId', this.cedante);
+    if (this.reassureur) params.append('cesId', this.reassureur);
+    if (this.statusEnvoi) params.append('statutEnvoie', this.statusEnvoi);
+    if (this.statutEncaissment) params.append('statutEncaissement', this.statutEncaissment);
+    if (this.debut) params.append('debut', this.debut);
+    if (this.fin) params.append('fin', this.fin);
+  
+    const fullUrl = `${this.url}${this.endPointExport}?${params.toString()}`;
+  
+    fetch(fullUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Erreur HTTP ${response.status}`);
+        }
+        return response.blob();
+      })
+      .then(blob => {
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = `Export-Dashboard-${new Date().toISOString().slice(0, 10)}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(downloadUrl);
+      })
+      .catch(error => {
+        console.error('Erreur lors du téléchargement :', error);
+      });
+  }
+  
   //   let currentValueCompte = JSON.parse(sessionStorage.getItem("refreshValue"));
   //   console.log(" currentValueCompte ",currentValueCompte);
   //   let tokenObj = JSON.parse(sessionStorage.getItem("accesToken"));
@@ -207,7 +283,6 @@ getStat(){
   //     .catch(error => console.error('Erreur lors du téléchargement :', error));
   //
   //
-   }
+  }
 
-}
 
