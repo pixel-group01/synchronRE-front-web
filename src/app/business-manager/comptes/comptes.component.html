@@ -73,7 +73,7 @@
                         <div class="row mb-3" *ngIf="ListeTranches && ListeTranches.length">
                             <div class="col-12 mb-3">
                                 <mat-tab-group>
-                                    <mat-tab *ngFor="let itemTranche of ListeTranches; let index = index" label="{{'Tranche '+(index +1)}}">
+                                    <mat-tab *ngFor="let itemTranche of ListeTranches; let index = index" label="{{itemTranche?.trancheLibelle}}">
                                         <ng-template matTabContent>
                                             <app-form-tranche [currentTranche]="itemTranche"></app-form-tranche>
                                         </ng-template>
