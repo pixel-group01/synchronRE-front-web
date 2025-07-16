@@ -199,15 +199,6 @@ export class FormTrancheComponent implements OnInit {
 
     console.log(" currentValueCompte ",currentValueCompte);
 
-    // this.busySave = this.compteService
-    //   .exportCompteTraite(currentValueCompte?.traiteSelected?.traiteNpId,this.itemToSave.cedId,this.currentTranche?.trancheId,currentValueCompte.periodiciteSelected?.name,currentValueCompte?.periodeSelected?.periodeId)
-    //   .subscribe((response: any) => {
-    //     // if (response && response.repId) {
-    //   console.log(" response ",response);
-
-
-    //   });
-
     let tokenObj = JSON.parse(sessionStorage.getItem("accesToken"));
 
     console.log(" tokenObj ",tokenObj);
@@ -216,7 +207,6 @@ export class FormTrancheComponent implements OnInit {
       return
     }
     const TOKEN = tokenObj.accessToken ;
-    //"eyJhbGciOiJIUzI1NiJ9.eyJmdW5jdGlvblN0YXJ0aW5nRGF0ZSI6MTY5MjMxNjgwMDAwMCwidHlmQ29kZSI6IlRZRl9ERVYiLCJmdW5jdGlvbk5hbWUiOiJEw6l2ZWxvcHBldXIgc3luY2hyb25lLVJlIiwidHlmSWQiOjE1MSwiZnVuY3Rpb25FbmRpbmdEYXRlIjoxNzIzOTM5MjAwMDAwLCJ1c2VySWQiOjEsIm5vbSI6IkTDqXZlbG9wcGV1ciIsImF1dGhvcml0aWVzIjpbIkNSVC1GQUMiLCJVUEQtQ09VViIsIkdFVC1SRUctVFJBSS1MU1QiLCJDUlQtREVWIiwiR0VULVBBSS1TSU4tTFNUIiwiR0VULUFGRi1QQ0wiLCJVUEQtUEFZIiwiR0VULUZBQy1DLVJFRyIsIkNSVC1FWEUiLCJHRVQtRkFDLURFVCIsIlNFTkQtTk9ULURFQi1GQUMiLCJHRVQtU0lOLUZBQy1MU1QiLCJHRVQtTE9HLUhJU1RPIiwiQ1JULUJSQU4iLCJVQkxRLVVTRVIiLCJDUlQtU1RBIiwiR0VULVNJTi1ERVQiLCJHRVQtU0lOLU1TRy1DT01QVEEiLCJTRU5ELUFDVC1NQUlMIiwiQ1JULVVTRVItRk5DIiwiR0VULVNUQS1MU1QiLCJVUEQtUk9MIiwiVVBELVJFVi1GQUMiLCJHRVQtU0lOLU1TRy1WQUwiLCJNRU5VX0FETUlOIiwiR0VULUZBQy1MU1QtQ09NUFRBIiwiR0VULUZBQy1BUkNIIiwiQ1JULVJFVi1GQUMiLCJTRU5ELU5PVC1DRVMtU0lOIiwiR0VULUJSQU4tTFNUIiwiR0VULVNUQVQtUEFSQU0iLCJUUkFOUy1TSU4iLCJHRVQtRkFDLU1PVVYiLCJVUEQtU0lOIiwiR0VULVBMQS1DLVNBSSIsIlRSQU5TLUZBQy1TT1VTIiwiR0VULVNUQVQtU0lOIiwiR0VULVNUQVQtU0lOLUZBQyIsIkNSVC1ST0wiLCJNQVJLLUZBQy1SRUEiLCJDUlQtQ0VELUxFRy1SRVAiLCJHRVQtQ09VVi1MU1QiLCJHRVQtUEFZLUxTVCIsIlJFVC1QTEEiLCJHRVQtU0lOLVRSQU5TLUxTVCIsIkNSVC1TSU4iLCJHRVQtU0lOLU1TRy1TT1VTIiwiR0VULUZBQy1MU1QiLCJNQVJLLUZBQy1OT04tUkVBIiwiRURJVC1DSFEiLCJDUlQtUExBIiwiR0VULVNJTi1MU1QiLCJVUEQtUkVWLVNJTiIsIlJFVC1TSU4iLCJHRVQtVVNFUi1ERVQiLCJHRVQtRkFDLVJFRlUtTVNHIiwiQ1JULVBBWSIsIkFOTC1QTEEiLCJNRU5VX1NJTiIsIkdFVC1TSU4tU0FJLUxTVCIsIkNSVC1QUlYiLCJDUlQtUEFJLUZBQyIsIkdFVC1QQUktRkFDLUxTVCIsIlZBTC1TSU4iLCJVUEQtVVNFUiIsIkNSVC1QTEEtRkFDIiwiVVBELVJFUCIsIkdFVC1TSU4tUkVHLUxTVCIsIkFERC1ET0MtRkFDIiwiR0VULVNJTi1UUkFJLUxTVCIsIkdFVC1UUkFJLUMtU0FJIiwiR0VULVNJTi1BVkFMLUxTVCIsIkdFVC1TVEFULUFETSIsIlVQRC1GTkMiLCJWQUwtUExBIiwiU0VORC1OT1QtQ0VTLUZBQyIsIlVQRC1QQUktU0lOIiwiUlZLLUZOQyIsIkdFVC1TVEFULVRSQUkiLCJHRVQtU0lOLUFSQ0gtTFNUIiwiR0VULUFMTC1GTkMtTFNUIiwiQ1JULUNPVVYiLCJHRVQtU0lOLUFSQ0gtTFNULUNPTVBUQSIsIlJFVC1TSU4tVkFMIiwiR0VULUJBTkstTFNUIiwiR0VULVNUQVQtRkFDIiwiRURJVC1OT1QtREVCLUZBQyIsIkdFVC1FVEEtQ09NUFQtRkFDIiwiR0VULUNFUy1MU1QiLCJUUkFOUy1TSU4tVkFMIiwiQ1JULUZOQyIsIlVQRC1DRUQiLCJSU1RSLUZOQyIsIlVQRC1CUkFOIiwiVkFMLUZBQyIsIkdFVC1DRVMtTEVHLVBBUkFNLUxTVCIsIkdFVC1GQUMtSElTVCIsIkdFVC1GQUMtUkVULU1TRyIsIlVQRC1DRVMiLCJHRVQtUkVHLVNJTi1MU1QiLCJHRVQtUkVWLVNJTi1MU1QiLCJHRVQtVVNFUi1MU1QiLCJERUwtTE9HLVNZU1QiLCJTRU5ELU5PVC1DUkVELUZBQyIsIkdFVC1QUlYtTFNUIiwiR0VULSBUUkFJLUxTVCIsIkdFVC1QTEEtUkVULU1TRyIsIlJFVC1TSU4tU09VUyIsIk1FTlVfUEFSQU0iLCJBQ1BULVBMQSIsIkNSVC1QQUktU0lOIiwiQ1JULUNFUy1MRUctUEFSQU0iLCJBUkNILUZBQyIsIkdFVC1MT0ctU1lTVCIsIkdFVC1FVEEtQ09NUFQtU0lOIiwiU0VULUZOQy1ERkxUIiwiR0VULVJFRy1GQUMtTFNUIiwiR0VULURFVi1MU1QiLCJVUEQtQ0VTLUxFRy1QQVJBTSIsIkdFVC1QTEEtQS1WQUwiLCJVUEQtUExBIiwiRExULVBMQSIsIlRSQU5TLVBMQSIsIlJFVC1GQUMtQ0VEIiwiQ1JULUNFUyIsIkJMUS1VU0VSIiwiR0VULVNJTi1TT0xELUxTVCIsIlVQRC1QQUktRkFDIiwiR0VULUZBQy1DLVNBSSIsIkdFVC1TVEFULVNJTi1UUkFJIiwiQ1JULUJBTksiLCJVUEQtQkFOSyIsIkdFVC1TSU4tSElTVE8iLCJHRVQtRkFDLUMtUExBIiwiQ1JULVJFVi1TSU4iLCJSRUZVLVBMQSIsIlNFTkQtTk9ULURFQi1TSU4iLCJVUEQtRVhFIiwiR0VULUVYRS1MU1QiLCJHRVQtQUNULUZOQy1MU1QiLCJNRU5VX0NPTVBUQSIsIkdFVC1ST0wtTFNUIiwiR0VULVBMQS1WQUwiLCJSRVQtU0lOLUNFRCIsIlVQRC1GQUMiLCJNRU5VX1NUQVQiLCJHRVQtU0lOLVNVSVYtTFNUIiwiTUVOVV9QUk9EIiwiR0VULVNJTi1TVUlWLUxTVC1DT01QVEEiLCJHRVQtQ0VTLUFGRi1MU1QiLCJVUEQtU1RBIiwiRURJVC1DSFEtUkVWLVNJTiIsIkdFVC1TSU4tTFNULUNPTVBUQSIsIlVQRC1ERVYiLCJHRVQtUkVWLUZBQy1MU1QiLCJHRVQtU0lOLVNPTEQtTFNULUNPTVBUQSIsIkRFTC1TSU4iLCJTRU5ELU5PVC1DUkVELVNJTiIsIkdFVC1DRUQtTFNUIiwiQ1JULUNFRCJdLCJjZXNJZCI6MSwiY2VzTm9tIjoiTkVMU09OLVJFIiwiY2VzU2lnbGUiOiJOUkUiLCJmdW5jdGlvbklkIjoxLCJ0eWZMaWJlbGxlIjoiRMOpdmVsb3BwZXVyIiwiaXNDb3VydGllciI6dHJ1ZSwiY29ubmVjdGlvbklkIjoiZmY0ZDExNTUtOGM2Yy00NmFjLTg1NmUtNWEyNDhmNWRmZjM0IiwidGVsIjoiMDc1ODU4NzE5MCIsIm1lbnVzIjpbIk1FTlVfU0lOIiwiTUVOVV9QQVJBTSIsIk1FTlVfQ09NUFRBIiwiTUVOVV9BRE1JTiIsIk1FTlVfU1RBVCIsIk1FTlVfUFJPRCJdLCJwcmVub20iOiJTeW5jaHJvbmUtUmUiLCJlbWFpbCI6InBpeGVsZ3JvdXAwOUBnbWFpbC5jb20iLCJzdWIiOiJwaXhlbGdyb3VwMDlAZ21haWwuY29tIiwiaWF0IjoxNzQ2NDM5MjI2LCJleHAiOjE3NDkwMzEyMjZ9.bZtF_YsG9rGuPize3uTS0F5zsWvZkBqi_1YK0iJczaU"
 
     fetch(environment.apiUrl+ 'reports/compte-traites/download-excel?traitenpId='+currentValueCompte?.traiteSelected?.traiteNpId
       +'&cedenteId='+this.itemToSave.cedId+'&trancheId='+this.currentTranche?.trancheId+'&periodicite='+currentValueCompte.periodiciteSelected?.name?.toUpperCase()+'&periodeId='+currentValueCompte?.periodeSelected?.periodeId+'', {
@@ -239,8 +229,48 @@ export class FormTrancheComponent implements OnInit {
     })
     .catch(error => console.error('Erreur lors du téléchargement :', error));
 
+  }
+
+  gotoPrintPdf() {
+    let currentValueCompte = JSON.parse(sessionStorage.getItem("refreshValue"));
+
+    console.log(" currentValueCompte ",currentValueCompte);
+
+    let tokenObj = JSON.parse(sessionStorage.getItem("accesToken"));
+
+    console.log(" tokenObj ",tokenObj);
+
+    if(!tokenObj || !tokenObj.accessToken) {
+      return
+    }
+    const TOKEN = tokenObj.accessToken ;
+
+    // reports/compte-traites?traitenpId=52&cedenteId=9&trancheId=252&periodicite=ANNUELLE&periodeId=1
+
+    fetch(environment.apiUrl+ 'reports/compte-traites?traitenpId='+currentValueCompte?.traiteSelected?.traiteNpId
+      +'&cedenteId='+this.itemToSave.cedId+'&trancheId='+this.currentTranche?.trancheId+'&periodicite='+currentValueCompte.periodiciteSelected?.name?.toUpperCase()+'&periodeId='+currentValueCompte?.periodeSelected?.periodeId+'', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer '+ TOKEN, // Si besoin
+        'Accept': 'application/pdf'
+      }
+    })
+    .then(response => response.blob())
+    .then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'compte_traite.pdf'; // Nom du fichier
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    })
+    .catch(error => console.error('Erreur lors du téléchargement :', error));
 
   }
+
+  
 
   ngOnInit(): void {
     // this.getCedante();
