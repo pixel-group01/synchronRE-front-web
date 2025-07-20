@@ -1,0 +1,119 @@
+<ng-container>
+    <div class="row mt-3" [ngBusy]="{
+        busy: busySave,
+        message: 'Veuillez patienter ...',
+        backdrop: false
+      }">
+        <div class="col-md-4 col-xs-12 mb-3">
+            <label>Cedante</label>
+            <ng-select [(ngModel)]="itemToSave.cedId" placeholder="Choisissez " name="actes" id="actes"
+                [multiple]="false" [closeOnSelect]="true" (change)="cedanteChange()">
+                <ng-option *ngFor="let item of ListeCedantes" [value]="item?.cedId">{{item?.cedNomFiliale}}
+                </ng-option>
+            </ng-select>
+        </div>
+
+        <div class="col-md-4">
+<!--            <div class="manage-radio">-->
+<!--                <div>-->
+<!--                    <input type="radio" id="huey" name="drone" value="huey" [(ngModel)]="itemToSave" />-->
+<!--                    <label for="huey">Compte simple</label>-->
+<!--                </div>-->
+
+<!--                <div>-->
+<!--                    <input type="radio" id="dewey" name="drone" value="dewey" />-->
+<!--                    <label for="dewey">Compte agrégé</label>-->
+<!--                </div>-->
+<!--            </div>-->
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 col-xs-12 table-responsive mb-3">
+            <table class="table table-responsive table-condensed table-striped">
+                <thead>
+                    <tr class="custom-table-head">
+                        <th>Désignation</th>
+                        <th style="text-align: center">Débit</th>
+                        <th style="text-align: center">Crédit</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let item of ListeDesignations">
+                      <td>{{item?.designation}}</td>
+                      <td> <input type="text" class="form-control custom-input" style="text-align: right" [(ngModel)]="item.debit" mask="separator"  decimalMarker=","  [disabled]="item.debitDisabled"  placeholder="Débit" [ngModelOptions]="{ standalone: true }" (change)="cedanteChange(true)" />
+                      </td>
+                      <td>
+                        <input type="text" class="form-control custom-input" style="text-align: right" [(ngModel)]="item.credit" mask="separator"  decimalMarker=","  placeholder="Crédit"  [disabled]="item.creditDisabled"  [ngModelOptions]="{ standalone: true }"  (change)="cedanteChange(true)"  />
+
+                      </td>
+
+                    </tr>
+
+                    <tr *ngIf="!ListeDesignations || ListeDesignations.length == 0">
+                        <td class="txt-align-center" colspan="3">Aucune données disponible</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="col-md-6 col-xs-12 table-responsive mb-3">
+            <table class="table table-responsive table-condensed table-striped">
+                <thead>
+                    <tr class="custom-table-head">
+                        <th>Cessionnaire</th>
+                        <th>Taux</th>
+                        <th>Prime</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let item of ListeCessionnaires">
+                        <td>{{item?.cesNom}}</td>
+                        <td>{{item?.taux}}</td>
+                        <td>{{item?.prime | moneyFormat}}</td>
+                    </tr>
+
+                    <tr *ngIf="!ListeCessionnaires || ListeCessionnaires.length == 0">
+                        <td class="txt-align-center" colspan="3">Aucune données disponible</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- <div class="row mt-3 mb-3"> -->
+
+        <div class="custom-btn-save-manager">
+          <button
+            type="button"
+        (click)="gotoPrintPdf()"
+            class="btn-export-pdf"
+          >
+            <i class="fas fa-file-pdf"></i> Pdf
+          </button>
+          <button
+            type="button"
+            (click)="gotoExport()"
+            class="btn btn-export-excel"
+          >
+            <i class="fas fa-file-excel"></i> Excel
+          </button>
+          <button
+            type="button"
+            (click)="confirmSaveItem()"
+            class="btn btn-md custom_btn_primary pull-right"
+          >
+            Enregistrer
+          </button>
+          </div>
+
+    <!-- </div> -->
+
+</ng-container>

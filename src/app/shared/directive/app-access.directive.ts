@@ -46,14 +46,9 @@ export class AppAccessDirective {
     // On verifie si le code de l'user a droit a cette fonctionnalité
     let hasAcces = _.find(this.user.authorities, (o) => { return o.trim().toLowerCase() == this.appAccess?.trim()?.toLowerCase() || (this.appAccessCedente ? o.trim().toLowerCase() == this.appAccessCedente?.trim()?.toLowerCase() : null) });
     
-    console.log("code Acl",hasAcces);
-
     if(this.appAccess === 'VAL-PLA') {
       console.log(" hasAcces de VAL-PLA",hasAcces);
     }
-
-    // console.log(" this.appAccess ",this.appAccess);
-    
 
     if (hasAcces) {
       this.el.nativeElement.style.display = 'block';

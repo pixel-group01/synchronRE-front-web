@@ -8,21 +8,21 @@
                     </div>
 
                     <div class="body">
-                        
+
                         <div class="filter-part">
                             <div class="row">
                                 <div class="col-md-2 col-xs-12 col-sm-12 pull-right">
-                                    <label>Filiale/cédante : </label> 
+                                    <label>Filiale/cédante : </label>
                                     <ng-select [(ngModel)]="itemToSearch.cedenteId" (change)="getStatistique()"
                                       [readonly]="user?.cedId" id="cedenteId">
                                       <ng-option *ngFor="let cedente of listeCedente" [value]="cedente?.cedId">{{ cedente.cedNomFiliale
                                         }}</ng-option>
                                     </ng-select>
                                   </div>
-                      
+
                                   <div class="col-md-2 col-xs-12 col-sm-12 pull-right">
                                     <label>Exercice : </label>
-                      
+
                                     <ng-select [(ngModel)]="itemToSearch.exeCode" (change)="getStatistique()" id="exeCode">
                                       <ng-option *ngFor="let exercice of listeExercices" [value]="exercice?.exeCode">{{ exercice.exeLibelle
                                         }}</ng-option>
@@ -74,32 +74,36 @@
                                 <ng-template matTabContent >
                                     <app-liste-statistique-fac [action]="'sitFinfilia'" [actionPlus]="''"
                                     [endPoint]="'statistiques/affaires-fac/situation-par-cedante'"
-                                    [tab]="'reports/situation-note-debit-par-cedante'"></app-liste-statistique-fac>
+                                    [tab]="'reports/situation-note-debit-par-cedante'"
+                                    [endPointExport]="'reports/export-situation-note-debit-par-cedante'"></app-liste-statistique-fac>
                                 </ng-template>
                             </mat-tab>
                             <mat-tab label="Situation des notes de debit par filiale et par réassureur">
                                 <ng-template matTabContent>
-                                    <app-liste-statistique-fac [action]="'sitFinfilia'" [actionPlus]="'sitFinFiliaReas'" 
+                                    <app-liste-statistique-fac [action]="'sitFinfilia'" [actionPlus]="'sitFinFiliaReas'"
                                     [tab]="'reports/situation-note-debit-par-cedante-reassureur'"
-                                    [endPoint]="'statistiques/affaires-fac/situation-par-cedante-reassureur'"></app-liste-statistique-fac>
+                                    [endPoint]="'statistiques/affaires-fac/situation-par-cedante-reassureur'"
+                                    [endPointExport]="'reports/export-situation-note-debit-par-cedante-reassureur'"></app-liste-statistique-fac>
                                 </ng-template>
                             </mat-tab>
                             <mat-tab label="Situation des notes de crédit par filiale et par réassureur">
                                 <ng-template matTabContent>
                                     <app-liste-statistique-fac  [action]="'stiFinNoCreFiliRea'" [actionPlus]="'sitFinFiliaReas'"
-                                    [endPoint]="'statistiques/affaires-fac/situation-note-de-credit'" 
-                                    [tab]="'reports/situation-note-credit-par-cedante-reassureur'"></app-liste-statistique-fac>
+                                    [endPoint]="'statistiques/affaires-fac/situation-note-de-credit'"
+                                    [tab]="'reports/situation-note-credit-par-cedante-reassureur'"
+                                    [endPointExport]="'reports/export-situation-note-credit-par-cedante-reassureur'"></app-liste-statistique-fac>
                                 </ng-template>
-                            </mat-tab> 
+                            </mat-tab>
                             <mat-tab label="Chiffre d'affaire par réassureur">
                                 <ng-template matTabContent>
-                                    <app-liste-statistique-fac [endPoint]="'statistiques/affaires-fac/chiffre-affaire'" 
-                                    [tab]="'reports/chiffre-affaires-par-periode-par-ced-rea'" [action] ="'stiFinNoCreFiliRea'" 
-                                    [actionPlus]="'chifAfRea'"></app-liste-statistique-fac>
+                                    <app-liste-statistique-fac [endPoint]="'statistiques/affaires-fac/chiffre-affaire'"
+                                    [tab]="'reports/chiffre-affaires-par-periode-par-ced-rea'" [action] ="'stiFinNoCreFiliRea'"
+                                    [actionPlus]="'chifAfRea'"
+                                    [endPointExport]="'reports/export-chiffre-affaires-par-periode-par-ced-rea'"></app-liste-statistique-fac>
                                 </ng-template>
                             </mat-tab>
                         </mat-tab-group>
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>
