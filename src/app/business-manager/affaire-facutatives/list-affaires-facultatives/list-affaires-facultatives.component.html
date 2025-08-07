@@ -99,7 +99,6 @@
                 <button ngbDropdownItem (click)="openModal(templateUpdateAffaire,item)"  appAppAccess appAccess="UPD-FAC"
                         *ngIf="item.statutCode=='SAI' || item.statutCode=='SAI-CRT' ||item.statutCode=='CREP' || item.statutCode=='RET'"
                 >
-
                   <i class="fa fa-edit"></i>&nbsp;Modifier l'affaire
                 </button>
 
@@ -128,7 +127,10 @@
                 *ngIf="!user.cedId && user?.isActeurValideur">
                   <i class="fa fa-check"></i>&nbsp;Valider les placements
                 </button>
-
+                <button class="btn btn-danger" ngbDropdownItem (click)="confirmDeleteAffaire(item)"appAppAccess appAccess="UPD-FAC"
+                        *ngIf="item.statutCode=='SAI' || item.statutCode=='SAI-CRT' ||item.statutCode=='CREP' || item.statutCode=='RET'">
+                  <i class="fa fa-trash"></i>&nbsp;Supprimer l'affaire
+                </button>
                 <button ngbDropdownItem (click)="confirmTransmissionPourReglement(item)" appAppAccess appAccess="TRAN-FAC-COMPTA"
                 *ngIf="item?.placementTermine && isEnCoursPlacementNelson">
                   <i class="fa fa-share"></i>&nbsp;Transmettre à la comptabilité

@@ -137,7 +137,7 @@ export class BusinessOptionalService {
 
   setCurrentOptionalBusiness(businessOptional: BusinessOptional) {
     this.businessOptionalSubject$.next(businessOptional);
-  } 
+  }
 
   transmissionAffaire = (idAffaire:number,body:any) => {
     return this.restClient.put('affaires/facultative/transmettre/'+idAffaire,body)
@@ -147,6 +147,9 @@ export class BusinessOptionalService {
     return this.restClient.put('affaires/facultative/valider/'+idAffaire,body)
   }
 
+  deleteAffaire = (idAffaire:number,body:any) => {
+    return this.restClient.delete('affaires/supprimer/'+idAffaire,body)
+  }
   envoyerNoteCession = (idAffaire:number,body:any) => {
     return this.restClient.put('affaires/envoyer-note-debit-fac/'+idAffaire,body)
   }
