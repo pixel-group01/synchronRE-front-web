@@ -154,10 +154,8 @@
                 <i class="fa fa-list"></i>&nbsp;Historique traitement
               </button>
 
-                <button class="btn btn-danger" ngbDropdownItem (click)="confirmDeleteAffaire(item)">
-<!--                        appAppAccess appAccess="UPD-FAC"-->
-<!--                        *ngIf="item.statutCode=='SAI' || item.statutCode=='SAI-CRT' ||item.statutCode=='CREP' || item.statutCode=='RET'"-->
-<!--                >-->
+                <button class="btn btn-danger" ngbDropdownItem (click)="confirmDeleteAffaire(item)"appAppAccess appAccess="UPD-FAC"
+                        *ngIf="item.statutCode=='SAI' || item.statutCode=='SAI-CRT' ||item.statutCode=='CREP' || item.statutCode=='RET'">
                   <i class="fa fa-trash"></i>&nbsp;Supprimer l'affaire
                 </button>
 
