@@ -21,20 +21,20 @@
 
                                 </ng-template>
                             </mat-tab>
-                            <mat-tab label="En attente de validation">
-                                <ng-template matTabContent>
-                                    <app-liste-traites-non-proportionnel [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante':'affaires/facultative/by-reassureur-en-traitement' "
-                                    [refreshDataTable]="refreshDataTable">
-                                    </app-liste-traites-non-proportionnel>
-                                </ng-template>
-                            </mat-tab>
-                            <mat-tab label="Validé">
-                                <ng-template matTabContent>
-                                    <app-liste-traites-non-proportionnel [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante':'affaires/facultative/by-reassureur-en-traitement' "
-                                    [refreshDataTable]="refreshDataTable">
-                                    </app-liste-traites-non-proportionnel>
-                                </ng-template>
-                            </mat-tab>
+<!--                            <mat-tab label="En attente de validation">-->
+<!--                                <ng-template matTabContent>-->
+<!--                                    <app-liste-traites-non-proportionnel [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante':'affaires/facultative/by-reassureur-en-traitement' "-->
+<!--                                    [refreshDataTable]="refreshDataTable">-->
+<!--                                    </app-liste-traites-non-proportionnel>-->
+<!--                                </ng-template>-->
+<!--                            </mat-tab>-->
+<!--                            <mat-tab label="Validé">-->
+<!--                                <ng-template matTabContent>-->
+<!--                                    <app-liste-traites-non-proportionnel [endPoint]="user?.cedId ? 'affaires/facultative/by-cedante':'affaires/facultative/by-reassureur-en-traitement' "-->
+<!--                                    [refreshDataTable]="refreshDataTable">-->
+<!--                                    </app-liste-traites-non-proportionnel>-->
+<!--                                </ng-template>-->
+<!--                            </mat-tab>-->
 
 
                         </mat-tab-group>
