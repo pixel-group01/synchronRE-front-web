@@ -18,16 +18,16 @@ export class SousLimiteComponent implements OnInit {
   @Input() endPoint: string;
   @Input() idTraitNonProChildren: number;
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 100;
   totalItems: number;
   busyGet: Subscription;
   dataCurrent :any
- 
+
   constructor(
     private businessOptionalService: BusinessOptionalService,
     private modalService: BsModalService,
     private restClient:RestClientService
-  ) {} 
+  ) {}
 
   openModal(template: TemplateRef<any>, data?: any) {
     let config = {
@@ -39,7 +39,7 @@ export class SousLimiteComponent implements OnInit {
     this.dataCurrent = data;
     this.modalRef = this.modalService.show(template, config);
   }
-  
+
   getItems() {
     let endPointFinal =
       this.endPoint +
