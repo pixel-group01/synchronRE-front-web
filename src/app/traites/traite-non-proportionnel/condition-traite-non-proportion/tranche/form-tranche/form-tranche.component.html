@@ -68,12 +68,13 @@ class="body table-responsive clsOverflow"
       <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
         <label>Branche : <span class="required_champs">*</span> </label>
         <ng-select
-          name="risqueId"
-          id="risqueId"
-          formControlName="risqueId"
+          name="risqueIds"
+          id="risqueIds"
+          [multiple]="true"
+          formControlName="risqueIds"
           [class.errorInputForm]="
-                getFormFiledsValue('risqueId')?.invalid &&
-                getFormFiledsValue('risqueId')?.touched
+                getFormFiledsValue('risqueIds')?.invalid &&
+                getFormFiledsValue('risqueIds')?.touched
               ">
           <ng-option
             *ngFor="let branche of branchesListe"
