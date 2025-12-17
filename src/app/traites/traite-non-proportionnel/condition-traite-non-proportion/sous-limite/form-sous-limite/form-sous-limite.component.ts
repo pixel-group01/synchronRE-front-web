@@ -56,7 +56,7 @@ export class FormSousLimiteComponent implements OnInit {
       risqueId :[null],
       sslimiteRisqueCouvertId :[null],
       sousLimMontant: ["",Validators.required],
-      couId: [null,Validators.required],
+      couIds: [null,Validators.required],
       traiteNpId: [this.idTraitNonProChildrenSed],
     });
   };
