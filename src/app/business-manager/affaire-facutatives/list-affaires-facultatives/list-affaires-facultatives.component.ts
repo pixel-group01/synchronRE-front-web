@@ -233,6 +233,32 @@ export class ListAffairesFacultativesComponent implements OnInit {
   }
 
 
+  confirmReconduction(affaire: BusinessOptional) {
+    let itemAEnregistrer = Object.assign({}, affaire);
+
+    if (itemAEnregistrer)
+      Swal.fire({
+        title: "Suppression d'une affaire",
+        text: "Vous êtes sur le point de reconduire l'affaire " +
+          itemAEnregistrer.affCode +
+          " : " +
+          itemAEnregistrer.affAssure +
+          ". Voulez-vous poursuivre cette action ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0665aa",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Oui",
+        cancelButtonText: "Non",
+      }).then((result) => {
+        if (result.value) {
+          this.reconduireAffaire(itemAEnregistrer);
+        }
+      });
+  }
+
+
+
   confirmTransmettreNoteDeDebit(affaire: BusinessOptional) {
     /** Faire les controls */
     let itemAEnregistrer = Object.assign({}, affaire);
@@ -274,6 +300,22 @@ export class ListAffairesFacultativesComponent implements OnInit {
   deleteAffaire(itemAEnregistrer: BusinessOptional) {
     this.busyGet = this.businessOptionalService
       .deleteAffaire(itemAEnregistrer.affId, itemAEnregistrer)
+      .subscribe((response: any) => {
+        if (response) {
+          this.utilities.showNotification(
+            "snackbar-success",
+            this.utilities.getMessageOperationSuccessFull(),
+            "bottom",
+            "center"
+          );
+          this.getItems();
+        }
+      });
+  }
+
+  reconduireAffaire(itemAEnregistrer: BusinessOptional) {
+    this.busyGet = this.businessOptionalService
+      .reconduireAffaire(itemAEnregistrer.affId, itemAEnregistrer)
       .subscribe((response: any) => {
         if (response) {
           this.utilities.showNotification(

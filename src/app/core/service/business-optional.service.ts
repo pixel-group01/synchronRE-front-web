@@ -150,6 +150,10 @@ export class BusinessOptionalService {
   deleteAffaire = (idAffaire:number,body:any) => {
     return this.restClient.delete('affaires/supprimer/'+idAffaire,body)
   }
+
+  reconduireAffaire = (idAffaire:number,body:any) => {
+    return this.restClient.post('affaires/reconduire/'+idAffaire,body)
+  }
   envoyerNoteCession = (idAffaire:number,body:any) => {
     return this.restClient.put('affaires/envoyer-note-debit-fac/'+idAffaire,body)
   }
