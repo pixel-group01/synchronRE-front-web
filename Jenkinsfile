@@ -22,9 +22,17 @@ pipeline {
             }
         }
 
+//         stage('Build') {
+//             steps {
+//                 bat 'npm run build'
+//             }
+//         }
         stage('Build') {
             steps {
-                bat 'npm run build'
+                bat '''
+                set NODE_OPTIONS=--max_old_space_size=4096 --openssl-legacy-provider
+                npm run build -- --configuration=production
+                '''
             }
         }
 
