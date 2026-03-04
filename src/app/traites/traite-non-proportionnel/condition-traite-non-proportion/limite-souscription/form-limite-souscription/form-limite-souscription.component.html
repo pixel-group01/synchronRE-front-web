@@ -8,7 +8,7 @@ class="body table-responsive clsOverflow"
         <ng-select
           name="categorieId"
           (ngModelChange)="getListeCedante($event)"
-          id="categorieId" 
+          id="categorieId"
           (clear)="clearCollapse()"
           (change)="controlIsCollapse(formulaireGroup.value.categorieId)"
           formControlName="categorieId"
@@ -52,9 +52,12 @@ class="body table-responsive clsOverflow"
           [class.errorInputForm]="
                     getFormFiledsValue('risqueId')?.invalid &&
                     getFormFiledsValue('risqueId')?.touched
-                  ">
+                  "
+                  name="risqueId"
+                  id="risqueId"
+                  (ngModelChange)="getActivites($event)">
           <ng-option
-            *ngFor="let couv of listeCouvertures"
+            *ngFor="let couv of couverturesParents"
             [value]="couv?.risqueId"
             >{{ couv.couLibelle }}</ng-option
           >
@@ -66,6 +69,29 @@ class="body table-responsive clsOverflow"
         Ce champ est obligatoire
       </small>
       </div>
+      <div class="col-md-12 col-xs-12 col-sm-12 mb-1">
+      <label>Activités : <span class="required_champs">*</span> </label>
+
+      <ng-select
+        formControlName="couIds"
+        [multiple]="true"
+        name="couIds"
+        id="couIds"
+        [class.errorInputForm]=" getFormFiledsValue('couIds')?.invalid && getFormFiledsValue('couIds')?.touched"
+      >
+        <ng-option
+          *ngFor="let act of activiteListe"
+          [value]="act?.couId"
+        >{{ act.couLibelle }}
+        </ng-option>
+      </ng-select>
+      <small
+        class="text-danger"
+        *ngIf="(getFormFiledsValue('couId')?.dirty || getFormFiledsValue('couId')?.touched) && getFormFiledsValue('couId')?.invalid && getFormFiledsValue('couId')?.errors?.['required']"
+      >
+        Ce champ est obligatoire
+      </small>
+    </div>
 
       <div class="col-md-12 col-xs-12 mb-1">
         <label

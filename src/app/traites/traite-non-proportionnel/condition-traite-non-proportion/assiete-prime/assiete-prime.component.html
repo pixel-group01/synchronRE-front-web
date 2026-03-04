@@ -176,8 +176,8 @@
     <fieldset class="mt-4 mb-3" *ngFor="let tranch of tranchePrime ; let i = index">
     <legend>{{capitalizeFirstLetterPreserveCase(tranch?.trancheLibelle)}}</legend>
     <div class="row">
-      <div class="col-md-4 col-xs-12 col-sm-4 mb-1">
-        <label>Assiette de prime : <span class="required_champs">*</span></label>
+      <div class="col-md-3 col-xs-12 col-sm-4 mb-1">
+        <label>Assiette de prime estimée: <span class="required_champs">*</span></label>
         <input class="form-control custom-input text-end"
               [(ngModel)]="tranchePrime[i].assietteDePrime"
                placeholder=""
@@ -188,7 +188,7 @@
                type="text"
                >
       </div>
-      <div class="col-md-4 col-xs-12 col-sm-4 mb-2">
+      <div class="col-md-3 col-xs-12 col-sm-4 mb-2">
         <label>Taux de prime : <span class="required_champs">*</span></label>
         <input class="form-control custom-input text-end"
                placeholder=""
@@ -198,8 +198,8 @@
                type="text"
                >
       </div>
-      <div class="col-md-4 col-xs-12 col-sm-12 mb-1">
-        <label>PMD : <span class="required_champs">*</span></label>
+      <div class="col-md-3 col-xs-12 col-sm-12 mb-1">
+        <label>PMD à l'origine: <span class="required_champs">*</span></label>
         <input class="form-control custom-input text-end"
                placeholder=""
                [(ngModel)]="tranchePrime[i].pmdTranche"
@@ -208,6 +208,17 @@
                type="text"
                mask="separator"
               >
+      </div>
+      <div class="col-md-3 col-xs-12 col-sm-12 mb-1">
+        <label>Assiette de prime réalisée: </label>
+        <input class="form-control custom-input text-end"
+               placeholder=""
+               [(ngModel)]="tranchePrime[i].assiettePrimeRealisee"
+               autocomplete="off"
+               name="assiettePrimeRealisee"
+               type="text"
+               mask="separator"
+        >
       </div>
     </div>
     <div class="col-md-12 col-xs-12 col-sm-12 mt-3 mb-4">

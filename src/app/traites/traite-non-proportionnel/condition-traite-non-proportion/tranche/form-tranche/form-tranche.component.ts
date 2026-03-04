@@ -52,7 +52,7 @@ export class FormTrancheComponent implements OnInit {
       tranchePriorite: [null,Validators.required],
       tranchePorte: [null,Validators.required],
       trancheTauxPrime: [null,Validators.required],
-      risqueId: [null, Validators.required],
+      risqueIds: [null, Validators.required],
       categorieIds : [null, Validators.required],
       traiteNpId: [this.idTraitNonProChildrenSed],
     });

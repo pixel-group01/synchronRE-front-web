@@ -35,10 +35,13 @@ export class FormSousLimiteComponent implements OnInit {
     this.createForm();
     this.getCouvertures();
     this.getCouvertureParents();
-    // this.getActivites();
-    if (this.itemsUpdate) {
-      this.formulaireGroup.patchValue({...this.itemsUpdate,couId : this.itemsUpdate.sslimiteRisqueCouvertId})
-  }
+   // const traiteNpId = this.formulaireGroup.get('traiteNpId')?.value;
+
+    // Appel de la méthode avec le paramètre
+  //   this.getActivites2(traiteNpId);
+  //   if (this.itemsUpdate) {
+  //     this.formulaireGroup.patchValue({...this.itemsUpdate,couId : this.itemsUpdate.sslimiteRisqueCouvertId})
+  // }
     // if (this.itemsUpdate) {
     //   this.formulaireGroup.patchValue({...this.itemsUpdate,
     //     risqueId: this.itemsUpdate.risques.map((elt: any) => {
@@ -53,7 +56,7 @@ export class FormSousLimiteComponent implements OnInit {
       risqueId :[null],
       sslimiteRisqueCouvertId :[null],
       sousLimMontant: ["",Validators.required],
-      couId: [null,Validators.required],
+      couIds: [null,Validators.required],
       traiteNpId: [this.idTraitNonProChildrenSed],
     });
   };
@@ -80,6 +83,16 @@ export class FormSousLimiteComponent implements OnInit {
     // this.clearEnfantsCouverture()
     // console.log(risqueId);
     this.activiteService.getActivitesByRisque(risqueId).subscribe((res:any)=>{
+      if (res) {
+        this.activiteListe = res;
+      }
+    })
+  }
+
+  getActivites2(traiteNpId:number){
+    // this.clearEnfantsCouverture()
+    // console.log(risqueId);
+    this.activiteService.getActivitesByLimiteSouscription(traiteNpId).subscribe((res:any)=>{
       if (res) {
         this.activiteListe = res;
       }

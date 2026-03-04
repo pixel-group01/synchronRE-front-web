@@ -14,5 +14,8 @@ export class ActiviteService {
   getActivitesByRisque = (risqueId :number) => {
     return this.restClient.get(`risques/activites/${risqueId}`);
   }
+  getActivitesByLimiteSouscription = (traiteNpId :number) => {
+    return this.restClient.get(`sous-limite/activites/${traiteNpId}`);
+  }
 
 }

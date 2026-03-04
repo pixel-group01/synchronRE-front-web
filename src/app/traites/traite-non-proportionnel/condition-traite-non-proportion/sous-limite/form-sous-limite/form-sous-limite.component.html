@@ -35,13 +35,14 @@ class="body table-responsive clsOverflow"
       <label>Activités : <span class="required_champs">*</span> </label>
 
       <ng-select
-        formControlName="couId"
+        formControlName="couIds"
+        [multiple]="true"
         [class.errorInputForm]="
-                getFormFiledsValue('couId')?.invalid &&
-                getFormFiledsValue('couId')?.touched
+                getFormFiledsValue('couIds')?.invalid &&
+                getFormFiledsValue('couIds')?.touched
               "
-        name="couId"
-        id="couId"
+        name="couIds"
+        id="couIds"
       >
         <ng-option
           *ngFor="let act of activiteListe"
@@ -51,7 +52,7 @@ class="body table-responsive clsOverflow"
       </ng-select>
       <small
         class="text-danger"
-        *ngIf="(getFormFiledsValue('couId')?.dirty || getFormFiledsValue('couId')?.touched) && getFormFiledsValue('couId')?.invalid && getFormFiledsValue('couId')?.errors?.['required']"
+        *ngIf="(getFormFiledsValue('couIds')?.dirty || getFormFiledsValue('couIds')?.touched) && getFormFiledsValue('couIds')?.invalid && getFormFiledsValue('couIds')?.errors?.['required']"
       >
         Ce champ est obligatoire
       </small>

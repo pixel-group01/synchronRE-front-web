@@ -5,6 +5,8 @@ import { CompteService } from "src/app/core/service/compte.service";
 import { UtilitiesService } from "src/app/core/service/utilities.service";
 import Swal from "sweetalert2";
 import * as _ from "lodash";
+import { environment } from "src/environments/environment";
+import { AuthService } from "src/app/core/service/auth.service";
 
 @Component({
   selector: "app-form-tranche",
@@ -20,12 +22,19 @@ export class FormTrancheComponent implements OnInit {
   busySave: Subscription;
   currentItemCompte: any = {};
   @Input() currentTranche: any;
+  user : any = {};
 
   constructor(
     private cedenteService: CedanteService,
     private utilities: UtilitiesService,
-    private compteService: CompteService
-  ) {}
+    private compteService: CompteService,
+    private authService: AuthService
+  ) {
+    this.user = this.authService.currentUserValue;
+
+    console.log(" this.user ",this.user);
+
+  }
 
   // getCedante() {
   //   this.cedenteService.getAll().subscribe(
@@ -170,7 +179,7 @@ export class FormTrancheComponent implements OnInit {
       .getCompteTraite(itemAEnregistrer)
       .subscribe((response: any) => {
         // if (response && response.repId) {
-     
+
         if (response && response?.trancheCompteDtos) {
           //On va recuperer la liste des designations
           //On va devoir recuperer la tranche concernée
@@ -183,6 +192,85 @@ export class FormTrancheComponent implements OnInit {
         }
       });
   }
+
+
+  gotoExport() {
+    let currentValueCompte = JSON.parse(sessionStorage.getItem("refreshValue"));
+
+    console.log(" currentValueCompte ",currentValueCompte);
+
+    let tokenObj = JSON.parse(sessionStorage.getItem("accesToken"));
+
+    console.log(" tokenObj ",tokenObj);
+
+    if(!tokenObj || !tokenObj.accessToken) {
+      return
+    }
+    const TOKEN = tokenObj.accessToken ;
+
+    fetch(environment.apiUrl+ 'reports/compte-traites/download-excel?traitenpId='+currentValueCompte?.traiteSelected?.traiteNpId
+      +'&cedenteId='+this.itemToSave.cedId+'&trancheId='+this.currentTranche?.trancheId+'&periodicite='+currentValueCompte.periodiciteSelected?.name?.toUpperCase()+'&periodeId='+currentValueCompte?.periodeSelected?.periodeId+'', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer '+ TOKEN, // Si besoin
+        'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      }
+    })
+    .then(response => response.blob())
+    .then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'compte_traite.xlsx'; // Nom du fichier
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    })
+    .catch(error => console.error('Erreur lors du téléchargement :', error));
+
+  }
+
+  gotoPrintPdf() {
+    let currentValueCompte = JSON.parse(sessionStorage.getItem("refreshValue"));
+
+    console.log(" currentValueCompte ",currentValueCompte);
+
+    let tokenObj = JSON.parse(sessionStorage.getItem("accesToken"));
+
+    console.log(" tokenObj ",tokenObj);
+
+    if(!tokenObj || !tokenObj.accessToken) {
+      return
+    }
+    const TOKEN = tokenObj.accessToken ;
+
+    // reports/compte-traites?traitenpId=52&cedenteId=9&trancheId=252&periodicite=ANNUELLE&periodeId=1
+
+    fetch(environment.apiUrl+ 'reports/compte-traites?traitenpId='+currentValueCompte?.traiteSelected?.traiteNpId
+      +'&cedenteId='+this.itemToSave.cedId+'&trancheId='+this.currentTranche?.trancheId+'&periodicite='+currentValueCompte.periodiciteSelected?.name?.toUpperCase()+'&periodeId='+currentValueCompte?.periodeSelected?.periodeId+'', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer '+ TOKEN, // Si besoin
+        'Accept': 'application/pdf'
+      }
+    })
+    .then(response => response.blob())
+    .then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'compte_traite.pdf'; // Nom du fichier
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    })
+    .catch(error => console.error('Erreur lors du téléchargement :', error));
+
+  }
+
+  
 
   ngOnInit(): void {
     // this.getCedante();

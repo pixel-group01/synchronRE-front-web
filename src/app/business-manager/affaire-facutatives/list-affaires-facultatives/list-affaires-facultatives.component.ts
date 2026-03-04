@@ -85,7 +85,7 @@ export class ListAffairesFacultativesComponent implements OnInit {
       // this.urlIframeMock =  this.sanitizer.bypassSecurityTrustResourceUrl(this.itemToSave.urlFormat);
 
       // console.log(" this.itemToSave.urlFormat ",this.itemToSave.urlFormat);
-      
+
 
       if (this.itemToSave.statutCode?.toLowerCase() === "ret") {
         this.itemToSave.isSeeMotifRetour = true;
@@ -107,7 +107,7 @@ export class ListAffairesFacultativesComponent implements OnInit {
     this.modalRef = this.modalService.show(template, config);
   }
 
-  
+
 
   closeFormModal($event) {
     this.modalRef.hide();
@@ -208,6 +208,30 @@ export class ListAffairesFacultativesComponent implements OnInit {
       });
   }
 
+  confirmDeleteAffaire(affaire: BusinessOptional) {
+    let itemAEnregistrer = Object.assign({}, affaire);
+
+    if (itemAEnregistrer)
+      Swal.fire({
+        title: "Suppression d'une affaire",
+        text: "Vous êtes sur le point de supprimer l'affaire " +
+          itemAEnregistrer.affCode +
+          " : " +
+          itemAEnregistrer.affAssure +
+          ". Voulez-vous poursuivre cette action ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0665aa",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Oui",
+        cancelButtonText: "Non",
+      }).then((result) => {
+        if (result.value) {
+          this.deleteAffaire(itemAEnregistrer);
+        }
+      });
+  }
+
 
   confirmTransmettreNoteDeDebit(affaire: BusinessOptional) {
     /** Faire les controls */
@@ -234,6 +258,22 @@ export class ListAffairesFacultativesComponent implements OnInit {
   transmissionPourReglementAffaire(itemAEnregistrer: BusinessOptional) {
     this.busyGet = this.businessOptionalService
       .validerAffaire(itemAEnregistrer.affId, itemAEnregistrer)
+      .subscribe((response: any) => {
+        if (response) {
+          this.utilities.showNotification(
+            "snackbar-success",
+            this.utilities.getMessageOperationSuccessFull(),
+            "bottom",
+            "center"
+          );
+          this.getItems();
+        }
+      });
+  }
+
+  deleteAffaire(itemAEnregistrer: BusinessOptional) {
+    this.busyGet = this.businessOptionalService
+      .deleteAffaire(itemAEnregistrer.affId, itemAEnregistrer)
       .subscribe((response: any) => {
         if (response) {
           this.utilities.showNotification(

@@ -5,15 +5,15 @@
  *
  *  Structure (with shortcodes):
                  [1. Common ]
-                 [2. Fonts ]                   
-                 [3. Components ]       
-                 [4. Apps]                   
-                 [5. Pages ]    
-                 [6. Pugins ]        
-                 [7. UI ]     
-                 [8. Browser ]     
+                 [2. Fonts ]
+                 [3. Components ]
+                 [4. Apps]
+                 [5. Pages ]
+                 [6. Pugins ]
+                 [7. UI ]
+                 [8. Browser ]
 
-                
+
 /*                 [1. Common ]                   			*/
  @import "@angular/material/prebuilt-themes/indigo-pink.css";
  /* Importing Bootstrap SCSS file. */
@@ -107,3 +107,109 @@
  /*                 [8. Browser ]                   			*/
  @import "browser/_ie10.scss";
  @import "browser/_ie11.scss";
+ .btn-export-excel {
+   border: 2px solid green;
+   color: green;
+   background-color: #e6f4ea; // Vert très pâle
+   font-weight: bold;
+   padding: 8px 16px;
+   display: inline-flex;
+   align-items: center;
+   gap: 6px;
+   transition: all 0.3s ease;
+
+   i {
+     color: green;
+     transition: color 0.3s ease;
+   }
+
+   &:hover,
+   &:focus {
+     background-color: green;
+     color: white;
+     outline: none;
+
+     i {
+       color: white;
+     }
+   }
+ }
+ // Bouton PDF
+ .btn-export-pdf {
+   border: 2px solid #c62828;
+   color: #c62828;
+   background-color: #fdecea; // Rouge très pâle
+   font-weight: bold;
+   padding: 8px 16px;
+   display: inline-flex;
+   align-items: center;
+   gap: 6px;
+   transition: all 0.3s ease;
+
+   i {
+     color: #c62828;
+     transition: color 0.3s ease;
+   }
+
+   &:hover,
+   &:focus {
+     background-color: #c62828;
+     color: white;
+     outline: none;
+
+     i {
+       color: white;
+     }
+   }
+ }
+
+ // Animation "pulse" pour les icônes
+ @keyframes pulse {
+   0%   { transform: scale(1); }
+   50%  { transform: scale(1.2); }
+   100% { transform: scale(1); }
+ }
+
+ // Mixin commun pour les deux boutons
+ @mixin export-button-style($borderColor, $bgColor, $hoverBgColor) {
+   border: 2px solid $borderColor;
+   color: $borderColor;
+   background-color: $bgColor;
+   font-weight: bold;
+   padding: 8px 16px;
+   display: inline-flex;
+   align-items: center;
+   gap: 6px;
+   transition: all 0.3s ease;
+   transform: scale(1);
+   box-shadow: none;
+
+   i {
+     color: $borderColor;
+     transition: color 0.3s ease;
+   }
+
+   &:hover,
+   &:focus {
+     background-color: $hoverBgColor;
+     color: white;
+     transform: scale(1.05);
+     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+     outline: none;
+
+     i {
+       color: white;
+       animation: pulse 0.4s ease-in-out;
+     }
+   }
+ }
+
+ // Bouton Excel
+ .btn-export-excel {
+   @include export-button-style(green, #e6f4ea, green);
+ }
+
+ // Bouton PDF
+ .btn-export-pdf {
+   @include export-button-style(#c62828, #fdecea, #c62828);
+ }

@@ -7,6 +7,7 @@ import { LimiteSouscriptionService } from 'src/app/core/service/limite-souscript
 import { RisqueService } from 'src/app/core/service/risque.service';
 import { UtilitiesService } from 'src/app/core/service/utilities.service';
 import Swal from 'sweetalert2';
+import {ActiviteService} from "../../../../../core/service/activite.service";
 
 @Component({
   selector: 'app-form-limite-souscription',
@@ -14,46 +15,70 @@ import Swal from 'sweetalert2';
   styleUrls: ['./form-limite-souscription.component.scss']
 })
 export class FormLimiteSouscriptionComponent implements OnInit {
-  listeCouvertures : any = []; 
+  listeCouvertures : any = [];
   listeCategorie : any = [];
   formulaireGroup!: FormGroup;
   busyGet: Subscription;
   listeCedante :any;
   tabCedante :any = [];
+  couverturesParents : any=[];
+  activiteListe : any=[];
   @Input() idTraitNonProChildrenSed: number;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   @Input() itemsUpdate :any;
   isCollapsed = true;
-  
+
   constructor(
     private formBuilder: FormBuilder,
     private limiteSouscriptionService : LimiteSouscriptionService,
     private utilities: UtilitiesService,
     private risqueService : RisqueService,
-    private categorieService : CategorieService
+    private categorieService : CategorieService,
+    private activiteService : ActiviteService
   ) { }
- 
-  ngOnInit(): void { 
+
+  ngOnInit(): void {
     this.createForm();
-    this.getRisque();
+    //this.getRisque();
+    this.getCouvertureParents();
     this.getCategorie();
     // console.log('itemsUpdate :', this.itemsUpdate);
     if (this.itemsUpdate) {
       this.formulaireGroup.patchValue({...this.itemsUpdate})
     }
   }
- 
+
     createForm = () => {
     // console.log(" this.itemToUpdate ",this.itemToUpdate);
     this.formulaireGroup = this.formBuilder.group({
     limiteSouscriptionId:[null],
     risqueId : [null,Validators.required],
-    categorieId: [null,Validators.required], 
-    limSousMontant: ["",Validators.required], 
+    categorieId: [null,Validators.required],
+    couIds : [null,Validators.required],
+    limSousMontant: ["",Validators.required],
     traiteNpId: [this.idTraitNonProChildrenSed],
     });
-  }; 
+  };
 
+  getCouvertureParents(){
+    this.risqueService.getCouvertureParents(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
+      if (res) {
+        this.couverturesParents = res;
+        // this.getActivites();
+      }
+    })
+  }
+
+
+  getActivites(risqueId:number){
+    // this.clearEnfantsCouverture()
+    // console.log(risqueId);
+    this.activiteService.getActivitesByRisque(risqueId).subscribe((res:any)=>{
+      if (res) {
+        this.activiteListe = res;
+      }
+    })
+  }
   getRisque(){
     this.risqueService.getAll(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
       if (res) {
@@ -61,7 +86,7 @@ export class FormLimiteSouscriptionComponent implements OnInit {
       }
     })
   }
- 
+
   getCategorie(){
     this.categorieService.getCategorieList(this.idTraitNonProChildrenSed).subscribe((res:any)=>{
       if (res) {
@@ -75,7 +100,7 @@ export class FormLimiteSouscriptionComponent implements OnInit {
         this.listeCedante = this.listeCategorie.find((res:any)=> res.categorieId == evt);
         this.tabCedante = this.listeCedante?.libellesCedantes.split(", ");
       }
-  } 
+  }
 
   clearCollapse(){
     this.isCollapsed = !this.isCollapsed;
@@ -110,7 +135,7 @@ export class FormLimiteSouscriptionComponent implements OnInit {
   getFormFiledsValue = (field: string) => {
     return this.formulaireGroup.get(field);
   };
- 
+
   confirmSaveItem(item:any){
       Swal.fire({
         title: "Enregistrement",

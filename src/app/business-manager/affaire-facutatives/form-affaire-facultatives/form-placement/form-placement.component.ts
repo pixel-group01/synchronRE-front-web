@@ -107,8 +107,8 @@ export class FormPlacementComponent implements OnInit {
       !itemAEnregistrer ||
       !itemAEnregistrer?.repCapital ||
       !itemAEnregistrer?.repTaux ||
-      !itemAEnregistrer?.repSousCommission ||
-      !itemAEnregistrer?.repTauxComCourt
+      !itemAEnregistrer?.repSousCommission //||
+      //!itemAEnregistrer?.repTauxComCourt
     ) {
       this.utilities.showNotification(
         "snackbar-danger",

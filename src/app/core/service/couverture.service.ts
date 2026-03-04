@@ -9,7 +9,7 @@ export class CouvertureService {
 
   create = (body:any) => {
     return this.restClient.post('couvertures/create',body)
-  } 
+  }
 
   getAll = () => {
     return this.restClient.get('couvertures/list');
@@ -18,7 +18,7 @@ export class CouvertureService {
   getCouvertureParents =() =>{
     return this.restClient.get('couvertures/parents');
   }
- 
+
   getByCriteria = (index:number = 0,size:number=10,key?:string) => {
     let endPointFinal = "couvertures/list?page="+index+"&size="+size+""+(key ? "&key="+key : "");
     return this.restClient.get(endPointFinal);
@@ -31,7 +31,7 @@ export class CouvertureService {
   getParentCouverture = (traiteNpId:number) => {
     return this.restClient.get(`couvertures/parents/${traiteNpId}`)
   }
-  
+
   getActivites = (traiteNpId:number,couParentId:number) => {
     return this.restClient.get(`couvertures/filles?traiteNpId=${traiteNpId}&couParentId=${couParentId}`)
   }
